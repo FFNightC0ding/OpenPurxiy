@@ -1,0 +1,184 @@
+import java.security.MessageDigest
+import java.util.zip.Deflater
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
+plugins {
+    id 'java'
+}
+
+group = 'dev.purxiy'
+version = '0.1.0'
+base {
+    archivesName = 'purxiy-buildable'
+}
+
+repositories {
+    // Fully offline build: every dependency ships in ./libs
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs/fabric-api', include: ['*.jar'])
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-nowarn'
+}
+
+sourceSets {
+    main {
+        java.srcDirs = ['src']
+        resources.srcDirs = ['resources']
+    }
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+            'Implementation-Title': 'Purxiy Buildable Source',
+            'Implementation-Version': project.version,
+            'Sourced-By': 'DevFFNightmare'
+        )
+    }
+}
+
+tasks.register('rebuildOfflineModules') {
+    group = 'purxiy'
+    description = 'Rebuilds the bundled offline module jars and index from the deobfuscated sources.'
+    dependsOn tasks.named('classes')
+
+    doLast {
+        File classesRoot = layout.buildDirectory.dir('classes/java/main').get().asFile
+        File offlineDir = layout.projectDirectory.dir('resources/purxiy-offline').asFile
+        File indexFile = layout.projectDirectory.file('resources/purxiy-offline-index.json').asFile
+        Map index = new groovy.json.JsonSlurper().parse(indexFile) as Map
+        Map rebuilt = new LinkedHashMap()
+
+        index.each { String id, Map meta ->
+            String[] parts = meta.entrypoint.toString().split('\\.')
+            String modulePackage = parts[3]
+            String entrypointSimpleName = parts[-1]
+            File classDir = new File(classesRoot, "dev/purxiy/modules/${modulePackage}")
+            if (!classDir.isDirectory()) {
+                throw new GradleException("Missing compiled classes for ${id}: ${classDir}")
+            }
+            if (!new File(classDir, "${entrypointSimpleName}.class").isFile()) {
+                throw new GradleException("Missing entrypoint class for ${id}: ${entrypointSimpleName}")
+            }
+
+            File jarFile = new File(offlineDir, "${id}.jar")
+            jarFile.parentFile.mkdirs()
+            // Keep every non-class resource the module shipped with (shaders, sounds,
+            // textures, garage/knife data, sound-event JSON, ...). Module code reads
+            // these through ModuleContext.resource, so dropping them makes attach()
+            // throw and the toggle immediately switches itself back off.
+            Map<String, byte[]> resources = new TreeMap<>()
+            if (jarFile.isFile()) {
+                new java.util.zip.ZipFile(jarFile).withCloseable { source ->
+                    source.entries().each { sourceEntry ->
+                        String name = sourceEntry.name
+                        if (!sourceEntry.isDirectory()
+                                && !name.endsWith('.class')
+                                && name != 'META-INF/MANIFEST.MF') {
+                            resources[name] = source.getInputStream(sourceEntry).bytes
+                        }
+                    }
+                }
+            }
+
+            List<File> classFiles = []
+            classDir.eachFileRecurse { File file ->
+                if (file.isFile()) {
+                    classFiles << file
+                }
+            }
+            classFiles.sort { it.path }
+
+            MessageDigest digest = MessageDigest.getInstance('SHA-256')
+            int entries = 0
+
+            jarFile.withOutputStream { raw ->
+                def digestStream = new java.security.DigestOutputStream(raw, digest)
+                def zip = new ZipOutputStream(digestStream)
+                try {
+                    zip.level = Deflater.BEST_COMPRESSION
+                    resources.each { String name, byte[] bytes ->
+                        ZipEntry entry = new ZipEntry(name)
+                        entry.time = 1763164800000L
+                        zip.putNextEntry(entry)
+                        zip.write(bytes)
+                        zip.closeEntry()
+                        entries++
+                    }
+                    classFiles.each { File file ->
+                        String relative = classesRoot.toPath().relativize(file.toPath()).toString().replace('\\', '/')
+                        ZipEntry entry = new ZipEntry(relative)
+                        entry.time = 1763164800000L
+                        zip.putNextEntry(entry)
+                        file.withInputStream { input -> zip << input }
+                        zip.closeEntry()
+                        entries++
+                    }
+                } finally {
+                    zip.close()
+                }
+            }
+
+            String sha256 = digest.digest().collect { String.format('%02x', it) }.join()
+            rebuilt[id] = [
+                build     : meta.build,
+                sha256    : sha256,
+                entrypoint: "dev.purxiy.modules.${modulePackage}.${entrypointSimpleName}",
+                entries   : entries,
+                packages  : ["dev.purxiy.modules.${modulePackage}."]
+            ]
+        }
+
+        indexFile.setText(groovy.json.JsonOutput.toJson(rebuilt) + '\n', 'UTF-8')
+        logger.lifecycle("Rebuilt ${rebuilt.size()} bundled module jars from compiled sources")
+
+        // processResources may already have run before this task, which would leave stale module jars in the
+        // packaged mod jar (that shipped an unfixed sky module more than once). Always refresh the build copy.
+        File packaged = layout.buildDirectory.dir('resources/main').get().asFile
+        File packagedOffline = new File(packaged, 'purxiy-offline')
+        packagedOffline.mkdirs()
+        packagedOffline.listFiles()?.each { File stale ->
+            if (stale.name.endsWith('.jar')) {
+                stale.delete()
+            }
+        }
+        offlineDir.listFiles().findAll { it.name.endsWith('.jar') }.each { File jar ->
+            new File(packagedOffline, jar.name).bytes = jar.bytes
+        }
+        new File(packaged, 'purxiy-offline-index.json').bytes = indexFile.bytes
+    }
+}
+
+tasks.named('jar') {
+    dependsOn tasks.named('rebuildOfflineModules')
+}
+
+tasks.register('validateModuleEntrypoints', JavaExec) {
+    group = 'purxiy'
+    description = 'Loads every bundled module entrypoint through the runtime classloader.'
+    dependsOn tasks.named('classes')
+    classpath = files('resources') + sourceSets.main.runtimeClasspath
+    mainClass = 'dev.purxiy.loader.runtime.ModuleEntrypointAudit'
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('validateModuleEntrypoints')
+}
