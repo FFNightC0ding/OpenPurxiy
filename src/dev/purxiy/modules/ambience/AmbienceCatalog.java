@@ -1,7 +1,5 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.ambience;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 final class AmbienceCatalog {
@@ -9,11 +7,42 @@ final class AmbienceCatalog {
    static final int S = 1;
    static int I = 2;
    static int t = 3;
-   static AmbienceCatalog q;
-   static AmbienceCatalog X;
-   static AmbienceCatalog G;
-   static AmbienceCatalog E;
-   static List<AmbienceCatalog> e;
+   static AmbienceCatalog q = new AmbienceCatalog("Motes", 0)
+      .w(1.0F)
+      .T(0.018F, 0.045F)
+      .j(2.6F, 5.2F)
+      .e(0.12F, 0.18F)
+      .Y(1.0F, 0.1F, 0.06F, 0.35F)
+      .Q(0.2F, 0.7F)
+      .W(0.85F, 0.45F, 0.12F);
+   static AmbienceCatalog X = new AmbienceCatalog("Stardust", 1)
+      .w(1.4F)
+      .T(0.01F, 0.024F)
+      .j(1.6F, 3.4F)
+      .e(0.05F, 0.25F)
+      .Y(1.35F, 0.04F, 0.02F, 0.5F)
+      .Q(0.9F, 2.6F)
+      .W(1.0F, 0.9F, 0.3F)
+      .R(0.6F, 1.0F);
+   static AmbienceCatalog G = new AmbienceCatalog("Petals", I)
+      .w(0.7F)
+      .T(0.06F, 0.11F)
+      .j(4.5F, 8.0F)
+      .e(0.1F, 0.2F)
+      .Y(0.9F, 0.05F, -0.22F, 0.6F)
+      .Q(0.6F, 1.6F)
+      .W(0.95F, 0.3F, 0.08F)
+      .R(0.55F, 0.95F);
+   static AmbienceCatalog E = new AmbienceCatalog("Snow", t)
+      .w(1.2F)
+      .T(0.02F, 0.05F)
+      .j(4.0F, 7.0F)
+      .e(0.08F, 0.22F)
+      .Y(1.0F, 0.03F, -0.16F, 0.45F)
+      .Q(0.3F, 0.9F)
+      .W(0.9F, 0.35F, 0.1F)
+      .R(0.65F, 1.0F);
+   static List<AmbienceCatalog> e = List.of(q, X, G, E);
    final String u;
    final int F;
    float C;
@@ -109,47 +138,4 @@ final class AmbienceCatalog {
       this.T = var3;
       return this;
    }
-
-   // The style presets were missing from this source drop, which left e (the catalog list) null and made every
-   // AmbienceModule constructor throw an NPE, so the module switched itself back off the moment it was enabled.
-   // Density (w), size (T), lifetime (j), fades (e), motion (Y), spin (Q), glow (W) and brightness (R) are rebuilt here.
-   static {
-      q = new AmbienceCatalog("Motes", i)
-         .w(1.0F)
-         .T(0.018F, 0.045F)
-         .j(2.6F, 5.2F)
-         .e(0.12F, 0.18F)
-         .Y(1.00F, 0.10F, 0.06F, 0.35F)
-         .Q(0.20F, 0.70F)
-         .W(0.85F, 0.45F, 0.12F);
-      X = new AmbienceCatalog("Stardust", S)
-         .w(1.4F)
-         .T(0.010F, 0.024F)
-         .j(1.6F, 3.4F)
-         .e(0.05F, 0.25F)
-         .Y(1.35F, 0.04F, 0.02F, 0.50F)
-         .Q(0.90F, 2.60F)
-         .W(1.00F, 0.90F, 0.30F)
-         .R(0.60F, 1.00F);
-      G = new AmbienceCatalog("Petals", I)
-         .w(0.7F)
-         .T(0.060F, 0.110F)
-         .j(4.5F, 8.0F)
-         .e(0.10F, 0.20F)
-         .Y(0.90F, 0.05F, -0.22F, 0.60F)
-         .Q(0.60F, 1.60F)
-         .W(0.95F, 0.30F, 0.08F)
-         .R(0.55F, 0.95F);
-      E = new AmbienceCatalog("Snow", t)
-         .w(1.2F)
-         .T(0.020F, 0.050F)
-         .j(4.0F, 7.0F)
-         .e(0.08F, 0.22F)
-         .Y(1.00F, 0.03F, -0.16F, 0.45F)
-         .Q(0.30F, 0.90F)
-         .W(0.90F, 0.35F, 0.10F)
-         .R(0.65F, 1.00F);
-      e = List.of(q, X, G, E);
-   }
-
 }

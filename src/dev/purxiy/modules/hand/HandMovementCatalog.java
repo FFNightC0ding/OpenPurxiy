@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hand;
 
 import java.util.List;
@@ -18,8 +17,6 @@ public final class HandMovementCatalog {
       new HandMovementCatalog.Data("Centred", "In front of you, near the crosshair", "crosshair", new double[]{-0.34, -0.02, -0.04, 0.0, -8.0, 0.0, 0.9})
    );
 
-
-
    private HandMovementCatalog() {
    }
 
@@ -34,7 +31,6 @@ public final class HandMovementCatalog {
       return var0;
    }
 
-   
    public static HandMovementCatalog.Data byName(String var0) {
       for (HandMovementCatalog.Data var2 : P) {
          if (var2.name().equals(var0)) {
@@ -45,7 +41,7 @@ public final class HandMovementCatalog {
       return null;
    }
 
-public record Data(String X, String K, String B, double[] m) {
+   public record Data(String X, String K, String B, double[] m) {
       public String name() {
          return this.X;
       }

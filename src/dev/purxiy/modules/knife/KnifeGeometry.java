@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import java.util.Locale;
@@ -21,8 +20,6 @@ public final class KnifeGeometry {
    static final Vector3f H = new Vector3f(0.3F, -0.6F, 0.15F);
    static final Vector3f F = new Vector3f(-0.3F, -0.6F, 0.15F);
 
-
-
    private KnifeGeometry() {
    }
 
@@ -30,7 +27,7 @@ public final class KnifeGeometry {
       return var0 ? (var1 ? -0.5F : -1.0F) : (var1 ? 0.5F : 1.0F);
    }
 
-   public static KnifeGeometry.TypeZ solve(boolean var0, boolean var1, Vector3f var2, Vector3f var3, Vector3f var4, float var5, KnifeGeometry.TypeZ var6) {
+   public static KnifeGeometry.KnifeBounds solve(boolean var0, boolean var1, Vector3f var2, Vector3f var3, Vector3f var4, float var5, KnifeGeometry.KnifeBounds var6) {
       float var7 = var5 / 16.0F;
       float var8 = (P - -2.0F) * var7;
       float var9 = x * var7;
@@ -117,7 +114,7 @@ public final class KnifeGeometry {
       return String.format(Locale.ROOT, "arm %.2f, grip %.2f, upper %.1f, shoulders %.3f %.3f %.3f / %.3f %.3f %.3f", R, P, x, H.x, H.y, H.z, F.x, F.y, F.z);
    }
 
-public static final class TypeZ {
+   public static final class KnifeBounds {
       public final Matrix4f z = new Matrix4f();
       public final Matrix4f y = new Matrix4f();
       public float M;

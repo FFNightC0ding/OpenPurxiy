@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui;
 
 import dev.purxiy.duck.ScreenHook;
@@ -17,7 +16,7 @@ import org.joml.Vector3f;
 public final class WBuilder {
    public static final float MAX = (float)Math.toRadians(140.0);
    private static final float EPSILON = 0.001F;
-   
+
    private static Object owner;
    private static boolean active;
    private static float joint;

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import net.minecraft.class_1144;
@@ -15,11 +14,11 @@ public final class ModuleClick {
    }
 
    public static class_7840 builder(class_2561 var0, class_4241 var1) {
-      return new ModuleClick.TypeV(var0, var1);
+      return new ModuleClick.ClickWidget(var0, var1);
    }
 
-   private static final class TypeP extends class_12231 {
-      TypeP(int var1, int var2, int var3, int var4, class_2561 var5, class_4241 var6, class_7841 var7) {
+   private static final class DeferredClick extends class_12231 {
+      DeferredClick(int var1, int var2, int var3, int var4, class_2561 var5, class_4241 var6, class_7841 var7) {
          super(var1, var2, var3, var4, var5, var6, var7 == null ? field_40754 : var7);
       }
 
@@ -33,7 +32,7 @@ public final class ModuleClick {
       }
    }
 
-   private static final class TypeV extends class_7840 {
+   private static final class ClickWidget extends class_7840 {
       private final class_2561 label;
       private final class_4241 action;
       private int x;
@@ -43,7 +42,7 @@ public final class ModuleClick {
       private class_7919 tip;
       private class_7841 narration;
 
-      TypeV(class_2561 var1, class_4241 var2) {
+      ClickWidget(class_2561 var1, class_4241 var2) {
          super(var1, var2);
          this.label = var1;
          this.action = var2;
@@ -92,7 +91,7 @@ public final class ModuleClick {
 
       @Override
       public class_4185 method_46431() {
-         ModuleClick.TypeP var1 = new ModuleClick.TypeP(this.x, this.y, this.w, this.h, this.label, this.action, this.narration);
+         ModuleClick.DeferredClick var1 = new ModuleClick.DeferredClick(this.x, this.y, this.w, this.h, this.label, this.action, this.narration);
          if (this.tip != null) {
             var1.method_47400(this.tip);
          }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.api;
 
 import java.io.IOException;
@@ -16,23 +15,23 @@ public interface ModuleContext {
    AutoCloseable onHud(Consumer<HudCanvas> var1);
 
    default AutoCloseable onHudLayout(Consumer<HudCanvas> callback) {
-      throw new UnsupportedOperationException("HUD layout hooks unavailable");
+      return () -> { };
    }
 
    default AutoCloseable hideHudLayers(Set<HudLayer> layers) {
-      throw new UnsupportedOperationException("HUD layer hooks unavailable");
+      return () -> { };
    }
 
    default AutoCloseable onWorldFrame(Consumer<WorldView> callback) {
-      throw new UnsupportedOperationException("World hooks unavailable");
+      return () -> { };
    }
 
    default AutoCloseable onWorldTime(WorldTimeTransform callback) {
-      throw new UnsupportedOperationException("World time hooks unavailable");
+      return () -> { };
    }
 
    default void refreshWorld() {
-      throw new UnsupportedOperationException("World refresh unavailable");
+
    }
 
    <T extends AutoCloseable> T own(T var1);

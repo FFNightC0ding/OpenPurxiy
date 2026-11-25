@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.ripple;
 
 import dev.purxiy.anim.Easing;
 import dev.purxiy.anim.MotionStyle;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import java.util.Locale;
 import net.minecraft.class_1268;
 import net.minecraft.class_1297;
@@ -42,7 +41,6 @@ public final class RippleSupport {
    private static final Easing M = p(0.45F, 0.0F, 0.25F, 1.0F);
    private static boolean l;
    private static boolean fn;
-   
    private static class_5498 W;
    private static float e;
    private static float m;
@@ -199,29 +197,14 @@ public final class RippleSupport {
       long var4 = System.nanoTime();
       float var6 = fX == 0L ? 0.0F : Math.min(0.1F, (float)(var4 - fX) / 1.0E9F);
       long var7 = 43026098195820L;
-      if (43026098195820L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var31 = var7 < 0L ? -1 : 1;
-      }
-
+      int var10 = var7 < 0L ? -1 : 1;
       fX = var4;
       Y = var6;
-      long var10 = 43026098195821L;
-      if (43026098195821L == 0L) {
-         boolean var32 = false;
-      } else {
-         int var33 = var10 < 0L ? -1 : 1;
-      }
-
+      long var10x = 43026098195821L;
+      int var30 = var10x < 0L ? -1 : 1;
       if (G >= 0.0F) {
          long var13 = 43026098195820L;
-         if (43026098195820L == 0L) {
-            boolean var34 = false;
-         } else {
-            int var35 = var13 < 0L ? -1 : 1;
-         }
-
+         int var13x = var13 < 0L ? -1 : 1;
          e = G;
       } else {
          h = Math.min(f5, h + var6);
@@ -229,56 +212,30 @@ public final class RippleSupport {
          e = m + (r - m) * (r > m ? C : M).apply(var29);
       }
 
-      float var30 = 1.0F - (float)Math.exp(-var6 * 9.0);
+      float var30x = 1.0F - (float)Math.exp(-var6 * 9.0);
       long var14 = 43026098195821L;
-      if (43026098195821L == 0L) {
-         boolean var36 = false;
-      } else {
-         int var37 = var14 < 0L ? -1 : 1;
-      }
-
-      f = f + (U - f) * var30;
-      y = y + (f_ - y) * var30;
-      float var16 = o;
+      int var14x = var14 < 0L ? -1 : 1;
+      f = f + (U - f) * var30x;
+      y = y + (f_ - y) * var30x;
+      float var16x = o;
       float var17 = (i - o) * (1.0F - (float)Math.exp(-var6 * 7.0));
       long var18 = 43026098195820L;
-      if (43026098195820L == 0L) {
-         boolean var38 = false;
-      } else {
-         int var39 = var18 < 0L ? -1 : 1;
-      }
-
-      o = var16 + var17;
-      float var21 = R ? 1.0F - (float)Math.exp(-var6 * 6.0) : 1.0F;
-      O = O + (S - O) * var21;
+      int var18x = var18 < 0L ? -1 : 1;
+      o = var16x + var17;
+      float var21x = R ? 1.0F - (float)Math.exp(-var6 * 6.0) : 1.0F;
+      O = O + (S - O) * var21x;
       long var22 = 43026098195820L;
-      if (43026098195820L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var22 < 0L ? -1 : 1;
-      }
-
-      x = x + (g - x) * var21;
+      x = x + (g - x) * var21x;
       R = true;
-      long var24 = 43026098195820L;
-      if (43026098195820L == 0L) {
-         boolean var42 = false;
-      } else {
-         int var43 = var24 < 0L ? -1 : 1;
-      }
-
+      long var24x = 43026098195820L;
+      int var26 = var24x < 0L ? -1 : 1;
       if (fC >= 0.0F) {
          fC += var6;
-         float var26;
-         int var9 = (var26 = fC - t) == 0.0F ? 0 : (var26 < 0.0F ? -1 : 1);
+         float var26x;
+         int var9x = (var26x = fC - t) == 0.0F ? 0 : (var26x < 0.0F ? -1 : 1);
          long var27 = 43026098195820L;
-         if (43026098195820L == 0L) {
-            boolean var44 = false;
-         } else {
-            int var45 = var27 < 0L ? -1 : 1;
-         }
-
-         if (var9 >= 0) {
+         int var27x = var27 < 0L ? -1 : 1;
+         if (var9x >= 0) {
             fC = -1.0F;
          }
       }
@@ -404,7 +361,7 @@ public final class RippleSupport {
             class_746 var17 = var16.field_1724;
             float var18 = e;
             class_243 var19 = var17.method_30950(var3);
-            float var20 = var17.method_17682() * ClientSupport3.bodyHeight(var17);
+            float var20 = var17.method_17682() * SkyPipelineRouter.bodyHeight(var17);
             class_243 var21 = var19.method_1031(0.0, var20 * 0.53, 0.0);
             float var22 = Easing.SMOOTHSTEP.apply(N((var18 - 0.72F) / 0.28F, var12));
             float var23 = fC >= 0.0F ? 360.0F * Easing.SINE_IN_OUT.apply(fC / t) : 0.0F;
@@ -512,15 +469,10 @@ public final class RippleSupport {
       RippleRenderer.ensureSourceClassInitialized();
       class_243 var8 = var2;
 
-      for (int var9 = 1; var9 <= (int)bb; var9++) {
+      for (int var9 = 1; var9 <= 12; var9++) {
          class_243 var10 = I(var2, var3, var6, var7, 1.0F - (float)Math.pow(1.0F - var9 / 12.0F, 2.2));
          long var11 = 114019358014756L;
-         if (114019358014756L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var14 = var11 < 0L ? -1 : 1;
-         }
-
+         int var13 = var11 < 0L ? -1 : 1;
          if (var0.method_17742(new class_3959(var8, var10, class_3960.field_23142, class_242.field_1348, var1)).method_17783() != class_240.field_1333) {
             return true;
          }
@@ -540,7 +492,7 @@ public final class RippleSupport {
       long var5 = 3487274563915L;
       long var7 = var5 ^ 2013826751188L;
       class_310 var9 = class_310.method_1551();
-      float var10 = var2.method_17682() * ClientSupport3.bodyHeight(var2);
+      float var10 = var2.method_17682() * SkyPipelineRouter.bodyHeight(var2);
       RippleRenderer.ensureSourceClassInitialized();
       class_243 var11 = var2.method_73189().method_1031(0.0, var10 * 0.53, 0.0);
       float var12 = (float)(var10 * 1.12F / 0.47F / (2.0 * Math.tan(Math.toRadians(23.0))));
@@ -552,12 +504,7 @@ public final class RippleSupport {
          for (int var19 = 0; var19 < J.length; var19++) {
             class_243 var20 = W(var11, var2.method_36454() + J[var19], H[var18], var12 * 1.1F, var15, var13);
             long var21 = 3487274563914L;
-            if (3487274563914L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var45 = var21 < 0L ? -1 : 1;
-            }
-
+            int var42 = var21 < 0L ? -1 : 1;
             var17[var18][var19] = z(var1, var7, var2, var11, var20);
          }
       }
@@ -586,11 +533,7 @@ public final class RippleSupport {
          }
 
          long var40 = 3487274563914L;
-         if (3487274563914L == 0L) {
-            boolean var46 = false;
-         } else {
-            int var47 = var40 < 0L ? -1 : 1;
-         }
+         int var45 = var40 < 0L ? -1 : 1;
       }
 
       int var33 = 0;
@@ -599,11 +542,7 @@ public final class RippleSupport {
 
       while (var37 < H.length) {
          long var39 = 3487274563915L;
-         if (3487274563915L == 0L) {
-            boolean var48 = false;
-         } else {
-            int var49 = var39 < 0L ? -1 : 1;
-         }
+         int var421 = var39 < 0L ? -1 : 1;
 
          for (int var41 = 0; var41 < J.length; var41++) {
             if (var17[var37][var41] > var17[var33][var35] + 0.05F) {
@@ -613,12 +552,8 @@ public final class RippleSupport {
          }
 
          var37++;
-         long var42 = 3487274563915L;
-         if (3487274563915L == 0L) {
-            boolean var50 = false;
-         } else {
-            int var51 = var42 < 0L ? -1 : 1;
-         }
+         long var42x = 3487274563915L;
+         int var47 = var42x < 0L ? -1 : 1;
       }
 
       p = J[var35];
@@ -642,42 +577,24 @@ public final class RippleSupport {
          double var9 = var7;
 
          for (int var11 = 0; var11 < 5; var11++) {
-            long var18 = 3294519845791L;
-            if (3294519845791L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var30 = var18 < 0L ? -1 : 1;
-            }
-
-            double var12 = var11 == 1 ? 0.1 : (var11 == 2 ? -0.1 : 0.0);
-            long var21 = 3294519845791L;
-            if (3294519845791L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var21 < 0L ? -1 : 1;
-            }
-
-            double var14 = var11 == 3 ? 0.1 : (var11 == 4 ? -0.1 : 0.0);
-            long var23 = 3294519845791L;
-            if (3294519845791L == 0L) {
-               boolean var33 = false;
-            } else {
-               int var34 = var23 < 0L ? -1 : 1;
-            }
-
+            double var12;
+            double var14;
             double var16;
-            label94: {
+            label76: {
+               long var18 = 3294519845791L;
+               int var12x = var18 < 0L ? -1 : 1;
+               var12 = var11 == 1 ? 0.1 : (var11 == 2 ? -0.1 : 0.0);
+               long var21 = 3294519845791L;
+               int var14x = var21 < 0L ? -1 : 1;
+               var14 = var11 == 3 ? 0.1 : (var11 == 4 ? -0.1 : 0.0);
+               long var23 = 3294519845791L;
+               int var16x = var23 < 0L ? -1 : 1;
                if (var11 != 1) {
                   long var25 = 3294519845791L;
-                  if (3294519845791L == 0L) {
-                     boolean var35 = false;
-                  } else {
-                     int var36 = var25 < 0L ? -1 : 1;
-                  }
-
+                  int var22 = var25 < 0L ? -1 : 1;
                   if (var11 != 2) {
                      var16 = var11 == 3 ? -0.1 : 0.0;
-                     break label94;
+                     break label76;
                   }
                }
 
@@ -687,25 +604,15 @@ public final class RippleSupport {
             class_243 var20 = var4.method_1031(var12, var14, var16);
             class_243 var28 = var5.method_1031(var12, var14, var16);
             class_3965 var22 = var0.method_17742(new class_3959(var20, var28, class_3960.field_23142, class_242.field_1348, var3));
-            var23 = 3294519845790L;
-            if (3294519845790L == 0L) {
-               boolean var37 = false;
-            } else {
-               int var38 = var23 < 0L ? -1 : 1;
-            }
-
+            long var31 = 3294519845790L;
+            int var271 = var31 < 0L ? -1 : 1;
             if (var22.method_17783() != class_240.field_1333) {
                var9 = Math.min(var9, var22.method_17784().method_1022(var20) - 0.2);
             }
          }
 
          long var27 = 3294519845791L;
-         if (3294519845791L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var27 < 0L ? -1 : 1;
-         }
-
+         int var13 = var27 < 0L ? -1 : 1;
          return (float)Math.clamp(var9 / var7, Math.min(1.0, 0.7 / var7), 1.0);
       }
    }
@@ -737,7 +644,26 @@ public final class RippleSupport {
    }
 
    static String describe() {
-      return String.format(Locale.ROOT, ab, E, fn, l, e, p, f, y, o, a, v[0], v[1], v[2], s, T, O, x, j);
+      return String.format(
+         Locale.ROOT,
+         "faced %.1f, engaged %s, wanted %s, path %.3f, side %.0f, orbit %.1f/%.1f, zoom %.2f, room %.2f, at %.2f %.2f %.2f yaw %.1f pitch %.1f, frame %.2f/%.2f, game fov %.1f",
+         E,
+         fn,
+         l,
+         e,
+         p,
+         f,
+         y,
+         o,
+         a,
+         v[0],
+         v[1],
+         v[2],
+         s,
+         T,
+         O,
+         x,
+         j
+      );
    }
-
 }

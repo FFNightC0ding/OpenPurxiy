@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.fire;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class LowFireLoader {
    public static final String o = "Accent";
    public static final Map<String, String> l = Map.of("Lilac", "Accent");
    static final LowFireLoader y = new LowFireLoader("Accent", 13481727, 11306751, 15442687);
-   static final LowFireLoader e = new LowFireLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final LowFireLoader e = new LowFireLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final LowFireLoader t = new LowFireLoader("Dream", 16758499, 12890367, 10404095);
    public static final String n = "Custom";
    static final List<LowFireLoader> v = List.of(y, e, t);
@@ -22,10 +21,6 @@ public final class LowFireLoader {
    public final int c;
    public final int g;
    public static int p = 0;
-
-
-
-
 
    private LowFireLoader(String var1, int var2, int var3, int var4) {
       this.E = var1;
@@ -90,7 +85,6 @@ public final class LowFireLoader {
       return ClientSupport.hsvToRgb(var0 - (float)Math.floor(var0), var3, var4) & 16777215;
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
-
 }

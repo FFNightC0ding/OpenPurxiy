@@ -1,13 +1,14 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.freelook;
 
 import dev.purxiy.anim.Easing;
 import dev.purxiy.config.BooleanSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
-import dev.purxiy.loader.fabric.client.ClientRegistry13;
+import dev.purxiy.loader.fabric.client.FirstPersonProvider;
+import dev.purxiy.loader.fabric.client.FirstPersonProvider.CameraPose;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import net.minecraft.class_1297;
 import net.minecraft.class_1937;
@@ -50,9 +51,7 @@ public final class FreelookModule extends ModuleDescriptor {
    public final BooleanSetting f;
    private boolean t;
    private boolean L;
-   
    private class_5498 z;
-   
    private class_638 S;
    private float N;
    private float D;
@@ -76,8 +75,6 @@ public final class FreelookModule extends ModuleDescriptor {
    private int K;
    private long i;
    public static boolean k;
-
-
    private static final long y = 2544982781050486964L;
 
    public FreelookModule() {
@@ -86,20 +83,16 @@ public final class FreelookModule extends ModuleDescriptor {
       this.enabledByDefault();
       this.l = this.mode("activation", "Activation", "Hold the key or click to toggle", "Hold", new String[]{"Hold", "Toggle"});
       this.m = this.bool("animation", "Animation", "Glide from close to far and back. Off, it jumps at once", true);
-      this.J = this.number(
-         "animation_speed", "Animation speed", "How fast the camera glides out and back", 1.0, 0.25, 3.0, 0.05, NumberSetting.Listener.MULTIPLIER
-      );
+      this.J = this.number("animation_speed", "Animation speed", "How fast the camera glides out and back", 1.0, 0.25, 3.0, 0.05, Listener.MULTIPLIER);
       this.J.visibleWhen(this.m::enabled);
-      this.v = this.number("distance", "Distance", "How far away it floats. Scroll to change it", 4.0, 1.5, 12.0, 0.1, NumberSetting.Listener.unit(" blocks"));
+      this.v = this.number("distance", "Distance", "How far away it floats. Scroll to change it", 4.0, 1.5, 12.0, 0.1, Listener.unit(" blocks"));
       this.f = this.bool("through_walls", "Through walls", "See yourself through the wall behind you", false);
    }
 
-   @Override
    public boolean keybindToggles() {
       return false;
    }
 
-   @Override
    protected void onDisable() {
       long var1 = 139613134365837L;
       long var3 = var1 ^ 675150503766L;
@@ -174,38 +167,18 @@ public final class FreelookModule extends ModuleDescriptor {
       class_746 var4 = var3.field_1724;
       if (this.enabled() && var3.field_1687 != null) {
          long var5 = 125583880493851L;
-         if (125583880493851L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var15 = var5 < 0L ? -1 : 1;
-         }
-
+         int var8 = var5 < 0L ? -1 : 1;
          if (var4 != null) {
-            long var8 = 125583880493851L;
-            if (125583880493851L == 0L) {
-               boolean var16 = false;
-            } else {
-               int var17 = var8 < 0L ? -1 : 1;
-            }
-
+            long var8x = 125583880493851L;
+            int var10 = var8x < 0L ? -1 : 1;
             if (var4.method_5805() && !var4.method_6113()) {
-               long var10 = 125583880493852L;
-               if (125583880493852L == 0L) {
-                  boolean var18 = false;
-               } else {
-                  int var19 = var10 < 0L ? -1 : 1;
-               }
-
+               long var10x = 125583880493852L;
+               int var12 = var10x < 0L ? -1 : 1;
                if (var3.method_1560() == var4 && var3.method_1569()) {
-                  boolean var12 = var3.field_1729.method_1613();
+                  boolean var12x = var3.field_1729.method_1613();
                   long var13 = 125583880493852L;
-                  if (125583880493852L == 0L) {
-                     boolean var20 = false;
-                  } else {
-                     int var21 = var13 < 0L ? -1 : 1;
-                  }
-
-                  if (var12 && !ModuleWidget.claimed("freecam-detached")) {
+                  int var14 = var13 < 0L ? -1 : 1;
+                  if (var12x && !ModuleWidget.claimed("freecam-detached")) {
                      return true;
                   }
                }
@@ -227,7 +200,7 @@ public final class FreelookModule extends ModuleDescriptor {
             boolean var12 = this.z == class_5498.field_26666;
             this.N = var11.method_36454() + (var12 ? 180 : 0);
             this.D = var12 ? -var11.method_36455() : var11.method_36455();
-            this.M = this.u = this.v.get();
+            this.M = this.u = (Double)this.v.get();
             this.B = 0.0;
             this.s = 0.0F;
             this.E = 1.0F;
@@ -239,7 +212,7 @@ public final class FreelookModule extends ModuleDescriptor {
                var4.field_1690.method_31043(class_5498.field_26665);
             }
          } else {
-            this.M = this.v.get();
+            this.M = (Double)this.v.get();
          }
 
          this.L = true;
@@ -263,21 +236,11 @@ public final class FreelookModule extends ModuleDescriptor {
    private void W(long var1, float var3, float var4) {
       this.a = this.s;
       long var5 = 132350148361898L;
-      if (132350148361898L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var10 = var5 < 0L ? -1 : 1;
-      }
-
+      int var8 = var5 < 0L ? -1 : 1;
       this.Q = var3;
       this.H = this.E;
-      long var8 = 132350148361898L;
-      if (132350148361898L == 0L) {
-         boolean var11 = false;
-      } else {
-         int var12 = var8 < 0L ? -1 : 1;
-      }
-
+      long var8x = 132350148361898L;
+      int var9 = var8x < 0L ? -1 : 1;
       this.Y = var3;
       this.h = System.nanoTime();
       this.o = var4 <= 0.0F ? 0.0F : Math.max(0.05F, var4);
@@ -285,12 +248,7 @@ public final class FreelookModule extends ModuleDescriptor {
 
    private void j(long var1, class_310 var3) {
       long var4 = 134318383061267L;
-      if (134318383061267L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       if (this.z != null && var3.field_1690.method_31044() != this.z) {
          var3.field_1690.method_31043(this.z);
       }
@@ -318,12 +276,7 @@ public final class FreelookModule extends ModuleDescriptor {
          if (this.L) {
             boolean var8 = this.l.is("Toggle") || var3.method_1569() && class_3675.method_15987(var3.method_22683(), this.key());
             long var9 = 53543336393772L;
-            if (53543336393772L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var12 = var9 < 0L ? -1 : 1;
-            }
-
+            int var11 = var9 < 0L ? -1 : 1;
             if (!var8 || !this.b(var6, var3)) {
                this.t = false;
                this.s(var4);
@@ -336,20 +289,10 @@ public final class FreelookModule extends ModuleDescriptor {
       class_746 var4 = var3.field_1724;
       if (this.enabled()) {
          long var5 = 89326068142888L;
-         if (89326068142888L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var5 < 0L ? -1 : 1;
-         }
-
+         int var8 = var5 < 0L ? -1 : 1;
          if (var4 != null) {
-            long var8 = 89326068142889L;
-            if (89326068142889L == 0L) {
-               boolean var11 = false;
-            } else {
-               int var12 = var8 < 0L ? -1 : 1;
-            }
-
+            long var8x = 89326068142889L;
+            int var9 = var8x < 0L ? -1 : 1;
             if (var4.method_5805() && !var4.method_6113() && var3.method_1560() == var4) {
                return true;
             }
@@ -378,7 +321,7 @@ public final class FreelookModule extends ModuleDescriptor {
             float var11 = this.Q > this.a ? Easing.CUBIC_OUT.apply(var10) : Easing.CUBIC_IN_OUT.apply(var10);
             this.s = class_3532.method_16439(var11, this.a, this.Q);
             this.E = class_3532.method_16439(var11, this.H, this.Y);
-            double var12 = this.m.enabled() ? 6.64 * this.J.get() / 0.3 : 1000000.0;
+            double var12 = this.m.enabled() ? 6.64 * (Double)this.J.get() / 0.3 : 1000000.0;
             double var14 = this.u - this.M;
             double var16 = this.B + var12 * var14;
             double var18 = Math.exp(-var12 * this.T);
@@ -496,7 +439,6 @@ public final class FreelookModule extends ModuleDescriptor {
       return this.active() && this.f.enabled();
    }
 
-   @Override
    protected void attach(ModuleContext var1) {
       var1.own(ModuleWidget.onKey((var1x, var2, var3) -> this.onKey(var1x, var3)));
       var1.own(ModuleWidget.onScroll(200, this::onScroll));
@@ -507,14 +449,12 @@ public final class FreelookModule extends ModuleDescriptor {
          var1.metric("active", this.active() ? 1.0 : 0.0);
       });
       var1.own(
-         ClientRegistry13.install(
-            new ClientRegistry13.Listener() {
-               @Override
+         FirstPersonProvider.install(
+            new dev.purxiy.loader.fabric.client.FirstPersonProvider.Listener() {
                public boolean active() {
                   return FreelookModule.this.active();
                }
 
-               @Override
                public boolean turn(double var1, double var3) {
                   if (!FreelookModule.this.engaged()) {
                      return false;
@@ -524,23 +464,19 @@ public final class FreelookModule extends ModuleDescriptor {
                   }
                }
 
-               @Override
                public boolean inHead() {
                   return FreelookModule.this.inHead();
                }
 
-               @Override
                public boolean passesWalls() {
                   return FreelookModule.this.passesWalls();
                }
 
-               @Override
                public float handsDown() {
                   return FreelookModule.this.handsDown();
                }
 
-               @Override
-               public ClientRegistry13.TypeK position(class_1937 var1, class_1297 var2, class_243 var3, class_243 var4, float var5, float var6, Vector3fc var7) {
+               public CameraPose position(class_1937 var1, class_1297 var2, class_243 var3, class_243 var4, float var5, float var6, Vector3fc var7) {
                   if (this.active() && var2 == class_310.method_1551().field_1724) {
                      FreelookModule.View var8 = FreelookModule.this.view(var3, var4, var5, var6);
                      float var9 = (float)Math.toRadians(var8.yaw());
@@ -553,7 +489,7 @@ public final class FreelookModule extends ModuleDescriptor {
                         : FreelookModule.clearance(var1, var2, var3, var11, var8.distance());
                      double var14 = FreelookModule.this.afterWalls(var8.distance(), var12);
                      class_243 var16 = var8.offset();
-                     return new ClientRegistry13.TypeK(
+                     return new CameraPose(
                         var8.yaw(),
                         var8.pitch(),
                         new class_243(
@@ -572,7 +508,7 @@ public final class FreelookModule extends ModuleDescriptor {
       );
    }
 
-public record View(float i, float s, double z, class_243 x) {
+   public record View(float i, float s, double z, class_243 x) {
       public static int f;
 
       public float yaw() {

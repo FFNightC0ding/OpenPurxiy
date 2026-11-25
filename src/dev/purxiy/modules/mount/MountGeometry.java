@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 import org.joml.Matrix4f;
@@ -23,15 +22,13 @@ public final class MountGeometry {
    public final float[] L = new float[4];
    public float n;
    public float i;
-   public final Matrix4f[] A = MountRenderer7.newParts();
+   public final Matrix4f[] A = MountDrawBuffers.newParts();
    public final Matrix4f c = new Matrix4f();
    public final Matrix4f J = new Matrix4f();
    private final Matrix4f T = new Matrix4f();
    private final Vector3f Z = new Vector3f();
 
-
-
-   public void compute(Matrix4fc var1, MountFactory.Data7 var2) {
+   public void compute(Matrix4fc var1, MountFactory.MountSpec var2) {
       long var3 = 137160051825009L;
       long var5 = var3 ^ 28245960112908L;
       int var7 = (int)((var3 ^ 28245960112908L) >>> 32);
@@ -57,9 +54,9 @@ public final class MountGeometry {
          var17.set(this.J);
       }
 
-      MountFactory.Data2 var20 = var2.steer();
-      MountFactory.Data2 var22 = var2.fork();
-      MountFactory.Data2 var23 = var2.swing();
+      MountFactory.PivotJoint var20 = var2.steer();
+      MountFactory.PivotJoint var22 = var2.fork();
+      MountFactory.PivotJoint var23 = var2.swing();
       if (var2.bike()) {
          Matrix4f var24 = this.A(new Matrix4f(this.J), var22 != null ? var22 : var20, this.G * (var22 != null ? var22.ratio() : 1.0F));
          if (var22 != null) {
@@ -89,11 +86,11 @@ public final class MountGeometry {
          }
       }
 
-      if (var2.kind() == MountFactory.TypeK.BICYCLE && var2.swing() != null) {
+      if (var2.kind() == MountFactory.Vehicle.BICYCLE && var2.swing() != null) {
          this.A(this.A[15].set(this.J), var2.swing(), this.p[2] * var2.swing().ratio());
       }
 
-      MountFactory.Data2 var26 = var2.crank();
+      MountFactory.PivotJoint var26 = var2.crank();
       if (var26 != null) {
          this.A(this.A[12].set(this.J), var26, this.H);
          this.X(13, var26, var2, 0.0F, var10);
@@ -106,8 +103,8 @@ public final class MountGeometry {
       this.A[7].set(var4);
    }
 
-   private void X(int var1, MountFactory.Data2 var2, MountFactory.Data7 var3, float var4, long var5) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+   private void X(int var1, MountFactory.PivotJoint var2, MountFactory.MountSpec var3, float var4, long var5) {
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       Matrix4f var7 = this.A[var1].set(this.J);
       Vector3f var8 = var3.grip() != null ? var3.grip() : new Vector3f(0.0F, 0.0F, 0.0F);
       float var9 = this.H;
@@ -120,20 +117,15 @@ public final class MountGeometry {
       var7.translate(0.0F, var14, var15);
    }
 
-   private void R(Matrix4f var1, MountFactory.Data7 var2, int var3, float var4, long var5, boolean var7, MountFactory.Data2 var8) {
-      MountFactory.Data7.ensureSourceClassInitialized();
-      MountFactory.Data6 var9 = var2.wheels()[var3];
+   private void R(Matrix4f var1, MountFactory.MountSpec var2, int var3, float var4, long var5, boolean var7, MountFactory.PivotJoint var8) {
+      MountFactory.MountSpec.ensureSourceClassInitialized();
+      MountFactory.Wheel var9 = var2.wheels()[var3];
       if (var9 != null) {
          Vector3f var10 = var9.center();
          Matrix4f var11 = this.A[1 + var3];
          Matrix4f var12 = this.A[5 + var3];
          long var13 = 8456049489909L;
-         if (8456049489909L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var18 = var13 < 0L ? -1 : 1;
-         }
-
+         int var16 = var13 < 0L ? -1 : 1;
          if (var8 != null) {
             var11.set(var1)
                .translate(var8.axis().x * -this.L[var3], var8.axis().y * -this.L[var3], var8.axis().z * -this.L[var3])
@@ -142,13 +134,8 @@ public final class MountGeometry {
                .translate(-var10.x, -var10.y, -var10.z);
             var12.set(var1).translate(var8.axis().x * -this.L[var3], var8.axis().y * -this.L[var3], var8.axis().z * -this.L[var3]);
          } else {
-            long var16 = 8456049489909L;
-            if (8456049489909L == 0L) {
-               boolean var19 = false;
-            } else {
-               int var20 = var16 < 0L ? -1 : 1;
-            }
-
+            long var16x = 8456049489909L;
+            int var17 = var16x < 0L ? -1 : 1;
             var11.set(var1).translate(var10.x, var10.y + this.L[var3], var10.z);
             if (var4 != 0.0F) {
                var11.rotateY(var4);
@@ -162,7 +149,7 @@ public final class MountGeometry {
       }
    }
 
-   private Matrix4f A(Matrix4f var1, MountFactory.Data2 var2, float var3) {
+   private Matrix4f A(Matrix4f var1, MountFactory.PivotJoint var2, float var3) {
       Vector3f var4 = var2.pivot();
       Vector3f var5 = var2.axis();
       return var1.translate(var4.x, var4.y, var4.z).rotate(var3, var5.x, var5.y, var5.z).translate(-var4.x, -var4.y, -var4.z);
@@ -171,5 +158,4 @@ public final class MountGeometry {
    public Vector3f bodyPoint(float var1, float var2, float var3, Vector3f var4) {
       return this.J.transformPosition(var1, var2, var3, var4);
    }
-
 }

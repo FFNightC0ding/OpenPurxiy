@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import dev.purxiy.loader.auth.AccessDeniedException;
@@ -9,6 +8,6 @@ final class SecureRuntimeRestart {
    }
 
    static void stopForAuthorization(AccessDeniedException var0) {
-      LoggerFactory.getLogger("PurxiyLoader").warn("Authorization denied: {}", var0 != null ? var0.getMessage() : "");
+      LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader").warn("Authorization denied: {}", var0 != null ? var0.getMessage() : "");
    }
 }

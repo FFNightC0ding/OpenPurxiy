@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.halo;
 
 import org.joml.Vector3f;
@@ -48,7 +47,7 @@ final class HaloUpdater {
       return this.g > 0.0F;
    }
 
-   void update(float var1, boolean var2, HaloSupport5 var3, double var4, double var6, double var8, float var10, boolean var11) {
+   void update(float var1, boolean var2, HaloMeasure var3, double var4, double var6, double var8, float var10, boolean var11) {
       long var12 = 82663024230931L;
       long var14 = (var12 ^ 129027801444789L) >>> 8;
       int var16 = (int)((var12 ^ 129027801444789L) << 56 >>> 56);
@@ -129,7 +128,7 @@ final class HaloUpdater {
       }
    }
 
-   private void G(HaloSupport5 var1, long var2, byte var4, float var5, boolean var6) {
+   private void G(HaloMeasure var1, long var2, byte var4, float var5, boolean var6) {
       float var7 = 0.0F;
       HaloDesign.ensureSourceClassInitialized();
       float var8 = 1.0F;
@@ -145,100 +144,59 @@ final class HaloUpdater {
       Vector3f var12 = this.V.set(var7 + (var1.f - var7) * var11, var8 + (var1.a - var8) * var11, var9 + (var1.w - var9) * var11);
       var10 = -90;
       long var13 = 268298909554L;
-      if (268298909554L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var34 = var13 < 0L ? -1 : 1;
-      }
-
+      int var15 = var13 < 0L ? -1 : 1;
       if (var12.lengthSquared() < 1.0E-4F) {
          var12.set(var7, var8, var9);
       }
 
       var12.normalize();
-      Vector3f var15 = this.H.set(var1.K, var1.M, var1.r);
+      Vector3f var15x = this.H.set(var1.K, var1.M, var1.r);
       long var16 = 268298909554L;
-      if (268298909554L == 0L) {
-         boolean var35 = false;
-      } else {
-         int var36 = var16 < 0L ? -1 : 1;
+      int var19 = var16 < 0L ? -1 : 1;
+      var15x.sub(var12.x * var15x.dot(var12), var12.y * var15x.dot(var12), var12.z * var15x.dot(var12));
+      if (var15x.lengthSquared() < 1.0E-4F) {
+         var15x.set(1.0F, 0.0F, 0.0F);
       }
 
-      var15.sub(var12.x * var15.dot(var12), var12.y * var15.dot(var12), var12.z * var15.dot(var12));
-      if (var15.lengthSquared() < 1.0E-4F) {
-         var15.set(1.0F, 0.0F, 0.0F);
-      }
-
-      var15.normalize();
-      Vector3f var19 = var12.cross(var15, this.t).normalize();
+      var15x.normalize();
+      Vector3f var19x = var12.cross(var15x, this.t).normalize();
       float var20 = (float)Math.sqrt(this.O * this.O + this.T * this.T);
       float var21 = Math.min(var20 * 0.035F, 0.14F);
       long var22 = 268298909555L;
-      if (268298909555L == 0L) {
-         boolean var37 = false;
-      } else {
-         int var38 = var22 < 0L ? -1 : 1;
-      }
-
-      float var25 = var20 > 0.001F ? -this.O / var20 : 0.0F;
+      int var25 = var22 < 0L ? -1 : 1;
+      float var25x = var20 > 0.001F ? -this.O / var20 : 0.0F;
       long var26 = 268298909555L;
-      if (268298909555L == 0L) {
-         boolean var39 = false;
-      } else {
-         int var40 = var26 < 0L ? -1 : 1;
-      }
-
-      float var28 = var20 > 0.001F ? -this.T / var20 : 0.0F;
+      int var26x = var26 < 0L ? -1 : 1;
+      float var28x = var20 > 0.001F ? -this.T / var20 : 0.0F;
       float var29 = var6 ? 0.022F * (float)Math.sin(this.E * 0.83F) : 0.0F;
       float var30 = var6 ? 0.018F * (float)Math.sin(this.E * 0.61F + 1.7F) : 0.0F;
       float var31 = this.f + var29;
       float var32 = this.z + var30;
-      var12.add(var15.x * var31 + var19.x * var32 + var25 * var21, var15.y * var31 + var19.y * var32, var15.z * var31 + var19.z * var32 + var28 * var21)
+      var12.add(var15x.x * var31 + var19x.x * var32 + var25x * var21, var15x.y * var31 + var19x.y * var32, var15x.z * var31 + var19x.z * var32 + var28x * var21)
          .normalize();
    }
 
    private void t(float var1, double var2, double var4, double var6, long var8) {
       HaloDesign.ensureSourceClassInitialized();
       long var10 = 3255968870126L;
-      if (3255968870126L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var25 = var10 < 0L ? -1 : 1;
-      }
-
-      long var13 = 3255968870125L;
-      if (3255968870125L == 0L) {
-         boolean var26 = false;
-      } else {
-         int var27 = var13 < 0L ? -1 : 1;
-      }
-
+      int var13 = var10 < 0L ? -1 : 1;
+      long var13x = 3255968870125L;
+      int var16 = var13x < 0L ? -1 : 1;
       if (this.J && !(var1 <= 0.0F)) {
-         double var16 = var2 - this.L;
+         double var16x = var2 - this.L;
          double var18 = var6 - this.b;
          long var20 = 3255968870125L;
-         if (3255968870125L == 0L) {
-            boolean var28 = false;
-         } else {
-            int var29 = var20 < 0L ? -1 : 1;
-         }
-
+         int var20x = var20 < 0L ? -1 : 1;
          this.L = var2;
          this.X = var4;
-         long var22 = 3255968870126L;
-         if (3255968870126L == 0L) {
-            boolean var30 = false;
-         } else {
-            int var31 = var22 < 0L ? -1 : 1;
-         }
-
+         long var22x = 3255968870126L;
          this.b = var6;
-         if (var16 * var16 + var18 * var18 > 4.0) {
+         if (var16x * var16x + var18 * var18 > 4.0) {
             this.O = this.T = 0.0F;
          } else {
-            float var24 = 1.0F - (float)Math.exp(-var1 * 6.0F);
-            this.O = this.O + ((float)(var16 / var1) - this.O) * var24;
-            this.T = this.T + ((float)(var18 / var1) - this.T) * var24;
+            float var24x = 1.0F - (float)Math.exp(-var1 * 6.0F);
+            this.O = this.O + ((float)(var16x / var1) - this.O) * var24x;
+            this.T = this.T + ((float)(var18 / var1) - this.T) * var24x;
          }
       } else {
          this.J = true;
@@ -249,7 +207,7 @@ final class HaloUpdater {
       }
    }
 
-   float place(HaloSupport5 var1, HaloDesign var2, float var3, float var4, boolean var5, HaloBuilder.TypeS var6, HaloBuilder.TypeC var7) {
+   float place(HaloMeasure var1, HaloDesign var2, float var3, float var4, boolean var5, HaloBuilder.HaloBatchState var6, HaloBuilder.HaloSegments var7) {
       Vector3f var8 = this.d.set(this.r);
       Vector3f var9 = this.H.set(var1.K, var1.M, var1.r);
       var9.sub(var8.x * var9.dot(var8), var8.y * var9.dot(var8), var8.z * var9.dot(var8));

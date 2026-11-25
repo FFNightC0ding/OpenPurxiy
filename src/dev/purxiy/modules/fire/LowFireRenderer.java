@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.fire;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -38,7 +37,6 @@ import net.minecraft.class_746;
 import net.minecraft.class_8103;
 import net.minecraft.class_4587.class_4665;
 import org.joml.Quaternionf;
-
 import org.lwjgl.system.MemoryUtil;
 
 public final class LowFireRenderer {
@@ -61,7 +59,6 @@ public final class LowFireRenderer {
    private static final float Y = 0.3F;
    private static final float aJ = 16.0F;
    private static long P = 0L;
-   
    private static class_638 G;
    private static boolean q;
    private static boolean R;
@@ -101,9 +98,7 @@ public final class LowFireRenderer {
    private static final int[] ag = new int[2];
    private static float e;
    private static float aD;
-   
    private static String i;
-   
    private static String V;
    private static boolean E;
    private static GpuQuery d;
@@ -115,8 +110,6 @@ public final class LowFireRenderer {
    private static int ai = 0;
    private static int Z = 0;
    public static boolean aT;
-
-
    private static final long[] cb = new long[]{
       -4052466282704973138L,
       4222369890819697573L,
@@ -159,7 +152,7 @@ public final class LowFireRenderer {
       if (!var0.enabled()) {
          return 0.0F;
       } else {
-         float var1 = class_310.method_1551().field_1690.method_41808().method_41753().intValue() * (float) (Math.PI / 180.0);
+         float var1 = ((Integer)class_310.method_1551().field_1690.method_41808().method_41753()).intValue() * (float) (Math.PI / 180.0);
          float var2 = (2.0F * var0.g.floatValue() - 1.0F) * 0.5F * (float)Math.tan(var1 * 0.5F);
          return Math.max(0.0F, 0.2F - var2);
       }
@@ -172,7 +165,7 @@ public final class LowFireRenderer {
       int var6 = (int)((var1 ^ 86980688067562L) << 32 >>> 32);
       long var7 = var1 ^ 78280199287720L;
       long var9 = var1 ^ 28101409271251L;
-      LowFireCache2.update();
+      LowFireLayerCache.update();
       long var11 = System.nanoTime();
       boolean var13 = P != 0L && var11 - P < 500000000L;
       float var14 = var13 ? Math.min((float)(var11 - P) / 1.0E9F, 0.1F) : 0.0F;
@@ -232,7 +225,7 @@ public final class LowFireRenderer {
       boolean var11;
       String var12;
       boolean var51;
-      label284: {
+      label216: {
          var6 = 19786472530956L;
          long var14 = 112305837206885L;
          var8 = 26148;
@@ -240,19 +233,14 @@ public final class LowFireRenderer {
          var10 = (int)(var14 << 48 >>> 48);
          LowFireLoader.ensureSourceClassInitialized();
          var11 = var4.method_6059(class_1294.field_5918);
-         var12 = var0.W.get();
+         var12 = (String)var0.W.get();
          if (var4.method_5809()) {
             var51 = var4.method_7325();
             long var16 = 118850055980945L;
-            if (118850055980945L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var64 = var16 < 0L ? -1 : 1;
-            }
-
+            int var55 = var16 < 0L ? -1 : 1;
             if (!var51 && (!var11 || !var12.equals("Hide"))) {
                var51 = true;
-               break label284;
+               break label216;
             }
          }
 
@@ -261,82 +249,47 @@ public final class LowFireRenderer {
 
       boolean var54 = var51;
       long var15 = 118850055980946L;
-      if (118850055980946L == 0L) {
-         boolean var65 = false;
-      } else {
-         int var66 = var15 < 0L ? -1 : 1;
-      }
-
+      float var18;
       if (V != null) {
          var54 = !V.equals("off") && !V.equals("water");
       }
 
-      float var18;
-      label266: {
+      label198: {
          O(var6, var0, var5);
          float var19 = K * Math.max(v, 0.0F);
          var18 = (float)var3.method_22683().method_4489() / Math.max(1, var3.method_22683().method_4506());
          if (var54) {
             long var20 = 118850055980946L;
-            if (118850055980946L == 0L) {
-               boolean var67 = false;
-            } else {
-               int var68 = var20 < 0L ? -1 : 1;
-            }
-
+            int var58 = var20 < 0L ? -1 : 1;
             if (!q) {
                R = false;
                long var23 = 118850055980945L;
-               if (118850055980945L == 0L) {
-                  boolean var73 = false;
-               } else {
-                  int var74 = var23 < 0L ? -1 : 1;
-               }
-
+               int var611 = var23 < 0L ? -1 : 1;
                k = 1.0F;
                float var25;
                int varCmp = Float.compare(var25 = v - 0.25F, 0.0F);
                long var26 = 118850055980946L;
-               if (118850055980946L == 0L) {
-                  boolean var75 = false;
-               } else {
-                  int var76 = var26 < 0L ? -1 : 1;
-               }
-
+               int var29 = var26 < 0L ? -1 : 1;
                if (varCmp < 0) {
                   long var28 = 118850055980946L;
-                  if (118850055980946L == 0L) {
-                     boolean var77 = false;
-                  } else {
-                     int var78 = var28 < 0L ? -1 : 1;
-                  }
-
+                  int var31 = var28 < 0L ? -1 : 1;
                   N = 1.0F;
                   z = Math.max(z, 0.45F);
                   ar.burst(Math.round(20.0F * var0.r.floatValue()), var18, K, 1.0F);
                }
-               break label266;
+               break label198;
             }
          }
 
          if (!var54 && q) {
             R = var4.method_5721() || var4.field_27857 || var4.field_28628 || "water".equals(V);
             long var56 = 118850055980946L;
-            if (118850055980946L == 0L) {
-               boolean var69 = false;
-            } else {
-               int var70 = var56 < 0L ? -1 : 1;
-            }
-
+            int var56x = var56 < 0L ? -1 : 1;
             if (R) {
                k = 0.0F;
                ar.quench();
                long var22 = 118850055980946L;
-               if (118850055980946L == 0L) {
-                  boolean var71 = false;
-               } else {
-                  int var72 = var22 < 0L ? -1 : 1;
-               }
+               int var59 = var22 < 0L ? -1 : 1;
             } else {
                ar.burst(Math.round(6.0F * var0.r.floatValue()), var18, var19, 0.4F);
             }
@@ -347,51 +300,26 @@ public final class LowFireRenderer {
       aP += var5;
       int var55 = var4.field_6235;
       long var57 = 118850055980946L;
-      if (118850055980946L == 0L) {
-         boolean var79 = false;
-      } else {
-         int var80 = var57 < 0L ? -1 : 1;
-      }
-
+      int var591 = var57 < 0L ? -1 : 1;
       long var58 = 118850055980946L;
-      if (118850055980946L == 0L) {
-         boolean var81 = false;
-      } else {
-         int var82 = var58 < 0L ? -1 : 1;
-      }
-
+      int var631 = var58 < 0L ? -1 : 1;
       if (var55 > aA && q && var0.d.enabled()) {
          float var24;
          int varCmp9 = Float.compare(var24 = aP - 0.3F, 0.0F);
          long var60 = 118850055980945L;
-         if (118850055980945L == 0L) {
-            boolean var83 = false;
-         } else {
-            int var84 = var60 < 0L ? -1 : 1;
-         }
-
+         int var71 = var60 < 0L ? -1 : 1;
          if (varCmp9 > 0) {
             class_1282 var27 = var4.method_6081();
             long var62 = 118850055980946L;
-            if (118850055980946L == 0L) {
-               boolean var85 = false;
-            } else {
-               int var86 = var62 < 0L ? -1 : 1;
-            }
-
+            int var32 = var62 < 0L ? -1 : 1;
             if (var27 != null && var27.method_48789(class_8103.field_42246)) {
                G();
             }
          }
       }
 
-      long var59 = 118850055980946L;
-      if (118850055980946L == 0L) {
-         boolean var87 = false;
-      } else {
-         int var88 = var59 < 0L ? -1 : 1;
-      }
-
+      long var59x = 118850055980946L;
+      int var68 = var59x < 0L ? -1 : 1;
       aA = var55;
       J(var8, (char)var9, var10, var5);
       z = z * (float)Math.exp(-var5 * 3.2F);
@@ -399,9 +327,9 @@ public final class LowFireRenderer {
       k = Math.min(1.0F, k + var5 / 1.9F);
       float var61 = q && var11 && var12.equals("Calm") ? 1.0F : 0.0F;
       O = O + (var61 - O) * (1.0F - (float)Math.exp(-var5 * 3.0F));
-      class_4184 var63 = var3.field_1773.method_19418();
-      float var29 = var63.method_19330();
-      float var30 = var63.method_19329();
+      class_4184 var63x = var3.field_1773.method_19418();
+      float var29 = var63x.method_19330();
+      float var30 = var63x.method_19329();
       float var31 = c ? class_3532.method_15393(var29 - a3) : 0.0F;
       float var32 = c ? var30 - B : 0.0F;
       a3 = var29;
@@ -414,14 +342,9 @@ public final class LowFireRenderer {
       float var37 = var4.method_24828() ? 0.0F : (float)(-var33.field_1351);
       boolean var38 = var0.V.enabled();
       long var39 = 118850055980946L;
-      if (118850055980946L == 0L) {
-         boolean var89 = false;
-      } else {
-         int var90 = var39 < 0L ? -1 : 1;
-      }
-
-      float var41 = var5 > 0.0F ? var31 / var5 : 0.0F;
-      float var42 = var38 ? Math.clamp(-var41 / 420.0F - var35 / 9.0F, -1.0F, 1.0F) : 0.0F;
+      int var39x = var39 < 0L ? -1 : 1;
+      float var41x = var5 > 0.0F ? var31 / var5 : 0.0F;
+      float var42 = var38 ? Math.clamp(-var41x / 420.0F - var35 / 9.0F, -1.0F, 1.0F) : 0.0F;
       float var43 = var38 ? Math.clamp(var37 / 24.0F, -0.25F, 0.6F) - Math.clamp(var36 / 40.0F, 0.0F, 0.15F) : 0.0F;
       aF = aF + (var42 - aF) * (1.0F - (float)Math.exp(-var5 * 5.0F));
       J = J + (var43 - J) * (1.0F - (float)Math.exp(-var5 * 4.0F));
@@ -432,7 +355,7 @@ public final class LowFireRenderer {
       }
 
       float var45 = q ? 16.0F * var0.r.floatValue() * (1.0F - 0.6F * O) * (1.0F + 1.5F * z) : 0.0F;
-      float var46 = var3.field_1690.method_41808().method_41753().intValue();
+      float var46 = ((Integer)var3.field_1690.method_41808().method_41753()).intValue();
       float var47 = var38 ? -var31 / var46 * 0.6F : 0.0F;
       float var48 = var38 ? var32 / var46 * 0.6F : 0.0F;
       float var49 = var38 ? -var35 * 0.03F : 0.0F;
@@ -473,7 +396,7 @@ public final class LowFireRenderer {
 
    private static void O(long var0, LowFireModule var2, float var3) {
       long var4 = 39550505403022L;
-      LowFireLoader var6 = LowFireLoader.resolve(var2.R.get(), var2.c.argb());
+      LowFireLoader var6 = LowFireLoader.resolve((String)var2.R.get(), var2.c.argb());
       LowFireLoader.ensureSourceClassInitialized();
       D(var4, aS, 0, var6.F);
       D(var4, aS, 3, var6.c);
@@ -482,51 +405,31 @@ public final class LowFireRenderer {
 
       for (int var8 = 0; var8 < au.length; var8++) {
          long var9 = 19786472530956L;
-         if (19786472530956L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var26 = var9 < 0L ? -1 : 1;
-         }
-
+         int var12 = var9 < 0L ? -1 : 1;
          au[var8] = au[var8] + (aS[var8] - au[var8]) * var7;
       }
 
       long var22 = 19786472530955L;
-      if (19786472530955L == 0L) {
-         boolean var27 = false;
-      } else {
-         int var28 = var22 < 0L ? -1 : 1;
-      }
-
-      String var11 = var2.E.get();
+      int var11 = var22 < 0L ? -1 : 1;
+      String var11x = (String)var2.E.get();
       float[] var12 = aE;
       float var13 = aE[0];
-      float var14 = var11.equals("Flames") ? 1.0F : 0.0F;
+      float var14 = var11x.equals("Flames") ? 1.0F : 0.0F;
       float var15 = aE[0];
       long var16 = 19786472530956L;
-      if (19786472530956L == 0L) {
-         boolean var29 = false;
-      } else {
-         int var30 = var16 < 0L ? -1 : 1;
-      }
-
+      int var19 = var16 < 0L ? -1 : 1;
       var12[0] = var13 + (var14 - var15) * var7;
-      float[] var19 = aE;
+      float[] var19x = aE;
       var13 = aE[1];
-      var14 = var11.equals("Pixel") ? 1.0F : 0.0F;
+      var14 = var11x.equals("Pixel") ? 1.0F : 0.0F;
       var15 = aE[1];
       long var20 = 19786472530956L;
-      if (19786472530956L == 0L) {
-         boolean var31 = false;
-      } else {
-         int var32 = var20 < 0L ? -1 : 1;
-      }
-
-      var19[1] = var13 + (var14 - var15) * var7;
-      aE[2] = aE[2] + ((var11.equals("Glow") ? 1.0F : 0.0F) - aE[2]) * var7;
+      int var20x = var20 < 0L ? -1 : 1;
+      var19x[1] = var13 + (var14 - var15) * var7;
+      aE[2] = aE[2] + ((var11x.equals("Glow") ? 1.0F : 0.0F) - aE[2]) * var7;
       K = K + (var2.g.floatValue() - K) * var7;
       y = y + (var2.y.floatValue() - y) * var7;
-      f = f + ((var2.B.enabled() && !var11.equals("Glow") ? 1.0F : 0.0F) - f) * var7;
+      f = f + ((var2.B.enabled() && !var11x.equals("Glow") ? 1.0F : 0.0F) - f) * var7;
       l = true;
    }
 
@@ -559,80 +462,44 @@ public final class LowFireRenderer {
          float var29 = e + 3.0F * (0.028F + 0.04F * aE[2]) * var26 + 0.02F;
          float var30 = Math.max(var29, 7.0F * (0.022F + 0.05F * Math.max(K, 0.1F)) * (1.0F + 0.8F * aE[2]) + 0.01F);
          long var31 = 39174218573963L;
-         if (39174218573963L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var90 = var31 < 0L ? -1 : 1;
-         }
-
-         long var34 = 39174218573963L;
-         if (39174218573963L == 0L) {
-            boolean var91 = false;
-         } else {
-            int var92 = var34 < 0L ? -1 : 1;
-         }
-
+         int var34 = var31 < 0L ? -1 : 1;
+         long var34x = 39174218573963L;
+         int var36 = var34x < 0L ? -1 : 1;
          if (var28 > 0.001F) {
             var30 = Math.max(var30, var27 + 0.01F);
          }
 
-         long var36 = 39174218573963L;
-         if (39174218573963L == 0L) {
-            boolean var93 = false;
-         } else {
-            int var94 = var36 < 0L ? -1 : 1;
-         }
-
-         long var38 = 39174218573962L;
-         if (39174218573962L == 0L) {
-            boolean var95 = false;
-         } else {
-            int var96 = var38 < 0L ? -1 : 1;
-         }
-
+         long var36x = 39174218573963L;
+         int var38 = var36x < 0L ? -1 : 1;
+         long var38x = 39174218573962L;
+         int var83 = var38x < 0L ? -1 : 1;
          if (k < 1.0F) {
             float var40 = Math.max(K, 0.12F);
             var30 = Math.max(var30, var40 * (1.1F + 1.9F * k) + 0.02F);
          }
 
-         long var83 = 39174218573962L;
-         if (39174218573962L == 0L) {
-            boolean var97 = false;
-         } else {
-            int var98 = var83 < 0L ? -1 : 1;
-         }
-
+         long var83x = 39174218573962L;
+         int var42 = var83x < 0L ? -1 : 1;
          if (N > 0.001F) {
             var30 = Math.max(var30, (Math.max(K, 0.1F) * 1.6F + 0.05F) * 1.35F + 0.02F);
          }
 
          var29 = Math.min(var30, 1.0F);
-         GpuDevice var42 = RenderSystem.getDevice();
-         CommandEncoder var43 = var42.createCommandEncoder();
-         A(var9, var42);
+         GpuDevice var42x = RenderSystem.getDevice();
+         CommandEncoder var43 = var42x.createCommandEncoder();
+         A(var9, var42x);
          GpuTextureView var44 = H;
          float var45 = aE[0];
          float var46 = aE[1];
          int var47 = 0;
          if (var46 > 0.001F) {
             LowFireCache var48 = LowFireCache.Q;
-            class_1043 var49 = var48.ensure(LowFireLoader.resolve(var2.R.get(), var2.c.argb())) ? var48.texture() : null;
+            class_1043 var49 = var48.ensure(LowFireLoader.resolve((String)var2.R.get(), var2.c.argb())) ? var48.texture() : null;
             long var50 = 39174218573963L;
-            if (39174218573963L == 0L) {
-               boolean var99 = false;
-            } else {
-               int var100 = var50 < 0L ? -1 : 1;
-            }
-
+            int var53 = var50 < 0L ? -1 : 1;
             if (var49 != null) {
                var44 = var49.method_71659();
-               long var53 = 39174218573963L;
-               if (39174218573963L == 0L) {
-                  boolean var101 = false;
-               } else {
-                  int var102 = var53 < 0L ? -1 : 1;
-               }
-
+               long var53x = 39174218573963L;
                var47 = var48.sprite(1, a(var3, var14), w);
             } else {
                var45 += var46;
@@ -644,24 +511,14 @@ public final class LowFireRenderer {
          float var85 = var24 / (var84 - 1) * 1.02F;
          GpuTextureView var86 = H;
          long var51 = 39174218573963L;
-         if (39174218573963L == 0L) {
-            boolean var103 = false;
-         } else {
-            int var104 = var51 < 0L ? -1 : 1;
-         }
-
-         float var54;
-         int var55 = (var54 = var28 - 0.001F) == 0.0F ? 0 : (var54 < 0.0F ? -1 : 1);
+         int var54 = var51 < 0L ? -1 : 1;
+         float var54x;
+         int var55 = (var54x = var28 - 0.001F) == 0.0F ? 0 : (var54x < 0.0F ? -1 : 1);
          long var56 = 39174218573962L;
-         if (39174218573962L == 0L) {
-            boolean var105 = false;
-         } else {
-            int var106 = var56 < 0L ? -1 : 1;
-         }
-
+         int var59 = var56 < 0L ? -1 : 1;
          if (var55 > 0) {
-            v(var6, var7, var42, var21, var22, (short)var8);
-            int var59 = Math.min(var22, (int)Math.ceil((var27 + 0.02F) * var22) + 8);
+            v(var6, var7, var42x, var21, var22, (short)var8);
+            var59 = Math.min(var22, (int)Math.ceil((var27 + 0.02F) * var22) + 8);
             var43.copyTextureToTexture(var20, h, 0, 0, 0, 0, 0, var21, var59);
             var86 = F;
          }
@@ -686,75 +543,66 @@ public final class LowFireRenderer {
          for (byte var61 = 0; var61 < u.length; var61 = (byte)(var61 + 4)) {
             var60.putVec4(u[var61], u[var61 + 1], u[var61 + 2], u[var61 + 3]);
             long var62 = 39174218573963L;
-            if (39174218573963L == 0L) {
-               boolean var107 = false;
-            } else {
-               int var108 = var62 < 0L ? -1 : 1;
-            }
+            int var61x = var62 < 0L ? -1 : 1;
          }
 
          ar.write(var60, var22, var23);
          long var89 = 39174218573962L;
-         if (39174218573962L == 0L) {
-            boolean var109 = false;
-         } else {
-            int var110 = var89 < 0L ? -1 : 1;
-         }
-
-         long var63 = 39174218573963L;
-         if (39174218573963L == 0L) {
-            boolean var111 = false;
-         } else {
-            int var112 = var63 < 0L ? -1 : 1;
-         }
-
+         int var60x = var89 < 0L ? -1 : 1;
+         long var63x = 39174218573963L;
+         int var65 = var63x < 0L ? -1 : 1;
          var43.writeToBuffer(U.slice(), var60.get());
-         GpuQuery var65;
+         GpuQuery var65x;
          if (E) {
-            var65 = j(var11, (byte)var12, var13, var43);
+            var65x = j(var11, var12, var13, var43);
          } else {
-            var65 = null;
+            var65x = null;
          }
 
          boolean var67 = false;
 
          try {
             var67 = true;
+            RenderPass var68 = var43.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX low fire", var19, OptionalInt.empty());
 
-            try (RenderPass var68 = var43.createRenderPass(() -> "Purxiy low fire", var19, OptionalInt.empty())) {
+            try {
                var68.setPipeline(SkyPipelines.FIRE);
                long var69 = 39174218573962L;
-               if (39174218573962L == 0L) {
-                  boolean var113 = false;
-               } else {
-                  int var114 = var69 < 0L ? -1 : 1;
-               }
-
+               int var67x = var69 < 0L ? -1 : 1;
                var68.setUniform("PurxiyFire", U);
                var68.bindTexture("PixelSampler", var44, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-               long var71 = 39174218573963L;
-               if (39174218573963L == 0L) {
-                  boolean var115 = false;
-               } else {
-                  int var116 = var71 < 0L ? -1 : 1;
-               }
-
+               long var71x = 39174218573963L;
+               int var33x = var71x < 0L ? -1 : 1;
                var68.bindTexture("SceneSampler", var86, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
                var55 = -178141175;
                var68.draw(0, 6 + ar.count() * 6);
-               int var33 = -178132853;
+               var33x = -178132853;
                metric("drawn");
+            } catch (Throwable var75) {
+               if (var68 != null) {
+                  try {
+                     var68.close();
+                  } catch (Throwable var74) {
+                     var75.addSuppressed(var74);
+                  }
+               }
+
+               throw var75;
+            }
+
+            if (var68 != null) {
+               var68.close();
             }
          } finally {
-            if (var67 && var65 != null) {
-               var43.timerQueryEnd(var65);
-               d = var65;
+            if (var67 && var65x != null) {
+               var43.timerQueryEnd(var65x);
+               d = var65x;
             }
          }
 
-         if (var65 != null) {
-            var43.timerQueryEnd(var65);
-            d = var65;
+         if (var65x != null) {
+            var43.timerQueryEnd(var65x);
+            d = var65x;
          }
       }
    }
@@ -782,35 +630,20 @@ public final class LowFireRenderer {
             float var21 = 0.6F + 0.5F * var19;
             float var22 = 0.78F + 0.22F * z(var7 * (0.8 + 0.7 * var17) + var17 * 17.0, var5, var16) + 0.05F * z(var7 * 6.0 + var18 * 9.0, var5, var16 + 1000);
             long var23 = 129046097771131L;
-            if (129046097771131L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var43 = var23 < 0L ? -1 : 1;
-            }
-
-            float var26 = var0 * var12 * d(var20 / var1) * var21 * var22;
-            float var27 = var26 * 0.23F * (0.85F + 0.3F * var18);
+            int var26 = var23 < 0L ? -1 : 1;
+            float var26x = var0 * var12 * d(var20 / var1) * var21 * var22;
+            float var27 = var26x * 0.23F * (0.85F + 0.3F * var18);
             float var28 = (z(var7 * 0.6 + var17 * 11.0, var5, var16 + 2000) - 0.5F) * 1.2F * var27;
             float var29 = -1.0F;
             if (var10 == 0) {
                long var30 = 129046097771131L;
-               if (129046097771131L == 0L) {
-                  boolean var44 = false;
-               } else {
-                  int var45 = var30 < 0L ? -1 : 1;
-               }
-
+               int var32 = var30 < 0L ? -1 : 1;
                double var33 = var7 * (0.7 + 0.6 * var18) + var17 * 3.0;
                long var35 = 129046097771131L;
-               if (129046097771131L == 0L) {
-                  boolean var46 = false;
-               } else {
-                  int var47 = var35 < 0L ? -1 : 1;
-               }
-
-               double var37 = frac(var33);
-               if (var37 < 0.55) {
-                  var29 = (float)(var37 / 0.55);
+               int var35x = var35 < 0L ? -1 : 1;
+               double var37x = frac(var33);
+               if (var37x < 0.55) {
+                  var29 = (float)(var37x / 0.55);
                }
             }
 
@@ -818,14 +651,9 @@ public final class LowFireRenderer {
             float var31 = 0.55F * var27;
             int var32 = (var10 * 48 + var15) * 8;
             long var42 = 129046097771131L;
-            if (129046097771131L == 0L) {
-               boolean var48 = false;
-            } else {
-               int var49 = var42 < 0L ? -1 : 1;
-            }
-
+            int var34 = var42 < 0L ? -1 : 1;
             u[var32] = var20;
-            u[var32 + 1] = var26;
+            u[var32 + 1] = var26x;
             u[var32 + 2] = var27;
             u[var32 + 3] = var28;
             u[var32 + 4] = var41;
@@ -833,25 +661,17 @@ public final class LowFireRenderer {
             u[var32 + 6] = var29;
             u[var32 + 7] = var20 + var28 + (float)Math.sin((Math.PI * 5.0 / 2.0) - var41) * var31 + (var19 - 0.5F) * var27 * 0.8F * Math.max(var29, 0.0F);
             var14 = Math.max(var14, 1.8F * var27);
-            e = Math.max(e, var26 * (var29 >= 0.0F ? 1.45F : 1.0F));
-            aD = Math.max(aD, var26);
+            e = Math.max(e, var26x * (var29 >= 0.0F ? 1.45F : 1.0F));
+            aD = Math.max(aD, var26x);
          }
 
          ag[var10] = Math.clamp((long)((int)Math.floor((var14 + 0.012F * var4 + var9) / var11 + 0.75F)), 1, 6);
          long var40 = 129046097771130L;
-         if (129046097771130L == 0L) {
-            boolean var50 = false;
-         } else {
-            int var51 = var40 < 0L ? -1 : 1;
-         }
+         int var40x = var40 < 0L ? -1 : 1;
       }
 
       long var39 = 129046097771131L;
-      if (129046097771131L == 0L) {
-         boolean var52 = false;
-      } else {
-         int var53 = var39 < 0L ? -1 : 1;
-      }
+      int var38 = var39 < 0L ? -1 : 1;
    }
 
    private static float d(float var0) {
@@ -872,14 +692,25 @@ public final class LowFireRenderer {
    private static void A(long var0, GpuDevice var2) {
       LowFireLoader.ensureSourceClassInitialized();
       if (U == null) {
-         U = var2.createBuffer(ClientServices.label(() -> "Purxiy low fire"), 136, 6368L);
+         U = var2.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX low fire"), 136, 6368L);
          M = MemoryUtil.memAlloc(6368);
-         aY = var2.createTexture(() -> "Purxiy low fire blank", 5, TextureFormat.RGBA8, 1, 1, 1, 1);
+         aY = var2.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX low fire blank", 5, TextureFormat.RGBA8, 1, 1, 1, 1);
          H = var2.createTextureView(aY);
+         class_1011 var3 = new class_1011(1, 1, true);
 
-         try (class_1011 var3 = new class_1011(1, 1, true)) {
+         try {
             var2.createCommandEncoder().writeToTexture(aY, var3);
+         } catch (Throwable var7) {
+            try {
+               var3.close();
+            } catch (Throwable var6) {
+               var7.addSuppressed(var6);
+            }
+
+            throw var7;
          }
+
+         var3.close();
       }
    }
 
@@ -896,7 +727,7 @@ public final class LowFireRenderer {
 
          h = var2.createTexture(() -> {
             long var3x = var8 << 32 | (long)var10 << 32 >>> 32;
-            return "Purxiy low fire scene";
+            return "SourceByDevFFnightmare DeObfDeCompByGuideX low fire scene";
          }, 5, TextureFormat.RGBA8, var3, var4, 1, 1);
          F = var2.createTextureView(h);
          b = var3;
@@ -911,12 +742,12 @@ public final class LowFireRenderer {
       long var10 = var4 ^ 533690782549L;
       LowFireModule var12 = ak;
       boolean var13 = var12.enabled() && var12.o.enabled();
-      if (!var13 && !LowFireCache2.active()) {
+      if (!var13 && !LowFireLayerCache.active()) {
          return false;
       } else {
          try {
             LowFireCache var14 = var13 ? LowFireCache.Q : LowFireCache.j;
-            if (!var14.ensure(LowFireLoader.resolve(var12.R.get(), var12.c.argb()))) {
+            if (!var14.ensure(LowFireLoader.resolve((String)var12.R.get(), var12.c.argb()))) {
                return false;
             } else {
                long var15 = a(class_310.method_1551(), var10);
@@ -954,9 +785,9 @@ public final class LowFireRenderer {
 
                return true;
             }
-         } catch (Throwable var29) {
+         } catch (Throwable var291) {
             metric("draw_failures");
-            c(var8, var29);
+            c(var8, var291);
             return false;
          }
       }
@@ -985,7 +816,6 @@ public final class LowFireRenderer {
       t = 0;
    }
 
-   
    private static GpuQuery j(int var0, byte var1, int var2, CommandEncoder var3) {
       LowFireLoader.ensureSourceClassInitialized();
       if (d != null) {
@@ -1002,7 +832,7 @@ public final class LowFireRenderer {
          if (var5 == 240) {
             ClientServices.LOGGER
                .info(
-                  "Purxiy low fire: {} ms CPU, {} ms GPU per frame ({} embers, {})",
+                  "SourceByDevFFnightmare DeObfDeCompByGuideX low fire: {} ms CPU, {} ms GPU per frame ({} embers, {})",
                   new Object[]{String.format(Locale.ROOT, "%.3f", an / t), String.format(Locale.ROOT, "%.3f", Q / t), ar.count(), ak.E.get()}
                );
             Q = 0.0;
@@ -1018,22 +848,12 @@ public final class LowFireRenderer {
       LowFireLoader.ensureSourceClassInitialized();
       String var3 = var2.toString();
       long var4 = 137559961057007L;
-      if (137559961057007L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var9 = var4 < 0L ? -1 : 1;
-      }
-
-      long var7 = 137559961057007L;
-      if (137559961057007L == 0L) {
-         boolean var10 = false;
-      } else {
-         int var11 = var7 < 0L ? -1 : 1;
-      }
-
+      int var7 = var4 < 0L ? -1 : 1;
+      long var7x = 137559961057007L;
+      int var8 = var7x < 0L ? -1 : 1;
       if (!var3.equals(i)) {
          i = var3;
-         ClientServices.LOGGER.error("Purxiy low fire failed", var2);
+         ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX low fire failed", var2);
       }
    }
 
@@ -1157,7 +977,7 @@ public final class LowFireRenderer {
          M = null;
       }
 
-      LowFireCache2.release();
+      LowFireLayerCache.release();
       LowFireCache.release();
       Y();
       G = null;
@@ -1170,7 +990,7 @@ public final class LowFireRenderer {
       }
    }
 
-private static int a(int var0, long var1) {
+   private static int a(int var0, long var1) {
       int var3 = var0 ^ (int)(var1 & 32767L) ^ 19791;
       if (db[var3] == null) {
          db[var3] = (int)(cb[var3] ^ var1);
@@ -1178,5 +998,4 @@ private static int a(int var0, long var1) {
 
       return db[var3];
    }
-
 }

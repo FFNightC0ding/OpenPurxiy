@@ -1,9 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
-import java.nio.charset.StandardCharsets;
-
-public record MountData(String b, long k, String B, String N, String l, long H, long e, long X, MountData.TypeN a, int s, MountData.TypeQ O, int z) {
+public record MountData(String b, long k, String B, String N, String l, long H, long e, long X, MountData.MountType a, int s, MountData.MountCategory O, int z) {
    public static final int r = 1;
    public static int t = 2;
    public static int J = 4;
@@ -14,7 +11,7 @@ public record MountData(String b, long k, String B, String N, String l, long H, 
    public static int Z = 128;
 
    public boolean playing() {
-      return this.a == MountData.TypeN.w;
+      return this.a == MountData.MountType.w;
    }
 
    public boolean can(int var1) {
@@ -66,7 +63,7 @@ public record MountData(String b, long k, String B, String N, String l, long H, 
       return this.X;
    }
 
-   public MountData.TypeN status() {
+   public MountData.MountType status() {
       return this.a;
    }
 
@@ -74,7 +71,7 @@ public record MountData(String b, long k, String B, String N, String l, long H, 
       return this.s;
    }
 
-   public MountData.TypeQ repeat() {
+   public MountData.MountCategory repeat() {
       return this.O;
    }
 
@@ -114,7 +111,7 @@ public record MountData(String b, long k, String B, String N, String l, long H, 
       return this.X;
    }
 
-   public MountData.TypeN mediaPlaybackSnapshot_PlaybackStatusState1() {
+   public MountData.MountType mediaPlaybackSnapshot_PlaybackStatusState1() {
       return this.a;
    }
 
@@ -122,7 +119,7 @@ public record MountData(String b, long k, String B, String N, String l, long H, 
       return this.s;
    }
 
-   public MountData.TypeQ mediaPlaybackSnapshot_PlaybackRepeatModeState2() {
+   public MountData.MountCategory mediaPlaybackSnapshot_PlaybackRepeatModeState2() {
       return this.O;
    }
 
@@ -130,7 +127,7 @@ public record MountData(String b, long k, String B, String N, String l, long H, 
       return this.z;
    }
 
-public static enum TypeN {
+   public static enum MountType {
       k,
       q,
       M,
@@ -140,20 +137,19 @@ public static enum TypeN {
 
       private static final long a = -8291181520203284474L;
 
-      static MountData.TypeN of(int var0) {
-         MountData.TypeN[] var1 = values();
+      static MountData.MountType of(int var0) {
+         MountData.MountType[] var1 = values();
          return var0 >= 0 && var0 < var1.length ? var1[var0] : k;
       }
+   }
 
-}
-
-   public static enum TypeQ {
+   public static enum MountCategory {
       C,
       W,
       Q,
       w;
 
-      static MountData.TypeQ of(int var0) {
+      static MountData.MountCategory of(int var0) {
          return switch (var0) {
             case 0 -> C;
             case 1 -> W;
@@ -169,6 +165,5 @@ public static enum TypeN {
             default -> 0;
          };
       }
-
-}
+   }
 }

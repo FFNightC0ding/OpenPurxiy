@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonObject;
@@ -59,7 +58,7 @@ public final class OfflineBootstrap implements ModuleSource.Renewable {
                var5.invoke(null);
             }
 
-            System.out.println("[Purxiy Offline] Initialized 65 bundled modules; no account or integrity monitor created.");
+            System.out.println("[SourceByDevFFnightmare DeObfDeCompByGuideX/Offline] Initialized 65 bundled modules; no account or integrity monitor created.");
          }
       } catch (Exception var8) {
          throw new IllegalStateException("Offline module initialization failed", var8);
@@ -166,7 +165,7 @@ public final class OfflineBootstrap implements ModuleSource.Renewable {
             Constructor var13 = VerifiedModule.class.getDeclaredConstructor(ModuleSpec.class, Map.class);
             var13.setAccessible(true);
             VerifiedModule var14 = (VerifiedModule)var13.newInstance(var20, var6);
-            System.out.println("[Purxiy Offline] Loaded " + var1 + " (" + var6.size() + " entries)");
+            System.out.println("[SourceByDevFFnightmare DeObfDeCompByGuideX/Offline] Loaded " + var1 + " (" + var6.size() + " entries)");
             return new ModuleSource.Prepared(var14, Instant.MAX);
          }
       } else {

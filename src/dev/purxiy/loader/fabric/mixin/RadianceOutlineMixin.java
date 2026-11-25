@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry16;
+import dev.purxiy.loader.fabric.client.EntityMaskPipeline;
 import net.minecraft.class_1921;
 import net.minecraft.class_4588;
 import net.minecraft.class_4618;
@@ -22,7 +21,7 @@ public abstract class RadianceOutlineMixin {
       cancellable = true
    )
    private void purxiy$radianceMask(class_1921 var1, CallbackInfoReturnable<class_4588> var2) {
-      class_4588 var3 = ClientRegistry16.maskBuffer(this.field_61740, var1);
+      class_4588 var3 = EntityMaskPipeline.maskBuffer(this.field_61740, var1);
       if (var3 != null) {
          var2.setReturnValue(var3);
       }

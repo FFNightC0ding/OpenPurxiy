@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonElement;
@@ -9,7 +8,7 @@ import net.minecraft.class_310;
 import net.minecraft.class_3675;
 
 final class RuntimeInfo {
-   private static final Map<String, RuntimeInfo.TypeN> previous = new HashMap<>();
+   private static final Map<String, RuntimeInfo.KeyState> previous = new HashMap<>();
 
    private RuntimeInfo() {
    }
@@ -30,10 +29,10 @@ final class RuntimeInfo {
    }
 
    static boolean pressed(JsonObject var0, int var1, boolean var2, boolean var3) {
-      RuntimeInfo.TypeN var4 = previous.put(var0.get("id").getAsString(), new RuntimeInfo.TypeN(var1, var2));
+      RuntimeInfo.KeyState var4 = previous.put(var0.get("id").getAsString(), new RuntimeInfo.KeyState(var1, var2));
       return var3 && var1 > 0 && var2 && var4 != null && var4.key == var1 && !var4.down;
    }
 
-   private record TypeN(int key, boolean down) {
+   private record KeyState(int key, boolean down) {
    }
 }

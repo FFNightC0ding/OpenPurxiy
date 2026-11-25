@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import dev.purxiy.loader.fabric.client.ClientRegistry21;
+import dev.purxiy.loader.fabric.client.GuiRenderContext;
 import net.minecraft.class_2960;
 import net.minecraft.class_332;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +17,7 @@ public abstract class HomeGraphicsMixin {
       cancellable = true
    )
    private void purxiy$sprite(RenderPipeline var1, class_2960 var2, int var3, int var4, int var5, int var6, int var7, CallbackInfo var8) {
-      if (ClientRegistry21.active() && ClientRegistry21.sprite(var2, var3, var4, var5, var6, var7)) {
+      if (GuiRenderContext.active() && GuiRenderContext.sprite(var2, var3, var4, var5, var6, var7)) {
          var8.cancel();
       }
    }
@@ -44,7 +43,7 @@ public abstract class HomeGraphicsMixin {
       int var13,
       CallbackInfo var14
    ) {
-      if (ClientRegistry21.active() && ClientRegistry21.texture(var2, var3, var4, var7, var8)) {
+      if (GuiRenderContext.active() && GuiRenderContext.texture(var2, var3, var4, var7, var8)) {
          var14.cancel();
       }
    }
@@ -55,7 +54,7 @@ public abstract class HomeGraphicsMixin {
       cancellable = true
    )
    private void purxiy$fill(int var1, int var2, int var3, int var4, int var5, CallbackInfo var6) {
-      if (ClientRegistry21.active() && ClientRegistry21.fill((class_332)(Object)(Object)this, var1, var2, var3, var4, var5)) {
+      if (GuiRenderContext.active() && GuiRenderContext.fill((class_332)(Object)(Object)this, var1, var2, var3, var4, var5)) {
          var6.cancel();
       }
    }
@@ -65,7 +64,7 @@ public abstract class HomeGraphicsMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$scissor(int var1, int var2, int var3, int var4, CallbackInfo var5) {
-      ClientRegistry21.scissor((class_332)(Object)(Object)this, var1, var2, var3, var4);
+      GuiRenderContext.scissor((class_332)(Object)(Object)this, var1, var2, var3, var4);
    }
 
    @Inject(
@@ -73,6 +72,6 @@ public abstract class HomeGraphicsMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$unscissor(CallbackInfo var1) {
-      ClientRegistry21.unscissor();
+      GuiRenderContext.unscissor();
    }
 }

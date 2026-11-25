@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.interfacesettings;
 
 import dev.purxiy.anim.MotionStyle;

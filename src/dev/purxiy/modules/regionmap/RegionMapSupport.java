@@ -1,6 +1,4 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.regionmap;
-
 
 final class RegionMapSupport {
    static final int H = 9;
@@ -89,10 +87,9 @@ final class RegionMapSupport {
       {113, 1},
       {99, 0}
    };
-   private static final RegionMapSupport.TypeB[] V = RegionMapSupport.TypeB.values();
+   private static final RegionMapSupport.RegionTint[] V = RegionMapSupport.RegionTint.values();
    private static final String[] s = new String[u.length];
    private static final long[] a = new long[]{-2323577001082980541L, -4941031257273521820L, 5073049498542743047L};
-
 
    private RegionMapSupport() {
    }
@@ -113,17 +110,14 @@ final class RegionMapSupport {
       return inside(var0, var1) ? u[var1 * 9 + var0][0] : -1;
    }
 
-   
    static String number(int var0, int var1) {
       return inside(var0, var1) ? s[var1 * 9 + var0] : null;
    }
 
-   
-   static RegionMapSupport.TypeB host(int var0, int var1) {
+   static RegionMapSupport.RegionTint host(int var0, int var1) {
       return inside(var0, var1) ? V[u[var1 * 9 + var0][1]] : null;
    }
 
-   
    static RegionMapSupport.Data ahead(double var0, double var2, double var4, double var6) {
       long var8 = 49044442080899L;
       long var10 = var8 ^ 131486998344023L;
@@ -179,12 +173,12 @@ final class RegionMapSupport {
    }
 
    private static boolean N(int var0, char var1, int var2, int var3, short var4, int var5, int var6) {
-      RegionMapSupport.TypeB.ensureSourceClassInitialized();
+      RegionMapSupport.RegionTint.ensureSourceClassInitialized();
       boolean var7;
-      if (var0 < 0 && var5 < 0 || var0 >= 9 && var5 > 0) {
-         var7 = true;
-      } else {
+      if ((var0 >= 0 || var5 >= 0) && (var0 < 9 || var5 <= 0)) {
          var7 = false;
+      } else {
+         var7 = true;
       }
 
       int var9 = 1527594840;
@@ -200,7 +194,7 @@ final class RegionMapSupport {
       return var7 || var10;
    }
 
-record Data(int t, double l) {
+   record Data(int t, double l) {
       public int id() {
          return this.t;
       }
@@ -218,7 +212,7 @@ record Data(int t, double l) {
       }
    }
 
-   static enum TypeB {
+   static enum RegionTint {
       Z("EU Central", -3294977),
       D("EU West", -7509003),
       O("NA East", -7942913),
@@ -231,13 +225,12 @@ record Data(int t, double l) {
       public static boolean h;
       private static final long a = -114763995755315194L;
 
-      private TypeB(String nullxx, int nullxxx) {
+      private RegionTint(String nullxx, int nullxxx) {
          this.t = nullxx;
          this.A = nullxxx;
       }
 
       public static void ensureSourceClassInitialized() {
       }
-
-}
+   }
 }

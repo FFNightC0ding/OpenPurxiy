@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_761;
 import net.minecraft.class_9909;
 import net.minecraft.class_9960;
@@ -24,6 +23,6 @@ public abstract class AmbiencePassMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$ambience(class_9909 var1, GpuBufferSlice var2, CallbackInfo var3) {
-      ClientSupport3.particles(var1, this.field_53081, var2);
+      SkyPipelineRouter.particles(var1, this.field_53081, var2);
    }
 }

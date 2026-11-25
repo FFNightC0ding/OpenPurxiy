@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_10055;
 import net.minecraft.class_11890;
 import net.minecraft.class_1297;
@@ -9,7 +8,7 @@ import net.minecraft.class_1937;
 import net.minecraft.class_4184;
 
 public final class ClientTheme {
-   private static final ClientSupport3.TypeX<ClientTheme.Listener> controllers = ClientSupport3.TypeX.create();
+   private static final SkyPipelineRouter.PipelineList<ClientTheme.Listener> controllers = SkyPipelineRouter.PipelineList.create();
 
    private ClientTheme() {
    }

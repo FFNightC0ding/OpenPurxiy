@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.glass;
 
 import dev.purxiy.loader.fabric.mixin.ModelPartAccessor;
@@ -33,7 +32,6 @@ final class GlassSupport {
    private int[] k = new int[4096];
    private int m;
    private final List<GlassSupport.Data> C = new ArrayList<>();
-   
    private class_12337 b;
    private int X;
    private final Vector3f d = new Vector3f();
@@ -41,8 +39,6 @@ final class GlassSupport {
    private final float[] g = new float[8];
    private final float[] u = new float[12];
    private static final String a = "Sampler0";
-
-
 
    void reset() {
       this.m = 0;
@@ -124,7 +120,7 @@ final class GlassSupport {
       return var4 - var3 < var1 * 1.5F || var6 - var5 < var2 * 1.5F;
    }
 
-   void part(class_630 var1, class_4587 var2, class_1921 var3,  class_1058 var4, int var5, int var6, int var7, Set<class_630> var8) {
+   void part(class_630 var1, class_4587 var2, class_1921 var3, class_1058 var4, int var5, int var6, int var7, Set<class_630> var8) {
       long var9 = 6023474121718L;
       long var11 = var9 ^ 60943316319673L;
       long var13 = var9 ^ 54827609460357L;
@@ -133,13 +129,13 @@ final class GlassSupport {
       }
    }
 
-   private void I(class_630 var1, class_4587 var2,  long var3, class_1058 var5, int var6, int var7, int var8, Set var9) {
+   private void I(class_630 var1, class_4587 var2, long var3, class_1058 var5, int var6, int var7, int var8, Set var9) {
       long var11 = var3 ^ 41350059671109L;
       long var13 = var3 ^ 0L;
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       byte var15 = 0;
       if (var1.field_3665 && !var9.contains(var1)) {
-         ModelPartAccessor var16 = (ModelPartAccessor)(Object)(var1);
+         ModelPartAccessor var16 = (ModelPartAccessor)(Object)var1;
          if (var3 > 0L) {
             var2.method_22903();
             var1.method_22703(var2);
@@ -273,19 +269,14 @@ final class GlassSupport {
 
    private boolean U(long var1, class_1921 var3) {
       long var4 = 93486604797386L;
-      GlassRenderer4.ensureSourceClassInitialized();
-      class_12337 var6 = ((RenderTypeAccessor)var3).purxiy$setup().method_75926().get("Sampler0");
+      GlassStudioScreen.ensureSourceClassInitialized();
+      class_12337 var6 = (class_12337)((RenderTypeAccessor)var3).purxiy$setup().method_75926().get("Sampler0");
       if (var6 == null) {
          return false;
       } else {
          if (this.b != null) {
             long var7 = 55074561816143L;
-            if (55074561816143L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var10 = var7 < 0L ? -1 : 1;
-            }
-
+            int var9 = var7 < 0L ? -1 : 1;
             if (this.b.comp_5226() == var6.comp_5226()) {
                return true;
             }
@@ -299,15 +290,10 @@ final class GlassSupport {
    }
 
    private void p(long var1) {
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       if (this.b != null) {
          long var3 = 93486604797385L;
-         if (93486604797385L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var6 = var3 < 0L ? -1 : 1;
-         }
-
+         int var5 = var3 < 0L ? -1 : 1;
          if (this.m > this.X) {
             this.C.add(new GlassSupport.Data(this.b, this.X, this.m - this.X));
          }
@@ -318,7 +304,7 @@ final class GlassSupport {
 
    private void Y(float[] var1, long var2, float[] var4, Vector3f var5, int var6, int var7, int var8) {
       float var9 = Math.min(Math.min(var4[0], var4[2]), Math.min(var4[4], var4[6]));
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       float var10 = Math.max(Math.max(var4[0], var4[2]), Math.max(var4[4], var4[6]));
       float var11 = Math.min(Math.min(var4[1], var4[3]), Math.min(var4[5], var4[7]));
       float var12 = Math.max(Math.max(var4[1], var4[3]), Math.max(var4[5], var4[7]));
@@ -337,8 +323,8 @@ final class GlassSupport {
             this.k = Arrays.copyOf(this.k, var15);
          }
 
-         var13 = var7 & 255;
-         var14 = (var8 & 255) << 8;
+         var13 = var7 & 0xFF;
+         var14 = (var8 & 0xFF) << 8;
       }
 
       int var18 = var13 | var14;
@@ -363,7 +349,7 @@ final class GlassSupport {
       }
    }
 
-record Data(class_12337 Z, int q, int r) {
+   record Data(class_12337 Z, int q, int r) {
       public class_12337 texture() {
          return this.Z;
       }

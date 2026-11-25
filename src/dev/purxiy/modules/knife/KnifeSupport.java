@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import dev.purxiy.render.BlendMode;
@@ -10,9 +9,6 @@ import dev.purxiy.ui.Icons;
 import net.minecraft.class_3675.class_307;
 
 public final class KnifeSupport {
-
-
-
    private KnifeSupport() {
    }
 
@@ -68,5 +64,4 @@ public final class KnifeSupport {
          return var1.isEmpty() ? "Key " + var0 : var1;
       }
    }
-
 }

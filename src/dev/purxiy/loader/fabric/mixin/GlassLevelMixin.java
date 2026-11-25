@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import dev.purxiy.loader.fabric.client.ClientRegistry22;
+import dev.purxiy.loader.fabric.client.ItemRenderPipeline;
 import net.minecraft.class_4184;
 import net.minecraft.class_761;
 import net.minecraft.class_9779;
@@ -33,6 +32,6 @@ public abstract class GlassLevelMixin {
       boolean var10,
       CallbackInfo var11
    ) {
-      ClientRegistry22.beginFrame(var4, var5, var6, var8);
+      ItemRenderPipeline.beginFrame(var4, var5, var6, var8);
    }
 }

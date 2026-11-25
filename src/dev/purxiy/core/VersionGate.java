@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.core;
 
 import java.io.IOException;
@@ -12,10 +11,10 @@ public final class VersionGate {
    private VersionGate() {
    }
 
-   public static VersionGate.TypeV decode(byte[] var0, int var1) throws IOException {
+   public static VersionGate.PixelImage decode(byte[] var0, int var1) throws IOException {
       ByteBuffer var2 = MemoryUtil.memAlloc(var0.length);
 
-      VersionGate.TypeV var3;
+      VersionGate.PixelImage var3;
       try {
          MemoryStack var4 = MemoryStack.stackPush();
 
@@ -59,7 +58,7 @@ public final class VersionGate {
       return var3;
    }
 
-   static VersionGate.TypeV reduce(ByteBuffer var0, int var1, int var2, int var3) {
+   static VersionGate.PixelImage reduce(ByteBuffer var0, int var1, int var2, int var3) {
       int var4 = Math.max(1, var1 / var3);
       int var5 = Math.max(1, var2 / var3);
       int[] var6 = new int[var4 * var5];
@@ -90,10 +89,10 @@ public final class VersionGate {
          }
       }
 
-      return new VersionGate.TypeV(var4, var5, var6);
+      return new VersionGate.PixelImage(var4, var5, var6);
    }
 
-   static VersionGate.TypeV orient(VersionGate.TypeV var0, int var1) {
+   static VersionGate.PixelImage orient(VersionGate.PixelImage var0, int var1) {
       if (var1 >= 2 && var1 <= 8) {
          int var2 = var0.width();
          int var3 = var0.height();
@@ -140,7 +139,7 @@ public final class VersionGate {
             }
          }
 
-         return new VersionGate.TypeV(var5, var6, var7);
+         return new VersionGate.PixelImage(var5, var6, var7);
       } else {
          return var0;
       }
@@ -236,6 +235,6 @@ public final class VersionGate {
       return var3;
    }
 
-   public record TypeV(int width, int height, int[] argb) {
+   public record PixelImage(int width, int height, int[] argb) {
    }
 }

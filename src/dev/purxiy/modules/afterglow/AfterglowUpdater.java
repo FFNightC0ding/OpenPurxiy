@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.afterglow;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -80,10 +79,7 @@ final class AfterglowUpdater {
    private GpuQuery C;
    private double i;
    private int F;
-
    private static final String[] m = new String[13];
-
-
    private static final long[] r = new long[]{
       3101710184998666950L,
       2763186465275890826L,
@@ -209,12 +205,7 @@ final class AfterglowUpdater {
       AfterglowRenderer.ensureSourceClassInitialized();
       int var4 = --this.V;
       long var5 = 4561209926848L;
-      if (4561209926848L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       if (var3 != var4) {
          this.P[var3] = this.P[var4];
          this.s[var3] = this.s[var4];
@@ -245,22 +236,12 @@ final class AfterglowUpdater {
    private void U(long var1, int var3) {
       AfterglowRenderer.ensureSourceClassInitialized();
       long var4 = 116065074536731L;
-      if (116065074536731L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var11 = var4 < 0L ? -1 : 1;
-      }
-
-      int var7 = this.P.length;
+      int var7 = var4 < 0L ? -1 : 1;
+      var7 = this.P.length;
       long var8 = 116065074536732L;
-      if (116065074536732L == 0L) {
-         boolean var12 = false;
-      } else {
-         int var13 = var8 < 0L ? -1 : 1;
-      }
-
+      int var10 = var8 < 0L ? -1 : 1;
       if (var3 > var7) {
-         int var10 = Math.min(2400, Math.max(var3, this.P.length * 2));
+         var10 = Math.min(2400, Math.max(var3, this.P.length * 2));
          this.P = Arrays.copyOf(this.P, var10);
          this.s = Arrays.copyOf(this.s, var10);
          this.W = Arrays.copyOf(this.W, var10);
@@ -331,62 +312,38 @@ final class AfterglowUpdater {
 
       for (int var16 = 0; var16 < this.V; var16++) {
          long var17 = 15737840101826L;
-         if (15737840101826L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var33 = var17 < 0L ? -1 : 1;
-         }
-
-         float var20 = (float)(this.P[var16] - var10.field_1352);
+         int var20 = var17 < 0L ? -1 : 1;
+         float var20x = (float)(this.P[var16] - var10.field_1352);
          float var21 = (float)(this.s[var16] - var10.field_1351);
          float var22 = (float)(this.W[var16] - var10.field_1350);
-         float var23 = var20 * var12 + var21 * var13 + var22 * var14;
+         float var23 = var20x * var12 + var21 * var13 + var22 * var14;
          float var24;
-         int var25 = (var24 = var23 - ((float)Math.sqrt(var20 * var20 + var21 * var21 + var22 * var22) * 0.17F - 0.6F)) == 0.0F ? 0 : (var24 < 0.0F ? -1 : 1);
+         int var25 = (var24 = var23 - ((float)Math.sqrt(var20x * var20x + var21 * var21 + var22 * var22) * 0.17F - 0.6F)) == 0.0F ? 0 : (var24 < 0.0F ? -1 : 1);
          long var26 = 15737840101827L;
-         if (15737840101827L == 0L) {
-            boolean var34 = false;
-         } else {
-            int var35 = var26 < 0L ? -1 : 1;
-         }
-
+         int var28 = var26 < 0L ? -1 : 1;
          if (var25 < 0) {
-            long var28 = 15737840101826L;
-            if (15737840101826L == 0L) {
-               boolean var36 = false;
-            } else {
-               int var37 = var28 < 0L ? -1 : 1;
-            }
+            long var28x = 15737840101826L;
+            int var29 = var28x < 0L ? -1 : 1;
          } else {
             this.t[var15++] = (long)Float.floatToRawIntBits(Math.max(var23, 0.0F)) << 32 | var16;
          }
       }
 
       long var30 = 15737840101826L;
-      if (15737840101826L == 0L) {
-         boolean var38 = false;
-      } else {
-         int var39 = var30 < 0L ? -1 : 1;
-      }
-
+      int var19 = var30 < 0L ? -1 : 1;
       if (var15 == 0) {
          return 0;
       } else {
          Arrays.sort(this.t, 0, var15);
          this.x(var15, var6);
-         long var19 = MemoryUtil.memAddress(this.Y);
+         long var19x = MemoryUtil.memAddress(this.Y);
 
          for (int var31 = 0; var31 < var15; var31++) {
-            this.E(var19 + (long)var31 * Z, (int)this.t[var15 - 1 - var31], var10, var2, var5, var8);
+            this.E(var19x + (long)var31 * Z, (int)this.t[var15 - 1 - var31], var10, var2, var5, var8);
          }
 
          long var32 = 15737840101827L;
-         if (15737840101827L == 0L) {
-            boolean var40 = false;
-         } else {
-            int var41 = var32 < 0L ? -1 : 1;
-         }
-
+         int var35 = var32 < 0L ? -1 : 1;
          this.Y.clear().limit(var15 * Z);
          return var15;
       }
@@ -401,16 +358,11 @@ final class AfterglowUpdater {
       float var14 = this.L[var3];
       int var15 = var14 < 0.6F ? 0 : 3;
       long var16 = 16859927699754L;
-      if (16859927699754L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var48 = var16 < 0L ? -1 : 1;
-      }
-
-      float var19 = var14 < 0.6F ? var14 / 0.6F : (var14 - 0.6F) / 0.4F;
-      float var20 = var5[var15] + (var5[var15 + 3] - var5[var15]) * var19;
-      float var21 = var5[var15 + 1] + (var5[var15 + 4] - var5[var15 + 1]) * var19;
-      float var22 = var5[var15 + 2] + (var5[var15 + 5] - var5[var15 + 2]) * var19;
+      int var19 = var16 < 0L ? -1 : 1;
+      float var19x = var14 < 0.6F ? var14 / 0.6F : (var14 - 0.6F) / 0.4F;
+      float var20 = var5[var15] + (var5[var15 + 3] - var5[var15]) * var19x;
+      float var21 = var5[var15 + 1] + (var5[var15 + 4] - var5[var15 + 1]) * var19x;
+      float var22 = var5[var15 + 2] + (var5[var15 + 5] - var5[var15 + 2]) * var19x;
       float var23 = var11.M + (1.0F - var11.M) * 0.3F * (1.0F - AfterglowRegistry.smoothstep(0.0F, 0.3F, this.h[var3]));
       float var24 = var20 + (1.0F - var20) * var23;
       float var25 = var21 + (1.0F - var21) * var23;
@@ -419,30 +371,16 @@ final class AfterglowUpdater {
       float var28 = 1.0F;
       float var29 = 0.0F;
       long var30 = 16859927699753L;
-      if (16859927699753L == 0L) {
-         boolean var49 = false;
-      } else {
-         int var50 = var30 < 0L ? -1 : 1;
-      }
-
+      int var46 = var30 < 0L ? -1 : 1;
       switch (var11.m) {
          case 0:
             var28 = 1.0F - 0.3F * (0.5F + 0.5F * class_3532.method_15374(var27));
             long var33 = 16859927699754L;
-            if (16859927699754L == 0L) {
-               boolean var53 = false;
-            } else {
-               int var54 = var33 < 0L ? -1 : 1;
-            }
+            int var47 = var33 < 0L ? -1 : 1;
             break;
          case 1:
             long var35 = 16859927699754L;
-            if (16859927699754L == 0L) {
-               boolean var51 = false;
-            } else {
-               int var52 = var35 < 0L ? -1 : 1;
-            }
-
+            int var35x = var35 < 0L ? -1 : 1;
             var28 = 0.75F;
             var29 = 1.3F * (float)Math.pow(0.5F + 0.5F * class_3532.method_15374(var27 * 1.6F), 10.0);
             break;
@@ -450,44 +388,27 @@ final class AfterglowUpdater {
             var29 = 0.58F + 0.16F * this.q[var3];
       }
 
-      float var46 = this.Q[var3] * (1.0F - 0.35F * var12);
       long var34 = 16859927699754L;
-      if (16859927699754L == 0L) {
-         boolean var55 = false;
-      } else {
-         int var56 = var34 < 0L ? -1 : 1;
-      }
-
-      boolean var36 = var11.m == 2;
+      int var34x = var34 < 0L ? -1 : 1;
+      boolean var36x = var11.m == 2;
       MemoryUtil.memPutFloat(var1, (float)(this.P[var3] - var4.field_1352));
       long var37 = var1 + 4L;
       double var39 = this.s[var3];
       long var41 = 16859927699753L;
-      if (16859927699753L == 0L) {
-         boolean var57 = false;
-      } else {
-         int var58 = var41 < 0L ? -1 : 1;
-      }
-
+      int var41x = var41 < 0L ? -1 : 1;
       MemoryUtil.memPutFloat(var37, (float)(var39 - var4.field_1351));
       MemoryUtil.memPutFloat(var1 + 8L, (float)(this.W[var3] - var4.field_1350));
       MemoryUtil.memPutFloat(var1 + 12L, var46);
       MemoryUtil.memPutFloat(var1 + 16L, var11.m);
       var37 = var1 + 20L;
-      long var43 = 16859927699754L;
-      if (16859927699754L == 0L) {
-         boolean var59 = false;
-      } else {
-         int var60 = var43 < 0L ? -1 : 1;
-      }
-
+      long var43x = 16859927699754L;
       MemoryUtil.memPutFloat(var37, this.A[var3]);
       MemoryUtil.memPutFloat(var1 + 24L, this.q[var3]);
       MemoryUtil.memPutFloat(var1 + 28L, var29);
-      MemoryUtil.memPutFloat(var1 + 32L, var36 ? this.B[var3] : 0.0F);
-      MemoryUtil.memPutFloat(var1 + 36L, var36 ? this.f[var3] : 0.0F);
-      MemoryUtil.memPutFloat(var1 + 40L, var36 ? this.j[var3] : 0.0F);
-      MemoryUtil.memPutFloat(var1 + 44L, var36 ? this.g[var3] : 1.0F);
+      MemoryUtil.memPutFloat(var1 + 32L, var36x ? this.B[var3] : 0.0F);
+      MemoryUtil.memPutFloat(var1 + 36L, var36x ? this.f[var3] : 0.0F);
+      MemoryUtil.memPutFloat(var1 + 40L, var36x ? this.j[var3] : 0.0F);
+      MemoryUtil.memPutFloat(var1 + 44L, var36x ? this.g[var3] : 1.0F);
       J(var1 + 48L, var9, var24, var25, var26, var13 * var11.G * Math.min(var28, 1.0F));
       J(var1 + 52L, var9, var20, var21, var22, var13 * var11.T * var28);
       MemoryUtil.memCopy(var1, var1 + z, z);
@@ -512,12 +433,7 @@ final class AfterglowUpdater {
       if (this.Y != null) {
          int var5 = this.Y.capacity();
          long var6 = 35751434599794L;
-         if (35751434599794L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var11 = var6 < 0L ? -1 : 1;
-         }
-
+         int var8 = var6 < 0L ? -1 : 1;
          if (var5 >= var4) {
             return;
          }
@@ -525,12 +441,7 @@ final class AfterglowUpdater {
 
       int var9 = Math.max(var4, this.Y == null ? 64 * Z : this.Y.capacity() * 2);
       long var10 = 35751434599793L;
-      if (35751434599793L == 0L) {
-         boolean var12 = false;
-      } else {
-         int var13 = var10 < 0L ? -1 : 1;
-      }
-
+      int var11 = var10 < 0L ? -1 : 1;
       this.Y = this.Y == null ? MemoryUtil.memAlloc(var9) : MemoryUtil.memRealloc(this.Y, var9);
    }
 
@@ -568,30 +479,36 @@ final class AfterglowUpdater {
          try {
             var23 = true;
             long var24 = 132798992448439L;
-            if (132798992448439L == 0L) {
-               boolean var43 = false;
-            } else {
-               int var44 = var24 < 0L ? -1 : 1;
-            }
+            int var27 = var24 < 0L ? -1 : 1;
+            RenderPass var27x = var17.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX afterglow", var14, OptionalInt.empty());
 
-            try (RenderPass var27 = var17.createRenderPass(() -> "Purxiy afterglow", var14, OptionalInt.empty())) {
-               var27.setPipeline(SkyPipelines.AMBIENCE);
-               RenderSystem.bindDefaultUniforms(var27);
+            try {
+               var27x.setPipeline(SkyPipelines.AMBIENCE);
+               RenderSystem.bindDefaultUniforms(var27x);
                long var28 = 132798992448439L;
-               if (132798992448439L == 0L) {
-                  boolean var45 = false;
-               } else {
-                  int var46 = var28 < 0L ? -1 : 1;
+               int var26x = var28 < 0L ? -1 : 1;
+               var27x.setUniform("DynamicTransforms", var19);
+               var27x.setUniform("PurxiyAmbience", this.J);
+               var27x.bindTexture("DepthSampler", var40, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+               var26x = 1396360185;
+               var27x.setVertexBuffer(0, this.G);
+               var27x.setIndexBuffer(var21, var20.method_31924());
+               var27x.drawIndexed(0, 0, var3 * 6, 1);
+               AfterglowRegistry.metric("drawn");
+            } catch (Throwable var36) {
+               if (var27x != null) {
+                  try {
+                     var27x.close();
+                  } catch (Throwable var35) {
+                     var36.addSuppressed(var35);
+                  }
                }
 
-               var27.setUniform("DynamicTransforms", var19);
-               var27.setUniform("PurxiyAmbience", this.J);
-               var27.bindTexture("DepthSampler", var40, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-               int var26 = 1396360185;
-               var27.setVertexBuffer(0, this.G);
-               var27.setIndexBuffer(var21, var20.method_31924());
-               var27.drawIndexed(0, 0, var3 * 6, 1);
-               AfterglowRegistry.metric("drawn");
+               throw var36;
+            }
+
+            if (var27x != null) {
+               var27x.close();
             }
          } finally {
             if (var23 && var22 != null) {
@@ -604,19 +521,14 @@ final class AfterglowUpdater {
             var17.timerQueryEnd(var22);
             this.C = var22;
          }
-      } catch (Throwable var39) {
+      } catch (Throwable var38) {
          AfterglowRegistry.metric("draw_failures");
-         String var15 = var39.toString();
+         String var15 = var38.toString();
          long var16 = 132798992448439L;
-         if (132798992448439L == 0L) {
-            boolean var42 = false;
-         } else {
-            int var10000 = var16 < 0L ? -1 : 1;
-         }
-
+         int var18 = var16 < 0L ? -1 : 1;
          if (!var15.equals(this.K)) {
             this.K = var15;
-            ClientServices.LOGGER.error("Purxiy afterglow failed to draw its light", var39);
+            ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX afterglow failed to draw its light", var38);
          }
       }
    }
@@ -624,28 +536,18 @@ final class AfterglowUpdater {
    private void w(GpuDevice var1, long var2, int var4) {
       AfterglowRenderer.ensureSourceClassInitialized();
       if (this.J == null) {
-         this.J = var1.createBuffer(ClientServices.label(() -> "Purxiy afterglow uniforms"), 136, 48L);
+         this.J = var1.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX afterglow uniforms"), 136, 48L);
          this.M = MemoryUtil.memAlloc(48);
       }
 
       if (this.G != null) {
          long var5 = this.G.size();
          long var7 = 41541732366792L;
-         if (41541732366792L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var20 = var7 < 0L ? -1 : 1;
-         }
-
+         int var19 = var7 < 0L ? -1 : 1;
          long var10;
          int var12 = (var10 = var5 - var4) == 0L ? 0 : (var10 < 0L ? -1 : 1);
          long var13 = 41541732366791L;
-         if (41541732366791L == 0L) {
-            boolean var21 = false;
-         } else {
-            int var22 = var13 < 0L ? -1 : 1;
-         }
-
+         int var14 = var13 < 0L ? -1 : 1;
          if (var12 >= 0) {
             return;
          }
@@ -654,32 +556,18 @@ final class AfterglowUpdater {
       long var16;
       for (var16 = 32768L; var16 < var4; var16 <<= 1) {
          long var17 = 41541732366791L;
-         if (41541732366791L == 0L) {
-            boolean var23 = false;
-         } else {
-            int var24 = var17 < 0L ? -1 : 1;
-         }
+         int var191 = var17 < 0L ? -1 : 1;
       }
 
       long var18 = 41541732366791L;
-      if (41541732366791L == 0L) {
-         boolean var25 = false;
-      } else {
-         int var26 = var18 < 0L ? -1 : 1;
-      }
-
+      int var20 = var18 < 0L ? -1 : 1;
       long var19 = 41541732366791L;
-      if (41541732366791L == 0L) {
-         boolean var27 = false;
-      } else {
-         int var28 = var19 < 0L ? -1 : 1;
-      }
-
+      int var22 = var19 < 0L ? -1 : 1;
       if (this.G != null) {
          this.G.close();
       }
 
-      this.G = var1.createBuffer(ClientServices.label(() -> "Purxiy afterglow vertices"), 40, var16);
+      this.G = var1.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX afterglow vertices"), 40, var16);
    }
 
    void setTiming(boolean var1) {
@@ -704,7 +592,7 @@ final class AfterglowUpdater {
          if (++this.F == 120) {
             ClientServices.LOGGER
                .info(
-                  "Purxiy afterglow: {} ms GPU per frame for its light ({} motes, {} drawn)",
+                  "SourceByDevFFnightmare DeObfDeCompByGuideX afterglow: {} ms GPU per frame for its light ({} motes, {} drawn)",
                   new Object[]{String.format(Locale.ROOT, "%.3f", this.i / this.F), this.V, this.N}
                );
             this.i = 0.0;
@@ -773,7 +661,7 @@ final class AfterglowUpdater {
       }
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 32557) & 32767;
       if (x[var3] == null) {
          x[var3] = r[var3] ^ var1;
@@ -781,5 +669,4 @@ private static long b(int var0, long var1) {
 
       return x[var3];
    }
-
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.nametags;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -7,8 +6,8 @@ import com.mojang.blaze3d.textures.GpuTextureView;
 import dev.purxiy.anim.MotionStyle;
 import dev.purxiy.i18n.Translations;
 import dev.purxiy.loader.fabric.UiAudioPolicy;
-import dev.purxiy.loader.fabric.client.ClientRegistry14;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.NameDecorationProvider;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import dev.purxiy.render.BlendMode;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.render.font.FontStyle;
@@ -17,6 +16,7 @@ import dev.purxiy.render.font.Fonts;
 import dev.purxiy.ui.DrawContext;
 import dev.purxiy.ui.Icons;
 import dev.purxiy.ui.Theme;
+import dev.purxiy.ui.DrawContext.Cursor;
 import java.util.Objects;
 import net.minecraft.class_1044;
 import net.minecraft.class_1068;
@@ -38,8 +38,8 @@ public final class NameTagsRenderer {
    private static final float N = 4.6F;
    private final NameTagsModule B;
    private final Object[] p = new Object[]{new Object(), new Object(), new Object()};
-   private final TagPainter.TypeQ k = new TagPainter.TypeQ();
-   private final TagPainter.TypeO S = new TagPainter.TypeO();
+   private final TagPainter.TagPlate k = new TagPainter.TagPlate();
+   private final TagPainter.TagGroup S = new TagPainter.TagGroup();
    private class_2561 V = class_2561.method_43473();
    private int v = -1;
    private float q;
@@ -47,8 +47,6 @@ public final class NameTagsRenderer {
    private float g;
    private float i;
    private boolean l;
-
-
    private static final long[] c = new long[]{
       9033344014912087832L,
       -8859085131404847042L,
@@ -100,7 +98,7 @@ public final class NameTagsRenderer {
          float var17 = var2 + var16 * (var15 + 8.0F);
          float var18 = var3 + 51.0F;
          boolean var19 = this.B.G.is(u[var16]);
-         boolean var20 = var5 && var1.hover(this.p[var16], var17, var18, var15, 156.0F, DrawContext.TypeE.HAND);
+         boolean var20 = var5 && var1.hover(this.p[var16], var17, var18, var15, 156.0F, Cursor.HAND);
          var14.roundRect(var17, var18, var15, 156.0F, 10.0F, var19 ? Theme.tint(-13623231) : (var20 ? Theme.tint(-14542287) : Theme.tint(-15725540)));
          this.v(var14, var17 + 3.0F, var18 + 3.0F, var15 - 6.0F, 129.0F, var16, var12);
       }
@@ -159,135 +157,81 @@ public final class NameTagsRenderer {
    }
 
    private void K(long var1) {
-      long var4 = 108876467931808L;
-      NameTagsModule var6 = this.B;
-      TagPainter.ensureSourceClassInitialized();
-      class_310 var7 = class_310.method_1551();
-      class_746 var8 = var7.field_1724;
-      class_2561 var9 = ClientRegistry14.own((class_2561)(var8 != null ? var8.method_5476() : class_2561.method_43470(var7.method_1548().method_1676())));
-      boolean var10 = var6.f.is("Minecraft");
-      int var11 = ClientRegistry5.generation();
-      short var12 = 23973;
-      long var13 = 51072277865404L;
-      if (51072277865404L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var37 = var13 < 0L ? -1 : 1;
-      }
-
-      var11 *= 31;
-      long var16 = 51072277865404L;
-      if (51072277865404L == 0L) {
-         boolean var38 = false;
-      } else {
-         int var39 = var16 < 0L ? -1 : 1;
-      }
-
-      int var18 = var11 * 31 + (var6.Q.enabled() ? 31 : 0) + (var10 ? 1 : 0);
-      long var19 = 51072277865404L;
-      if (51072277865404L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var19 < 0L ? -1 : 1;
-      }
-
-      long var21 = 51072277865405L;
-      if (51072277865405L == 0L) {
-         boolean var42 = false;
-      } else {
-         int var43 = var21 < 0L ? -1 : 1;
-      }
-
-      label180: {
+      long var4;
+      NameTagsModule var6;
+      label141: {
+         var4 = 108876467931808L;
+         var6 = this.B;
+         TagPainter.ensureSourceClassInitialized();
+         class_310 var7 = class_310.method_1551();
+         class_746 var8 = var7.field_1724;
+         class_2561 var9 = NameDecorationProvider.own((class_2561)(var8 != null ? var8.method_5476() : class_2561.method_43470(var7.method_1548().method_1676())));
+         boolean var10 = var6.f.is("Minecraft");
+         int var11 = TabListProvider.generation();
+         short var12 = 23973;
+         long var13 = 51072277865404L;
+         int var16 = var13 < 0L ? -1 : 1;
+         var11 *= 31;
+         long var16x = 51072277865404L;
+         int var18 = var16x < 0L ? -1 : 1;
+         var18 = var11 * 31 + (var6.Q.enabled() ? 31 : 0) + (var10 ? 1 : 0);
+         long var19 = 51072277865404L;
+         int var19x = var19 < 0L ? -1 : 1;
+         long var21x = 51072277865405L;
          if (var18 == this.v && Objects.equals(var9, this.V)) {
             long var23 = 51072277865404L;
-            if (51072277865404L == 0L) {
-               boolean var44 = false;
-            } else {
-               int var45 = var23 < 0L ? -1 : 1;
-            }
-
+            int var23x = var23 < 0L ? -1 : 1;
             if (this.k.g != null) {
-               long var25 = 51072277865404L;
-               if (51072277865404L == 0L) {
-                  boolean var46 = false;
-               } else {
-                  int var47 = var25 < 0L ? -1 : 1;
-               }
-
+               long var25x = 51072277865404L;
                if (!this.k.g.stale()) {
-                  break label180;
+                  break label141;
                }
             }
          }
 
          this.v = var18;
          this.V = var9;
-         this.k.g = NameTagsRenderer3.of(var9, 9.0F, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, var6.Q.enabled(), var10);
-         this.k.m = NameTagsRenderer3.of(class_2561.method_43470(Translations.tr("Level 42")), 7.0F, Fonts.MEDIUM, Fonts.SEMIBOLD, Icons.TEXT_2, false, var10);
-         TagPainter.TypeO.TypeC var35 = new TagPainter.TypeO.TypeC();
-         var35.r = NameTagsRenderer3.of(class_2561.method_43471("item.minecraft.diamond_sword"), 8.0F, Fonts.MEDIUM, Fonts.SEMIBOLD, Icons.TEXT, true, var10);
+         this.k.g = NameTagsPlate.of(var9, 9.0F, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, var6.Q.enabled(), var10);
+         this.k.m = NameTagsPlate.of(class_2561.method_43470(Translations.tr("Level 42")), 7.0F, Fonts.MEDIUM, Fonts.SEMIBOLD, Icons.TEXT_2, false, var10);
+         TagPainter.TagGroup.TagEntry var35 = new TagPainter.TagGroup.TagEntry();
+         var35.r = NameTagsPlate.of(class_2561.method_43471("item.minecraft.diamond_sword"), 8.0F, Fonts.MEDIUM, Fonts.SEMIBOLD, Icons.TEXT, true, var10);
          var35.X = -8394766;
          var35.t = true;
          this.S.O.clear();
          this.S.O.add(var35);
       }
 
-      TagPainter.TypeQ var27 = this.k;
+      TagPainter.TagPlate var27 = this.k;
       var27.r = var6.d.enabled() ? Q(var4) : null;
       long var28 = 51072277865404L;
-      if (51072277865404L == 0L) {
-         boolean var48 = false;
-      } else {
-         int var49 = var28 < 0L ? -1 : 1;
-      }
-
+      int var32 = var28 < 0L ? -1 : 1;
       if (!var6.s.enabled()) {
          var27.m = null;
       } else if (var27.m == null) {
          this.v = -1;
       }
 
-      float var32 = this.i % 4.6F;
-      long var14 = 51072277865404L;
-      if (51072277865404L == 0L) {
-         boolean var50 = false;
-      } else {
-         int var51 = var14 < 0L ? -1 : 1;
-      }
-
-      float var30 = var32 < 1.2F ? 0.9F : (var32 < 3.0F ? 0.55F : 0.55F + 0.35F * NameTagsSupport2.clamp01((var32 - 3.0F) / 1.2F));
-      float var31 = var32 - 1.2F;
-      boolean var17 = var6.w.is("Off");
-      long var34 = 51072277865404L;
-      if (51072277865404L == 0L) {
-         boolean var52 = false;
-      } else {
-         int var53 = var34 < 0L ? -1 : 1;
-      }
-
-      var27.R = var17 ? 0 : (var6.w.is("Bar") ? 1 : 2);
-      var27.u = var30;
-      long var20 = 51072277865405L;
-      if (51072277865405L == 0L) {
-         boolean var54 = false;
-      } else {
-         int var55 = var20 < 0L ? -1 : 1;
-      }
-
+      float var31;
+      float var30;
       float var3;
-      label170: {
+      label131: {
+         float var32x = this.i % 4.6F;
+         long var14 = 51072277865404L;
+         int var30x = var14 < 0L ? -1 : 1;
+         var30 = var32x < 1.2F ? 0.9F : (var32x < 3.0F ? 0.55F : 0.55F + 0.35F * NameTagsHealth.clamp01((var32x - 3.0F) / 1.2F));
+         var31 = var32x - 1.2F;
+         boolean var17 = var6.w.is("Off");
+         long var34 = 51072277865404L;
+         var27.R = var17 ? 0 : (var6.w.is("Bar") ? 1 : 2);
+         var27.u = var30;
+         long var20x = 51072277865405L;
+         int var3x = var20x < 0L ? -1 : 1;
          if (var31 >= 0.0F) {
             long var36 = 51072277865405L;
-            if (51072277865405L == 0L) {
-               boolean var56 = false;
-            } else {
-               int var57 = var36 < 0L ? -1 : 1;
-            }
-
+            int var37 = var36 < 0L ? -1 : 1;
             if (var31 < 1.2F) {
-               var3 = 0.9F - 0.35F * NameTagsSupport2.clamp01((var31 - 0.4F) / 0.6F);
-               break label170;
+               var3 = 0.9F - 0.35F * NameTagsHealth.clamp01((var31 - 0.4F) / 0.6F);
+               break label131;
             }
          }
 
@@ -295,24 +239,14 @@ public final class NameTagsRenderer {
       }
 
       var27.P = var3;
-      var13 = 51072277865405L;
-      if (51072277865405L == 0L) {
-         boolean var58 = false;
-      } else {
-         int var59 = var13 < 0L ? -1 : 1;
-      }
-
+      long var39 = 51072277865405L;
+      int var52 = var39 < 0L ? -1 : 1;
       var27.W = 0.0F;
       var27.z = var30 * 20.0F;
       var27.U = false;
       var27.o = false;
       long var15 = 51072277865404L;
-      if (51072277865404L == 0L) {
-         boolean var60 = false;
-      } else {
-         int var61 = var15 < 0L ? -1 : 1;
-      }
-
+      int var54 = var15 < 0L ? -1 : 1;
       var27.s = var31 >= 0.0F && var31 < 0.5F ? 1.0F - var31 / 0.5F : 0.0F;
       TagPainter.measure(var27);
       TagPainter.measure(this.S);
@@ -332,23 +266,13 @@ public final class NameTagsRenderer {
          float var13 = var3 + 129.0F * (0.12F + 0.07F * (var11 * 7 % 4));
          float var14 = 0.35F + 0.3F * (float)Math.sin(this.i * 1.7F + var11 * 1.9F);
          long var15 = 116457161890919L;
-         if (116457161890919L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var19 = var15 < 0L ? -1 : 1;
-         }
-
+         int var17 = var15 < 0L ? -1 : 1;
          var1.circle(var12, var13, 0.7F, BlendMode.withAlpha(-1, var14 * (0.4F + 0.3F * var6)));
       }
 
       var1.roundRect(var2 - 20.0F, var3 + 129.0F - 30.0F, var4 * 0.6F, 40.0F, 20.0F, Theme.tint(-11847048));
       long var18 = 116457161890920L;
-      if (116457161890920L == 0L) {
-         boolean var20 = false;
-      } else {
-         int var21 = var18 < 0L ? -1 : 1;
-      }
-
+      int var19 = var18 < 0L ? -1 : 1;
       var1.roundRect(var2 + var4 * 0.42F, var3 + 129.0F - 26.0F, var4 * 0.75F, 40.0F, 22.0F, Theme.tint(-12635800));
       var1.roundRectGradient(var2, var3 + 129.0F - 16.0F, var4, 16.0F, 0.0F, 90.0F, -12821953, -14535649);
       var1.rect(var2, var3 + 129.0F - 16.0F, var4, 1.0F, 864673931);
@@ -400,42 +324,17 @@ public final class NameTagsRenderer {
       TagPainter.ensureSourceClassInitialized();
       float var15 = var5 ? 32.0F : 64.0F;
       long var16 = 134635640963705L;
-      if (134635640963705L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var32 = var16 < 0L ? -1 : 1;
-      }
-
-      long var19 = 134635640963705L;
-      if (134635640963705L == 0L) {
-         boolean var33 = false;
-      } else {
-         int var34 = var19 < 0L ? -1 : 1;
-      }
-
+      int var19 = var16 < 0L ? -1 : 1;
+      long var19x = 134635640963705L;
+      int var30 = var19x < 0L ? -1 : 1;
       if (var5) {
          long var21 = 134635640963704L;
-         if (134635640963704L == 0L) {
-            boolean var35 = false;
-         } else {
-            int var36 = var21 < 0L ? -1 : 1;
-         }
-
+         int var23 = var21 < 0L ? -1 : 1;
          long var24 = 134635640963705L;
-         if (134635640963705L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var24 < 0L ? -1 : 1;
-         }
-
+         int var24x = var24 < 0L ? -1 : 1;
          if (var11 >= 32) {
             long var26 = 134635640963704L;
-            if (134635640963704L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var26 < 0L ? -1 : 1;
-            }
-
+            int var35 = var26 < 0L ? -1 : 1;
             var10 = var10 == 20 ? 4 : 44;
             byte var28 = 20;
             var2.image(
@@ -457,18 +356,13 @@ public final class NameTagsRenderer {
          }
       }
 
-      float var30 = var8 * var14;
+      float var30x = var8 * var14;
       float var22 = var9 * var14;
       float var23 = var10 / 64.0F;
       float var31 = var11;
       long var25 = 134635640963705L;
-      if (134635640963705L == 0L) {
-         boolean var39 = false;
-      } else {
-         int var40 = var25 < 0L ? -1 : 1;
-      }
-
-      var2.image(var3, var4, false, var6, var7, var30, var22, var23, var31 / var15, (var10 + var8) / 64.0F, (var11 + var9) / var15, 0.0F, -1);
+      int var28 = var25 < 0L ? -1 : 1;
+      var2.image(var3, var4, false, var6, var7, var30x, var22, var23, var31 / var15, (var10 + var8) / 64.0F, (var11 + var9) / var15, 0.0F, -1);
       if (!var5 || var13 < 32) {
          var2.image(
             var3, var4, false, var6, var7, var8 * var14, var9 * var14, var12 / 64.0F, var13 / var15, (var12 + var8) / 64.0F, (var13 + var9) / var15, 0.0F, -1
@@ -480,15 +374,9 @@ public final class NameTagsRenderer {
       TagPainter.ensureSourceClassInitialized();
       class_310 var2 = class_310.method_1551();
       long var3 = 108876467931807L;
-      if (108876467931807L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var6 = var3 < 0L ? -1 : 1;
-      }
-
+      int var5 = var3 < 0L ? -1 : 1;
       return var2.field_1724 != null
          ? var2.field_1724.method_52814().comp_1626().comp_3627()
          : class_1068.method_4648(var2.method_1548().method_44717()).comp_1626().comp_3627();
    }
-
 }

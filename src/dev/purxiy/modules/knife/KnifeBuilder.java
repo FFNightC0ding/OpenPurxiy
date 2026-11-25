@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import java.util.ArrayList;
@@ -150,12 +149,12 @@ public final class KnifeBuilder {
       }
    }
 
-   static final class TypeB {
+   static final class KnifeMeshBuilder {
       final List<KnifeBuilder.Data> y = new ArrayList<>();
       float w = 0.85F;
       int Y = 3;
 
-      KnifeBuilder.TypeB material(float var1) {
+      KnifeBuilder.KnifeMeshBuilder material(float var1) {
          this.w = var1;
          this.Y = var1 < 0.5F ? 2 : 3;
          return this;

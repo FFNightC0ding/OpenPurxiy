@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;
@@ -41,7 +40,7 @@ public final class ModeButton {
    public ModeButton(NumberSetting var1) {
       this.setting = var1;
       this.auto = var1.min() < 1.0;
-      this.inventory = var1.slots() == NumberSetting.TypeO.INVENTORY;
+      this.inventory = var1.slots() == NumberSetting.TargetSlot.INVENTORY;
       this.count = this.inventory ? 36 : 9;
       this.hover = new Animator[this.count + 1];
 
@@ -100,7 +99,7 @@ public final class ModeButton {
          float var15 = this.cellX[var14];
          float var16 = this.cellY[var14];
          float var17 = this.cellW[var14];
-         boolean var18 = var5 && var1.hover(this.hover[var14], var15, var16, var17, var4, DrawContext.TypeE.HAND);
+         boolean var18 = var5 && var1.hover(this.hover[var14], var15, var16, var17, var4, DrawContext.Cursor.HAND);
          float var19 = this.hover[var14].target(var18 && var14 != var21 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          var13[var14] = var19;
          float var20 = var14 == 0 ? var4 / 2.0F : 6.0F;

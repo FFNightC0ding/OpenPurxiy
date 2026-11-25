@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.trail;
 
 public enum TrailStyle {
@@ -40,5 +39,4 @@ public enum TrailStyle {
    boolean atHips() {
       return this == q || this == Y;
    }
-
 }

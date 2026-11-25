@@ -1,7 +1,4 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.nick;
-
-import java.nio.charset.StandardCharsets;
 
 record NickHiderData(int h, int Y, int G) {
    static final int X = 1;
@@ -50,5 +47,4 @@ record NickHiderData(int h, int Y, int G) {
    public int integerState18() {
       return this.G;
    }
-
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonObject;
@@ -30,7 +29,7 @@ final class LinkAccountScreen extends class_437 {
    private long pageRevision;
 
    LinkAccountScreen() {
-      super(class_2561.method_43470("Purxiy"));
+      super(class_2561.method_43470("SourceByDevFFnightmare DeObfDeCompByGuideX"));
    }
 
    @Override

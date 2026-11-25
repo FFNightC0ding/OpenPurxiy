@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_10055;
 import net.minecraft.class_1007;
 import net.minecraft.class_11890;
@@ -20,7 +19,7 @@ public abstract class MountAvatarMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$mountState(class_11890 var1, class_10055 var2, float var3, CallbackInfo var4) {
-      ClientRenderer5.avatarState(var1, var2, var3);
+      CameraStateReader.avatarState(var1, var2, var3);
    }
 
    @Inject(
@@ -29,7 +28,7 @@ public abstract class MountAvatarMixin {
       cancellable = true
    )
    private void purxiy$mountSeat(class_10055 var1, CallbackInfoReturnable<class_243> var2) {
-      var2.setReturnValue(ClientRenderer5.avatarOffset(var1, (class_243)var2.getReturnValue()));
+      var2.setReturnValue(CameraStateReader.avatarOffset(var1, (class_243)var2.getReturnValue()));
    }
 
    @Inject(
@@ -37,6 +36,6 @@ public abstract class MountAvatarMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$mountAttitude(class_10055 var1, class_4587 var2, float var3, float var4, CallbackInfo var5) {
-      ClientRenderer5.avatarAttitude(var1, var2);
+      CameraStateReader.avatarAttitude(var1, var2);
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.profile;
 
 import java.time.DayOfWeek;
@@ -9,8 +8,6 @@ import java.util.Random;
 final class ProfileFactory {
    static final boolean c = true;
    private static final LocalDate F = LocalDate.of(2026, 9, 27);
-
-
    private static final long[] d = new long[]{
       -2511230367586225631L,
       -419131040538956975L,
@@ -23,7 +20,6 @@ final class ProfileFactory {
       -7708988612846481883L,
       6560048767537021411L
    };
-
 
    private ProfileFactory() {
    }
@@ -41,7 +37,7 @@ final class ProfileFactory {
       var5.D = F.minusDays(73L);
       var5.w = true;
       var5.q = 4;
-      ProfileLoader3 var6 = var5.E;
+      ProfileStats var6 = var5.E;
       var6.A = 348060.0;
       var6.j = 88400.0;
       var6.B = 61200.0;
@@ -72,7 +68,7 @@ final class ProfileFactory {
             }
 
             var10 = Math.max(0.2, var12);
-            ProfileLoader3 var14 = var5.day(var8);
+            ProfileStats var14 = var5.day(var8);
             var14.A = var10 * 3600.0;
             double var15 = 1.1 + var4.nextFloat() * 1.4;
             double var17 = var14.A * var15;
@@ -90,9 +86,9 @@ final class ProfileFactory {
             var14.g = var4.nextFloat() < 0.5F ? 1 + var4.nextInt(2) : 0;
             var14.L = (int)(var10 * (2 + var4.nextInt(7)));
             long var19 = var8.atTime(19, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-            String var21 = var4.nextFloat() < 0.55F ? "Hypixel" : (var4.nextFloat() < 0.6F ? "Purxiy SMP" : "Aurora");
-            var5.addSession(new ProfileLoader.TypeQ(var19, var21, var14.copy()));
-            ProfileLoader.TypeB var22 = var5.place(var21.toLowerCase(), var21);
+            String var21 = var4.nextFloat() < 0.55F ? "Hypixel" : (var4.nextFloat() < 0.6F ? "SourceByDevFFnightmare DeObfDeCompByGuideX SMP" : "Aurora");
+            var5.addSession(new ProfileLoader.ProfileCacheEntry(var19, var21, var14.copy()));
+            ProfileLoader.ProfileRecord var22 = var5.place(var21.toLowerCase(), var21);
             var22.v = var22.v + var14.A;
          }
       }
@@ -103,8 +99,8 @@ final class ProfileFactory {
       return var5;
    }
 
-   static ProfileLoader.TypeQ live(ProfileLoader var0) {
-      ProfileLoader3 var1 = var0.c.get(F).copy();
+   static ProfileLoader.ProfileCacheEntry live(ProfileLoader var0) {
+      ProfileStats var1 = var0.c.get(F).copy();
       double var2 = var0.n == null ? 1.0 : var0.n.length() / Math.max(1.0, var1.distance());
       var1.j *= var2;
       var1.B *= var2;
@@ -113,13 +109,13 @@ final class ProfileFactory {
       var1.y *= var2;
       var1.d *= var2;
       long var4 = F.atTime(20, 12).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-      return new ProfileLoader.TypeQ(var4, "Purxiy SMP", var1);
+      return new ProfileLoader.ProfileCacheEntry(var4, "SourceByDevFFnightmare DeObfDeCompByGuideX SMP", var1);
    }
 
-   private static ProfileLoader2 c(long var0, Random var2) {
+   private static ProfileTrack c(long var0, Random var2) {
       ProfileLoader.ensureSourceClassInitialized();
       long var3 = F.atTime(20, 12).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-      ProfileLoader2 var5 = new ProfileLoader2(var3, "Purxiy SMP");
+      ProfileTrack var5 = new ProfileTrack(var3, "SourceByDevFFnightmare DeObfDeCompByGuideX SMP");
       String var6 = "minecraft:overworld";
       double var7 = 214.0;
       double var9 = -96.0;
@@ -129,80 +125,39 @@ final class ProfileFactory {
       for (int var14 = 0; var14 < 520; var14++) {
          var11 += Math.sin(var14 * 0.045) * 0.06 + var2.nextGaussian() * 0.05;
          long var15 = 57039271840479L;
-         if (57039271840479L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var38 = var15 < 0L ? -1 : 1;
-         }
-
-         double var18 = var14 < 260 ? 2.3 : (var14 < 330 ? 6.5 : 2.1);
+         int var18 = var15 < 0L ? -1 : 1;
+         double var18x = var14 < 260 ? 2.3 : (var14 < 330 ? 6.5 : 2.1);
          long var20 = 57039271840479L;
-         if (57039271840479L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var20 < 0L ? -1 : 1;
-         }
-
-         int var22 = 18197;
+         int var22 = var20 < 0L ? -1 : 1;
+         var22 = 18197;
          long var23 = 57039271840479L;
-         if (57039271840479L == 0L) {
-            boolean var41 = false;
-         } else {
-            int var42 = var23 < 0L ? -1 : 1;
-         }
-
+         int var36 = var23 < 0L ? -1 : 1;
          if (var14 >= 260) {
             long var25 = 57039271840479L;
-            if (57039271840479L == 0L) {
-               boolean var43 = false;
-            } else {
-               int var44 = var25 < 0L ? -1 : 1;
-            }
-
+            int var27 = var25 < 0L ? -1 : 1;
             if (var14 < 330) {
                var11 += (Math.atan2(-96.0 - var9, 214.0 - var7) - var11) * 0.04;
             }
          }
 
-         long var36 = 57039271840479L;
-         if (57039271840479L == 0L) {
-            boolean var45 = false;
-         } else {
-            int var46 = var36 < 0L ? -1 : 1;
-         }
-
+         long var36x = 57039271840479L;
+         int var39 = var36x < 0L ? -1 : 1;
          if (var14 >= 330) {
             var11 += 0.028;
          }
 
-         var7 += Math.cos(var11) * var18;
-         var9 += Math.sin(var11) * var18;
-         long var27 = 57039271840480L;
-         if (57039271840480L == 0L) {
-            boolean var47 = false;
-         } else {
-            int var48 = var27 < 0L ? -1 : 1;
-         }
-
-         long var30 = 57039271840480L;
-         if (57039271840480L == 0L) {
-            boolean var49 = false;
-         } else {
-            int var50 = var30 < 0L ? -1 : 1;
-         }
-
-         label129: {
+         label96: {
+            var7 += Math.cos(var11) * var18x;
+            var9 += Math.sin(var11) * var18x;
+            long var27 = 57039271840480L;
+            int var30 = var27 < 0L ? -1 : 1;
+            long var30x = 57039271840480L;
             if (var14 >= 260) {
                long var32 = 57039271840480L;
-               if (57039271840480L == 0L) {
-                  boolean var51 = false;
-               } else {
-                  int var52 = var32 < 0L ? -1 : 1;
-               }
-
+               int var32x = var32 < 0L ? -1 : 1;
                if (var14 < 330) {
                   var22 = 1;
-                  break label129;
+                  break label96;
                }
             }
 
@@ -211,37 +166,21 @@ final class ProfileFactory {
 
          var13 += var22;
          var5.add(var6, (float)var7, (float)var9, var13, false);
-         var27 = 57039271840479L;
-         if (57039271840479L == 0L) {
-            boolean var53 = false;
-         } else {
-            int var54 = var27 < 0L ? -1 : 1;
-         }
-
+         long var41 = 57039271840479L;
+         int var44 = var41 < 0L ? -1 : 1;
          if (var14 == 150) {
             var5.mark("death", var6, (float)var7, (float)var9, var13);
          }
 
          long var29 = 57039271840479L;
-         if (57039271840479L == 0L) {
-            boolean var55 = false;
-         } else {
-            int var56 = var29 < 0L ? -1 : 1;
-         }
-
+         int var46 = var29 < 0L ? -1 : 1;
          if (var14 == 90 || var14 == 420) {
             var5.mark("kill", var6, (float)var7, (float)var9, var13);
          }
       }
 
       long var34 = 57039271840480L;
-      if (57039271840480L == 0L) {
-         boolean var57 = false;
-      } else {
-         int var58 = var34 < 0L ? -1 : 1;
-      }
-
+      int var16 = var34 < 0L ? -1 : 1;
       return var5;
    }
-
 }

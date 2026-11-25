@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;
@@ -64,8 +63,8 @@ public final class Pagination {
 
       float var7 = this.slide.target(1.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
       float var8 = this.dot.target(this.shown).update(MotionStyle.TOGGLE.dt(var1.dt));
-      boolean var9 = var1.hover(this.leftKey, this.x, this.y, 26.0F, 30.0F, DrawContext.TypeE.HAND);
-      boolean var10 = !var9 && var1.hover(this.rightKey, this.x + 26.0F, this.y, this.w - 26.0F, 30.0F, DrawContext.TypeE.HAND);
+      boolean var9 = var1.hover(this.leftKey, this.x, this.y, 26.0F, 30.0F, DrawContext.Cursor.HAND);
+      boolean var10 = !var9 && var1.hover(this.rightKey, this.x + 26.0F, this.y, this.w - 26.0F, 30.0F, DrawContext.Cursor.HAND);
       float var11 = this.hoverLeft.target(var9 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       float var12 = this.hoverRight.target(var10 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       var4.roundRect(this.x, this.y, this.w, 30.0F, 15.0F, 318767103);

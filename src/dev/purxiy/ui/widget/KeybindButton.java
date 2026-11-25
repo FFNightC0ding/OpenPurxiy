@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;
@@ -53,7 +52,7 @@ public final class KeybindButton {
       this.w = this.width.target(var6).update(MotionStyle.TOGGLE.dt(var1.dt));
       this.x = var2 - this.w;
       this.y = var3 - 15.0F;
-      boolean var7 = var1.hover(this, this.x, this.y, this.w, 30.0F, DrawContext.TypeE.HAND);
+      boolean var7 = var1.hover(this, this.x, this.y, this.w, 30.0F, DrawContext.Cursor.HAND);
       float var8 = this.hover.target(var7 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       float var9 = this.listen.target(this.listening ? 1.0F : 0.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
       float var10 = 0.55F + 0.45F * (float)Math.sin(var1.time * 6.0);

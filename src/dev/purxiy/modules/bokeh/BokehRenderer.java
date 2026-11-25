@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.bokeh;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -6,6 +5,7 @@ import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.pipeline.RenderPipeline.Builder;
+import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -19,7 +19,7 @@ import com.mojang.blaze3d.textures.TextureFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.class_5596;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.client.ClientCache;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Locale;
@@ -29,7 +29,6 @@ import net.minecraft.class_12137;
 import net.minecraft.class_276;
 import net.minecraft.class_290;
 import net.minecraft.class_310;
-
 import org.lwjgl.system.MemoryUtil;
 
 final class BokehRenderer {
@@ -50,7 +49,7 @@ final class BokehRenderer {
    private static final RenderPipeline V = p(
       135764287999132L, "bokeh_masked", "core/bokeh", null, true, "SceneSampler", "DepthSampler", "PrepSampler", "GatherSampler", "SpriteSampler"
    );
-   private static final RenderPipeline A = RenderPipeline.builder()
+   private static final RenderPipeline A = RenderPipeline.builder(new Snippet[0])
       .withLocation(ClientServices.id("pipeline/bokeh_sprites"))
       .withVertexShader(ClientServices.id("core/bokeh_sprites"))
       .withFragmentShader(ClientServices.id("core/bokeh_sprites"))
@@ -65,26 +64,16 @@ final class BokehRenderer {
       .withCull(false)
       .withVertexFormat(class_290.field_60033, class_5596.field_27379)
       .build();
-   
    private static GpuBuffer c;
-   
    private static ByteBuffer u;
-   
-   private static BokehRenderer.TypeC z;
-   
-   private static BokehRenderer.TypeC x;
-   
-   private static BokehRenderer.TypeC M;
-   
-   private static BokehRenderer.TypeC g;
-   
-   private static BokehRenderer.TypeC a;
-   
-   private static BokehRenderer.TypeC Z;
-   
-   private static BokehRenderer.TypeC s;
-   
-   private static BokehRenderer.TypeC r;
+   private static BokehRenderer.BokehProfile z;
+   private static BokehRenderer.BokehProfile x;
+   private static BokehRenderer.BokehProfile M;
+   private static BokehRenderer.BokehProfile g;
+   private static BokehRenderer.BokehProfile a;
+   private static BokehRenderer.BokehProfile Z;
+   private static BokehRenderer.BokehProfile s;
+   private static BokehRenderer.BokehProfile r;
    private static int l = 0;
    private static int F = 0;
    private static int I = 0;
@@ -94,17 +83,15 @@ final class BokehRenderer {
    private static final double[] w = new double[C.length];
    private static int p = 0;
    private static boolean S;
-
    private static final String[] e = new String[74];
-
    private static final Integer[] h = new Integer[10];
    private static final long i = 176L;
 
    private BokehRenderer() {
    }
 
-   private static RenderPipeline p(long var0, String var2,  String var3, String var4, boolean var5, String... var6) {
-      Builder var7 = RenderPipeline.builder()
+   private static RenderPipeline p(long var0, String var2, String var3, String var4, boolean var5, String... var6) {
+      Builder var7 = RenderPipeline.builder(new Snippet[0])
          .withLocation(ClientServices.id("pipeline/" + var2))
          .withVertexShader(ClientServices.id("core/bokeh"))
          .withFragmentShader(ClientServices.id(var3))
@@ -122,19 +109,10 @@ final class BokehRenderer {
          String var11 = var8[var10];
          var7.withSampler(var11);
          long var12 = 135764287999131L;
-         if (135764287999131L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var17 = var12 < 0L ? -1 : 1;
-         }
-
+         int var15 = var12 < 0L ? -1 : 1;
          var10++;
-         long var15 = 135764287999132L;
-         if (135764287999132L == 0L) {
-            boolean var18 = false;
-         } else {
-            int var19 = var15 < 0L ? -1 : 1;
-         }
+         long var15x = 135764287999132L;
+         int var16 = var15x < 0L ? -1 : 1;
       }
 
       if (var4 != null) {
@@ -171,7 +149,7 @@ final class BokehRenderer {
       GpuTextureView var20 = var17.method_71640();
       if (var18 != null && var19 != null && var20 != null) {
          GpuDevice var21 = RenderSystem.getDevice();
-         GpuTextureView var22 = BokehRenderer4.z ? ClientSupport3.handMask() : null;
+         GpuTextureView var22 = BokehRenderPass.z ? SkyPipelineRouter.handMask() : null;
          RenderPipeline var23 = var22 != null ? b : X;
          RenderPipeline var24 = var22 != null ? v : D;
          RenderPipeline var25 = var22 != null ? V : K;
@@ -192,8 +170,9 @@ final class BokehRenderer {
          var56.writeToBuffer(c.slice(), S((short)var9, var10, var54, var55));
          class_12137 var30 = RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST);
          class_12137 var31 = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
+         RenderPass var32 = J(var56, var7, "prep", x, var23, false);
 
-         try (RenderPass var32 = J(var56, var7, "prep", x, var23, false)) {
+         try {
             var32.bindTexture("SceneSampler", z.d, var30);
             var32.bindTexture("DepthSampler", var20, var30);
             if (var22 != null) {
@@ -201,41 +180,120 @@ final class BokehRenderer {
             }
 
             var32.draw(0, 3);
-            BokehRenderer4.metric("drawn");
+            BokehRenderPass.metric("drawn");
+         } catch (Throwable var53) {
+            if (var32 != null) {
+               try {
+                  var32.close();
+               } catch (Throwable var45) {
+                  var53.addSuppressed(var45);
+               }
+            }
+
+            throw var53;
          }
 
-         try (RenderPass var59 = J(var56, var7, "half grid", M, G, false)) {
-            var59.bindTexture("PrepSampler", x.d, var30);
-            var59.draw(0, 3);
-            BokehRenderer4.metric("drawn");
+         if (var32 != null) {
+            var32.close();
          }
 
-         try (RenderPass var60 = J(var56, var7, "tiles", g, n, false)) {
-            var60.bindTexture("PrepSampler", x.d, var30);
-            var60.draw(0, 3);
-            BokehRenderer4.metric("drawn");
+         var32 = J(var56, var7, "half grid", M, G, false);
+
+         try {
+            var32.bindTexture("PrepSampler", x.d, var30);
+            var32.draw(0, 3);
+            BokehRenderPass.metric("drawn");
+         } catch (Throwable var50) {
+            if (var32 != null) {
+               try {
+                  var32.close();
+               } catch (Throwable var44) {
+                  var50.addSuppressed(var44);
+               }
+            }
+
+            throw var50;
          }
 
-         try (RenderPass var61 = J(var56, var7, "reach", a, t, false)) {
-            var61.bindTexture("TileSampler", g.d, var30);
-            var61.draw(0, 3);
-            BokehRenderer4.metric("drawn");
+         if (var32 != null) {
+            var32.close();
+         }
+
+         var32 = J(var56, var7, "tiles", g, n, false);
+
+         try {
+            var32.bindTexture("PrepSampler", x.d, var30);
+            var32.draw(0, 3);
+            BokehRenderPass.metric("drawn");
+         } catch (Throwable var49) {
+            if (var32 != null) {
+               try {
+                  var32.close();
+               } catch (Throwable var43) {
+                  var49.addSuppressed(var43);
+               }
+            }
+
+            throw var49;
+         }
+
+         if (var32 != null) {
+            var32.close();
+         }
+
+         var32 = J(var56, var7, "reach", a, t, false);
+
+         try {
+            var32.bindTexture("TileSampler", g.d, var30);
+            var32.draw(0, 3);
+            BokehRenderPass.metric("drawn");
+         } catch (Throwable var48) {
+            if (var32 != null) {
+               try {
+                  var32.close();
+               } catch (Throwable var42) {
+                  var48.addSuppressed(var42);
+               }
+            }
+
+            throw var48;
+         }
+
+         if (var32 != null) {
+            var32.close();
          }
 
          GpuQuery var62 = p(var56, var5, var6, var57, 1);
+         RenderPass var33 = J(var56, var7, "gather", Z, o, false);
 
-         try (RenderPass var33 = J(var56, var7, "gather", Z, o, false)) {
+         try {
             var33.bindTexture("PrepSampler", x.d, var31);
             var33.bindTexture("HalfSampler", M.d, var31);
             var33.bindTexture("TileSampler", a.d, var30);
             var33.draw(0, 3);
-            BokehRenderer4.metric("drawn");
+            BokehRenderPass.metric("drawn");
+         } catch (Throwable var47) {
+            if (var33 != null) {
+               try {
+                  var33.close();
+               } catch (Throwable var41) {
+                  var47.addSuppressed(var41);
+               }
+            }
+
+            throw var47;
+         }
+
+         if (var33 != null) {
+            var33.close();
          }
 
          var57 = p(var56, var5, var6, var62, 2);
-         boolean var63 = BokehRenderer4.R > 0.005F;
+         boolean var63 = BokehRenderPass.R > 0.005F;
          if (var63) {
-            try (RenderPass var34 = J(var56, var7, "lights", s, var24, false)) {
+            RenderPass var34 = J(var56, var7, "lights", s, var24, false);
+
+            try {
                var34.bindTexture("SceneSampler", z.d, var30);
                var34.bindTexture("PrepSampler", x.d, var31);
                var34.bindTexture("DepthSampler", var20, var30);
@@ -244,24 +302,55 @@ final class BokehRenderer {
                }
 
                var34.draw(0, 3);
-               BokehRenderer4.metric("drawn");
+               BokehRenderPass.metric("drawn");
+            } catch (Throwable var52) {
+               if (var34 != null) {
+                  try {
+                     var34.close();
+                  } catch (Throwable var40) {
+                     var52.addSuppressed(var40);
+                  }
+               }
+
+               throw var52;
+            }
+
+            if (var34 != null) {
+               var34.close();
             }
          }
 
-         try (RenderPass var64 = J(var56, var7, "discs", r, A, true)) {
+         RenderPass var64 = J(var56, var7, "discs", r, A, true);
+
+         try {
             if (var63) {
                var64.bindTexture("SpotSampler", s.d, var30);
                var64.bindTexture("SceneSampler", z.d, var30);
                var64.bindTexture("PrepSampler", x.d, var30);
                var64.bindTexture("GatherSampler", Z.d, var30);
                var64.draw(0, s.P * s.W * 6);
-               BokehRenderer4.metric("drawn");
+               BokehRenderPass.metric("drawn");
             }
+         } catch (Throwable var46) {
+            if (var64 != null) {
+               try {
+                  var64.close();
+               } catch (Throwable var39) {
+                  var46.addSuppressed(var39);
+               }
+            }
+
+            throw var46;
+         }
+
+         if (var64 != null) {
+            var64.close();
          }
 
          GpuQuery var65 = p(var56, var5, var6, var57, 3);
+         RenderPass var35 = var56.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX bokeh", var19, OptionalInt.empty());
 
-         try (RenderPass var35 = var56.createRenderPass(() -> "Purxiy bokeh", var19, OptionalInt.empty())) {
+         try {
             var35.setPipeline(var25);
             RenderSystem.bindDefaultUniforms(var35);
             var35.setUniform("PurxiyBokeh", c);
@@ -275,14 +364,27 @@ final class BokehRenderer {
             }
 
             var35.draw(0, 3);
-            BokehRenderer4.metric("drawn");
+            BokehRenderPass.metric("drawn");
+         } catch (Throwable var51) {
+            if (var35 != null) {
+               try {
+                  var35.close();
+               } catch (Throwable var38) {
+                  var51.addSuppressed(var38);
+               }
+            }
+
+            throw var51;
+         }
+
+         if (var35 != null) {
+            var35.close();
          }
 
          p(var56, var5, var6, var65, -1);
       }
    }
 
-   
    private static GpuQuery Q(CommandEncoder var0, int var1, long var2) {
       if (!S) {
          return null;
@@ -293,8 +395,7 @@ final class BokehRenderer {
       }
    }
 
-   
-   private static GpuQuery p(CommandEncoder var0,  int var1, int var2, GpuQuery var3, int var4) {
+   private static GpuQuery p(CommandEncoder var0, int var1, int var2, GpuQuery var3, int var4) {
       long var5 = 140092478432327L;
       long var7 = var5 ^ 78801815266986L;
       if (var3 != null) {
@@ -304,9 +405,9 @@ final class BokehRenderer {
       return var4 < 0 ? null : Q(var0, var4, var7);
    }
 
-   private static RenderPass J(CommandEncoder var0, long var1, String var3, BokehRenderer.TypeC var4, RenderPipeline var5, boolean var6) {
-      BokehRenderer4.ensureSourceClassInitialized();
-      RenderPass var7 = var0.createRenderPass(() -> "Purxiy bokeh " + var3, var4.d, var6 ? OptionalInt.of(0) : OptionalInt.empty());
+   private static RenderPass J(CommandEncoder var0, long var1, String var3, BokehRenderer.BokehProfile var4, RenderPipeline var5, boolean var6) {
+      BokehRenderPass.ensureSourceClassInitialized();
+      RenderPass var7 = var0.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX bokeh " + var3, var4.d, var6 ? OptionalInt.of(0) : OptionalInt.empty());
       var7.setPipeline(var5);
       RenderSystem.bindDefaultUniforms(var7);
       var7.setUniform("PurxiyBokeh", c);
@@ -314,25 +415,25 @@ final class BokehRenderer {
    }
 
    private static ByteBuffer S(short var0, long var1, int var3, int var4) {
-      float var5 = BokehRenderer4.presenceCurve();
-      BokehRenderer4.ensureSourceClassInitialized();
+      float var5 = BokehRenderPass.presenceCurve();
+      BokehRenderPass.ensureSourceClassInitialized();
       float var6 = BokehSupport.maxBlur(var4);
-      float var7 = BokehRenderer4.B;
-      float var8 = BokehSupport.autoScale(BokehRenderer4.p, var4, BokehRenderer4.l);
-      float var9 = BokehSupport.distanceBlur(BokehRenderer4.p, var4) / Math.max(var7, 0.001953125F);
-      float var10 = var8 + (var9 - var8) * BokehRenderer4.d;
-      float var11 = BokehRenderer4.b * 0.5F;
+      float var7 = BokehRenderPass.B;
+      float var8 = BokehSupport.autoScale(BokehRenderPass.p, var4, BokehRenderPass.l);
+      float var9 = BokehSupport.distanceBlur(BokehRenderPass.p, var4) / Math.max(var7, 0.001953125F);
+      float var10 = var8 + (var9 - var8) * BokehRenderPass.d;
+      float var11 = BokehRenderPass.b * 0.5F;
       Std140Builder var12 = Std140Builder.intoBuffer(u.clear())
-         .putMat4f(BokehRenderer4.r)
-         .putVec4(var3, var4, I, (float)(BokehRenderer4.k % 3600.0))
+         .putMat4f(BokehRenderPass.r)
+         .putVec4(var3, var4, I, (float)(BokehRenderPass.k % 3600.0))
          .putVec4(x.P, x.W, s.P, s.W)
-         .putVec4(BokehRenderer4.O.x, BokehRenderer4.O.y, BokehRenderer4.O.z, var7);
-      var12 = var12.putVec4(var10, var6, BokehRenderer4.T, BokehRenderer4.D)
-         .putVec4(0.5F, var11, 0.1F + var11 * 0.6F, BokehSupport.tiltBlur(BokehRenderer4.p, var4))
-         .putVec4(BokehRenderer4.Z, BokehRenderer4.i, BokehRenderer4.Z == BokehRenderer4.i ? 0.0F : O(BokehRenderer4.E), BokehRenderer4.h);
-      float var13 = BokehRenderer4.R;
-      float var14 = BokehRenderer4.L;
-      BokehRenderer4.ensureSourceClassInitialized();
+         .putVec4(BokehRenderPass.O.x, BokehRenderPass.O.y, BokehRenderPass.O.z, var7);
+      var12 = var12.putVec4(var10, var6, BokehRenderPass.T, BokehRenderPass.D)
+         .putVec4(0.5F, var11, 0.1F + var11 * 0.6F, BokehSupport.tiltBlur(BokehRenderPass.p, var4))
+         .putVec4(BokehRenderPass.Z, BokehRenderPass.i, BokehRenderPass.Z == BokehRenderPass.i ? 0.0F : O(BokehRenderPass.E), BokehRenderPass.h);
+      float var13 = BokehRenderPass.R;
+      float var14 = BokehRenderPass.L;
+      BokehRenderPass.ensureSourceClassInitialized();
       Std140Builder var15 = var12.putVec4(var13, var14, var5, 0.0F);
       return var15.get();
    }
@@ -345,35 +446,20 @@ final class BokehRenderer {
    private static void y(GpuDevice var0, int var1, char var2, int var3, long var4) {
       long var6 = 12228166193074L;
       long var8 = var6 ^ 56292871656818L;
-      BokehRenderer4.ensureSourceClassInitialized();
+      BokehRenderPass.ensureSourceClassInitialized();
       if (c == null) {
-         c = var0.createBuffer(ClientServices.label(() -> "Purxiy bokeh"), 136, 176L);
+         c = var0.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX bokeh"), 136, 176L);
          u = MemoryUtil.memAlloc(176);
       }
 
       if (z != null) {
          long var10 = 12228166193073L;
-         if (12228166193073L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var20 = var10 < 0L ? -1 : 1;
-         }
-
+         int var12 = var10 < 0L ? -1 : 1;
          long var13 = 12228166193073L;
-         if (12228166193073L == 0L) {
-            boolean var21 = false;
-         } else {
-            int var22 = var13 < 0L ? -1 : 1;
-         }
-
+         int var14 = var13 < 0L ? -1 : 1;
          if (l == var1) {
             long var15 = 12228166193073L;
-            if (12228166193073L == 0L) {
-               boolean var23 = false;
-            } else {
-               int var24 = var15 < 0L ? -1 : 1;
-            }
-
+            int var16 = var15 < 0L ? -1 : 1;
             if (F == var3) {
                return;
             }
@@ -388,57 +474,37 @@ final class BokehRenderer {
       int var18 = (var11 + 7) / 8;
       int var14 = (var17 + 1) / 2;
       int var19 = (var11 + 1) / 2;
-      z = new BokehRenderer.TypeC(var0, "scene", var1, var3, false);
-      x = new BokehRenderer.TypeC(var0, "grid", var17, var11, true);
-      M = new BokehRenderer.TypeC(var0, "half grid", var14, var19, true);
-      g = new BokehRenderer.TypeC(var0, "tiles", var12, var18, true);
-      a = new BokehRenderer.TypeC(var0, "reach", var12, var18, true);
-      Z = new BokehRenderer.TypeC(var0, "blur", var17, var11, true);
-      s = new BokehRenderer.TypeC(var0, "lights", var14, var19, true);
-      r = new BokehRenderer.TypeC(var0, "discs", var17, var11, true);
+      z = new BokehRenderer.BokehProfile(var0, "scene", var1, var3, false);
+      x = new BokehRenderer.BokehProfile(var0, "grid", var17, var11, true);
+      M = new BokehRenderer.BokehProfile(var0, "half grid", var14, var19, true);
+      g = new BokehRenderer.BokehProfile(var0, "tiles", var12, var18, true);
+      a = new BokehRenderer.BokehProfile(var0, "reach", var12, var18, true);
+      Z = new BokehRenderer.BokehProfile(var0, "blur", var17, var11, true);
+      s = new BokehRenderer.BokehProfile(var0, "lights", var14, var19, true);
+      r = new BokehRenderer.BokehProfile(var0, "discs", var17, var11, true);
       l = var1;
       F = var3;
    }
 
    private static void S(long var0) {
       short var2 = 16013;
-      BokehRenderer.TypeC[] var3 = new BokehRenderer.TypeC[]{z, x, M, g, a, Z, s, r};
-      BokehRenderer4.ensureSourceClassInitialized();
+      BokehRenderer.BokehProfile[] var3 = new BokehRenderer.BokehProfile[]{z, x, M, g, a, Z, s, r};
+      BokehRenderPass.ensureSourceClassInitialized();
 
-      for (BokehRenderer.TypeC var6 : var3) {
+      for (BokehRenderer.BokehProfile var6 : var3) {
          long var7 = 61768661392064L;
-         if (61768661392064L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var17 = var7 < 0L ? -1 : 1;
-         }
-
-         long var10 = 61768661392064L;
-         if (61768661392064L == 0L) {
-            boolean var18 = false;
-         } else {
-            int var19 = var10 < 0L ? -1 : 1;
-         }
-
-         long var13 = 61768661392064L;
-         if (61768661392064L == 0L) {
-            boolean var20 = false;
-         } else {
-            int var21 = var13 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
+         long var10x = 61768661392064L;
+         int var13 = var10x < 0L ? -1 : 1;
+         long var13x = 61768661392064L;
+         int var14 = var13x < 0L ? -1 : 1;
          if (var6 != null) {
             var6.close();
          }
       }
 
       long var16 = 61768661392063L;
-      if (61768661392063L == 0L) {
-         boolean var22 = false;
-      } else {
-         int var23 = var16 < 0L ? -1 : 1;
-      }
-
+      int var16x = var16 < 0L ? -1 : 1;
       r = null;
       s = null;
       Z = null;
@@ -451,23 +517,13 @@ final class BokehRenderer {
 
    private static boolean e(long var0) {
       GpuQuery[] var2 = E;
-      BokehRenderer4.ensureSourceClassInitialized();
+      BokehRenderPass.ensureSourceClassInitialized();
 
       for (GpuQuery var5 : var2) {
          long var6 = 137259387265687L;
-         if (137259387265687L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var26 = var6 < 0L ? -1 : 1;
-         }
-
-         long var9 = 137259387265687L;
-         if (137259387265687L == 0L) {
-            boolean var27 = false;
-         } else {
-            int var28 = var9 < 0L ? -1 : 1;
-         }
-
+         int var13 = var6 < 0L ? -1 : 1;
+         long var9x = 137259387265687L;
+         int var25 = var9x < 0L ? -1 : 1;
          if (var5 != null && var5.getValue().isEmpty()) {
             return false;
          }
@@ -478,19 +534,9 @@ final class BokehRenderer {
       for (int var22 = 0; var22 < C.length; var22++) {
          GpuQuery var7 = E[var22];
          long var8 = 137259387265686L;
-         if (137259387265686L == 0L) {
-            boolean var29 = false;
-         } else {
-            int var30 = var8 < 0L ? -1 : 1;
-         }
-
+         int var8x = var8 < 0L ? -1 : 1;
          long var11 = 137259387265687L;
-         if (137259387265687L == 0L) {
-            boolean var31 = false;
-         } else {
-            int var32 = var11 < 0L ? -1 : 1;
-         }
-
+         int var10 = var11 < 0L ? -1 : 1;
          if (var7 != null) {
             w[var22] = w[var22] + var7.getValue().getAsLong() / 1000000.0;
             var7.close();
@@ -500,20 +546,10 @@ final class BokehRenderer {
       }
 
       long var23 = 137259387265687L;
-      if (137259387265687L == 0L) {
-         boolean var33 = false;
-      } else {
-         int var34 = var23 < 0L ? -1 : 1;
-      }
-
+      int var22x = var23 < 0L ? -1 : 1;
       if (var21) {
          long var24 = 137259387265687L;
-         if (137259387265687L == 0L) {
-            boolean var35 = false;
-         } else {
-            int var36 = var24 < 0L ? -1 : 1;
-         }
-
+         int var251 = var24 < 0L ? -1 : 1;
          if (++p == 240) {
             StringBuilder var12 = new StringBuilder();
             double var13 = 0.0;
@@ -521,31 +557,16 @@ final class BokehRenderer {
             for (int var15 = 0; var15 < C.length; var15++) {
                var13 += w[var15];
                long var16 = 137259387265686L;
-               if (137259387265686L == 0L) {
-                  boolean var37 = false;
-               } else {
-                  int var38 = var16 < 0L ? -1 : 1;
-               }
-
-               long var19 = 137259387265687L;
-               if (137259387265687L == 0L) {
-                  boolean var39 = false;
-               } else {
-                  int var40 = var19 < 0L ? -1 : 1;
-               }
-
+               int var19 = var16 < 0L ? -1 : 1;
+               long var19x = 137259387265687L;
+               int var16x = var19x < 0L ? -1 : 1;
                var12.append(var15 == 0 ? "" : ", ").append(C[var15]).append(' ').append(String.format(Locale.ROOT, "%.3f", w[var15] / p));
             }
 
-            long var25 = 137259387265687L;
-            if (137259387265687L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var25 < 0L ? -1 : 1;
-            }
-
+            long var25x = 137259387265687L;
+            int var13x = var25x < 0L ? -1 : 1;
             ClientServices.LOGGER
-               .info("Purxiy bokeh: {} ms GPU per frame at {}x{} (grid 1/{}): {}", new Object[]{String.format(Locale.ROOT, "%.3f", var13 / p), l, F, I, var12});
+               .info("SourceByDevFFnightmare DeObfDeCompByGuideX bokeh: {} ms GPU per frame at {}x{} (grid 1/{}): {}", new Object[]{String.format(Locale.ROOT, "%.3f", var13 / p), l, F, I, var12});
             Arrays.fill(w, 0.0);
             p = 0;
          }
@@ -773,7 +794,7 @@ final class BokehRenderer {
          if (u != null) {
             MemoryUtil.memFree(u);
          }
-      } catch (Exception var992) {
+      } catch (Exception var9921) {
          var0++;
       } finally {
          u = null;
@@ -784,16 +805,16 @@ final class BokehRenderer {
       }
    }
 
-private static final class TypeC {
+   private static final class BokehProfile {
       final GpuTexture a;
       final GpuTextureView d;
       final int P;
       final int W;
-      private static final String b = "Purxiy bokeh ";
+      private static final String b = "SourceByDevFFnightmare DeObfDeCompByGuideX bokeh ";
 
-      TypeC(GpuDevice var1, String var2, int var3, int var4, boolean var5) {
+      BokehProfile(GpuDevice var1, String var2, int var3, int var4, boolean var5) {
          int var6 = 4 | (var5 ? 8 : 1);
-         this.a = var1.createTexture(() -> b + var2, var6, TextureFormat.RGBA8, var3, var4, 1, 1);
+         this.a = var1.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX bokeh " + var2, var6, TextureFormat.RGBA8, var3, var4, 1, 1);
          this.d = var1.createTextureView(this.a);
          this.P = var3;
          this.W = var4;
@@ -803,6 +824,5 @@ private static final class TypeC {
          this.d.close();
          this.a.close();
       }
-
-}
+   }
 }

@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import dev.purxiy.loader.fabric.ModuleState;
-import dev.purxiy.loader.fabric.client.ClientRegistry23;
+import dev.purxiy.loader.fabric.client.ArmorRenderProvider;
 import net.minecraft.class_10055;
 import net.minecraft.class_1007;
 import net.minecraft.class_11890;
@@ -21,11 +20,11 @@ public abstract class CapeSkinMixin {
    )
    private void purxiy$cape(class_11890 var1, class_10055 var2, float var3, CallbackInfo var4) {
       if (var1 == class_310.method_1551().field_1724 && ModuleState.moduleActive("cape")) {
-         class_8685 var5 = ClientRegistry23.dress(var2.field_53520);
+         class_8685 var5 = ArmorRenderProvider.dress(var2.field_53520);
          if (var5 != var2.field_53520) {
             var2.field_53520 = var5;
             var2.field_53532 = true;
-            ClientRegistry23.chest(var2.field_53418);
+            ArmorRenderProvider.chest(var2.field_53418);
          }
       }
    }

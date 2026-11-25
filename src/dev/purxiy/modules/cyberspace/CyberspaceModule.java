@@ -1,16 +1,16 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cyberspace;
 
 import dev.purxiy.config.BooleanSetting;
 import dev.purxiy.config.ColorSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import dev.purxiy.loader.fabric.client.ClientCodec;
-import dev.purxiy.loader.fabric.client.ClientRegistry7;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyTintProvider;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import java.util.List;
 import net.minecraft.class_12076;
 
@@ -28,28 +28,25 @@ public final class CyberspaceModule extends ModuleDescriptor {
    public final BooleanSetting b;
    public static int w = 0;
 
-
-
    public CyberspaceModule() {
       super("cyberspace", "Cyberspace", "Step into a digital dimension of light, wires and data", "circuit-board");
       this.section("The grid");
       this.I = this.mode("palette", "Palette", "The colours of the light", "Accent", CyberspaceLoader.names()).renamed(CyberspaceLoader.n);
       this.O = this.color("color", "Colour", "The rest of the palette is derived from it", -4944641, false).followsAccent();
       this.H = this.mode("theme", "Theme", "A midnight network, or a bright one of porcelain", "Midnight", new String[]{"Midnight", "Porcelain"});
-      this.j = this.number("reality", "Reality", "How much of the real world shows through", 0.15, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT);
-      this.S = this.number("glow", "Glow", "How brightly the lines shine", 0.7, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT);
+      this.j = this.number("reality", "Reality", "How much of the real world shows through", 0.15, 0.0, 1.0, 0.05, Listener.PERCENT);
+      this.S = this.number("glow", "Glow", "How brightly the lines shine", 0.7, 0.0, 1.0, 0.05, Listener.PERCENT);
       this.section("A living network");
       this.L = this.bool("circuits", "Circuits", "Wiring on every block, with data running through it", true);
       this.R = this.bool("flight", "Flying data", "Packets of light race through the air, bits drift up from the ground", true);
       this.X = this.bool("scan", "Scan wave", "A wave of light sweeps out from you every few seconds", true);
-      this.P = this.number("interval", "Scan every", null, 8.0, 3.0, 20.0, 1.0, NumberSetting.Listener.unit("s"));
+      this.P = this.number("interval", "Scan every", null, 8.0, 3.0, 20.0, 1.0, Listener.unit("s"));
       this.e = this.bool("sky", "Digital sky", "An endless grid below the horizon, stars of data above", true);
       this.b = this.bool("glitch", "Glitch when hurt", "The simulation stutters for a moment when you take damage", true);
       this.O.visibleWhen(() -> this.I.is("Custom"));
       this.P.visibleWhen(this.X::get);
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       var1.own(
          ClientCodec.install(
@@ -66,22 +63,19 @@ public final class CyberspaceModule extends ModuleDescriptor {
          )
       );
       var1.own(ClientServices.acquire(this.id()));
-      CyberspaceRenderer2.install(this, var1);
-      var1.own(CyberspaceRenderer2::uninstall);
+      CyberspaceRenderPass.install(this, var1);
+      var1.own(CyberspaceRenderPass::uninstall);
       var1.own(CyberspaceRenderer::releaseResources);
-      var1.own(ClientRegistry7.install(new ClientRegistry7.Listener() {
-         @Override
+      var1.own(SkyTintProvider.install(new dev.purxiy.loader.fabric.client.SkyTintProvider.Listener() {
          public boolean hidesClouds() {
-            return CyberspaceRenderer2.hidesClouds();
+            return CyberspaceRenderPass.hidesClouds();
          }
 
-         @Override
          public void sky(class_12076 var1) {
-            CyberspaceRenderer2.sky(var1);
+            CyberspaceRenderPass.sky(var1);
          }
       }));
-      var1.own(ClientSupport3.VIEW.subscribe(50, CyberspaceRenderer2::beginFrame));
-      var1.own(ClientSupport3.AFTER_WORLD.subscribe(55, CyberspaceRenderer2::render));
+      var1.own(SkyPipelineRouter.VIEW.subscribe(50, CyberspaceRenderPass::beginFrame));
+      var1.own(SkyPipelineRouter.AFTER_WORLD.subscribe(55, CyberspaceRenderPass::render));
    }
-
 }

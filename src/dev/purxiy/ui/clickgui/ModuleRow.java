@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.Animator;
@@ -77,10 +76,10 @@ final class ModuleRow {
       this.h = 112.0F;
       Canvas var8 = var1.canvas;
       float var9 = var1.dt;
-      boolean var10 = var7 && var1.hover(this.key, var2, var3, var4, 112.0F, DrawContext.TypeE.HAND);
+      boolean var10 = var7 && var1.hover(this.key, var2, var3, var4, 112.0F, DrawContext.Cursor.HAND);
       boolean var11 = var10 && this.overSettingsButton(var1.mouseX, var1.mouseY);
       if (var11) {
-         var1.claim(this.settingsKey, DrawContext.TypeE.HAND);
+         var1.claim(this.settingsKey, DrawContext.Cursor.HAND);
       }
 
       float var12 = this.hover.target(var10 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var9));

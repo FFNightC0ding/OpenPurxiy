@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry6;
+import dev.purxiy.loader.fabric.client.ChunkRenderProvider;
 import net.minecraft.class_2338;
 import net.minecraft.class_2680;
 import net.minecraft.class_638;
@@ -17,7 +16,7 @@ public abstract class PlaceLevelMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$placeBlockChanged(class_2338 var1, class_2680 var2, class_2680 var3, int var4, CallbackInfo var5) {
-      ClientRegistry6.blockChanged(var1, var2, var3);
+      ChunkRenderProvider.blockChanged(var1, var2, var3);
    }
 
    @Inject(
@@ -25,7 +24,7 @@ public abstract class PlaceLevelMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$placeServerStarted(class_2338 var1, class_2680 var2, int var3, CallbackInfo var4) {
-      ClientRegistry6.serverUpdateStarted(var1);
+      ChunkRenderProvider.serverUpdateStarted(var1);
    }
 
    @Inject(
@@ -33,6 +32,6 @@ public abstract class PlaceLevelMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$placeServerEnded(class_2338 var1, class_2680 var2, int var3, CallbackInfo var4) {
-      ClientRegistry6.serverUpdateEnded(var1);
+      ChunkRenderProvider.serverUpdateEnded(var1);
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.wings;
 
 import net.minecraft.class_10055;
@@ -10,12 +9,12 @@ import net.minecraft.class_746;
 public final class WingsUpdater {
    private static final float g = 0.004166667F;
    private static final float b = (float) (Math.PI * 2);
-   private final WingsUpdater.TypeU q = new WingsUpdater.TypeU(7.5F, 0.72F);
-   private final WingsUpdater.TypeU j = new WingsUpdater.TypeU(10.0F, 0.55F);
-   private final WingsUpdater.TypeU Y = new WingsUpdater.TypeU(7.0F, 0.8F);
-   private final WingsUpdater.TypeU s = new WingsUpdater.TypeU(6.0F, 0.9F);
-   private final WingsUpdater.TypeU y = new WingsUpdater.TypeU(6.0F, 0.9F);
-   private final WingsUpdater.TypeU B = new WingsUpdater.TypeU(9.0F, 0.42F);
+   private final WingsUpdater.WingPoseState q = new WingsUpdater.WingPoseState(7.5F, 0.72F);
+   private final WingsUpdater.WingPoseState j = new WingsUpdater.WingPoseState(10.0F, 0.55F);
+   private final WingsUpdater.WingPoseState Y = new WingsUpdater.WingPoseState(7.0F, 0.8F);
+   private final WingsUpdater.WingPoseState s = new WingsUpdater.WingPoseState(6.0F, 0.9F);
+   private final WingsUpdater.WingPoseState y = new WingsUpdater.WingPoseState(6.0F, 0.9F);
+   private final WingsUpdater.WingPoseState B = new WingsUpdater.WingPoseState(9.0F, 0.42F);
    private float Q;
    private float P;
    private float R = 2.4F;
@@ -38,30 +37,28 @@ public final class WingsUpdater {
    private float w;
    private float t;
    private long K;
-   
-   private WingsUpdater.TypeK J;
+   private WingsUpdater.WingPhase J;
    private float L;
-   
-   private WingsSupport2 o;
+   private WingsPose o;
    private float U = -1.0F;
-   final WingsSupport2 e = new WingsSupport2();
-   final WingsSupport2 l = new WingsSupport2();
+   final WingsPose e = new WingsPose();
+   final WingsPose l = new WingsPose();
 
    public float time() {
       return this.U >= 0.0F ? this.U : this.C;
    }
 
-   public void act(WingsUpdater.TypeK var1, float var2) {
+   public void act(WingsUpdater.WingPhase var1, float var2) {
       long var3 = 37743134870951L;
       long var5 = var3 ^ 21600220390376L;
       this.J = var1;
       this.L = var2;
-      if (var1 == WingsUpdater.TypeK.T) {
+      if (var1 == WingsUpdater.WingPhase.T) {
          this.T(var5, 2.6F, 1.0F, var2);
       }
    }
 
-   void hold( WingsSupport2 var1) {
+   void hold(WingsPose var1) {
       this.o = var1;
    }
 
@@ -69,7 +66,7 @@ public final class WingsUpdater {
       this.U = var1;
    }
 
-   public boolean update(class_10055 var1,  class_1297 var2, WingsModule var3, boolean var4) {
+   public boolean update(class_10055 var1, class_1297 var2, WingsModule var3, boolean var4) {
       long var5 = 42395590754395L;
       long var7 = var5 ^ 25804389199380L;
       long var9 = var5 ^ 131350595889098L;
@@ -301,7 +298,7 @@ public final class WingsUpdater {
          float var53 = var3.size();
 
          for (int var54 = 0; var54 < 2; var54++) {
-            WingsSupport2 var55 = var54 == 0 ? this.e : this.l;
+            WingsPose var55 = var54 == 0 ? this.e : this.l;
             float var56 = var54 == 0 ? this.B.L : -this.B.L;
             var55.X = K(this.q.L - 0.06F * this.P * Math.max(0.0F, var70), var11);
             var55.p = this.s.L;
@@ -330,49 +327,34 @@ public final class WingsUpdater {
    }
 
    private void T(long var1, float var3, float var4, float var5) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       this.R = var3;
       long var6 = 54936714030670L;
-      if (54936714030670L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var12 = var6 < 0L ? -1 : 1;
-      }
-
+      int var9 = var6 < 0L ? -1 : 1;
       this.Z = var4;
       this.u = var5;
-      long var9 = 54936714030670L;
-      if (54936714030670L == 0L) {
-         boolean var13 = false;
-      } else {
-         int var14 = var9 < 0L ? -1 : 1;
-      }
-
+      long var9x = 54936714030670L;
+      int var10 = var9x < 0L ? -1 : 1;
       if (this.P < 0.2F) {
          this.Q = (float) (-Math.PI / 2);
       }
    }
 
    private static float M(long var0, float var2) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       var2 %= (float) (Math.PI * 2);
       long var3 = 90128005162897L;
-      if (90128005162897L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var3 < 0L ? -1 : 1;
-      }
-
+      int var5 = var3 < 0L ? -1 : 1;
       return var2 > Math.PI ? var2 - (float) (Math.PI * 2) : (var2 < -Math.PI ? var2 + (float) (Math.PI * 2) : var2);
    }
 
    private static float K(float var0, long var1) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       return var0 < 0.0F ? 0.0F : Math.min(var0, 1.0F);
    }
 
    private static float W(float var0, int var1, float var2, float var3, short var4, char var5) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       return var0 < -0.5F ? -0.5F : Math.min(var0, 0.5F);
    }
 
@@ -386,21 +368,20 @@ public final class WingsUpdater {
       return var0 + (var1 - var0) * var2;
    }
 
-   public static enum TypeK {
+   public static enum WingPhase {
       t,
       T,
       l,
       b;
+   }
 
-}
-
-   private static final class TypeU {
+   private static final class WingPoseState {
       final float P;
       final float f;
       float L;
       float D;
 
-      TypeU(float var1, float var2) {
+      WingPoseState(float var1, float var2) {
          this.P = var1;
          this.f = var2;
       }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.anim.MotionStyle;
@@ -31,7 +30,7 @@ final class OnboardingProgress {
       Canvas var4 = var1.canvas;
       float var5 = var4.width();
       float var6 = var4.height();
-      MenuCommands.TypeG var7 = SettingSection.INTERFACE;
+      MenuCommands.SliderModule var7 = SettingSection.INTERFACE;
       boolean var8 = MotionStyle.reduced();
       float var9 = var1.time;
       var4.blurStrength(var7.blur.enabled() ? var2 : 0.0F);

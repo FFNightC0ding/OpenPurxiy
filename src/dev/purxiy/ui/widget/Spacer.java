@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;

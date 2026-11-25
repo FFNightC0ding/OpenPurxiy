@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.targethud;
 
 import java.util.Locale;
@@ -20,8 +19,6 @@ public enum PvpMode {
    public final String Z;
    public final String C;
    private final String z;
-
-
 
    private PvpMode(String nullxx, String nullxxx, String nullxxxx, String nullxxxxx) {
       this.R = nullxx;
@@ -55,5 +52,4 @@ public enum PvpMode {
 
       return s;
    }
-
 }

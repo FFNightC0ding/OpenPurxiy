@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.home;
 
 import dev.purxiy.anim.Animator;
@@ -31,11 +30,9 @@ public final class HomeRenderer {
    private static final int W = 130;
    private static final int Z = 10;
    private static boolean w;
-   
    private static Boolean k;
-   
    private static class_425 Q;
-   private static HomeRenderer.TypeB C = HomeRenderer.TypeB.A;
+   private static HomeRenderer.HomeLayer C = HomeRenderer.HomeLayer.A;
    private static boolean g;
    private static float z;
    private static float c;
@@ -57,10 +54,7 @@ public final class HomeRenderer {
    private static final float[] B = new float[]{0.0F, 0.25F, 0.5F, 0.75F, 1.0F, 1.2F, 1.5F};
    private static int u = 0;
    private static int e = 0;
-
    private static final String[] h = new String[4];
-
-
 
    private HomeRenderer() {
    }
@@ -87,7 +81,7 @@ public final class HomeRenderer {
       class_310 var23 = class_310.method_1551();
       if (var0 != Q) {
          Q = var0;
-         C = HomeRenderer.TypeB.A;
+         C = HomeRenderer.HomeLayer.A;
          g = var5;
          J = 0.0F;
          o = 0.0F;
@@ -101,25 +95,25 @@ public final class HomeRenderer {
       }
 
       float var24 = RenderPipelines.get().delta();
-      if (C == HomeRenderer.TypeB.F) {
+      if (C == HomeRenderer.HomeLayer.F) {
          var24 = Math.min(var24, 0.05F);
       }
 
       z += var24;
       class_437 var25 = var23.field_1755;
       boolean var26 = MotionStyle.reduced();
-      if (C == HomeRenderer.TypeB.A && var6 > -1L) {
-         C = HomeRenderer.TypeB.w;
+      if (C == HomeRenderer.HomeLayer.A && var6 > -1L) {
+         C = HomeRenderer.HomeLayer.w;
          c = 0.0F;
          f = 0;
          y = 0;
       }
 
-      if (C != HomeRenderer.TypeB.F) {
-         X = var25 instanceof class_442 && HomeSupport2.skins(var25) && !var26;
+      if (C != HomeRenderer.HomeLayer.F) {
+         X = var25 instanceof class_442 && HomeGuiBridge.skins(var25) && !var26;
       }
 
-      if (C == HomeRenderer.TypeB.w) {
+      if (C == HomeRenderer.HomeLayer.w) {
          c += var24;
          y = P(var23, var25, var16) ? y + 1 : 0;
          f++;
@@ -129,15 +123,15 @@ public final class HomeRenderer {
             r = var27.width() / 2.0F;
             N = var28[0] + o((short)var13, var14, var15, var28[1]);
             i = var28[1];
-            C = HomeRenderer.TypeB.F;
+            C = HomeRenderer.HomeLayer.F;
             o = 0.0F;
             HomeUpdater.get().beginIntro();
          }
-      } else if (C == HomeRenderer.TypeB.F) {
+      } else if (C == HomeRenderer.HomeLayer.F) {
          o += var24;
       }
 
-      boolean var30 = C != HomeRenderer.TypeB.A || g && z < 0.95000005F;
+      boolean var30 = C != HomeRenderer.HomeLayer.A || g && z < 0.95000005F;
       if (var25 != null && var30) {
          var25.method_47413(var1, var2, var3, var4);
       } else {
@@ -146,13 +140,13 @@ public final class HomeRenderer {
 
       try {
          M(RenderPipelines.get().canvas(), var18, var8, var26, var24, (short)var20);
-      } catch (Throwable var29) {
+      } catch (Throwable var291) {
          HomeUpdater.metric("draw_failures");
          w = true;
-         ClientServices.LOGGER.error("Purxiy loading screen failed; Minecraft's takes over", var29);
+         ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX loading screen failed; Minecraft's takes over", var291);
       }
 
-      if (C == HomeRenderer.TypeB.F && o >= 1.6F) {
+      if (C == HomeRenderer.HomeLayer.F && o >= 1.6F) {
          Q = null;
          return true;
       } else {
@@ -160,20 +154,15 @@ public final class HomeRenderer {
       }
    }
 
-   private static boolean P(class_310 var0,  class_437 var1, long var2) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private static boolean P(class_310 var0, class_437 var1, long var2) {
+      HomeGuiBridge.ensureSourceClassInitialized();
       if (var1 == null) {
          return false;
       } else if (HomeUpdater.z.worldEnabled() && var0.field_1687 == null) {
          HomeUpdater var4 = HomeUpdater.get();
          if (!var4.readyForIntro()) {
             long var5 = 91690120689324L;
-            if (91690120689324L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var8 = var5 < 0L ? -1 : 1;
-            }
-
+            int var7 = var5 < 0L ? -1 : 1;
             if (f <= 4 || var4.drawnLately()) {
                return false;
             }
@@ -186,13 +175,13 @@ public final class HomeRenderer {
    }
 
    private static boolean f(long var0) {
-      HomeSupport2.ensureSourceClassInitialized();
-      return z >= (g ? 1.35F : 1.7F) + x;
+      HomeGuiBridge.ensureSourceClassInitialized();
+      return z >= (g ? 1.35F : 1.7F) + 0.0F;
    }
 
    private static float[] s(float var0) {
       float var1 = var0 * 0.24F;
-      return new float[]{var0 * 0.46F - HomeRenderer2.height(var1) / 2.0F, var1};
+      return new float[]{var0 * 0.46F - HomePipeline.height(var1) / 2.0F, var1};
    }
 
    private static float o(short var0, int var1, int var2, float var3) {
@@ -213,10 +202,10 @@ public final class HomeRenderer {
       long var14 = (var25 ^ 137240998393370L) << 16 >>> 16;
       float var16 = var0.width();
       float var17 = var0.height();
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       float var18 = RenderPipelines.get().time();
       RenderPipelines var19 = RenderPipelines.get();
-      boolean var20 = C == HomeRenderer.TypeB.F;
+      boolean var20 = C == HomeRenderer.HomeLayer.F;
       float var21 = var17 * 1.32F;
       float var22 = 0.0F;
       float var23 = 1.0F;
@@ -228,11 +217,7 @@ public final class HomeRenderer {
          if (var4) {
             var23 = S(var61);
             long var31 = 1987385634L;
-            if (1987385634L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var93 = var31 < 0L ? -1 : 1;
-            }
+            int var62 = var31 < 0L ? -1 : 1;
          } else {
             var22 = -var21 * (1.0F - Easing.CUBIC_IN_OUT.apply(var61));
          }
@@ -251,12 +236,7 @@ public final class HomeRenderer {
          float var55;
          int var26 = (var55 = var22 - -var21) == 0.0F ? 0 : (var55 < 0.0F ? -1 : 1);
          var27 = 1987385634L;
-         if (1987385634L == 0L) {
-            boolean var94 = false;
-         } else {
-            int var95 = var27 < 0L ? -1 : 1;
-         }
-
+         int var67 = var27 < 0L ? -1 : 1;
          if (var26 > 0) {
             D((byte)var10, var0, var16, var17, var11, var12, var22, var21, var23, var24, var18, var4);
          }
@@ -293,23 +273,14 @@ public final class HomeRenderer {
          }
 
          long var84 = 1987385635L;
-         if (1987385635L == 0L) {
-            boolean var104 = false;
-         } else {
-            int var105 = var84 < 0L ? -1 : 1;
-         }
+         int var88 = var84 < 0L ? -1 : 1;
       } else if (!var20) {
          float var39 = Math.min(1.0F, z / 0.85F);
          class_437 var40 = class_310.method_1551().field_1755;
          if (X && var40 != null) {
-            float[] var74 = HomeRenderer3.logoSlot(var40);
+            float[] var74 = HomeScreenRenderer.logoSlot(var40);
             long var42 = 1987385634L;
-            if (1987385634L == 0L) {
-               boolean var96 = false;
-            } else {
-               int var97 = var42 < 0L ? -1 : 1;
-            }
-
+            int var85 = var42 < 0L ? -1 : 1;
             float var45 = Easing.CUBIC_IN_OUT.apply(Math.max(0.0F, (var39 - 0.25F) / 0.75F));
             var62 = h(var19.fromGui(var74[0]), var62, var45);
             var64 = h(var19.fromGui(var74[1]), var57 + var28, var45);
@@ -329,24 +300,14 @@ public final class HomeRenderer {
          var34 *= 1.0F - S(var68);
          class_437 var71 = class_310.method_1551().field_1755;
          long var76 = 1987385634L;
-         if (1987385634L == 0L) {
-            boolean var98 = false;
-         } else {
-            int var99 = var76 < 0L ? -1 : 1;
-         }
-
+         int var83 = var76 < 0L ? -1 : 1;
          if (X && var71 != null) {
-            float[] var44 = HomeRenderer3.logoSlot(var71);
+            float[] var44 = HomeScreenRenderer.logoSlot(var71);
             float var86 = Easing.bezier(0.55F, 0.0F, 0.12F, 1.0F).apply(var68);
             var62 = h(r, var19.fromGui(var44[0]), var86);
             var64 = h(N, var19.fromGui(var44[1]), var86);
             long var46 = 1987385635L;
-            if (1987385635L == 0L) {
-               boolean var100 = false;
-            } else {
-               int var101 = var46 < 0L ? -1 : 1;
-            }
-
+            int var47 = var46 < 0L ? -1 : 1;
             var66 = h(i, var19.fromGui(var44[2]), var86);
             var35 = S(o / 0.8F);
             float var48;
@@ -356,12 +317,8 @@ public final class HomeRenderer {
                var32 = 0.0F;
             }
 
-            long var51 = 1987385634L;
-            if (1987385634L == 0L) {
-               boolean var102 = false;
-            } else {
-               int var103 = var51 < 0L ? -1 : 1;
-            }
+            long var51x = 1987385634L;
+            int var56x = var51x < 0L ? -1 : 1;
          } else {
             var62 = r;
             var64 = N + var22 * 0.6F;
@@ -374,31 +331,26 @@ public final class HomeRenderer {
       int var73 = (var70 = var32 - 0.003F) == 0.0F ? 0 : (var70 < 0.0F ? -1 : 1);
       short var78 = 10019;
       if (var73 > 0) {
-         HomeRenderer2.draw(var0, var62, var64, var66, var32, var33, var34, 0.9F, var18, var35, var38, var37, var36);
+         HomePipeline.draw(var0, var62, var64, var66, var32, var33, var34, 0.9F, var18, var35, var38, var37, var36);
       }
 
       float var81;
       if (var20) {
          long var82 = 1987385635L;
-         if (1987385635L == 0L) {
-            boolean var106 = false;
-         } else {
-            int var107 = var82 < 0L ? -1 : 1;
-         }
-
+         int var94 = var82 < 0L ? -1 : 1;
          var81 = 1.0F - S(o / 0.32F);
       } else {
          var81 = g ? S((z - 0.595F) / 0.4F) : S((z - 0.75F) / 0.5F);
       }
 
-      J = Math.min(1.0F, C == HomeRenderer.TypeB.A ? 0.0F : J + var5 * 2.5F);
+      J = Math.min(1.0F, C == HomeRenderer.HomeLayer.A ? 0.0F : J + var5 * 2.5F);
       if (var81 > 0.003F) {
-         float var83 = C == HomeRenderer.TypeB.A ? var3 : 1.0F;
+         float var83 = C == HomeRenderer.HomeLayer.A ? var3 : 1.0F;
          float var85 = Math.max(0.0F, Math.min(1.0F, O.target(var83).update(var5)));
          float var87 = Math.max(120.0F, Math.min(220.0F, var16 * 0.16F));
          float var88 = 3.0F;
-         float var47 = var57 + HomeRenderer2.height(var60) + var17 * 0.07F + var22;
-         float var89 = C == HomeRenderer.TypeB.F ? S(o / 0.32F) : 0.0F;
+         float var47 = var57 + HomePipeline.height(var60) + var17 * 0.07F + var22;
+         float var89 = C == HomeRenderer.HomeLayer.F ? S(o / 0.32F) : 0.0F;
          float var90 = var87 * (1.0F - var89);
          float var91 = var16 / 2.0F - var90 / 2.0F;
          var0.pushAlpha(var81 * var23);
@@ -423,13 +375,13 @@ public final class HomeRenderer {
    }
 
    private static float T(short var0, long var1, float var3) {
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       float var4 = var3 - 0.9F;
       if (var4 < 0.0F) {
          return -1.75F;
       } else {
          float var5 = var4 % 3.4F / 1.3F;
-         return var5 >= 1.0F ? -1.75F : HomeRenderer2.sweepAt(S(var5));
+         return var5 >= 1.0F ? -1.75F : HomePipeline.sweepAt(S(var5));
       }
    }
 
@@ -439,7 +391,7 @@ public final class HomeRenderer {
       float var12 = var3;
       float var13 = var7 - var3;
       var1.push();
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       var1.translate(0.0F, var6);
       var1.pushAlpha(var8);
       g(var1, var2, 0.0F, var3, Theme.tint(-16054248), Theme.tint(-16382960));
@@ -510,24 +462,24 @@ public final class HomeRenderer {
    }
 
    public static boolean ownsLogo() {
-      return Q != null && class_310.method_1551().method_18506() == Q && X && (C != HomeRenderer.TypeB.F || !(o >= 1.35F));
+      return Q != null && class_310.method_1551().method_18506() == Q && X && (C != HomeRenderer.HomeLayer.F || !(o >= 1.35F));
    }
 
    public static float screenClock() {
       if (Q != null && !g && class_310.method_1551().method_18506() == Q) {
-         return C == HomeRenderer.TypeB.F ? o - 0.5F : -100.0F;
+         return C == HomeRenderer.HomeLayer.F ? o - 0.5F : -100.0F;
       } else {
          return Float.NaN;
       }
    }
 
    public static boolean holdsIntro() {
-      return Q != null && !g && C != HomeRenderer.TypeB.F && class_310.method_1551().method_18506() == Q;
+      return Q != null && !g && C != HomeRenderer.HomeLayer.F && class_310.method_1551().method_18506() == Q;
    }
 
    static float sinceLanding() {
       if (Q != null && class_310.method_1551().method_18506() == Q) {
-         return C == HomeRenderer.TypeB.F ? o - 1.35F : -10.0F;
+         return C == HomeRenderer.HomeLayer.F ? o - 1.35F : -10.0F;
       } else {
          return Float.NaN;
       }
@@ -547,10 +499,9 @@ public final class HomeRenderer {
       return var0 + (var1 - var0) * var2;
    }
 
-private static enum TypeB {
+   private static enum HomeLayer {
       A,
       w,
       F;
-
-}
+   }
 }

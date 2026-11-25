@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.Animator;
@@ -85,15 +84,15 @@ final class ModuleSearch {
       for (Module var5 : SettingSection.all()) {
          int var6 = var2.isEmpty() ? 0 : score(var2, var5);
          if (var6 >= 0) {
-            var3.add(new ModuleSearch.TypeO(var5, var6));
+            var3.add(new ModuleSearch.SearchHit(var5, var6));
          }
       }
 
-      var3.sort(Comparator.<ModuleSearch.TypeO>comparingInt(var0 -> -var0.score).thenComparing(var0 -> var0.module.name()));
+      var3.sort(Comparator.<ModuleSearch.SearchHit>comparingInt(var0 -> -var0.score).thenComparing(var0 -> var0.module.name()));
       this.results.clear();
 
       for (int var7 = 0; var7 < var3.size() && var7 < 7; var7++) {
-         this.results.add(((ModuleSearch.TypeO)var3.get(var7)).module);
+         this.results.add(((ModuleSearch.SearchHit)var3.get(var7)).module);
       }
 
       this.selected = 0;
@@ -208,7 +207,7 @@ final class ModuleSearch {
       Module var5 = this.results.get(var3);
       float var6 = Easing.EMPHASIZED
          .apply(Math.max(0.0F, Math.min(1.0F, ((var1.time - this.resultsStart) * MotionStyle.CASCADE.speed() - var3 * 0.02F) / 0.3F)));
-      if (var1.hover(this.rowKeys[var3], this.x + 6.0F, var4, 548.0F, 50.0F, DrawContext.TypeE.HAND) && this.selected != var3) {
+      if (var1.hover(this.rowKeys[var3], this.x + 6.0F, var4, 548.0F, 50.0F, DrawContext.Cursor.HAND) && this.selected != var3) {
          this.selected = var3;
       }
 
@@ -238,7 +237,7 @@ final class ModuleSearch {
       var2.popAlpha();
    }
 
-   ModuleSearch.TypeG charTyped(int var1, float var2) {
+   ModuleSearch.SearchAction charTyped(int var1, float var2) {
       if (this.active && !Character.isISOControl(var1)) {
          if (this.query.length() < 40) {
             this.query.appendCodePoint(var1);
@@ -247,20 +246,20 @@ final class ModuleSearch {
             SoundRequest.play(SoundEvent.TYPE);
          }
 
-         return ModuleSearch.TypeG.NONE;
+         return ModuleSearch.SearchAction.NONE;
       } else {
-         return ModuleSearch.TypeG.NONE;
+         return ModuleSearch.SearchAction.NONE;
       }
    }
 
-   ModuleSearch.TypeG keyPressed(int var1, boolean var2, boolean var3, float var4) {
+   ModuleSearch.SearchAction keyPressed(int var1, boolean var2, boolean var3, float var4) {
       if (!this.active) {
-         return ModuleSearch.TypeG.NONE;
+         return ModuleSearch.SearchAction.NONE;
       } else {
          switch (var1) {
             case 256:
                this.hide();
-               return new ModuleSearch.TypeG((Module)null, true);
+               return new ModuleSearch.SearchAction((Module)null, true);
             case 257:
             case 335:
                return this.activate(var2);
@@ -271,7 +270,7 @@ final class ModuleSearch {
             case 259:
                if (this.query.isEmpty()) {
                   this.hide();
-                  return new ModuleSearch.TypeG((Module)null, true);
+                  return new ModuleSearch.SearchAction((Module)null, true);
                }
 
                if (var3) {
@@ -288,14 +287,14 @@ final class ModuleSearch {
                if (!this.results.isEmpty()) {
                   Module var5 = this.results.get(this.selected);
                   this.hide();
-                  return new ModuleSearch.TypeG(var5, true);
+                  return new ModuleSearch.SearchAction(var5, true);
                }
                break;
             case 265:
                this.move(-1);
          }
 
-         return ModuleSearch.TypeG.NONE;
+         return ModuleSearch.SearchAction.NONE;
       }
    }
 
@@ -309,46 +308,46 @@ final class ModuleSearch {
       }
    }
 
-   private ModuleSearch.TypeG activate(boolean var1) {
+   private ModuleSearch.SearchAction activate(boolean var1) {
       if (this.results.isEmpty()) {
          SoundRequest.play(SoundEvent.DENY);
-         return ModuleSearch.TypeG.NONE;
+         return ModuleSearch.SearchAction.NONE;
       } else {
          Module var2 = this.results.get(this.selected);
          if (!var1 && var2.toggleable()) {
             var2.toggle();
             SoundRequest.play(var2.switchedOn() ? SoundEvent.TOGGLE_ON : SoundEvent.TOGGLE_OFF);
-            return ModuleSearch.TypeG.NONE;
+            return ModuleSearch.SearchAction.NONE;
          } else {
             this.hide();
-            return new ModuleSearch.TypeG(var2, true);
+            return new ModuleSearch.SearchAction(var2, true);
          }
       }
    }
 
-   ModuleSearch.TypeG mouseDown(float var1, float var2, int var3) {
+   ModuleSearch.SearchAction mouseDown(float var1, float var2, int var3) {
       if (!this.active) {
-         return ModuleSearch.TypeG.NONE;
+         return ModuleSearch.SearchAction.NONE;
       } else if (var1 >= this.x && var1 <= this.x + 560.0F && var2 >= this.listY && var2 <= this.listY + this.results.size() * 50.0F + 12.0F) {
          int var4 = (int)((var2 - this.listY - 6.0F) / 50.0F);
          if (var4 >= 0 && var4 < this.results.size()) {
             this.selected = var4;
             return this.activate(var3 == 1);
          } else {
-            return ModuleSearch.TypeG.NONE;
+            return ModuleSearch.SearchAction.NONE;
          }
       } else if (var1 >= this.x && var1 <= this.x + 560.0F && var2 >= this.inputY && var2 <= this.inputY + 52.0F) {
-         return ModuleSearch.TypeG.NONE;
+         return ModuleSearch.SearchAction.NONE;
       } else {
          this.hide();
-         return new ModuleSearch.TypeG((Module)null, true);
+         return new ModuleSearch.SearchAction((Module)null, true);
       }
    }
 
-   record TypeG( Module openSettings, boolean close) {
-      static final ModuleSearch.TypeG NONE = new ModuleSearch.TypeG((Module)null, false);
+   record SearchAction( Module openSettings, boolean close) {
+      static final ModuleSearch.SearchAction NONE = new ModuleSearch.SearchAction((Module)null, false);
    }
 
-   private record TypeO(Module module, int score) {
+   private record SearchHit(Module module, int score) {
    }
 }

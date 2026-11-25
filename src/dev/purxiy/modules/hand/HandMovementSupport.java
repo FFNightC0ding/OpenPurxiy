@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hand;
 
 final class HandMovementSupport {
@@ -9,7 +8,7 @@ final class HandMovementSupport {
    private final SwingStyle[] s = new SwingStyle[4];
    private final float[] B = new float[4];
    private int u;
-   private final SwingStyle.TypeJ G = new SwingStyle.TypeJ();
+   private final SwingStyle.ArmPose G = new SwingStyle.ArmPose();
 
    void push(double var1, float var3, SwingStyle var4, float var5) {
       for (int var6 = 3; var6 > 0; var6--) {
@@ -38,7 +37,7 @@ final class HandMovementSupport {
       return this.u > 0 && var1 - this.b[0] < this.Z[0] + var3;
    }
 
-   void evaluate(double var1, boolean var3, SwingStyle.TypeJ var4) {
+   void evaluate(double var1, boolean var3, SwingStyle.ArmPose var4) {
       long var5 = 88990414937347L;
       long var7 = var5 ^ 93624102551717L;
       int var9 = 0;
@@ -72,25 +71,15 @@ final class HandMovementSupport {
       }
    }
 
-   private void W(int var1, float var2, boolean var3, SwingStyle.TypeJ var4, long var5) {
+   private void W(int var1, float var2, boolean var3, SwingStyle.ArmPose var4, long var5) {
       SwingStyle.ensureSourceClassInitialized();
       long var7 = 6361877454245L;
-      if (6361877454245L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var14 = var7 < 0L ? -1 : 1;
-      }
-
+      int var10 = var7 < 0L ? -1 : 1;
       if (var3) {
-         SwingStyle var10 = this.s[var1];
+         SwingStyle var10x = this.s[var1];
          long var11 = 6361877454246L;
-         if (6361877454246L == 0L) {
-            boolean var15 = false;
-         } else {
-            int var16 = var11 < 0L ? -1 : 1;
-         }
-
-         var10.arm(var2, this.B[var1], var4);
+         int var12 = var11 < 0L ? -1 : 1;
+         var10x.arm(var2, this.B[var1], var4);
       } else {
          this.s[var1].item(var2, this.B[var1], var4);
       }

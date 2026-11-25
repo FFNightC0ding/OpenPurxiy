@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -21,12 +20,9 @@ public final class KnifeFactory {
    private static final Map<String, Long> I = new HashMap<>();
    private static final boolean n = "log".equals(System.getProperty("purxiy.wieldSounds"));
 
-
-
    private KnifeFactory() {
    }
 
-   
    static class_3414 of(KnifeApi var0, String var1) {
       class_3414 var2 = e.get(var0.sounds() + "_" + var1);
       return var2 != null ? var2 : e.get(var1);
@@ -70,5 +66,4 @@ public final class KnifeFactory {
          }
       }
    }
-
 }

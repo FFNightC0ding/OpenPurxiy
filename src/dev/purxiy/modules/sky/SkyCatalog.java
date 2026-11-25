@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.sky;
 
 import java.util.List;
@@ -143,21 +142,6 @@ final class SkyCatalog {
       return this;
    }
 
-   // The palette presets were missing from this source drop, which left a (the palette list) null and made
-   // SkyModule's constructor throw an NPE, so the module switched itself back off the moment it was enabled.
-   // Each palette is rebuilt as a continuous ramp from four key colours so all 22 tint slots stay coherent.
-   static {
-      SkyCatalog var0 = palette("Purxiy", 0x0A0F2E, 0x43306B, 0xC7A8FF, 0x7FE3FF);
-      SkyCatalog var1 = palette("Nebula", 0x150826, 0x5B1F4C, 0xFF9ED6, 0xFFD6A8);
-      SkyCatalog var2 = palette("Eclipse", 0x07070B, 0x2A2334, 0xFFC48A, 0xFF7B46);
-      SkyCatalog var3 = palette("Dream", 0x0F2439, 0x3D7092, 0xACE9FF, 0xD8B6FF);
-      M = var0;
-      X = var1;
-      o = var2;
-      n = var3;
-      a = List.of(var0, var1, var2, var3);
-   }
-
    private static SkyCatalog palette(String var0, int var1, int var2, int var3, int var4) {
       int[] var5 = ramp(var1, var2, 4);
       int[] var6 = ramp(var2, var3, 4);
@@ -190,10 +174,21 @@ final class SkyCatalog {
       int[] var3 = new int[var2];
 
       for (int var4 = 0; var4 < var2; var4++) {
-         var3[var4] = mix(var0, var1, var2 <= 1 ? 0.0F : (float)var4 / (float)(var2 - 1));
+         var3[var4] = mix(var0, var1, var2 <= 1 ? 0.0F : (float)var4 / (var2 - 1));
       }
 
       return var3;
    }
 
+   static {
+      SkyCatalog var0 = palette("SourceByDevFFnightmare DeObfDeCompByGuideX", 659246, 4403307, 13084927, 8381439);
+      SkyCatalog var1 = palette("Nebula", 1378342, 5971788, 16752342, 16766632);
+      SkyCatalog var2 = palette("Eclipse", 460555, 2761524, 16761994, 16743238);
+      SkyCatalog var3 = palette("Dream", 992313, 4026514, 11332095, 14202623);
+      M = var0;
+      X = var1;
+      o = var2;
+      n = var3;
+      a = List.of(var0, var1, var2, var3);
+   }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.config;
 
 import com.google.gson.JsonElement;
@@ -6,7 +5,7 @@ import com.google.gson.JsonPrimitive;
 
 public final class TextSetting extends Setting<String> {
    private final int maxLength;
-   
+
    private String placeholder;
    private boolean masked;
    private boolean colorCodes;
@@ -25,7 +24,7 @@ public final class TextSetting extends Setting<String> {
       return this;
    }
 
-   
+
    public String placeholder() {
       return this.placeholder;
    }

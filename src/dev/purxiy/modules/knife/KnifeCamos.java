@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import java.util.ArrayList;
@@ -39,8 +38,6 @@ public final class KnifeCamos {
       )
    );
 
-
-
    private KnifeCamos() {
    }
 
@@ -77,10 +74,7 @@ public final class KnifeCamos {
       return null;
    }
 
-public record Camo(String a, String C, String Z) {
-
-
-
+   public record Camo(String a, String C, String Z) {
       public String texture() {
          return "textures/knife/camos/" + this.C + ".png";
       }
@@ -101,7 +95,7 @@ public record Camo(String a, String C, String Z) {
          return this.Z;
       }
 
-public String stringState40() {
+      public String stringState40() {
          return this.a;
       }
 

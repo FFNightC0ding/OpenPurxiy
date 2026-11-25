@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer3;
+import dev.purxiy.loader.fabric.client.ParticleRenderPass;
 import net.minecraft.class_1297;
 import net.minecraft.class_2394;
 import net.minecraft.class_702;
@@ -18,7 +17,7 @@ public abstract class RippleParticlesMixin {
       cancellable = true
    )
    private void purxiy$rippleCrits(class_1297 var1, class_2394 var2, CallbackInfo var3) {
-      if (ClientRenderer3.replacesParticles(var1, var2)) {
+      if (ParticleRenderPass.replacesParticles(var1, var2)) {
          var3.cancel();
       }
    }

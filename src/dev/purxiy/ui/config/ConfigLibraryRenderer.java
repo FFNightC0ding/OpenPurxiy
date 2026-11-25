@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.config;
 
 import dev.purxiy.anim.Easing;
@@ -15,12 +14,12 @@ import dev.purxiy.ui.Theme;
 
 final class ConfigLibraryRenderer {
    private static final float HEIGHT = 40.0F;
-   
-   private ConfigLibraryRenderer.TypeZ current;
-   
-   private ConfigLibraryRenderer.TypeZ leaving;
+
+   private ConfigLibraryRenderer.RendererToast current;
+
+   private ConfigLibraryRenderer.RendererToast leaving;
    private float leftAt = -100.0F;
-   private final ConfigLibraryRenderer8.TypeC button = new ConfigLibraryRenderer8.TypeC();
+   private final ConfigLibraryDash.DashBar button = new ConfigLibraryDash.DashBar();
 
    void show(String var1, String var2, float var3) {
       this.show(var1, var2, (String)null, (Runnable)null, false, var3);
@@ -36,7 +35,7 @@ final class ConfigLibraryRenderer {
          this.leftAt = var6;
       }
 
-      this.current = new ConfigLibraryRenderer.TypeZ(var1, var2, var3, var4, var5, var6, var3 != null ? 5.5F : 2.8F);
+      this.current = new ConfigLibraryRenderer.RendererToast(var1, var2, var3, var4, var5, var6, var3 != null ? 5.5F : 2.8F);
    }
 
    void dismiss(float var1) {
@@ -59,7 +58,7 @@ final class ConfigLibraryRenderer {
          }
       }
 
-      ConfigLibraryRenderer.TypeZ var10 = this.current;
+      ConfigLibraryRenderer.RendererToast var10 = this.current;
       if (var10 != null) {
          float var8 = (var6 - var10.born()) * MotionStyle.MENU.speed();
          if (var8 > var10.life()) {
@@ -71,9 +70,9 @@ final class ConfigLibraryRenderer {
       }
    }
 
-   private void draw(DrawContext var1, Canvas var2, ConfigLibraryRenderer.TypeZ var3, float var4, float var5, float var6, boolean var7) {
+   private void draw(DrawContext var1, Canvas var2, ConfigLibraryRenderer.RendererToast var3, float var4, float var5, float var6, boolean var7) {
       float var8 = var2.textWidth(Fonts.MEDIUM, var3.text(), 12.5F);
-      float var9 = var3.action() != null ? ConfigLibraryRenderer8.TypeC.width(var2, (String)null, var3.action(), 28.0F) + 10.0F : 0.0F;
+      float var9 = var3.action() != null ? ConfigLibraryDash.DashBar.width(var2, (String)null, var3.action(), 28.0F) + 10.0F : 0.0F;
       float var10 = 50.0F + var8 + 18.0F + var9;
       float var11 = var4 - var10 / 2.0F;
       float var12 = var5 - 40.0F;
@@ -87,7 +86,7 @@ final class ConfigLibraryRenderer {
       if (var3.action() != null) {
          this.button
             .render(
-               var1, var11 + var10 - 8.0F - (var9 - 10.0F), var13, 28.0F, (String)null, var3.action(), ConfigLibraryRenderer8.TypeI.QUIET, var7 && var6 > 0.9F
+               var1, var11 + var10 - 8.0F - (var9 - 10.0F), var13, 28.0F, (String)null, var3.action(), ConfigLibraryDash.DashTone.QUIET, var7 && var6 > 0.9F
             );
       }
 
@@ -101,7 +100,7 @@ final class ConfigLibraryRenderer {
    }
 
    void act(float var1) {
-      ConfigLibraryRenderer.TypeZ var2 = this.current;
+      ConfigLibraryRenderer.RendererToast var2 = this.current;
       if (var2 != null && var2.run() != null) {
          var2.run().run();
          this.dismiss(var1);
@@ -109,7 +108,7 @@ final class ConfigLibraryRenderer {
    }
 
    boolean mouseDown(float var1, float var2, float var3) {
-      ConfigLibraryRenderer.TypeZ var4 = this.current;
+      ConfigLibraryRenderer.RendererToast var4 = this.current;
       if (var4 != null && var4.run() != null && this.button.hit(var1, var2)) {
          this.button.press();
          var4.run().run();
@@ -120,6 +119,6 @@ final class ConfigLibraryRenderer {
       }
    }
 
-   private record TypeZ(String icon, String text,  String action,  Runnable run, boolean warn, float born, float life) {
+   private record RendererToast(String icon, String text,  String action,  Runnable run, boolean warn, float born, float life) {
    }
 }

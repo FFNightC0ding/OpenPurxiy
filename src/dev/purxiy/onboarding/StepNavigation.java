@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.anim.Animator;
@@ -41,7 +40,7 @@ final class StepNavigation {
       String var5,
        String var6,
        String var7,
-      StepNavigation.TypeS var8,
+      StepNavigation.AccentStyle var8,
       boolean var9,
       boolean var10
    ) {
@@ -52,7 +51,7 @@ final class StepNavigation {
       this.y = var3 - var4 / 2.0F;
       this.active = var10 && var9;
       this.drawn = RenderPipelines.get().frame();
-      boolean var12 = this.active && var1.hover(this, this.x, this.y, this.w, this.h, DrawContext.TypeE.HAND);
+      boolean var12 = this.active && var1.hover(this, this.x, this.y, this.w, this.h, DrawContext.Cursor.HAND);
       float var13 = this.hover.target(var12 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       float var14 = this.enabled.target(var9 ? 1.0F : 0.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
       float var15 = var4 / 2.0F;
@@ -110,7 +109,7 @@ final class StepNavigation {
             }
       }
 
-      int var16 = var8 == StepNavigation.TypeS.GHOST ? BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var13) : Icons.TEXT;
+      int var16 = var8 == StepNavigation.AccentStyle.GHOST ? BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var13) : Icons.TEXT;
       float var17 = this.x + var4 * 0.5F;
       if (var5.isEmpty() && var6 != null) {
          var11.icon(var6, this.x + this.w / 2.0F, var3, 15.0F, var16);
@@ -150,14 +149,14 @@ final class StepNavigation {
          && var2 <= this.y + this.h;
    }
 
-   static enum TypeS {
+   static enum AccentStyle {
       PRIMARY,
       ACCENT,
       GLASS,
       GHOST;
 
-      private static StepNavigation.TypeS[] $values() {
-         return new StepNavigation.TypeS[]{PRIMARY, ACCENT, GLASS, GHOST};
+      private static StepNavigation.AccentStyle[] $values() {
+         return new StepNavigation.AccentStyle[]{PRIMARY, ACCENT, GLASS, GHOST};
       }
    }
 }

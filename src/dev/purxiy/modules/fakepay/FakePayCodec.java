@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.fakepay;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ final class FakePayCodec {
    private FakePayCodec() {
    }
 
-   static double parse( String var0) {
+   static double parse(String var0) {
       long var1 = 122323283390996L;
       long var3 = var1 ^ 129802307831239L;
       if (var0 == null) {
@@ -53,7 +52,7 @@ final class FakePayCodec {
       try {
          double var3 = Double.parseDouble(var0);
          return Double.isFinite(var3) ? var3 : Double.NaN;
-      } catch (NumberFormatException var5) {
+      } catch (NumberFormatException var51) {
          return Double.NaN;
       }
    }
@@ -112,23 +111,13 @@ final class FakePayCodec {
          for (var11 = -1; var12.find(); var11 = var12.end()) {
             int var13 = var12.start();
             long var14 = 89224221057415L;
-            if (89224221057415L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var41 = var14 < 0L ? -1 : 1;
-            }
-
+            int var17 = var14 < 0L ? -1 : 1;
             var10 = var13;
          }
       }
 
       long var38 = 89224221057416L;
-      if (89224221057416L == 0L) {
-         boolean var42 = false;
-      } else {
-         int var43 = var38 < 0L ? -1 : 1;
-      }
-
+      int var361 = var38 < 0L ? -1 : 1;
       if (var10 < 0) {
          return var0;
       } else {
@@ -140,55 +129,23 @@ final class FakePayCodec {
             String var19 = (String)var8.get(var18);
             class_2583 var20 = (class_2583)var7.get(var18);
             long var22 = 89224221057415L;
-            if (89224221057415L == 0L) {
-               boolean var44 = false;
-            } else {
-               int var45 = var22 < 0L ? -1 : 1;
-            }
-
-            int var25 = var16 + var19.length();
+            int var25 = var22 < 0L ? -1 : 1;
+            var25 = var16 + var19.length();
             int var26 = Math.min(var25, var10);
             long var27 = 89224221057415L;
-            if (89224221057415L == 0L) {
-               boolean var46 = false;
-            } else {
-               int var47 = var27 < 0L ? -1 : 1;
-            }
-
+            int var40 = var27 < 0L ? -1 : 1;
             if (var26 > var16) {
                var15.method_10852(class_2561.method_43470(var19.substring(0, var26 - var16)).method_10862(var20));
             }
 
             if (!var17) {
                long var30 = 89224221057415L;
-               if (89224221057415L == 0L) {
-                  boolean var48 = false;
-               } else {
-                  int var49 = var30 < 0L ? -1 : 1;
-               }
-
-               long var32 = 89224221057415L;
-               if (89224221057415L == 0L) {
-                  boolean var50 = false;
-               } else {
-                  int var51 = var32 < 0L ? -1 : 1;
-               }
-
+               int var32 = var30 < 0L ? -1 : 1;
+               long var32x = 89224221057415L;
+               int var30x = var32x < 0L ? -1 : 1;
                if (var10 >= var16) {
-                  long var34 = 89224221057415L;
-                  if (89224221057415L == 0L) {
-                     boolean var52 = false;
-                  } else {
-                     int var53 = var34 < 0L ? -1 : 1;
-                  }
-
-                  long var36 = 89224221057415L;
-                  if (89224221057415L == 0L) {
-                     boolean var54 = false;
-                  } else {
-                     int var55 = var36 < 0L ? -1 : 1;
-                  }
-
+                  long var34x = 89224221057415L;
+                  long var36x = 89224221057415L;
                   if (var10 < var25) {
                      var15.method_10852(class_2561.method_43470(var1).method_10862(var20));
                      var17 = true;
@@ -196,21 +153,11 @@ final class FakePayCodec {
                }
             }
 
-            int var40 = Math.max(var16, var11);
+            var40 = Math.max(var16, var11);
             long var31 = 89224221057415L;
-            if (89224221057415L == 0L) {
-               boolean var56 = false;
-            } else {
-               int var57 = var31 < 0L ? -1 : 1;
-            }
-
-            long var33 = 89224221057415L;
-            if (89224221057415L == 0L) {
-               boolean var58 = false;
-            } else {
-               int var59 = var33 < 0L ? -1 : 1;
-            }
-
+            int var33 = var31 < 0L ? -1 : 1;
+            long var33x = 89224221057415L;
+            int var31x = var33x < 0L ? -1 : 1;
             if (var25 > var40) {
                var15.method_10852(class_2561.method_43470(var19.substring(var40 - var16)).method_10862(var20));
             }
@@ -219,12 +166,7 @@ final class FakePayCodec {
          }
 
          long var39 = 89224221057415L;
-         if (89224221057415L == 0L) {
-            boolean var60 = false;
-         } else {
-            int var61 = var39 < 0L ? -1 : 1;
-         }
-
+         int var40x = var39 < 0L ? -1 : 1;
          if (!var17) {
             var15.method_10852(class_2561.method_43470(var1));
          }
@@ -237,36 +179,20 @@ final class FakePayCodec {
       for (int var3 = 0; var3 < var0.length(); var3++) {
          char var4 = var0.charAt(var3);
          long var5 = 100665270967463L;
-         if (100665270967463L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var13 = var5 < 0L ? -1 : 1;
-         }
-
-         boolean var8 = Character.isDigit(var4);
+         int var8 = var5 < 0L ? -1 : 1;
+         boolean var8x = Character.isDigit(var4);
          long var9 = 100665270967463L;
-         if (100665270967463L == 0L) {
-            boolean var14 = false;
-         } else {
-            int var15 = var9 < 0L ? -1 : 1;
-         }
-
-         if (var8) {
+         int var10 = var9 < 0L ? -1 : 1;
+         if (var8x) {
             return var3;
          }
       }
 
       long var12 = 100665270967463L;
-      if (100665270967463L == 0L) {
-         boolean var16 = false;
-      } else {
-         int var17 = var12 < 0L ? -1 : 1;
-      }
-
+      int var12x = var12 < 0L ? -1 : 1;
       return -1;
    }
 
    public static void ensureSourceClassInitialized() {
    }
-
 }

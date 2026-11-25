@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry6;
+import dev.purxiy.loader.fabric.client.ChunkRenderProvider;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -32,6 +31,6 @@ public abstract class PlaceSodiumSectionMixin {
       require = 0
    )
    private void purxiy$placeMeshed(CallbackInfoReturnable<Boolean> var1) {
-      ClientRegistry6.sectionMeshed(this.chunkX, this.chunkY, this.chunkZ);
+      ChunkRenderProvider.sectionMeshed(this.chunkX, this.chunkY, this.chunkZ);
    }
 }

@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry13;
+import dev.purxiy.loader.fabric.client.FirstPersonProvider;
 import net.minecraft.class_312;
 import net.minecraft.class_746;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +18,7 @@ public abstract class FreelookMouseMixin {
       )}
    )
    private void purxiy$turnFreelook(class_746 var1, double var2, double var4, Operation<Void> var6) {
-      if (!ClientRegistry13.turn(var2, var4)) {
+      if (!FirstPersonProvider.turn(var2, var4)) {
          var6.call(new Object[]{var1, var2, var4});
       }
    }

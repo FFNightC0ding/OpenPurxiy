@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import dev.purxiy.hud.HudRegistry;
@@ -66,7 +65,7 @@ public final class ModuleState implements AutoCloseable {
 
             long var1 = System.nanoTime();
             var0.router.frame(var0.lastFrame == 0L ? 0.0 : Math.min(0.25, (var1 - var0.lastFrame) / 1.0E9));
-            ModuleState.TypeT var3 = var0.new TypeT(class_310.method_1551().field_1687);
+            ModuleState.WorldViewBridge var3 = var0.new WorldViewBridge(class_310.method_1551().field_1687);
 
             try {
                var0.router.world(var3);
@@ -114,7 +113,7 @@ public final class ModuleState implements AutoCloseable {
    public static void hud(class_332 var0) {
       ModuleState var1 = active;
       if (var1 != null) {
-         ModuleState.TypeR var2 = new ModuleState.TypeR(var0);
+         ModuleState.HudCanvasBridge var2 = new ModuleState.HudCanvasBridge(var0);
 
          try {
             ClientServices.borrowVanilla(var0, () -> var1.router.hud(var2));
@@ -147,28 +146,26 @@ public final class ModuleState implements AutoCloseable {
          }
 
          try {
-            LoggerFactory.getLogger("PurxiyLoader")
+            LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader")
                .error("Module {} faulted; only that module is disabled: {}", var2, NameValidation.capture(var1));
          } catch (RuntimeException | LinkageError var4) {
-            LoggerFactory.getLogger("PurxiyLoader").error("Module {} faulted; only that module is disabled", var2);
+            LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader").error("Module {} faulted; only that module is disabled", var2);
          }
 
          return;
       }
 
       try {
-         LoggerFactory.getLogger("PurxiyLoader").error("Module callback fault metadata: {}", NameValidation.capture(var1));
+         LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader").error("Module callback fault metadata: {}", NameValidation.capture(var1));
       } catch (RuntimeException | LinkageError var3) {
-         LoggerFactory.getLogger("PurxiyLoader").error("Module callback fault metadata unavailable");
+         LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader").error("Module callback fault metadata unavailable");
       }
 
       fault(var0);
    }
 
-   /**
-    * Which module owns the throwing frame. Callbacks are singletons the router has no owner for, so the module is
-    * recovered from the stack: every module class is defined by that module's own classloader.
-    */
+   // Every module class is defined by that module's own classloader, so the
+   // owning module can be read off the throwing frame.
    private static String failingModule(ModuleState var0, Throwable var1) {
       for (Throwable var2 = var1; var2 != null; var2 = var2.getCause()) {
          for (StackTraceElement var6 : var2.getStackTrace()) {
@@ -195,7 +192,7 @@ public final class ModuleState implements AutoCloseable {
                this.modules.disable(var1);
             }
          } catch (AssertionError | Exception | LinkageError var3) {
-            LoggerFactory.getLogger("PurxiyLoader").error("Could not disable faulted module {}", var1);
+            LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader").error("Could not disable faulted module {}", var1);
          }
 
          try {
@@ -212,7 +209,7 @@ public final class ModuleState implements AutoCloseable {
       }
 
       LoaderMessages.status = "Modules gestopt vanwege een fout. Herstart de client.";
-      LoggerFactory.getLogger("PurxiyLoader").error("Module callback failed; module host stopped and hooks detached.");
+      LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader").error("Module callback failed; module host stopped and hooks detached.");
    }
 
    @Override
@@ -230,10 +227,10 @@ public final class ModuleState implements AutoCloseable {
       }
    }
 
-   private static final class TypeR implements HudCanvas {
+   private static final class HudCanvasBridge implements HudCanvas {
       private class_332 graphics;
 
-      private TypeR(class_332 var1) {
+      private HudCanvasBridge(class_332 var1) {
          this.graphics = var1;
       }
 
@@ -262,12 +259,12 @@ public final class ModuleState implements AutoCloseable {
       }
    }
 
-   private final class TypeT implements WorldView {
+   private final class WorldViewBridge implements WorldView {
       private class_638 level;
       private final long identity;
       private boolean valid = true;
 
-      TypeT(class_638 nullx) {
+      WorldViewBridge(class_638 nullx) {
          this.level = nullx;
          if (nullx != ModuleState.this.previousWorld) {
             ModuleState.this.previousWorld = nullx;

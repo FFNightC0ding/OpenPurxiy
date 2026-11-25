@@ -1,10 +1,9 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.client;
 
 import net.minecraft.class_1268;
 
 public final class ClientRegistry {
-   private static final ClientSupport3.TypeX<ClientRegistry.Listener> providers = ClientSupport3.TypeX.create();
+   private static final SkyPipelineRouter.PipelineList<ClientRegistry.Listener> providers = SkyPipelineRouter.PipelineList.create();
 
    private ClientRegistry() {
    }

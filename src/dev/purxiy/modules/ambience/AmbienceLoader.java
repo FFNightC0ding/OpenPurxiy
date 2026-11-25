@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.ambience;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class AmbienceLoader {
    public static final String H = "Accent";
    public static final Map<String, String> o = Map.of("Lilac", "Accent");
    static final AmbienceLoader f = new AmbienceLoader("Accent", 13481727, 11306751, 15442687);
-   static final AmbienceLoader M = new AmbienceLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final AmbienceLoader M = new AmbienceLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final AmbienceLoader N = new AmbienceLoader("Dream", 16758499, 12890367, 10404095);
    public static final String F = "Custom";
    static final List<AmbienceLoader> v = List.of(f, M, N);
@@ -22,10 +21,6 @@ public final class AmbienceLoader {
    public final int D;
    public final int d;
    public static boolean s;
-
-
-
-
 
    private AmbienceLoader(String var1, int var2, int var3, int var4) {
       this.y = var1;
@@ -89,5 +84,4 @@ public final class AmbienceLoader {
    private static int B(long var0, float var2, float var3, float var4) {
       return ClientSupport.hsvToRgb(var2 - (float)Math.floor(var2), var3, var4) & 16777215;
    }
-
 }

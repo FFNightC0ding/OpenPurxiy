@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cape;
 
 public enum CapeDesign {
-   B("Purxiy", "Signature", "The mark on deep violet, the light catching its glasses", -4222985),
+   B("SourceByDevFFnightmare DeObfDeCompByGuideX", "Signature", "The mark on deep violet, the light catching its glasses", -4222985),
    U("Midnight", "Minimal", "Black satin, the mark drawn in one line of light", -5665803),
    d("Pearl", "Minimal", "Pearl white with colour flowing through, the mark in violet", -2504449),
    W("Nebula", "Cosmos", "A violet nebula drifting slowly between the stars", -5210894),
@@ -16,8 +15,6 @@ public enum CapeDesign {
    public final String g;
    public final String L;
    public final int o;
-
-
 
    private CapeDesign(String nullxx, String nullxxx, String nullxxxx, int nullxxxxx) {
       this.E = nullxx;
@@ -46,5 +43,4 @@ public enum CapeDesign {
 
       return B;
    }
-
 }

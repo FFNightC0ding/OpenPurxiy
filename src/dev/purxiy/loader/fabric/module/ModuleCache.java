@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.module;
 
 import java.util.ArrayDeque;
@@ -11,7 +10,7 @@ import net.minecraft.class_746;
 public final class ModuleCache {
    private static long sequence = 0L;
    private static long active = 0L;
-   private static final ArrayDeque<ModuleCache.TypeH> releases = new ArrayDeque<>();
+   private static final ArrayDeque<ModuleCache.PlayerContext> releases = new ArrayDeque<>();
 
    private ModuleCache() {
    }
@@ -22,13 +21,13 @@ public final class ModuleCache {
       }
    }
 
-   public static ModuleCache.TypeD acquire() {
+   public static ModuleCache.CacheLease acquire() {
       owner();
       if (active != 0L) {
          return null;
       } else {
          active = ++sequence;
-         return new ModuleCache.TypeD(active);
+         return new ModuleCache.CacheLease(active);
       }
    }
 
@@ -47,7 +46,7 @@ public final class ModuleCache {
       if (releases.size() >= 8) {
          throw new IllegalStateException("Pending input cleanup limit");
       } else {
-         releases.addLast(new ModuleCache.TypeH(var0, var1, var2, var3));
+         releases.addLast(new ModuleCache.PlayerContext(var0, var1, var2, var3));
       }
    }
 
@@ -55,7 +54,7 @@ public final class ModuleCache {
       owner();
 
       while (!releases.isEmpty()) {
-         ModuleCache.TypeH var1 = releases.removeFirst();
+         ModuleCache.PlayerContext var1 = releases.removeFirst();
          if (var0.field_1724 == var1.player
             && var0.field_1687 == var1.level
             && var0.field_1761 != null
@@ -73,10 +72,10 @@ public final class ModuleCache {
       releases.clear();
    }
 
-   public static final class TypeD implements AutoCloseable {
+   public static final class CacheLease implements AutoCloseable {
       private final long identity;
 
-      private TypeD(long var1) {
+      private CacheLease(long var1) {
          this.identity = var1;
       }
 
@@ -94,6 +93,6 @@ public final class ModuleCache {
       }
    }
 
-   private record TypeH(class_746 player, class_638 level, class_1268 hand, class_1792 item) {
+   private record PlayerContext(class_746 player, class_638 level, class_1268 hand, class_1792 item) {
    }
 }

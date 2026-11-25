@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.ping;
 
 import dev.purxiy.hud.HudBounds;
@@ -10,8 +9,6 @@ import net.minecraft.class_640;
 public final class PingHud extends HudElementGroup {
    public static boolean a;
    public static boolean b;
-
-
 
    public PingHud() {
       super("ping", "Ping", "Your connection to the server", "wifi", 0.0, 0.0);
@@ -27,7 +24,6 @@ public final class PingHud extends HudElementGroup {
       }
    }
 
-   @Override
    protected String value(HudBounds var1) {
       long var2 = 24537442885558L;
       long var4 = var2 ^ 62320737539631L;
@@ -42,17 +38,14 @@ public final class PingHud extends HudElementGroup {
       }
    }
 
-   @Override
    protected String sample() {
       return "24";
    }
 
-   @Override
    protected String label(HudBounds var1) {
       return var1.live() && var1.mc.method_1496() ? null : "ms";
    }
 
-   @Override
    protected int valueColor(HudBounds var1) {
       long var2 = 68272715740636L;
       long var4 = var2 ^ 18591940705349L;
@@ -62,5 +55,4 @@ public final class PingHud extends HudElementGroup {
       int var9 = var1.live() ? z(var6, (byte)var7, var8, var1) : 24;
       return var9 > 180 && !var1.mc.method_1496() ? Icons.PINK : Icons.TEXT;
    }
-
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.auth;
 
 public interface DeviceIdentity extends AutoCloseable {

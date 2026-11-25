@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonElement;
@@ -126,7 +125,7 @@ public final class SupportedRuntime {
 
    public static final class Refused extends IllegalStateException {
       private Refused(Throwable var1) {
-         super("Purxiy requires the secure Fabric startup configuration. Install the supported Purxiy runtime before starting this build.", var1);
+         super("SourceByDevFFnightmare DeObfDeCompByGuideX requires the secure Fabric startup configuration. Install the supported SourceByDevFFnightmare DeObfDeCompByGuideX runtime before starting this build.", var1);
       }
    }
 }

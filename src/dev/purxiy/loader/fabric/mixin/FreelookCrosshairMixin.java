@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.purxiy.loader.fabric.client.ClientRegistry13;
+import dev.purxiy.loader.fabric.client.FirstPersonProvider;
 import net.minecraft.class_329;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,6 +16,6 @@ public abstract class FreelookCrosshairMixin {
       )}
    )
    private boolean purxiy$freelookCrosshair(boolean var1) {
-      return var1 || ClientRegistry13.inHead();
+      return var1 || FirstPersonProvider.inHead();
    }
 }

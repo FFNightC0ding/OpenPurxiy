@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.coordinates;
 
 import dev.purxiy.config.BooleanSetting;
@@ -30,15 +29,11 @@ public final class CoordinatesHud extends HudModule {
    private final BooleanSetting M = this.bool("biome", "Biome", null, false);
    private final BooleanSetting T = this.bool("other", "Other dimension", "Matching Overworld or Nether position", false);
    private final List<String[]> D = new ArrayList<>();
-   
    private class_2338 L;
-   
    private class_1937 w;
    private String A = "";
    public static boolean U;
    public static boolean n;
-
-
 
    public CoordinatesHud() {
       super("coordinates", "Coordinates", "Where you are, always in view", "navigation", 0.0, 0.0);
@@ -61,12 +56,7 @@ public final class CoordinatesHud extends HudModule {
       boolean var16 = false;
       boolean var17 = var3.live();
       long var18 = 7750037655374L;
-      if (7750037655374L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var44 = var18 < 0L ? -1 : 1;
-      }
-
+      int var41 = var18 < 0L ? -1 : 1;
       if (var17) {
          var8 = var3.player.method_23317();
          var10 = var3.player.method_23318();
@@ -74,28 +64,13 @@ public final class CoordinatesHud extends HudModule {
          var14 = var3.player.method_5705(var3.partialTick);
          var16 = var3.level.method_27983() == class_1937.field_25180;
          long var21 = 7750037655375L;
-         if (7750037655375L == 0L) {
-            boolean var45 = false;
-         } else {
-            int var46 = var21 < 0L ? -1 : 1;
-         }
-
+         int var42 = var21 < 0L ? -1 : 1;
          long var23 = 7750037655375L;
-         if (7750037655375L == 0L) {
-            boolean var47 = false;
-         } else {
-            int var48 = var23 < 0L ? -1 : 1;
-         }
-
+         int var43 = var23 < 0L ? -1 : 1;
          if (this.M.enabled()) {
             class_2338 var25 = var3.player.method_24515();
             long var26 = 7750037655374L;
-            if (7750037655374L == 0L) {
-               boolean var49 = false;
-            } else {
-               int var50 = var26 < 0L ? -1 : 1;
-            }
-
+            int var27 = var26 < 0L ? -1 : 1;
             if (!var25.equals(this.L) || var3.level != this.w) {
                this.L = var25;
                this.w = var3.level;
@@ -111,61 +86,35 @@ public final class CoordinatesHud extends HudModule {
       }
 
       this.D.add(new String[]{"X", this.P(var8, var6)});
-      List var41 = this.D;
+      List var41x = this.D;
       String[] var22 = new String[]{"Y", null};
       long var42 = 7750037655374L;
-      if (7750037655374L == 0L) {
-         boolean var51 = false;
-      } else {
-         int var52 = var42 < 0L ? -1 : 1;
-      }
-
+      int var431 = var42 < 0L ? -1 : 1;
       var22[1] = this.P(var10, var6);
-      var41.add(var22);
+      var41x.add(var22);
       this.D.add(new String[]{"Z", this.P(var12, var6)});
-      long var43 = 7750037655375L;
-      if (7750037655375L == 0L) {
-         boolean var53 = false;
-      } else {
-         int var54 = var43 < 0L ? -1 : 1;
-      }
-
+      long var43x = 7750037655375L;
+      int var28 = var43x < 0L ? -1 : 1;
       if (this.P.enabled()) {
          this.D.add(new String[]{"@compass", L(var4, var14)});
       }
 
       var17 = this.M.enabled();
-      long var28 = 7750037655374L;
-      if (7750037655374L == 0L) {
-         boolean var55 = false;
-      } else {
-         int var56 = var28 < 0L ? -1 : 1;
-      }
-
+      long var28x = 7750037655374L;
       if (var17) {
          this.D.add(new String[]{"@trees", var15});
       }
 
       if (this.T.enabled()) {
-         double var30 = var16 ? 8.0 : 0.125;
+         double var30x = var16 ? 8.0 : 0.125;
          List var32 = this.D;
          String[] var33 = new String[2];
          long var34 = 7750037655374L;
-         if (7750037655374L == 0L) {
-            boolean var57 = false;
-         } else {
-            int var58 = var34 < 0L ? -1 : 1;
-         }
-
+         int var34x = var34 < 0L ? -1 : 1;
          var33[0] = "@globe";
-         long var37 = 7750037655374L;
-         if (7750037655374L == 0L) {
-            boolean var59 = false;
-         } else {
-            int var60 = var37 < 0L ? -1 : 1;
-         }
-
-         var33[1] = (var16 ? "Overworld  " : "Nether  ") + this.P(var8 * var30, var6) + ", " + this.P(var12 * var30, var6);
+         long var37x = 7750037655374L;
+         int var36 = var37x < 0L ? -1 : 1;
+         var33[1] = (var16 ? "Overworld  " : "Nether  ") + this.P(var8 * var30x, var6) + ", " + this.P(var12 * var30x, var6);
          var32.add(var33);
       }
    }
@@ -174,11 +123,8 @@ public final class CoordinatesHud extends HudModule {
       float var3 = (var2 % 360.0F + 360.0F) % 360.0F;
       int var4 = Math.round(var3 / 90.0F) % 4;
       long var5 = 80295919145199L;
-      if (80295919145199L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
+      int var7 = var5 < 0L ? -1 : 1;
+
       return switch (var4) {
          case 0 -> "South  +Z";
          case 1 -> "West  -X";
@@ -191,19 +137,16 @@ public final class CoordinatesHud extends HudModule {
       return this.v.is("Single line");
    }
 
-   @Override
    protected boolean mergeable() {
       return true;
    }
 
-   @Override
    protected float cornerRadius() {
       long var1 = 83844129632745L;
       long var3 = var1 ^ 116076312021056L;
       return this.u(var3) ? 10.0F : 7.0F;
    }
 
-   @Override
    protected void measure(HudBounds var1, float[] var2) {
       long var3 = 110101566893888L;
       long var5 = var3 ^ 72500658624233L;
@@ -232,7 +175,6 @@ public final class CoordinatesHud extends HudModule {
       }
    }
 
-   @Override
    protected void render(Canvas var1, HudBounds var2) {
       long var3 = 53531637551652L;
       long var5 = var3 ^ 23625188371341L;
@@ -272,5 +214,4 @@ public final class CoordinatesHud extends HudModule {
          }
       }
    }
-
 }

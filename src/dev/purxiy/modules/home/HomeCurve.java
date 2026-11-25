@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.home;
 
 import java.nio.ByteBuffer;
@@ -36,8 +35,6 @@ final class HomeCurve {
    private ByteBuffer m;
    private int F;
 
-
-
    HomeCurve(int var1) {
       this.m = MemoryUtil.memAlloc(Math.max(64, var1) * 4 * 40);
    }
@@ -66,7 +63,7 @@ final class HomeCurve {
    }
 
    private void z(int var1, int var2, char var3, char var4) {
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       int var5 = (this.F + var1) * 40;
       if (var5 > this.m.capacity()) {
          int var6 = this.m.capacity();
@@ -281,7 +278,7 @@ final class HomeCurve {
       return var2 << 16 | var3 << 8 | var4;
    }
 
-interface Listener {
+   interface Listener {
       boolean at(int var1, int var2, int var3);
    }
 }

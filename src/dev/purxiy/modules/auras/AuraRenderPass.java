@@ -1,0 +1,545 @@
+package dev.purxiy.modules.auras;
+
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.systems.CommandEncoder;
+import com.mojang.blaze3d.systems.GpuQuery;
+import com.mojang.blaze3d.textures.GpuTextureView;
+import dev.purxiy.loader.api.ModuleContext;
+import dev.purxiy.loader.fabric.ClientServices;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
+import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.OptionalLong;
+import net.minecraft.class_1297;
+import net.minecraft.class_1309;
+import net.minecraft.class_243;
+import net.minecraft.class_276;
+import net.minecraft.class_310;
+import net.minecraft.class_4184;
+import net.minecraft.class_638;
+import net.minecraft.class_742;
+import net.minecraft.class_746;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
+
+public final class AuraRenderPass {
+   private static final double S = 48.0;
+   private static final int b = 16;
+   private static final int X = Integer.MIN_VALUE;
+   private static final float n = 0.3F;
+   private static final float j = 0.75F;
+   static final float N = 1.4F;
+   private static final Int2ObjectMap<AuraTrailHistory> L = new Int2ObjectOpenHashMap();
+   private static final AuraGeometry g = new AuraGeometry();
+   private static final AuraGeometry.MeshVertex T = new AuraGeometry.MeshVertex();
+   private static final AuraPipelineSet.AuraSlot Y = new AuraPipelineSet.AuraSlot();
+   private static AuraPipelineSet.AuraVertexSink c;
+   private static class_638 J;
+   private static String I;
+   private static final List<class_1297> F = new ArrayList<>();
+   private static double a;
+   private static double q;
+   private static long W = 0L;
+   private static float H;
+   private static AuraStyle v;
+   private static AuraStyle C;
+   private static float o;
+   private static float Q = -1.0F;
+   private static AuraStyle y;
+   private static long i = 0L;
+   private static boolean m;
+   private static boolean d;
+   private static final Matrix4f A = new Matrix4f();
+   private static final Matrix4f B = new Matrix4f();
+   private static double l;
+   private static double x;
+   private static double r;
+   private static boolean f;
+   private static float w;
+   private static GpuBufferSlice V;
+   private static boolean s;
+   private static boolean p;
+   private static double k;
+   private static double M;
+   private static double O;
+   private static double K;
+   private static boolean Z;
+   private static boolean R;
+   private static GpuQuery D;
+   private static double E;
+   private static int h = 0;
+   private static int P = 0;
+   static AuraModule U;
+   private static ModuleContext z;
+   private static int G = 0;
+   private static int t = 0;
+   private static final String[] u = new String[7];
+
+   private AuraRenderPass() {
+   }
+
+   static void gather() {
+      if (H >= 1.0F) {
+         H = 0.0F;
+      }
+   }
+
+   public static void previewGather() {
+      H = 0.0F;
+      ObjectIterator var0 = L.values().iterator();
+
+      while (var0.hasNext()) {
+         AuraTrailHistory var1 = (AuraTrailHistory)var0.next();
+         var1.k = 0.0F;
+      }
+   }
+
+   public static void pulse() {
+      Q = 0.0F;
+   }
+
+   static void tryOn(AuraStyle var0) {
+      y = var0;
+      i = System.nanoTime() + 400000000L;
+   }
+
+   private static AuraStyle Z(long var0, AuraModule var2) {
+      AuraStyle.ensureSourceClassInitialized();
+      if (y != null && System.nanoTime() < i) {
+         return y;
+      } else {
+         y = null;
+         return var2.auraStyle();
+      }
+   }
+
+   static float pulseAt(float var0) {
+      if (!(var0 < 0.0F) && !(var0 >= 1.4F)) {
+         return var0 < 0.16F
+            ? AuraGeometry.smooth(var0 / 0.16F)
+            : (float)Math.exp(-(var0 - 0.16F) * 3.4F) * (1.0F - AuraGeometry.smooth((var0 - 1.0F) / 0.4F));
+      } else {
+         return 0.0F;
+      }
+   }
+
+   public static void beginFrame(class_4184 var0, Matrix4fc var1, Matrix4fc var2, GpuBufferSlice var3) {
+      d = U.enabled() || H > 0.0F || C != null || m;
+      if (d) {
+         A.set(var2).mul(var1);
+         A.invert(B);
+         class_243 var4 = var0.method_71156();
+         l = var4.field_1352;
+         x = var4.field_1351;
+         r = var4.field_1350;
+         f = var0.method_19333();
+         class_276 var5 = class_310.method_1551().method_1522();
+         w = var2.m11() * var5.field_1481 * 0.5F;
+         V = var3;
+      }
+   }
+
+   public static void render(float var0) {
+      long var1 = 130384429331071L;
+      long var3 = var1 ^ 58952803017768L;
+      long var5 = var1 ^ 57497958152595L;
+      long var7 = var1 ^ 19599713237855L;
+      boolean var9 = d;
+      d = false;
+      class_310 var10 = class_310.method_1551();
+      class_638 var11 = var10.field_1687;
+      if (var11 != J) {
+         J = var11;
+         L.clear();
+      }
+
+      if (var9 && var11 != null) {
+         long var12 = System.nanoTime();
+         float var14 = W == 0L ? 0.0F : Math.min((float)(var12 - W) / 1.0E9F, 0.1F);
+         W = var12;
+         if (var10.method_1493()) {
+            var14 = 0.0F;
+         }
+
+         AuraModule var15 = U;
+         a += var14;
+         q = q + var14 * var15.O.floatValue();
+         if (Q >= 0.0F) {
+            Q += var14;
+            if (Q >= 1.4F) {
+               Q = -1.0F;
+            }
+         }
+
+         try {
+            boolean var16 = var15.enabled();
+            AuraStyle var23 = Z(var5, var15);
+            if (v != var23) {
+               if (v != null && H > 0.0F && (C == null || H >= o)) {
+                  C = v;
+                  o = H;
+               }
+
+               v = var23;
+               H = 0.0F;
+            }
+
+            H = var16 ? Math.min(1.0F, H + var14 / 1.1F) : Math.max(0.0F, H - var14 / 0.7F);
+            if (C != null) {
+               o -= var14 / 0.7F;
+               if (o <= 0.0F) {
+                  C = null;
+               }
+            }
+
+            boolean var18 = var16 || H > 0.0F;
+            a(var10, var3, var11, var0, var14, var18);
+            m = Y(var7, var10, var15);
+            if (!m && !var16 && H <= 0.0F && C == null) {
+               L.clear();
+               AuraPipelineSet.closeLayer();
+            }
+         } catch (Throwable var19) {
+            metric("draw_failures");
+            String var17 = var19.toString();
+            if (!var17.equals(I)) {
+               I = var17;
+               ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX aura failed", var19);
+            }
+         }
+      } else {
+         if (m) {
+            m = false;
+            AuraPipelineSet.closeLayer();
+         }
+
+         W = 0L;
+      }
+   }
+
+   private static void a(class_310 var0, long var1, class_638 var3, float var4, float var5, boolean var6) {
+      long var7 = 4711756904975L;
+      long var9 = 54699192607548L;
+      AuraModule var11 = U;
+      AuraStyle.ensureSourceClassInitialized();
+      ObjectIterator var12 = L.values().iterator();
+
+      while (var12.hasNext()) {
+         AuraTrailHistory var13 = (AuraTrailHistory)var12.next();
+         var13.N = false;
+      }
+
+      long var31 = 73716561729111L;
+      class_1297 var16 = var0.field_1724;
+      class_746 var16x = var0.field_1724;
+      if (var16x != null) {
+         boolean var17 = q(var16x, var16x, var7);
+         long var18 = 73716561729111L;
+         int var35 = var18 < 0L ? -1 : 1;
+         if (var17) {
+            AuraTrailHistory var20 = T(var16x.method_5628(), var16x, var9, var4, var5);
+            var20.k = 1.0F;
+         }
+      }
+
+      if (var16x != null && var6) {
+         boolean var32 = var11.f.enabled();
+         long var34 = 73716561729111L;
+         int var36 = var34 < 0L ? -1 : 1;
+         if (!var32) {
+            var32 = false;
+            long var21 = 73716561729111L;
+            int var21x = var21 < 0L ? -1 : 1;
+         } else {
+            List<class_1297> var35x = F;
+            long var22 = 73716561729110L;
+            int var24 = var22 < 0L ? -1 : 1;
+            var35x.clear();
+            var24 = 0;
+
+            for (class_742 var26 : var3.method_18456()) {
+               if (var26 != var16x && q(var16x, var26, var7)) {
+                  var35x.add(var26);
+               }
+            }
+
+            var24 = var35x.size();
+            long var37 = 73716561729111L;
+            int var38 = var37 < 0L ? -1 : 1;
+            if (var24 > 16) {
+               var35x.sort((var1x, var2) -> Double.compare(var1x.method_5858(var16), var2.method_5858(var16)));
+            }
+
+            for (int var27 = 0; var27 < Math.min(var35x.size(), 16); var27++) {
+               class_1297 var28 = (class_1297)var35x.get(var27);
+               long var29 = 73716561729111L;
+               int var29x = var29 < 0L ? -1 : 1;
+               T(var28.method_5628(), var28, var9, var4, var5).come(true, var5);
+            }
+
+            long var38x = 73716561729111L;
+            int var44 = var38x < 0L ? -1 : 1;
+            var35x.clear();
+         }
+      }
+
+      L.values().removeIf(var1x -> {
+         AuraStyle.ensureSourceClassInitialized();
+         long var2 = 85892733704100L;
+         int var4x = var2 < 0L ? -1 : 1;
+         if (var1x.N) {
+            return false;
+         } else {
+            var1x.come(false, var5);
+            return var1x.k <= 0.0F;
+         }
+      });
+   }
+
+   private static boolean q(class_746 var0, class_1297 var1, long var2) {
+      AuraStyle.ensureSourceClassInitialized();
+      if (!var1.method_7325() && !var1.method_5756(var0)) {
+         long var4 = 4711756904974L;
+         int var7 = var4 < 0L ? -1 : 1;
+         if (var1.method_5805()) {
+            if (var1 instanceof class_1309) {
+               long var7x = 4711756904974L;
+               int var9 = var7x < 0L ? -1 : 1;
+               class_1309 var9x = (class_1309)var1;
+               boolean var10 = var9x.method_6113();
+               long var11 = 4711756904975L;
+               int var12 = var11 < 0L ? -1 : 1;
+               if (var10) {
+                  return false;
+               }
+            }
+
+            return var1 == var0 || var1.method_5858(var0) < 2304.0;
+         }
+      }
+
+      return false;
+   }
+
+   private static AuraTrailHistory T(int var0, class_1297 var1, long var2, float var4, float var5) {
+      AuraStyle.ensureSourceClassInitialized();
+      AuraTrailHistory var6 = (AuraTrailHistory)L.get(var0);
+      long var7 = 54699192607547L;
+      int var10 = var7 < 0L ? -1 : 1;
+      if (var6 == null) {
+         var6 = new AuraTrailHistory();
+         L.put(var0, var6);
+      }
+
+      var6.N = true;
+      class_243 var10x = var1.method_30950(var4);
+      float var11 = var1.method_17682() * SkyPipelineRouter.bodyHeight(var1);
+      float var12 = var1.method_17681() / 0.6F;
+      var6.follow(a, var10x.field_1352, var10x.field_1351, var10x.field_1350, var11, var12, var5);
+      return var6;
+   }
+
+   private static void F(float var0, long var1) {
+      AuraStyle.ensureSourceClassInitialized();
+      AuraTrailHistory var3 = (AuraTrailHistory)L.get(Integer.MIN_VALUE);
+      long var4 = 30286870687110L;
+      int var7 = var4 < 0L ? -1 : 1;
+      if (var3 == null) {
+         var3 = new AuraTrailHistory();
+         L.put(Integer.MIN_VALUE, var3);
+      }
+
+      var3.N = true;
+      K += var0 * 4.3 / 2.6;
+      double var7x = Math.max(0.0, Math.sin(K * 2.2)) * 0.9;
+      var3.follow(a, k + Math.cos(K) * 2.6, M + var7x, O + Math.sin(K) * 2.6, 1.8F, 1.0F, var0);
+      var3.come(true, var0);
+   }
+
+   static int[] palette(AuraModule var0, int[] var1) {
+      AuraLoader var2 = AuraLoader.resolve((String)var0.H.get(), var0.z.argb());
+      var1[0] = var2.A;
+      var1[1] = var2.R;
+      var1[2] = var2.n;
+      return var1;
+   }
+
+   private static boolean Y(long var0, class_310 var2, AuraModule var3) {
+      AuraStyle.ensureSourceClassInitialized();
+      if (!L.isEmpty() && V != null && AuraPipelineSet.ready(AuraPipelineSet.H)) {
+         class_276 var4 = var2.method_1522();
+         GpuTextureView var5 = var4.method_71639();
+         GpuTextureView var6 = var4.method_71640();
+         if (var5 != null && var6 != null) {
+            AuraGeometry.MeshVertex var7 = T;
+            long var8 = 113550687848736L;
+            int var11 = var8 < 0L ? -1 : 1;
+            var7.T = var3.R.floatValue();
+            long var11x = 113550687848735L;
+            int var14 = var11x < 0L ? -1 : 1;
+            var7.y = var3.O.floatValue();
+            var7.b = q;
+            var7.k = pulseAt(Q);
+            var7.F = 1.0F;
+            palette(var3, var7.d);
+            if (c == null) {
+               c = new AuraPipelineSet.AuraVertexSink("world");
+            }
+
+            c.reset();
+            boolean var14x = !f;
+            AuraTrailHistory var15 = var2.field_1724 != null ? (AuraTrailHistory)L.get(var2.field_1724.method_5628()) : null;
+            boolean var16 = var15 != null && (!var14x || var3.J.enabled());
+            ObjectIterator var17 = L.int2ObjectEntrySet().iterator();
+
+            while (var17.hasNext()) {
+               Entry var18 = (Entry)var17.next();
+               AuraTrailHistory var19 = (AuraTrailHistory)var18.getValue();
+               long var20 = 113550687848735L;
+               int var20x = var20 < 0L ? -1 : 1;
+               long var22x = 113550687848736L;
+               if (var19 == var15) {
+                  long var24 = 113550687848736L;
+                  int var24x = var24 < 0L ? -1 : 1;
+                  if (!var16) {
+                     long var26x = 113550687848735L;
+                     continue;
+                  }
+               }
+
+               var19.from(l, x, r);
+               var7.v = var19 == var15 && var14x ? 0.0F : 1.0F;
+               if (C != null) {
+                  var7.f = C;
+                  var7.n = o * var19.k;
+                  g.draw(var19, var7, c);
+               }
+
+               if (v != null) {
+                  var7.f = v;
+                  var7.n = H * var19.k;
+                  g.draw(var19, var7, c);
+               }
+            }
+
+            long var28 = 113550687848736L;
+            int var301 = var28 < 0L ? -1 : 1;
+            if (c.quads() == 0) {
+               return false;
+            } else {
+               AuraPipelineSet.AuraSlot var29 = Y;
+               var29.d.set(A);
+               var29.X.set(B);
+               var29.Y = (float)(q % 3600.0);
+               var29.F = var3.A.floatValue();
+               var29.R = w;
+               var29.I = Math.max(6.0F, var4.field_1481 * 0.011F);
+               var29.u = Math.max(30.0F, var4.field_1481 * 0.065F);
+               var29.x = 0.7F;
+               long var30x = 113550687848735L;
+               int var23 = var30x < 0L ? -1 : 1;
+               boolean var23x = var14x && var16;
+               var29.Z = var23x ? 0.3F : 0.05F;
+               var29.W = var23x ? 0.75F : 0.25F;
+               var29.p = 0.0F;
+               Object var31x = null;
+               AuraPipelineSet.drawWorld(c, var29, var5, var6, V, (GpuQuery)var31x);
+               if (var31x != null) {
+                  D = (GpuQuery)var31x;
+               }
+
+               return true;
+            }
+         } else {
+            return false;
+         }
+      } else {
+         return false;
+      }
+   }
+
+   private static GpuQuery u(CommandEncoder var0, long var1, int var3) {
+      AuraStyle.ensureSourceClassInitialized();
+      if (D != null) {
+         OptionalLong var4 = D.getValue();
+         long var5 = 133444365009093L;
+         int var8 = var5 < 0L ? -1 : 1;
+         if (var4.isEmpty()) {
+            return null;
+         }
+
+         D.close();
+         D = null;
+         E = E + var4.getAsLong() / 1000000.0;
+         P += var3;
+         long var8x = 133444365009094L;
+         int var9 = var8x < 0L ? -1 : 1;
+         if (++h == 240) {
+            ClientServices.LOGGER
+               .info("SourceByDevFFnightmare DeObfDeCompByGuideX aura: {} ms GPU per frame ({} quads, {} auras)", new Object[]{String.format(Locale.ROOT, "%.3f", E / h), P / h, L.size()});
+            E = 0.0;
+            h = 0;
+            P = 0;
+         }
+      }
+
+      return var0.timerQueryBegin();
+   }
+
+   public static void install(AuraModule var0, ModuleContext var1) {
+      U = var0;
+      z = var1;
+   }
+
+   public static void metric(String var0) {
+      if (z != null) {
+         z.metric(var0, var0.equals("drawn") ? ++G : ++t);
+      }
+   }
+
+   public static void uninstall() {
+      int var0 = 0;
+
+      try {
+         if (c != null) {
+            c.dispose();
+         }
+      } catch (Exception var14) {
+         var0++;
+      } finally {
+         c = null;
+      }
+
+      try {
+         if (D != null) {
+            D.close();
+         }
+      } catch (Exception var12) {
+         var0++;
+      } finally {
+         D = null;
+      }
+
+      L.clear();
+      F.clear();
+      J = null;
+      v = null;
+      C = null;
+      y = null;
+      V = null;
+      d = false;
+      m = false;
+      H = 0.0F;
+      U = null;
+      z = null;
+      W = 0L;
+      if (var0 != 0) {
+         throw new IllegalStateException("World visual GPU cleanup failed");
+      }
+   }
+}

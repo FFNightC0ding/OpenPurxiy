@@ -1,33 +1,32 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.profile;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import dev.purxiy.loader.fabric.client.ClientRegistry8;
+import dev.purxiy.loader.fabric.client.ProfileProvider;
 import java.time.LocalDate;
 import net.minecraft.class_310;
 
 public final class ProfileSupport {
    private static long next = 0L;
    private static long revision = -1L;
-   private static ProfileLoader2 cached = new ProfileLoader2();
-   private static ProfileLoader2.TypeW live;
+   private static ProfileDay cached = new ProfileDay();
+   private static ProfileDay.DayCache live;
 
    private ProfileSupport() {
    }
 
    public static boolean available() {
-      return ClientRegistry8.available();
+      return ProfileProvider.available();
    }
 
-   public static ProfileLoader2 data() {
+   public static ProfileDay data() {
       long var0 = System.nanoTime();
-      long var2 = ClientRegistry8.revision();
+      long var2 = ProfileProvider.revision();
       if (var2 != revision || var0 - next >= 0L) {
-         JsonObject var4 = JsonParser.parseString(ClientRegistry8.snapshot()).getAsJsonObject();
-         cached = ProfileLoader2.load(var4);
+         JsonObject var4 = JsonParser.parseString(ProfileProvider.snapshot()).getAsJsonObject();
+         cached = ProfileDay.load(var4);
          JsonObject var5 = var4.getAsJsonObject("live");
-         live = var5 == null ? null : new ProfileLoader2.TypeW(var5.get("start").getAsLong(), var5.get("place").getAsString(), ProfileLoader.load(var5));
+         live = var5 == null ? null : new ProfileDay.DayCache(var5.get("start").getAsLong(), var5.get("place").getAsString(), ProfileLoader.load(var5));
          next = var0 + 250000000L;
          revision = var2;
       }
@@ -35,12 +34,12 @@ public final class ProfileSupport {
       return cached;
    }
 
-   public static ProfileLoader2.TypeW live() {
+   public static ProfileDay.DayCache live() {
       data();
       return live;
    }
 
-   public static ProfileCodec2 journey() {
+   public static ProfileTrackCodec journey() {
       return data().journey;
    }
 

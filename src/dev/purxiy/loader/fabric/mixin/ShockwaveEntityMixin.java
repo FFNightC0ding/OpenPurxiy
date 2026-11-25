@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_1297;
 import net.minecraft.class_2338;
 import net.minecraft.class_2680;
@@ -23,7 +22,7 @@ public abstract class ShockwaveEntityMixin {
    )
    private void purxiy$shockwaveLand(double var1, boolean var3, class_2680 var4, class_2338 var5, CallbackInfo var6) {
       class_1297 var7 = (class_1297)(Object)(Object)this;
-      ClientSupport3.land(var7, var7.field_6017);
+      SkyPipelineRouter.land(var7, var7.field_6017);
    }
 
    @Inject(
@@ -31,6 +30,6 @@ public abstract class ShockwaveEntityMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$shockwaveStep(class_2338 var1, class_2680 var2, CallbackInfo var3) {
-      ClientSupport3.step((class_1297)(Object)(Object)this);
+      SkyPipelineRouter.step((class_1297)(Object)(Object)this);
    }
 }

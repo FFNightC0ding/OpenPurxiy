@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_1309;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +14,6 @@ public abstract class JumpCirclesJumpMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$jumpCircle(CallbackInfo var1) {
-      ClientSupport3.jump((class_1309)(Object)(Object)this);
+      SkyPipelineRouter.jump((class_1309)(Object)(Object)this);
    }
 }

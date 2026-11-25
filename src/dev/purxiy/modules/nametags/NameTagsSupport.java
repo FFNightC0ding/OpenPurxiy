@@ -1,8 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.nametags;
 
 import dev.purxiy.render.Canvas;
-import java.nio.charset.StandardCharsets;
 import net.minecraft.class_11719;
 import net.minecraft.class_2583;
 import net.minecraft.class_2960;
@@ -42,5 +40,4 @@ public final class NameTagsSupport {
       float var6 = var2 - 7.0F * var3;
       var0.shadow(var1, var6 + 4.0F * var5, 12.0F * var5, 8.0F * var5, var5, 3.0F * var5, var4);
    }
-
 }

@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import net.minecraft.class_2583;
 import net.minecraft.class_327;
 import net.minecraft.class_5224;
@@ -20,7 +19,7 @@ public abstract class NickFontMixin {
       argsOnly = true
    )
    private class_5481 purxiy$hideNames(class_5481 var1) {
-      return ClientRegistry5.sequence(var1);
+      return TabListProvider.sequence(var1);
    }
 
    @WrapOperation(
@@ -31,7 +30,7 @@ public abstract class NickFontMixin {
       )}
    )
    private boolean purxiy$hideNames(String var1, class_2583 var2, class_5224 var3, Operation<Boolean> var4) {
-      return ClientRegistry5.active() ? ClientRegistry5.iterate(var1, var2, var3) : (Boolean)var4.call(new Object[]{var1, var2, var3});
+      return TabListProvider.active() ? TabListProvider.iterate(var1, var2, var3) : (Boolean)var4.call(new Object[]{var1, var2, var3});
    }
 
    @ModifyVariable(
@@ -40,6 +39,6 @@ public abstract class NickFontMixin {
       argsOnly = true
    )
    private class_5481 purxiy$hideOutlined(class_5481 var1) {
-      return ClientRegistry5.sequence(var1);
+      return TabListProvider.sequence(var1);
    }
 }

@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.google.common.cache.LoadingCache;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
@@ -28,7 +27,7 @@ public abstract class NickSkinRenderCacheMixin {
       cancellable = true
    )
    private void purxiy$hideHead(class_9296 var1, CallbackInfoReturnable<CompletableFuture<Optional<class_11787>>> var2) {
-      if (ClientRegistry5.hideSkin(var1)) {
+      if (TabListProvider.hideSkin(var1)) {
          var2.setReturnValue(CompletableFuture.completedFuture(Optional.of((class_11787)this.field_62217.getUnchecked(var1))));
       }
    }
@@ -40,6 +39,6 @@ public abstract class NickSkinRenderCacheMixin {
    )
    private void purxiy$hideGlyph(class_9296 var1, CallbackInfoReturnable<Supplier<class_11787>> var2) {
       Supplier var3 = (Supplier)var2.getReturnValue();
-      var2.setReturnValue((Supplier<class_11787>) () -> ClientRegistry5.hideSkin(var1) ? (class_11787)this.field_62217.getUnchecked(var1) : (class_11787)var3.get());
+      var2.setReturnValue((Supplier<class_11787>) () -> TabListProvider.hideSkin(var1) ? (class_11787)this.field_62217.getUnchecked(var1) : (class_11787)var3.get());
    }
 }

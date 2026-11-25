@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.wings;
 
 import java.util.ArrayList;
@@ -24,8 +23,8 @@ public final class WingsTransform {
    private static final int R = 3;
    static final List<WingsTransform.Data> i = C(105661031486033L);
    static final List<WingsTransform.Data> X = List.of(
-      new WingsTransform.Data(6, WingsCache.TypeF.Z, 0.25F, 19.0F, 19.0F, 60.0F, 22.0F, 0.0F, 1.0F, 0.0F, 0.2F, 0.0F),
-      new WingsTransform.Data(6, WingsCache.TypeF.w, 0.3F, 13.5F, 13.5F, 18.0F, -28.0F, 0.15F, 0.6F, 0.0F, 0.7F, 0.0F)
+      new WingsTransform.Data(6, WingsCache.WingSide.Z, 0.25F, 19.0F, 19.0F, 60.0F, 22.0F, 0.0F, 1.0F, 0.0F, 0.2F, 0.0F),
+      new WingsTransform.Data(6, WingsCache.WingSide.w, 0.3F, 13.5F, 13.5F, 18.0F, -28.0F, 0.15F, 0.6F, 0.0F, 0.7F, 0.0F)
    );
    private static final float[] M = new float[4];
    private static final float[] c = new float[4];
@@ -82,17 +81,12 @@ public final class WingsTransform {
 
       while (var10 < 4) {
          long var11 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var57 = var11 < 0L ? -1 : 1;
-         }
-
+         int var30 = var11 < 0L ? -1 : 1;
          float var14 = var10 / 3.0F;
          var9.add(
             new WingsTransform.Data(
                3,
-               WingsCache.TypeF.i,
+               WingsCache.WingSide.i,
                0.05F + 0.28F * var14,
                6.6F - 1.2F * var14,
                3.4F,
@@ -107,11 +101,7 @@ public final class WingsTransform {
          );
          var10++;
          long var15 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var58 = false;
-         } else {
-            int var59 = var15 < 0L ? -1 : 1;
-         }
+         int var39 = var15 < 0L ? -1 : 1;
       }
 
       float[] var28 = new float[]{9.9F, 10.7F, 11.5F, 12.3F, 13.0F, 13.5F, 13.8F, 13.7F, 13.1F, 11.7F};
@@ -124,7 +114,7 @@ public final class WingsTransform {
          var9.add(
             new WingsTransform.Data(
                0,
-               WingsCache.TypeF.g,
+               WingsCache.WingSide.g,
                2.0F + 0.98F * var13,
                var28[var12] * (0.97F + 0.06F * var31),
                3.4F,
@@ -138,35 +128,21 @@ public final class WingsTransform {
             )
          );
          long var16 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var60 = false;
-         } else {
-            int var61 = var16 < 0L ? -1 : 1;
-         }
-
+         int var46 = var16 < 0L ? -1 : 1;
          var12++;
          long var19 = 105661031486033L;
-         if (105661031486033L == 0L) {
-            boolean var62 = false;
-         } else {
-            int var63 = var19 < 0L ? -1 : 1;
-         }
+         int var54 = var19 < 0L ? -1 : 1;
       }
 
       for (int var29 = 0; var29 < 11; var29++) {
          long var32 = 105661031486033L;
-         if (105661031486033L == 0L) {
-            boolean var64 = false;
-         } else {
-            int var65 = var32 < 0L ? -1 : 1;
-         }
-
+         int var38 = var32 < 0L ? -1 : 1;
          float var17 = var29 / 10.0F;
          float var18 = D(var2, var29, 3);
          var9.add(
             new WingsTransform.Data(
                1,
-               WingsCache.TypeF.H,
+               WingsCache.WingSide.H,
                2.0F - 0.95F * var17,
                (9.7F + 0.6F * var17) * (0.97F + 0.06F * var18),
                3.6F,
@@ -180,11 +156,7 @@ public final class WingsTransform {
             )
          );
          long var47 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var66 = false;
-         } else {
-            int var67 = var47 < 0L ? -1 : 1;
-         }
+         int var57 = var47 < 0L ? -1 : 1;
       }
 
       float[] var30 = new float[]{9.8F, 9.1F, 8.1F, 6.9F};
@@ -193,24 +165,19 @@ public final class WingsTransform {
       while (var33 < 4) {
          float var35 = var33;
          long var37 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var68 = false;
-         } else {
-            int var69 = var37 < 0L ? -1 : 1;
-         }
-
-         float var48 = var35 / 3.0F;
+         int var48 = var37 < 0L ? -1 : 1;
+         float var48x = var35 / 3.0F;
          var9.add(
             new WingsTransform.Data(
                2,
-               WingsCache.TypeF.L,
-               0.95F - 0.6F * var48,
+               WingsCache.WingSide.L,
+               0.95F - 0.6F * var48x,
                var30[var33],
                3.8F,
-               -92.0F + 2.0F * var48,
-               -102.0F - 16.0F * var48,
+               -92.0F + 2.0F * var48x,
+               -102.0F - 16.0F * var48x,
                -0.06F,
-               0.33F - 0.2F * var48,
+               0.33F - 0.2F * var48x,
                3.0F,
                D(var2, var33, 4),
                0.0F
@@ -218,11 +185,7 @@ public final class WingsTransform {
          );
          var33++;
          long var20 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var70 = false;
-         } else {
-            int var71 = var20 < 0L ? -1 : 1;
-         }
+         int var21 = var20 < 0L ? -1 : 1;
       }
 
       int var36 = 0;
@@ -231,16 +194,11 @@ public final class WingsTransform {
          float var38 = var36 / 10.0F;
          float var40 = D(var2, var36, 5);
          long var43 = 105661031486033L;
-         if (105661031486033L == 0L) {
-            boolean var72 = false;
-         } else {
-            int var73 = var43 < 0L ? -1 : 1;
-         }
-
+         int var58 = var43 < 0L ? -1 : 1;
          var9.add(
             new WingsTransform.Data(
                3,
-               WingsCache.TypeF.i,
+               WingsCache.WingSide.i,
                2.0F - 0.95F * var38,
                (4.7F + 0.3F * var38) * (0.94F + 0.12F * var40),
                3.5F,
@@ -255,11 +213,7 @@ public final class WingsTransform {
          );
          var36++;
          long var22 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var74 = false;
-         } else {
-            int var75 = var22 < 0L ? -1 : 1;
-         }
+         int var22x = var22 < 0L ? -1 : 1;
       }
 
       int var39 = 0;
@@ -269,16 +223,11 @@ public final class WingsTransform {
          float var44 = D(var2, var39, 6);
          float var49 = -80.0F + 76.0F * (float)Math.pow(var41, 0.8F) + (var44 - 0.5F) * 4.0F;
          long var52 = 105661031486033L;
-         if (105661031486033L == 0L) {
-            boolean var76 = false;
-         } else {
-            int var77 = var52 < 0L ? -1 : 1;
-         }
-
+         int var64 = var52 < 0L ? -1 : 1;
          var9.add(
             new WingsTransform.Data(
                3,
-               WingsCache.TypeF.i,
+               WingsCache.WingSide.i,
                2.02F + 0.86F * var41,
                (4.6F - 0.9F * var41) * (0.94F + 0.12F * var44),
                3.1F,
@@ -293,11 +242,7 @@ public final class WingsTransform {
          );
          var39++;
          long var23 = 105661031486033L;
-         if (105661031486033L == 0L) {
-            boolean var78 = false;
-         } else {
-            int var79 = var23 < 0L ? -1 : 1;
-         }
+         int var25 = var23 < 0L ? -1 : 1;
       }
 
       int var42 = 0;
@@ -306,22 +251,17 @@ public final class WingsTransform {
          float var45 = var42 / 13.0F;
          float var50 = D(var2, var42, 7);
          long var53 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var80 = false;
-         } else {
-            int var81 = var53 < 0L ? -1 : 1;
-         }
-
+         int var66 = var53 < 0L ? -1 : 1;
          float var56 = 0.3F + 2.5F * var45;
          var9.add(
             new WingsTransform.Data(
                4,
-               WingsCache.TypeF.i,
+               WingsCache.WingSide.i,
                var56,
                (3.9F - 0.9F * var45) * (0.92F + 0.16F * var50),
                3.4F - 0.5F * var45,
                -92.0F - 12.0F * var45,
-               A(var56, var6, (short)var7, (short)var8) + 10.0F + (var50 - 0.5F) * 6.0F,
+               A(var56, var6, var7, (short)var8) + 10.0F + (var50 - 0.5F) * 6.0F,
                -0.4F,
                I(var56),
                2.0F,
@@ -331,11 +271,7 @@ public final class WingsTransform {
          );
          var42++;
          long var24 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var82 = false;
-         } else {
-            int var83 = var24 < 0L ? -1 : 1;
-         }
+         int var251 = var24 < 0L ? -1 : 1;
       }
 
       int var46 = 0;
@@ -345,21 +281,16 @@ public final class WingsTransform {
          float var54 = D(var2, var46, 8);
          float var21 = 0.02F + 2.9F * var51;
          long var55 = 105661031486032L;
-         if (105661031486032L == 0L) {
-            boolean var84 = false;
-         } else {
-            int var85 = var55 < 0L ? -1 : 1;
-         }
-
+         int var69 = var55 < 0L ? -1 : 1;
          var9.add(
             new WingsTransform.Data(
                5,
-               WingsCache.TypeF.Y,
+               WingsCache.WingSide.Y,
                var21,
                (3.0F - 0.8F * var51) * (0.9F + 0.2F * var54),
                3.1F - 0.6F * var51,
                -100.0F - 8.0F * var51,
-               A(var21, var6, (short)var7, (short)var8) + 32.0F + (var54 - 0.5F) * 8.0F,
+               A(var21, var6, var7, (short)var8) + 32.0F + (var54 - 0.5F) * 8.0F,
                -0.56F,
                I(var21),
                0.0F,
@@ -369,11 +300,7 @@ public final class WingsTransform {
          );
          var46++;
          long var25 = 105661031486033L;
-         if (105661031486033L == 0L) {
-            boolean var86 = false;
-         } else {
-            int var87 = var25 < 0L ? -1 : 1;
-         }
+         int var26 = var25 < 0L ? -1 : 1;
       }
 
       return List.copyOf(var9);
@@ -399,7 +326,7 @@ public final class WingsTransform {
       return (var4 & 65535) / 65535.0F;
    }
 
-   static void build(WingsTransform.TypeR var0, WingsSupport2 var1, boolean var2, Vector3f var3, WingDesign var4, int var5, float var6, float var7) {
+   static void build(WingsTransform.WingVertex var0, WingsPose var1, boolean var2, Vector3f var3, WingDesign var4, int var5, float var6, float var7) {
       long var8 = 102051715568459L;
       long var10 = var8 ^ 10932397058017L;
       long var12 = var8 ^ 14136147724592L;
@@ -440,8 +367,8 @@ public final class WingsTransform {
    }
 
    private static void Q(
-      WingsTransform.TypeR var0,
-      WingsSupport2 var1,
+      WingsTransform.WingVertex var0,
+      WingsPose var1,
       WingsTransform.Data var2,
       boolean var3,
       WingDesign var4,
@@ -460,7 +387,7 @@ public final class WingsTransform {
       int var20 = (int)((var13 ^ 102361349168581L) << 32 >>> 48);
       int var21 = (int)(var17 << 48 >>> 48);
       long var22 = var13 ^ 33072929527422L;
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       float var24 = Math.max(0.0F, Math.min(2.999F, var2.i));
       int var25 = (int)var24;
       float var26 = var24 - var25;
@@ -478,12 +405,7 @@ public final class WingsTransform {
 
       float var34 = T(var2.E, var2.W, var32);
       long var35 = 662696051L;
-      if (662696051L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var59 = var35 < 0L ? -1 : 1;
-      }
-
+      int var53 = var35 < 0L ? -1 : 1;
       if (var2.N == 0) {
          float var38 = var1.i * 14.0F * var2.Y;
          var34 += var38 * var32;
@@ -492,14 +414,14 @@ public final class WingsTransform {
       }
 
       var34 += var1.y * 4.5F * (float)Math.sin(var7 * 37.0F + var2.M * 50.0F) * (0.4F + var2.Y);
-      float var53 = var34 + var1.G * 2.2F * (float)Math.sin(var7 * 23.0F + var2.M * 31.0F) * var2.Y;
+      float var53x = var34 + var1.G * 2.2F * (float)Math.sin(var7 * 23.0F + var2.M * 31.0F) * var2.Y;
       float var39 = var2.a;
       float var40 = var2.D;
       if (var2.N == 6) {
-         i(var0, var1, var2, var3, var4, var5, var6, var7, var10, var15, var30, var31, var53, 26.0F);
+         i(var0, var1, var2, var3, var4, var5, var6, var7, var10, var15, var30, var31, var53x, 26.0F);
       } else {
          float var41 = (float)Math.toRadians(var2.H * (0.4F + 0.6F * var32) + var1.K * 6.0F * var2.Y);
-         float var42 = (float)Math.toRadians(var53);
+         float var42 = (float)Math.toRadians(var53x);
          l[0] = var30;
          u[0] = var31;
          g[0] = var42;
@@ -521,7 +443,7 @@ public final class WingsTransform {
             var55[var56] = var4.light(var2.N, var2.Y, var46, var2.M, var7, var5, var6);
          }
 
-         WingsCache.TypeF var57 = var2.F;
+         WingsCache.WingSide var57 = var2.F;
          float var58 = var40 / 2.0F;
 
          for (int var47 = 0; var47 < 3; var47++) {
@@ -545,12 +467,7 @@ public final class WingsTransform {
                26.0F
             );
             long var49 = 662696051L;
-            if (662696051L == 0L) {
-               boolean var60 = false;
-            } else {
-               int var61 = var49 < 0L ? -1 : 1;
-            }
-
+            int var49x = var49 < 0L ? -1 : 1;
             R(
                var0,
                var1,
@@ -575,8 +492,8 @@ public final class WingsTransform {
    }
 
    private static void R(
-      WingsTransform.TypeR var0,
-      WingsSupport2 var1,
+      WingsTransform.WingVertex var0,
+      WingsPose var1,
       WingsTransform.Data var2,
       int var3,
       int var4,
@@ -608,8 +525,8 @@ public final class WingsTransform {
    }
 
    private static void i(
-      WingsTransform.TypeR var0,
-      WingsSupport2 var1,
+      WingsTransform.WingVertex var0,
+      WingsPose var1,
       WingsTransform.Data var2,
       boolean var3,
       WingDesign var4,
@@ -626,7 +543,7 @@ public final class WingsTransform {
       long var15 = 93602938483882L;
       long var17 = 52369661290895L;
       long var19 = 63134211818900L;
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       float var21 = (float)Math.toRadians(var13 - 45.0F);
       float var22 = var2.a * (0.55F + 0.45F * (float)Math.sqrt(C(var15, var8)));
       float var23 = (float)Math.cos(var21) * var22;
@@ -641,12 +558,7 @@ public final class WingsTransform {
             int var31 = var0.E;
             y(var0, var1, var2, var4, var5, var6, var7, var11, var12, var23, var24, var25, var26, (float)var30 / var28, (float)var29 / var28, 26.0F, var17);
             long var32 = 62594019606690L;
-            if (62594019606690L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var40 = var32 < 0L ? -1 : 1;
-            }
-
+            int var35 = var32 < 0L ? -1 : 1;
             y(
                var0,
                var1,
@@ -685,20 +597,10 @@ public final class WingsTransform {
                26.0F,
                var17
             );
-            long var35 = 62594019606689L;
-            if (62594019606689L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var35 < 0L ? -1 : 1;
-            }
-
-            long var37 = 62594019606690L;
-            if (62594019606690L == 0L) {
-               boolean var43 = false;
-            } else {
-               int var44 = var37 < 0L ? -1 : 1;
-            }
-
+            long var35x = 62594019606689L;
+            int var37 = var35x < 0L ? -1 : 1;
+            long var37x = 62594019606690L;
+            int var38 = var37x < 0L ? -1 : 1;
             y(
                var0,
                var1,
@@ -724,17 +626,13 @@ public final class WingsTransform {
          }
 
          long var39 = 62594019606689L;
-         if (62594019606689L == 0L) {
-            boolean var45 = false;
-         } else {
-            int var46 = var39 < 0L ? -1 : 1;
-         }
+         int var40 = var39 < 0L ? -1 : 1;
       }
    }
 
    private static void y(
-      WingsTransform.TypeR var0,
-      WingsSupport2 var1,
+      WingsTransform.WingVertex var0,
+      WingsPose var1,
       WingsTransform.Data var2,
       WingDesign var3,
       int var4,
@@ -762,14 +660,14 @@ public final class WingsTransform {
       n.set(var20, var21, var24);
       z.transformPosition(n);
       C.transform(G).normalize();
-      WingsCache.TypeF var26 = var2.F;
+      WingsCache.WingSide var26 = var2.F;
       int var27 = var3.feather(var2.N, var2.Y * var22, var22, var2.M, var6, var4);
       int var28 = var3.light(var2.N, var2.Y * var22, var22, var2.M, var6, var4, var5);
       var0.n(n, G, var18, var26.u(var13), var26.v(var14), var27, var28);
    }
 
    private static float C(long var0, float var2) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       return var2 < 0.0F ? 0.0F : Math.min(var2, 1.0F);
    }
 
@@ -784,12 +682,12 @@ public final class WingsTransform {
       return var0 + (var1 - var0) * var2;
    }
 
-record Data(int N, WingsCache.TypeF F, float i, float a, float D, float E, float W, float L, float Y, float H, float M, float p) {
+   record Data(int N, WingsCache.WingSide F, float i, float a, float D, float E, float W, float L, float Y, float H, float M, float p) {
       public int row() {
          return this.N;
       }
 
-      public WingsCache.TypeF cell() {
+      public WingsCache.WingSide cell() {
          return this.F;
       }
 
@@ -837,7 +735,7 @@ record Data(int N, WingsCache.TypeF F, float i, float a, float D, float E, float
          return this.N;
       }
 
-      public WingsCache.TypeF featherTextureAtlas_FeatherKindState9() {
+      public WingsCache.WingSide featherTextureAtlas_FeatherKindState9() {
          return this.F;
       }
 
@@ -882,7 +780,7 @@ record Data(int N, WingsCache.TypeF F, float i, float a, float D, float E, float
       }
    }
 
-   public static final class TypeR {
+   public static final class WingVertex {
       private static final int w = 3120;
       final float[] c = new float[9360];
       final float[] I = new float[9360];
@@ -903,18 +801,13 @@ record Data(int N, WingsCache.TypeF F, float i, float a, float D, float E, float
       }
 
       private void n(Vector3f var1, Vector3f var2, long var3, float var5, float var6, int var7, int var8) {
-         WingsUpdater2.ensureSourceClassInitialized();
+         WingsState.ensureSourceClassInitialized();
          int var9 = this.E++;
          this.c[var9 * 3] = var1.x;
          this.c[var9 * 3 + 1] = var1.y;
          this.c[var9 * 3 + 2] = var1.z;
          long var10 = 15119689727201L;
-         if (15119689727201L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var13 = var10 < 0L ? -1 : 1;
-         }
-
+         int var12 = var10 < 0L ? -1 : 1;
          this.I[var9 * 3] = var2.x;
          this.I[var9 * 3 + 1] = var2.y;
          this.I[var9 * 3 + 2] = var2.z;
@@ -933,19 +826,14 @@ record Data(int N, WingsCache.TypeF F, float i, float a, float D, float E, float
       }
 
       private void Q(int var1, int var2, long var3) {
-         WingsUpdater2.ensureSourceClassInitialized();
+         WingsState.ensureSourceClassInitialized();
 
          for (int var5 = 0; var5 < 3; var5++) {
             float var6 = this.c[var1 * 3 + var5];
             this.c[var1 * 3 + var5] = this.c[var2 * 3 + var5];
             int var7 = var2 * 3 + var5;
             long var8 = 121651298290844L;
-            if (121651298290844L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var19 = var8 < 0L ? -1 : 1;
-            }
-
+            int var18 = var8 < 0L ? -1 : 1;
             this.c[var7] = var6;
             float var11 = this.I[var1 * 3 + var5];
             this.I[var1 * 3 + var5] = this.I[var2 * 3 + var5];
@@ -953,32 +841,19 @@ record Data(int N, WingsCache.TypeF F, float i, float a, float D, float E, float
          }
 
          long var15 = 121651298290844L;
-         if (121651298290844L == 0L) {
-            boolean var20 = false;
-         } else {
-            int var21 = var15 < 0L ? -1 : 1;
-         }
+         int var13 = var15 < 0L ? -1 : 1;
 
          for (int var9 = 0; var9 < 2; var9++) {
             float var10 = this.G[var1 * 2 + var9];
             this.G[var1 * 2 + var9] = this.G[var2 * 2 + var9];
             this.G[var2 * 2 + var9] = var10;
             long var17 = 121651298290845L;
-            if (121651298290845L == 0L) {
-               boolean var22 = false;
-            } else {
-               int var23 = var17 < 0L ? -1 : 1;
-            }
+            int var11 = var17 < 0L ? -1 : 1;
          }
 
          long var16 = 121651298290844L;
-         if (121651298290844L == 0L) {
-            boolean var24 = false;
-         } else {
-            int var25 = var16 < 0L ? -1 : 1;
-         }
-
-         int var14 = this.g[var1];
+         int var14 = var16 < 0L ? -1 : 1;
+         var14 = this.g[var1];
          this.g[var1] = this.g[var2];
          this.g[var2] = var14;
          int var18 = this.T[var1];
@@ -1033,6 +908,5 @@ record Data(int N, WingsCache.TypeF F, float i, float a, float D, float E, float
             }
          }
       }
-
-}
+   }
 }

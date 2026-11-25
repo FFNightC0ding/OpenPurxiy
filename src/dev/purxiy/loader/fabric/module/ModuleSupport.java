@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.module;
 
 import net.minecraft.class_1297;

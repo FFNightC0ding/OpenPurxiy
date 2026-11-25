@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.fire;
 
 import com.mojang.blaze3d.buffers.Std140Builder;
@@ -23,8 +22,6 @@ final class LowFireCodec {
    private int b;
    private float M;
    private float s;
-
-
 
    int count() {
       return this.b;
@@ -89,14 +86,9 @@ final class LowFireCodec {
    private void k(long var1, float var3, float var4, float var5) {
       LowFireLoader.ensureSourceClassInitialized();
       long var6 = 93451429582500L;
-      if (93451429582500L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var12 = var6 < 0L ? -1 : 1;
-      }
-
+      int var9 = var6 < 0L ? -1 : 1;
       if (this.b < 96) {
-         int var9 = this.b++;
+         var9 = this.b++;
          SplittableRandom var10 = this.E;
          float var11 = 0.35F + 0.65F * var10.nextFloat();
          this.Q[var9] = var11;
@@ -151,5 +143,4 @@ final class LowFireCodec {
       float var3 = Math.clamp((var2 - var0) / (var1 - var0), 0.0F, 1.0F);
       return var3 * var3 * (3.0F - 2.0F * var3);
    }
-
 }

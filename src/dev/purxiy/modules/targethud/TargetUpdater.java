@@ -1,7 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.targethud;
 
 import dev.purxiy.loader.fabric.module.ModuleRegistry;
+import dev.purxiy.loader.fabric.module.ModuleRegistry.WeaponGroup;
 import dev.purxiy.render.RenderPipelines;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,17 +54,14 @@ public final class TargetUpdater {
    private static final int Q = 28;
    private static final float H = 300.0F;
    private static final double I = 32.0;
-   private static final Map<UUID, TargetSupport2> j = new HashMap<>();
-   private static final List<TargetUpdater.TypeR> s = new ArrayList<>();
-   
+   private static final Map<UUID, TargetSnapshot> j = new HashMap<>();
+   private static final List<TargetUpdater.ProjectileHit> s = new ArrayList<>();
    private static class_1309 F;
    private static float G = -1000.0F;
    private static float n = -1000.0F;
    private static float t = -1000.0F;
-   
    private static class_1309 M;
    private static float m;
-   
    private static class_638 J;
    private static float R;
    private static long W = 0L;
@@ -78,7 +75,6 @@ public final class TargetUpdater {
    private TargetUpdater() {
    }
 
-   
    public static class_1309 target() {
       return F;
    }
@@ -91,8 +87,8 @@ public final class TargetUpdater {
       return t;
    }
 
-   public static TargetSupport2 stats(class_1309 var0) {
-      return j.computeIfAbsent(var0.method_5667(), TargetSupport2::new);
+   public static TargetSnapshot stats(class_1309 var0) {
+      return j.computeIfAbsent(var0.method_5667(), TargetSnapshot::new);
    }
 
    private static TargetHud b() {
@@ -132,7 +128,7 @@ public final class TargetUpdater {
             p(F, var9, var10, var7);
          }
 
-         TargetUpdater2.tick(var10, var11, F, var12::detects, var9);
+         TargetScore.tick(var10, var11, F, var12::detects, var9);
          if (var9 - w > 30.0F) {
             w = var9;
             j.values().removeIf(var1x -> {
@@ -163,25 +159,15 @@ public final class TargetUpdater {
          M = null;
       } else {
          long var21 = 89078628491187L;
-         if (89078628491187L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var40 = var21 < 0L ? -1 : 1;
-         }
-
+         int var36 = var21 < 0L ? -1 : 1;
          if (var20 == F) {
             n = var5;
             M = null;
          } else {
-            label130: {
+            label109: {
                if (F != null) {
                   long var24 = 89078628491187L;
-                  if (89078628491187L == 0L) {
-                     boolean var41 = false;
-                  } else {
-                     int var42 = var24 < 0L ? -1 : 1;
-                  }
-
+                  int var39 = var24 < 0L ? -1 : 1;
                   if (!o(var14, F, var5)) {
                      if (!z(var16, F, var5)) {
                         if (M != var20) {
@@ -190,17 +176,12 @@ public final class TargetUpdater {
                         }
 
                         long var26 = 89078628491186L;
-                        if (89078628491186L == 0L) {
-                           boolean var43 = false;
-                        } else {
-                           int var44 = var26 < 0L ? -1 : 1;
-                        }
-
+                        int var28 = var26 < 0L ? -1 : 1;
                         if (var5 - m >= (j(var5, (char)var8, (char)var9, var10) ? 0.6F : 0.25F)) {
                            l(var20, var5, var18);
                         }
                      }
-                     break label130;
+                     break label109;
                   }
                }
 
@@ -211,50 +192,30 @@ public final class TargetUpdater {
 
       class_1309 var35 = F;
       if (var35 != null) {
-         TargetSupport2 var22 = stats(var35);
+         TargetSnapshot var22 = stats(var35);
          if (var22.O >= G) {
-            float var23;
-            int var37 = (var23 = var5 - var22.O - 2.4F) == 0.0F ? 0 : (var23 < 0.0F ? -1 : 1);
+            float var23x;
+            int var37 = (var23x = var5 - var22.O - 2.4F) == 0.0F ? 0 : (var23x < 0.0F ? -1 : 1);
             long var25 = 89078628491186L;
-            if (89078628491186L == 0L) {
-               boolean var45 = false;
-            } else {
-               int var46 = var25 < 0L ? -1 : 1;
-            }
-
+            int var43 = var25 < 0L ? -1 : 1;
             if (var37 > 0) {
                T();
             }
          } else if (!var35.method_31481() && var35.method_73183() == var2.field_1687) {
-            float var36 = var3.method_5739(var35);
+            float var36x = var3.method_5739(var35);
             float var38 = var4.range();
             long var39 = 89078628491186L;
-            if (89078628491186L == 0L) {
-               boolean var47 = false;
-            } else {
-               int var48 = var39 < 0L ? -1 : 1;
-            }
-
+            int var44 = var39 < 0L ? -1 : 1;
             float var28 = var38 * 1.5F;
             long var29 = 89078628491186L;
-            if (89078628491186L == 0L) {
-               boolean var49 = false;
-            } else {
-               int var50 = var29 < 0L ? -1 : 1;
-            }
-
-            if (var36 > var28 + 4.0F) {
+            int var31 = var29 < 0L ? -1 : 1;
+            if (var36x > var28 + 4.0F) {
                T();
             } else {
-               float var31;
-               int var32 = (var31 = var5 - n - var4.holdSeconds()) == 0.0F ? 0 : (var31 < 0.0F ? -1 : 1);
+               float var31x;
+               int var32 = (var31x = var5 - n - var4.holdSeconds()) == 0.0F ? 0 : (var31x < 0.0F ? -1 : 1);
                long var33 = 89078628491187L;
-               if (89078628491187L == 0L) {
-                  boolean var51 = false;
-               } else {
-                  int var52 = var33 < 0L ? -1 : 1;
-               }
-
+               int var34 = var33 < 0L ? -1 : 1;
                if (var32 > 0 && (!var4.locksInFights() || !j(var5, (char)var8, (char)var9, var10))) {
                   T();
                }
@@ -267,20 +228,15 @@ public final class TargetUpdater {
 
    private static boolean o(long var0, class_1309 var2, float var3) {
       TargetHud.ensureSourceClassInitialized();
-      TargetSupport2 var4 = stats(var2);
+      TargetSnapshot var4 = stats(var2);
       return var4.O >= G ? var3 - var4.O > 0.9F : var2.method_31481();
    }
 
    private static boolean z(long var0, class_1309 var2, float var3) {
       TargetHud.ensureSourceClassInitialized();
-      TargetSupport2 var4 = stats(var2);
+      TargetSnapshot var4 = stats(var2);
       long var5 = 15060611453289L;
-      if (15060611453289L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       return var4.O >= G && var3 - var4.O <= 0.9F;
    }
 
@@ -292,12 +248,7 @@ public final class TargetUpdater {
    private static void l(class_1309 var0, float var1, long var2) {
       TargetHud.ensureSourceClassInitialized();
       long var4 = 135962708488236L;
-      if (135962708488236L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       if (var0 != F) {
          F = var0;
          G = var1;
@@ -315,7 +266,6 @@ public final class TargetUpdater {
       t = -1000.0F;
    }
 
-   
    private static class_1309 o(class_310 var0, class_746 var1, short var2, TargetHud var3, long var4) {
       long var6 = 136131984648425L;
       long var8 = (var6 ^ 50609404624518L) >>> 16;
@@ -323,15 +273,15 @@ public final class TargetUpdater {
       TargetHud.ensureSourceClassInitialized();
       class_1297 var11 = var0.method_1560();
       if (var11 != null && J != null) {
-         class_1309 var12 = ModuleRegistry.current(ModuleRegistry.TypeL.MACE);
+         class_1309 var12 = ModuleRegistry.current(WeaponGroup.MACE);
          if (var12 != null && L(var8, (short)var10, var1, var3, var12)) {
             return var12;
          } else {
-            class_1309 var13 = ModuleRegistry.current(ModuleRegistry.TypeL.LANCE);
+            class_1309 var13 = ModuleRegistry.current(WeaponGroup.LANCE);
             if (var13 != null && L(var8, (short)var10, var1, var3, var13)) {
                return var13;
             } else {
-               class_1309 var14 = ModuleRegistry.current(ModuleRegistry.TypeL.AURA);
+               class_1309 var14 = ModuleRegistry.current(WeaponGroup.AURA);
                if (var14 != null && L(var8, (short)var10, var1, var3, var14)) {
                   return var14;
                } else {
@@ -360,31 +310,16 @@ public final class TargetUpdater {
       TargetHud.ensureSourceClassInitialized();
       if (var5 instanceof class_1309 var6) {
          long var7 = 1439226115L;
-         if (1439226115L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var16 = var7 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
          if (var6 != var3) {
-            long var10 = 1439226114L;
-            if (1439226114L == 0L) {
-               boolean var17 = false;
-            } else {
-               int var18 = var10 < 0L ? -1 : 1;
-            }
-
+            long var10x = 1439226114L;
+            int var12 = var10x < 0L ? -1 : 1;
             if (var6.method_5805()) {
-               short var12 = -10641;
+               short var12x = -10641;
                if (!var6.method_7325() && !(var6 instanceof class_1531)) {
                   boolean var13 = var6.method_5756(var3);
                   long var14 = 1439226115L;
-                  if (1439226115L == 0L) {
-                     boolean var19 = false;
-                  } else {
-                     int var20 = var14 < 0L ? -1 : 1;
-                  }
-
+                  int var15 = var14 < 0L ? -1 : 1;
                   if (!var13 && (var4.includesMobs() || var6 instanceof class_11890)) {
                      return true;
                   }
@@ -399,72 +334,47 @@ public final class TargetUpdater {
    private static void p(class_1309 var0, float var1, float var2, long var3) {
       long var5 = 126492918999736L;
       TargetHud.ensureSourceClassInitialized();
-      TargetSupport2 var7 = stats(var0);
+      TargetSnapshot var7 = stats(var0);
       var7.V = var1;
       if (var0.method_29504()) {
          v(var5, var0, var1);
       } else {
-         class_1799 var8 = var0.method_6115() ? var0.method_6030() : class_1799.field_8037;
-         long var9 = 52287360372933L;
-         if (52287360372933L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var21 = var9 < 0L ? -1 : 1;
-         }
-
-         long var12 = 52287360372932L;
-         if (52287360372932L == 0L) {
-            boolean var22 = false;
-         } else {
-            int var23 = var12 < 0L ? -1 : 1;
-         }
-
-         label71: {
+         label56: {
+            class_1799 var8 = var0.method_6115() ? var0.method_6030() : class_1799.field_8037;
+            long var9 = 52287360372933L;
+            int var12 = var9 < 0L ? -1 : 1;
+            long var12x = 52287360372932L;
+            int var20 = var12x < 0L ? -1 : 1;
             if (!var8.method_31574(class_1802.field_8463)) {
                boolean var14 = var8.method_31574(class_1802.field_8367);
                long var15 = 52287360372933L;
-               if (52287360372933L == 0L) {
-                  boolean var24 = false;
-               } else {
-                  int var25 = var15 < 0L ? -1 : 1;
-               }
-
+               int var18 = var15 < 0L ? -1 : 1;
                if (!var14) {
-                  long var18 = 52287360372933L;
-                  if (52287360372933L == 0L) {
-                     boolean var28 = false;
-                  } else {
-                     int var29 = var18 < 0L ? -1 : 1;
-                  }
-
+                  long var18x = 52287360372933L;
                   if (var7.k >= 28) {
                      var7.z++;
                      var7.l = var1;
-                     TargetUpdater2.gapple();
+                     TargetScore.gapple();
                   }
 
                   var7.k = 0;
-                  break label71;
+                  break label56;
                }
             }
 
             var7.k++;
-            long var20 = 52287360372933L;
-            if (52287360372933L == 0L) {
-               boolean var26 = false;
-            } else {
-               int var27 = var20 < 0L ? -1 : 1;
-            }
+            long var20x = 52287360372933L;
+            int var151 = var20x < 0L ? -1 : 1;
          }
 
          if (var0.method_6039()) {
-            TargetUpdater2.blocking(var2);
+            TargetScore.blocking(var2);
          }
       }
    }
 
    private static void v(long var0, class_1309 var2, float var3) {
-      TargetSupport2 var4 = stats(var2);
+      TargetSnapshot var4 = stats(var2);
       if (var3 - var4.O > 3.4F) {
          var4.died(var3);
       }
@@ -475,207 +385,100 @@ public final class TargetUpdater {
       Iterator var4 = s.iterator();
 
       while (var4.hasNext()) {
-         TargetUpdater.TypeR var5 = (TargetUpdater.TypeR)var4.next();
+         TargetUpdater.ProjectileHit var5 = (TargetUpdater.ProjectileHit)var4.next();
          long var6 = 9857267068201L;
-         if (9857267068201L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var56 = var6 < 0L ? -1 : 1;
-         }
-
-         long var9;
-         int var11 = (var9 = var5.tick() - W) == 0L ? 0 : (var9 < 0L ? -1 : 1);
+         int var9 = var6 < 0L ? -1 : 1;
+         long var9x;
+         int var11 = (var9x = var5.tick() - W) == 0L ? 0 : (var9x < 0L ? -1 : 1);
          long var12 = 9857267068200L;
-         if (9857267068200L == 0L) {
-            boolean var57 = false;
-         } else {
-            int var58 = var12 < 0L ? -1 : 1;
-         }
-
+         int var43 = var12 < 0L ? -1 : 1;
          if (var11 >= 0) {
             long var14 = 9857267068200L;
-            if (9857267068200L == 0L) {
-               boolean var59 = false;
-            } else {
-               int var60 = var14 < 0L ? -1 : 1;
-            }
+            int var16 = var14 < 0L ? -1 : 1;
          } else {
             var4.remove();
-            class_1676 var43 = var5.projectile();
-            class_1297 var15 = var43.method_24921();
+            class_1676 var43x = var5.projectile();
+            class_1297 var15 = var43x.method_24921();
             boolean var16 = var15 instanceof class_1309;
             long var17 = 9857267068201L;
-            if (9857267068201L == 0L) {
-               boolean var61 = false;
-            } else {
-               int var62 = var17 < 0L ? -1 : 1;
-            }
-
+            int var19 = var17 < 0L ? -1 : 1;
             if (var16) {
-               class_1309 var19 = (class_1309)var15;
-               boolean var20 = var19.method_5858(var0) < 1024.0;
-               TargetSupport2 var21 = stats(var19);
+               class_1309 var19x = (class_1309)var15;
+               boolean var20 = var19x.method_5858(var0) < 1024.0;
+               TargetSnapshot var21 = stats(var19x);
                var21.V = var3;
                long var22 = 9857267068201L;
-               if (9857267068201L == 0L) {
-                  boolean var63 = false;
-               } else {
-                  int var64 = var22 < 0L ? -1 : 1;
-               }
-
-               if (var43 instanceof class_1686 var25) {
-                  boolean var26 = TargetUpdater2.healing(var25.method_7495());
+               int var25 = var22 < 0L ? -1 : 1;
+               if (var43x instanceof class_1686 var25x) {
+                  boolean var26 = TargetScore.healing(var25x.method_7495());
                   var21.C++;
                   var21.v = var3;
                   long var27 = 9857267068201L;
-                  if (9857267068201L == 0L) {
-                     boolean var65 = false;
-                  } else {
-                     int var66 = var27 < 0L ? -1 : 1;
-                  }
-
+                  int var27x = var27 < 0L ? -1 : 1;
                   if (var26) {
                      var21.m++;
                   }
 
                   if (var20) {
-                     TargetUpdater2.potion(var26);
+                     TargetScore.potion(var26);
                   }
 
-                  long var29 = 9857267068200L;
-                  if (9857267068200L == 0L) {
-                     boolean var67 = false;
-                  } else {
-                     int var68 = var29 < 0L ? -1 : 1;
-                  }
+                  long var29x = 9857267068200L;
                } else {
                   long var48 = 9857267068201L;
-                  if (9857267068201L == 0L) {
-                     boolean var69 = false;
-                  } else {
-                     int var70 = var48 < 0L ? -1 : 1;
-                  }
-
-                  var16 = var43 instanceof class_1683;
-                  long var28 = 9857267068201L;
-                  if (9857267068201L == 0L) {
-                     boolean var71 = false;
-                  } else {
-                     int var72 = var28 < 0L ? -1 : 1;
-                  }
-
+                  int var26x = var48 < 0L ? -1 : 1;
+                  var16 = var43x instanceof class_1683;
+                  long var28x = 9857267068201L;
                   if (var16) {
                      var21.J++;
                      long var30 = 9857267068200L;
-                     if (9857267068200L == 0L) {
-                        boolean var73 = false;
-                     } else {
-                        int var74 = var30 < 0L ? -1 : 1;
-                     }
-
+                     int var30x = var30 < 0L ? -1 : 1;
                      var21.v = var3;
                      long var32 = 9857267068200L;
-                     if (9857267068200L == 0L) {
-                        boolean var75 = false;
-                     } else {
-                        int var76 = var32 < 0L ? -1 : 1;
-                     }
-
+                     int var32x = var32 < 0L ? -1 : 1;
                      if (var20) {
-                        TargetUpdater2.xpBottle();
+                        TargetScore.xpBottle();
                         long var34 = 9857267068201L;
-                        if (9857267068201L == 0L) {
-                           boolean var77 = false;
-                        } else {
-                           int var78 = var34 < 0L ? -1 : 1;
-                        }
+                        int var34x = var34 < 0L ? -1 : 1;
                      }
                   } else {
-                     long var49 = 9857267068201L;
-                     if (9857267068201L == 0L) {
-                        boolean var79 = false;
-                     } else {
-                        int var80 = var49 < 0L ? -1 : 1;
-                     }
-
-                     var16 = var43 instanceof class_1684;
+                     long var49x = 9857267068201L;
+                     int var58 = var49x < 0L ? -1 : 1;
+                     var16 = var43x instanceof class_1684;
                      long var50 = 9857267068200L;
-                     if (9857267068200L == 0L) {
-                        boolean var81 = false;
-                     } else {
-                        int var82 = var50 < 0L ? -1 : 1;
-                     }
-
+                     int var61 = var50 < 0L ? -1 : 1;
                      if (var16) {
                         var21.M++;
                         long var51 = 9857267068200L;
-                        if (9857267068200L == 0L) {
-                           boolean var83 = false;
-                        } else {
-                           int var84 = var51 < 0L ? -1 : 1;
-                        }
-
+                        int var64 = var51 < 0L ? -1 : 1;
                         var21.v = var3;
                         long var36 = 9857267068200L;
-                        if (9857267068200L == 0L) {
-                           boolean var85 = false;
-                        } else {
-                           int var86 = var36 < 0L ? -1 : 1;
-                        }
-
+                        int var36x = var36 < 0L ? -1 : 1;
                         if (var20) {
-                           TargetUpdater2.pearl();
+                           TargetScore.pearl();
                            long var38 = 9857267068200L;
-                           if (9857267068200L == 0L) {
-                              boolean var87 = false;
-                           } else {
-                              int var88 = var38 < 0L ? -1 : 1;
-                           }
+                           int var38x = var38 < 0L ? -1 : 1;
                         }
                      } else {
-                        var16 = var43 instanceof class_9236;
+                        var16 = var43x instanceof class_9236;
                         long var52 = 9857267068200L;
-                        if (9857267068200L == 0L) {
-                           boolean var89 = false;
-                        } else {
-                           int var90 = var52 < 0L ? -1 : 1;
-                        }
-
+                        int var66 = var52 < 0L ? -1 : 1;
                         if (var16) {
                            var21.F++;
                            long var53 = 9857267068200L;
-                           if (9857267068200L == 0L) {
-                              boolean var91 = false;
-                           } else {
-                              int var92 = var53 < 0L ? -1 : 1;
-                           }
-
+                           int var70 = var53 < 0L ? -1 : 1;
                            var21.v = var3;
                            long var55 = 9857267068201L;
-                           if (9857267068201L == 0L) {
-                              boolean var93 = false;
-                           } else {
-                              int var94 = var55 < 0L ? -1 : 1;
-                           }
-
+                           int var73 = var55 < 0L ? -1 : 1;
                            if (var20) {
-                              TargetUpdater2.windCharge();
+                              TargetScore.windCharge();
                               long var40 = 9857267068200L;
-                              if (9857267068200L == 0L) {
-                                 boolean var95 = false;
-                              } else {
-                                 int var96 = var40 < 0L ? -1 : 1;
-                              }
+                              int var40x = var40 < 0L ? -1 : 1;
                            }
                         } else {
-                           var16 = var43 instanceof class_1665;
+                           var16 = var43x instanceof class_1665;
                            long var54 = 9857267068200L;
-                           if (9857267068200L == 0L) {
-                              boolean var97 = false;
-                           } else {
-                              int var98 = var54 < 0L ? -1 : 1;
-                           }
-
+                           int var72 = var54 < 0L ? -1 : 1;
                            if (var16) {
                               var21.Y++;
                            }
@@ -688,11 +491,7 @@ public final class TargetUpdater {
       }
 
       long var42 = 9857267068200L;
-      if (9857267068200L == 0L) {
-         boolean var99 = false;
-      } else {
-         int var100 = var42 < 0L ? -1 : 1;
-      }
+      int var7 = var42 < 0L ? -1 : 1;
    }
 
    static void onEntityLoad(class_1297 var0) {
@@ -701,9 +500,9 @@ public final class TargetUpdater {
       class_746 var5 = class_310.method_1551().field_1724;
       if (q(var3) && var5 != null) {
          if (var0 instanceof class_1676 var6) {
-            s.add(new TargetUpdater.TypeR(var6, W));
+            s.add(new TargetUpdater.ProjectileHit(var6, W));
          } else if (var0 instanceof class_1511 && var0.method_5858(var5) < 256.0) {
-            TargetUpdater2.crystalPlaced();
+            TargetScore.crystalPlaced();
          }
       }
    }
@@ -720,7 +519,7 @@ public final class TargetUpdater {
       if (q(var5) && var11 != null && var0 instanceof class_1309 var13 && L(var7, (short)var9, var11, var12, var13)) {
          float var14 = a();
          U = var14;
-         class_10590 var15 = var11.method_6047().method_58694(class_9334.field_55878);
+         class_10590 var15 = (class_10590)var11.method_6047().method_58694(class_9334.field_55878);
          T = var15 != null ? var15.comp_3602() : 0.0F;
          if (var13 == F) {
             n = var14;
@@ -730,7 +529,7 @@ public final class TargetUpdater {
       }
    }
 
-   public static void onEntityEvent( class_1297 var0, byte var1) {
+   public static void onEntityEvent(class_1297 var0, byte var1) {
       long var2 = 111948095127576L;
       long var4 = var2 ^ 51125647049577L;
       long var6 = var2 ^ 25132537047712L;
@@ -740,19 +539,19 @@ public final class TargetUpdater {
          switch (var1) {
             case 2:
                if (K(var10, var4)) {
-                  TargetUpdater2.spearHit();
+                  TargetScore.spearHit();
                }
                break;
             case 3:
                v(var6, var10, var11);
                break;
             case 35:
-               TargetSupport2 var12 = stats(var10);
+               TargetSnapshot var12 = stats(var10);
                var12.s++;
                var12.q = var11;
                var12.V = var11;
                if (K(var10, var4)) {
-                  TargetUpdater2.totemPop();
+                  TargetScore.totemPop();
                }
                break;
             case 49:
@@ -764,7 +563,7 @@ public final class TargetUpdater {
       }
    }
 
-   public static void onDamage( class_1297 var0, class_6880<class_8110> var1, int var2) {
+   public static void onDamage(class_1297 var0, class_6880<class_8110> var1, int var2) {
       long var3 = 119368937693365L;
       long var5 = var3 ^ 43155082273732L;
       long var7 = var3 ^ 54720129497932L;
@@ -775,22 +574,22 @@ public final class TargetUpdater {
          float var14 = a();
          if (var13 == var12 || K(var13, var5)) {
             if (var1.method_40225(class_8111.field_42332) || var1.method_40225(class_8111.field_42331) || var1.method_40225(class_8111.field_42334)) {
-               TargetUpdater2.explosion();
+               TargetScore.explosion();
             } else if (var1.method_40225(class_8111.field_52431)) {
-               TargetUpdater2.maceSmash();
+               TargetScore.maceSmash();
             } else if (var1.method_40225(class_8111.field_63287)) {
-               TargetUpdater2.spearHit();
+               TargetScore.spearHit();
             } else if (var1.method_40225(class_8111.field_42321) || var1.method_40225(class_8111.field_42322)) {
-               TargetUpdater2.arrowHit();
+               TargetScore.arrowHit();
             } else if (var1.method_40225(class_8111.field_42320)) {
-               TargetUpdater2.melee();
+               TargetScore.melee();
             }
          }
 
          class_1297 var15 = var2 >= 0 ? J.method_8469(var2) : null;
          boolean var16 = var1.method_40225(class_8111.field_42321) || var1.method_40225(class_8111.field_42322);
          if (var15 == var12 && var13 != var12) {
-            TargetSupport2 var19 = stats(var13);
+            TargetSnapshot var19 = stats(var13);
             var19.n++;
             if (var16) {
                var19.R++;
@@ -803,7 +602,7 @@ public final class TargetUpdater {
             var19.V = var14;
             V(var12, var13, var14, var9);
          } else if (var13 == var12 && var15 instanceof class_1309 var17 && var17 != var12) {
-            TargetSupport2 var18 = stats(var17);
+            TargetSnapshot var18 = stats(var17);
             var18.w++;
             var18.U = 0;
             var18.o = var14;
@@ -826,10 +625,10 @@ public final class TargetUpdater {
             var15 *= var16.comp_3587();
          }
 
-         TargetSupport2 var17 = stats(var13);
+         TargetSnapshot var17 = stats(var13);
          var17.B = var14;
          var17.e = var14 + var15 + M(var9);
-         TargetUpdater2.shieldDisabled();
+         TargetScore.shieldDisabled();
       }
    }
 
@@ -846,28 +645,14 @@ public final class TargetUpdater {
       if (var1 == F) {
          t = var2;
          long var16 = 123540609496879L;
-         if (123540609496879L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var25 = var16 < 0L ? -1 : 1;
-         }
+         int var22 = var16 < 0L ? -1 : 1;
       } else if (var15.locksInFights()) {
          long var24 = 123540609496879L;
-         if (123540609496879L == 0L) {
-            boolean var26 = false;
-         } else {
-            int var27 = var24 < 0L ? -1 : 1;
-         }
-
+         int var221 = var24 < 0L ? -1 : 1;
          if (L(var12, (short)var14, var0, var15, var1)) {
             if (F != null) {
-               long var22 = 123540609496880L;
-               if (123540609496880L == 0L) {
-                  boolean var28 = false;
-               } else {
-                  int var29 = var22 < 0L ? -1 : 1;
-               }
-
+               long var22x = 123540609496880L;
+               int var20 = var22x < 0L ? -1 : 1;
                if (j(var2, (char)var7, (char)var8, var9)) {
                   return;
                }
@@ -885,33 +670,22 @@ public final class TargetUpdater {
       return var3 != null && var0.method_5858(var3) < 1024.0;
    }
 
-   
    public static class_10707 shield(class_1309 var0) {
-      class_10707 var1 = var0.method_6079().method_58694(class_9334.field_56396);
-      return var1 != null ? var1 : var0.method_6047().method_58694(class_9334.field_56396);
+      class_10707 var1 = (class_10707)var0.method_6079().method_58694(class_9334.field_56396);
+      return var1 != null ? var1 : (class_10707)var0.method_6047().method_58694(class_9334.field_56396);
    }
 
    private static float M(long var0) {
       TargetHud.ensureSourceClassInitialized();
       class_310 var2 = class_310.method_1551();
       long var3 = 23541547530302L;
-      if (23541547530302L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var9 = var3 < 0L ? -1 : 1;
-      }
-
+      int var6 = var3 < 0L ? -1 : 1;
       if (var2.method_1562() != null) {
-         long var6 = 23541547530303L;
-         if (23541547530303L == 0L) {
-            boolean var10 = false;
-         } else {
-            int var11 = var6 < 0L ? -1 : 1;
-         }
-
+         long var6x = 23541547530303L;
+         int var8 = var6x < 0L ? -1 : 1;
          if (var2.field_1724 != null && !var2.method_1496()) {
-            class_640 var8 = var2.method_1562().method_2871(var2.field_1724.method_5667());
-            return var8 == null ? 0.0F : Math.min(0.5F, var8.method_2959() / 2000.0F);
+            class_640 var8x = var2.method_1562().method_2871(var2.field_1724.method_5667());
+            return var8x == null ? 0.0F : Math.min(0.5F, var8x.method_2959() / 2000.0F);
          }
       }
 
@@ -929,7 +703,7 @@ public final class TargetUpdater {
       R = 0.0F;
    }
 
-private record TypeR(class_1676 w, long L) {
+   private record ProjectileHit(class_1676 w, long L) {
       public class_1676 projectile() {
          return this.w;
       }

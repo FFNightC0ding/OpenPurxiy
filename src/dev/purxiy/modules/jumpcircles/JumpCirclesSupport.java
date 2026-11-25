@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.jumpcircles;
 
 import dev.purxiy.loader.fabric.StudioSettingsScreen;

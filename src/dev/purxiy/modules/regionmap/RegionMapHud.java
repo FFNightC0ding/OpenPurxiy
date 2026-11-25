@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.regionmap;
 
 import dev.purxiy.anim.Animator;
@@ -43,7 +42,6 @@ public final class RegionMapHud extends HudModule {
    private static boolean y;
    private static double j = Double.NaN;
    private static double T;
-   
    private static class_5321<class_1937> Q;
    private final BooleanSetting G;
    private final BooleanSetting M;
@@ -53,7 +51,6 @@ public final class RegionMapHud extends HudModule {
    private float S;
    private boolean L;
    private long Y;
-   
    private class_638 t;
    private boolean p;
    private final Animator J;
@@ -62,18 +59,14 @@ public final class RegionMapHud extends HudModule {
    private final Animator Z;
    private final Animator X;
    private final Animator u;
-   private final RegionMapHud.TypeI C;
-   private final RegionMapHud.TypeI h;
+   private final RegionMapHud.RegionEntry C;
+   private final RegionMapHud.RegionEntry h;
    private float a;
-   
    private RegionMapSupport.Data o;
    private float b;
    private float r;
-   private final RegionMapHud.TypeI E;
+   private final RegionMapHud.RegionEntry E;
    public static boolean W;
-
-
-
    private static final Integer[] D = new Integer[18];
 
    public RegionMapHud() {
@@ -91,24 +84,21 @@ public final class RegionMapHud extends HudModule {
       this.Z = new Animator(0.0F, 90.0F, 19.0F);
       this.X = Animator.smooth(1.0F);
       this.u = Animator.smooth(1.0F);
-      this.C = new RegionMapHud.TypeI(var3);
-      this.h = new RegionMapHud.TypeI(var3);
+      this.C = new RegionMapHud.RegionEntry(var3);
+      this.h = new RegionMapHud.RegionEntry(var3);
       this.a = 1.0F;
-      this.E = new RegionMapHud.TypeI(var3);
+      this.E = new RegionMapHud.RegionEntry(var3);
    }
 
-   @Override
    protected float cornerRadius() {
       return 9.0F;
    }
 
-   @Override
    protected void onEnable() {
       this.p = false;
       this.C.N = "";
    }
 
-   @Override
    protected void measure(HudBounds var1, float[] var2) {
       var2[0] = 165.6F;
       var2[1] = this.J() + (this.M.enabled() ? 22.0F : 0.0F) + 8.0F - 3.0F;
@@ -128,32 +118,22 @@ public final class RegionMapHud extends HudModule {
       int var9 = (int)((var5 ^ 99432773489460L) >>> 32);
       int var10 = (int)((var5 ^ 99432773489460L) << 32 >>> 48);
       int var11 = (int)(var7 << 48 >>> 48);
-      RegionMapSupport.TypeB.ensureSourceClassInitialized();
+      RegionMapSupport.RegionTint.ensureSourceClassInitialized();
       long var12 = RenderPipelines.get().frame();
       if (var12 != this.Y) {
          long var14 = 1431590352L;
-         if (1431590352L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var45 = var14 < 0L ? -1 : 1;
-         }
-
+         int var17 = var14 < 0L ? -1 : 1;
          this.Y = var12;
          if (var4.level != this.t) {
             this.t = var4.level;
             this.p = false;
          }
 
-         short var17 = 0;
+         short var17x = 0;
          float var18 = MotionStyle.PANEL.dt(var4.dt);
          class_5321 var19 = class_1937.field_25179;
          long var20 = 1431590352L;
-         if (1431590352L == 0L) {
-            boolean var46 = false;
-         } else {
-            int var47 = var20 < 0L ? -1 : 1;
-         }
-
+         int var42 = var20 < 0L ? -1 : 1;
          if (var4.live()) {
             float var23 = var4.partialTick;
             this.c = class_3532.method_16436(var23, var4.player.field_6038, var4.player.method_23317());
@@ -161,7 +141,7 @@ public final class RegionMapHud extends HudModule {
             this.S = var4.player.method_5705(var23);
             class_5321 var24 = var4.level.method_27983();
             var19 = var24;
-            var17 = 29374;
+            var17x = 29374;
             if (!Double.isNaN(j)) {
                this.c = j;
                this.N = T;
@@ -177,19 +157,14 @@ public final class RegionMapHud extends HudModule {
          }
 
          this.L = var19 == class_1937.field_25179;
-         int var42 = RegionMapSupport.cell(this.c);
+         var42 = RegionMapSupport.cell(this.c);
          int var43 = RegionMapSupport.cell(this.N);
          int var25 = RegionMapSupport.id(var42, var43);
          boolean var26 = this.L && var25 >= 0;
-         RegionMapHud.TypeI var27 = this.R(var19, var42, var43, var25, var9, (short)var10, (short)var11);
+         RegionMapHud.RegionEntry var27 = this.R(var19, var42, var43, var25, var9, (short)var10, (short)var11);
          if (!var27.N.equals(this.C.N)) {
             long var28 = 1431590353L;
-            if (1431590353L == 0L) {
-               boolean var48 = false;
-            } else {
-               int var49 = var28 < 0L ? -1 : 1;
-            }
-
+            int var28x = var28 < 0L ? -1 : 1;
             if (this.C.N.isEmpty()) {
                this.C.set(var27);
             } else {
@@ -205,19 +180,9 @@ public final class RegionMapHud extends HudModule {
          int var30 = class_3532.method_15340(var42, 0, 8);
          int var31 = class_3532.method_15340(var43, 0, 8);
          long var32 = 1431590353L;
-         if (1431590353L == 0L) {
-            boolean var50 = false;
-         } else {
-            int var51 = var32 < 0L ? -1 : 1;
-         }
-
-         long var35 = 1431590353L;
-         if (1431590353L == 0L) {
-            boolean var52 = false;
-         } else {
-            int var53 = var35 < 0L ? -1 : 1;
-         }
-
+         int var32x = var32 < 0L ? -1 : 1;
+         long var35x = 1431590353L;
+         int var38 = var35x < 0L ? -1 : 1;
          if (this.p && this.L) {
             this.J.target(var44).update(var18);
             this.B.target(var29).update(var18);
@@ -231,17 +196,17 @@ public final class RegionMapHud extends HudModule {
             this.p = this.L;
          }
 
-         Animator var38 = this.X.target(var26 ? 1.0F : 0.0F);
-         var38.update(var18);
+         Animator var38x = this.X.target(var26 ? 1.0F : 0.0F);
+         var38x.update(var18);
          this.u.target(this.L ? 1.0F : 0.0F).update(var18);
          double var39 = Math.toRadians(this.S);
          this.o = this.L ? RegionMapSupport.ahead(this.c, this.N, -Math.sin(var39), Math.cos(var39)) : null;
       }
    }
 
-   private RegionMapHud.TypeI R(class_5321 var1, int var2, int var3, int var4, int var5, short var6, short var7) {
-      RegionMapSupport.TypeB.ensureSourceClassInitialized();
-      RegionMapHud.TypeI var8 = this.E;
+   private RegionMapHud.RegionEntry R(class_5321 var1, int var2, int var3, int var4, int var5, short var6, short var7) {
+      RegionMapSupport.RegionTint.ensureSourceClassInitialized();
+      RegionMapHud.RegionEntry var8 = this.E;
       if (var1 != class_1937.field_25179) {
          var8.N = "dim:" + var1.method_29177();
          var8.k = var1 == class_1937.field_25180 ? "Nether" : (var1 == class_1937.field_25181 ? "The End" : "Not mapped");
@@ -257,7 +222,7 @@ public final class RegionMapHud extends HudModule {
          var8.K = "compass";
          var8.r = Theme.tint(-11910301);
       } else {
-         RegionMapSupport.TypeB var9 = RegionMapSupport.host(var2, var3);
+         RegionMapSupport.RegionTint var9 = RegionMapSupport.host(var2, var3);
          var8.N = "region:" + var4;
          var8.k = "Region " + var4;
          var8.F = var9.t;
@@ -269,7 +234,6 @@ public final class RegionMapHud extends HudModule {
       return var8;
    }
 
-   @Override
    protected void render(Canvas var1, HudBounds var2) {
       long var3 = 109202412650187L;
       long var5 = var3 ^ 103116733401676L;
@@ -293,7 +257,7 @@ public final class RegionMapHud extends HudModule {
 
    private void x(Canvas var1, long var2) {
       long var4 = 117006667229310L;
-      RegionMapSupport.TypeB.ensureSourceClassInitialized();
+      RegionMapSupport.RegionTint.ensureSourceClassInitialized();
       float var6 = 19.0F;
       float var7 = 8.0F;
       float var8 = var6 - 9.0F;
@@ -318,29 +282,19 @@ public final class RegionMapHud extends HudModule {
          float var14 = 157.6F;
          int var15 = var13.id();
          long var16 = 5465151372319L;
-         if (5465151372319L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var21 = var16 < 0L ? -1 : 1;
-         }
-
-         String var19 = var15 >= 0 ? Integer.toString(var13.id()) : "Map edge";
-         float var20 = this.text(var1, Fonts.SEMIBOLD, var19, var14, var6 - 4.4F, 8.4F, Icons.TEXT, FontStyle.RIGHT, FontWeight.MIDDLE);
+         int var19 = var16 < 0L ? -1 : 1;
+         String var19x = var15 >= 0 ? Integer.toString(var13.id()) : "Map edge";
+         float var20 = this.text(var1, Fonts.SEMIBOLD, var19x, var14, var6 - 4.4F, 8.4F, Icons.TEXT, FontStyle.RIGHT, FontWeight.MIDDLE);
          HudGroupBounds.arrow(var1, var14 - var20 - 5.5F, var6 - 4.4F, HudGroupBounds.facing(this.S, true), 0.62F, Icons.TEXT_2);
          this.text(var1, Fonts.MEDIUM, "in " + distance(var13.distance()), var14, var6 + 5.4F, 6.4F, Icons.TEXT_2, FontStyle.RIGHT, FontWeight.MIDDLE);
       }
    }
 
-   private void D(Canvas var1, RegionMapHud.TypeI var2, float var3, long var4, float var6, float var7, float var8) {
-      RegionMapSupport.TypeB.ensureSourceClassInitialized();
+   private void D(Canvas var1, RegionMapHud.RegionEntry var2, float var3, long var4, float var6, float var7, float var8) {
+      RegionMapSupport.RegionTint.ensureSourceClassInitialized();
       this.icon(var1, var2.K, 17.0F, 19.0F + var8 * 0.6F, 9.5F, -218103809);
       long var9 = 117006667229309L;
-      if (117006667229309L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var12 = var9 < 0L ? -1 : 1;
-      }
-
+      int var11 = var9 < 0L ? -1 : 1;
       this.text(var1, Fonts.SEMIBOLD, var2.k, var7, 14.6F + var8, 8.6F, Icons.TEXT, FontStyle.LEFT, FontWeight.MIDDLE);
       if (var2.w) {
          Translations.pause();
@@ -359,7 +313,7 @@ public final class RegionMapHud extends HudModule {
       var1.roundRectOutline(8.0F, var6, 149.6F, 149.6F, 7.0F, 1.0F, 234881023);
       float var7 = 11.0F;
       float var8 = var6 + 3.0F;
-      RegionMapSupport.TypeB.ensureSourceClassInitialized();
+      RegionMapSupport.RegionTint.ensureSourceClassInitialized();
       float var9 = this.X.value();
       float var10 = this.u.value();
       float var11 = this.f.value();
@@ -372,53 +326,30 @@ public final class RegionMapHud extends HudModule {
 
       for (int var15 = 0; var15 < 9; var15++) {
          long var16 = 119784544513403L;
-         if (119784544513403L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var29 = var16 < 0L ? -1 : 1;
-         }
+         int var27 = var16 < 0L ? -1 : 1;
 
          for (int var19 = 0; var19 < 9; var19++) {
             float var20 = var9 * Math.max(0.0F, 1.0F - Math.abs(var19 - var11)) * Math.max(0.0F, 1.0F - Math.abs(var15 - var12));
             long var21 = 119784544513404L;
-            if (119784544513404L == 0L) {
-               boolean var30 = false;
-            } else {
-               int var31 = var21 < 0L ? -1 : 1;
-            }
-
+            int var24 = var21 < 0L ? -1 : 1;
             this.Q(var1, var7, var8, var4, var19, var15, var20);
          }
 
-         long var27 = 119784544513403L;
-         if (119784544513403L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var27 < 0L ? -1 : 1;
-         }
+         long var27x = 119784544513403L;
+         int var30 = var27x < 0L ? -1 : 1;
       }
 
       long var26 = 119784544513404L;
-      if (119784544513404L == 0L) {
-         boolean var34 = false;
-      } else {
-         int var35 = var26 < 0L ? -1 : 1;
-      }
-
-      long var18 = 119784544513403L;
-      if (119784544513403L == 0L) {
-         boolean var36 = false;
-      } else {
-         int var37 = var18 < 0L ? -1 : 1;
-      }
-
+      int var18 = var26 < 0L ? -1 : 1;
+      long var18x = 119784544513403L;
+      int var281 = var18x < 0L ? -1 : 1;
       if (var9 > 0.01F) {
-         float var28 = var7 + var11 * 16.2F;
+         float var28x = var7 + var11 * 16.2F;
          float var22 = var8 + var12 * 16.2F;
-         RegionMapSupport.TypeB var23 = RegionMapSupport.host(Math.round(var11), Math.round(var12));
+         RegionMapSupport.RegionTint var23 = RegionMapSupport.host(Math.round(var11), Math.round(var12));
          int var24 = var23 != null ? var23.A : Theme.tint(-11910301);
-         var1.glow(var28, var22, 14.0F, 14.0F, 4.0F, 9.0F, BlendMode.withAlpha(var24, 0.45F * var9));
-         var1.roundRectOutline(var28 - 1.2F, var22 - 1.2F, 16.4F, 16.4F, 4.6F, 1.2F, BlendMode.withAlpha(-1, 0.92F * var9));
+         var1.glow(var28x, var22, 14.0F, 14.0F, 4.0F, 9.0F, BlendMode.withAlpha(var24, 0.45F * var9));
+         var1.roundRectOutline(var28x - 1.2F, var22 - 1.2F, 16.4F, 16.4F, 4.6F, 1.2F, BlendMode.withAlpha(-1, 0.92F * var9));
          float var25 = HudGroupBounds.facing(this.S, true);
          var1.pushAlpha(var9);
          var1.softCircle(var13, var14 + 0.4F, 4.2F, 5.0F, -1728053248);
@@ -431,126 +362,78 @@ public final class RegionMapHud extends HudModule {
    }
 
    private void Q(Canvas var1, float var2, float var3, long var4, int var6, int var7, float var8) {
-      RegionMapSupport.TypeB.ensureSourceClassInitialized();
-      RegionMapSupport.TypeB var9 = RegionMapSupport.host(var6, var7);
+      RegionMapSupport.RegionTint.ensureSourceClassInitialized();
+      RegionMapSupport.RegionTint var9 = RegionMapSupport.host(var6, var7);
       if (var9 != null) {
          long var10 = 117400981285238L;
-         if (117400981285238L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var59 = var10 < 0L ? -1 : 1;
-         }
-
-         boolean var13 = RegionMapSupport.host(var6 - 1, var7) == var9;
+         int var13 = var10 < 0L ? -1 : 1;
+         boolean var13x = RegionMapSupport.host(var6 - 1, var7) == var9;
          long var14 = 117400981285238L;
-         if (117400981285238L == 0L) {
-            boolean var60 = false;
-         } else {
-            int var61 = var14 < 0L ? -1 : 1;
-         }
-
-         boolean var16 = RegionMapSupport.host(var6 + 1, var7) == var9;
+         int var16 = var14 < 0L ? -1 : 1;
+         boolean var16x = RegionMapSupport.host(var6 + 1, var7) == var9;
          long var17 = 117400981285238L;
-         if (117400981285238L == 0L) {
-            boolean var62 = false;
-         } else {
-            int var63 = var17 < 0L ? -1 : 1;
-         }
-
-         boolean var20 = RegionMapSupport.host(var6, var7 - 1) == var9;
+         int var20 = var17 < 0L ? -1 : 1;
+         boolean var20x = RegionMapSupport.host(var6, var7 - 1) == var9;
          long var21 = 117400981285239L;
-         if (117400981285239L == 0L) {
-            boolean var64 = false;
-         } else {
-            int var65 = var21 < 0L ? -1 : 1;
-         }
-
-         boolean var23 = RegionMapSupport.host(var6, var7 + 1) == var9;
+         int var21x = var21 < 0L ? -1 : 1;
+         boolean var23x = RegionMapSupport.host(var6, var7 + 1) == var9;
          float var24 = 0.75F;
          long var25 = 117400981285238L;
-         if (117400981285238L == 0L) {
-            boolean var66 = false;
-         } else {
-            int var67 = var25 < 0L ? -1 : 1;
-         }
-
-         float var27 = 11.0F + var6 * 16.2F - (var13 ? var24 : 0.0F);
+         int var25x = var25 < 0L ? -1 : 1;
+         float var27x = 11.0F + var6 * 16.2F - (var13x ? var24 : 0.0F);
          long var28 = 117400981285239L;
-         if (117400981285239L == 0L) {
-            boolean var68 = false;
-         } else {
-            int var69 = var28 < 0L ? -1 : 1;
-         }
-
-         float var30 = var3 + var7 * 16.2F - (var20 ? var24 : 0.0F);
+         int var28x = var28 < 0L ? -1 : 1;
+         float var30x = var3 + var7 * 16.2F - (var20x ? var24 : 0.0F);
          long var31 = 117400981285238L;
-         if (117400981285238L == 0L) {
-            boolean var70 = false;
-         } else {
-            int var71 = var31 < 0L ? -1 : 1;
-         }
-
-         float var33 = 11.0F + var6 * 16.2F + 14.0F + (var16 ? var24 : 0.0F);
+         int var31x = var31 < 0L ? -1 : 1;
+         float var33x = 11.0F + var6 * 16.2F + 14.0F + (var16x ? var24 : 0.0F);
          long var34 = 117400981285239L;
-         if (117400981285239L == 0L) {
-            boolean var72 = false;
-         } else {
-            int var73 = var34 < 0L ? -1 : 1;
-         }
-
-         float var36 = var3 + var7 * 16.2F + 14.0F + (var23 ? var24 : 0.0F);
+         int var34x = var34 < 0L ? -1 : 1;
+         float var36x = var3 + var7 * 16.2F + 14.0F + (var23x ? var24 : 0.0F);
          float var37 = 4.0F;
          float var38 = 1.2F;
-         float var39 = !var13 && !var20 ? var37 : var38;
-         float var40 = !var16 && !var20 ? var37 : var38;
-         float var41 = !var16 && !var23 ? var37 : var38;
-         float var42 = !var13 && !var23 ? var37 : var38;
+         float var39 = !var13x && !var20x ? var37 : var38;
+         float var40 = !var16x && !var20x ? var37 : var38;
+         float var41 = !var16x && !var23x ? var37 : var38;
+         float var42 = !var13x && !var23x ? var37 : var38;
          int var43 = BlendMode.lerp(BlendMode.lerp(Theme.tint(-14936271), var9.A, 0.55F), var9.A, var8);
-         var1.roundRect(var27, var30, var33 - var27, var36 - var30, var39, var40, var41, var42, var43);
+         var1.roundRect(var27x, var30x, var33x - var27x, var36x - var30x, var39, var40, var41, var42, var43);
          float var44;
          int var45 = (var44 = var8 - 0.01F) == 0.0F ? 0 : (var44 < 0.0F ? -1 : 1);
          long var46 = 117400981285239L;
-         if (117400981285239L == 0L) {
-            boolean var74 = false;
-         } else {
-            int var75 = var46 < 0L ? -1 : 1;
-         }
-
+         int var46x = var46 < 0L ? -1 : 1;
          if (var45 > 0) {
-            var1.roundRectGradient(var27, var30, var33 - var27, var36 - var30, Math.min(var39, var40), 90.0F, BlendMode.withAlpha(-1, 0.22F * var8), 16777215);
+            var1.roundRectGradient(
+               var27x, var30x, var33x - var27x, var36x - var30x, Math.min(var39, var40), 90.0F, BlendMode.withAlpha(-1, 0.22F * var8), 16777215
+            );
          }
 
-         short var48 = (short)(this.G.enabled() ? 1 : 0);
+         short var48x = (short)(this.G.enabled() ? 1 : 0);
          long var49 = 117400981285238L;
-         if (117400981285238L == 0L) {
-            boolean var76 = false;
-         } else {
-            int var77 = var49 < 0L ? -1 : 1;
-         }
-
-         if (var48 != 0) {
-            String var51 = RegionMapSupport.number(var6, var7);
-            float var52 = var51.length() >= 3 ? 5.0F : 5.8F;
-            var48 = 22244;
+         int var49x = var49 < 0L ? -1 : 1;
+         if (var48x != 0) {
+            String var51x = RegionMapSupport.number(var6, var7);
+            float var52 = var51x.length() >= 3 ? 5.0F : 5.8F;
+            var48x = 22244;
             float var53 = 11.0F + var6 * 16.2F + 7.0F;
             float var54 = var3 + var7 * 16.2F + 7.0F;
             float var55 = (float)Math.hypot(var53 - this.b, var54 - this.r);
             float var56 = 1.0F - this.X.value() * (1.0F - class_3532.method_15363((var55 - 3.5F) / 4.5F, 0.0F, 1.0F));
             int var57 = BlendMode.fade(BlendMode.lerp(-1275068417, Theme.tint(-267186654), var8), var56);
-            var1.text(Fonts.SEMIBOLD, var51, var53, var54 + 0.2F, var52, var57, FontStyle.CENTER, FontWeight.MIDDLE);
+            var1.text(Fonts.SEMIBOLD, var51x, var53, var54 + 0.2F, var52, var57, FontStyle.CENTER, FontWeight.MIDDLE);
          }
       }
    }
 
    private void J(Canvas var1, byte var2, int var3, int var4) {
-      RegionMapSupport.TypeB[] var5 = RegionMapSupport.TypeB.values();
-      RegionMapSupport.TypeB.ensureSourceClassInitialized();
+      RegionMapSupport.RegionTint[] var5 = RegionMapSupport.RegionTint.values();
+      RegionMapSupport.RegionTint.ensureSourceClassInitialized();
       float var6 = this.J();
       float var7 = 49.86667F;
-      RegionMapSupport.TypeB var8 = this.X.target() > 0.5F ? RegionMapSupport.host(RegionMapSupport.cell(this.c), RegionMapSupport.cell(this.N)) : null;
+      RegionMapSupport.RegionTint var8 = this.X.target() > 0.5F ? RegionMapSupport.host(RegionMapSupport.cell(this.c), RegionMapSupport.cell(this.N)) : null;
 
       for (int var9 = 0; var9 < var5.length; var9++) {
-         RegionMapSupport.TypeB var10 = var5[var9];
+         RegionMapSupport.RegionTint var10 = var5[var9];
          float var11 = 11.0F + var9 / 2 * var7;
          float var12 = var6 + var9 % 2 * 10.5F + 5.25F;
          boolean var13 = var10 == var8;
@@ -575,22 +458,20 @@ public final class RegionMapHud extends HudModule {
       }
    }
 
-private static final class TypeI {
+   private static final class RegionEntry {
       String N = "";
       String k = "";
       String F = "";
       boolean w;
-      String K;
-      int r;
+      String K = "map-pin";
+      int r = Theme.tint(-11910301);
       private static final String a = "map-pin";
       private static final long b = -2390144361023519901L;
 
-      private TypeI(long var1) {
-         this.K = a;
-         this.r = Theme.tint((int)b);
+      private RegionEntry(long var1) {
       }
 
-      void set(RegionMapHud.TypeI var1) {
+      void set(RegionMapHud.RegionEntry var1) {
          this.N = var1.N;
          this.k = var1.k;
          this.F = var1.F;
@@ -598,6 +479,5 @@ private static final class TypeI {
          this.K = var1.K;
          this.r = var1.r;
       }
-
-}
+   }
 }

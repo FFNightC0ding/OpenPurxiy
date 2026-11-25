@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.ambience;
 
 import net.minecraft.class_1944;
@@ -73,8 +72,6 @@ final class AmbienceUpdater {
    private float V;
    private float f;
    private float w;
-
-
    private static final long[] cb = new long[]{-2373471421456856733L, -3964685089153714785L};
    private static final Long[] db = new Long[2];
 
@@ -177,7 +174,7 @@ final class AmbienceUpdater {
       }
    }
 
-   void update(AmbienceUpdater.TypeV var1, float var2) {
+   void update(AmbienceUpdater.AmbienceProfile var1, float var2) {
       long var3 = 80508558751499L;
       long var5 = var3 ^ 76864534082463L;
       int var7 = (int)((var3 ^ 76864534082463L) >>> 48);
@@ -235,7 +232,7 @@ final class AmbienceUpdater {
       }
    }
 
-   private void G(int var1, AmbienceCatalog var2, AmbienceUpdater.TypeV var3, float var4, float var5, long var6) {
+   private void G(int var1, AmbienceCatalog var2, AmbienceUpdater.AmbienceProfile var3, float var4, float var5, long var6) {
       long var8 = 1171855579L;
       char var10 = '캇';
       long var11 = 55859033003631L;
@@ -245,25 +242,15 @@ final class AmbienceUpdater {
       AmbienceRegistry.ensureSourceClassInitialized();
       this.e[var1] = this.e[var1] + var4;
       if (this.e[var1] >= this.p[var1]) {
-         this.i(var8, var1, (char)var10);
+         this.i(var8, var1, var10);
       } else {
          float var17 = var3.P;
          float var18 = var3.o;
          long var19 = 118785528420961L;
-         if (118785528420961L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var59 = var19 < 0L ? -1 : 1;
-         }
-
+         int var22 = var19 < 0L ? -1 : 1;
          this.hm[var1] = this.hm[var1] - var4;
-         long var22 = 118785528420962L;
-         if (118785528420962L == 0L) {
-            boolean var60 = false;
-         } else {
-            int var61 = var22 < 0L ? -1 : 1;
-         }
-
+         long var22x = 118785528420962L;
+         int var40 = var22x < 0L ? -1 : 1;
          if (this.hm[var1] <= 0.0F) {
             this.hm[var1] = 0.05F;
             float var24 = this.S[var1];
@@ -286,36 +273,21 @@ final class AmbienceUpdater {
             float var35 = var2.Y * (0.6F + 0.8F * this.T[var1]);
             float var36 = var32 * var2.o;
             long var37 = 118785528420961L;
-            if (118785528420961L == 0L) {
-               boolean var62 = false;
-            } else {
-               int var63 = var37 < 0L ? -1 : 1;
-            }
-
+            int var38 = var37 < 0L ? -1 : 1;
             this.v[var1] = var36 + var35 * class_3532.method_15374(var24 + var17 * var25 * 0.7F);
             this.I[var1] = var33 * var2.o * (var2.V ? 0.35F : 0.6F) + var35 * 0.5F * class_3532.method_15374(var24 * 0.7F + var17 * var25 * 0.9F);
             this.E[var1] = var34 * var2.o + var35 * class_3532.method_15362(var24 * 1.3F + var17 * var25 * 0.6F);
          }
 
-         float var40 = this.v[var1] + var3.Z * var2.f;
+         float var40x = this.v[var1] + var3.Z * var2.f;
          float var41 = this.I[var1];
          float var43 = this.E[var1] + var3.W * var2.f;
          long var27 = 118785528420961L;
-         if (118785528420961L == 0L) {
-            boolean var64 = false;
-         } else {
-            int var65 = var27 < 0L ? -1 : 1;
-         }
-
+         int var46 = var27 < 0L ? -1 : 1;
          if (var2.H >= 0.0F) {
             float var44 = 0.8F * this.T[var1];
             long var31 = 118785528420961L;
-            if (118785528420961L == 0L) {
-               boolean var66 = false;
-            } else {
-               int var67 = var31 < 0L ? -1 : 1;
-            }
-
+            int var53 = var31 < 0L ? -1 : 1;
             var41 += var2.H * (0.6F + var44);
          } else {
             float var45 = -var2.H * (0.75F + 0.5F * this.T[var1]) * (1.0F + var3.z * 0.6F);
@@ -325,7 +297,7 @@ final class AmbienceUpdater {
                float var51 = 2.0F * (this.z[var1] * this.L[var1] - this.x[var1] * this.s[var1]);
                var45 *= 1.2F - 0.45F * Math.abs(var48);
                float var53 = Math.signum(var48) * 0.35F * var45;
-               var40 += var47 * var53;
+               var40x += var47 * var53;
                var43 += var51 * var53;
                this.Y(var1, var4 * var18);
             }
@@ -333,29 +305,19 @@ final class AmbienceUpdater {
             var41 -= var45;
          }
 
-         long var46 = 118785528420961L;
-         if (118785528420961L == 0L) {
-            boolean var68 = false;
-         } else {
-            int var69 = var46 < 0L ? -1 : 1;
-         }
-
+         long var46x = 118785528420961L;
+         int var501 = var46x < 0L ? -1 : 1;
          if (var2.F == 1 || var2.F == 3) {
             this.t[var1] = (this.t[var1] + this.K[var1] * var4 * var18) % (float) (Math.PI * 2);
          }
 
          if (!var2.V) {
             long var49 = 118785528420962L;
-            if (118785528420962L == 0L) {
-               boolean var70 = false;
-            } else {
-               int var71 = var49 < 0L ? -1 : 1;
-            }
-
+            int var571 = var49 < 0L ? -1 : 1;
             if (var3.d > 0.0F && this.h4[var1] < 0.08F) {
                float var54 = this.A(var1, var3, var15);
                if (var54 > 0.0F) {
-                  var40 += (this.V - var40) * var54;
+                  var40x += (this.V - var40x) * var54;
                   var41 += (this.f - var41) * var54;
                   var43 += (this.w - var43) * var54;
                   this.e[var1] = this.e[var1] - var4 * var54;
@@ -367,10 +329,10 @@ final class AmbienceUpdater {
             this.x(var1, var3, var13, var14, var4);
          }
 
-         float var50 = this.h9[var1] = this.h9[var1] * var5;
+         float var50x = this.h9[var1] = this.h9[var1] * var5;
          float var52 = this.X[var1] = this.X[var1] * var5;
          float var55 = this.Q[var1] = this.Q[var1] * var5;
-         float var56 = (var40 * var18 + var50) * var4;
+         float var56 = (var40x * var18 + var50x) * var4;
          float var57 = (var41 * var18 + var52) * var4;
          float var58 = (var43 * var18 + var55) * var4;
          this.H[var1] = this.H[var1] + var56;
@@ -380,7 +342,7 @@ final class AmbienceUpdater {
       }
    }
 
-   private float A(int var1, AmbienceUpdater.TypeV var2, long var3) {
+   private float A(int var1, AmbienceUpdater.AmbienceProfile var2, long var3) {
       AmbienceRegistry.ensureSourceClassInitialized();
       double var5 = this.H[var1] - var2.V;
       double var7 = this.F[var1] - var2.H;
@@ -403,21 +365,16 @@ final class AmbienceUpdater {
          float var25 = var14 * var12 * var15 + (float)var21 * 0.5F;
          float var26 = (float)Math.sqrt(var23 * var23 + var24 * var24 + var25 * var25);
          long var27 = 7751356693290L;
-         if (7751356693290L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var31 = var27 < 0L ? -1 : 1;
-         }
-
-         float var30 = var26 > 0.9F ? 0.9F / var26 : 1.0F;
-         this.V = var23 * var30;
-         this.f = var24 * var30;
-         this.w = var25 * var30;
+         int var30 = var27 < 0L ? -1 : 1;
+         float var30x = var26 > 0.9F ? 0.9F / var26 : 1.0F;
+         this.V = var23 * var30x;
+         this.f = var24 * var30x;
+         this.w = var25 * var30x;
          return var2.d;
       }
    }
 
-   private void x(int var1, AmbienceUpdater.TypeV var2, int var3, int var4, float var5) {
+   private void x(int var1, AmbienceUpdater.AmbienceProfile var2, int var3, int var4, float var5) {
       AmbienceRegistry.ensureSourceClassInitialized();
 
       for (int var6 = 0; var6 < var2.M; var6++) {
@@ -484,60 +441,31 @@ final class AmbienceUpdater {
          double var19 = this.A[var3] - var7;
          double var21 = var18;
          long var23 = 55859033003630L;
-         if (55859033003630L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var43 = var23 < 0L ? -1 : 1;
-         }
-
-         double var26;
-         int var28 = (var26 = var19 - (var21 - 0.001)) == 0.0 ? 0 : (var26 < 0.0 ? -1 : 1);
+         int var26 = var23 < 0L ? -1 : 1;
+         double var26x;
+         int var28 = (var26x = var19 - (var21 - 0.001)) == 0.0 ? 0 : (var26x < 0.0 ? -1 : 1);
          long var29 = 55859033003631L;
-         if (55859033003631L == 0L) {
-            boolean var44 = false;
-         } else {
-            int var45 = var29 < 0L ? -1 : 1;
-         }
-
+         int var41 = var29 < 0L ? -1 : 1;
          if (var28 >= 0) {
             long var32 = 55859033003631L;
-            if (55859033003631L == 0L) {
-               boolean var46 = false;
-            } else {
-               int var47 = var32 < 0L ? -1 : 1;
-            }
-
+            int var32x = var32 < 0L ? -1 : 1;
             if (var4.V) {
-               this.x(var3, var4, (byte)var9, var10, var18);
+               this.x(var3, var4, var9, var10, var18);
                long var35 = 55859033003631L;
-               if (55859033003631L == 0L) {
-                  boolean var48 = false;
-               } else {
-                  int var49 = var35 < 0L ? -1 : 1;
-               }
+               int var37 = var35 < 0L ? -1 : 1;
             } else {
                this.A[var3] = var18 + 0.02;
                this.X[var3] = Math.max(this.X[var3], 0.08F);
             }
          } else if (var19 < var17) {
             long var40 = 55859033003630L;
-            if (55859033003630L == 0L) {
-               boolean var50 = false;
-            } else {
-               int var51 = var40 < 0L ? -1 : 1;
-            }
-
+            int var421 = var40 < 0L ? -1 : 1;
             this.A[var3] = var17 - 0.02;
             this.X[var3] = Math.min(this.X[var3], 0.0F);
          } else {
             this.H[var3] = this.H[var3] - var6;
-            long var41 = 55859033003630L;
-            if (55859033003630L == 0L) {
-               boolean var52 = false;
-            } else {
-               int var53 = var41 < 0L ? -1 : 1;
-            }
-
+            long var41x = 55859033003630L;
+            int var43 = var41x < 0L ? -1 : 1;
             this.F[var3] = this.F[var3] - var8;
             this.h9[var3] = 0.0F;
             this.Q[var3] = 0.0F;
@@ -545,14 +473,9 @@ final class AmbienceUpdater {
             if (!Float.isNaN(this.C[var3])) {
                double var42 = this.A[var3];
                long var37 = 55859033003630L;
-               if (55859033003630L == 0L) {
-                  boolean var54 = false;
-               } else {
-                  int var55 = var37 < 0L ? -1 : 1;
-               }
-
+               int var36 = var37 < 0L ? -1 : 1;
                if (var42 >= this.C[var3] && this.A[var3] < this.U[var3]) {
-                  this.i(var12, var3, (char)var14);
+                  this.i(var12, var3, var14);
                }
             }
          }
@@ -570,20 +493,10 @@ final class AmbienceUpdater {
       this.Q[var1] = 0.0F;
       float var12 = var2.J + (var2.y - var2.J) * this.S(var9);
       long var13 = 43015559447739L;
-      if (43015559447739L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var19 = var13 < 0L ? -1 : 1;
-      }
-
+      int var16 = var13 < 0L ? -1 : 1;
       if (var11 && var2.F == 2) {
-         long var16 = 43015559447739L;
-         if (43015559447739L == 0L) {
-            boolean var20 = false;
-         } else {
-            int var21 = var16 < 0L ? -1 : 1;
-         }
-
+         long var16x = 43015559447739L;
+         int var17 = var16x < 0L ? -1 : 1;
          this.j[var1] = 3;
          var12 += 2.0F;
       } else {
@@ -594,7 +507,7 @@ final class AmbienceUpdater {
       this.o[var1] = var12;
    }
 
-   private void K(int var1, AmbienceCatalog var2, AmbienceUpdater.TypeV var3, float var4, long var5, float var7) {
+   private void K(int var1, AmbienceCatalog var2, AmbienceUpdater.AmbienceProfile var3, float var4, long var5, float var7) {
       long var8 = 1171855579L;
       char var10 = '캇';
       long var11 = 103330804472957L;
@@ -603,87 +516,51 @@ final class AmbienceUpdater {
       AmbienceRegistry.ensureSourceClassInitialized();
       this.h[var1] = this.h[var1] - var4;
       if (this.h[var1] <= 0.0F) {
-         this.i(var8, var1, (char)var10);
+         this.i(var8, var1, var10);
       } else {
          long var17 = 132774092424821L;
-         if (132774092424821L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var42 = var17 < 0L ? -1 : 1;
-         }
-
+         int var20 = var17 < 0L ? -1 : 1;
          if (var2.F == 2) {
             this.Q(var11, var1, var7);
-            byte var20 = this.j[var1];
+            byte var20x = this.j[var1];
             long var21 = 132774092424821L;
-            if (132774092424821L == 0L) {
-               boolean var43 = false;
-            } else {
-               int var44 = var21 < 0L ? -1 : 1;
-            }
-
-            if (var20 == 3) {
+            int var39 = var21 < 0L ? -1 : 1;
+            if (var20x == 3) {
                double var23 = this.H[var1];
                float var25 = var3.Z * 0.12F * var3.o;
                long var26 = 132774092424820L;
-               if (132774092424820L == 0L) {
-                  boolean var45 = false;
-               } else {
-                  int var46 = var26 < 0L ? -1 : 1;
-               }
-
+               int var28 = var26 < 0L ? -1 : 1;
                this.H[var1] = var23 + var25 * var4;
                long var29 = 132774092424820L;
-               if (132774092424820L == 0L) {
-                  boolean var47 = false;
-               } else {
-                  int var48 = var29 < 0L ? -1 : 1;
-               }
-
+               int var29x = var29 < 0L ? -1 : 1;
                this.F[var1] = this.F[var1] + var3.W * 0.12F * var3.o * var4;
                this.k(var13, var1, var3.Y);
                if (!this.hT[var1]) {
                   long var31 = 132774092424821L;
-                  if (132774092424821L == 0L) {
-                     boolean var49 = false;
-                  } else {
-                     int var50 = var31 < 0L ? -1 : 1;
-                  }
-
+                  int var31x = var31 < 0L ? -1 : 1;
                   this.j[var1] = 2;
                } else {
                   this.A[var1] = this.U[var1] + 0.012;
                }
             } else if (var3.w) {
-               for (int var39 = 0; var39 < var3.M; var39++) {
-                  double var24 = this.H[var1] - var3.y[var39];
-                  double var40 = this.F[var1] - var3.I[var39];
-                  double var28 = this.A[var1] - var3.F[var39];
-                  float var30 = (float)Math.sqrt(var3.C[var39] * var3.C[var39] + var3.L[var39] * var3.L[var39]);
+               for (int var39x = 0; var39x < var3.M; var39x++) {
+                  double var24 = this.H[var1] - var3.y[var39x];
+                  double var40 = this.F[var1] - var3.I[var39x];
+                  double var28 = this.A[var1] - var3.F[var39x];
+                  float var30 = (float)Math.sqrt(var3.C[var39x] * var3.C[var39x] + var3.L[var39x] * var3.L[var39x]);
                   double var41 = var24 * var24 + var40 * var40;
                   long var33 = 132774092424821L;
-                  if (132774092424821L == 0L) {
-                     boolean var51 = false;
-                  } else {
-                     int var52 = var33 < 0L ? -1 : 1;
-                  }
-
+                  int var36 = var33 < 0L ? -1 : 1;
                   if (var30 > 1.2F && var41 < 0.8) {
-                     long var36 = 132774092424821L;
-                     if (132774092424821L == 0L) {
-                        boolean var53 = false;
-                     } else {
-                        int var54 = var36 < 0L ? -1 : 1;
-                     }
-
+                     long var36x = 132774092424821L;
                      if (Math.abs(var28) < 0.7) {
-                        float var38 = (float)Math.sqrt(Math.max(var41, 1.0E-4));
+                        float var38x = (float)Math.sqrt(Math.max(var41, 1.0E-4));
                         this.j[var1] = 1;
                         this.hm[var1] = 0.0F;
                         this.e[var1] = Math.min(this.e[var1], this.p[var1] * 0.5F);
-                        this.h9[var1] = (float)var24 / var38 * 0.9F + var3.C[var39] * 0.35F;
+                        this.h9[var1] = (float)var24 / var38x * 0.9F + var3.C[var39x] * 0.35F;
                         this.X[var1] = 1.2F + 0.8F * this.S(var15);
-                        this.Q[var1] = (float)var40 / var38 * 0.9F + var3.L[var39] * 0.35F;
+                        this.Q[var1] = (float)var40 / var38x * 0.9F + var3.L[var39x] * 0.35F;
                         this.A[var1] = this.A[var1] + 0.05;
                         return;
                      }
@@ -694,7 +571,7 @@ final class AmbienceUpdater {
       }
    }
 
-   private boolean L(long var1, int var3, AmbienceUpdater.TypeV var4) {
+   private boolean L(long var1, int var3, AmbienceUpdater.AmbienceProfile var4) {
       long var5 = 1171855579L;
       char var7 = '캇';
       long var8 = 35529169765756L;
@@ -708,24 +585,14 @@ final class AmbienceUpdater {
       } else {
          byte var18 = this.j[var3];
          long var19 = 5511123026950L;
-         if (5511123026950L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var33 = var19 < 0L ? -1 : 1;
-         }
-
+         int var22 = var19 < 0L ? -1 : 1;
          if (var18 == 1 && var16 < 2.25) {
-            double var22 = -0.97 / Math.sqrt(var16);
-            double var24 = var4.s + var10 * var22 * var4.g;
-            double var26 = var4.h + var12 * var22 * var4.n;
-            double var28 = var4.G + var14 * var22 * var4.g;
+            double var22x = -0.97 / Math.sqrt(var16);
+            double var24 = var4.s + var10 * var22x * var4.g;
+            double var26 = var4.h + var12 * var22x * var4.n;
+            double var28 = var4.G + var14 * var22x * var4.g;
             long var30 = 5511123026950L;
-            if (5511123026950L == 0L) {
-               boolean var34 = false;
-            } else {
-               int var35 = var30 < 0L ? -1 : 1;
-            }
-
+            int var31 = var30 < 0L ? -1 : 1;
             if (this.j(var4.Y, var24, var26, var28, var8, AmbienceCatalog.e.get(this.k[var3]).V)) {
                this.H[var3] = var24;
                this.A[var3] = var26;
@@ -735,25 +602,20 @@ final class AmbienceUpdater {
             }
          }
 
-         this.i(var5, var3, (char)var7);
+         this.i(var5, var3, var7);
          return false;
       }
    }
 
-   private float J(int var1, long var2, AmbienceCatalog var4, AmbienceUpdater.TypeV var5, float var6, byte var7) {
+   private float J(int var1, long var2, AmbienceCatalog var4, AmbienceUpdater.AmbienceProfile var5, float var6, byte var7) {
       AmbienceRegistry.ensureSourceClassInitialized();
       float var8 = this.G[var1];
       if (this.j[var1] == 1) {
          float var9 = this.e[var1];
          long var10 = 303155264956L;
-         if (303155264956L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var26 = var10 < 0L ? -1 : 1;
-         }
-
-         float var14 = this.p[var1];
-         var8 *= smoothstep(0.0F, var4.O, var9) * (1.0F - smoothstep(var14 - var4.P, var14, var9));
+         int var14 = var10 < 0L ? -1 : 1;
+         float var14x = this.p[var1];
+         var8 *= smoothstep(0.0F, var4.O, var9) * (1.0F - smoothstep(var14x - var4.P, var14x, var9));
       } else {
          var8 *= Math.min(1.0F, this.h[var1] / Math.min(1.5F, this.o[var1] * 0.6F));
       }
@@ -771,7 +633,7 @@ final class AmbienceUpdater {
       return var8 * this.y[var1];
    }
 
-   private float a(int var1, AmbienceUpdater.TypeV var2) {
+   private float a(int var1, AmbienceUpdater.AmbienceProfile var2) {
       float var3 = 1.0F - var2.c * this.D[var1] * (1.0F - var2.N);
       return Math.clamp((var3 - this.h4[var1]) / 0.12F + 0.5F, 0.0F, 1.0F);
    }
@@ -783,7 +645,7 @@ final class AmbienceUpdater {
       this.hb[var3] = 0.2F + 1.2F * this.S(var7);
    }
 
-   private boolean X(char var1, int var2, int var3, char var4, AmbienceCatalog var5, AmbienceUpdater.TypeV var6) {
+   private boolean X(char var1, int var2, int var3, char var4, AmbienceCatalog var5, AmbienceUpdater.AmbienceProfile var6) {
       long var7 = 14090566386836L;
       long var9 = var7 ^ 84307277348976L;
       long var11 = var7 ^ 80825089532478L;
@@ -854,31 +716,21 @@ final class AmbienceUpdater {
       AmbienceRegistry.ensureSourceClassInitialized();
       class_2339 var11 = this.B.method_10102(var2, var4, var6);
       long var12 = 35529169765755L;
-      if (35529169765755L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var21 = var12 < 0L ? -1 : 1;
-      }
-
+      int var15 = var12 < 0L ? -1 : 1;
       if (var10 && var4 < var1.method_8624(class_2903.field_13197, var11.method_10263(), var11.method_10260())) {
          return false;
       } else {
-         class_2680 var15 = var1.method_8320(var11);
-         boolean var16 = var15.method_26227().method_15769();
+         class_2680 var15x = var1.method_8320(var11);
+         boolean var16 = var15x.method_26227().method_15769();
          long var17 = 35529169765755L;
-         if (35529169765755L == 0L) {
-            boolean var22 = false;
-         } else {
-            int var23 = var17 < 0L ? -1 : 1;
-         }
-
+         int var20 = var17 < 0L ? -1 : 1;
          if (!var16) {
             return false;
          } else {
-            class_265 var20 = var15.method_26220(var1, var11);
-            return var20.method_1110()
-               || var4 < var11.method_10264() + var20.method_1091(class_2351.field_11052)
-               || var4 >= var11.method_10264() + var20.method_1105(class_2351.field_11052);
+            class_265 var20x = var15x.method_26220(var1, var11);
+            return var20x.method_1110()
+               || var4 < var11.method_10264() + var20x.method_1091(class_2351.field_11052)
+               || var4 >= var11.method_10264() + var20x.method_1105(class_2351.field_11052);
          }
       }
    }
@@ -888,36 +740,21 @@ final class AmbienceUpdater {
       class_2339 var5 = this.B.method_10102(this.H[var3], this.A[var3], this.F[var3]);
       long var6 = var5.method_10063();
       long var8 = 76219461953193L;
-      if (76219461953193L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var18 = var8 < 0L ? -1 : 1;
-      }
-
+      int var11 = var8 < 0L ? -1 : 1;
       if (var6 != this.h7[var3]) {
          this.h7[var3] = var6;
-         class_2680 var11 = var4.method_8320(var5);
-         class_265 var12 = var11.method_26220(var4, var5);
-         class_3610 var13 = var11.method_26227();
+         class_2680 var11x = var4.method_8320(var5);
+         class_265 var12 = var11x.method_26220(var4, var5);
+         class_3610 var13 = var11x.method_26227();
          if (!var12.method_1110()) {
             long var14 = 76219461953194L;
-            if (76219461953194L == 0L) {
-               boolean var19 = false;
-            } else {
-               int var20 = var14 < 0L ? -1 : 1;
-            }
-
+            int var15 = var14 < 0L ? -1 : 1;
             this.C[var3] = (float)(var5.method_10264() + var12.method_1091(class_2351.field_11052));
             this.U[var3] = (float)(var5.method_10264() + var12.method_1105(class_2351.field_11052));
             this.hT[var3] = false;
          } else if (!var13.method_15769()) {
             long var17 = 76219461953194L;
-            if (76219461953194L == 0L) {
-               boolean var21 = false;
-            } else {
-               int var22 = var17 < 0L ? -1 : 1;
-            }
-
+            int var18 = var17 < 0L ? -1 : 1;
             this.C[var3] = var5.method_10264();
             this.U[var3] = var5.method_10264() + var13.method_15763(var4, var5);
             this.hT[var3] = true;
@@ -1013,7 +850,7 @@ final class AmbienceUpdater {
       return var3 * var3 * (3.0F - 2.0F * var3);
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 6479) & 32767;
       if (db[var3] == null) {
          db[var3] = cb[var3] ^ var1;
@@ -1022,7 +859,7 @@ private static long b(int var0, long var1) {
       return db[var3];
    }
 
-   static final class TypeV {
+   static final class AmbienceProfile {
       static final int T;
       class_638 Y;
       double s;

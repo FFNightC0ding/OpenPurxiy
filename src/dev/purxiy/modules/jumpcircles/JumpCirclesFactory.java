@@ -1,7 +1,4 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.jumpcircles;
-
-import net.minecraft.class_1309;
 
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import java.util.ArrayList;
@@ -9,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.class_1109;
+import net.minecraft.class_1309;
 import net.minecraft.class_243;
 import net.minecraft.class_310;
 import net.minecraft.class_3414;
@@ -19,21 +17,15 @@ import net.minecraft.class_746;
 
 final class JumpCirclesFactory {
    private static final class_5819 c = class_5819.method_43047();
-   private final Supplier<List<JumpCirclesFactory.Data2>> e;
+   private final Supplier<List<JumpCirclesFactory.CosmeticEntry>> e;
    private final Supplier<Float> C;
    final List<JumpCirclesFactory.Data> G;
-   
    private final Consumer<class_746> n;
    private final Supplier<String> g;
-
    private static final String[] b = new String[7];
 
    private JumpCirclesFactory(
-      Supplier<List<JumpCirclesFactory.Data2>> var1,
-      Supplier<Float> var2,
-      List<JumpCirclesFactory.Data> var3,
-       Consumer<class_746> var4,
-      Supplier<String> var5
+      Supplier<List<JumpCirclesFactory.CosmeticEntry>> var1, Supplier<Float> var2, List<JumpCirclesFactory.Data> var3, Consumer<class_746> var4, Supplier<String> var5
    ) {
       this.e = var1;
       this.C = var2;
@@ -42,7 +34,7 @@ final class JumpCirclesFactory {
       this.g = var5;
    }
 
-   List<JumpCirclesFactory.Data2> timeline() {
+   List<JumpCirclesFactory.CosmeticEntry> timeline() {
       return this.e.get();
    }
 
@@ -50,7 +42,6 @@ final class JumpCirclesFactory {
       return this.C.get();
    }
 
-   
    String note() {
       return this.g.get();
    }
@@ -70,40 +61,40 @@ final class JumpCirclesFactory {
          long var3x = (var1x ^ 6727081287169L) >>> 16;
          int var5x = (int)((var1x ^ 6727081287169L) << 48 >>> 48);
          h(var3x, (char)var5x);
-         JumpCirclesRenderer2.preview((class_1309)(var0x), 0.0, 0.0);
+         JumpCirclesRenderPass.preview((class_1309)var0x, 0.0, 0.0);
       };
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
-      ArrayList var8 = new ArrayList();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
+      ArrayList<Consumer<class_746>> var8 = new ArrayList<>();
 
       for (int var9 = 0; var9 < 3; var9++) {
          double var10 = (var9 - 1) * 1.1;
-         var8.add((java.util.function.Consumer<class_1309>) var2x -> {
+         var8.add(var2x -> {
             long var3x = 125943249643064L;
             long var5x = (var3x ^ 45032350234554L) >>> 16;
             int var7x = (int)((var3x ^ 45032350234554L) << 48 >>> 48);
             h(var5x, (char)var7x);
-            class_243 var8x = X((class_746)(Object)var2x, var10, 0.0);
-            JumpCirclesRenderer2.preview(var2x, var8x.field_1352, var8x.field_1350);
+            class_243 var8x = X((class_746)var2x, var10, 0.0);
+            JumpCirclesRenderPass.preview(var2x, var8x.field_1352, var8x.field_1350);
          });
       }
 
       List var13 = List.of(
-         new JumpCirclesFactory.Data2(0.0F, "Jump", var7),
-         new JumpCirclesFactory.Data2(1.5F, "Hop", (Consumer<class_746>)var8.get(0)),
-         new JumpCirclesFactory.Data2(1.95F, "Hop", (Consumer<class_746>)var8.get(1)),
-         new JumpCirclesFactory.Data2(2.4F, "Hop", (Consumer<class_746>)var8.get(2))
+         new JumpCirclesFactory.CosmeticEntry(0.0F, "Jump", var7),
+         new JumpCirclesFactory.CosmeticEntry(1.5F, "Hop", (Consumer<class_746>)var8.get(0)),
+         new JumpCirclesFactory.CosmeticEntry(1.95F, "Hop", (Consumer<class_746>)var8.get(1)),
+         new JumpCirclesFactory.CosmeticEntry(2.4F, "Hop", (Consumer<class_746>)var8.get(2))
       );
       List var14 = List.of(new JumpCirclesFactory.Data("Jump", "arrow-up", var7), new JumpCirclesFactory.Data("Hops", "rabbit", var1x -> {
          ((Consumer)var8.get(0)).accept(var1x);
          JumpCirclesRenderer.later(0.45F, (Consumer<class_746>)var8.get(1));
          JumpCirclesRenderer.later(0.9F, (Consumer<class_746>)var8.get(2));
       }));
-      return new JumpCirclesFactory(() -> var13, () -> 2.6F + JumpCirclesRenderer2.g.c.floatValue(), var14, null, () -> null);
+      return new JumpCirclesFactory(() -> var13, () -> 2.6F + JumpCirclesRenderPass.g.c.floatValue(), var14, null, () -> null);
    }
 
    private static void h(long var0, char var2) {
-      if (!JumpCirclesSupport2.moved()) {
-         JumpCirclesSupport2.overlook(26.0F, 1.55F);
+      if (!JumpCirclesFrameView.moved()) {
+         JumpCirclesFrameView.overlook(26.0F, 1.55F);
       }
    }
 
@@ -118,7 +109,7 @@ final class JumpCirclesFactory {
    }
 
    private static class_243 X(class_746 var0, double var1, double var3) {
-      class_243 var5 = JumpCirclesSupport2.position();
+      class_243 var5 = JumpCirclesFrameView.position();
       double var6 = var0.method_23317() - var5.field_1352;
       double var8 = var0.method_23321() - var5.field_1350;
       double var10 = Math.max(0.001, Math.sqrt(var6 * var6 + var8 * var8));
@@ -145,7 +136,7 @@ final class JumpCirclesFactory {
    }
 
    static class_243 from(class_746 var0) {
-      class_243 var1 = JumpCirclesSupport2.position();
+      class_243 var1 = JumpCirclesFrameView.position();
       return new class_243(var1.field_1352, var0.method_23318() + var0.method_17682() * 0.7, var1.field_1350);
    }
 
@@ -178,7 +169,7 @@ final class JumpCirclesFactory {
       return n(var5, (short)var6, (char)var7);
    }
 
-record Data(String W, String O, Consumer<class_746> o) {
+   record Data(String W, String O, Consumer<class_746> o) {
       public String label() {
          return this.W;
       }
@@ -204,7 +195,7 @@ record Data(String W, String O, Consumer<class_746> o) {
       }
    }
 
-   record Data2(float C, String b, Consumer<class_746> M) {
+   record CosmeticEntry(float C, String b, Consumer<class_746> M) {
       public float at() {
          return this.C;
       }

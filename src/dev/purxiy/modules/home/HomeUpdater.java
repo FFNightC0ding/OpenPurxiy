@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.home;
 
 import com.mojang.blaze3d.textures.GpuTextureView;
@@ -8,7 +7,8 @@ import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.CosmeticRegistry;
 import dev.purxiy.loader.fabric.UiAudioPolicy;
-import dev.purxiy.loader.fabric.client.ClientRenderer8;
+import dev.purxiy.loader.fabric.client.SimpleDrawPass;
+import dev.purxiy.loader.fabric.client.SimpleDrawPass.CameraFrame;
 import dev.purxiy.render.RenderPipelines;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,25 +39,18 @@ public final class HomeUpdater {
    private static final long c = 20261003L;
    private static final float T = 64.0F;
    private final HomeAutoCloseable N = new HomeAutoCloseable();
-   private final HomeUpdater2 H = new HomeUpdater2();
+   private final HomePalette H = new HomePalette();
    private final HomeCodec R = new HomeCodec();
    private final HomeLoader I = new HomeLoader();
-   private final HomeAutoCloseable.TypeI o = new HomeAutoCloseable.TypeI();
-   private final HomeUpdater.TypeG y = new HomeUpdater.TypeG();
-   
+   private final HomeAutoCloseable.HomeWorker o = new HomeAutoCloseable.HomeWorker();
+   private final HomeUpdater.HomeCamera y = new HomeUpdater.HomeCamera();
    private HomeCurve K;
-   
-   private HomeSupport5 B;
-   
+   private HomeWorldState B;
    private HomeSupport S;
-   
    private HomeSupport A;
-   
-   private HomeCodec2 i;
-   
-   private CompletableFuture<HomeUpdater.TypeF> h;
-   
-   private CompletableFuture<HomeUpdater.TypeK> r;
+   private HomeBlocks i;
+   private CompletableFuture<HomeUpdater.HomeScene> h;
+   private CompletableFuture<HomeUpdater.HomeForest> r;
    private long Z = 20261003L;
    private String U = "Mixed";
    private boolean a;
@@ -80,17 +73,16 @@ public final class HomeUpdater {
    private final Animator D = Animator.smooth(0.0F);
    private final Animator Q = Animator.smooth(0.0F);
    private final Animator u = Animator.smooth(0.22F);
-   private final List<HomeSupport.TypeV> G = new ArrayList<>();
-   private final List<HomeSupport.TypeV> V = new ArrayList<>();
+   private final List<HomeSupport.HomeGeometry> G = new ArrayList<>();
+   private final List<HomeSupport.HomeGeometry> V = new ArrayList<>();
    private int f;
    private int b;
    private double j = -1.0;
-   private final ExecutorService Y = ClientServices.visualExecutor("Purxiy menu world");
+   private final ExecutorService Y = ClientServices.visualExecutor("SourceByDevFFnightmare DeObfDeCompByGuideX menu world");
    static HomeModule z;
    private static ModuleContext J;
    private static int q = 0;
    private static int C = 0;
-
    private static final String[] p = new String[14];
    private static final long[] x = new long[]{
       -5343583433478640083L,
@@ -136,14 +128,14 @@ public final class HomeUpdater {
                this.X(var1, var10, var6, var8);
                this.N.render(this.o);
                this.F++;
-               ClientRenderer8.draw(var1, this.y);
+               SimpleDrawPass.draw(var1, this.y);
                return true;
-            } catch (Throwable var12) {
+            } catch (Throwable var121) {
                metric("draw_failures");
-               String var11 = var12.toString();
+               String var11 = var121.toString();
                if (!var11.equals(this.W)) {
                   this.W = var11;
-                  ClientServices.LOGGER.error("Purxiy main menu world failed to draw; Minecraft's panorama takes over", var12);
+                  ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX main menu world failed to draw; Minecraft's panorama takes over", var121);
                }
 
                this.a = true;
@@ -160,7 +152,7 @@ public final class HomeUpdater {
          return true;
       } else if (this.B != null && this.S != null && this.i != null && this.h == null && this.r == null) {
          try {
-            if (this.i.d != HomeCodec2.key(class_310.method_1551().method_72703().method_73025(class_10725.field_56382))) {
+            if (this.i.d != HomeBlocks.key(class_310.method_1551().method_72703().method_73025(class_10725.field_56382))) {
                return false;
             }
          } catch (RuntimeException var2) {
@@ -193,9 +185,9 @@ public final class HomeUpdater {
       long var8 = 51606980832329L;
       long var10 = 120070927144676L;
       HomeModule var12 = z;
-      HomeUpdater2.TypeZ var13 = this.H.update(var12.M.get(), this.d, 2.2);
-      HomeSupport2.ensureSourceClassInitialized();
-      HomeAutoCloseable.TypeI var14 = this.o;
+      HomePalette.HomeColorSet var13 = this.H.update((String)var12.M.get(), this.d, 2.2);
+      HomeGuiBridge.ensureSourceClassInitialized();
+      HomeAutoCloseable.HomeWorker var14 = this.o;
       var14.v = var13;
       var14.X = this.i;
       var14.k = (float)(this.d % 3600.0);
@@ -205,45 +197,25 @@ public final class HomeUpdater {
       float var17 = MotionStyle.MENU.dt(var2 == 0.0F ? RenderPipelines.get().delta() : var2);
       Animator var18 = this.D.target(var16 ? 0.0F : 1.0F);
       long var19 = 34072044836777L;
-      if (34072044836777L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var32 = var19 < 0L ? -1 : 1;
-      }
-
+      int var22 = var19 < 0L ? -1 : 1;
       var14.m = var18.update(var17);
       var18 = this.Q.target(var16 ? 0.0F : 0.5F);
-      long var22 = 34072044836776L;
-      if (34072044836776L == 0L) {
-         boolean var33 = false;
-      } else {
-         int var34 = var22 < 0L ? -1 : 1;
-      }
-
+      long var22x = 34072044836776L;
+      int var24 = var22x < 0L ? -1 : 1;
       var14.D = var18.update(var17);
       var14.M = this.u.target(var16 ? 0.2F : 0.36F).update(var17);
       var14.q = 1.0F - 0.12F * var14.D;
       this.B(var2, var6, var5, var14);
       this.m(var14, var8);
       this.Q(var10, var14);
-      HomeSupport var24 = this.S;
-      float var25 = var24 == null ? 0.0F : (float)Math.min(1.0, (this.d - this.s) / Math.max(0.1, var24.j + 0.3));
+      HomeSupport var24x = this.S;
+      float var25 = var24x == null ? 0.0F : (float)Math.min(1.0, (this.d - this.s) / Math.max(0.1, var24x.j + 0.3));
       long var26 = 34072044836777L;
-      if (34072044836777L == 0L) {
-         boolean var35 = false;
-      } else {
-         int var36 = var26 < 0L ? -1 : 1;
-      }
-
+      int var28 = var26 < 0L ? -1 : 1;
       if (this.B != null && this.i != null) {
-         this.R.update(var2, this.B, var24, var25, var13.d, var15 ? 0.4F : 1.0F);
-         long var28 = 34072044836777L;
-         if (34072044836777L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var28 < 0L ? -1 : 1;
-         }
-
+         this.R.update(var2, this.B, var24x, var25, var13.d, var15 ? 0.4F : 1.0F);
+         long var28x = 34072044836777L;
+         int var29 = var28x < 0L ? -1 : 1;
          if (this.K == null) {
             this.K = new HomeCurve(800);
          }
@@ -254,12 +226,12 @@ public final class HomeUpdater {
       }
    }
 
-   private void B(float var1, long var2, class_310 var4, HomeAutoCloseable.TypeI var5) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private void B(float var1, long var2, class_310 var4, HomeAutoCloseable.HomeWorker var5) {
+      HomeGuiBridge.ensureSourceClassInitialized();
       HomeModule var6 = z;
-      HomeSupport5 var7 = this.B;
+      HomeWorldState var7 = this.B;
       boolean var8 = MotionStyle.reduced();
-      float var9 = var6.q.is("Orbit") && !var8 ? (float)(1.7 * var4.field_1690.method_45581().method_41753()) : 0.0F;
+      float var9 = var6.q.is("Orbit") && !var8 ? (float)(1.7 * (Double)var4.field_1690.method_45581().method_41753()) : 0.0F;
       this.E = this.E + var1 * this.M.target(var9).update(var1);
       float var10 = this.w + this.E;
       float var11 = 9.0F;
@@ -272,33 +244,23 @@ public final class HomeUpdater {
          var13 += (float)Math.sin(this.d * 0.33) * 0.18F;
       }
 
-      class_1041 var16 = var4.method_22683();
-      float var17 = (float)(var4.field_1729.method_1603() / Math.max(1, var16.method_4480())) - 0.5F;
-      float var18 = (float)(var4.field_1729.method_1604() / Math.max(1, var16.method_4507())) - 0.5F;
-      float var19 = MotionStyle.HOVER.dt(var1) * 0.35F;
-      Animator var20 = this.n.target(var8 ? 0.0F : var17);
-      long var21 = 122565964136385L;
-      if (122565964136385L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var37 = var21 < 0L ? -1 : 1;
-      }
-
       boolean var15;
-      label97: {
+      label85: {
+         class_1041 var16 = var4.method_22683();
+         float var17 = (float)(var4.field_1729.method_1603() / Math.max(1, var16.method_4480())) - 0.5F;
+         float var18 = (float)(var4.field_1729.method_1604() / Math.max(1, var16.method_4507())) - 0.5F;
+         float var19 = MotionStyle.HOVER.dt(var1) * 0.35F;
+         Animator var20 = this.n.target(var8 ? 0.0F : var17);
+         long var21 = 122565964136385L;
+         var15 = false;
          var10 += var20.update(var19) * 3.2F;
          var11 += this.t.target(var8 ? 0.0F : var18).update(var19) * 2.0F;
          if (this.l < 0.0) {
             long var24 = 122565964136385L;
-            if (122565964136385L == 0L) {
-               boolean var38 = false;
-            } else {
-               int var39 = var24 < 0L ? -1 : 1;
-            }
-
+            int var36 = var24 < 0L ? -1 : 1;
             if (!this.X && HomeRenderer.holdsIntro()) {
                var15 = true;
-               break label97;
+               break label85;
             }
          }
 
@@ -306,31 +268,26 @@ public final class HomeUpdater {
       }
 
       if (this.l >= 0.0 || var15) {
-         var17 = var15 ? 0.0F : (float)Math.min(1.0, (this.d - this.l) / 2.7);
-         var18 = 1.0F - (float)Math.pow(1.0F - var17, 3.0);
+         float var29 = var15 ? 0.0F : (float)Math.min(1.0, (this.d - this.l) / 2.7);
+         float var301 = 1.0F - (float)Math.pow(1.0F - var29, 3.0);
          long var34 = 122565964136385L;
-         if (122565964136385L == 0L) {
-            boolean var40 = false;
-         } else {
-            int var41 = var34 < 0L ? -1 : 1;
-         }
-
-         var18 = var18 * var18 * (3.0F - 2.0F * var18);
-         var11 = HomeUpdater2.lerp(-20.0F, var11, var18);
-         var13 += (1.0F - var18) * 2.5F;
+         int var37 = var34 < 0L ? -1 : 1;
+         var301 = var301 * var301 * (3.0F - 2.0F * var301);
+         var11 = HomePalette.lerp(-20.0F, var11, var301);
+         var13 += (1.0F - var301) * 2.5F;
          long var22 = 122565964136385L;
-         var15 = (122565964136385L == 0L ? 0 : (var22 < 0L ? -1 : 1)) != 0;
-         var10 -= (1.0F - var18) * 16.0F;
-         if (var17 >= 1.0F) {
+         boolean var34x = (var22 < 0L ? -1 : 1) != 0;
+         var10 -= (1.0F - var301) * 16.0F;
+         if (var29 >= 1.0F) {
             this.l = -1.0;
             this.X = true;
          }
       }
 
       class_276 var30 = var4.method_1522();
-      var18 = (float)Math.max(1, var30.field_1482) / Math.max(1, var30.field_1481);
+      float var32 = (float)Math.max(1, var30.field_1482) / Math.max(1, var30.field_1481);
       Matrix4f var35 = new Matrix4f().rotateX((float)Math.toRadians(var11)).rotateY((float)Math.toRadians(var10)).translate(-var12, -var13, -var14);
-      Matrix4f var36 = new Matrix4f().perspective((float)Math.toRadians(64.0), var18, 0.05F, 420.0F);
+      Matrix4f var36 = new Matrix4f().perspective((float)Math.toRadians(64.0), var32, 0.05F, 420.0F);
       var5.s.set(var36).mul(var35);
       var5.s.invert(var5.Y);
       var5.V.set(var36);
@@ -348,21 +305,16 @@ public final class HomeUpdater {
       var5.d = var35.m21();
    }
 
-   private void m(HomeAutoCloseable.TypeI var1, long var2) {
+   private void m(HomeAutoCloseable.HomeWorker var1, long var2) {
       long var4 = 5441323555439L;
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       HomeSupport var6 = this.S;
       var1.L = (float)Math.min(1000000.0, this.d - this.s);
       HomeSupport var7 = this.A;
       if (var7 != null) {
          var1.i = (float)(this.d - this.O);
          long var8 = 51606980832328L;
-         if (51606980832328L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var30 = var8 < 0L ? -1 : 1;
-         }
-
+         int var26 = var8 < 0L ? -1 : 1;
          var1.u = var7.j;
          if (var1.i > var7.j * 0.3F + 0.4F) {
             this.A = null;
@@ -377,41 +329,21 @@ public final class HomeUpdater {
 
          while (this.f < this.G.size()) {
             long var10 = 51606980832328L;
-            if (51606980832328L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var10 < 0L ? -1 : 1;
-            }
-
+            int var27 = var10 < 0L ? -1 : 1;
             Object var13 = this.G.get(this.f);
             long var14 = 51606980832328L;
-            if (51606980832328L == 0L) {
-               boolean var33 = false;
-            } else {
-               int var34 = var14 < 0L ? -1 : 1;
-            }
-
-            if (!(((HomeSupport.TypeV)var13).H <= var24)) {
+            int var29 = var14 < 0L ? -1 : 1;
+            if (!(((HomeSupport.HomeGeometry)var13).H <= var24)) {
                break;
             }
 
-            HomeSupport.TypeV var16 = this.G.get(this.f++);
+            HomeSupport.HomeGeometry var16 = this.G.get(this.f++);
             long var17 = 51606980832329L;
-            if (51606980832329L == 0L) {
-               boolean var35 = false;
-            } else {
-               int var36 = var17 < 0L ? -1 : 1;
-            }
-
-            double var19;
-            int var21 = (var19 = var24 - var16.H - 0.5) == 0.0 ? 0 : (var19 < 0.0 ? -1 : 1);
+            int var19 = var17 < 0L ? -1 : 1;
+            double var19x;
+            int var21 = (var19x = var24 - var16.H - 0.5) == 0.0 ? 0 : (var19x < 0.0 ? -1 : 1);
             long var22 = 51606980832329L;
-            if (51606980832329L == 0L) {
-               boolean var37 = false;
-            } else {
-               int var38 = var22 < 0L ? -1 : 1;
-            }
-
+            int var23 = var22 < 0L ? -1 : 1;
             if (var21 < 0) {
                this.R.boneMeal(var16.C + 0.5F, var16.d + 0.15F, var16.w + 0.5F, 9, 0.9F);
                this.L(class_3417.field_33433, var16.C + 0.5F, var4, var16.d, var16.w + 0.5F, 0.32F, 0.9F + (var16.C * 7 + var16.w * 13 & 7) * 0.04F);
@@ -420,60 +352,41 @@ public final class HomeUpdater {
 
          while (true) {
             long var25 = 51606980832328L;
-            if (51606980832328L == 0L) {
-               boolean var39 = false;
-            } else {
-               int var40 = var25 < 0L ? -1 : 1;
-            }
-
+            int var291 = var25 < 0L ? -1 : 1;
             if (this.b >= this.V.size()) {
                break;
             }
 
-            long var27 = 51606980832328L;
-            if (51606980832328L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var27 < 0L ? -1 : 1;
-            }
-
+            long var27x = 51606980832328L;
+            int var14x = var27x < 0L ? -1 : 1;
             if (!(this.V.get(this.b).T <= var24)) {
                break;
             }
 
-            HomeSupport.TypeV var28 = this.V.get(this.b++);
-            if (var24 - var28.T < 0.5 && var28.h > 0.0F) {
-               this.R.boneMeal(var28.q, var28.W - 0.5F, var28.G, 6, var28.h * 1.6F);
-               class_3414 var29 = var28.cherry() ? class_3417.field_42559 : class_3417.field_28558;
-               this.L(var29, var28.q, var4, var28.W, var28.G, 0.22F, 0.95F + (var28.C * 5 + var28.w * 3 & 7) * 0.03F);
+            HomeSupport.HomeGeometry var28x = this.V.get(this.b++);
+            if (var24 - var28x.T < 0.5 && var28x.h > 0.0F) {
+               this.R.boneMeal(var28x.q, var28x.W - 0.5F, var28x.G, 6, var28x.h * 1.6F);
+               class_3414 var29x = var28x.cherry() ? class_3417.field_42559 : class_3417.field_28558;
+               this.L(var29x, var28x.q, var4, var28x.W, var28x.G, 0.22F, 0.95F + (var28x.C * 5 + var28x.w * 3 & 7) * 0.03F);
             }
          }
 
          long var26 = 51606980832329L;
-         if (51606980832329L == 0L) {
-            boolean var43 = false;
-         } else {
-            int var44 = var26 < 0L ? -1 : 1;
-         }
+         int var31 = var26 < 0L ? -1 : 1;
       }
    }
 
    private void L(class_3414 var1, float var2, long var3, float var5, float var6, float var7, float var8) {
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       if (UiAudioPolicy.active() && !(this.d - this.j < 0.05)) {
-         HomeAutoCloseable.TypeI var9 = this.o;
+         HomeAutoCloseable.HomeWorker var9 = this.o;
          float var10 = var2 - var9.z;
          float var11 = var5 - var9.S;
          float var12 = var6 - var9.I;
          float var13 = (float)Math.sqrt(var10 * var10 + var11 * var11 + var12 * var12);
-         float var14 = var7 * (1.0F - HomeSupport5.smooth(6.0F, 42.0F, var13));
+         float var14 = var7 * (1.0F - HomeWorldState.smooth(6.0F, 42.0F, var13));
          long var15 = 5441323555438L;
-         if (5441323555438L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var18 = var15 < 0L ? -1 : 1;
-         }
-
+         int var17 = var15 < 0L ? -1 : 1;
          if (!(var14 < 0.03F)) {
             this.j = this.d;
             class_310.method_1551().method_1483().method_4873(class_1109.method_4757(var1, var8, Math.min(1.0F, var14)));
@@ -497,14 +410,14 @@ public final class HomeUpdater {
       if (this.B != null && this.i != null && this.r == null) {
          long var5 = class_156.method_648() ^ -7046029254386353131L * System.identityHashCode(this);
          z.H.set(Long.toHexString(var5));
-         this.p(var5, z.X.get(), true, var3);
+         this.p(var5, (String)z.X.get(), true, var3);
       }
    }
 
    public boolean plant(double var1, double var3) {
       long var5 = 38535823094201L;
       long var7 = var5 ^ 123564066613641L;
-      HomeSupport5 var9 = this.B;
+      HomeWorldState var9 = this.B;
       HomeSupport var10 = this.S;
       class_310 var11 = class_310.method_1551();
       if (var9 != null && var10 != null && this.i != null && this.r == null && var11.field_1755 != null && RenderPipelines.get().frame() - this.k <= 2L) {
@@ -528,13 +441,13 @@ public final class HomeUpdater {
             float var26 = this.o.I + var22 * var23;
             int var27 = (int)Math.floor(var24);
             int var28 = (int)Math.floor(var26);
-            if (!HomeSupport5.inside(var27, var28)) {
+            if (!HomeWorldState.inside(var27, var28)) {
                return false;
             }
 
             if (var25 <= var9.heightAt(var27, var28) + 1) {
                if (var27 * var27 + var28 * var28 >= 64 && !var9.water(var27, var28)) {
-                  HomeSupport.TypeV var29 = var10.plant(var9, var27, var28, (float)(this.d - this.s) + 0.05F);
+                  HomeSupport.HomeGeometry var29 = var10.plant(var9, var27, var28, (float)(this.d - this.s) + 0.05F);
                   if (var29 == null) {
                      return false;
                   }
@@ -568,63 +481,36 @@ public final class HomeUpdater {
       long var3 = 98871077874540L;
       long var5 = 130792993036901L;
       long var7 = 91731144464432L;
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       class_310 var9 = class_310.method_1551();
 
       class_1059 var10;
       try {
          var10 = var9.method_72703().method_73025(class_10725.field_56382);
-      } catch (RuntimeException var24) {
+      } catch (RuntimeException var22) {
          return;
       }
 
-      Object var11 = HomeCodec2.key(var10);
-      long var12 = 127918471431320L;
-      if (127918471431320L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var27 = var12 < 0L ? -1 : 1;
-      }
-
-      label82: {
+      label67: {
+         Object var11 = HomeBlocks.key(var10);
+         long var12 = 127918471431320L;
+         int var26 = var12 < 0L ? -1 : 1;
          if (this.i != null) {
             long var15 = 127918471431319L;
-            if (127918471431319L == 0L) {
-               boolean var28 = false;
-            } else {
-               int var29 = var15 < 0L ? -1 : 1;
-            }
-
+            int var161 = var15 < 0L ? -1 : 1;
             if (this.i.d == var11) {
-               break label82;
+               break label67;
             }
          }
 
-         HomeCodec2 var26 = HomeCodec2.read();
+         HomeBlocks var26x = HomeBlocks.read();
          long var16 = 127918471431319L;
-         if (127918471431319L == 0L) {
-            boolean var30 = false;
-         } else {
-            int var31 = var16 < 0L ? -1 : 1;
-         }
-
-         if (var26 != null) {
-            this.i = var26;
-            long var19 = 127918471431320L;
-            if (127918471431320L == 0L) {
-               boolean var32 = false;
-            } else {
-               int var33 = var19 < 0L ? -1 : 1;
-            }
-
+         int var19 = var16 < 0L ? -1 : 1;
+         if (var26x != null) {
+            this.i = var26x;
+            long var19x = 127918471431320L;
             this.I.load();
-            long var21 = 127918471431320L;
-            if (127918471431320L == 0L) {
-               boolean var34 = false;
-            } else {
-               int var35 = var21 < 0L ? -1 : 1;
-            }
-
+            long var21x = 127918471431320L;
             if (this.h == null) {
                this.f(var3);
             }
@@ -636,40 +522,35 @@ public final class HomeUpdater {
       }
 
       this.x(var5);
-      var11 = z.X.get();
-      if (this.S != null && this.r == null && !var11.equals(this.U)) {
+      Object var23 = z.X.get();
+      if (this.S != null && this.r == null && !var23.equals(this.U)) {
          this.regrow();
       }
    }
 
    private void f(long var1) {
-      HomeCodec2 var3 = this.i;
+      HomeBlocks var3 = this.i;
       long var4 = this.Z;
-      HomeSupport5 var6 = this.B;
+      HomeWorldState var6 = this.B;
       this.h = CompletableFuture.supplyAsync(() -> {
-         HomeSupport2.ensureSourceClassInitialized();
+         HomeGuiBridge.ensureSourceClassInitialized();
          long var4x = 65279772945437L;
-         if (65279772945437L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var4x < 0L ? -1 : 1;
-         }
-
-         HomeSupport5 var7 = var6 != null && var6.l == var4 ? var6 : new HomeSupport5(var4);
-         HomeCurve[] var8 = HomeSupport3.terrain(var7, var3);
-         return new HomeUpdater.TypeF(var7, var8[0], var8[1], var3);
+         int var7 = var4x < 0L ? -1 : 1;
+         HomeWorldState var7x = var6 != null && var6.l == var4 ? var6 : new HomeWorldState(var4);
+         HomeCurve[] var8 = HomeTerrain.terrain(var7x, var3);
+         return new HomeUpdater.HomeScene(var7x, var8[0], var8[1], var3);
       }, this.Y);
    }
 
    private void p(long var1, String var3, boolean var4, long var5) {
-      HomeSupport5 var7 = this.B;
-      HomeCodec2 var8 = this.i;
+      HomeWorldState var7 = this.B;
+      HomeBlocks var8 = this.i;
       HomeSupport var9 = var4 ? null : this.S;
       this.U = var3;
       this.r = CompletableFuture.supplyAsync(() -> {
-         HomeSupport2.ensureSourceClassInitialized();
+         HomeGuiBridge.ensureSourceClassInitialized();
          HomeSupport var7x = var9 != null && var9.D == var1 ? var9 : new HomeSupport(var7, var1, var3);
-         return new HomeUpdater.TypeK(var7x, HomeSupport3.forest(var7, var7x, var8), var8, var4);
+         return new HomeUpdater.HomeForest(var7x, HomeTerrain.forest(var7, var7x, var8), var8, var4);
       }, this.Y);
    }
 
@@ -685,162 +566,97 @@ public final class HomeUpdater {
       short var13 = 32424;
       int var14 = (int)(var5 << 48 >>> 48);
       long var15 = 132636898839435L;
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       CompletableFuture var17 = this.h;
       if (var17 != null && var17.isDone()) {
          long var18 = 130792993036900L;
-         if (130792993036900L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var46 = var18 < 0L ? -1 : 1;
-         }
-
+         int var21 = var18 < 0L ? -1 : 1;
          this.h = null;
-         HomeUpdater.TypeF var21 = (HomeUpdater.TypeF)this.W(var15, var17);
+         HomeUpdater.HomeScene var21x = (HomeUpdater.HomeScene)this.W(var15, var17);
          long var22 = 130792993036900L;
-         if (130792993036900L == 0L) {
-            boolean var47 = false;
-         } else {
-            int var48 = var22 < 0L ? -1 : 1;
-         }
-
-         if (var21 != null) {
-            if (var21.n == this.i) {
-               this.N.x.upload(var21.z.data(), var21.z.quads(), var21.n.d);
-               this.N.k.upload(var21.d.data(), var21.d.quads(), var21.n.d);
-               boolean var25 = this.B == null;
+         int var25 = var22 < 0L ? -1 : 1;
+         if (var21x != null) {
+            if (var21x.n == this.i) {
+               this.N.x.upload(var21x.z.data(), var21x.z.quads(), var21x.n.d);
+               this.N.k.upload(var21x.d.data(), var21x.d.quads(), var21x.n.d);
+               boolean var25x = this.B == null;
                long var26 = 130792993036900L;
-               if (130792993036900L == 0L) {
-                  boolean var49 = false;
-               } else {
-                  int var50 = var26 < 0L ? -1 : 1;
-               }
-
-               this.B = var21.q;
+               int var26x = var26 < 0L ? -1 : 1;
+               this.B = var21x.q;
                long var29 = 130792993036901L;
-               if (130792993036901L == 0L) {
-                  boolean var51 = false;
-               } else {
-                  int var52 = var29 < 0L ? -1 : 1;
-               }
-
-               if (var25) {
-                  this.w = (float)Math.toDegrees(Math.atan2(var21.q.j, -var21.q.s)) + 26.0F;
+               int var281 = var29 < 0L ? -1 : 1;
+               if (var25x) {
+                  this.w = (float)Math.toDegrees(Math.atan2(var21x.q.j, -var21x.q.s)) + 26.0F;
                }
             } else {
                this.f(var3);
             }
 
-            var21.z.free();
-            var21.d.free();
+            var21x.z.free();
+            var21x.d.free();
          }
       }
 
       if (this.B != null && this.S == null && this.r == null && this.i != null) {
-         this.p(this.L(var12, (short)var13, var14), z.X.get(), false, var10);
+         this.p(this.L(var12, var13, var14), (String)z.X.get(), false, var10);
       }
 
       CompletableFuture var39 = this.r;
       long var19 = 130792993036900L;
-      if (130792993036900L == 0L) {
-         boolean var53 = false;
-      } else {
-         int var54 = var19 < 0L ? -1 : 1;
-      }
-
+      int var38 = var19 < 0L ? -1 : 1;
       if (var39 != null && var39.isDone()) {
          this.r = null;
-         HomeUpdater.TypeK var40 = (HomeUpdater.TypeK)this.W(var15, var39);
+         HomeUpdater.HomeForest var40 = (HomeUpdater.HomeForest)this.W(var15, var39);
          long var23 = 130792993036901L;
-         if (130792993036901L == 0L) {
-            boolean var55 = false;
-         } else {
-            int var56 = var23 < 0L ? -1 : 1;
-         }
-
+         int var411 = var23 < 0L ? -1 : 1;
          if (var40 == null) {
             return;
          }
 
-         long var41 = 130792993036901L;
-         if (130792993036901L == 0L) {
-            boolean var57 = false;
-         } else {
-            int var58 = var41 < 0L ? -1 : 1;
-         }
-
+         long var41x = 130792993036901L;
+         int var44 = var41x < 0L ? -1 : 1;
          if (var40.X != this.i) {
             var40.k.free();
             this.p(var40.A.D, var40.A.O, false, var10);
             return;
          }
 
-         Object var28;
-         label169: {
-            var28 = var40.X.d;
+                  Object var28;
+          label130: {
+             var28 = var40.X.d;
             if (var40.f) {
                long var42 = 130792993036901L;
-               if (130792993036901L == 0L) {
-                  boolean var59 = false;
-               } else {
-                  int var60 = var42 < 0L ? -1 : 1;
-               }
-
+               int var32 = var42 < 0L ? -1 : 1;
                if (this.S != null) {
-                  HomeAutoCloseable.TypeH var31 = this.N.X;
+                  HomeAutoCloseable.HomeLease var31 = this.N.X;
                   this.N.X = this.N.U;
                   this.N.U = var31;
                   this.A = this.S;
                   this.O = this.d;
 
-                  for (HomeSupport.TypeV var33 : this.A.m) {
+                  for (HomeSupport.HomeGeometry var33 : this.A.m) {
                      long var34 = 130792993036901L;
-                     if (130792993036901L == 0L) {
-                        boolean var67 = false;
-                     } else {
-                        int var68 = var34 < 0L ? -1 : 1;
-                     }
-
+                     int var34x = var34 < 0L ? -1 : 1;
                      this.R.scatter(var33, var33.cherry() ? 3 : 2, 7842607);
                   }
 
                   this.s = this.d + 0.45;
                   long var45 = 130792993036901L;
-                  if (130792993036901L == 0L) {
-                     boolean var69 = false;
-                  } else {
-                     int var70 = var45 < 0L ? -1 : 1;
-                  }
-
+                  int var53 = var45 < 0L ? -1 : 1;
                   this.f = this.b = 0;
-                  break label169;
+                  break label130;
                }
             }
 
             if (this.g) {
                long var43 = 130792993036901L;
-               if (130792993036901L == 0L) {
-                  boolean var61 = false;
-               } else {
-                  int var62 = var43 < 0L ? -1 : 1;
-               }
-
+               int var47 = var43 < 0L ? -1 : 1;
                this.g = false;
                long var32 = 130792993036900L;
-               if (130792993036900L == 0L) {
-                  boolean var63 = false;
-               } else {
-                  int var64 = var32 < 0L ? -1 : 1;
-               }
-
+               int var35 = var32 < 0L ? -1 : 1;
                if (this.s > -100000.0) {
-                  long var35 = 130792993036901L;
-                  if (130792993036901L == 0L) {
-                     boolean var65 = false;
-                  } else {
-                     int var66 = var35 < 0L ? -1 : 1;
-                  }
-
+                  long var35x = 130792993036901L;
+                  int var33 = var35x < 0L ? -1 : 1;
                   this.s = Math.max(this.s, this.d + 0.15);
                } else {
                   this.s = this.d - 100000.0;
@@ -858,7 +674,7 @@ public final class HomeUpdater {
    private void x(int var1, int var2, byte var3, HomeSupport var4) {
       this.G.clear();
       this.G.addAll(var4.m);
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       this.G.sort(Comparator.comparingDouble(var0 -> var0.H));
       this.V.clear();
       this.V.addAll(var4.m);
@@ -887,15 +703,15 @@ public final class HomeUpdater {
       try {
          return var3.join();
       } catch (RuntimeException var5) {
-         ClientServices.LOGGER.error("Purxiy main menu world could not be built", var5);
+         ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX main menu world could not be built", var5);
          this.a = true;
          return null;
       }
    }
 
    private long L(int var1, short var2, int var3) {
-      HomeSupport2.ensureSourceClassInitialized();
-      String var4 = z.H.get();
+      HomeGuiBridge.ensureSourceClassInitialized();
+      String var4 = (String)z.H.get();
       if (!var4.isEmpty()) {
          try {
             return Long.parseUnsignedLong(var4, 16);
@@ -908,8 +724,8 @@ public final class HomeUpdater {
       return var5;
    }
 
-   private void Q(long var1, HomeAutoCloseable.TypeI var3) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private void Q(long var1, HomeAutoCloseable.HomeWorker var3) {
+      HomeGuiBridge.ensureSourceClassInitialized();
       float var4 = (float)(this.d * 0.6F);
       var3.W = var4;
       if (this.I.needsBuild(var4)) {
@@ -947,7 +763,7 @@ public final class HomeUpdater {
          throw new IllegalStateException("Menu scene worker interrupted");
       } finally {
          if (this.h != null && this.h.isDone() && !this.h.isCompletedExceptionally()) {
-            HomeUpdater.TypeF var3 = this.h.join();
+            HomeUpdater.HomeScene var3 = this.h.join();
             var3.z.free();
             var3.d.free();
          }
@@ -988,14 +804,14 @@ public final class HomeUpdater {
       try {
          get().dispose();
       } finally {
-         HomeRenderer2.closeTextures();
+         HomePipeline.closeTextures();
       }
 
       z = null;
       J = null;
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 4781) & 32767;
       if (bb[var3] == null) {
          bb[var3] = ab[var3] ^ var1;
@@ -1004,8 +820,8 @@ private static long b(int var0, long var1) {
       return bb[var3];
    }
 
-private record TypeF(HomeSupport5 q, HomeCurve z, HomeCurve d, HomeCodec2 n) {
-      public HomeSupport5 world() {
+   private record HomeScene(HomeWorldState q, HomeCurve z, HomeCurve d, HomeBlocks n) {
+      public HomeWorldState world() {
          return this.q;
       }
 
@@ -1017,11 +833,11 @@ private record TypeF(HomeSupport5 q, HomeCurve z, HomeCurve d, HomeCodec2 n) {
          return this.d;
       }
 
-      public HomeCodec2 sprites() {
+      public HomeBlocks sprites() {
          return this.n;
       }
 
-      public HomeSupport5 proceduralTerrainHeightsState2() {
+      public HomeWorldState proceduralTerrainHeightsState2() {
          return this.q;
       }
 
@@ -1033,65 +849,56 @@ private record TypeF(HomeSupport5 q, HomeCurve z, HomeCurve d, HomeCodec2 n) {
          return this.d;
       }
 
-      public HomeCodec2 blockTextureSamplerState2() {
+      public HomeBlocks blockTextureSamplerState2() {
          return this.n;
       }
    }
 
-   private final class TypeG implements ClientRenderer8.Listener2 {
+   private final class HomeCamera implements CameraFrame {
       private final Vector3f P = new Vector3f();
       private final Vector3f n = new Vector3f();
       private final Vector3f v = new Vector3f();
       private final Vector3f x = new Vector3f();
 
-      @Override
       public Matrix4fc viewProj() {
          return HomeUpdater.this.o.s;
       }
 
-      @Override
       public Matrix4fc projection() {
          return HomeUpdater.this.o.V;
       }
 
-      @Override
       public Vector3fc eye() {
-         HomeAutoCloseable.TypeI var1 = HomeUpdater.this.o;
+         HomeAutoCloseable.HomeWorker var1 = HomeUpdater.this.o;
          return this.P.set(var1.z, var1.S, var1.I);
       }
 
-      @Override
       public Vector3fc right() {
-         HomeAutoCloseable.TypeI var1 = HomeUpdater.this.o;
+         HomeAutoCloseable.HomeWorker var1 = HomeUpdater.this.o;
          return this.n.set(var1.U, var1.l, var1.G);
       }
 
-      @Override
       public Vector3fc up() {
-         HomeAutoCloseable.TypeI var1 = HomeUpdater.this.o;
+         HomeAutoCloseable.HomeWorker var1 = HomeUpdater.this.o;
          return this.v.set(var1.T, var1.o, var1.d);
       }
 
-      @Override
       public Vector3fc forward() {
-         HomeAutoCloseable.TypeI var1 = HomeUpdater.this.o;
+         HomeAutoCloseable.HomeWorker var1 = HomeUpdater.this.o;
          return this.x.set(var1.A, var1.Z, var1.B);
       }
 
-      
-      @Override
       public GpuTextureView depth() {
          return HomeUpdater.this.N.depth();
       }
 
-      @Override
       public float trace(float var1, float var2, float var3, float var4, int[] var5) {
-         HomeSupport5 var6 = HomeUpdater.this.B;
+         HomeWorldState var6 = HomeUpdater.this.B;
          HomeSupport var7 = HomeUpdater.this.S;
          if (var6 == null) {
             return Float.POSITIVE_INFINITY;
          } else {
-            HomeAutoCloseable.TypeI var8 = HomeUpdater.this.o;
+            HomeAutoCloseable.HomeWorker var8 = HomeUpdater.this.o;
             float var9 = var8.z;
             float var10 = var8.S;
             float var11 = var8.I;
@@ -1128,7 +935,7 @@ private record TypeF(HomeSupport5 q, HomeCurve z, HomeCurve d, HomeCodec2 n) {
                }
 
                if (var7 != null) {
-                  HomeSupport.TypeP var28 = var7.M.get(HomeSupport.pack(var12, var13, var14));
+                  HomeSupport.HomeBuffers var28 = var7.M.get(HomeSupport.pack(var12, var13, var14));
                   if (var28 != null && var28.R <= 3) {
                      var5[0] = 2;
                      return var25;
@@ -1154,9 +961,8 @@ private record TypeF(HomeSupport5 q, HomeCurve z, HomeCurve d, HomeCodec2 n) {
          }
       }
 
-      @Override
       public float ground(float var1, float var2) {
-         HomeSupport5 var3 = HomeUpdater.this.B;
+         HomeWorldState var3 = HomeUpdater.this.B;
          if (var3 == null) {
             return 65.0F;
          } else {
@@ -1166,19 +972,17 @@ private record TypeF(HomeSupport5 q, HomeCurve z, HomeCurve d, HomeCodec2 n) {
          }
       }
 
-      @Override
       public float dark() {
-         HomeUpdater2.TypeZ var1 = HomeUpdater.this.o.v;
+         HomePalette.HomeColorSet var1 = HomeUpdater.this.o.v;
          return var1 != null ? var1.d : 0.0F;
       }
 
-      @Override
       public boolean settled() {
          return HomeUpdater.this.X && HomeUpdater.this.B != null && HomeUpdater.this.S != null;
       }
    }
 
-   private record TypeK(HomeSupport A, HomeCurve k, HomeCodec2 X, boolean f) {
+   private record HomeForest(HomeSupport A, HomeCurve k, HomeBlocks X, boolean f) {
       public HomeSupport forest() {
          return this.A;
       }
@@ -1187,7 +991,7 @@ private record TypeF(HomeSupport5 q, HomeCurve z, HomeCurve d, HomeCodec2 n) {
          return this.k;
       }
 
-      public HomeCodec2 sprites() {
+      public HomeBlocks sprites() {
          return this.X;
       }
 
@@ -1203,7 +1007,7 @@ private record TypeF(HomeSupport5 q, HomeCurve z, HomeCurve d, HomeCodec2 n) {
          return this.k;
       }
 
-      public HomeCodec2 blockTextureSamplerState3() {
+      public HomeBlocks blockTextureSamplerState3() {
          return this.X;
       }
 

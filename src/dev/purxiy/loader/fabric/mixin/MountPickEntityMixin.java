@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_1297;
 import net.minecraft.class_243;
 import net.minecraft.class_310;
@@ -24,8 +23,8 @@ public abstract class MountPickEntityMixin {
    )
    private void purxiy$driverView(float var1, CallbackInfoReturnable<class_243> var2) {
       class_1297 var3 = (class_1297)(Object)(Object)this;
-      if (purxiy$localClient(var3) && ClientRenderer5.applies(var3)) {
-         var2.setReturnValue(ClientRenderer5.view(var3));
+      if (purxiy$localClient(var3) && CameraStateReader.applies(var3)) {
+         var2.setReturnValue(CameraStateReader.view(var3));
       }
    }
 
@@ -36,8 +35,8 @@ public abstract class MountPickEntityMixin {
    )
    private void purxiy$driverHeadView(CallbackInfoReturnable<class_243> var1) {
       class_1297 var2 = (class_1297)(Object)(Object)this;
-      if (purxiy$localClient(var2) && ClientRenderer5.applies(var2)) {
-         var1.setReturnValue(ClientRenderer5.view(var2));
+      if (purxiy$localClient(var2) && CameraStateReader.applies(var2)) {
+         var1.setReturnValue(CameraStateReader.view(var2));
       }
    }
 
@@ -48,8 +47,8 @@ public abstract class MountPickEntityMixin {
    )
    private void purxiy$driverEye(float var1, CallbackInfoReturnable<class_243> var2) {
       class_1297 var3 = (class_1297)(Object)(Object)this;
-      if (purxiy$localClient(var3) && ClientRenderer5.applies(var3)) {
-         var2.setReturnValue(ClientRenderer5.eye(var3, (class_243)var2.getReturnValue()));
+      if (purxiy$localClient(var3) && CameraStateReader.applies(var3)) {
+         var2.setReturnValue(CameraStateReader.eye(var3, (class_243)var2.getReturnValue()));
       }
    }
 
@@ -60,8 +59,8 @@ public abstract class MountPickEntityMixin {
    )
    private void purxiy$driverEyeNow(CallbackInfoReturnable<class_243> var1) {
       class_1297 var2 = (class_1297)(Object)(Object)this;
-      if (purxiy$localClient(var2) && ClientRenderer5.applies(var2)) {
-         var1.setReturnValue(ClientRenderer5.eye(var2, (class_243)var1.getReturnValue()));
+      if (purxiy$localClient(var2) && CameraStateReader.applies(var2)) {
+         var1.setReturnValue(CameraStateReader.eye(var2, (class_243)var1.getReturnValue()));
       }
    }
 }

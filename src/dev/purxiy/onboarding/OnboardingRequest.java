@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.core.IdentityPaths;
@@ -28,7 +27,7 @@ public final class OnboardingRequest {
          if (var0.field_1755 instanceof class_442 || inWorld >= 50) {
             shown = true;
             if (!IdentityPaths.welcomeDone() && !scripted()) {
-               ClientServices.LOGGER.info("First start of Purxiy: showing the welcome");
+               ClientServices.LOGGER.info("First start of SourceByDevFFnightmare DeObfDeCompByGuideX: showing the welcome");
                var0.method_1507(new WelcomeScreen(var0.field_1755));
             }
          }

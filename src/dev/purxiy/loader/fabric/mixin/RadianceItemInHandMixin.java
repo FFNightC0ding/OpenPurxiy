@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry16;
+import dev.purxiy.loader.fabric.client.EntityMaskPipeline;
 import net.minecraft.class_11659;
 import net.minecraft.class_1309;
 import net.minecraft.class_1799;
@@ -27,12 +26,12 @@ public abstract class RadianceItemInHandMixin {
    private void purxiy$radianceItem(
       class_759 var1, class_1309 var2, class_1799 var3, class_811 var4, class_4587 var5, class_11659 var6, int var7, Operation<Void> var8
    ) {
-      ClientRegistry16.submittingItem(var3);
+      EntityMaskPipeline.submittingItem(var3);
 
       try {
          var8.call(new Object[]{var1, var2, var3, var4, var5, var6, var7});
       } finally {
-         ClientRegistry16.submittingItem((class_1799)null);
+         EntityMaskPipeline.submittingItem((class_1799)null);
       }
    }
 }

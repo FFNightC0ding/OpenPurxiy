@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.client;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
 import dev.purxiy.render.texture.TextureLoader;
@@ -7,32 +6,29 @@ import dev.purxiy.ui.Icons;
 public final class SpotifyCurve {
    private static final long r;
    final boolean V;
-   
    SpotifyCurve.Data O;
    double R;
    boolean b;
    boolean I;
-   SpotifyData.TypeD M = SpotifyData.TypeD.n;
+   SpotifyData.PlaybackState M = SpotifyData.PlaybackState.n;
    int k;
    float S = -1.0F;
    boolean g;
    float A;
    final float[] s = new float[4];
-   SpotifySupport3 f;
-   SpotifyCurve.TypeF z;
+   SpotifyLyrics f;
+   SpotifyCurve.CurveKind z;
    int h;
    int W;
    int U;
    long u;
-   
-   final SpotifyUpdater3 Y;
+   final SpotifyTrack Y;
    final SpotifyUpdater l;
    int j;
    long D;
    int o;
    long C;
-   
-   SpotifyData.TypeD p;
+   SpotifyData.PlaybackState p;
    long d;
    float B;
    long G;
@@ -40,9 +36,9 @@ public final class SpotifyCurve {
    long L;
    public static boolean v;
 
-   SpotifyCurve(boolean var1,  SpotifyUpdater3 var2) {
-      this.f = SpotifySupport3.f;
-      this.z = SpotifyCurve.TypeF.i;
+   SpotifyCurve(boolean var1, SpotifyTrack var2) {
+      this.f = SpotifyLyrics.f;
+      this.z = SpotifyCurve.CurveKind.i;
       this.W = 1;
       this.U = 1;
       this.l = new SpotifyUpdater();
@@ -58,7 +54,6 @@ public final class SpotifyCurve {
       return this.V;
    }
 
-   
    public SpotifyCurve.Data track() {
       return this.O;
    }
@@ -83,7 +78,7 @@ public final class SpotifyCurve {
       return this.I;
    }
 
-   public SpotifyData.TypeD repeat() {
+   public SpotifyData.PlaybackState repeat() {
       return this.M;
    }
 
@@ -107,11 +102,11 @@ public final class SpotifyCurve {
       return this.s[var1];
    }
 
-   public SpotifySupport3 lyrics() {
+   public SpotifyLyrics lyrics() {
       return this.f;
    }
 
-   public SpotifyCurve.TypeF lyricsState() {
+   public SpotifyCurve.CurveKind lyricsState() {
       return this.z;
    }
 
@@ -123,12 +118,10 @@ public final class SpotifyCurve {
       return this.W;
    }
 
-   
    public TextureLoader art() {
       return this.Y == null ? null : this.Y.current();
    }
 
-   
    public TextureLoader previousArt() {
       return this.Y == null ? null : this.Y.previous();
    }
@@ -148,7 +141,7 @@ public final class SpotifyCurve {
          if (!this.V) {
             this.j = var1 ? 1 : 0;
             this.D = System.nanoTime() + 1500000000L;
-            SpotifyFactory.get().send((SpotifyApi)(this.can(128) ? new SpotifyApi.Data() : (var1 ? new SpotifyApi.Data4() : new SpotifyApi.Data7())));
+            SpotifyFactory.get().send((SpotifyApi)(this.can(128) ? new SpotifyApi.Data() : (var1 ? new SpotifyApi.Play() : new SpotifyApi.Pause())));
          }
       }
    }
@@ -161,7 +154,7 @@ public final class SpotifyCurve {
       } else {
          this.U = 1;
          this.u = System.nanoTime();
-         SpotifyFactory.get().send(new SpotifyApi.Data2());
+         SpotifyFactory.get().send(new SpotifyApi.SkipNext());
       }
    }
 
@@ -173,7 +166,7 @@ public final class SpotifyCurve {
       } else {
          this.U = -1;
          this.u = System.nanoTime();
-         SpotifyFactory.get().send(new SpotifyApi.Data9());
+         SpotifyFactory.get().send(new SpotifyApi.SkipPrevious());
       }
    }
 
@@ -183,7 +176,7 @@ public final class SpotifyCurve {
          this.R = var3;
          if (!this.V) {
             this.l.seek(var3, System.nanoTime());
-            SpotifyFactory.get().send(new SpotifyApi.Data5((long)var3));
+            SpotifyFactory.get().send(new SpotifyApi.Seek((long)var3));
          }
       }
    }
@@ -205,7 +198,7 @@ public final class SpotifyCurve {
    public void toggleMute() {
       this.g = !this.g;
       if (!this.V) {
-         SpotifyFactory.get().send(new SpotifyApi.Data10(this.g));
+         SpotifyFactory.get().send(new SpotifyApi.SetMuted(this.g));
       }
    }
 
@@ -214,21 +207,21 @@ public final class SpotifyCurve {
       if (!this.V) {
          this.o = this.I ? 1 : 0;
          this.C = System.nanoTime() + 1500000000L;
-         SpotifyFactory.get().send(new SpotifyApi.Data8(this.I));
+         SpotifyFactory.get().send(new SpotifyApi.SetShuffle(this.I));
       }
    }
 
    public void cycleRepeat() {
-      this.M = switch (SpotifyCurve.TypeL.s[this.M.ordinal()]) {
-         case 1, 2 -> SpotifyData.TypeD.H;
-         case 3 -> SpotifyData.TypeD.r;
-         case 4 -> SpotifyData.TypeD.n;
+      this.M = switch (SpotifyCurve.CurveSampler.s[this.M.ordinal()]) {
+         case 1, 2 -> SpotifyData.PlaybackState.H;
+         case 3 -> SpotifyData.PlaybackState.r;
+         case 4 -> SpotifyData.PlaybackState.n;
          default -> throw new MatchException(null, null);
       };
       if (!this.V) {
          this.p = this.M;
          this.d = System.nanoTime() + 1500000000L;
-         SpotifyFactory.get().send(new SpotifyApi.Data6(this.M));
+         SpotifyFactory.get().send(new SpotifyApi.SetRepeat(this.M));
       }
    }
 
@@ -283,34 +276,33 @@ public final class SpotifyCurve {
       }
    }
 
-   public static enum TypeF {
+   public static enum CurveKind {
       i,
       h,
       Z;
+   }
 
-}
-
-   static class TypeL {
-      static final int[] s = new int[SpotifyData.TypeD.values().length];
+   static class CurveSampler {
+      static final int[] s = new int[SpotifyData.PlaybackState.values().length];
 
       static {
          try {
-            s[SpotifyData.TypeD.n.ordinal()] = 1;
+            s[SpotifyData.PlaybackState.n.ordinal()] = 1;
          } catch (NoSuchFieldError var4) {
          }
 
          try {
-            s[SpotifyData.TypeD.D.ordinal()] = 2;
+            s[SpotifyData.PlaybackState.D.ordinal()] = 2;
          } catch (NoSuchFieldError var3) {
          }
 
          try {
-            s[SpotifyData.TypeD.H.ordinal()] = 3;
+            s[SpotifyData.PlaybackState.H.ordinal()] = 3;
          } catch (NoSuchFieldError var2) {
          }
 
          try {
-            s[SpotifyData.TypeD.r.ordinal()] = 4;
+            s[SpotifyData.PlaybackState.r.ordinal()] = 4;
          } catch (NoSuchFieldError var1) {
          }
       }

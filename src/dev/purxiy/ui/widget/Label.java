@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;
@@ -35,7 +34,7 @@ public final class Label {
       this.trackX = var2;
       this.trackW = var4;
       this.trackY = var3;
-      boolean var5 = var1.hover(this, var2 - 10.0F, var3 - 10.0F, var4 + 20.0F, 20.0F, DrawContext.TypeE.HAND) || this.dragging;
+      boolean var5 = var1.hover(this, var2 - 10.0F, var3 - 10.0F, var4 + 20.0F, 20.0F, DrawContext.Cursor.HAND) || this.dragging;
       float var6 = this.hover.target(var5 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       float var7 = this.active.target(this.dragging ? 1.0F : 0.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
       float var8 = (float)this.setting.normalized();

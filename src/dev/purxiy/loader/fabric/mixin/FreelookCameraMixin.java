@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry13;
+import dev.purxiy.loader.fabric.client.FirstPersonProvider;
 import net.minecraft.class_1297;
 import net.minecraft.class_1937;
 import net.minecraft.class_243;
@@ -63,7 +62,7 @@ public abstract class FreelookCameraMixin {
       class_243 var7 = this.purxiy$pivot;
       this.purxiy$pivot = null;
       if (var7 != null && (Object)this == class_310.method_1551().field_1773.method_19418()) {
-         ClientRegistry13.TypeK var8 = ClientRegistry13.position(var1, var2, var7, this.field_18712, this.field_18718, this.field_18717, this.field_18714);
+         FirstPersonProvider.CameraPose var8 = FirstPersonProvider.position(var1, var2, var7, this.field_18712, this.field_18718, this.field_18717, this.field_18714);
          if (var8 != null) {
             this.method_19325(var8.yaw(), var8.pitch());
             class_243 var9 = var8.position();

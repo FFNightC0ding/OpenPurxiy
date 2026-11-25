@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.auras;
 
 import dev.purxiy.anim.Animator;
@@ -16,7 +15,9 @@ import dev.purxiy.render.font.Fonts;
 import dev.purxiy.ui.DrawContext;
 import dev.purxiy.ui.Icons;
 import dev.purxiy.ui.Theme;
+import dev.purxiy.ui.DrawContext.Cursor;
 import dev.purxiy.ui.clickgui.Studio;
+import dev.purxiy.ui.clickgui.Studio.PanelSide;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -35,9 +36,8 @@ public final class AuraRenderer implements Studio {
    private static final float k = 0.25F;
    private static final float o = 0.55F;
    private static final Map<ModuleDescriptor, AuraRenderer> E = new IdentityHashMap<>();
-   
    private static AuraRenderer O;
-   private static final List<AuraRenderer.TypeR> v = new ArrayList<>();
+   private static final List<AuraRenderer.AuraAction> v = new ArrayList<>();
    private static double y;
    private static long N = 0L;
    private final ModuleDescriptor L;
@@ -49,17 +49,17 @@ public final class AuraRenderer implements Studio {
    private double G;
    private int R;
    private double r;
-   private List<AuraFactory.Data2> l;
+   private List<AuraFactory.CosmeticEntry> l;
    private double c;
    private float i;
    private int D;
    private final double[] J;
    private boolean d;
-   private final AuraRenderer.TypeJ u;
-   private final AuraRenderer.TypeJ V;
-   private final AuraRenderer.TypeJ Q;
-   private final AuraRenderer.TypeJ Y;
-   private final List<AuraRenderer.TypeJ> S;
+   private final AuraRenderer.AuraBatch u;
+   private final AuraRenderer.AuraBatch V;
+   private final AuraRenderer.AuraBatch Q;
+   private final AuraRenderer.AuraBatch Y;
+   private final List<AuraRenderer.AuraBatch> S;
    private final float[] x;
    private final float[] T;
    private boolean w;
@@ -77,10 +77,7 @@ public final class AuraRenderer implements Studio {
    private boolean A;
    private final Object h;
    public static int q = 0;
-
    private static final String[] j = new String[27];
-
-
 
    private AuraRenderer(int var1, ModuleDescriptor var2, short var3, short var4, AuraFactory var5) {
       AuraStyle.ensureSourceClassInitialized();
@@ -100,50 +97,39 @@ public final class AuraRenderer implements Studio {
       this.h = new Object();
       this.L = var2;
       this.M = var5;
-      this.u = new AuraRenderer.TypeJ("Play", "play", () -> this.Y(21004081665521L));
-      this.V = new AuraRenderer.TypeJ("Loop", "repeat", () -> {
+      this.u = new AuraRenderer.AuraBatch("Play", "play", () -> this.Y(21004081665521L));
+      this.V = new AuraRenderer.AuraBatch("Loop", "repeat", () -> {
          long var1x = 21004081665521L;
          AuraStyle.ensureSourceClassInitialized();
          this.d = !this.d;
          long var3x = 62237175604322L;
-         if (62237175604322L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var3x < 0L ? -1 : 1;
-         }
-
+         int var6 = var3x < 0L ? -1 : 1;
          UiAudioPolicy.play(this.d ? "TOGGLE_ON" : "TOGGLE_OFF");
-         long var6 = 62237175604321L;
-         if (62237175604321L == 0L) {
-            boolean var10 = false;
-         } else {
-            int var11 = var6 < 0L ? -1 : 1;
-         }
-
+         long var6x = 62237175604321L;
+         int var7x = var6x < 0L ? -1 : 1;
          if (this.d && this.c < 0.0) {
             this.Y(var1x);
          }
       });
 
       for (AuraFactory.Data var7 : var5.H) {
-         this.S.add(new AuraRenderer.TypeJ(var7.label(), var7.icon(), () -> {
+         this.S.add(new AuraRenderer.AuraBatch(var7.label(), var7.icon(), () -> {
             long var2x = 95448964664876L;
             this.S(var7, var2x);
          }));
       }
 
-      this.Q = new AuraRenderer.TypeJ("", "rotate-ccw", () -> {
+      this.Q = new AuraRenderer.AuraBatch("", "rotate-ccw", () -> {
          long var0 = 2750401162683L;
-         AuraSupport2.resetView();
+         AuraFrameView.resetView();
          UiAudioPolicy.play("TAB", 1.1F);
       });
-      this.Y = new AuraRenderer.TypeJ("Done", "check", () -> {
+      this.Y = new AuraRenderer.AuraBatch("Done", "check", () -> {
          this.X = true;
          UiAudioPolicy.play("CLICK");
       });
    }
 
-   
    public static AuraRenderer of(ModuleDescriptor var0) {
       long var1 = 101768069493254L;
       long var3 = var1 ^ 137808054688932L;
@@ -170,30 +156,25 @@ public final class AuraRenderer implements Studio {
    }
 
    static void later(float var0, Consumer<class_746> var1) {
-      v.add(new AuraRenderer.TypeR(y + var0, var1));
+      v.add(new AuraRenderer.AuraAction(y + var0, var1));
    }
 
-   @Override
    public String title() {
       return "Live preview";
    }
 
-   @Override
    public String subtitle() {
       return "Step out of yourself and watch it play on you";
    }
 
-   @Override
    public String icon() {
       return "scan-eye";
    }
 
-   @Override
    public String action() {
       return "Preview";
    }
 
-   @Override
    public boolean available() {
       class_310 var1 = class_310.method_1551();
       return var1.field_1687 != null
@@ -203,17 +184,14 @@ public final class AuraRenderer implements Studio {
          && (O == null || O == this || !O.U);
    }
 
-   @Override
-   public Studio.TypeQ dock() {
-      return Studio.TypeQ.RIGHT;
+   public PanelSide dock() {
+      return PanelSide.RIGHT;
    }
 
-   @Override
    public boolean keepsWorldRunning() {
       return true;
    }
 
-   @Override
    public void setOpen(boolean var1) {
       long var2 = 71174639822158L;
       long var4 = var2 ^ 38441089018154L;
@@ -232,7 +210,7 @@ public final class AuraRenderer implements Studio {
                this.U = true;
             }
 
-            AuraSupport2.open();
+            AuraFrameView.open();
             this.f = false;
             this.G = -1.0;
             this.R = this.M(var4);
@@ -245,7 +223,7 @@ public final class AuraRenderer implements Studio {
             this.Q();
             v.clear();
             this.d = false;
-            AuraSupport2.close(CosmeticRegistry.currentOwner() == null);
+            AuraFrameView.close(CosmeticRegistry.currentOwner() == null);
             if (var8.field_1724 != null) {
                this.M.closed(var8.field_1724);
             }
@@ -253,7 +231,6 @@ public final class AuraRenderer implements Studio {
       }
    }
 
-   @Override
    public boolean consumeCloseRequest() {
       boolean var1 = this.X;
       this.X = false;
@@ -264,12 +241,7 @@ public final class AuraRenderer implements Studio {
       AuraStyle.ensureSourceClassInitialized();
       if (this.e) {
          long var4 = 135799582997754L;
-         if (135799582997754L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var4 < 0L ? -1 : 1;
-         }
-
+         int var7 = var4 < 0L ? -1 : 1;
          if (!var3) {
             return;
          }
@@ -277,12 +249,7 @@ public final class AuraRenderer implements Studio {
 
       if (var3) {
          long var8 = 135799582997755L;
-         if (135799582997755L == 0L) {
-            boolean var10 = false;
-         } else {
-            int var11 = var8 < 0L ? -1 : 1;
-         }
-
+         int var8x = var8 < 0L ? -1 : 1;
          if (this.e) {
             this.e = false;
             this.Q();
@@ -291,7 +258,7 @@ public final class AuraRenderer implements Studio {
                this.M.closed(var7.field_1724);
             }
 
-            AuraSupport2.reset();
+            AuraFrameView.reset();
          }
       }
 
@@ -314,11 +281,11 @@ public final class AuraRenderer implements Studio {
                var5.setOpen(false);
             }
 
-            if (!var5.e && AuraSupport2.active() && CosmeticRegistry.currentOwner() == null) {
-               AuraSupport2.hurry();
+            if (!var5.e && AuraFrameView.active() && CosmeticRegistry.currentOwner() == null) {
+               AuraFrameView.hurry();
             }
 
-            if (!var5.e && !AuraSupport2.active()) {
+            if (!var5.e && !AuraFrameView.active()) {
                var5.E(var3, false);
             }
          } else {
@@ -332,21 +299,11 @@ public final class AuraRenderer implements Studio {
       class_310 var3 = class_310.method_1551();
       if (var3.field_1724 != null) {
          long var4 = 21004081665521L;
-         if (21004081665521L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var11 = var4 < 0L ? -1 : 1;
-         }
-
-         String var7 = this.M.note();
+         int var7 = var4 < 0L ? -1 : 1;
+         String var7x = this.M.note();
          long var8 = 21004081665520L;
-         if (21004081665520L == 0L) {
-            boolean var12 = false;
-         } else {
-            int var13 = var8 < 0L ? -1 : 1;
-         }
-
-         if (var7 == null) {
+         int var9 = var8 < 0L ? -1 : 1;
+         if (var7x == null) {
             this.l = this.M.timeline();
             this.i = Math.max(0.5F, this.M.length());
             this.c = y;
@@ -375,15 +332,11 @@ public final class AuraRenderer implements Studio {
 
       for (Setting var5 : this.L.settings()) {
          long var6 = 108086617115747L;
-         if (108086617115747L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var11 = var6 < 0L ? -1 : 1;
-         }
+         int var10 = var6 < 0L ? -1 : 1;
 
          try {
             var3 = var3 * 31 + var5.save().hashCode();
-         } catch (RuntimeException var10) {
+         } catch (RuntimeException var9) {
             var3 *= 31;
          }
       }
@@ -398,6 +351,7 @@ public final class AuraRenderer implements Studio {
    }
 
    private void g(long var1) {
+      float var14;
       long var3 = 108086617115748L;
       long var5 = 21004081665521L;
       AuraStyle.ensureSourceClassInitialized();
@@ -408,22 +362,11 @@ public final class AuraRenderer implements Studio {
       class_746 var10 = class_310.method_1551().field_1724;
       if (var10 != null) {
          long var11 = 41025600113383L;
-         if (41025600113383L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var34 = var11 < 0L ? -1 : 1;
-         }
-
+         int var26 = var11 < 0L ? -1 : 1;
          if (this.c >= 0.0) {
-            double var14;
-            for (var14 = y - this.c; this.D < this.l.size(); this.l.get(this.D++).action().accept(var10)) {
+            for (var14 = (float)(y - this.c); this.D < this.l.size(); this.l.get(this.D++).action().accept(var10)) {
                long var16 = 41025600113384L;
-               if (41025600113384L == 0L) {
-                  boolean var35 = false;
-               } else {
-                  int var36 = var16 < 0L ? -1 : 1;
-               }
-
+               int var31 = var16 < 0L ? -1 : 1;
                if (!(this.l.get(this.D).at() <= var14)) {
                   break;
                }
@@ -434,21 +377,11 @@ public final class AuraRenderer implements Studio {
             }
 
             long var28 = 41025600113383L;
-            if (41025600113383L == 0L) {
-               boolean var37 = false;
-            } else {
-               int var38 = var28 < 0L ? -1 : 1;
-            }
-
+            int var311 = var28 < 0L ? -1 : 1;
             double var19;
             int var18 = (var19 = var14 - (this.i + (this.d ? 0.9F : 0.0F))) == 0.0 ? 0 : (var19 < 0.0 ? -1 : 1);
             long var21 = 41025600113383L;
-            if (41025600113383L == 0L) {
-               boolean var39 = false;
-            } else {
-               int var40 = var21 < 0L ? -1 : 1;
-            }
-
+            int var24 = var21 < 0L ? -1 : 1;
             if (var18 >= 0) {
                if (this.d && this.e) {
                   this.Y(var5);
@@ -458,38 +391,23 @@ public final class AuraRenderer implements Studio {
             }
          }
 
-         Iterator var26 = v.iterator();
+         Iterator var26x = v.iterator();
 
-         while (var26.hasNext()) {
-            AuraRenderer.TypeR var15 = (AuraRenderer.TypeR)var26.next();
+         while (var26x.hasNext()) {
+            AuraRenderer.AuraAction var15 = (AuraRenderer.AuraAction)var26x.next();
             long var29 = 41025600113383L;
-            if (41025600113383L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var29 < 0L ? -1 : 1;
-            }
-
+            int var331 = var29 < 0L ? -1 : 1;
             if (var15.I <= y) {
-               var26.remove();
+               var26x.remove();
                var15.L.accept(var10);
             }
          }
 
          long var27 = 41025600113384L;
-         if (41025600113384L == 0L) {
-            boolean var43 = false;
-         } else {
-            int var44 = var27 < 0L ? -1 : 1;
-         }
-
-         int var30 = this.M(var3);
-         long var31 = 41025600113384L;
-         if (41025600113384L == 0L) {
-            boolean var45 = false;
-         } else {
-            int var46 = var31 < 0L ? -1 : 1;
-         }
-
+         int var30 = var27 < 0L ? -1 : 1;
+         var30 = this.M(var3);
+         long var31x = 41025600113384L;
+         int var35 = var31x < 0L ? -1 : 1;
          if (var30 != this.R) {
             this.R = var30;
             this.r = y;
@@ -500,20 +418,10 @@ public final class AuraRenderer implements Studio {
             boolean var32 = this.c >= 0.0 && y - this.c < this.i;
             if (this.e) {
                long var22 = 41025600113384L;
-               if (41025600113384L == 0L) {
-                  boolean var47 = false;
-               } else {
-                  int var48 = var22 < 0L ? -1 : 1;
-               }
-
+               int var40 = var22 < 0L ? -1 : 1;
                if (this.f) {
                   long var24 = 41025600113384L;
-                  if (41025600113384L == 0L) {
-                     boolean var49 = false;
-                  } else {
-                     int var50 = var24 < 0L ? -1 : 1;
-                  }
-
+                  int var24x = var24 < 0L ? -1 : 1;
                   if (!var32 && this.M.note() == null) {
                      this.Y(var5);
                   }
@@ -522,25 +430,14 @@ public final class AuraRenderer implements Studio {
          }
 
          long var33 = 41025600113384L;
-         if (41025600113384L == 0L) {
-            boolean var51 = false;
-         } else {
-            int var52 = var33 < 0L ? -1 : 1;
-         }
-
-         if (this.e && AuraSupport2.settled()) {
+         int var23 = var33 < 0L ? -1 : 1;
+         if (this.e && AuraFrameView.settled()) {
             if (this.G < 0.0) {
                this.G = y;
             }
 
             if (!this.f && y - this.G >= 0.25) {
-               long var23 = 41025600113384L;
-               if (41025600113384L == 0L) {
-                  boolean var53 = false;
-               } else {
-                  int var54 = var23 < 0L ? -1 : 1;
-               }
-
+               long var23x = 41025600113384L;
                this.f = true;
                if (this.c < 0.0 && this.M.note() == null) {
                   this.Y(var5);
@@ -550,7 +447,6 @@ public final class AuraRenderer implements Studio {
       }
    }
 
-   @Override
    public void render(DrawContext var1, float var2, float var3) {
       long var4 = 58039516408871L;
       long var6 = var4 ^ 118140395776315L;
@@ -567,11 +463,11 @@ public final class AuraRenderer implements Studio {
       float var18 = Math.max(var17 + 200.0F, var3 - 16.0F);
       float var19 = (var17 + var18) / 2.0F;
       float var20 = 110.0F;
-      AuraSupport2.frame(var19 / this.F * 2.0F - 1.0F, 1.0F - (this.Z - var20) / this.Z);
-      float var21 = Easing.SMOOTHSTEP.apply(p(var8, (AuraSupport2.progress() - 0.62F) / 0.38F));
+      AuraFrameView.frame(var19 / this.F * 2.0F - 1.0F, 1.0F - (this.Z - var20) / this.Z);
+      float var21 = Easing.SMOOTHSTEP.apply(p(var8, (AuraFrameView.progress() - 0.62F) / 0.38F));
       float var22 = this.z.target(this.e ? var21 : 0.0F).update(MotionStyle.MENU.dt(var1.dt)) * var2;
       if (this.n) {
-         var1.claim(this.h, DrawContext.TypeE.MOVE);
+         var1.claim(this.h, Cursor.MOVE);
       }
 
       if (var22 <= 0.01F) {
@@ -598,7 +494,7 @@ public final class AuraRenderer implements Studio {
       AuraStyle.ensureSourceClassInitialized();
       String var23 = "Live preview";
       float var24 = var2.textWidth(Fonts.SEMIBOLD, var23, 9.5F);
-      List var25 = this.s();
+      List<AuraRenderer.AuraBatch>var25 = this.s();
       this.w = false;
       float var26 = this.P(var16, var2, var25);
       boolean var27 = 32.0F + var24 + var26 + 10.0F > var4 - 16.0F;
@@ -621,73 +517,53 @@ public final class AuraRenderer implements Studio {
       float var32 = var31 + 17.0F;
       float var33 = MotionStyle.reduced() ? 0.7F : 0.55F + 0.45F * (float)Math.sin(var1.time * 3.2F);
       long var34 = 105260329780508L;
-      if (105260329780508L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var80 = var34 < 0L ? -1 : 1;
-      }
-
+      int var34x = var34 < 0L ? -1 : 1;
       var2.glowCircle(var30 + 12.0F + 6.0F, var32, 3.0F, 7.0F, BlendMode.withAlpha(Icons.PINK, 0.45F * var33));
       var2.circle(var30 + 12.0F + 6.0F, var32, 3.0F, BlendMode.lerp(Icons.MAGENTA, Icons.PINK, var33));
       if (!var27) {
          var2.text(Fonts.SEMIBOLD, var23, var30 + 12.0F + 14.0F + 6.0F, var32, 9.5F, Icons.TEXT, FontStyle.LEFT, FontWeight.MIDDLE);
       }
 
-      float var37 = var30 + var28;
+      float var37x = var30 + var28;
       boolean var38 = this.c >= 0.0 && y - this.c < this.i;
       float var39 = this.H.target(var38 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
 
-      for (AuraRenderer.TypeJ var41 : ((Iterable<AuraRenderer.TypeJ>)(Object)var25)) {
+      float var651;
+      for (AuraRenderer.AuraBatch var41 : var25) {
          float var42 = this.u(var41, var20, (byte)var21, var22) ? 14.0F : 5.0F;
          long var43 = 105260329780508L;
-         if (105260329780508L == 0L) {
-            boolean var81 = false;
-         } else {
-            int var82 = var43 < 0L ? -1 : 1;
-         }
-
+         int var42x = var43 < 0L ? -1 : 1;
          if (this.u(var41, var20, (byte)var21, var22)) {
-            var2.rect(var37 + var42 / 2.0F - 0.5F, var31 + 9.0F, 1.0F, 16.0F, 486539263);
+            var2.rect(var37x + var42 / 2.0F - 0.5F, var31 + 9.0F, 1.0F, 16.0F, 486539263);
          }
 
-         var37 += var42;
-         float var46 = this.B(var2, var41, var12);
-         float var47 = 24.0F;
-         float var48 = var31 + (34.0F - var47) / 2.0F;
-         var41.E[0] = var37;
-         var41.E[1] = var48;
-         var41.E[2] = var46;
-         var41.E[3] = var47;
-         boolean var49 = var41 != this.Q || AuraSupport2.moved();
-         long var50 = 105260329780508L;
-         if (105260329780508L == 0L) {
-            boolean var83 = false;
-         } else {
-            int var84 = var50 < 0L ? -1 : 1;
-         }
-
-         boolean var9;
-         label264: {
+                   float var46;
+          float var47;
+          float var48;
+          boolean var49;
+          boolean var9;
+          label219: {
+             var651 = var37x + var42;
+            var46 = this.B(var2, var41, var12);
+            var47 = 24.0F;
+            var48 = var31 + (34.0F - var47) / 2.0F;
+            var41.E[0] = var651;
+            var41.E[1] = var48;
+            var41.E[2] = var46;
+            var41.E[3] = var47;
+            var49 = var41 != this.Q || AuraFrameView.moved();
+            long var50 = 105260329780508L;
+            var9 = false;
             if (var49) {
                long var53 = 105260329780508L;
-               if (105260329780508L == 0L) {
-                  boolean var85 = false;
-               } else {
-                  int var86 = var53 < 0L ? -1 : 1;
-               }
-
+               int var71 = var53 < 0L ? -1 : 1;
                if (!this.n) {
                   boolean var55 = var1.masked();
                   long var56 = 105260329780508L;
-                  if (105260329780508L == 0L) {
-                     boolean var87 = false;
-                  } else {
-                     int var88 = var56 < 0L ? -1 : 1;
-                  }
-
+                  int var36 = var56 < 0L ? -1 : 1;
                   if (!var55 && a(var41.E, var1.mouseX, var1.mouseY, var10)) {
                      var9 = true;
-                     break label264;
+                     break label219;
                   }
                }
             }
@@ -696,34 +572,24 @@ public final class AuraRenderer implements Studio {
          }
 
          if (var9) {
-            var1.claim(var41, DrawContext.TypeE.HAND);
+            var1.claim(var41, Cursor.HAND);
          }
 
          float var51 = var41.t.target(var9 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          float var52 = var41.X.update(MotionStyle.TOGGLE.dt(var1.dt));
          var2.push();
-         var2.scaleAround(1.0F - 0.05F * var52, var37 + var46 / 2.0F, var48 + var47 / 2.0F);
+         var2.scaleAround(1.0F - 0.05F * var52, var651 + var46 / 2.0F, var48 + var47 / 2.0F);
          boolean var71 = var41 == this.V && this.d;
          long var54 = 105260329780508L;
-         if (105260329780508L == 0L) {
-            boolean var89 = false;
-         } else {
-            int var90 = var54 < 0L ? -1 : 1;
-         }
-
+         int var36 = var54 < 0L ? -1 : 1;
          if (var41 == this.u) {
             float var57 = var47 / 2.0F;
             int var58 = BlendMode.withAlpha(Icons.VIOLET, 0.22F + 0.2F * var51 + 0.15F * var39);
             long var59 = 105260329780508L;
-            if (105260329780508L == 0L) {
-               boolean var91 = false;
-            } else {
-               int var92 = var59 < 0L ? -1 : 1;
-            }
-
-            var2.glow(var37, var48, var46, var47, var57, 12.0F, var58);
+            int var58x = var59 < 0L ? -1 : 1;
+            var2.glow(var651, var48, var46, var47, var57, 12.0F, var58);
             var2.roundRectGradient(
-               var37,
+               var651,
                var48,
                var46,
                var47,
@@ -734,45 +600,25 @@ public final class AuraRenderer implements Studio {
             );
             if (var39 > 0.01F) {
                long var62 = 105260329780507L;
-               if (105260329780507L == 0L) {
-                  boolean var93 = false;
-               } else {
-                  int var94 = var62 < 0L ? -1 : 1;
-               }
-
+               int var65 = var62 < 0L ? -1 : 1;
                if (this.c >= 0.0) {
-                  float var65 = p(var14, (float)((y - this.c) / this.i));
-                  var2.pushClip(var37, var48, var46, var47, var47 / 2.0F);
-                  var2.rect(var37, var48, var46 * var65, var47, BlendMode.withAlpha(-1, 0.13F * var39));
+                  float var65x = p(var14, (float)((y - this.c) / this.i));
+                  var2.pushClip(var651, var48, var46, var47, var47 / 2.0F);
+                  var2.rect(var651, var48, var46 * var65x, var47, BlendMode.withAlpha(-1, 0.13F * var39));
                   long var66 = 105260329780508L;
-                  if (105260329780508L == 0L) {
-                     boolean var95 = false;
-                  } else {
-                     int var96 = var66 < 0L ? -1 : 1;
-                  }
-
+                  int var63 = var66 < 0L ? -1 : 1;
                   var2.popClip();
                }
             }
          } else {
             long var72 = 105260329780507L;
-            if (105260329780507L == 0L) {
-               boolean var97 = false;
-            } else {
-               int var98 = var72 < 0L ? -1 : 1;
-            }
-
+            int var781 = var72 < 0L ? -1 : 1;
             if (var71) {
                float var60 = var47 / 2.0F;
                long var61 = 105260329780508L;
-               if (105260329780508L == 0L) {
-                  boolean var99 = false;
-               } else {
-                  int var100 = var61 < 0L ? -1 : 1;
-               }
-
+               int var78 = var61 < 0L ? -1 : 1;
                var2.roundRectGradient(
-                  var37,
+                  var651,
                   var48,
                   var46,
                   var47,
@@ -782,24 +628,18 @@ public final class AuraRenderer implements Studio {
                   BlendMode.withAlpha(Icons.MAGENTA, 0.7F + 0.2F * var51)
                );
             } else {
-               var2.roundRect(var37, var48, var46, var47, var47 / 2.0F, BlendMode.lerp(352321535, 654311423, var51));
+               var2.roundRect(var651, var48, var46, var47, var47 / 2.0F, BlendMode.lerp(352321535, 654311423, var51));
             }
          }
 
-         int var36;
-         label246: {
-            var2.roundRectOutline(var37, var48, var46, var47, var47 / 2.0F, 1.0F, BlendMode.lerp(452984831, 1124073471, var51));
+         label201: {
+            var2.roundRectOutline(var651, var48, var46, var47, var47 / 2.0F, 1.0F, BlendMode.lerp(452984831, 1124073471, var51));
             if (var41 != this.u) {
                long var73 = 105260329780508L;
-               if (105260329780508L == 0L) {
-                  boolean var101 = false;
-               } else {
-                  int var102 = var73 < 0L ? -1 : 1;
-               }
-
+               int var80 = var73 < 0L ? -1 : 1;
                if (!var71) {
                   var36 = var49 ? BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var51) : BlendMode.withAlpha(Icons.TEXT_3, 0.6F);
-                  break label246;
+                  break label201;
                }
             }
 
@@ -807,28 +647,18 @@ public final class AuraRenderer implements Studio {
          }
 
          long var75 = 105260329780507L;
-         if (105260329780507L == 0L) {
-            boolean var103 = false;
-         } else {
-            int var104 = var75 < 0L ? -1 : 1;
-         }
-
+         int var81 = var75 < 0L ? -1 : 1;
          if (!var41.T.isEmpty() && (!this.w || !this.S.contains(var41))) {
             String var8;
-            label230: {
+            label185: {
                if (var41 == this.u) {
                   float var77;
                   var36 = (var77 = var39 - 0.5F) == 0.0F ? 0 : (var77 < 0.0F ? -1 : 1);
-                  long var78 = 105260329780508L;
-                  if (105260329780508L == 0L) {
-                     boolean var107 = false;
-                  } else {
-                     int var108 = var78 < 0L ? -1 : 1;
-                  }
-
+                  long var78x = 105260329780508L;
+                  int var90 = var78x < 0L ? -1 : 1;
                   if (var36 > 0) {
                      var8 = "rotate-ccw";
-                     break label230;
+                     break label185;
                   }
                }
 
@@ -836,24 +666,20 @@ public final class AuraRenderer implements Studio {
             }
 
             int var79 = var41 == this.Y ? BlendMode.lerp(Icons.PURPLE, Icons.TEXT, var51) : var36;
-            var2.icon(var8, var37 + 11.0F + 5.5F, var48 + var47 / 2.0F, 11.0F, var79);
-            var2.text(Fonts.MEDIUM, var41.T, var37 + 11.0F + 11.0F + 5.0F, var48 + var47 / 2.0F, 9.0F, var36, FontStyle.LEFT, FontWeight.MIDDLE);
+            var2.icon(var8, var651 + 11.0F + 5.5F, var48 + var47 / 2.0F, 11.0F, var79);
+            var2.text(Fonts.MEDIUM, var41.T, var651 + 11.0F + 11.0F + 5.0F, var48 + var47 / 2.0F, 9.0F, var36, FontStyle.LEFT, FontWeight.MIDDLE);
          } else {
-            var2.icon(var41.p, var37 + var46 / 2.0F, var48 + var47 / 2.0F, 12.0F, var36);
+            var2.icon(var41.p, var651 + var46 / 2.0F, var48 + var47 / 2.0F, 12.0F, var36);
             long var76 = 105260329780507L;
-            if (105260329780507L == 0L) {
-               boolean var105 = false;
-            } else {
-               int var106 = var76 < 0L ? -1 : 1;
-            }
+            int var87 = var76 < 0L ? -1 : 1;
          }
 
          var2.pop();
-         var37 += var46;
+         var37x = var651 + var46;
       }
    }
 
-   private List<AuraRenderer.TypeJ> s() {
+   private List<AuraRenderer.AuraBatch> s() {
       ArrayList var1 = new ArrayList();
       var1.add(this.u);
       var1.add(this.V);
@@ -863,12 +689,12 @@ public final class AuraRenderer implements Studio {
       return var1;
    }
 
-   private boolean u(AuraRenderer.TypeJ var1, int var2, byte var3, int var4) {
+   private boolean u(AuraRenderer.AuraBatch var1, int var2, byte var3, int var4) {
       AuraStyle.ensureSourceClassInitialized();
       return var1 == this.u || var1 == this.Q || !this.S.isEmpty() && var1 == this.S.getFirst();
    }
 
-   private float P(long var1, Canvas var3, List var4) {
+   private float P(long var1, Canvas var3, List<AuraBatch> var4) {
       long var5 = 97889421810178L;
       long var7 = 69320661838507L;
       short var9 = 16139;
@@ -877,16 +703,16 @@ public final class AuraRenderer implements Studio {
       float var12 = 0.0F;
       AuraStyle.ensureSourceClassInitialized();
 
-      for (AuraRenderer.TypeJ var14 : ((Iterable<AuraRenderer.TypeJ>)(Object)var4)) {
+      for (AuraRenderer.AuraBatch var14 : var4) {
          var12 += this.B(var3, var14, var5) + (this.u(var14, var9, (byte)var10, var11) ? 14 : 5);
       }
 
       return var12;
    }
 
-   private float B(Canvas var1, AuraRenderer.TypeJ var2, long var3) {
+   private float B(Canvas var1, AuraRenderer.AuraBatch var2, long var3) {
       AuraStyle.ensureSourceClassInitialized();
-      return var2.T.isEmpty() || this.w && this.S.contains(var2) ? 28.0F : 27.0F + var1.textWidth(Fonts.MEDIUM, var2.T, 9.0F) + 12.0F;
+      return !var2.T.isEmpty() && (!this.w || !this.S.contains(var2)) ? 27.0F + var1.textWidth(Fonts.MEDIUM, var2.T, 9.0F) + 12.0F : 28.0F;
    }
 
    private void N(DrawContext var1, long var2, Canvas var4, float var5) {
@@ -903,7 +729,7 @@ public final class AuraRenderer implements Studio {
          float var16 = var4.textWidth(Fonts.MEDIUM, var15, 8.5F);
          float var17 = var16 + 40.0F;
          float var18 = var13 - var17 / 2.0F;
-         this.j(var8, var4, var18, (char)var9, var14, var17, var10);
+         this.j(var8, var4, var18, var9, var14, var17, var10);
          var4.icon("info", var18 + 16.0F, var14 + 12.0F, 11.0F, Icons.PINK);
          var4.text(Fonts.MEDIUM, var15, var18 + 28.0F, var14 + 12.0F, 8.5F, Icons.TEXT_2, FontStyle.LEFT, FontWeight.MIDDLE);
       } else {
@@ -915,79 +741,49 @@ public final class AuraRenderer implements Studio {
             float var20 = 0.0F;
 
             for (int var21 = 0; var21 < var55; var21++) {
-               var19[var21] = 12.0F + var4.textWidth(Fonts.MEDIUM, ((AuraFactory.Data2)var54.get(var21)).label(), 8.5F);
+               var19[var21] = 12.0F + var4.textWidth(Fonts.MEDIUM, ((AuraFactory.CosmeticEntry)var54.get(var21)).label(), 8.5F);
                var20 += var19[var21] + (var21 > 0 ? var56 : 0.0F);
             }
 
             long var57 = 106912980826088L;
-            if (106912980826088L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var58 = var57 < 0L ? -1 : 1;
-            }
-
-            float var24 = var20 + 28.0F;
+            int var24 = var57 < 0L ? -1 : 1;
+            float var24x = var20 + 28.0F;
             long var25 = 106912980826088L;
-            if (106912980826088L == 0L) {
-               boolean var59 = false;
-            } else {
-               int var60 = var25 < 0L ? -1 : 1;
-            }
-
-            float var28 = this.b.value() <= 0.0F ? this.b.snap(var24).value() : this.b.target(var24).update(var1.dt);
-            float var29 = var13 - var28 / 2.0F;
+            int var28 = var25 < 0L ? -1 : 1;
+            float var28x = this.b.value() <= 0.0F ? this.b.snap(var24x).value() : this.b.target(var24x).update(var1.dt);
+            float var29 = var13 - var28x / 2.0F;
             this.T[0] = var29;
             this.T[1] = var14;
-            this.T[2] = var28;
+            this.T[2] = var28x;
             this.T[3] = 24.0F;
-            this.j(var8, var4, var29, (char)var9, var14, var28, var10);
+            this.j(var8, var4, var29, var9, var14, var28x, var10);
             float var30 = var14 + 12.0F;
             long var31 = 106912980826088L;
-            if (106912980826088L == 0L) {
-               boolean var61 = false;
-            } else {
-               int var62 = var31 < 0L ? -1 : 1;
-            }
-
-            double var34 = this.c >= 0.0 ? y - this.c : -1.0;
+            int var31x = var31 < 0L ? -1 : 1;
+            double var34x = this.c >= 0.0 ? y - this.c : -1.0;
             float var36 = var13 - var20 / 2.0F;
 
             for (int var37 = 0; var37 < var55; var37++) {
-               AuraFactory.Data2 var38 = (AuraFactory.Data2)var54.get(var37);
-               boolean var39 = var34 >= var38.at();
+               AuraFactory.CosmeticEntry var38 = (AuraFactory.CosmeticEntry)var54.get(var37);
+               boolean var39 = var34x >= var38.at();
                long var40 = 106912980826088L;
-               if (106912980826088L == 0L) {
-                  boolean var63 = false;
-               } else {
-                  int var64 = var40 < 0L ? -1 : 1;
-               }
-
-               float var42 = var39 && var37 < this.J.length ? (float)(y - this.J[var37]) : 99.0F;
-               float var43 = var39 ? (float)Math.exp(-var42 / 0.18F) : 0.0F;
+               int var39x = var40 < 0L ? -1 : 1;
+               float var42x = var39 && var37 < this.J.length ? (float)(y - this.J[var37]) : 99.0F;
+               float var43 = var39 ? (float)Math.exp(-var42x / 0.18F) : 0.0F;
                float var44 = var36 + 3.5F;
                if (var37 > 0) {
-                  AuraFactory.Data2 var45 = (AuraFactory.Data2)var54.get(var37 - 1);
+                  AuraFactory.CosmeticEntry var45 = (AuraFactory.CosmeticEntry)var54.get(var37 - 1);
                   long var46 = 106912980826088L;
-                  if (106912980826088L == 0L) {
-                     boolean var65 = false;
-                  } else {
-                     int var66 = var46 < 0L ? -1 : 1;
-                  }
-
-                  float var48 = var36 - var56 + 3.0F;
+                  int var45x = var46 < 0L ? -1 : 1;
+                  float var48x = var36 - var56 + 3.0F;
                   float var49 = var36 - 3.0F;
-                  var4.rect(var48, var30 - 0.5F, var49 - var48, 1.0F, 587202559);
+                  var4.rect(var48x, var30 - 0.5F, var49 - var48x, 1.0F, 587202559);
                   float var50 = var45.at();
                   long var51 = 106912980826087L;
-                  if (106912980826087L == 0L) {
-                     boolean var67 = false;
-                  } else {
-                     int var68 = var51 < 0L ? -1 : 1;
-                  }
-
-                  if (var34 >= var50) {
-                     float var53 = p(var11, (float)((var34 - var45.at()) / Math.max(0.05F, var38.at() - var45.at())));
-                     var4.rect(var48, var30 - 0.75F, (var49 - var48) * var53, 1.5F, BlendMode.withAlpha(Icons.MAGENTA, 0.85F));
+                  int var50x = var51 < 0L ? -1 : 1;
+                  if (var34x >= var50) {
+                     float var53x = p(var11, (float)((var34x - var45.at()) / Math.max(0.05F, var38.at() - var45.at())));
+                     var4.rect(var48x, var30 - 0.75F, (var49 - var48x) * var53x, 1.5F, BlendMode.withAlpha(Icons.MAGENTA, 0.85F));
                   }
                }
 
@@ -1014,7 +810,7 @@ public final class AuraRenderer implements Studio {
       char var8;
       int var9;
       boolean var22;
-      label71: {
+      label44: {
          long var11 = 56542638691730L;
          var7 = 13164;
          var8 = '\udbe4';
@@ -1022,24 +818,14 @@ public final class AuraRenderer implements Studio {
          AuraStyle.ensureSourceClassInitialized();
          if (this.e) {
             long var13 = 79611893395435L;
-            if (79611893395435L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var26 = var13 < 0L ? -1 : 1;
-            }
-
+            int var16 = var13 < 0L ? -1 : 1;
             if (!this.A) {
-               var22 = AuraSupport2.settled();
-               long var16 = 79611893395435L;
-               if (79611893395435L == 0L) {
-                  boolean var27 = false;
-               } else {
-                  int var28 = var16 < 0L ? -1 : 1;
-               }
-
+               var22 = AuraFrameView.settled();
+               long var16x = 79611893395435L;
+               int var18 = var16x < 0L ? -1 : 1;
                if (var22 && (this.G < 0.0 || y - this.G < 9.0)) {
                   var22 = true;
-                  break label71;
+                  break label44;
                }
             }
          }
@@ -1051,27 +837,21 @@ public final class AuraRenderer implements Studio {
       float var25;
       int varCmp = Float.compare(var25 = var12 - 0.01F, 0.0F);
       long var14 = 79611893395436L;
-      if (79611893395436L == 0L) {
-         boolean var29 = false;
-      } else {
-         int var30 = var14 < 0L ? -1 : 1;
-      }
-
+      int var17 = var14 < 0L ? -1 : 1;
       if (varCmp > 0) {
-         String var17 = "Drag to look around  ·  Scroll to zoom  ·  Double-click to reset";
-         float var18 = var2.textWidth(Fonts.MEDIUM, var17, 8.5F);
+         String var17x = "Drag to look around  ·  Scroll to zoom  ·  Double-click to reset";
+         float var18 = var2.textWidth(Fonts.MEDIUM, var17x, 8.5F);
          float var19 = var18 + 40.0F;
          float var20 = 22.0F - (1.0F - var12) * 6.0F;
          float var21 = Math.max(16.0F, (16.0F + this.P - 16.0F) / 2.0F - var19 / 2.0F);
          var2.pushAlpha(var12 / Math.max(var4, 0.01F) * var4);
-         this.j(var7, var2, var21, (char)var8, var20, var19, var9);
+         this.j(var7, var2, var21, var8, var20, var19, var9);
          var2.icon("mouse", var21 + 16.0F, var20 + 12.0F, 11.0F, Icons.PURPLE);
-         var2.text(Fonts.MEDIUM, var17, var21 + 28.0F, var20 + 12.0F, 8.5F, Icons.TEXT_2, FontStyle.LEFT, FontWeight.MIDDLE);
+         var2.text(Fonts.MEDIUM, var17x, var21 + 28.0F, var20 + 12.0F, 8.5F, Icons.TEXT_2, FontStyle.LEFT, FontWeight.MIDDLE);
          var2.popAlpha();
       }
    }
 
-   @Override
    public boolean mouseDown(float var1, float var2, int var3) {
       long var4 = 59274778847399L;
       long var6 = var4 ^ 106587109183426L;
@@ -1079,8 +859,8 @@ public final class AuraRenderer implements Studio {
          return false;
       } else if (this.x[2] > 0.0F && a(this.x, var1, var2, var6)) {
          if (var3 == 0) {
-            for (AuraRenderer.TypeJ var9 : this.s()) {
-               if (a(var9.E, var1, var2, var6) && (var9 != this.Q || AuraSupport2.moved())) {
+            for (AuraRenderer.AuraBatch var9 : this.s()) {
+               if (a(var9.E, var1, var2, var6) && (var9 != this.Q || AuraFrameView.moved())) {
                   var9.X.snap(1.0F).target(0.0F);
                   var9.k.run();
                   return true;
@@ -1095,8 +875,8 @@ public final class AuraRenderer implements Studio {
          long var8 = System.currentTimeMillis();
          if (var3 == 0 && var8 - this.C < 320L) {
             this.C = 0L;
-            if (AuraSupport2.moved()) {
-               AuraSupport2.resetView();
+            if (AuraFrameView.moved()) {
+               AuraFrameView.resetView();
                UiAudioPolicy.play("TAB", 1.1F);
             }
 
@@ -1111,7 +891,6 @@ public final class AuraRenderer implements Studio {
       }
    }
 
-   @Override
    public void mouseDrag(float var1, float var2) {
       if (this.n) {
          float var3 = var1 - this.g;
@@ -1119,22 +898,20 @@ public final class AuraRenderer implements Studio {
          this.g = var1;
          this.I = var2;
          if (var3 != 0.0F || var4 != 0.0F) {
-            AuraSupport2.drag(var3, var4);
+            AuraFrameView.drag(var3, var4);
             this.A = true;
             this.C = 0L;
          }
       }
    }
 
-   @Override
    public void mouseUp(float var1, float var2, int var3) {
       this.n = false;
    }
 
-   @Override
    public boolean scroll(float var1, float var2, double var3) {
       if (this.e && var3 != 0.0) {
-         AuraSupport2.zoom(var3);
+         AuraFrameView.zoom(var3);
          this.A = true;
          return true;
       } else {
@@ -1142,7 +919,6 @@ public final class AuraRenderer implements Studio {
       }
    }
 
-   @Override
    public boolean keyPressed(int var1) {
       long var2 = 33544843214946L;
       long var4 = var2 ^ 14947033896339L;
@@ -1163,7 +939,6 @@ public final class AuraRenderer implements Studio {
       }
    }
 
-   
    static AuraRenderer current() {
       return O;
    }
@@ -1178,7 +953,7 @@ public final class AuraRenderer implements Studio {
          this.c >= 0.0 ? String.format(Locale.ROOT, "%.2f", y - this.c) : "no",
          this.d,
          y,
-         AuraSupport2.describe()
+         AuraFrameView.describe()
       );
    }
 
@@ -1199,12 +974,12 @@ public final class AuraRenderer implements Studio {
          O.E(var2, true);
       }
 
-      AuraSupport2.reset();
+      AuraFrameView.reset();
       E.clear();
       v.clear();
    }
 
-private static final class TypeJ {
+   private static final class AuraBatch {
       final String T;
       final String p;
       final Runnable k;
@@ -1212,14 +987,14 @@ private static final class TypeJ {
       final Animator t = Animator.smooth(0.0F);
       final Animator X = Animator.snappy(0.0F);
 
-      TypeJ(String var1, String var2, Runnable var3) {
+      AuraBatch(String var1, String var2, Runnable var3) {
          this.T = var1;
          this.p = var2;
          this.k = var3;
       }
    }
 
-   private record TypeR(double I, Consumer<class_746> L) {
+   private record AuraAction(double I, Consumer<class_746> L) {
       public double at() {
          return this.I;
       }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 import com.sun.jna.Function;
@@ -32,16 +31,12 @@ final class MountCache {
    private static final Function z = Q.getFunction("GetSystemTimePreciseAsFileTime", 63);
    private static final Function M = d.getFunction("CreateStreamOverRandomAccessStream", 63);
    private static final ThreadLocal<Boolean> c = ThreadLocal.withInitial(() -> false);
-
-
-
-
    private static final long k = 1000000L;
 
    private MountCache() {
    }
 
-   static void initThread() throws MountCache.TypeD {
+   static void initThread() throws MountCache.MountException {
       if (!c.get()) {
          int var0 = Z.invokeInt(new Object[]{1});
          if (var0 >= 0) {
@@ -49,12 +44,12 @@ final class MountCache {
          }
 
          if (var0 < 0 && var0 != -2147417850) {
-            throw new MountCache.TypeD("RoInitialize", var0);
+            throw new MountCache.MountException("RoInitialize", var0);
          }
       }
    }
 
-   static Pointer activationFactory(String var0, Memory var1) throws MountCache.TypeD {
+   static Pointer activationFactory(String var0, Memory var1) throws MountCache.MountException {
       long var2 = 75116321839446L;
       long var4 = var2 ^ 77422361709953L;
       Pointer var6 = hstring(var0);
@@ -71,7 +66,7 @@ final class MountCache {
       return var8;
    }
 
-   static Pointer createInstance(Memory var0, Memory var1) throws MountCache.TypeD {
+   static Pointer createInstance(Memory var0, Memory var1) throws MountCache.MountException {
       long var2 = 44627546708368L;
       long var4 = var2 ^ 46924747083079L;
       PointerByReference var6 = new PointerByReference();
@@ -87,28 +82,28 @@ final class MountCache {
       return Function.getFunction(var3, 63).invokeInt(var4);
    }
 
-   static void check(int var0, String var1) throws MountCache.TypeD {
+   static void check(int var0, String var1) throws MountCache.MountException {
       if (var0 < 0) {
-         throw new MountCache.TypeD(var1, var0);
+         throw new MountCache.MountException(var1, var0);
       }
    }
 
-   private static Pointer b( long var0, Pointer var2, String var3) throws MountCache.TypeD {
-      MountFactory.Data7.ensureSourceClassInitialized();
+   private static Pointer b(long var0, Pointer var2, String var3) throws MountCache.MountException {
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       if (var2 == null) {
-         throw new MountCache.TypeD(var3 + " returned null", -2147467261);
+         throw new MountCache.MountException(var3 + " returned null", -2147467261);
       } else {
          return var2;
       }
    }
 
-   static void release( Pointer var0) {
+   static void release(Pointer var0) {
       if (var0 != null) {
          call(var0, 2);
       }
    }
 
-   static Pointer queryInterface(Pointer var0, Memory var1) throws MountCache.TypeD {
+   static Pointer queryInterface(Pointer var0, Memory var1) throws MountCache.MountException {
       long var2 = 139959179519709L;
       long var4 = var2 ^ 137928124510730L;
       PointerByReference var6 = new PointerByReference();
@@ -116,38 +111,37 @@ final class MountCache {
       return b(var4, var6.getValue(), "QueryInterface");
    }
 
-   
-   static Pointer getObject(Pointer var0, int var1, String var2) throws MountCache.TypeD {
+   static Pointer getObject(Pointer var0, int var1, String var2) throws MountCache.MountException {
       PointerByReference var3 = new PointerByReference();
       check(call(var0, var1, var3), var2);
       return var3.getValue();
    }
 
-   static Pointer getRequired(Pointer var0, int var1, String var2) throws MountCache.TypeD {
+   static Pointer getRequired(Pointer var0, int var1, String var2) throws MountCache.MountException {
       long var3 = 16341524063398L;
       long var5 = var3 ^ 14190090432625L;
       return b(var5, getObject(var0, var1, var2), var2);
    }
 
-   static int getInt(Pointer var0, int var1, String var2) throws MountCache.TypeD {
+   static int getInt(Pointer var0, int var1, String var2) throws MountCache.MountException {
       IntByReference var3 = new IntByReference();
       check(call(var0, var1, var3), var2);
       return var3.getValue();
    }
 
-   static long getLong(Pointer var0, int var1, String var2) throws MountCache.TypeD {
+   static long getLong(Pointer var0, int var1, String var2) throws MountCache.MountException {
       LongByReference var3 = new LongByReference();
       check(call(var0, var1, var3), var2);
       return var3.getValue();
    }
 
-   static boolean getBoolean(Pointer var0, int var1, String var2) throws MountCache.TypeD {
+   static boolean getBoolean(Pointer var0, int var1, String var2) throws MountCache.MountException {
       ByteByReference var3 = new ByteByReference();
       check(call(var0, var1, var3), var2);
       return var3.getValue() != 0;
    }
 
-   static String getString(Pointer var0, int var1, String var2) throws MountCache.TypeD {
+   static String getString(Pointer var0, int var1, String var2) throws MountCache.MountException {
       PointerByReference var3 = new PointerByReference();
       check(call(var0, var1, var3), var2);
       Pointer var4 = var3.getValue();
@@ -162,7 +156,7 @@ final class MountCache {
       return var5;
    }
 
-   static int getReferenceInt(Pointer var0, int var1, String var2, int var3) throws MountCache.TypeD {
+   static int getReferenceInt(Pointer var0, int var1, String var2, int var3) throws MountCache.MountException {
       Pointer var4 = getObject(var0, var1, var2);
       if (var4 == null) {
          return var3;
@@ -178,7 +172,7 @@ final class MountCache {
       }
    }
 
-   static int getReferenceBoolean(Pointer var0, int var1, String var2) throws MountCache.TypeD {
+   static int getReferenceBoolean(Pointer var0, int var1, String var2) throws MountCache.MountException {
       Pointer var3 = getObject(var0, var1, var2);
       if (var3 == null) {
          return -1;
@@ -194,8 +188,7 @@ final class MountCache {
       }
    }
 
-   
-   static Pointer awaitObject(Pointer var0, long var1, String var3) throws MountCache.TypeD {
+   static Pointer awaitObject(Pointer var0, long var1, String var3) throws MountCache.MountException {
       long var4 = 14974051155073L;
       long var6 = var4 ^ 128954640320240L;
 
@@ -212,7 +205,7 @@ final class MountCache {
       return var9;
    }
 
-   static boolean awaitBoolean(Pointer var0, long var1, String var3) throws MountCache.TypeD {
+   static boolean awaitBoolean(Pointer var0, long var1, String var3) throws MountCache.MountException {
       long var4 = 127527076464890L;
       long var6 = var4 ^ 12278429594251L;
 
@@ -229,8 +222,8 @@ final class MountCache {
       return var9;
    }
 
-   private static void W(long var0, Pointer var2, long var3, String var5) throws MountCache.TypeD {
-      MountFactory.Data7.ensureSourceClassInitialized();
+   private static void W(long var0, Pointer var2, long var3, String var5) throws MountCache.MountException {
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       Pointer var6 = queryInterface(var2, r);
       boolean var7 = false;
 
@@ -249,50 +242,31 @@ final class MountCache {
             }
 
             long var13 = 132864770882160L;
-            if (132864770882160L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var33 = var13 < 0L ? -1 : 1;
-            }
-
+            int var32 = var13 < 0L ? -1 : 1;
             if (var12 != 2) {
                long var16 = 132864770882161L;
-               if (132864770882161L == 0L) {
-                  boolean var34 = false;
-               } else {
-                  int var35 = var16 < 0L ? -1 : 1;
-               }
-
+               int var18 = var16 < 0L ? -1 : 1;
                if (var12 != 3) {
-                  long var18;
-                  int var20 = (var18 = System.nanoTime() - var8) == 0L ? 0 : (var18 < 0L ? -1 : 1);
+                  long var18x;
+                  int var20 = (var18x = System.nanoTime() - var8) == 0L ? 0 : (var18x < 0L ? -1 : 1);
                   long var21 = 132864770882160L;
-                  if (132864770882160L == 0L) {
-                     boolean var36 = false;
-                  } else {
-                     int var37 = var21 < 0L ? -1 : 1;
-                  }
-
+                  int var28 = var21 < 0L ? -1 : 1;
                   if (var20 > 0) {
                      call(var6, 9);
-                     throw new MountCache.TypeD(var5 + " (timed out)", -2147023436);
+                     throw new MountCache.MountException(var5 + " (timed out)", -2147023436);
                   }
 
                   if (var11 < 20) {
                      Thread.onSpinWait();
                      long var23 = 132864770882161L;
-                     if (132864770882161L == 0L) {
-                        boolean var38 = false;
-                     } else {
-                        int var39 = var23 < 0L ? -1 : 1;
-                     }
+                     int var24 = var23 < 0L ? -1 : 1;
                   } else {
                      try {
                         Thread.sleep(1L);
-                     } catch (InterruptedException var28) {
+                     } catch (InterruptedException var281) {
                         Thread.currentThread().interrupt();
                         call(var6, 9);
-                        throw new MountCache.TypeD(var5 + " (interrupted)", -2147023673);
+                        throw new MountCache.MountException(var5 + " (interrupted)", -2147023673);
                      }
                   }
 
@@ -301,9 +275,9 @@ final class MountCache {
                }
             }
 
-            IntByReference var32 = new IntByReference();
-            call(var6, 8, var32);
-            throw new MountCache.TypeD(var5, var12 == 2 ? -2147023673 : var32.getValue());
+            IntByReference var32x = new IntByReference();
+            call(var6, 8, var32x);
+            throw new MountCache.MountException(var5, var12 == 2 ? -2147023673 : var32x.getValue());
          }
       } finally {
          if (var7) {
@@ -312,19 +286,9 @@ final class MountCache {
       }
 
       long var30 = 132864770882161L;
-      if (132864770882161L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var30 < 0L ? -1 : 1;
-      }
-
-      long var31 = 132864770882161L;
-      if (132864770882161L == 0L) {
-         boolean var42 = false;
-      } else {
-         int var43 = var31 < 0L ? -1 : 1;
-      }
-
+      int var311 = var30 < 0L ? -1 : 1;
+      long var31x = 132864770882161L;
+      int var33 = var31x < 0L ? -1 : 1;
       release(var6);
    }
 
@@ -342,7 +306,7 @@ final class MountCache {
       return var2;
    }
 
-   static Pointer hstring(String var0) throws MountCache.TypeD {
+   static Pointer hstring(String var0) throws MountCache.MountException {
       char[] var1 = var0.toCharArray();
       Memory var2 = new Memory((var1.length + 1) * 2L);
       var2.write(0L, var1, 0, var1.length);
@@ -352,7 +316,7 @@ final class MountCache {
       return var3.getValue();
    }
 
-   static String string( Pointer var0) {
+   static String string(Pointer var0) {
       if (var0 == null) {
          return "";
       } else {
@@ -362,13 +326,13 @@ final class MountCache {
       }
    }
 
-   static void deleteString( Pointer var0) {
+   static void deleteString(Pointer var0) {
       if (var0 != null) {
          S.invokeInt(new Object[]{var0});
       }
    }
 
-   static String taskString( Pointer var0) {
+   static String taskString(Pointer var0) {
       if (var0 == null) {
          return "";
       } else {
@@ -389,7 +353,7 @@ final class MountCache {
       return var0.getValue();
    }
 
-   static Pointer streamOver(Pointer var0) throws MountCache.TypeD {
+   static Pointer streamOver(Pointer var0) throws MountCache.MountException {
       long var1 = 1884265626598L;
       long var3 = var1 ^ 3906726506289L;
       PointerByReference var5 = new PointerByReference();
@@ -404,14 +368,13 @@ final class MountCache {
       }
    }
 
-static final class TypeD extends Exception {
+   static final class MountException extends Exception {
       final int v;
       private static final String a = "%s failed: 0x%08X";
 
-      TypeD(String var1, int var2) {
-         super(String.format(Locale.ROOT, a, var1, var2));
+      MountException(String var1, int var2) {
+         super(String.format(Locale.ROOT, "%s failed: 0x%08X", var1, var2));
          this.v = var2;
       }
-
-}
+   }
 }

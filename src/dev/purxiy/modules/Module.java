@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules;
 
 import dev.purxiy.config.BooleanSetting;
@@ -24,7 +23,7 @@ public class Module {
    private final Category category;
    private final List<Setting<?>> settings = new ArrayList<>();
    private final Map<Setting<?>, String> sections = new IdentityHashMap<>();
-   
+
    private String pendingSection;
    private final boolean toggleable;
    private final boolean inEdition;
@@ -121,7 +120,7 @@ public class Module {
       return true;
    }
 
-   
+
    public Studio studio() {
       return null;
    }
@@ -134,7 +133,7 @@ public class Module {
       return Collections.unmodifiableList(this.settings);
    }
 
-   
+
    public Setting<?> setting(String var1) {
       for (Setting var3 : this.settings) {
          if (var3.id().equals(var1)) {
@@ -145,7 +144,7 @@ public class Module {
       return null;
    }
 
-   
+
    public String sectionBefore(Setting<?> var1) {
       return this.sections.get(var1);
    }

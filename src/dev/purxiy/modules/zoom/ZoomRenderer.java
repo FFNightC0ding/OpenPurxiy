@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.zoom;
 
 import dev.purxiy.render.Canvas;
@@ -13,8 +12,6 @@ import net.minecraft.class_310;
 
 public final class ZoomRenderer {
    public static int v = 0;
-
-
 
    private ZoomRenderer() {
    }
@@ -54,6 +51,6 @@ public final class ZoomRenderer {
       }
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
 }

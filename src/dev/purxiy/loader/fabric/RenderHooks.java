@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import java.util.List;
 import net.minecraft.class_10017;
 import net.minecraft.class_11658;
@@ -16,7 +15,7 @@ import net.minecraft.class_9960;
 import net.minecraft.class_10017.class_11680;
 
 public final class RenderHooks {
-   private static final ClientSupport3.TypeX<RenderHooks.Listener> listeners = ClientSupport3.TypeX.create();
+   private static final SkyPipelineRouter.PipelineList<RenderHooks.Listener> listeners = SkyPipelineRouter.PipelineList.create();
 
    public static AutoCloseable install(RenderHooks.Listener var0) {
       if (listeners.subscribers() != 0) {

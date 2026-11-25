@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonElement;
@@ -14,7 +13,7 @@ import java.util.Set;
 import net.minecraft.class_310;
 
 public final class CosmeticCatalog {
-   private static final Map<String, CosmeticCatalog.TypeU> owned = new HashMap<>();
+   private static final Map<String, CosmeticCatalog.CosmeticBinding> owned = new HashMap<>();
    private static final Set<String> supported = Set.of(
       "mounts",
       "skins_3d",
@@ -45,7 +44,7 @@ public final class CosmeticCatalog {
 
    public static AutoCloseable install(Module var0, CosmeticCatalog.Listener var1) {
       check();
-      CosmeticCatalog.TypeU var2 = new CosmeticCatalog.TypeU(var0, var1);
+      CosmeticCatalog.CosmeticBinding var2 = new CosmeticCatalog.CosmeticBinding(var0, var1);
       if (owned.putIfAbsent(var0.id(), var2) != null) {
          throw new IllegalStateException("Preview already owned");
       } else {
@@ -60,13 +59,13 @@ public final class CosmeticCatalog {
 
    public static boolean available(String var0) {
       check();
-      CosmeticCatalog.TypeU var1 = owned.get(var0);
+      CosmeticCatalog.CosmeticBinding var1 = owned.get(var0);
       return var1 != null && var1.widget != null;
    }
 
    public static boolean settingVisible(String var0, String var1) {
       check();
-      CosmeticCatalog.TypeU var2 = owned.get(var0);
+      CosmeticCatalog.CosmeticBinding var2 = owned.get(var0);
       if (var2 == null) {
          return true;
       } else {
@@ -81,13 +80,13 @@ public final class CosmeticCatalog {
 
    public static float height(String var0) {
       check();
-      CosmeticCatalog.TypeU var1 = owned.get(var0);
+      CosmeticCatalog.CosmeticBinding var1 = owned.get(var0);
       return var1 != null && var1.widget != null ? var1.widget.height() : 0.0F;
    }
 
    public static void render(String var0, DrawContext var1, float var2, float var3, float var4, boolean var5) {
       check();
-      CosmeticCatalog.TypeU var6 = owned.get(var0);
+      CosmeticCatalog.CosmeticBinding var6 = owned.get(var0);
       if (var6 != null && var6.widget != null) {
          var6.widget.render(var1, var2, var3, var4, var5);
       }
@@ -95,7 +94,7 @@ public final class CosmeticCatalog {
 
    public static boolean mouseDown(String var0, float var1, float var2, int var3) {
       check();
-      CosmeticCatalog.TypeU var4 = owned.get(var0);
+      CosmeticCatalog.CosmeticBinding var4 = owned.get(var0);
       if (var4 != null && var4.widget != null) {
          Map var5 = values(var4);
          boolean var6 = var4.widget.mouseDown(var1, var2, var3);
@@ -108,7 +107,7 @@ public final class CosmeticCatalog {
 
    public static void mouseDrag(String var0, float var1, float var2) {
       check();
-      CosmeticCatalog.TypeU var3 = owned.get(var0);
+      CosmeticCatalog.CosmeticBinding var3 = owned.get(var0);
       if (var3 != null && var3.widget != null) {
          Map var4 = values(var3);
          var3.widget.mouseDrag(var1, var2);
@@ -118,7 +117,7 @@ public final class CosmeticCatalog {
 
    public static void mouseUp(String var0) {
       check();
-      CosmeticCatalog.TypeU var1 = owned.get(var0);
+      CosmeticCatalog.CosmeticBinding var1 = owned.get(var0);
       if (var1 != null && var1.widget != null) {
          Map var2 = values(var1);
          var1.widget.mouseUp();
@@ -126,7 +125,7 @@ public final class CosmeticCatalog {
       }
    }
 
-   private static Map<String, String> values(CosmeticCatalog.TypeU var0) {
+   private static Map<String, String> values(CosmeticCatalog.CosmeticBinding var0) {
       LinkedHashMap var1 = new LinkedHashMap();
 
       for (Setting var3 : var0.module.settings()) {
@@ -137,7 +136,7 @@ public final class CosmeticCatalog {
       return var1;
    }
 
-   private static void persistChanges(CosmeticCatalog.TypeU var0, Map<String, String> var1) {
+   private static void persistChanges(CosmeticCatalog.CosmeticBinding var0, Map<String, String> var1) {
       Map var2 = values(var0);
       ((java.util.Set<java.util.Map.Entry<?, ?>>)(Object)var2.entrySet()).removeIf(var1x -> Objects.equals(var1.get(var1x.getKey()), var1x.getValue()));
       if (!var2.isEmpty()) {
@@ -176,6 +175,6 @@ public final class CosmeticCatalog {
       }
    }
 
-   private record TypeU(Module module, CosmeticCatalog.Listener widget) {
+   private record CosmeticBinding(Module module, CosmeticCatalog.Listener widget) {
    }
 }

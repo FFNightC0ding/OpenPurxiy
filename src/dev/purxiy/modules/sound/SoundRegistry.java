@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.sound;
 
 import dev.purxiy.loader.api.ModuleContext;
@@ -13,7 +12,6 @@ public final class SoundRegistry {
    private static SoundModule u;
    private static ModuleContext R;
    private static int z = 0;
-
    private static final String[] b = new String[3];
 
    public static AutoCloseable install(SoundModule var0, ModuleContext var1) {
@@ -50,7 +48,7 @@ public final class SoundRegistry {
                var2 *= 1.0F / (1.0F + X * 0.35F);
             }
 
-            float var15 = var0.w * var2 * (float)(var10.A.get() / 0.6F);
+            float var15 = var0.w * var2 * (float)((Double)var10.A.get() / 0.6F);
             if (!(var15 <= 0.001F)) {
                float var16 = var0.x > 0.0F ? (float)ThreadLocalRandom.current().nextDouble(-var0.x, var0.x) : 0.0F;
                float var17 = Math.max(0.5F, Math.min(2.0F, var1 * (1.0F + var16)));
@@ -63,8 +61,8 @@ public final class SoundRegistry {
       }
    }
 
-   private static boolean L(SoundModule var0, SoundKind.TypeY var1, char var2, int var3, short var4) {
-      return switch (SoundRegistry.TypeH.Y[var1.ordinal()]) {
+   private static boolean L(SoundModule var0, SoundKind.SoundChannel var1, char var2, int var3, short var4) {
+      return switch (SoundRegistry.SoundHandle.Y[var1.ordinal()]) {
          case 1 -> var0.N.enabled();
          case 2 -> var0.Z.enabled();
          case 3 -> var0.J.enabled();
@@ -73,27 +71,27 @@ public final class SoundRegistry {
       };
    }
 
-static class TypeH {
-      static final int[] Y = new int[SoundKind.TypeY.values().length];
+   static class SoundHandle {
+      static final int[] Y = new int[SoundKind.SoundChannel.values().length];
 
       static {
          try {
-            Y[SoundKind.TypeY.r.ordinal()] = 1;
+            Y[SoundKind.SoundChannel.r.ordinal()] = 1;
          } catch (NoSuchFieldError var4) {
          }
 
          try {
-            Y[SoundKind.TypeY.X.ordinal()] = 2;
+            Y[SoundKind.SoundChannel.X.ordinal()] = 2;
          } catch (NoSuchFieldError var3) {
          }
 
          try {
-            Y[SoundKind.TypeY.c.ordinal()] = 3;
+            Y[SoundKind.SoundChannel.c.ordinal()] = 3;
          } catch (NoSuchFieldError var2) {
          }
 
          try {
-            Y[SoundKind.TypeY.b.ordinal()] = 4;
+            Y[SoundKind.SoundChannel.b.ordinal()] = 4;
          } catch (NoSuchFieldError var1) {
          }
       }

@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer3;
+import dev.purxiy.loader.fabric.client.ParticleRenderPass;
 import net.minecraft.class_2616;
 import net.minecraft.class_2663;
 import net.minecraft.class_310;
@@ -29,7 +28,7 @@ public abstract class RipplePacketMixin {
    private void purxiy$rippleDamage(class_8143 var1, CallbackInfo var2) {
       class_638 var3 = class_310.method_1551().field_1687;
       if (var3 != null) {
-         ClientRenderer3.onDamage(var3.method_8469(var1.comp_1267()), var1.comp_1269(), var1.comp_1270(), var1.comp_1271());
+         ParticleRenderPass.onDamage(var3.method_8469(var1.comp_1267()), var1.comp_1269(), var1.comp_1270(), var1.comp_1271());
       }
    }
 
@@ -44,7 +43,7 @@ public abstract class RipplePacketMixin {
    private void purxiy$rippleAnimate(class_2616 var1, CallbackInfo var2) {
       class_638 var3 = class_310.method_1551().field_1687;
       if (var3 != null) {
-         ClientRenderer3.onAnimate(var3.method_8469(var1.method_11269()), var1.method_11267());
+         ParticleRenderPass.onAnimate(var3.method_8469(var1.method_11269()), var1.method_11267());
       }
    }
 
@@ -59,7 +58,7 @@ public abstract class RipplePacketMixin {
    private void purxiy$rippleEntityEvent(class_2663 var1, CallbackInfo var2) {
       class_638 var3 = class_310.method_1551().field_1687;
       if (var3 != null) {
-         ClientRenderer3.onEntityEvent(var1.method_11469(var3), var1.method_11470());
+         ParticleRenderPass.onEntityEvent(var1.method_11469(var3), var1.method_11470());
       }
    }
 }

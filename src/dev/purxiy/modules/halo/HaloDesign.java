@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.halo;
 
 public enum HaloDesign {
@@ -52,5 +51,4 @@ public enum HaloDesign {
 
    public static void ensureSourceClassInitialized() {
    }
-
 }

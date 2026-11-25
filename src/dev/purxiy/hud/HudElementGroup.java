@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.render.Canvas;
@@ -14,7 +13,7 @@ public abstract class HudElementGroup extends HudModule {
    protected static final float VALUE = 10.0F;
    protected static final float LABEL = 8.5F;
    private String value = "";
-   
+
    private String label;
 
    protected HudElementGroup(String var1, String var2, String var3, String var4, double var5, double var7) {
@@ -27,7 +26,7 @@ public abstract class HudElementGroup extends HudModule {
       return "0";
    }
 
-   
+
    protected String label(HudBounds var1) {
       return null;
    }

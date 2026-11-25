@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import dev.purxiy.config.BooleanSetting;
@@ -81,7 +80,7 @@ public class StudioSettingsScreen extends class_437 {
          Setting var6 = this.rows.get(var5);
          int var7 = 29 + 22 * var5;
          if (var6 instanceof NumberSetting var8) {
-            StudioSettingsScreen.TypeZ var9 = new StudioSettingsScreen.TypeZ(var4, var7, var3, var8);
+            StudioSettingsScreen.SettingsPanel var9 = new StudioSettingsScreen.SettingsPanel(var4, var7, var3, var8);
             this.method_37063(var9);
             List var10 = this.refresh;
             var10.add((Runnable) var9::refresh);
@@ -275,10 +274,10 @@ public class StudioSettingsScreen extends class_437 {
       }
    }
 
-   private static final class TypeZ extends class_357 {
+   private static final class SettingsPanel extends class_357 {
       private final NumberSetting setting;
 
-      TypeZ(int var1, int var2, int var3, NumberSetting var4) {
+      SettingsPanel(int var1, int var2, int var3, NumberSetting var4) {
          super(var1, var2, var3, 20, class_2561.method_43473(), var4.normalized());
          this.setting = var4;
          this.method_25346();

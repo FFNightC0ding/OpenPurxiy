@@ -1,10 +1,9 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry13;
+import dev.purxiy.loader.fabric.client.FirstPersonProvider;
 import net.minecraft.class_11659;
 import net.minecraft.class_4587;
 import net.minecraft.class_746;
@@ -37,7 +36,7 @@ public abstract class FreelookRenderMixin {
       )}
    )
    private boolean purxiy$freelookHands(boolean var1) {
-      return var1 || ClientRegistry13.inHead();
+      return var1 || FirstPersonProvider.inHead();
    }
 
    @WrapOperation(
@@ -48,8 +47,8 @@ public abstract class FreelookRenderMixin {
       )}
    )
    private void purxiy$sinkHands(class_759 var1, float var2, class_4587 var3, class_11659 var4, class_746 var5, int var6, Operation<Void> var7) {
-      float var8 = ClientRegistry13.handsDown();
-      if (!ClientRegistry13.active() || var8 <= 0.0F) {
+      float var8 = FirstPersonProvider.handsDown();
+      if (!FirstPersonProvider.active() || var8 <= 0.0F) {
          var7.call(new Object[]{var1, var2, var3, var4, var5, var6});
       } else if (!(var8 >= 1.0F)) {
          var3.method_22903();

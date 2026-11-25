@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.font;
 
 public enum FontWeight {

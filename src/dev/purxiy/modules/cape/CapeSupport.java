@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cape;
 
 import net.minecraft.class_10055;
@@ -24,8 +23,6 @@ public final class CapeSupport {
    private static final float[] f = new float[]{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
    private static final float[] E = new float[]{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
    private static final float[] R = new float[]{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
-
-
 
    private CapeSupport() {
    }
@@ -63,78 +60,42 @@ public final class CapeSupport {
       CapeModule.ensureSourceClassInitialized();
       long var3 = System.nanoTime();
       long var5 = 109873557972656L;
-      if (109873557972656L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var42 = var5 < 0L ? -1 : 1;
-      }
-
-      float var8 = z == 0L ? 0.0F : (float)(var3 - z) / 1.0E9F;
+      int var8 = var5 < 0L ? -1 : 1;
+      float var8x = z == 0L ? 0.0F : (float)(var3 - z) / 1.0E9F;
       long var9 = 109873557972657L;
-      if (109873557972657L == 0L) {
-         boolean var43 = false;
-      } else {
-         int var44 = var9 < 0L ? -1 : 1;
-      }
-
-      long var12 = 109873557972657L;
-      if (109873557972657L == 0L) {
-         boolean var45 = false;
-      } else {
-         int var46 = var12 < 0L ? -1 : 1;
-      }
-
-      if (z == 0L || !(var8 < 5.0E-4F)) {
+      int var12 = var9 < 0L ? -1 : 1;
+      long var12x = 109873557972657L;
+      if (z == 0L || !(var8x < 5.0E-4F)) {
          z = var3;
-         float var14 = (float)Math.toRadians(6.0F + var2.field_53537 / 2.0F + var2.field_53536);
+         float var14x = (float)Math.toRadians(6.0F + var2.field_53537 / 2.0F + var2.field_53536);
          if (J) {
             long var15 = 109873557972657L;
-            if (109873557972657L == 0L) {
-               boolean var47 = false;
-            } else {
-               int var48 = var15 < 0L ? -1 : 1;
-            }
+            int var15x = var15 < 0L ? -1 : 1;
+            if (!(var8x > 0.5F)) {
+               float var17x = Math.clamp((var14x - 0.15F) / 0.9F, 0.0F, 1.0F);
+               float var35 = Math.min(var8x, 0.1F);
 
-            if (!(var8 > 0.5F)) {
-               float var17 = Math.clamp((var14 - 0.15F) / 0.9F, 0.0F, 1.0F);
-               var8 = Math.min(var8, 0.1F);
-
-               for (float var18 = var8; var18 > 1.0E-5F; var18 -= 0.004166667F) {
+               for (float var18 = var35; var18 > 1.0E-5F; var18 -= 0.004166667F) {
                   float var19 = Math.min(0.004166667F, var18);
                   G += var19;
 
                   for (int var20 = 0; var20 < 8; var20++) {
                      long var21 = 109873557972657L;
-                     if (109873557972657L == 0L) {
-                        boolean var53 = false;
-                     } else {
-                        int var54 = var21 < 0L ? -1 : 1;
-                     }
-
-                     float var23 = var20 / 7.0F;
-                     float var24 = var20 == 0 ? var14 : U[var20 - 1];
-                     float var25 = var14 * (0.96F + 0.28F * var23 * var17) * 0.45F + var24 * 0.55F;
-                     float var26 = (0.012F + 0.07F * var17) * (float)Math.sin(G * (4.2F + 5.0F * var17) - var20 * 0.85F) * var23;
+                     int var21x = var21 < 0L ? -1 : 1;
+                     float var23x = var20 / 7.0F;
+                     float var24 = var20 == 0 ? var14x : U[var20 - 1];
+                     float var25 = var14x * (0.96F + 0.28F * var23x * var17x) * 0.45F + var24 * 0.55F;
+                     float var26 = (0.012F + 0.07F * var17x) * (float)Math.sin(G * (4.2F + 5.0F * var17x) - var20 * 0.85F) * var23x;
                      long var27 = 109873557972656L;
-                     if (109873557972656L == 0L) {
-                        boolean var55 = false;
-                     } else {
-                        int var56 = var27 < 0L ? -1 : 1;
-                     }
-
-                     float var30 = 0.018F * (float)Math.sin(G * 1.3F + var20 * 0.4F) * (1.0F - var17) * var23;
-                     var25 += var26 + var30;
-                     float var31 = 22.0F - 12.0F * var23;
+                     int var27x = var27 < 0L ? -1 : 1;
+                     float var30x = 0.018F * (float)Math.sin(G * 1.3F + var20 * 0.4F) * (1.0F - var17x) * var23x;
+                     var25 += var26 + var30x;
+                     float var31 = 22.0F - 12.0F * var23x;
                      float var32 = var31 * var31 * (var25 - U[var20]) - 1.44F * var31 * a[var20];
                      a[var20] = a[var20] + var32 * var19;
                      float var33 = U[var20];
                      long var34 = 109873557972657L;
-                     if (109873557972657L == 0L) {
-                        boolean var57 = false;
-                     } else {
-                        int var58 = var34 < 0L ? -1 : 1;
-                     }
-
+                     int var33x = var34 < 0L ? -1 : 1;
                      U[var20] = var33 + a[var20] * var19;
                      if (var20 > 0) {
                         U[var20] = Math.max(U[var20], U[var20 - 1] - 0.3F);
@@ -144,11 +105,7 @@ public final class CapeSupport {
                   }
 
                   long var40 = 109873557972656L;
-                  if (109873557972656L == 0L) {
-                     boolean var59 = false;
-                  } else {
-                     int var60 = var40 < 0L ? -1 : 1;
-                  }
+                  int var20 = var40 < 0L ? -1 : 1;
                }
 
                return;
@@ -157,23 +114,13 @@ public final class CapeSupport {
 
          for (int var38 = 0; var38 < 8; var38++) {
             long var16 = 109873557972657L;
-            if (109873557972657L == 0L) {
-               boolean var49 = false;
-            } else {
-               int var50 = var16 < 0L ? -1 : 1;
-            }
-
-            U[var38] = var14;
+            int var16x = var16 < 0L ? -1 : 1;
+            U[var38] = var14x;
             a[var38] = 0.0F;
          }
 
          long var39 = 109873557972657L;
-         if (109873557972657L == 0L) {
-            boolean var51 = false;
-         } else {
-            int var52 = var39 < 0L ? -1 : 1;
-         }
-
+         int var401 = var39 < 0L ? -1 : 1;
          J = true;
       }
    }
@@ -186,53 +133,27 @@ public final class CapeSupport {
       for (int var2 = 0; var2 < 8; var2++) {
          F[var2 + 1] = F[var2] + 2.0F * (float)Math.cos(U[var2]);
          long var3 = 130937222277562L;
-         if (130937222277562L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var14 = var3 < 0L ? -1 : 1;
-         }
-
+         int var6 = var3 < 0L ? -1 : 1;
          f[var2 + 1] = f[var2] + 2.0F * (float)Math.sin(U[var2]);
       }
 
       long var12 = 130937222277562L;
-      if (130937222277562L == 0L) {
-         boolean var15 = false;
-      } else {
-         int var16 = var12 < 0L ? -1 : 1;
-      }
-
-      int var5 = 0;
+      int var5 = var12 < 0L ? -1 : 1;
+      var5 = 0;
 
       while (true) {
          long var6 = 130937222277562L;
-         if (130937222277562L == 0L) {
-            boolean var17 = false;
-         } else {
-            int var18 = var6 < 0L ? -1 : 1;
-         }
-
+         int var9 = var6 < 0L ? -1 : 1;
          if (var5 > 8) {
             long var13 = 130937222277563L;
-            if (130937222277563L == 0L) {
-               boolean var21 = false;
-            } else {
-               int var22 = var13 < 0L ? -1 : 1;
-            }
-
+            int var16 = var13 < 0L ? -1 : 1;
             return;
          }
 
-         long var9 = 130937222277562L;
-         if (130937222277562L == 0L) {
-            boolean var19 = false;
-         } else {
-            int var20 = var9 < 0L ? -1 : 1;
-         }
-
-         float var11 = var5 == 0 ? U[0] : (var5 == 8 ? U[7] : (U[var5 - 1] + U[var5]) / 2.0F);
-         E[var5] = -((float)Math.sin(var11));
-         R[var5] = (float)Math.cos(var11);
+         long var9x = 130937222277562L;
+         float var11x = var5 == 0 ? U[0] : (var5 == 8 ? U[7] : (U[var5 - 1] + U[var5]) / 2.0F);
+         E[var5] = -((float)Math.sin(var11x));
+         R[var5] = (float)Math.cos(var11x);
          var5++;
       }
    }
@@ -246,12 +167,7 @@ public final class CapeSupport {
          float var9 = 1.0F + var7 * 2.0F;
          float var10 = 1.0F + var8 * 2.0F;
          long var11 = 125950881545273L;
-         if (125950881545273L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var15 = var11 < 0L ? -1 : 1;
-         }
-
+         int var13 = var11 < 0L ? -1 : 1;
          s(var0, var3, var4, var7, var8, 1.0F, -5.0F, 11.0F, 5.0F, 1.0F, var9, 1.0F);
          s(var0, var3, var4, var7, var8, 0.0F, 5.0F, 22.0F, -5.0F, 12.0F, var9, -1.0F);
          Z(var0, var3, var4, var7, var8, 5.0F, 1.0F, 1.0F, 0.0F, 0.0F, var9, var10, 1.0F);
@@ -259,12 +175,7 @@ public final class CapeSupport {
       }
 
       long var14 = 125950881545272L;
-      if (125950881545272L == 0L) {
-         boolean var16 = false;
-      } else {
-         int var17 = var14 < 0L ? -1 : 1;
-      }
-
+      int var15 = var14 < 0L ? -1 : 1;
       k(var0, var3, var4, 0, 11.0F, 1.0F, var5, 1.0F, 0.0F, -1.0F);
       k(var0, var3, var4, 8, 21.0F, 11.0F, var5, 1.0F, 0.0F, 1.0F);
    }
@@ -306,29 +217,14 @@ public final class CapeSupport {
       float var12 = (float)Math.cos(U[var11]) * var10;
       float var13 = (float)Math.sin(U[var11]) * var10;
       long var14 = 2607850533064L;
-      if (2607850533064L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var24 = var14 < 0L ? -1 : 1;
-      }
-
-      float var17;
-      int var18 = (var17 = var10 - 0.0F) == 0.0F ? 0 : (var17 < 0.0F ? -1 : 1);
+      int var17 = var14 < 0L ? -1 : 1;
+      float var17x;
+      int var18 = (var17x = var10 - 0.0F) == 0.0F ? 0 : (var17x < 0.0F ? -1 : 1);
       long var19 = 2607850533064L;
-      if (2607850533064L == 0L) {
-         boolean var25 = false;
-      } else {
-         int var26 = var19 < 0L ? -1 : 1;
-      }
-
+      int var21 = var19 < 0L ? -1 : 1;
       if (var18 < 0) {
-         long var21 = 2607850533064L;
-         if (2607850533064L == 0L) {
-            boolean var27 = false;
-         } else {
-            int var28 = var21 < 0L ? -1 : 1;
-         }
-
+         long var21x = 2607850533064L;
+         int var22 = var21x < 0L ? -1 : 1;
          H(var0, var1, var2, -5.0F, var3, 0.0F, var4, var9, 0.0F, var12, var13);
          H(var0, var1, var2, 5.0F, var3, 0.0F, var5, var9, 0.0F, var12, var13);
          H(var0, var1, var2, 5.0F, var3, 1.0F, var5, var8, 0.0F, var12, var13);
@@ -353,5 +249,4 @@ public final class CapeSupport {
          .method_60803(var2)
          .method_60831(var0, var8, var9, var10);
    }
-
 }

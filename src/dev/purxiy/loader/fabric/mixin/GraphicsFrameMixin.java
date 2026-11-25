@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import net.minecraft.class_757;
 import net.minecraft.class_9779;
@@ -57,7 +56,7 @@ public abstract class GraphicsFrameMixin {
       )}
    )
    private void purxiy$afterWorld(class_9779 var1, CallbackInfo var2) {
-      ClientSupport3.afterWorld();
+      SkyPipelineRouter.afterWorld();
       ModuleWidget.afterWorld();
    }
 }

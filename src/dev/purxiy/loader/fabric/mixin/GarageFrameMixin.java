@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_757;
 import net.minecraft.class_9779;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,6 +22,6 @@ public abstract class GarageFrameMixin {
       )}
    )
    private void purxiy$garageScreen(class_9779 var1, CallbackInfo var2) {
-      ClientRenderer5.renderSheets();
+      CameraStateReader.renderSheets();
    }
 }

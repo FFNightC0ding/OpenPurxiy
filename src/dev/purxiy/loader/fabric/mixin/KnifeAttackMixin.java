@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry25;
+import dev.purxiy.loader.fabric.client.AttackAnimationProvider;
 import net.minecraft.class_1297;
 import net.minecraft.class_1657;
 import net.minecraft.class_636;
@@ -17,6 +16,6 @@ public abstract class KnifeAttackMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$knifeHit(class_1657 var1, class_1297 var2, CallbackInfo var3) {
-      ClientRegistry25.onAttack(var1, var2);
+      AttackAnimationProvider.onAttack(var1, var2);
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.crosshair;
 
 import dev.purxiy.config.Setting;
@@ -17,44 +16,31 @@ public final class CustomCrosshairScreen extends class_437 {
    private final CustomCrosshairModule w;
    private String b = "";
 
-
-
    public CustomCrosshairScreen(CustomCrosshairModule var1) {
       super(class_2561.method_43470("Custom Crosshair"));
       this.w = var1;
    }
 
-   @Override
    protected void method_25426() {
       String[] var1 = new String[]{"Minimal", "Vesper", "Orbit"};
 
       for (int var2 = 0; var2 < var1.length; var2++) {
          int var3 = var2;
          this.method_37063(ModuleClick.builder(class_2561.method_43470(var1[var2]), var2x -> {
-            CustomCrosshairRenderer3.ensureSourceClassInitialized();
+            CrosshairOverlay.ensureSourceClassInitialized();
             this.w.applyPreset(var3);
             LinkedHashMap var3x = new LinkedHashMap();
 
             for (Setting var5 : this.w.settings()) {
                long var6 = 69361334788960L;
-               if (69361334788960L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var11 = var6 < 0L ? -1 : 1;
-               }
-
+               int var8 = var6 < 0L ? -1 : 1;
                var3x.put(var5.id(), var5.save().getAsString());
             }
 
             try {
                CosmeticRegistry.storeSettings(this.w.id(), var3x);
                long var10 = 69361334788960L;
-               if (69361334788960L == 0L) {
-                  boolean var12 = false;
-               } else {
-                  int var13 = var10 < 0L ? -1 : 1;
-               }
-
+               int var11 = var10 < 0L ? -1 : 1;
                this.b = "";
             } catch (IOException var9) {
                this.b = "Could not save preset";
@@ -74,7 +60,6 @@ public final class CustomCrosshairScreen extends class_437 {
       );
    }
 
-   @Override
    public void method_25394(class_332 var1, int var2, int var3, float var4) {
       super.method_25394(var1, var2, var3, var4);
       var1.method_27534(this.field_22793, this.field_22785, this.field_22789 / 2, 22, -1714177);
@@ -86,20 +71,29 @@ public final class CustomCrosshairScreen extends class_437 {
       if (ClientServices.drawing()) {
          RenderPipelines var5 = RenderPipelines.get();
          Canvas var6 = var5.hudCanvas();
-         CustomCrosshairRenderer3.draw(
-            var6, this.w, this.w.k.get(), var6.width() / 2.0F, var6.height() / 2.0F, var6.height() / 720.0F, var5.time(), 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, true
+         CrosshairOverlay.draw(
+            var6,
+            this.w,
+            (String)this.w.k.get(),
+            var6.width() / 2.0F,
+            var6.height() / 2.0F,
+            var6.height() / 720.0F,
+            var5.time(),
+            0.0F,
+            0.0F,
+            0.0F,
+            0.0F,
+            1.0F,
+            true
          );
       }
    }
 
-   @Override
    public boolean method_25421() {
       return false;
    }
 
-   @Override
    public void method_25419() {
       this.field_22787.method_1507(CosmeticRegistry.menu());
    }
-
 }

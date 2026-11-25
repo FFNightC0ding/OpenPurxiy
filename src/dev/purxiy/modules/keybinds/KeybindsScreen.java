@@ -1,10 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.keybinds;
 
 import dev.purxiy.loader.fabric.CosmeticRegistry;
 import dev.purxiy.loader.fabric.MenuKeyBinding;
 import dev.purxiy.loader.fabric.ModuleClick;
 import dev.purxiy.loader.fabric.UiAudioPolicy;
+import dev.purxiy.loader.fabric.MenuKeyBinding.BindingRow;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import net.minecraft.class_437;
 
 final class KeybindsScreen extends class_437 {
    private final class_437 e = CosmeticRegistry.menu();
-   private final Map<String, KeybindsScreen.TypeE> H = new LinkedHashMap<>();
+   private final Map<String, KeybindsScreen.PendingRebind> H = new LinkedHashMap<>();
    private final List<class_4185> v = new ArrayList<>();
    private final List<String> K = new ArrayList<>();
    private String s = "";
@@ -33,7 +33,6 @@ final class KeybindsScreen extends class_437 {
    private class_4185 Y;
    private class_4185 R;
    public static int k = 0;
-
    private static final String[] b = new String[21];
    private static final long[] c = new long[]{
       8830162014679361895L,
@@ -56,7 +55,6 @@ final class KeybindsScreen extends class_437 {
       super(class_2561.method_43470("Keybinds"));
    }
 
-   @Override
    protected void method_25426() {
       long var1 = 127375259799402L;
       long var3 = var1 ^ 47206493222773L;
@@ -81,7 +79,7 @@ final class KeybindsScreen extends class_437 {
          this.p((char)var4, var5x, var6x);
       });
       this.method_37063(var10);
-      this.Y = this.method_37063(ModuleClick.builder(class_2561.method_43470("Previous"), var1x -> {
+      this.Y = (class_4185)this.method_37063(ModuleClick.builder(class_2561.method_43470("Previous"), var1x -> {
          long var2 = 98096035887135L;
          byte var4 = 0;
          int var5x = 1496826719;
@@ -89,7 +87,7 @@ final class KeybindsScreen extends class_437 {
          this.y--;
          this.p((char)var4, var5x, var6x);
       }).method_46434(var9, this.field_22790 - 28, 85, 20).method_46431());
-      this.R = this.method_37063(ModuleClick.builder(class_2561.method_43470("Next"), var1x -> {
+      this.R = (class_4185)this.method_37063(ModuleClick.builder(class_2561.method_43470("Next"), var1x -> {
          long var2 = 98096035887135L;
          byte var4 = 0;
          int var5x = 1496826719;
@@ -116,13 +114,13 @@ final class KeybindsScreen extends class_437 {
          } else {
             var5 = this.H.values();
             if (var1 >= 0L) {
-               ((Collection)var5).removeIf(var0 -> ((KeybindsScreen.TypeE)var0).L < System.currentTimeMillis());
+               ((Collection)var5).removeIf(var0 -> ((KeybindsScreen.PendingRebind)var0).L < System.currentTimeMillis());
                this.H.forEach((var1x, var2) -> var3.putIfAbsent(var1x, var2.l));
                return List.copyOf(var3.values());
             }
          }
 
-         MenuKeyBinding.TypeV var6 = (MenuKeyBinding.TypeV)var5;
+         BindingRow var6 = (BindingRow)var5;
          if (var1 >= 0L) {
             var3.put(var6.id(), var6);
          }
@@ -139,15 +137,15 @@ final class KeybindsScreen extends class_437 {
       this.v.clear();
       this.K.clear();
       byte var14 = 0;
-      List var15 = this.e(var8);
+      List<BindingRow> var15 = this.e(var8);
       this.I = var15.toString() + this.H.keySet();
-      List var16 = var15.stream()
-         .filter(var1x -> (((MenuKeyBinding.TypeV)var1x).title() + " " + ((MenuKeyBinding.TypeV)var1x).action()).toLowerCase(Locale.ROOT).contains(this.s.strip().toLowerCase(Locale.ROOT)))
+      List<BindingRow> var16 = var15.stream()
+         .filter(var1x -> (((BindingRow)var1x).title() + " " + ((BindingRow)var1x).action()).toLowerCase(Locale.ROOT).contains(this.s.strip().toLowerCase(Locale.ROOT)))
          .toList();
-      HashMap var17 = new HashMap();
+      HashMap<Object, Integer> var17 = new HashMap<>();
 
-      for (MenuKeyBinding.TypeV var19 : MenuKeyBinding.bound()) {
-         var17.merge(var19.key(), 1, (a, b) -> (Integer)a + (Integer)b);
+      for (BindingRow var19 : MenuKeyBinding.bound()) {
+         var17.merge(var19.key(), 1, (a, b) -> a + b);
       }
 
       int var35 = Math.max(1, (this.field_22790 - a(9375, 6843827298119499537L ^ var6)) / a(120, 8730179433753123825L ^ var6));
@@ -163,23 +161,23 @@ final class KeybindsScreen extends class_437 {
       this.R.field_22763 = var21 < var16.size();
       int var22 = a(2750, 2016119452000784692L ^ var6);
 
-      for (MenuKeyBinding.TypeV var24 : (Iterable<MenuKeyBinding.TypeV>)(Object)(var16.subList(this.y * var35, Math.min(var16.size(), (this.y + 1) * var35)))) {
+      for (BindingRow var24 : var16.subList(this.y * var35, Math.min(var16.size(), (this.y + 1) * var35))) {
          byte var25 = (byte)(this.H.containsKey(var24.id()) ? 1 : 0);
          String var26 = var24.title();
          String var27 = var24.action();
-         int var28 = (int)(var17.getOrDefault(var24.key(), 0));
+         int var28 = var17.getOrDefault(var24.key(), 0);
          byte var29 = var14;
          if (var1 >= 0) {
             var29 = 1;
          }
 
-         String var30 = var28 > var29 && var25 == 0 ? " \u00b7 shared key" : "";
-         String var32 = var26 + " \u00b7 " + var27 + var30;
+         String var30 = var28 > var29 && var25 == 0 ? " · shared key" : "";
+         String var32 = var26 + " · " + var27 + var30;
          this.K.add(this.field_22793.method_27523(var32, Math.max(a(27616, 6631050692864503916L ^ var6), var36 - a(24726, 4467197516407372573L ^ var6))));
-         class_4185 var33 = this.method_37063(
+         class_4185 var33 = (class_4185)this.method_37063(
             ModuleClick.builder(class_2561.method_43470(var25 != 0 ? "None" : MenuKeyBinding.keyName(var24.key())), var4x -> {
                   this.S = var24.id();
-                  var4x.method_25355(class_2561.method_43470("Press a key\u2026"));
+                  var4x.method_25355(class_2561.method_43470("Press a key…"));
                })
                .method_46434(
                   var20 + var36 - a(3860, 3143392833437144215L ^ var6), var22, a(17733, 5190682678072925896L ^ var6), a(26703, 4780243401927095245L ^ var6)
@@ -195,14 +193,13 @@ final class KeybindsScreen extends class_437 {
                   String var5;
                   label67: {
                      var4 = this.v;
-                     int var34 = var25;
                      if (var2 > 0) {
                         if (var25 != 0) {
                            var5 = "Undo";
                            break label67;
                         }
 
-                        var34 = 1017167027;
+                        int var33x = 1017167027;
                      }
 
                      var5 = "Remove";
@@ -225,7 +222,7 @@ final class KeybindsScreen extends class_437 {
                                        var13 = var12x;
                                        if (var10 > 0L) {
                                           if (var25 == 0) {
-                                             this.H.put(var24.id(), new KeybindsScreen.TypeE(var24, System.currentTimeMillis() + 5000L));
+                                             this.H.put(var24.id(), new KeybindsScreen.PendingRebind(var24, System.currentTimeMillis() + 5000L));
                                              break label39;
                                           }
 
@@ -279,7 +276,6 @@ final class KeybindsScreen extends class_437 {
       }
    }
 
-   @Override
    public boolean method_25404(class_11908 var1) {
       long var2 = 55938562002540L;
       long var4 = var2 ^ 118575276848755L;
@@ -297,7 +293,7 @@ final class KeybindsScreen extends class_437 {
                MenuKeyBinding.set(var9, var10);
                UiAudioPolicy.play("KEY_SET");
                this.M = "";
-            } catch (Exception var11) {
+            } catch (Exception var111) {
                this.M = var9.equals("menu") ? "The menu must keep a key." : "Could not save this key.";
             }
          }
@@ -307,7 +303,6 @@ final class KeybindsScreen extends class_437 {
       }
    }
 
-   @Override
    public void method_25393() {
       long var1 = 54797388359674L;
       long var3 = var1 ^ 51689864582591L;
@@ -320,18 +315,15 @@ final class KeybindsScreen extends class_437 {
       }
    }
 
-   @Override
    public void method_25419() {
       UiAudioPolicy.play("CLOSE");
       this.field_22787.method_1507(this.e);
    }
 
-   @Override
    public boolean method_25421() {
       return false;
    }
 
-   @Override
    public void method_25394(class_332 var1, int var2, int var3, float var4) {
       super.method_25394(var1, var2, var3, var4);
       var1.method_27534(this.field_22793, this.field_22785, this.field_22789 / 2, 15, -1);
@@ -350,7 +342,7 @@ final class KeybindsScreen extends class_437 {
       }
    }
 
-private static int a(int var0, long var1) {
+   private static int a(int var0, long var1) {
       int var3 = var0 ^ (int)(var1 & 32767L) ^ 25493;
       if (d[var3] == null) {
          d[var3] = (int)(c[var3] ^ var1);
@@ -359,8 +351,8 @@ private static int a(int var0, long var1) {
       return d[var3];
    }
 
-   private record TypeE(MenuKeyBinding.TypeV l, long L) {
-      public MenuKeyBinding.TypeV binding() {
+   private record PendingRebind(BindingRow l, long L) {
+      public BindingRow binding() {
          return this.l;
       }
 
@@ -368,7 +360,7 @@ private static int a(int var0, long var1) {
          return this.L;
       }
 
-      public MenuKeyBinding.TypeV keybindRegistry_ModuleKeyBindingState1() {
+      public BindingRow keybindRegistry_ModuleKeyBindingState1() {
          return this.l;
       }
 

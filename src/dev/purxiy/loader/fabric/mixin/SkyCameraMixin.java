@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_4587;
 import net.minecraft.class_757;
 import net.minecraft.class_9779;
@@ -22,7 +21,7 @@ public abstract class SkyCameraMixin {
       )}
    )
    private void purxiy$beforeBobbing(class_9779 var1, CallbackInfo var2, @Local Matrix4f var3, @Local class_4587 var4) {
-      ClientSupport3.steady(var3, var4.method_23760().method_23761());
+      SkyPipelineRouter.steady(var3, var4.method_23760().method_23761());
    }
 
    @Inject(
@@ -34,6 +33,6 @@ public abstract class SkyCameraMixin {
       )}
    )
    private void purxiy$projection(class_9779 var1, CallbackInfo var2, @Local Matrix4f var3) {
-      ClientSupport3.projection(var3);
+      SkyPipelineRouter.projection(var3);
    }
 }

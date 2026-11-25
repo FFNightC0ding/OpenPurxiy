@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import dev.purxiy.render.RenderPipelines;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.loader.api.FabricLoader;
-
 import org.slf4j.Logger;
 
 public final class SpotifyRegistry {
@@ -22,13 +20,11 @@ public final class SpotifyRegistry {
    private static final long S = 2000L;
    private static final long[] Y = new long[]{20L, 45L, 90L};
    private static final long R = 40000000L;
-   private final SpotifyCurve K = new SpotifyCurve(false, new SpotifyUpdater3());
+   private final SpotifyCurve K = new SpotifyCurve(false, new SpotifyTrack());
    private final SpotifyCurve g = new SpotifyCurve(true, null);
    private long o = -1L;
-   
-   private SpotifyCache2 F;
-   
-   private CompletableFuture<SpotifySupport3> I;
+   private SpotifyLyricCache F;
+   private CompletableFuture<SpotifyLyrics> I;
    private long C;
    private long z;
    private long Q;
@@ -48,8 +44,6 @@ public final class SpotifyRegistry {
    private static ModuleContext p;
    private static int U = 0;
    private static int B = 0;
-
-
    private static final long[] f = new long[]{6939675453562496268L, -1516486420194010888L};
    private static final Integer[] j = new Integer[2];
    private static final long[] l = new long[]{
@@ -77,9 +71,9 @@ public final class SpotifyRegistry {
 
    private SpotifyRegistry(long var1) {
       SpotifyFactory.get().logTo(var0 -> ClientServices.LOGGER.warn("Spotify Player: {}", var0));
-      this.g.O = new SpotifyCurve.Data("sample", "Violet Hour", "Purxiy", "Nightfall Sessions", 46000L);
-      this.g.f = SpotifySupport2.f;
-      this.g.z = SpotifyCurve.TypeF.h;
+      this.g.O = new SpotifyCurve.Data("sample", "Violet Hour", "SourceByDevFFnightmare DeObfDeCompByGuideX", "Nightfall Sessions", 46000L);
+      this.g.f = SpotifyDemoTrack.f;
+      this.g.z = SpotifyCurve.CurveKind.h;
       this.g.b = true;
       this.g.S = 0.72F;
       this.g.k = 255;
@@ -100,7 +94,7 @@ public final class SpotifyRegistry {
    }
 
    public SpotifyCurve pick(boolean var1) {
-      return this.M || var1 && this.K.O == null ? this.g : this.K;
+      return !this.M && (!var1 || this.K.O != null) ? this.K : this.g;
    }
 
    public void devSample(boolean var1) {
@@ -121,7 +115,7 @@ public final class SpotifyRegistry {
    }
 
    static double timingMillis() {
-      return y.Z.get() * 1000.0;
+      return (Double)y.Z.get() * 1000.0;
    }
 
    public String shown(String var1) {
@@ -131,7 +125,7 @@ public final class SpotifyRegistry {
          this.a = var2;
       }
 
-      return this.H.computeIfAbsent(var1, ClientRegistry5::plain);
+      return this.H.computeIfAbsent(var1, TabListProvider::plain);
    }
 
    public void frame() {
@@ -164,12 +158,7 @@ public final class SpotifyRegistry {
       var20.spotifyOnly(!y.S.is("Any player"));
       SpotifyData var21 = var20.state();
       long var22 = 15730047724185L;
-      if (15730047724185L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var68 = var22 < 0L ? -1 : 1;
-      }
-
+      int var25 = var22 < 0L ? -1 : 1;
       if (var21 != null && !var21.title().isBlank()) {
          String var59 = var21.app() + "\n" + var21.title() + "\n" + var21.artist() + "\n" + var21.album();
          if (var19.O == null || !var59.equals(var19.O.key())) {
@@ -177,104 +166,54 @@ public final class SpotifyRegistry {
          }
 
          long var26 = 15730047724185L;
-         if (15730047724185L == 0L) {
-            boolean var73 = false;
-         } else {
-            int var74 = var26 < 0L ? -1 : 1;
-         }
-
+         int var60 = var26 < 0L ? -1 : 1;
          var19.O = new SpotifyCurve.Data(var59, var21.title(), var21.artist(), var21.album(), var21.durationMs());
          var19.k = var21.controls();
          if (var19.j >= 0) {
             long var29 = 15730047724184L;
-            if (15730047724184L == 0L) {
-               boolean var75 = false;
-            } else {
-               int var76 = var29 < 0L ? -1 : 1;
-            }
-
+            int var29x = var29 < 0L ? -1 : 1;
             if (var19.j == 1 == var21.playing() || var1 > var19.D) {
                var19.j = -1;
             }
          }
 
-         boolean var60;
+         boolean var60x;
          if (var19.j >= 0) {
             long var30 = 15730047724184L;
-            if (15730047724184L == 0L) {
-               boolean var77 = false;
-            } else {
-               int var78 = var30 < 0L ? -1 : 1;
-            }
-
-            var60 = var19.j == 1;
+            int var30x = var30 < 0L ? -1 : 1;
+            var60x = var19.j == 1;
          } else {
-            var60 = var21.playing();
+            var60x = var21.playing();
          }
 
-         var19.b = var60;
+         var19.b = var60x;
          long var61 = 15730047724185L;
-         if (15730047724185L == 0L) {
-            boolean var79 = false;
-         } else {
-            int var80 = var61 < 0L ? -1 : 1;
-         }
-
+         int var561 = var61 < 0L ? -1 : 1;
          long var32 = 15730047724184L;
-         if (15730047724184L == 0L) {
-            boolean var81 = false;
-         } else {
-            int var82 = var32 < 0L ? -1 : 1;
-         }
-
+         int var32x = var32 < 0L ? -1 : 1;
          if (var19.o >= 0) {
             long var35 = 15730047724184L;
-            if (15730047724184L == 0L) {
-               boolean var83 = false;
-            } else {
-               int var84 = var35 < 0L ? -1 : 1;
-            }
-
+            int var63 = var35 < 0L ? -1 : 1;
             boolean var37 = var19.o == 1;
             int var38 = var21.shuffle();
             long var39 = 15730047724184L;
-            if (15730047724184L == 0L) {
-               boolean var85 = false;
-            } else {
-               int var86 = var39 < 0L ? -1 : 1;
-            }
-
+            int var38x = var39 < 0L ? -1 : 1;
             if (var37 == (var38 == 1) || var1 > var19.C) {
                var19.o = -1;
             }
          }
 
-         long var62 = 15730047724184L;
-         if (15730047724184L == 0L) {
-            boolean var87 = false;
-         } else {
-            int var88 = var62 < 0L ? -1 : 1;
-         }
-
+         long var62x = 15730047724184L;
+         int var61x = var62x < 0L ? -1 : 1;
          boolean var63;
          if (var19.o >= 0) {
             long var64 = 15730047724185L;
-            if (15730047724185L == 0L) {
-               boolean var89 = false;
-            } else {
-               int var90 = var64 < 0L ? -1 : 1;
-            }
-
+            int var41 = var64 < 0L ? -1 : 1;
             var63 = var19.o == 1;
          } else {
             int var65 = var21.shuffle();
             long var40 = 15730047724184L;
-            if (15730047724184L == 0L) {
-               boolean var91 = false;
-            } else {
-               int var92 = var40 < 0L ? -1 : 1;
-            }
-
+            int var69 = var40 < 0L ? -1 : 1;
             var63 = var65 == 1;
          }
 
@@ -291,7 +230,7 @@ public final class SpotifyRegistry {
          }
 
          if (var19.t >= 0.0F && var1 - var19.L > 40000000L) {
-            var20.send(new SpotifyApi.Data3(var19.t));
+            var20.send(new SpotifyApi.SetVolume(var19.t));
             var19.t = -1.0F;
             var19.L = var1;
          }
@@ -300,39 +239,24 @@ public final class SpotifyRegistry {
          float var67;
          int var41 = (var67 = var19.B - 0.0F) == 0.0F ? 0 : (var67 < 0.0F ? -1 : 1);
          long var42 = 15730047724185L;
-         if (15730047724185L == 0L) {
-            boolean var93 = false;
-         } else {
-            int var94 = var42 < 0L ? -1 : 1;
-         }
-
+         int var45 = var42 < 0L ? -1 : 1;
          if (var41 >= 0 && (var1 > var19.G || Math.abs(var66 - var19.B) < 0.005F)) {
             var19.B = -1.0F;
          }
 
          var19.S = var19.B >= 0.0F ? var19.B : var66;
          var19.g = var20.muted();
-         float var45 = var20.peak();
-         float var46 = 20.0F * (float)Math.log10(Math.max(var45, 1.0E-5F));
+         float var45x = var20.peak();
+         float var46 = 20.0F * (float)Math.log10(Math.max(var45x, 1.0E-5F));
          float var47 = var19.b ? Math.max(0.0F, Math.min(1.0F, (var46 + 44.0F) / 44.0F)) : 0.0F;
          this.a(var17, var19, var47, var5, var6);
          SpotifyFactory.Data var52 = var20.artwork();
          long var53 = 15730047724185L;
-         if (15730047724185L == 0L) {
-            boolean var95 = false;
-         } else {
-            int var96 = var53 < 0L ? -1 : 1;
-         }
-
+         int var46x = var53 < 0L ? -1 : 1;
          if (var19.Y != null) {
             var19.Y.want(var59);
-            long var56 = 15730047724184L;
-            if (15730047724184L == 0L) {
-               boolean var97 = false;
-            } else {
-               int var98 = var56 < 0L ? -1 : 1;
-            }
-
+            long var56x = 15730047724184L;
+            int var48 = var56x < 0L ? -1 : 1;
             if (var52 != null && var52.track() == var21.track()) {
                var19.Y.offer(var59, var52.data());
             }
@@ -344,23 +268,13 @@ public final class SpotifyRegistry {
       } else {
          if (var19.O != null) {
             var19.O = null;
-            long var25 = 15730047724184L;
-            if (15730047724184L == 0L) {
-               boolean var69 = false;
-            } else {
-               int var70 = var25 < 0L ? -1 : 1;
-            }
-
+            long var25x = 15730047724184L;
+            int var26x = var25x < 0L ? -1 : 1;
             var19.l.reset();
-            long var28 = 15730047724184L;
-            if (15730047724184L == 0L) {
-               boolean var71 = false;
-            } else {
-               int var72 = var28 < 0L ? -1 : 1;
-            }
-
-            var19.f = SpotifySupport3.f;
-            var19.z = SpotifyCurve.TypeF.i;
+            long var28x = 15730047724184L;
+            int var61x = var28x < 0L ? -1 : 1;
+            var19.f = SpotifyLyrics.f;
+            var19.z = SpotifyCurve.CurveKind.i;
             this.I = null;
             if (var19.Y != null) {
                var19.Y.clear();
@@ -378,14 +292,9 @@ public final class SpotifyRegistry {
       SpotifyCurve.ensureSourceClassInitialized();
       var3.l.reset();
       long var7 = 24611037266559L;
-      if (24611037266559L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var10 = var7 < 0L ? -1 : 1;
-      }
-
-      var3.f = SpotifySupport3.f;
-      var3.z = SpotifyCurve.TypeF.i;
+      int var9 = var7 < 0L ? -1 : 1;
+      var3.f = SpotifyLyrics.f;
+      var3.z = SpotifyCurve.CurveKind.i;
       this.I = null;
       this.C = var5 + 350000000L;
       this.c = 0;
@@ -402,23 +311,23 @@ public final class SpotifyRegistry {
       long var8 = 34461091912733L;
       long var10 = var8 ^ 26698695104747L;
       SpotifyCurve.ensureSourceClassInitialized();
-      boolean var12 = this.I != null || var1.z == SpotifyCurve.TypeF.h;
+      boolean var12 = this.I != null || var1.z == SpotifyCurve.CurveKind.h;
       int var13 = -1725670371;
       if (var12 && Math.abs(var5.durationMs() - this.z) > 2000L && !var1.f.synced()) {
          this.I = null;
-         var1.f = SpotifySupport3.f;
-         var1.z = SpotifyCurve.TypeF.i;
+         var1.f = SpotifyLyrics.f;
+         var1.z = SpotifyCurve.CurveKind.i;
          this.C = var6;
       }
 
       boolean var14;
-      label151: {
-         boolean var15 = var1.z == SpotifyCurve.TypeF.Z || this.h;
-         if (var1.z != SpotifyCurve.TypeF.i) {
+      label145: {
+         boolean var15 = var1.z == SpotifyCurve.CurveKind.Z || this.h;
+         if (var1.z != SpotifyCurve.CurveKind.i) {
             var13 = -1725670371;
             if (!var15 || var6 <= this.Q) {
                var14 = false;
-               break label151;
+               break label145;
             }
          }
 
@@ -426,15 +335,15 @@ public final class SpotifyRegistry {
       }
 
       boolean var32 = var14;
-      boolean var16 = var1.z == SpotifyCurve.TypeF.h && !this.h && var1.f.synced() && !var1.f.wordTimed();
+      boolean var16 = var1.z == SpotifyCurve.CurveKind.h && !this.h && var1.f.synced() && !var1.f.wordTimed();
       if (var16 && this.I == null && var6 > this.i) {
          var13 = -1725670371;
          this.i = this.n < Y.length ? var6 + Y[this.n++] * 1000000000L : Long.MAX_VALUE;
-         var32 = this.H(var10).wordsPending(new SpotifyCache2.Data2(var5.title(), var5.artist(), var5.album(), var5.durationMs()));
+         var32 = this.H(var10).wordsPending(new SpotifyLyricCache.LyricQuery(var5.title(), var5.artist(), var5.album(), var5.durationMs()));
       }
 
       if (var32 && this.I == null && var6 >= this.C) {
-         this.I = this.H(var10).lookup(new SpotifyCache2.Data2(var5.title(), var5.artist(), var5.album(), var5.durationMs()));
+         this.I = this.H(var10).lookup(new SpotifyLyricCache.LyricQuery(var5.title(), var5.artist(), var5.album(), var5.durationMs()));
          this.z = var5.durationMs();
          if (this.J) {
             this.m = var6;
@@ -453,29 +362,24 @@ public final class SpotifyRegistry {
          this.I = null;
 
          try {
-            label128: {
-               SpotifySupport3 var18 = (SpotifySupport3)var17.join();
-               if (var1.z == SpotifyCurve.TypeF.h && !this.h && !var18.wordTimed()) {
+            label122: {
+               SpotifyLyrics var18 = (SpotifyLyrics)var17.join();
+               if (var1.z == SpotifyCurve.CurveKind.h && !this.h && !var18.wordTimed()) {
                   long var34 = 8023L;
-                  if (8023L == 0L) {
-                     boolean var42 = false;
-                  } else {
-                     int var43 = var34 < 0L ? -1 : 1;
-                  }
-
+                  int var39 = var34 < 0L ? -1 : 1;
                   if (var1.f.synced()) {
-                     break label128;
+                     break label122;
                   }
                }
 
                var1.f = var18;
             }
 
-            if (var1.z != SpotifyCurve.TypeF.h) {
+            if (var1.z != SpotifyCurve.CurveKind.h) {
                this.i = var6 + Y[0] * 1000000000L;
             }
 
-            var1.z = SpotifyCurve.TypeF.h;
+            var1.z = SpotifyCurve.CurveKind.h;
             this.h = false;
             if (this.J) {
                Logger var33 = ClientServices.LOGGER;
@@ -488,14 +392,14 @@ public final class SpotifyRegistry {
                var33.info(String.format(var35, "Spotify dev: lyrics %s, %d lines%s, after %d ms", var37));
             }
          } catch (CancellationException var27) {
-         } catch (RuntimeException var28) {
-            SpotifySupport3 var19 = var28.getCause() instanceof SpotifyCache2.TypeS var20 ? var20.found() : SpotifySupport3.f;
-            if (var19.kind() != SpotifySupport3.TypeK.H) {
+         } catch (RuntimeException var281) {
+            SpotifyLyrics var19 = var281.getCause() instanceof SpotifyLyricCache.LyricLookupException var20 ? var20.found() : SpotifyLyrics.f;
+            if (var19.kind() != SpotifyLyrics.LyricStyle.H) {
                var1.f = var19;
-               var1.z = SpotifyCurve.TypeF.h;
+               var1.z = SpotifyCurve.CurveKind.h;
                this.h = true;
-            } else if (!this.h && (var1.z != SpotifyCurve.TypeF.h || !var1.f.synced())) {
-               var1.z = SpotifyCurve.TypeF.Z;
+            } else if (!this.h && (var1.z != SpotifyCurve.CurveKind.h || !var1.f.synced())) {
+               var1.z = SpotifyCurve.CurveKind.Z;
             }
 
             this.Q = var6 + D[Math.min(this.c, D.length - 1)] * 1000000000L;
@@ -505,15 +409,10 @@ public final class SpotifyRegistry {
                Locale var38 = Locale.ROOT;
                Object[] var22 = new Object[]{(var6 - this.m) / 1000000L, null, null, null};
                long var23 = 8023L;
-               if (8023L == 0L) {
-                  boolean var40 = false;
-               } else {
-                  int var41 = var23 < 0L ? -1 : 1;
-               }
-
-               Throwable var26 = var28.getCause();
-               int var25 = -1725670371;
-               var22[1] = var26 != null ? var28.getCause().getMessage() : var28.getMessage();
+               int var26 = var23 < 0L ? -1 : 1;
+               Throwable var26x = var281.getCause();
+               int var25x = -1725670371;
+               var22[1] = var26x != null ? var281.getCause().getMessage() : var281.getMessage();
                var22[2] = var19.kind();
                var22[3] = (this.Q - var6) / 1000000000L;
                var36.info(String.format(var38, "Spotify dev: lyrics sources unreachable after %d ms (%s; meanwhile %s), asking again in %d s", var22));
@@ -546,28 +445,18 @@ public final class SpotifyRegistry {
       SpotifyCurve.ensureSourceClassInitialized();
       SpotifyCurve var7 = this.g;
       long var8 = 15435866642613L;
-      if (15435866642613L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var15 = var8 < 0L ? -1 : 1;
-      }
-
+      int var14 = var8 < 0L ? -1 : 1;
       if (var7.b) {
          var7.R += var1 * 1000.0;
          long var11 = 15435866642613L;
-         if (15435866642613L == 0L) {
-            boolean var16 = false;
-         } else {
-            int var17 = var11 < 0L ? -1 : 1;
-         }
-
+         int var121 = var11 < 0L ? -1 : 1;
          if (var7.R >= 46000.0) {
             var7.R -= 46000.0;
          }
       }
 
-      float var14 = (float)Math.pow(Math.max(0.0, Math.sin(var2 * Math.PI * 2.0 * 1.35)), 3.0);
-      float var12 = var7.b ? 0.45F + 0.3F * var14 + 0.12F * (float)Math.sin(var2 * 0.9) : 0.0F;
+      float var14x = (float)Math.pow(Math.max(0.0, Math.sin(var2 * Math.PI * 2.0 * 1.35)), 3.0);
+      float var12 = var7.b ? 0.45F + 0.3F * var14x + 0.12F * (float)Math.sin(var2 * 0.9) : 0.0F;
       this.a(var5, var7, var12, var1, var2);
    }
 
@@ -584,29 +473,23 @@ public final class SpotifyRegistry {
       }
    }
 
-   private SpotifyCache2 H(long var1) {
+   private SpotifyLyricCache H(long var1) {
       SpotifyCurve.ensureSourceClassInitialized();
       long var3 = 7833468306678L;
-      if (7833468306678L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var3 < 0L ? -1 : 1;
-      }
-
+      int var6 = var3 < 0L ? -1 : 1;
       if (this.F == null) {
-         String var6 = FabricLoader.getInstance().getModContainer("purxiy").map(var0 -> var0.getMetadata().getVersion().getFriendlyString()).orElse("dev");
+         String var6x = FabricLoader.getInstance().getModContainer("purxiy").map(var0 -> var0.getMetadata().getVersion().getFriendlyString()).orElse("dev");
          Path var7 = FabricLoader.getInstance().getGameDir().resolve("purxiy").resolve("cache").resolve("lyrics");
-         this.F = new SpotifyCache2(
-            "Purxiy/" + var6 + " (Minecraft mod; Spotify Player lyrics)", var7, var0 -> ClientServices.LOGGER.warn("Spotify Player: {}", var0)
+         this.F = new SpotifyLyricCache(
+            "Purxiy/" + var6x + " (Minecraft mod; Spotify Player lyrics)", var7, var0 -> ClientServices.LOGGER.warn("Spotify Player: {}", var0)
          );
       }
 
       return this.F;
    }
 
-   
    public String problem() {
-      return switch (SpotifyRegistry.TypeJ.A[SpotifyFactory.get().health().ordinal()]) {
+      return switch (SpotifyRegistry.TrackCache.A[SpotifyFactory.get().health().ordinal()]) {
          case 1 -> "The Spotify Player works on Windows 10 and 11";
          case 2 -> "Windows' media controls are not available";
          default -> null;
@@ -635,79 +518,44 @@ public final class SpotifyRegistry {
    private void a(long var1) {
       SpotifyCurve.ensureSourceClassInitialized();
       long var3 = 92909858263834L;
-      if (92909858263834L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var20 = var3 < 0L ? -1 : 1;
-      }
-
+      int var6 = var3 < 0L ? -1 : 1;
       SpotifyFactory.get().closeOwned();
-      long var6 = 92909858263834L;
-      if (92909858263834L == 0L) {
-         boolean var21 = false;
-      } else {
-         int var22 = var6 < 0L ? -1 : 1;
-      }
-
+      long var6x = 92909858263834L;
+      int var18 = var6x < 0L ? -1 : 1;
       if (this.F != null) {
          this.F.closeOwned();
          this.F = null;
       }
 
-      SpotifyUpdater3.stopDecoder();
+      SpotifyTrack.stopDecoder();
 
       for (SpotifyCurve var11 : new SpotifyCurve[]{this.K, this.g}) {
          long var12 = 92909858263834L;
-         if (92909858263834L == 0L) {
-            boolean var23 = false;
-         } else {
-            int var24 = var12 < 0L ? -1 : 1;
-         }
-
-         long var14 = 92909858263835L;
-         if (92909858263835L == 0L) {
-            boolean var25 = false;
-         } else {
-            int var26 = var14 < 0L ? -1 : 1;
-         }
-
-         long var16 = 92909858263834L;
-         if (92909858263834L == 0L) {
-            boolean var27 = false;
-         } else {
-            int var28 = var16 < 0L ? -1 : 1;
-         }
-
+         int var14 = var12 < 0L ? -1 : 1;
+         long var14x = 92909858263835L;
+         int var16 = var14x < 0L ? -1 : 1;
+         long var16x = 92909858263834L;
+         int var17 = var16x < 0L ? -1 : 1;
          if (var11.Y != null) {
             var11.Y.closeOwned();
          }
       }
 
-      long var18 = 92909858263834L;
-      if (92909858263834L == 0L) {
-         boolean var29 = false;
-      } else {
-         int var30 = var18 < 0L ? -1 : 1;
-      }
-
+      long var18x = 92909858263834L;
+      int var21 = var18x < 0L ? -1 : 1;
       long var19 = 92909858263834L;
-      if (92909858263834L == 0L) {
-         boolean var31 = false;
-      } else {
-         int var32 = var19 < 0L ? -1 : 1;
-      }
-
+      int var23 = var19 < 0L ? -1 : 1;
       if (this.I != null) {
          this.I.cancel(true);
       }
 
       this.I = null;
       this.H.clear();
-      SpotifyRenderer9.closeOwned();
-      SpotifyRenderer5.closeOwned();
+      SpotifyOverlay.closeOwned();
+      SpotifyPipeline.closeOwned();
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ -1934196911 ^ 9967) & 32767;
       if (q[var3] == null) {
          q[var3] = l[var3] ^ 2237095544536596305L;
@@ -716,17 +564,17 @@ private static long b(int var0, long var1) {
       return q[var3];
    }
 
-static class TypeJ {
-      static final int[] A = new int[SpotifyFactory.TypeQ.values().length];
+   static class TrackCache {
+      static final int[] A = new int[SpotifyFactory.TrackSource.values().length];
 
       static {
          try {
-            A[SpotifyFactory.TypeQ.E.ordinal()] = 1;
+            A[SpotifyFactory.TrackSource.E.ordinal()] = 1;
          } catch (NoSuchFieldError var2) {
          }
 
          try {
-            A[SpotifyFactory.TypeQ.u.ordinal()] = 2;
+            A[SpotifyFactory.TrackSource.u.ordinal()] = 2;
          } catch (NoSuchFieldError var1) {
          }
       }

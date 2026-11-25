@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package net.minecraft;
 
 public final class PurxiyPipelineAccess {

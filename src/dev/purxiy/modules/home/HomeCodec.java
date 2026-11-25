@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.home;
 
 import java.util.SplittableRandom;
@@ -29,10 +28,6 @@ final class HomeCodec {
    private float R;
    private float A;
 
-
-
-
-
    int count() {
       return this.K;
    }
@@ -42,25 +37,15 @@ final class HomeCodec {
    }
 
    private int U(int var1, float var2, long var3, float var5, float var6, float var7, float var8) {
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       long var9 = 119229576952298L;
-      if (119229576952298L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var16 = var9 < 0L ? -1 : 1;
-      }
-
-      long var12 = 119229576952297L;
-      if (119229576952297L == 0L) {
-         boolean var17 = false;
-      } else {
-         int var18 = var12 < 0L ? -1 : 1;
-      }
-
+      int var12 = var9 < 0L ? -1 : 1;
+      long var12x = 119229576952297L;
+      int var15 = var12x < 0L ? -1 : 1;
       if (this.K >= 700) {
          return -1;
       } else {
-         int var15 = this.K++;
+         var15 = this.K++;
          this.T[var15] = var1;
          this.L[var15] = var2;
          this.h[var15] = var5;
@@ -102,7 +87,7 @@ final class HomeCodec {
       }
    }
 
-   void scatter(HomeSupport.TypeV var1, int var2, int var3) {
+   void scatter(HomeSupport.HomeGeometry var1, int var2, int var3) {
       long var4 = 110327064429811L;
       int var6 = (int)((var4 ^ 47058953127166L) >>> 56);
       long var7 = (var4 ^ 47058953127166L) << 8 >>> 8;
@@ -112,10 +97,10 @@ final class HomeCodec {
       }
    }
 
-   private void U(HomeSupport.TypeV var1, int var2, byte var3, float var4, long var5) {
+   private void U(HomeSupport.HomeGeometry var1, int var2, byte var3, float var4, long var5) {
       long var7 = 86428722872333L;
       long var9 = var7 ^ 38392943868391L;
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       float var11 = var1.h;
       float var12 = var1.q + (this.I.nextFloat() - 0.5F) * var11 * 2.0F;
       float var13 = var1.G + (this.I.nextFloat() - 0.5F) * var11 * 2.0F;
@@ -123,15 +108,10 @@ final class HomeCodec {
       boolean var15 = var1.cherry();
       int var16 = var15 ? 1 : 2;
       long var17 = 86428722872333L;
-      if (86428722872333L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var26 = var17 < 0L ? -1 : 1;
-      }
-
-      float var20 = 6.0F + this.I.nextFloat() * 4.0F;
+      int var20 = var17 < 0L ? -1 : 1;
+      float var20x = 6.0F + this.I.nextFloat() * 4.0F;
       float var21 = var15 ? 0.085F : 0.1F;
-      int var25 = this.U(var16, var12, var9, var14, var13, var20, var21);
+      int var25 = this.U(var16, var12, var9, var14, var13, var20x, var21);
       if (var25 >= 0) {
          this.g[var25] = -0.35F - this.I.nextFloat() * 0.25F;
          this.j[var25] = (this.I.nextFloat() - 0.5F) * var4;
@@ -140,7 +120,7 @@ final class HomeCodec {
       }
    }
 
-   void update(float var1, HomeSupport5 var2, HomeSupport var3, float var4, float var5, float var6) {
+   void update(float var1, HomeWorldState var2, HomeSupport var3, float var4, float var5, float var6) {
       long var7 = 13219045474758L;
       int var9 = (int)((var7 ^ 73248751600075L) >>> 56);
       long var10 = (var7 ^ 73248751600075L) << 8 >>> 8;
@@ -152,7 +132,7 @@ final class HomeCodec {
          int var16 = 0;
 
          while ((this.R >= 1.0F || this.A >= 1.0F) && var16++ < 8) {
-            HomeSupport.TypeV var17 = var3.m.get(this.I.nextInt(var3.m.size()));
+            HomeSupport.HomeGeometry var17 = var3.m.get(this.I.nextInt(var3.m.size()));
             boolean var18 = var17.cherry();
             if (!var18 || !(this.R >= 1.0F)) {
                if (var18 || !(this.A >= 1.0F) || !(var17.h > 0.0F)) {
@@ -164,7 +144,7 @@ final class HomeCodec {
                this.A--;
                this.U(
                   var17,
-                  HomeSupport3.wood(var17.x).equals("birch") ? 8431445 : (HomeSupport3.wood(var17.x).equals("spruce") ? 6396257 : 7842607),
+                  HomeTerrain.wood(var17.x).equals("birch") ? 8431445 : (HomeTerrain.wood(var17.x).equals("spruce") ? 6396257 : 7842607),
                   (byte)var9,
                   0.4F,
                   var10
@@ -247,15 +227,10 @@ final class HomeCodec {
    }
 
    private void V(int var1, long var2) {
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       int var4 = --this.K;
       long var5 = 119978415127250L;
-      if (119978415127250L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       if (var1 != var4) {
          this.L[var1] = this.L[var4];
          this.h[var1] = this.h[var4];
@@ -275,7 +250,7 @@ final class HomeCodec {
       }
    }
 
-   void write(HomeCurve var1, HomeCodec2 var2, float var3) {
+   void write(HomeCurve var1, HomeBlocks var2, float var3) {
       float[][] var4 = new float[][]{{-1.0F, 1.0F}, {-1.0F, -1.0F}, {1.0F, -1.0F}, {1.0F, 1.0F}};
 
       for (int var5 = 0; var5 < this.K; var5++) {
@@ -315,5 +290,4 @@ final class HomeCodec {
          }
       }
    }
-
 }

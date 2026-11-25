@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hand;
 
 import dev.purxiy.loader.fabric.client.ClientApi;
@@ -11,8 +10,6 @@ import net.minecraft.class_7764;
 final class HandMovementFactory {
    static final int d = 0;
    private static final Map<class_7764, Integer> N = new WeakHashMap<>();
-
-
 
    private HandMovementFactory() {
    }
@@ -123,5 +120,4 @@ final class HandMovementFactory {
       int var4 = (var0 & 0xFF) * (var1 & 0xFF) / 255;
       return var0 & 0xFF000000 | var2 << 16 | var3 << 8 | var4;
    }
-
 }

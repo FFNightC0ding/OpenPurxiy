@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 import com.google.gson.Gson;
@@ -17,10 +16,9 @@ import java.util.Map;
 import org.joml.Vector3f;
 
 public final class MountFactory {
-   private static final Map<String, MountFactory.Data7> f = new LinkedHashMap<>();
+   private static final Map<String, MountFactory.MountSpec> f = new LinkedHashMap<>();
    private static boolean U;
    public static int z = 0;
-
    private static final String[] b = new String[66];
    private static final long[] c = new long[]{8516117211460139047L, -3773782776925830323L, 5663540194816491186L, -7466972947203861446L};
    private static final Integer[] d = new Integer[4];
@@ -33,7 +31,7 @@ public final class MountFactory {
       short var4 = 26358;
       char var5 = '\udd75';
       int var6 = (int)(var2 << 48 >>> 48);
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       if (!U) {
          U = true;
 
@@ -45,11 +43,11 @@ public final class MountFactory {
             JsonObject var8 = (JsonObject)new Gson().fromJson(new InputStreamReader(var7, StandardCharsets.UTF_8), JsonObject.class);
 
             for (JsonElement var10 : var8.getAsJsonArray("vehicles")) {
-               MountFactory.Data7 var11 = s(var4, var10.getAsJsonObject(), (short)var5, (char)var6);
+               MountFactory.MountSpec var11 = s(var4, var10.getAsJsonObject(), (short)var5, (char)var6);
                f.put(var11.name(), var11);
             }
-         } catch (Exception var14) {
-            ClientServices.LOGGER.error("Purxiy Garage could not read its catalogue", var14);
+         } catch (Exception var141) {
+            ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX Garage could not read its catalogue", var141);
          }
       }
    }
@@ -61,29 +59,29 @@ public final class MountFactory {
       return List.copyOf(f.keySet());
    }
 
-   public static MountFactory.Data7 get(String var0) {
+   public static MountFactory.MountSpec get(String var0) {
       long var1 = 72063462171869L;
       long var3 = var1 ^ 112625881970835L;
       G(var3);
-      MountFactory.Data7 var5 = f.get(var0);
+      MountFactory.MountSpec var5 = f.get(var0);
       return var5 != null ? var5 : f.values().iterator().next();
    }
 
-   private static MountFactory.Data7 s(int var0, JsonObject var1, short var2, char var3) {
+   private static MountFactory.MountSpec s(int var0, JsonObject var1, short var2, char var3) {
       long var4 = 113210463428260L;
       long var6 = var4 ^ 101904530330055L;
       long var8 = var4 ^ 44302234231433L;
       Vector3f var10 = M(var1, "lo");
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       Vector3f var11 = M(var1, "hi");
       JsonObject var12 = var1.getAsJsonObject("wheels");
-      MountFactory.Data6[] var13 = new MountFactory.Data6[4];
+      MountFactory.Wheel[] var13 = new MountFactory.Wheel[4];
       String[] var14 = new String[]{"fl", "fr", "rl", "rr"};
 
       for (int var15 = 0; var15 < 4; var15++) {
          JsonObject var16 = var12.getAsJsonObject(var14[var15]);
          if (var16 != null) {
-            var13[var15] = new MountFactory.Data6(
+            var13[var15] = new MountFactory.Wheel(
                M(var16, "c"),
                var16.get("r").getAsFloat(),
                var16.get("w").getAsFloat(),
@@ -92,16 +90,16 @@ public final class MountFactory {
          }
       }
 
-      MountFactory.Data6 var32 = var13[0];
-      MountFactory.Data6 var33 = var13[2];
+      MountFactory.Wheel var32 = var13[0];
+      MountFactory.Wheel var33 = var13[2];
       float var17 = Math.abs(var32.center().z - var33.center().z);
       int var18 = 7844;
       float var19 = var13[1] == null ? 0.0F : Math.abs(var13[0].center().x - var13[1].center().x);
       MountFactory.Data var20 = null;
-      var18 = (short)7844;
+      int var34 = 7844;
       int var21 = -579508239;
-      var18 = (short)7844;
-      var18 = 579508911;
+      var34 = (short)7844;
+      var34 = 579508911;
       if (var1.has("screen")) {
          JsonObject var22 = var1.getAsJsonObject("screen");
          var20 = new MountFactory.Data(M(var22, "tl"), M(var22, "tr"), M(var22, "bl"));
@@ -117,7 +115,7 @@ public final class MountFactory {
          for (JsonElement var26 : var1.getAsJsonArray("mirrors")) {
             JsonObject var27 = var26.getAsJsonObject();
             var38.add(
-               new MountFactory.Data3(
+               new MountFactory.WheelMount(
                   M(var27, "c"),
                   var27.get("w").getAsFloat(),
                   var27.get("h").getAsFloat(),
@@ -139,7 +137,7 @@ public final class MountFactory {
          for (JsonElement var29 : var1.getAsJsonArray("head")) {
             JsonObject var30 = var29.getAsJsonObject();
             var43.add(
-               new MountFactory.Data5(M(var30, "p"), M(var30, "d"), var30.has("color") ? Integer.parseInt(var30.get("color").getAsString(), 16) : 16773856)
+               new MountFactory.LightSource(M(var30, "p"), M(var30, "d"), var30.has("color") ? Integer.parseInt(var30.get("color").getAsString(), 16) : 16773856)
             );
          }
       }
@@ -148,11 +146,11 @@ public final class MountFactory {
 
       for (JsonElement var47 : var1.getAsJsonArray("paints")) {
          JsonObject var31 = var47.getAsJsonObject();
-         var44.add(new MountFactory.Data4(var31.get("name").getAsString(), 0xFF000000 | Integer.parseInt(var31.get("color").getAsString(), 16)));
+         var44.add(new MountFactory.LiveryStripe(var31.get("name").getAsString(), 0xFF000000 | Integer.parseInt(var31.get("color").getAsString(), 16)));
       }
 
-      MountFactory.TypeK var46 = MountFactory.TypeK.valueOf(var1.get("kind").getAsString().toUpperCase(Locale.ROOT));
-      return new MountFactory.Data7(
+      MountFactory.Vehicle var46 = MountFactory.Vehicle.valueOf(var1.get("kind").getAsString().toUpperCase(Locale.ROOT));
+      return new MountFactory.MountSpec(
          var1.get("id").getAsString(),
          var1.get("name").getAsString(),
          var1.get("line").getAsString(),
@@ -188,35 +186,25 @@ public final class MountFactory {
       );
    }
 
-   private static MountFactory.Data2 V(JsonObject var0, long var1, String var3) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+   private static MountFactory.PivotJoint V(JsonObject var0, long var1, String var3) {
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       long var4 = 86570293673004L;
-      if (86570293673004L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var4 < 0L ? -1 : 1;
-      }
-
+      int var7 = var4 < 0L ? -1 : 1;
       if (!var0.has(var3)) {
          return null;
       } else {
-         JsonObject var7 = var0.getAsJsonObject(var3);
-         return new MountFactory.Data2(M(var7, "p"), M(var7, "a"), var7.has("ratio") ? var7.get("ratio").getAsFloat() : 1.0F);
+         JsonObject var7x = var0.getAsJsonObject(var3);
+         return new MountFactory.PivotJoint(M(var7x, "p"), M(var7x, "a"), var7x.has("ratio") ? var7x.get("ratio").getAsFloat() : 1.0F);
       }
    }
 
    private static List t(long var0, JsonObject var2, String var3) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       ArrayList var4 = new ArrayList();
       if (var2.has(var3)) {
          for (JsonElement var6 : var2.getAsJsonArray(var3)) {
             long var7 = 64152351657827L;
-            if (64152351657827L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var10 = var7 < 0L ? -1 : 1;
-            }
-
+            int var9 = var7 < 0L ? -1 : 1;
             var4.add(K(var6.getAsJsonArray()));
          }
       }
@@ -232,7 +220,7 @@ public final class MountFactory {
       return new Vector3f(var0.get(0).getAsFloat(), var0.get(1).getAsFloat(), var0.get(2).getAsFloat());
    }
 
-public record Data(Vector3f n, Vector3f t, Vector3f c) {
+   public record Data(Vector3f n, Vector3f t, Vector3f c) {
       public float width() {
          return new Vector3f(this.t).sub(this.n).length();
       }
@@ -278,7 +266,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
       }
    }
 
-   public record Data2(Vector3f J, Vector3f B, float i) {
+   public record PivotJoint(Vector3f J, Vector3f B, float i) {
       public Vector3f pivot() {
          return this.J;
       }
@@ -304,7 +292,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
       }
    }
 
-   public record Data3(Vector3f B, float G, float I, float L, float N, boolean H, Vector3f d, Vector3f a, Vector3f b) {
+   public record WheelMount(Vector3f B, float G, float I, float L, float N, boolean H, Vector3f d, Vector3f a, Vector3f b) {
       public Vector3f center() {
          return this.B;
       }
@@ -378,7 +366,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
       }
    }
 
-   public record Data4(String h, int S) {
+   public record LiveryStripe(String h, int S) {
       public String name() {
          return this.h;
       }
@@ -396,7 +384,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
       }
    }
 
-   public record Data5(Vector3f W, Vector3f X, int k) {
+   public record LightSource(Vector3f W, Vector3f X, int k) {
       public Vector3f position() {
          return this.W;
       }
@@ -422,7 +410,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
       }
    }
 
-   public record Data6(Vector3f t, float M, float O, Vector3f x) {
+   public record Wheel(Vector3f t, float M, float O, Vector3f x) {
       public Vector3f center() {
          return this.t;
       }
@@ -456,29 +444,29 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
       }
    }
 
-   public record Data7(
+   public record MountSpec(
       String q,
       String z,
       String S,
-      MountFactory.TypeK l,
+      MountFactory.Vehicle l,
       Vector3f y,
       Vector3f m,
-      MountFactory.Data6[] c,
+      MountFactory.Wheel[] c,
       float n,
       float x,
       Vector3f j,
       Vector3f d,
-      MountFactory.Data2 r,
-      MountFactory.Data2 p,
-      MountFactory.Data2 N,
-      MountFactory.Data2 X,
+      MountFactory.PivotJoint r,
+      MountFactory.PivotJoint p,
+      MountFactory.PivotJoint N,
+      MountFactory.PivotJoint X,
       MountFactory.Data I,
-      List<MountFactory.Data3> P,
+      List<MountFactory.WheelMount> P,
       List<Vector3f> O,
-      List<MountFactory.Data5> B,
+      List<MountFactory.LightSource> B,
       List<Vector3f> f,
       String H,
-      List<MountFactory.Data4> V,
+      List<MountFactory.LiveryStripe> V,
       float T,
       float A,
       float G,
@@ -505,11 +493,11 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
       }
 
       public boolean bike() {
-         return this.l == MountFactory.TypeK.MOTORBIKE || this.l == MountFactory.TypeK.BICYCLE;
+         return this.l == MountFactory.Vehicle.MOTORBIKE || this.l == MountFactory.Vehicle.BICYCLE;
       }
 
       public boolean hasEngine() {
-         return this.l != MountFactory.TypeK.BICYCLE;
+         return this.l != MountFactory.Vehicle.BICYCLE;
       }
 
       public String id() {
@@ -524,7 +512,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.S;
       }
 
-      public MountFactory.TypeK kind() {
+      public MountFactory.Vehicle kind() {
          return this.l;
       }
 
@@ -536,7 +524,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.m;
       }
 
-      public MountFactory.Data6[] wheels() {
+      public MountFactory.Wheel[] wheels() {
          return this.c;
       }
 
@@ -556,19 +544,19 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.d;
       }
 
-      public MountFactory.Data2 steer() {
+      public MountFactory.PivotJoint steer() {
          return this.r;
       }
 
-      public MountFactory.Data2 fork() {
+      public MountFactory.PivotJoint fork() {
          return this.p;
       }
 
-      public MountFactory.Data2 swing() {
+      public MountFactory.PivotJoint swing() {
          return this.N;
       }
 
-      public MountFactory.Data2 crank() {
+      public MountFactory.PivotJoint crank() {
          return this.X;
       }
 
@@ -576,7 +564,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.I;
       }
 
-      public List<MountFactory.Data3> mirrors() {
+      public List<MountFactory.WheelMount> mirrors() {
          return this.P;
       }
 
@@ -584,7 +572,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.O;
       }
 
-      public List<MountFactory.Data5> headlights() {
+      public List<MountFactory.LightSource> headlights() {
          return this.B;
       }
 
@@ -596,7 +584,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.H;
       }
 
-      public List<MountFactory.Data4> paints() {
+      public List<MountFactory.LiveryStripe> paints() {
          return this.V;
       }
 
@@ -655,7 +643,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.S;
       }
 
-      public MountFactory.TypeK vehicleCatalog_VehicleKindState5() {
+      public MountFactory.Vehicle vehicleCatalog_VehicleKindState5() {
          return this.l;
       }
 
@@ -667,7 +655,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.m;
       }
 
-      public MountFactory.Data6[] vehicleCatalog_VehicleWheelGeometryArrayState1() {
+      public MountFactory.Wheel[] vehicleCatalog_VehicleWheelGeometryArrayState1() {
          return this.c;
       }
 
@@ -687,19 +675,19 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.d;
       }
 
-      public MountFactory.Data2 vehicleCatalog_VehicleSteeringAxisState1() {
+      public MountFactory.PivotJoint vehicleCatalog_VehicleSteeringAxisState1() {
          return this.r;
       }
 
-      public MountFactory.Data2 vehicleCatalog_VehicleSteeringAxisState2() {
+      public MountFactory.PivotJoint vehicleCatalog_VehicleSteeringAxisState2() {
          return this.p;
       }
 
-      public MountFactory.Data2 vehicleCatalog_VehicleSteeringAxisState3() {
+      public MountFactory.PivotJoint vehicleCatalog_VehicleSteeringAxisState3() {
          return this.N;
       }
 
-      public MountFactory.Data2 vehicleCatalog_VehicleSteeringAxisState4() {
+      public MountFactory.PivotJoint vehicleCatalog_VehicleSteeringAxisState4() {
          return this.X;
       }
 
@@ -707,7 +695,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.I;
       }
 
-      public List<MountFactory.Data3> listState30() {
+      public List<MountFactory.WheelMount> listState30() {
          return this.P;
       }
 
@@ -715,7 +703,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.O;
       }
 
-      public List<MountFactory.Data5> listState13() {
+      public List<MountFactory.LightSource> listState13() {
          return this.B;
       }
 
@@ -727,7 +715,7 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
          return this.H;
       }
 
-      public List<MountFactory.Data4> listState8() {
+      public List<MountFactory.LiveryStripe> listState8() {
          return this.V;
       }
 
@@ -772,11 +760,10 @@ public record Data(Vector3f n, Vector3f t, Vector3f c) {
       }
    }
 
-   public static enum TypeK {
+   public static enum Vehicle {
       CAR,
       MOTORBIKE,
       BICYCLE,
       QUAD;
-
-}
+   }
 }

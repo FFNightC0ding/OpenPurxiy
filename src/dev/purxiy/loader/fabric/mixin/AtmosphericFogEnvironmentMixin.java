@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientSupport3;
-import dev.purxiy.loader.fabric.client.ClientUpdater2;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
+import dev.purxiy.loader.fabric.client.TickRouter;
 import net.minecraft.class_11398;
 import net.minecraft.class_4184;
 import net.minecraft.class_638;
@@ -19,6 +18,6 @@ public abstract class AtmosphericFogEnvironmentMixin {
       cancellable = true
    )
    private void purxiy$skyFog(class_638 var1, class_4184 var2, int var3, float var4, CallbackInfoReturnable<Integer> var5) {
-      var5.setReturnValue(ClientUpdater2.nature(ClientSupport3.fogColor(var1, var5.getReturnValueI()), "fog"));
+      var5.setReturnValue(TickRouter.nature(SkyPipelineRouter.fogColor(var1, var5.getReturnValueI()), "fog"));
    }
 }

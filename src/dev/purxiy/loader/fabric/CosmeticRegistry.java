@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonObject;
@@ -19,13 +18,13 @@ import net.minecraft.class_310;
 import net.minecraft.class_437;
 
 public final class CosmeticRegistry {
-   private static final Map<String, CosmeticRegistry.TypeP> pages = new HashMap<>();
+   private static final Map<String, CosmeticRegistry.CosmeticSource> pages = new HashMap<>();
    private static long revision = 0L;
    private static String pendingOpen;
    private static int pendingTicks = 0;
    private static long pendingGeneration = -1L;
    private static class_437 pendingFrom;
-   private static final Map<String, CosmeticRegistry.TypeN> changes = new LinkedHashMap<>();
+   private static final Map<String, CosmeticRegistry.CosmeticToggle> changes = new LinkedHashMap<>();
 
    private CosmeticRegistry() {
    }
@@ -111,15 +110,15 @@ public final class CosmeticRegistry {
       if (!var4.equals(var3)) {
          storeSettings(var0, var4);
          if (var2) {
-            CosmeticRegistry.TypeN var5 = changes.get(var0);
-            changes.put(var0, new CosmeticRegistry.TypeN(var5 == null ? null : var5.enabled, true));
+            CosmeticRegistry.CosmeticToggle var5 = changes.get(var0);
+            changes.put(var0, new CosmeticRegistry.CosmeticToggle(var5 == null ? null : var5.enabled, true));
          }
       }
    }
 
    public static boolean enabled(String var0) {
       entry(var0);
-      CosmeticRegistry.TypeN var1 = changes.get(var0);
+      CosmeticRegistry.CosmeticToggle var1 = changes.get(var0);
       return var1 != null && var1.enabled != null ? var1.enabled : LoaderMessages.requested(var0);
    }
 
@@ -128,8 +127,8 @@ public final class CosmeticRegistry {
       if (changes.size() >= 128 && !changes.containsKey(var0)) {
          throw new IllegalStateException("Pending module action limit");
       } else {
-         CosmeticRegistry.TypeN var2 = changes.get(var0);
-         changes.put(var0, new CosmeticRegistry.TypeN(var1, var2 != null && var2.reload));
+         CosmeticRegistry.CosmeticToggle var2 = changes.get(var0);
+         changes.put(var0, new CosmeticRegistry.CosmeticToggle(var1, var2 != null && var2.reload));
       }
    }
 
@@ -150,11 +149,11 @@ public final class CosmeticRegistry {
       check();
       if (LoaderMessages.authorized && LoaderMessages.menuAllowed()) {
          ArrayList var8 = new ArrayList<>(changes.entrySet());
-         var8.sort(Comparator.comparingInt((java.util.Map.Entry var0x) -> Boolean.FALSE.equals(((CosmeticRegistry.TypeN)var0x.getValue()).enabled) ? 0 : 1));
+         var8.sort(Comparator.comparingInt((java.util.Map.Entry var0x) -> Boolean.FALSE.equals(((CosmeticRegistry.CosmeticToggle)var0x.getValue()).enabled) ? 0 : 1));
 
          for (Entry var2 : ((Iterable<Entry>)(Object)var8)) {
             JsonObject var3 = entry((String)var2.getKey());
-            CosmeticRegistry.TypeN var4 = (CosmeticRegistry.TypeN)var2.getValue();
+            CosmeticRegistry.CosmeticToggle var4 = (CosmeticRegistry.CosmeticToggle)var2.getValue();
             boolean var5 = LoaderMessages.requested((String)var2.getKey());
             boolean var6 = Boolean.TRUE.equals(var4.enabled) && !var5;
             boolean var7 = var4.reload && var5 && !Boolean.FALSE.equals(var4.enabled);
@@ -191,7 +190,7 @@ public final class CosmeticRegistry {
          ClassLoader var1 = var0.getClass().getClassLoader();
 
          for (Entry var3 : pages.entrySet()) {
-            if (((CosmeticRegistry.TypeP)var3.getValue()).owner == var1) {
+            if (((CosmeticRegistry.CosmeticSource)var3.getValue()).owner == var1) {
                return (String)var3.getKey();
             }
          }
@@ -204,8 +203,8 @@ public final class CosmeticRegistry {
       check();
       if (MenuCommands.allowed()) {
          MenuCommands.flush();
-         CosmeticRegistry.TypeP var1 = pages.get(var0);
-         CosmeticRegistry.TypeN var2 = changes.get(var0);
+         CosmeticRegistry.CosmeticSource var1 = pages.get(var0);
+         CosmeticRegistry.CosmeticToggle var2 = changes.get(var0);
          if (var1 == null || var2 != null && var2.reload) {
             if (supportsEditor(var0)) {
                pendingOpen = var0;
@@ -226,7 +225,7 @@ public final class CosmeticRegistry {
       if (!var0.matches("[a-z][a-z0-9_-]{0,63}")) {
          throw new IllegalArgumentException("Invalid page identity");
       } else {
-         CosmeticRegistry.TypeP var3 = new CosmeticRegistry.TypeP(Objects.requireNonNull(var1), Objects.requireNonNull(var2), revision + 1L);
+         CosmeticRegistry.CosmeticSource var3 = new CosmeticRegistry.CosmeticSource(Objects.requireNonNull(var1), Objects.requireNonNull(var2), revision + 1L);
          if (pages.putIfAbsent(var0, var3) != null) {
             throw new IllegalStateException("Module page already owned");
          } else {
@@ -251,9 +250,9 @@ public final class CosmeticRegistry {
       }
    }
 
-   private record TypeN(Boolean enabled, boolean reload) {
+   private record CosmeticToggle(Boolean enabled, boolean reload) {
    }
 
-   private record TypeP(ClassLoader owner, Supplier<class_437> create, long generation) {
+   private record CosmeticSource(ClassLoader owner, Supplier<class_437> create, long generation) {
    }
 }

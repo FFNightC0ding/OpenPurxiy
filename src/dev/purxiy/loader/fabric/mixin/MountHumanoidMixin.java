@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_10034;
 import net.minecraft.class_572;
 import net.minecraft.class_630;
@@ -32,6 +31,6 @@ public abstract class MountHumanoidMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$mountPose(class_10034 var1, CallbackInfo var2) {
-      ClientRenderer5.humanoid((class_572<?>)(class_572<?>)(Object)this, var1);
+      CameraStateReader.humanoid((class_572<?>)(class_572<?>)(Object)this, var1);
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.runtime;
 
 import com.google.gson.JsonElement;
@@ -22,10 +21,8 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-/**
- * Loads every bundled module entrypoint exactly the way {@link ModuleRuntime} does so a broken
- * module jar fails the build instead of silently turning itself off at runtime.
- */
+// Loads every module entrypoint the same way ModuleRuntime does, so a broken jar
+// fails the build instead of switching itself off at runtime.
 public final class ModuleEntrypointAudit {
    private static final Pattern ASSET = Pattern.compile(
       "assets/purxiy/[A-Za-z0-9_./-]+\\.(?:png|ogg|json|glsl|vsh|fsh|glb|gltf|bin|obj|mtl|txt|md|vxm|pgv|mcmeta)"
@@ -103,11 +100,8 @@ public final class ModuleEntrypointAudit {
       }
    }
 
-   /**
-    * Module jars are rebuilt from compiled classes, so their assets have to be carried over from
-    * the original jar. Every literal resource path a module ships must resolve either from its own
-    * jar (ModuleContext.resource) or from the main resource classpath.
-    */
+   // Rebuilding a module jar only emits classes, so its assets must still resolve
+   // from the jar or from the main resource classpath.
    private static int auditResources(String id, List<String> missingResources) throws IOException {
       Set<String> entries = new HashSet<>();
       List<byte[]> classes = new ArrayList<>();

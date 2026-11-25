@@ -1,13 +1,11 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.afterglow;
-
-import net.minecraft.class_1309;
 
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.class_1109;
+import net.minecraft.class_1309;
 import net.minecraft.class_243;
 import net.minecraft.class_310;
 import net.minecraft.class_3414;
@@ -20,19 +18,12 @@ final class AfterglowFactory {
    private static final class_5819 y = class_5819.method_43047();
    private final Supplier<List<AfterglowFactory.Data>> N;
    private final Supplier<Float> X;
-   final List<AfterglowFactory.Data2> Y;
-   
+   final List<AfterglowFactory.CosmeticEntry> Y;
    private final Consumer<class_746> S;
    private final Supplier<String> g;
 
-
-
    private AfterglowFactory(
-      Supplier<List<AfterglowFactory.Data>> var1,
-      Supplier<Float> var2,
-      List<AfterglowFactory.Data2> var3,
-       Consumer<class_746> var4,
-      Supplier<String> var5
+      Supplier<List<AfterglowFactory.Data>> var1, Supplier<Float> var2, List<AfterglowFactory.CosmeticEntry> var3, Consumer<class_746> var4, Supplier<String> var5
    ) {
       this.N = var1;
       this.X = var2;
@@ -49,7 +40,6 @@ final class AfterglowFactory {
       return this.X.get();
    }
 
-   
    String note() {
       return this.g.get();
    }
@@ -61,8 +51,8 @@ final class AfterglowFactory {
    }
 
    private static void U(long var0) {
-      if (!AfterglowSupport4.moved()) {
-         AfterglowSupport4.overlook(26.0F, 1.55F);
+      if (!AfterglowFrameView.moved()) {
+         AfterglowFrameView.overlook(26.0F, 1.55F);
       }
    }
 
@@ -77,7 +67,7 @@ final class AfterglowFactory {
    }
 
    private static class_243 Z(class_746 var0, double var1, double var3) {
-      class_243 var5 = AfterglowSupport4.position();
+      class_243 var5 = AfterglowFrameView.position();
       double var6 = var0.method_23317() - var5.field_1352;
       double var8 = var0.method_23321() - var5.field_1350;
       double var10 = Math.max(0.001, Math.sqrt(var6 * var6 + var8 * var8));
@@ -105,8 +95,8 @@ final class AfterglowFactory {
 
    private static AfterglowFactory P(long var0) {
       Consumer var2 = var0x -> {
-         hit((class_746)(var0x), true);
-         AfterglowRegistry.preview((class_1309)(var0x));
+         hit((class_746)var0x, true);
+         AfterglowRegistry.preview((class_1309)var0x);
       };
       Consumer var3 = var0x -> {};
       Supplier var4 = () -> List.of(
@@ -124,7 +114,7 @@ final class AfterglowFactory {
    }
 
    static class_243 from(class_746 var0) {
-      class_243 var1 = AfterglowSupport4.position();
+      class_243 var1 = AfterglowFrameView.position();
       return new class_243(var1.field_1352, var0.method_23318() + var0.method_17682() * 0.7, var1.field_1350);
    }
 
@@ -154,7 +144,7 @@ final class AfterglowFactory {
       return P(var3);
    }
 
-record Data(float P, String C, Consumer<class_746> E) {
+   record Data(float P, String C, Consumer<class_746> E) {
       public float at() {
          return this.P;
       }
@@ -180,7 +170,7 @@ record Data(float P, String C, Consumer<class_746> E) {
       }
    }
 
-   record Data2(String G, String q, Consumer<class_746> m) {
+   record CosmeticEntry(String G, String q, Consumer<class_746> m) {
       public String label() {
          return this.G;
       }

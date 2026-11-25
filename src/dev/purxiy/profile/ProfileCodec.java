@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.profile;
 
 import com.google.gson.JsonElement;
@@ -20,11 +19,11 @@ final class ProfileCodec {
    private ProfileCodec() {
    }
 
-   static ProfileCodec.TypeK scan(Path var0, UUID var1) {
+   static ProfileCodec.ProfileSnapshot scan(Path var0, UUID var1) {
       ProfileLoader var2 = new ProfileLoader();
       int var3 = 0;
       if (!Files.isDirectory(var0)) {
-         return new ProfileCodec.TypeK(var2, 0);
+         return new ProfileCodec.ProfileSnapshot(var2, 0);
       } else {
          try (DirectoryStream var4 = Files.newDirectoryStream(var0, var0x -> Files.isDirectory(var0x))) {
             for (Path var6 : (Path)(var4)) {
@@ -37,7 +36,7 @@ final class ProfileCodec {
             ClientServices.LOGGER.warn("Profile: could not look through {} for statistics", var0, var10);
          }
 
-         return new ProfileCodec.TypeK(var2, var3);
+         return new ProfileCodec.ProfileSnapshot(var2, var3);
       }
    }
 
@@ -111,7 +110,7 @@ final class ProfileCodec {
       }
    }
 
-   
+
    private static JsonObject object(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
       return var2 != null && var2.isJsonObject() ? var2.getAsJsonObject() : null;
@@ -122,6 +121,6 @@ final class ProfileCodec {
       return var2 != null && var2.isJsonPrimitive() ? Math.max(0.0, var2.getAsDouble()) : 0.0;
    }
 
-   record TypeK(ProfileLoader totals, int worlds) {
+   record ProfileSnapshot(ProfileLoader totals, int worlds) {
    }
 }

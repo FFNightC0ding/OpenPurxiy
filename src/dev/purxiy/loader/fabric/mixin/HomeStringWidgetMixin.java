@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry21;
+import dev.purxiy.loader.fabric.client.GuiRenderContext;
 import net.minecraft.class_332;
 import net.minecraft.class_339;
 import net.minecraft.class_7842;
@@ -19,9 +18,9 @@ public abstract class HomeStringWidgetMixin {
       cancellable = true
    )
    private void purxiy$title(class_332 var1, int var2, int var3, float var4, CallbackInfo var5) {
-      if (ClientRegistry21.active() && (Object)this instanceof class_7842) {
+      if (GuiRenderContext.active() && (Object)this instanceof class_7842) {
          class_339 var6 = (class_339)(Object)(Object)this;
-         if (ClientRegistry21.title(var6, var6.method_25369())) {
+         if (GuiRenderContext.title(var6, var6.method_25369())) {
             var5.cancel();
          }
       }

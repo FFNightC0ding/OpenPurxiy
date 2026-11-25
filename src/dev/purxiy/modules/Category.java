@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules;
 
 public enum Category {
@@ -11,7 +10,7 @@ public enum Category {
    UTILITY("Utility", "wrench", "Small comforts that add up"),
    HUD("HUD", "layout-dashboard", "Everything that lives on your screen"),
    COSMETICS("Cosmetics", "sparkles", "Look the part"),
-   CLIENT("Client", "settings", "Make Purxiy feel like yours"),
+   CLIENT("Client", "settings", "Make SourceByDevFFnightmare DeObfDeCompByGuideX feel like yours"),
    CONFIGS("Configs", "layers", "Save your setups and switch between them");
 
    public final String displayName;

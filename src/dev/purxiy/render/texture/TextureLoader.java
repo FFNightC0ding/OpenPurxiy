@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.texture;
 
 import com.mojang.blaze3d.systems.CommandEncoder;
@@ -19,11 +18,11 @@ public final class TextureLoader implements AutoCloseable {
    private final String name;
    private final int width;
    private final int height;
-   
+
    private GpuTexture texture;
-   
+
    private GpuTextureView view;
-   
+
    private class_1011 pending;
 
    private TextureLoader(String var1, class_1011 var2) {
@@ -46,7 +45,7 @@ public final class TextureLoader implements AutoCloseable {
 
          return var2;
       } catch (IOException var7) {
-         throw new IllegalStateException("Purxiy: failed to load texture " + var0, var7);
+         throw new IllegalStateException("SourceByDevFFnightmare DeObfDeCompByGuideX: failed to load texture " + var0, var7);
       }
    }
 
@@ -77,7 +76,7 @@ public final class TextureLoader implements AutoCloseable {
    private void upload() {
       class_1011 var1 = this.pending;
       if (var1 == null) {
-         throw new IllegalStateException("Purxiy texture " + this.name + " was closed");
+         throw new IllegalStateException("SourceByDevFFnightmare DeObfDeCompByGuideX texture " + this.name + " was closed");
       } else {
          this.pending = null;
          premultiply(var1);
@@ -91,7 +90,7 @@ public final class TextureLoader implements AutoCloseable {
          }
 
          GpuDevice var4 = RenderSystem.getDevice();
-         this.texture = var4.createTexture(() -> "Purxiy " + this.name, 5, TextureFormat.RGBA8, this.width, this.height, 1, var2.size());
+         this.texture = var4.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX " + this.name, 5, TextureFormat.RGBA8, this.width, this.height, 1, var2.size());
          CommandEncoder var5 = var4.createCommandEncoder();
 
          for (int var6 = 0; var6 < var2.size(); var6++) {

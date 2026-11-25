@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.jumpcircles;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class JumpCirclesLoader {
    public static final String G = "Accent";
    public static final Map<String, String> f = Map.of("Lilac", "Accent");
    static final JumpCirclesLoader W = new JumpCirclesLoader("Accent", 13481727, 11306751, 15442687);
-   static final JumpCirclesLoader K = new JumpCirclesLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final JumpCirclesLoader K = new JumpCirclesLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final JumpCirclesLoader x = new JumpCirclesLoader("Dream", 16758499, 12890367, 10404095);
    public static final String y = "Custom";
    static final List<JumpCirclesLoader> N = List.of(W, K, x);
@@ -21,10 +20,6 @@ public final class JumpCirclesLoader {
    public final int r;
    public final int h;
    public final int P;
-
-
-
-
 
    private JumpCirclesLoader(String var1, int var2, int var3, int var4) {
       this.E = var1;
@@ -87,5 +82,4 @@ public final class JumpCirclesLoader {
    private static int T(float var0, float var1, float var2, int var3, long var4) {
       return ClientSupport.hsvToRgb(var0 - (float)Math.floor(var0), var1, var2) & 16777215;
    }
-
 }

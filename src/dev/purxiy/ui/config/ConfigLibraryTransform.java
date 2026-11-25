@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.config;
 
 import com.google.gson.GsonBuilder;
@@ -40,13 +39,13 @@ public final class ConfigLibraryTransform {
    private static final int MAX_DESCRIPTION = 140;
    static final Pattern ONLINE_CODE = Pattern.compile("(?i)^\\s*(PRX-[0-9A-Z]{4}-[0-9A-Z]{4})\\s*$");
    private static final long UNDO_MS = 7000L;
-   private static final List<ConfigLibraryFactory2> MINE = new ArrayList<>();
-   private static final List<ConfigLibraryFactory2> SHARED = new ArrayList<>();
+   private static final List<ConfigLibraryStats> MINE = new ArrayList<>();
+   private static final List<ConfigLibraryStats> SHARED = new ArrayList<>();
    private static final List<String> UNPUBLISH = new ArrayList<>();
    private static final Map<String, Long> UNPUBLISH_AT = new HashMap<>();
    private static final Set<String> GONE = new HashSet<>();
-   
-   private static ConfigLibraryFactory2 active;
+
+   private static ConfigLibraryStats active;
    private static boolean loaded;
    static boolean dry;
    private static String dryClipboard = "";
@@ -59,17 +58,17 @@ public final class ConfigLibraryTransform {
    private static void load() {
       if (!loaded && !SettingSection.all().isEmpty()) {
          loaded = true;
-         ConfigLibraryLoader.TypeQ var0 = ConfigLibraryLoader.load();
+         ConfigLibraryLoader.LibrarySnapshot var0 = ConfigLibraryLoader.load();
          MINE.addAll(var0.configs());
 
          for (String var2 : var0.shared()) {
-            ConfigLibraryFactory2 var3 = find(var2);
+            ConfigLibraryStats var3 = find(var2);
             if (var3 != null && !SHARED.contains(var3) && SHARED.size() < 5) {
                SHARED.add(var3);
             }
          }
 
-         for (ConfigLibraryFactory2 var6 : MINE) {
+         for (ConfigLibraryStats var6 : MINE) {
             if (var6.code != null && !SHARED.contains(var6)) {
                UNPUBLISH.add(var6.code);
                var6.code = null;
@@ -83,17 +82,17 @@ public final class ConfigLibraryTransform {
          }
 
          active = find(var0.active());
-         ConfigLibraryRenderer13.tidy(MINE);
+         ConfigLibraryFile.tidy(MINE);
          ConfigLibraryUpdater.kick();
       }
    }
 
-   
-   private static ConfigLibraryFactory2 find( String var0) {
+
+   private static ConfigLibraryStats find( String var0) {
       if (var0 == null) {
          return null;
       } else {
-         for (ConfigLibraryFactory2 var2 : MINE) {
+         for (ConfigLibraryStats var2 : MINE) {
             if (var2.id.equals(var0)) {
                return var2;
             }
@@ -122,34 +121,34 @@ public final class ConfigLibraryTransform {
    }
 
    static List<String> liveModules() {
-      return ConfigLibraryTransform2.liveModules();
+      return ConfigLibraryShare.liveModules();
    }
 
-   public static List<ConfigLibraryFactory2> mine() {
+   public static List<ConfigLibraryStats> mine() {
       load();
       return Collections.unmodifiableList(MINE);
    }
 
-   public static List<ConfigLibraryFactory2> shared() {
+   public static List<ConfigLibraryStats> shared() {
       load();
       return Collections.unmodifiableList(SHARED);
    }
 
-   public static List<ConfigLibraryFactory2> community() {
+   public static List<ConfigLibraryStats> community() {
       return ConfigLibraryUpdater.community();
    }
 
-   public static boolean isShared(ConfigLibraryFactory2 var0) {
+   public static boolean isShared(ConfigLibraryStats var0) {
       return SHARED.contains(var0);
    }
 
-   
-   public static ConfigLibraryFactory2 active() {
+
+   public static ConfigLibraryStats active() {
       load();
       return active;
    }
 
-   public static boolean isActive(ConfigLibraryFactory2 var0) {
+   public static boolean isActive(ConfigLibraryStats var0) {
       return active == var0;
    }
 
@@ -169,28 +168,28 @@ public final class ConfigLibraryTransform {
          long var0 = System.currentTimeMillis();
          if (var0 - changedCheckedAt > 400L) {
             changedCheckedAt = var0;
-            unsaved = ConfigLibraryTransform2.differences(active, ConfigLibraryTransform2.capture());
+            unsaved = ConfigLibraryShare.differences(active, ConfigLibraryShare.capture());
          }
 
          return unsaved;
       }
    }
 
-   static void update(ConfigLibraryFactory2 var0) {
+   static void update(ConfigLibraryStats var0) {
       load();
-      take(var0, ConfigLibraryTransform2.capture());
+      take(var0, ConfigLibraryShare.capture());
       active = var0;
       changedCheckedAt = 0L;
       changed(var0);
    }
 
-   
-   static ConfigLibraryTransform.TypeK revert() {
+
+   static ConfigLibraryTransform.TransformUndo revert() {
       load();
       return active == null ? null : apply(active);
    }
 
-   private static void take(ConfigLibraryFactory2 var0, ConfigLibraryTransform2.TypeU var1) {
+   private static void take(ConfigLibraryStats var0, ConfigLibraryShare.SharePayload var1) {
       if (!var0.modules.equals(var1.modules())) {
          var0.modules.clear();
          var0.modules.addAll(var1.modules());
@@ -205,49 +204,49 @@ public final class ConfigLibraryTransform {
       return unique(Translations.tr("My config"));
    }
 
-   static ConfigLibraryTransform.TypeC create(String var0, boolean var1) {
+   static ConfigLibraryTransform.TransformStep create(String var0, boolean var1) {
       load();
-      ConfigLibraryTransform.TypeK var2 = new ConfigLibraryTransform.TypeK(ConfigLibraryTransform2.capture(), active);
+      ConfigLibraryTransform.TransformUndo var2 = new ConfigLibraryTransform.TransformUndo(ConfigLibraryShare.capture(), active);
       if (var1) {
-         ConfigLibraryTransform2.blank();
+         ConfigLibraryShare.blank();
       }
 
-      ConfigLibraryTransform2.TypeU var3 = ConfigLibraryTransform2.capture();
+      ConfigLibraryShare.SharePayload var3 = ConfigLibraryShare.capture();
       String var4 = clean(var0);
-      ConfigLibraryFactory2 var5 = ConfigLibraryFactory2.create(
-         unique(var4.isEmpty() ? Translations.tr("My config") : var4), you(), "", var3.modules(), ConfigLibraryFactory2.TypeT.SAVED
+      ConfigLibraryStats var5 = ConfigLibraryStats.create(
+         unique(var4.isEmpty() ? Translations.tr("My config") : var4), you(), "", var3.modules(), ConfigLibraryStats.ConfigOrigin.SAVED
       );
       var5.settings = var3.settings();
       MINE.addFirst(var5);
       active = var5;
       changedCheckedAt = 0L;
       persist();
-      return new ConfigLibraryTransform.TypeC(var5, var2);
+      return new ConfigLibraryTransform.TransformStep(var5, var2);
    }
 
-   static void uncreate(ConfigLibraryTransform.TypeC var0) {
+   static void uncreate(ConfigLibraryTransform.TransformStep var0) {
       MINE.remove(var0.entry());
       undo(var0.undo());
    }
 
-   static ConfigLibraryTransform.TypeK apply(ConfigLibraryFactory2 var0) {
+   static ConfigLibraryTransform.TransformUndo apply(ConfigLibraryStats var0) {
       load();
-      ConfigLibraryTransform.TypeK var1 = new ConfigLibraryTransform.TypeK(ConfigLibraryTransform2.capture(), active);
-      ConfigLibraryTransform2.apply(var0.modules, var0.settings);
+      ConfigLibraryTransform.TransformUndo var1 = new ConfigLibraryTransform.TransformUndo(ConfigLibraryShare.capture(), active);
+      ConfigLibraryShare.apply(var0.modules, var0.settings);
       active = var0;
       changedCheckedAt = 0L;
       persist();
       return var1;
    }
 
-   static void undo(ConfigLibraryTransform.TypeK var0) {
-      ConfigLibraryTransform2.apply(var0.before().modules(), var0.before().settings());
+   static void undo(ConfigLibraryTransform.TransformUndo var0) {
+      ConfigLibraryShare.apply(var0.before().modules(), var0.before().settings());
       active = var0.active() != null && MINE.contains(var0.active()) ? var0.active() : null;
       changedCheckedAt = 0L;
       persist();
    }
 
-   static void rename(ConfigLibraryFactory2 var0, String var1) {
+   static void rename(ConfigLibraryStats var0, String var1) {
       String var2 = clean(var1);
       if (!var2.isEmpty() && !var2.equals(var0.name)) {
          var0.name = var2;
@@ -255,21 +254,21 @@ public final class ConfigLibraryTransform {
       }
    }
 
-   static void changed(ConfigLibraryFactory2 var0) {
+   static void changed(ConfigLibraryStats var0) {
       var0.edited = System.currentTimeMillis();
       persist();
       ConfigLibraryUpdater.kick();
    }
 
-   static ConfigLibraryFactory2 duplicate(ConfigLibraryFactory2 var0) {
-      ConfigLibraryFactory2 var1 = new ConfigLibraryFactory2(
+   static ConfigLibraryStats duplicate(ConfigLibraryStats var0) {
+      ConfigLibraryStats var1 = new ConfigLibraryStats(
          UUID.randomUUID().toString(),
          unique(var0.name + " copy"),
          var0.author,
          var0.description,
          var0.modules,
          var0.tags,
-         ConfigLibraryFactory2.TypeT.SAVED,
+         ConfigLibraryStats.ConfigOrigin.SAVED,
          System.currentTimeMillis(),
          var0.hue
       );
@@ -281,8 +280,8 @@ public final class ConfigLibraryTransform {
       return var1;
    }
 
-   static ConfigLibraryTransform.TypeX delete(ConfigLibraryFactory2 var0) {
-      ConfigLibraryTransform.TypeX var1 = new ConfigLibraryTransform.TypeX(var0, MINE.indexOf(var0), SHARED.indexOf(var0), active == var0);
+   static ConfigLibraryTransform.SlotAssignment delete(ConfigLibraryStats var0) {
+      ConfigLibraryTransform.SlotAssignment var1 = new ConfigLibraryTransform.SlotAssignment(var0, MINE.indexOf(var0), SHARED.indexOf(var0), active == var0);
       MINE.remove(var0);
       if (SHARED.remove(var0)) {
          offline(var0);
@@ -296,8 +295,8 @@ public final class ConfigLibraryTransform {
       return var1;
    }
 
-   static void restore(ConfigLibraryTransform.TypeX var0) {
-      ConfigLibraryFactory2 var1 = var0.entry();
+   static void restore(ConfigLibraryTransform.SlotAssignment var0) {
+      ConfigLibraryStats var1 = var0.entry();
       if (!MINE.contains(var1)) {
          MINE.add(Math.max(0, Math.min(MINE.size(), var0.index())), var1);
          if (var0.slot() >= 0 && SHARED.size() < 5) {
@@ -314,7 +313,7 @@ public final class ConfigLibraryTransform {
       }
    }
 
-   static boolean share(ConfigLibraryFactory2 var0) {
+   static boolean share(ConfigLibraryStats var0) {
       if (SHARED.contains(var0)) {
          return true;
       } else if (SHARED.size() >= 5) {
@@ -328,7 +327,7 @@ public final class ConfigLibraryTransform {
       }
    }
 
-   static void unshare(ConfigLibraryFactory2 var0) {
+   static void unshare(ConfigLibraryStats var0) {
       if (SHARED.remove(var0)) {
          offline(var0);
          persist();
@@ -336,14 +335,14 @@ public final class ConfigLibraryTransform {
       }
    }
 
-   private static void offline(ConfigLibraryFactory2 var0) {
+   private static void offline(ConfigLibraryStats var0) {
       if (var0.code != null && !UNPUBLISH.contains(var0.code)) {
          UNPUBLISH.add(var0.code);
          UNPUBLISH_AT.put(var0.code, System.currentTimeMillis() + 7000L);
       }
    }
 
-   private static void online(ConfigLibraryFactory2 var0) {
+   private static void online(ConfigLibraryStats var0) {
       if (var0.code != null && UNPUBLISH.remove(var0.code)) {
          UNPUBLISH_AT.remove(var0.code);
       } else if (var0.code != null && GONE.contains(var0.code)) {
@@ -358,7 +357,7 @@ public final class ConfigLibraryTransform {
       }
    }
 
-   
+
    static String nextUnpublish() {
       long var0 = System.currentTimeMillis();
 
@@ -386,7 +385,7 @@ public final class ConfigLibraryTransform {
       UNPUBLISH_AT.remove(var0);
       GONE.add(var0);
 
-      for (ConfigLibraryFactory2 var2 : MINE) {
+      for (ConfigLibraryStats var2 : MINE) {
          if (var0.equals(var2.code) && !SHARED.contains(var2)) {
             var2.code = null;
          }
@@ -395,7 +394,7 @@ public final class ConfigLibraryTransform {
       persist();
    }
 
-   static void lost(ConfigLibraryFactory2 var0) {
+   static void lost(ConfigLibraryStats var0) {
       SHARED.remove(var0);
       var0.code = null;
       var0.synced = 0L;
@@ -403,24 +402,24 @@ public final class ConfigLibraryTransform {
       persist();
    }
 
-   static ConfigLibraryFactory2 adopt(ConfigLibraryFactory2 var0, ConfigLibraryFactory2.TypeT var1) {
+   static ConfigLibraryStats adopt(ConfigLibraryStats var0, ConfigLibraryStats.ConfigOrigin var1) {
       load();
-      ConfigLibraryFactory2 var2 = new ConfigLibraryFactory2(
+      ConfigLibraryStats var2 = new ConfigLibraryStats(
          UUID.randomUUID().toString(), unique(var0.name), var0.author, var0.description, var0.modules, var0.tags, var1, System.currentTimeMillis(), var0.hue
       );
-      var2.settings = ConfigLibraryTransform2.shareable(var0.settings);
+      var2.settings = ConfigLibraryShare.shareable(var0.settings);
       var2.origin = var0.code;
       MINE.addFirst(var2);
       persist();
       if (var0.photo != null) {
-         ConfigLibraryRenderer13.adopt(var0, var2);
+         ConfigLibraryFile.adopt(var0, var2);
       }
 
       return var2;
    }
 
    static boolean addedFrom(String var0) {
-      for (ConfigLibraryFactory2 var2 : MINE) {
+      for (ConfigLibraryStats var2 : MINE) {
          if (var0.equals(var2.origin)) {
             return true;
          }
@@ -429,7 +428,7 @@ public final class ConfigLibraryTransform {
       return false;
    }
 
-   static boolean matches(ConfigLibraryFactory2 var0, String var1) {
+   static boolean matches(ConfigLibraryStats var0, String var1) {
       if (var1.isBlank()) {
          return true;
       } else {
@@ -452,14 +451,14 @@ public final class ConfigLibraryTransform {
       }
    }
 
-   static void photo(ConfigLibraryFactory2 var0,  String var1) {
+   static void photo(ConfigLibraryStats var0,  String var1) {
       if (!Objects.equals(var0.photo, var1)) {
          var0.photo = var1;
          changed(var0);
       }
    }
 
-   static void copy(ConfigLibraryFactory2 var0) {
+   static void copy(ConfigLibraryStats var0) {
       toClipboard(encode(var0));
    }
 
@@ -475,13 +474,13 @@ public final class ConfigLibraryTransform {
       return dry ? dryClipboard : class_310.method_1551().field_1774.method_1460();
    }
 
-   
-   static ConfigLibraryFactory2 read( String var0) {
+
+   static ConfigLibraryStats read( String var0) {
       load();
-      return decode(var0, ConfigLibraryFactory2.TypeT.PASTED, Translations.tr("Imported config"));
+      return decode(var0, ConfigLibraryStats.ConfigOrigin.PASTED, Translations.tr("Imported config"));
    }
 
-   static ConfigLibraryFactory2 add(ConfigLibraryFactory2 var0) {
+   static ConfigLibraryStats add(ConfigLibraryStats var0) {
       load();
       if (!MINE.contains(var0)) {
          var0.name = unique(var0.name);
@@ -492,13 +491,13 @@ public final class ConfigLibraryTransform {
       return var0;
    }
 
-   
-   static ConfigLibraryFactory2 paste(String var0) {
-      ConfigLibraryFactory2 var1 = read(var0);
+
+   static ConfigLibraryStats paste(String var0) {
+      ConfigLibraryStats var1 = read(var0);
       return var1 == null ? null : add(var1);
    }
 
-   
+
    static String onlineCode( String var0) {
       if (var0 == null) {
          return null;
@@ -513,15 +512,15 @@ public final class ConfigLibraryTransform {
       dryClipboard = var0;
    }
 
-   
-   static Path export(ConfigLibraryFactory2 var0) {
+
+   static Path export(ConfigLibraryStats var0) {
       try {
          Path var1 = folder();
          Files.createDirectories(var1);
          String var2 = var0.name.replaceAll("[\\\\/:*?\"<>|]", "").strip();
          Path var3 = var1.resolve((var2.isEmpty() ? "config" : var2) + ".json");
          JsonObject var4 = body(var0);
-         byte[] var5 = ConfigLibraryRenderer13.read(var0);
+         byte[] var5 = ConfigLibraryFile.read(var0);
          if (var5 != null) {
             var4.addProperty("photo", Base64.getEncoder().encodeToString(var5));
          }
@@ -535,7 +534,7 @@ public final class ConfigLibraryTransform {
       }
    }
 
-   static JsonObject body(ConfigLibraryFactory2 var0) {
+   static JsonObject body(ConfigLibraryStats var0) {
       JsonObject var1 = new JsonObject();
       var1.addProperty("v", 2);
       var1.addProperty("name", var0.name);
@@ -547,13 +546,13 @@ public final class ConfigLibraryTransform {
       var3.forEach(v -> var2.add((Boolean)v));
       var1.add("modules", var2);
       if (var0.settings != null) {
-         var1.add("settings", ConfigLibraryTransform2.shareable(var0.settings));
+         var1.add("settings", ConfigLibraryShare.shareable(var0.settings));
       }
 
       return var1;
    }
 
-   static String encode(ConfigLibraryFactory2 var0) {
+   static String encode(ConfigLibraryStats var0) {
       byte[] var1 = body(var0).toString().getBytes(StandardCharsets.UTF_8);
       Deflater var2 = new Deflater(9);
       var2.setInput(var1);
@@ -569,8 +568,8 @@ public final class ConfigLibraryTransform {
       return "purxiy-config:" + Base64.getUrlEncoder().withoutPadding().encodeToString(var3.toByteArray());
    }
 
-   
-   static ConfigLibraryFactory2 decode( String var0, ConfigLibraryFactory2.TypeT var1, String var2) {
+
+   static ConfigLibraryStats decode( String var0, ConfigLibraryStats.ConfigOrigin var1, String var2) {
       if (var0 == null) {
          return null;
       } else {
@@ -638,21 +637,21 @@ public final class ConfigLibraryTransform {
                   }
                }
 
-               var20 = ConfigLibraryTransform2.carried(var20);
+               var20 = ConfigLibraryShare.carried(var20);
             }
 
-            List var24 = ConfigLibraryTransform2.carriedModules(var16);
+            List var24 = ConfigLibraryShare.carriedModules(var16);
             String var26 = clean(var3.has("name") ? var3.get("name").getAsString() : var2);
             String var27 = var3.has("author") ? clean(var3.get("author").getAsString()) : you();
             String var28 = var3.has("description") ? var3.get("description").getAsString().strip() : "";
-            ConfigLibraryFactory2 var29 = ConfigLibraryFactory2.create(
+            ConfigLibraryStats var29 = ConfigLibraryStats.create(
                var26.isEmpty() ? clean(var2) : var26, var27.isEmpty() ? you() : var27, var28.length() > 140 ? var28.substring(0, 140) : var28, var24, var1
             );
             if (var3.has("hue")) {
                var29.hue = Math.max(0.0F, Math.min(1.0F, var3.get("hue").getAsFloat()));
             }
 
-            var29.settings = ConfigLibraryTransform2.shareable(var20);
+            var29.settings = ConfigLibraryShare.shareable(var20);
             return var29;
          } catch (RuntimeException | DataFormatException var14) {
             return null;
@@ -660,7 +659,7 @@ public final class ConfigLibraryTransform {
       }
    }
 
-   static List<ConfigLibraryFactory2> importFiles(List<Path> var0) {
+   static List<ConfigLibraryStats> importFiles(List<Path> var0) {
       load();
       ArrayList var1 = new ArrayList();
 
@@ -674,7 +673,7 @@ public final class ConfigLibraryTransform {
                }
 
                String var6 = Files.readString(var3, StandardCharsets.UTF_8);
-               ConfigLibraryFactory2 var7 = decode(var6, ConfigLibraryFactory2.TypeT.FILE, var5);
+               ConfigLibraryStats var7 = decode(var6, ConfigLibraryStats.ConfigOrigin.FILE, var5);
                if (var7 != null) {
                   var7.name = unique(var7.name.isEmpty() ? clean(var5) : var7.name);
                   MINE.addFirst(var7);
@@ -682,7 +681,7 @@ public final class ConfigLibraryTransform {
                   if (var6.startsWith("{")) {
                      JsonElement var8 = JsonParser.parseString(var6).getAsJsonObject().get("photo");
                      if (var8 instanceof JsonElement && var8.isJsonPrimitive()) {
-                        ConfigLibraryRenderer13.importBytes(var7, Base64.getDecoder().decode(var8.getAsString()), (var1x, var2) -> {
+                        ConfigLibraryFile.importBytes(var7, Base64.getDecoder().decode(var8.getAsString()), (var1x, var2) -> {
                            if (var1x != null) {
                               var7.photo = var1x;
                               persist();
@@ -734,7 +733,7 @@ public final class ConfigLibraryTransform {
    }
 
    private static boolean taken(String var0) {
-      for (ConfigLibraryFactory2 var2 : MINE) {
+      for (ConfigLibraryStats var2 : MINE) {
          if (var2.name.equalsIgnoreCase(var0)) {
             return true;
          }
@@ -746,7 +745,7 @@ public final class ConfigLibraryTransform {
    static void clear() {
       load();
 
-      for (ConfigLibraryFactory2 var1 : new ArrayList<>(SHARED)) {
+      for (ConfigLibraryStats var1 : new ArrayList<>(SHARED)) {
          unshare(var1);
       }
 
@@ -755,12 +754,12 @@ public final class ConfigLibraryTransform {
       persist();
    }
 
-   record TypeC(ConfigLibraryFactory2 entry, ConfigLibraryTransform.TypeK undo) {
+   record TransformStep(ConfigLibraryStats entry, ConfigLibraryTransform.TransformUndo undo) {
    }
 
-   record TypeK(ConfigLibraryTransform2.TypeU before,  ConfigLibraryFactory2 active) {
+   record TransformUndo(ConfigLibraryShare.SharePayload before,  ConfigLibraryStats active) {
    }
 
-   record TypeX(ConfigLibraryFactory2 entry, int index, int slot, boolean wasActive) {
+   record SlotAssignment(ConfigLibraryStats entry, int index, int slot, boolean wasActive) {
    }
 }

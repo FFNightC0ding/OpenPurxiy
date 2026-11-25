@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.Animator;
@@ -64,7 +63,7 @@ final class ModuleList {
    private final Animator scroll = Animator.smooth(0.0F);
    private final Animator closeHover = Animator.smooth(0.0F);
    private final Animator resetHover = Animator.smooth(0.0F);
-   private final List<ModuleList.TypeU> rows = new ArrayList<>();
+   private final List<ModuleList.MenuRow> rows = new ArrayList<>();
    private final Object closeKey = new Object();
    private final Object resetKey = new Object();
    private boolean closing;
@@ -76,9 +75,9 @@ final class ModuleList {
    private float ph;
    private float rowsTop;
    private float rowsBottom;
-   
+
    private StudioPreview sheet;
-   
+
    private SettingEditor picker;
    private final Animator dock = new Animator(0.0F, 190.0F, 25.0F);
    private boolean studioOpen;
@@ -92,23 +91,23 @@ final class ModuleList {
          List var3 = this.rows;
          String var4 = "Turn " + var1.name() + " on or off";
          BooleanSupplier var5 = var1::switchedOn;
-         var3.add(new ModuleList.TypeF("Enabled", var4, var5, var1::setEnabled, () -> true));
+         var3.add(new ModuleList.ToggleRow("Enabled", var4, var5, var1::setEnabled, () -> true));
       }
 
       if (CosmeticRegistry.supportsEditor(var1.id())) {
-         this.rows.add(new ModuleList.TypeE(var1));
+         this.rows.add(new ModuleList.BlankRow(var1));
       }
 
       if (CosmeticCatalog.supports(var1.id())) {
-         this.rows.add(new ModuleList.TypeW(var1.id()));
+         this.rows.add(new ModuleList.GroupRow(var1.id()));
       }
 
-      ModuleList.TypeB var21 = null;
+      ModuleList.HeaderRow var21 = null;
 
       for (Setting var23 : var1.settings()) {
          String var6 = var1.sectionBefore(var23);
          if (var6 != null) {
-            var21 = new ModuleList.TypeB(var6);
+            var21 = new ModuleList.HeaderRow(var6);
             this.rows.add(var21);
          }
 
@@ -118,35 +117,35 @@ final class ModuleList {
             String var18 = var8.description();
             BooleanSupplier var19 = var8::enabled;
             Consumer var20 = v -> var8.set((Boolean)v);
-            var7 = new ModuleList.TypeF(var17, var18, var19, var20, var8::visible);
+            var7 = new ModuleList.ToggleRow(var17, var18, var19, var20, var8::visible);
          } else if (var23 instanceof NumberSetting var9) {
-            var7 = var9.slots() != null ? new ModuleList.TypeD(var9) : new ModuleList.TypeM(var9);
+            var7 = var9.slots() != null ? new ModuleList.SliderRow(var9) : new ModuleList.NumberRow(var9);
          } else if (var23 instanceof ModeSetting var10) {
-            var7 = var1.id().equals("interface") && var23.id().equals("logo") ? new ModuleList.TypeL(var10) : new ModuleList.TypeV(var10);
+            var7 = var1.id().equals("interface") && var23.id().equals("logo") ? new ModuleList.TextureRow(var10) : new ModuleList.ModeRow(var10);
          } else if (var23 instanceof ColorSetting var11) {
-            var7 = var1.id().equals("interface") && var23.id().equals("accent") ? new ModuleList.TypeJ(var11) : new ModuleList.TypeH(var11);
+            var7 = var1.id().equals("interface") && var23.id().equals("accent") ? new ModuleList.PaletteRow(var11) : new ModuleList.ColorRow(var11);
          } else if (var23 instanceof TextSetting var12) {
-            var7 = new ModuleList.TypeI(var12);
+            var7 = new ModuleList.TextRow(var12);
          } else if (var23 instanceof KeybindSetting var13) {
-            var7 = new ModuleList.TypeC(var13, () -> this.openSheet(() -> new StudioPreview(var13)), () -> var13.get().size() + " names");
+            var7 = new ModuleList.SettingRow(var13, () -> this.openSheet(() -> new StudioPreview(var13)), () -> var13.get().size() + " names");
          } else if (var23 instanceof ChoiceListSetting var14) {
-            var7 = new ModuleList.TypeC(var14, () -> this.openSheet(() -> new StudioPreview(var14)), () -> var14.names().size() + " players");
+            var7 = new ModuleList.SettingRow(var14, () -> this.openSheet(() -> new StudioPreview(var14)), () -> var14.names().size() + " players");
          } else if (var23 instanceof PaletteSetting var15) {
-            var7 = new ModuleList.TypeO(var15, this::openPicker, () -> this.picker);
+            var7 = new ModuleList.PaletteSelectRow(var15, this::openPicker, () -> this.picker);
          } else if (var23 instanceof IntegerSetting var16) {
-            var7 = new ModuleList.TypeY(var16);
+            var7 = new ModuleList.KeybindRow(var16);
          }
 
          if (var7 != null) {
-            this.rows.add((ModuleList.TypeU)var7);
+            this.rows.add((ModuleList.MenuRow)var7);
             if (var21 != null) {
-               var21.members.add((ModuleList.TypeU)var7);
+               var21.members.add((ModuleList.MenuRow)var7);
             }
          }
       }
 
       if (var1.toggleable()) {
-         this.rows.add(new ModuleList.TypeY(var1));
+         this.rows.add(new ModuleList.KeybindRow(var1));
       }
    }
 
@@ -179,7 +178,7 @@ final class ModuleList {
       }
    }
 
-   
+
    Studio studio() {
       return this.studioOpen ? this.module.studio() : null;
    }
@@ -235,19 +234,19 @@ final class ModuleList {
       }
    }
 
-   
+
    private SettingEditor activePicker() {
       return this.picker != null && !this.picker.closing() ? this.picker : null;
    }
 
-   
+
    private StudioPreview activeSheet() {
       return this.sheet != null && !this.sheet.closing() ? this.sheet : null;
    }
 
    boolean busy() {
       if (this.sheet == null && this.picker == null) {
-         for (ModuleList.TypeU var2 : this.rows) {
+         for (ModuleList.MenuRow var2 : this.rows) {
             if (var2.capturesKeys()) {
                return true;
             }
@@ -261,8 +260,8 @@ final class ModuleList {
 
    boolean creamyPreviewAt(float var1, float var2) {
       if (!this.closing && this.module.id().equals("creamy_keys") && !(var2 < this.rowsTop) && !(var2 >= this.rowsBottom)) {
-         for (ModuleList.TypeU var4 : this.rows) {
-            if (var4 instanceof ModuleList.TypeW && var2 >= var4.y && var2 < var4.y + var4.height()) {
+         for (ModuleList.MenuRow var4 : this.rows) {
+            if (var4 instanceof ModuleList.GroupRow && var2 >= var4.y && var2 < var4.y + var4.height()) {
                return true;
             }
          }
@@ -304,7 +303,7 @@ final class ModuleList {
       float var6 = var2.height();
       float var7 = 0.0F;
 
-      for (ModuleList.TypeU var9 : this.rows) {
+      for (ModuleList.MenuRow var9 : this.rows) {
          var9.presence.target(var9.visible() ? 1.0F : 0.0F).update(MotionStyle.PANEL.dt(var1.dt));
          var7 += var9.height();
       }
@@ -317,8 +316,8 @@ final class ModuleList {
       float var13 = Math.min(620.0F, var5 - 96.0F);
       float var14 = Math.min(var12 - var11, 108.0F + var7 + 52.0F + 8.0F);
       Studio var15 = this.module.studio();
-      Studio.TypeQ var16 = var15 != null ? var15.dock() : Studio.TypeQ.TOP_LEFT;
-      boolean var17 = var16 == Studio.TypeQ.RIGHT;
+      Studio.PanelSide var16 = var15 != null ? var15.dock() : Studio.PanelSide.TOP_LEFT;
+      boolean var17 = var16 == Studio.PanelSide.RIGHT;
       float var18 = var17 ? Math.min(392.0F, var5 * 0.34F) : Math.min(440.0F, var5 * 0.42F);
       float var19 = Math.min(var6 - 44.0F, 84.0F + var7 + 52.0F + 8.0F);
       this.pw = lerp(var13, var18, var41);
@@ -380,14 +379,14 @@ final class ModuleList {
          float var36 = this.rowsTop - var35;
 
          for (int var37 = 0; var37 < this.rows.size(); var37++) {
-            ModuleList.TypeU var38 = this.rows.get(var37);
+            ModuleList.MenuRow var38 = this.rows.get(var37);
             float var39 = var38.height();
             if (var39 > 0.5F && var36 + var39 > this.rowsTop - 4.0F && var36 < this.rowsBottom + 4.0F) {
                float var40 = (1.0F - var33) * (8 + var37 * 4);
                var2.pushAlpha(var38.presence.value());
                var38.render(var1, this.px + 28.0F, var36 + var40, this.pw - 56.0F, this.closing ? 0.0F : 1.0F);
                var2.popAlpha();
-               if (var37 < this.rows.size() - 1 && var39 > 1.0F && !(var38 instanceof ModuleList.TypeB)) {
+               if (var37 < this.rows.size() - 1 && var39 > 1.0F && !(var38 instanceof ModuleList.HeaderRow)) {
                   var2.rect(this.px + 28.0F, var36 + var39 - 0.5F, this.pw - 56.0F, 1.0F, BlendMode.fade(268435455, var38.presence.value()));
                }
             }
@@ -424,7 +423,7 @@ final class ModuleList {
       float var3 = 30.0F;
       float var4 = this.px + this.pw - 20.0F - var3;
       float var5 = this.py + 20.0F;
-      boolean var6 = var1.hover(this.closeKey, var4, var5, var3, var3, DrawContext.TypeE.HAND);
+      boolean var6 = var1.hover(this.closeKey, var4, var5, var3, var3, DrawContext.Cursor.HAND);
       float var7 = this.closeHover.target(var6 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       var2.circle(var4 + var3 / 2.0F, var5 + var3 / 2.0F, var3 / 2.0F, BlendMode.withAlpha(-1, 0.05F + 0.08F * var7));
       var2.icon("x", var4 + var3 / 2.0F, var5 + var3 / 2.0F, 15.0F, BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var7));
@@ -442,7 +441,7 @@ final class ModuleList {
 
       String var12 = "Reset to defaults";
       float var14 = var2.textWidth(Fonts.MEDIUM, var12, 12.0F);
-      boolean var8 = var5 && var1.hover(this.resetKey, this.px + 28.0F - 6.0F, var4 - 14.0F, var14 + 32.0F, 28.0F, DrawContext.TypeE.HAND);
+      boolean var8 = var5 && var1.hover(this.resetKey, this.px + 28.0F - 6.0F, var4 - 14.0F, var14 + 32.0F, 28.0F, DrawContext.Cursor.HAND);
       float var9 = this.resetHover.target(var8 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       int var10 = var5 ? BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var9) : BlendMode.withAlpha(Icons.TEXT_3, 0.6F);
       var2.icon("rotate-ccw", this.px + 28.0F + 7.0F, var4, 13.0F, var10);
@@ -466,8 +465,8 @@ final class ModuleList {
             this.picker.mouseDown(var1, var2, var3);
             return true;
          } else {
-            for (ModuleList.TypeU var6 : this.rows) {
-               if (var6 instanceof ModuleList.TypeI var7 && !var7.field.contains(var1, var2)) {
+            for (ModuleList.MenuRow var6 : this.rows) {
+               if (var6 instanceof ModuleList.TextRow var7 && !var7.field.contains(var1, var2)) {
                   var7.field.blur();
                }
             }
@@ -501,14 +500,14 @@ final class ModuleList {
                      return true;
                   } else {
                      if (var2 >= this.rowsTop && var2 <= this.rowsBottom) {
-                        for (ModuleList.TypeU var10 : this.rows) {
+                        for (ModuleList.MenuRow var10 : this.rows) {
                            if (var10.presence.value() > 0.5F && var10.mouseDown(var1, var2, var3)) {
                               return true;
                            }
                         }
                      }
 
-                     for (ModuleList.TypeU var17 : this.rows) {
+                     for (ModuleList.MenuRow var17 : this.rows) {
                         var17.clickedElsewhere();
                      }
 
@@ -535,7 +534,7 @@ final class ModuleList {
          this.picker.mouseDrag(var1, var2);
       }
 
-      for (ModuleList.TypeU var4 : this.rows) {
+      for (ModuleList.MenuRow var4 : this.rows) {
          var4.mouseDrag(var1, var2);
       }
    }
@@ -549,7 +548,7 @@ final class ModuleList {
          this.picker.mouseUp();
       }
 
-      for (ModuleList.TypeU var2 : this.rows) {
+      for (ModuleList.MenuRow var2 : this.rows) {
          var2.mouseUp();
       }
    }
@@ -578,7 +577,7 @@ final class ModuleList {
 
          return true;
       } else {
-         for (ModuleList.TypeU var4 : this.rows) {
+         for (ModuleList.MenuRow var4 : this.rows) {
             if (var4.keyPressed(var1)) {
                return true;
             }
@@ -611,7 +610,7 @@ final class ModuleList {
 
          return true;
       } else {
-         for (ModuleList.TypeU var4 : this.rows) {
+         for (ModuleList.MenuRow var4 : this.rows) {
             if (var4.charTyped(var1)) {
                return true;
             }
@@ -630,11 +629,11 @@ final class ModuleList {
       return var0 * var0 * (3.0F - 2.0F * var0);
    }
 
-   private static final class TypeB extends ModuleList.TypeU {
+   private static final class HeaderRow extends ModuleList.MenuRow {
       private static final float HEIGHT = 40.0F;
-      final List<ModuleList.TypeU> members = new ArrayList<>();
+      final List<ModuleList.MenuRow> members = new ArrayList<>();
 
-      TypeB(String var1) {
+      HeaderRow(String var1) {
          super(var1, (String)null);
       }
 
@@ -645,7 +644,7 @@ final class ModuleList {
 
       @Override
       boolean visible() {
-         for (ModuleList.TypeU var2 : this.members) {
+         for (ModuleList.MenuRow var2 : this.members) {
             if (var2.visible()) {
                return true;
             }
@@ -663,7 +662,7 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeC extends ModuleList.TypeU {
+   private static final class SettingRow extends ModuleList.MenuRow {
       private final Setting<?> setting;
       private final Runnable open;
       private final Supplier<String> label;
@@ -672,7 +671,7 @@ final class ModuleList {
       private float x;
       private float w;
 
-      TypeC(Setting<?> var1, Runnable var2, Supplier<String> var3) {
+      SettingRow(Setting<?> var1, Runnable var2, Supplier<String> var3) {
          super(var1.name(), var1.description());
          this.setting = var1;
          this.open = var2;
@@ -690,7 +689,7 @@ final class ModuleList {
          this.w = var4;
          super.render(var1, var2, var3, var4, var5);
          Canvas var6 = var1.canvas;
-         boolean var7 = var5 > 0.0F && var1.hover(this.key, var2, var3, var4, 58.0F, DrawContext.TypeE.HAND);
+         boolean var7 = var5 > 0.0F && var1.hover(this.key, var2, var3, var4, 58.0F, DrawContext.Cursor.HAND);
          float var8 = this.hover.target(var7 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          String var9 = this.label.get();
          boolean var10 = var9.startsWith("Add ");
@@ -716,12 +715,12 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeD extends ModuleList.TypeU {
+   private static final class SliderRow extends ModuleList.MenuRow {
       private final NumberSetting setting;
       private final ModeButton picker;
       private float cell = 22.0F;
 
-      TypeD(NumberSetting var1) {
+      SliderRow(NumberSetting var1) {
          super(var1.name(), var1.description());
          this.setting = var1;
          this.picker = new ModeButton(var1);
@@ -756,10 +755,10 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeE extends ModuleList.TypeU {
+   private static final class BlankRow extends ModuleList.MenuRow {
       final Module module;
 
-      TypeE(Module var1) {
+      BlankRow(Module var1) {
          super("Live preview", "Try your changes in the game");
          this.module = var1;
       }
@@ -791,7 +790,7 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeF extends ModuleList.TypeU {
+   private static final class ToggleRow extends ModuleList.MenuRow {
       private final BooleanSupplier value;
       private final Consumer<Boolean> setter;
       private final BooleanSupplier visible;
@@ -800,7 +799,7 @@ final class ModuleList {
       private float x;
       private float w;
 
-      TypeF(String var1, String var2, BooleanSupplier var3, Consumer<Boolean> var4, BooleanSupplier var5) {
+      ToggleRow(String var1, String var2, BooleanSupplier var3, Consumer<Boolean> var4, BooleanSupplier var5) {
          super(var1, var2);
          this.value = var3;
          this.setter = var4;
@@ -823,7 +822,7 @@ final class ModuleList {
          this.x = var2;
          this.w = var4;
          super.render(var1, var2, var3, var4, var5);
-         boolean var6 = var5 > 0.0F && var1.hover(this.key, var2, var3, var4, 58.0F, DrawContext.TypeE.HAND);
+         boolean var6 = var5 > 0.0F && var1.hover(this.key, var2, var3, var4, 58.0F, DrawContext.Cursor.HAND);
          this.toggle.render(var1, var2 + var4 - 46.0F, var3 + 29.0F - 13.0F, 46.0F, 26.0F, this.value.getAsBoolean(), var6, false);
       }
 
@@ -840,11 +839,11 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeH extends ModuleList.TypeU {
+   private static final class ColorRow extends ModuleList.MenuRow {
       private final ColorSetting setting;
       private final ColorPicker picker;
 
-      TypeH(ColorSetting var1) {
+      ColorRow(ColorSetting var1) {
          super(var1.name(), var1.description());
          this.setting = var1;
          this.picker = new ColorPicker(var1);
@@ -883,11 +882,11 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeI extends ModuleList.TypeU {
+   private static final class TextRow extends ModuleList.MenuRow {
       private final TextSetting setting;
       final Slider field;
 
-      TypeI(TextSetting var1) {
+      TextRow(TextSetting var1) {
          super(var1.name(), var1.description());
          this.setting = var1;
          this.field = new Slider(var1);
@@ -949,10 +948,10 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeJ extends ModuleList.TypeU {
+   private static final class PaletteRow extends ModuleList.MenuRow {
       private final PalettePicker picker;
 
-      TypeJ(ColorSetting var1) {
+      PaletteRow(ColorSetting var1) {
          super(var1.name(), var1.description());
          this.picker = new PalettePicker(var1);
       }
@@ -996,13 +995,13 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeL extends ModuleList.TypeU {
+   private static final class TextureRow extends ModuleList.MenuRow {
       private static final float TILE = 40.0F;
-      
+
       private static TextureLoader mark;
       private final Divider control;
 
-      TypeL(ModeSetting var1) {
+      TextureRow(ModeSetting var1) {
          super(var1.name(), var1.description());
          this.control = new Divider(var1);
       }
@@ -1036,7 +1035,7 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeM extends ModuleList.TypeU {
+   private static final class NumberRow extends ModuleList.MenuRow {
       private static final float TRACK = 200.0F;
       private static final float VALUE_W = 72.0F;
       private static final float VALUE_GAP = 14.0F;
@@ -1045,7 +1044,7 @@ final class ModuleList {
       private final Label slider;
       private float valueW = 72.0F;
 
-      TypeM(NumberSetting var1) {
+      NumberRow(NumberSetting var1) {
          super(var1.name(), var1.description());
          this.setting = var1;
          this.slider = new Label(var1);
@@ -1103,7 +1102,7 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeN extends ModuleList.TypeU {
+   private static final class StudioRow extends ModuleList.MenuRow {
       private static final float HEIGHT = 86.0F;
       private final Studio studio;
       private final Runnable open;
@@ -1113,7 +1112,7 @@ final class ModuleList {
       private float x;
       private float w;
 
-      TypeN(Studio var1, Runnable var2, BooleanSupplier var3) {
+      StudioRow(Studio var1, Runnable var2, BooleanSupplier var3) {
          super(var1.title(), var1.subtitle());
          this.studio = var1;
          this.open = var2;
@@ -1138,7 +1137,7 @@ final class ModuleList {
          float var7 = var3 + 12.0F + 31.0F;
          float var8 = 62.0F;
          float var9 = var7 - var8 / 2.0F;
-         boolean var10 = var5 > 0.0F && var1.hover(this.key, var2, var9, var4, var8, DrawContext.TypeE.HAND);
+         boolean var10 = var5 > 0.0F && var1.hover(this.key, var2, var9, var4, var8, DrawContext.Cursor.HAND);
          float var11 = this.hover.target(var10 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          if (var11 > 0.01F) {
             var6.glow(var2, var9, var4, var8, 16.0F, 18.0F, BlendMode.withAlpha(Icons.VIOLET, 0.22F * var11));
@@ -1210,7 +1209,7 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeO extends ModuleList.TypeU {
+   private static final class PaletteSelectRow extends ModuleList.MenuRow {
       private static final float STACK = 20.0F;
       private final PaletteSetting setting;
       private final BiConsumer<PaletteSetting, float[]> open;
@@ -1224,7 +1223,7 @@ final class ModuleList {
       private float bw;
       private float bh;
 
-      TypeO(PaletteSetting var1, BiConsumer<PaletteSetting, float[]> var2, Supplier<SettingEditor> var3) {
+      PaletteSelectRow(PaletteSetting var1, BiConsumer<PaletteSetting, float[]> var2, Supplier<SettingEditor> var3) {
          super(var1.name(), var1.description());
          this.setting = var1;
          this.open = var2;
@@ -1263,7 +1262,7 @@ final class ModuleList {
          if (var13) {
             var12.origin(this.bx, this.by, this.bw, this.bh);
          } else {
-            boolean var14 = var5 > 0.0F && var1.hover(this.key, var2, var3, var4, 58.0F, DrawContext.TypeE.HAND);
+            boolean var14 = var5 > 0.0F && var1.hover(this.key, var2, var3, var4, 58.0F, DrawContext.Cursor.HAND);
             float var15 = this.hover.target(var14 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
             if (var15 > 0.01F) {
                var6.glow(this.bx, this.by, this.bw, this.bh, this.bh / 2.0F, 14.0F, BlendMode.withAlpha(Icons.VIOLET, 0.18F * var15));
@@ -1294,13 +1293,13 @@ final class ModuleList {
       }
    }
 
-   private abstract static class TypeU {
+   private abstract static class MenuRow {
       final Animator presence = Animator.smooth(1.0F);
       final String label;
       final String description;
       float y;
 
-      TypeU(String var1, String var2) {
+      MenuRow(String var1, String var2) {
          this.label = var1;
          this.description = var2;
       }
@@ -1368,14 +1367,14 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeV extends ModuleList.TypeU {
+   private static final class ModeRow extends ModuleList.MenuRow {
       private final ModeSetting setting;
       private final Divider control;
       private final Pagination stepper;
       private boolean compact;
       private float right;
 
-      TypeV(ModeSetting var1) {
+      ModeRow(ModeSetting var1) {
          super(var1.name(), var1.description());
          this.setting = var1;
          this.control = new Divider(var1);
@@ -1405,10 +1404,10 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeW extends ModuleList.TypeU {
+   private static final class GroupRow extends ModuleList.MenuRow {
       final String id;
 
-      TypeW(String var1) {
+      GroupRow(String var1) {
          super("Preview", (String)null);
          this.id = var1;
       }
@@ -1444,16 +1443,16 @@ final class ModuleList {
       }
    }
 
-   private static final class TypeY extends ModuleList.TypeU {
+   private static final class KeybindRow extends ModuleList.MenuRow {
       private final KeybindButton button;
       private BooleanSupplier visible = () -> true;
 
-      TypeY(Module var1) {
+      KeybindRow(Module var1) {
          super(var1.keybindToggles() ? "Keybind" : "Action key", "Choose a key for " + var1.name());
          this.button = new KeybindButton(var1);
       }
 
-      TypeY(IntegerSetting var1) {
+      KeybindRow(IntegerSetting var1) {
          super(var1.name(), var1.description());
          IntSupplier var2 = var1::key;
          this.button = new KeybindButton(var2, var1::set);

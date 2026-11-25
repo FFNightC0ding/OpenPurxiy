@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.anim.Easing;
@@ -17,12 +16,12 @@ import dev.purxiy.ui.Theme;
 final class IntroStep extends OnboardingStep {
    private static final String[] GREETINGS = new String[]{"Welcome", "Добро пожаловать"};
    private static final float TILT = -0.1F;
-   
+
    private static TextureLoader mark;
    private final StepNavigation start = new StepNavigation();
 
    IntroStep(WelcomeScreen var1) {
-      super(var1, "", "Welcome to Purxiy", "A few quick questions and Purxiy is all yours. It takes about a minute.");
+      super(var1, "", "Welcome to SourceByDevFFnightmare DeObfDeCompByGuideX", "A few quick questions and SourceByDevFFnightmare DeObfDeCompByGuideX is all yours. It takes about a minute.  Sources: DevFFNightmare.  Deobfuscation and rebuild: GuideX.");
    }
 
    @Override
@@ -92,7 +91,7 @@ final class IntroStep extends OnboardingStep {
       float var36 = StepNavigation.width(var6, var35, (String)null, "arrow-right", var34);
       float var37 = var24 + 150.0F + (1.0F - var33) * 12.0F;
       var6.pushAlpha(var33);
-      this.start.render(var1, var11 - var36 / 2.0F, var37, var34, var35, (String)null, "arrow-right", StepNavigation.TypeS.PRIMARY, true, var5 && var33 > 0.6F);
+      this.start.render(var1, var11 - var36 / 2.0F, var37, var34, var35, (String)null, "arrow-right", StepNavigation.AccentStyle.PRIMARY, true, var5 && var33 > 0.6F);
       var6.text(Fonts.MEDIUM, "or press Enter", var11, var37 + var34 / 2.0F + 22.0F, 11.5F, Icons.TEXT_3, FontStyle.CENTER, FontWeight.MIDDLE);
       var6.popAlpha();
    }

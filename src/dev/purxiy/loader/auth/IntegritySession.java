@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.auth;
 
 public final class IntegritySession implements AutoCloseable {

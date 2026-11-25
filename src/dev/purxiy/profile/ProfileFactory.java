@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.profile;
 
 import java.time.DayOfWeek;
@@ -17,9 +16,9 @@ final class ProfileFactory {
       return TODAY;
    }
 
-   static ProfileLoader2 create() {
+   static ProfileDay create() {
       Random var0 = new Random(1927L);
-      ProfileLoader2 var1 = new ProfileLoader2();
+      ProfileDay var1 = new ProfileDay();
       var1.name = "Player";
       var1.since = TODAY.minusDays(73L);
       var1.imported = true;
@@ -73,21 +72,21 @@ final class ProfileFactory {
             var8.deaths = var0.nextFloat() < 0.5F ? 1 + var0.nextInt(2) : 0;
             var8.chat = (int)(var6 * (2 + var0.nextInt(7)));
             long var13 = var4.atTime(19, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-            String var15 = var0.nextFloat() < 0.55F ? "Hypixel" : (var0.nextFloat() < 0.6F ? "Purxiy SMP" : "Aurora");
-            var1.addSession(new ProfileLoader2.TypeW(var13, var15, var8.copy()));
-            ProfileLoader2.TypeD var16 = var1.place(var15.toLowerCase(), var15);
+            String var15 = var0.nextFloat() < 0.55F ? "Hypixel" : (var0.nextFloat() < 0.6F ? "SourceByDevFFnightmare DeObfDeCompByGuideX SMP" : "Aurora");
+            var1.addSession(new ProfileDay.DayCache(var13, var15, var8.copy()));
+            ProfileDay.DayRecord var16 = var1.place(var15.toLowerCase(), var15);
             var16.play = var16.play + var8.play;
          }
       }
 
-      ProfileLoader2.TypeD var17 = var1.place("hypixel", "Hypixel");
+      ProfileDay.DayRecord var17 = var1.place("hypixel", "Hypixel");
       var17.play += 72000.0;
       var1.topSpeed = 31.4;
       var1.journey = journey(var0);
       return var1;
    }
 
-   static ProfileLoader2.TypeW live(ProfileLoader2 var0) {
+   static ProfileDay.DayCache live(ProfileDay var0) {
       ProfileLoader var1 = var0.days.get(TODAY).copy();
       double var2 = var0.journey == null ? 1.0 : var0.journey.length() / Math.max(1.0, var1.distance());
       var1.foot *= var2;
@@ -97,12 +96,12 @@ final class ProfileFactory {
       var1.ride *= var2;
       var1.fly *= var2;
       long var4 = TODAY.atTime(20, 12).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-      return new ProfileLoader2.TypeW(var4, "Purxiy SMP", var1);
+      return new ProfileDay.DayCache(var4, "SourceByDevFFnightmare DeObfDeCompByGuideX SMP", var1);
    }
 
-   private static ProfileCodec2 journey(Random var0) {
+   private static ProfileTrackCodec journey(Random var0) {
       long var1 = TODAY.atTime(20, 12).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-      ProfileCodec2 var3 = new ProfileCodec2(var1, "Purxiy SMP");
+      ProfileTrackCodec var3 = new ProfileTrackCodec(var1, "SourceByDevFFnightmare DeObfDeCompByGuideX SMP");
       String var4 = "minecraft:overworld";
       double var5 = 214.0;
       double var7 = -96.0;

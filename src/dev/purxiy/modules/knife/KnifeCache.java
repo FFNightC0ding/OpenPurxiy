@@ -1,8 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import dev.purxiy.loader.fabric.ClientServices;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import net.minecraft.class_1060;
 import net.minecraft.class_2960;
@@ -12,15 +12,6 @@ public final class KnifeCache {
    private static final class_2960 G = ClientServices.id("textures/knife/white.png");
    private static final Map<KnifeCamos.Camo, class_2960> j = new HashMap<>();
    private static final Map<KnifeCamos.Camo, class_2960> a = new HashMap<>();
-
-   static {
-      for (java.util.List<KnifeCamos.Camo> list : KnifeCamos.Y) {
-         for (KnifeCamos.Camo camo : list) {
-            j.put(camo, ClientServices.id("textures/knife/camos/" + camo.id() + ".png"));
-            a.put(camo, ClientServices.id("textures/knife/camos/" + camo.id() + "_swatch.png"));
-         }
-      }
-   }
 
    private KnifeCache() {
    }
@@ -49,4 +40,12 @@ public final class KnifeCache {
       a.clear();
    }
 
+   static {
+      for (List<KnifeCamos.Camo> list : KnifeCamos.Y) {
+         for (KnifeCamos.Camo camo : list) {
+            j.put(camo, ClientServices.id("textures/knife/camos/" + camo.id() + ".png"));
+            a.put(camo, ClientServices.id("textures/knife/camos/" + camo.id() + "_swatch.png"));
+         }
+      }
+   }
 }

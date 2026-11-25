@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui;
 
 public final class Icons {
@@ -39,7 +38,7 @@ public final class Icons {
       GLASS_TINT = Theme.tint(-1609692388);
    }
 
-   public static final class TypeF {
+   public static final class IconBatch {
       public static final int INDIGO = -10550037;
       public static final int VIOLET = -7860231;
       public static final int PURPLE = -4907020;
@@ -55,7 +54,7 @@ public final class Icons {
       public static final int TEXT_3 = -8620647;
       public static final int GLASS_TINT = -1609692388;
 
-      private TypeF() {
+      private IconBatch() {
       }
    }
 }

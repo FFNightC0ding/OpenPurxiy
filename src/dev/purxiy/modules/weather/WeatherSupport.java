@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.weather;
 
 import com.mojang.blaze3d.systems.CommandEncoder;
@@ -17,7 +16,6 @@ import net.minecraft.class_3612;
 import net.minecraft.class_638;
 import net.minecraft.class_1011.class_1012;
 import net.minecraft.class_2902.class_2903;
-
 import org.lwjgl.system.MemoryUtil;
 
 final class WeatherSupport {
@@ -49,15 +47,10 @@ final class WeatherSupport {
    private int T;
    private int b;
    private int R;
-   
    private GpuTexture D;
-   
    private GpuTextureView d;
-   
    private ByteBuffer j;
-   private static final String c = "Purxiy rain map";
-
-
+   private static final String c = "SourceByDevFFnightmare DeObfDeCompByGuideX rain map";
    private static final long[] i = new long[]{
       3672093034909269501L, 4691807244705616939L, -6270381546769424159L, -6563461524158654196L, 8455781183933288861L, -4836854492990089018L
    };
@@ -67,7 +60,6 @@ final class WeatherSupport {
       Arrays.fill(this.Q, Long.MIN_VALUE);
    }
 
-   
    GpuTextureView view() {
       return this.d;
    }
@@ -138,7 +130,7 @@ final class WeatherSupport {
 
    void upload(GpuDevice var1, CommandEncoder var2) {
       if (this.D == null) {
-         this.D = var1.createTexture(() -> "Purxiy rain map", 13, TextureFormat.RGBA8, 1024, 1024, 1, 1);
+         this.D = var1.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX rain map", 13, TextureFormat.RGBA8, 1024, 1024, 1, 1);
          this.d = var1.createTextureView(this.D);
          var2.clearColorTexture(this.D, 0);
          this.j = this.j == null ? MemoryUtil.memAlloc(1024) : this.j;
@@ -187,31 +179,32 @@ final class WeatherSupport {
       long var17 = (long)var4 << 32 | var5 & 4294967295L;
       class_2818 var19 = var3.method_2935().method_2857(var4, var5, class_2806.field_12803, false);
       if (var19 != null) {
-         int var20 = (var19.method_12223() ? 1 : 0);
+         int var20 = var19.method_12223() ? 1 : 0;
          short var21 = -4121;
-         if ((var20 == 0)) {
+         if (var20 == 0) {
+            boolean var44;
             boolean var22;
             byte[] var23;
-            label111: {
+            label116: {
                var22 = this.Q[var16] != var17;
                var23 = var22 ? null : this.X[var16];
                if (!var22) {
                   var20 = this.G[var16]++;
                   if ((var20 & 15) != 0) {
-                     var20 = (0 != 0 ? 1 : 0);
-                     break label111;
+                     var44 = false;
+                     break label116;
                   }
                }
 
-               var20 = (1 != 0 ? 1 : 0);
+               var44 = true;
             }
 
-            boolean var24 = (var20 != 0);
+            boolean var24 = var44;
             class_2902 var25 = X(var11, var19, class_2903.field_13197, (byte)var13);
             class_2902 var26 = X(var11, var19, class_2903.field_13203, (byte)var13);
             long var27 = i(var25.method_12598(), var26.method_12598(), var14);
             short var29 = 26198;
-            if (var20 != 0 && this.p[var16] == var27) {
+            if (var44 && this.p[var16] == var27) {
                return;
             }
 
@@ -228,7 +221,7 @@ final class WeatherSupport {
                   int var36;
                   int var37;
                   int var38;
-                  label123: {
+                  label128: {
                      var35 = (var33 * 16 + var34) * 4;
                      int var39 = var25.method_12603(var34, var33);
                      int var40 = var26.method_12603(var34, var33);
@@ -251,7 +244,7 @@ final class WeatherSupport {
                               var29 = -4121;
                               if (var42 == var37) {
                                  var38 = var23[var35 + 1] & 240;
-                                 break label123;
+                                 break label128;
                               }
                            }
                         }
@@ -341,12 +334,7 @@ final class WeatherSupport {
    private static class_2902 X(long var0, class_2818 var2, class_2903 var3, byte var4) {
       WeatherModule.ensureSourceClassInitialized();
       long var5 = 270120216483L;
-      if (270120216483L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       if (!var2.method_39295(var3)) {
          var2.method_12005(var3, 0, 0);
       }
@@ -360,26 +348,17 @@ final class WeatherSupport {
 
       for (long var10 : var0) {
          long var12 = 85719573714247L;
-         if (85719573714247L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var18 = var12 < 0L ? -1 : 1;
-         }
-
+         int var13 = var12 < 0L ? -1 : 1;
          var4 = (var4 ^ var10) * 1099511628211L;
       }
 
       long[] var6 = var1;
       int var15 = var1.length;
       long var16 = 85719573714247L;
-      if (85719573714247L == 0L) {
-         boolean var19 = false;
-      } else {
-         int var20 = var16 < 0L ? -1 : 1;
-      }
+      int var11 = var16 < 0L ? -1 : 1;
 
-      for (int var11 = 0; var11 < var15; var11++) {
-         long var17 = var6[var11];
+      for (int var11x = 0; var11x < var15; var11x++) {
+         long var17 = var6[var11x];
          var4 = (var4 ^ var17) * 1099511628211L;
       }
 
@@ -389,12 +368,7 @@ final class WeatherSupport {
    private void t(int var1, long var2) {
       WeatherModule.ensureSourceClassInitialized();
       long var4 = 134346676220300L;
-      if (134346676220300L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       if (!this.Z[var1]) {
          this.Z[var1] = true;
          this.U[this.m++] = var1;
@@ -409,40 +383,22 @@ final class WeatherSupport {
 
       for (int var7 = -var1; var7 <= var1; var7++) {
          long var8 = 122734939286856L;
-         if (122734939286856L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var23 = var8 < 0L ? -1 : 1;
-         }
+         int var22 = var8 < 0L ? -1 : 1;
 
          for (int var11 = -var1; var11 <= var1; var11++) {
             int var12 = var11 * var11 + var7 * var7;
             long var13 = 122734939286855L;
-            if (122734939286855L == 0L) {
-               boolean var24 = false;
-            } else {
-               int var25 = var13 < 0L ? -1 : 1;
-            }
-
-            int var10 = var1 + 1;
+            int var10x = var13 < 0L ? -1 : 1;
+            var10x = var1 + 1;
             long var15 = 122734939286855L;
-            if (122734939286855L == 0L) {
-               boolean var26 = false;
-            } else {
-               int var27 = var15 < 0L ? -1 : 1;
-            }
-
-            if (var12 <= var10 * (var1 + 1)) {
+            int var17 = var15 < 0L ? -1 : 1;
+            if (var12 <= var10x * (var1 + 1)) {
                var5[var6++] = var11 << 16 | var7 & 65535;
             }
          }
 
          long var21 = 122734939286855L;
-         if (122734939286855L == 0L) {
-            boolean var28 = false;
-         } else {
-            int var29 = var21 < 0L ? -1 : 1;
-         }
+         int var25 = var21 < 0L ? -1 : 1;
       }
 
       Arrays.sort(var5, 0, var6, (var0, var1x) -> {
@@ -450,32 +406,18 @@ final class WeatherSupport {
          return Integer.compare(r(var0, var2x), r(var1x, var2x));
       });
       long var18 = 122734939286856L;
-      if (122734939286856L == 0L) {
-         boolean var30 = false;
-      } else {
-         int var31 = var18 < 0L ? -1 : 1;
-      }
-
+      int var20 = var18 < 0L ? -1 : 1;
       this.a = new int[var6];
 
       for (int var19 = 0; var19 < var6; var19++) {
          this.a[var19] = var5[var19];
          long var22 = 122734939286856L;
-         if (122734939286856L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var22 < 0L ? -1 : 1;
-         }
+         int var26 = var22 < 0L ? -1 : 1;
       }
 
       this.M = var1;
-      long var20 = 122734939286856L;
-      if (122734939286856L == 0L) {
-         boolean var34 = false;
-      } else {
-         int var35 = var20 < 0L ? -1 : 1;
-      }
-
+      long var20x = 122734939286856L;
+      int var24 = var20x < 0L ? -1 : 1;
       this.A = 0;
    }
 
@@ -485,7 +427,7 @@ final class WeatherSupport {
       return var3 * var3 + var4 * var4;
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 21472) & 32767;
       if (k[var3] == null) {
          k[var3] = i[var3] ^ var1;

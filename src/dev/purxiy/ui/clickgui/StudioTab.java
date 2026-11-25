@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.MotionStyle;
@@ -29,7 +28,7 @@ final class StudioTab {
       Canvas var3 = var1.canvas;
       float var4 = var3.width();
       float var5 = var3.height();
-      ClientServices.TypeH var6 = ClientServices.interfaceLook();
+      ClientServices.ThemeSettings var6 = ClientServices.interfaceLook();
       boolean var7 = MotionStyle.reduced();
       float var8 = var6.dim();
       var3.blurStrength(var6.blur() ? var2 : 0.0F);

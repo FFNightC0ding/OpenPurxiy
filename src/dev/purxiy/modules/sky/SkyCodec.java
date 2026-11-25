@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.sky;
 
 import com.mojang.blaze3d.buffers.Std140Builder;
@@ -25,13 +24,11 @@ public final class SkyCodec {
    private final int[] j = new int[64];
    public static int T = 0;
 
-
-
    public void follow(SkyModule var1, SkyKind var2, float var3) {
       long var4 = 78693680667225L;
       long var6 = var4 ^ 89202132890298L;
       SkyModule.Colours var8 = var1.Y.get(var2.ordinal());
-      SkyCodec.Data var9 = var2 == SkyKind.X ? SkyCatalog.byName(var1.D.get()).J : var2.j;
+      SkyCodec.Data var9 = var2 == SkyKind.X ? SkyCatalog.byName((String)var1.D.get()).J : var2.j;
       this.Y(var9, !var8.original(), var6, var8.colour(), var3);
    }
 
@@ -47,89 +44,56 @@ public final class SkyCodec {
       SkyKind.ensureSourceClassInitialized();
       boolean var10 = false;
       long var11 = 24956739021027L;
-      if (24956739021027L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var36 = var11 < 0L ? -1 : 1;
-      }
-
+      float var14;
       if (var1 != this.g) {
          this.g = var1;
          H(var1.N, var8, this.U);
          var10 = true;
       }
 
-      H(var5, var8, this.d);
-      float var14 = this.o;
-      float var15 = this.Y;
-      float var16 = this.k;
-      float var17 = this.O;
-      long var18 = 24956739021026L;
-      if (24956739021026L == 0L) {
-         boolean var37 = false;
-      } else {
-         int var38 = var18 < 0L ? -1 : 1;
-      }
-
-      long var20 = 24956739021027L;
-      if (24956739021027L == 0L) {
-         boolean var39 = false;
-      } else {
-         int var40 = var20 < 0L ? -1 : 1;
-      }
-
-      label187: {
-         label194: {
+      float var15;
+      float var16;
+      float var17;
+      label151: {
+         label158: {
+            H(var5, var8, this.d);
+            var14 = this.o;
+            var15 = this.Y;
+            var16 = this.k;
+            var17 = this.O;
+            long var18 = 24956739021026L;
+            int var18x = var18 < 0L ? -1 : 1;
+            long var20x = 24956739021027L;
             if (this.h) {
                float var22;
                int var23 = (var22 = var6 - 1.0F) == 0.0F ? 0 : (var22 < 0.0F ? -1 : 1);
                long var24 = 24956739021027L;
-               if (24956739021027L == 0L) {
-                  boolean var41 = false;
-               } else {
-                  int var42 = var24 < 0L ? -1 : 1;
-               }
-
+               int var24x = var24 < 0L ? -1 : 1;
                if (var23 < 0) {
                   if (!var2) {
-                     break label194;
+                     break label158;
                   }
 
                   float var26;
                   var23 = (var26 = this.O - 0.001F) == 0.0F ? 0 : (var26 < 0.0F ? -1 : 1);
                   long var27 = 24956739021026L;
-                  if (24956739021026L == 0L) {
-                     boolean var43 = false;
-                  } else {
-                     int var44 = var27 < 0L ? -1 : 1;
-                  }
-
+                  int var27x = var27 < 0L ? -1 : 1;
                   if (var23 > 0) {
-                     break label194;
+                     break label158;
                   }
                }
             }
 
-            long var33 = 24956739021026L;
-            if (24956739021026L == 0L) {
-               boolean var45 = false;
-            } else {
-               int var46 = var33 < 0L ? -1 : 1;
-            }
-
-            label174: {
+            label138: {
+               long var33 = 24956739021026L;
+               int var39 = var33 < 0L ? -1 : 1;
                this.o = this.d[0];
                this.Y = this.d[1];
                if (!(this.d[1] >= 0.02F)) {
                   long var25 = 24956739021026L;
-                  if (24956739021026L == 0L) {
-                     boolean var47 = false;
-                  } else {
-                     int var48 = var25 < 0L ? -1 : 1;
-                  }
-
+                  int var44 = var25 < 0L ? -1 : 1;
                   if (this.h) {
-                     break label174;
+                     break label138;
                   }
                }
 
@@ -137,27 +101,17 @@ public final class SkyCodec {
             }
 
             this.h = true;
-            break label187;
+            break label151;
          }
 
          if (var2) {
             this.o = this.o + (this.d[0] - this.o) * var6;
             this.Y = this.Y + (this.d[1] - this.Y) * var6;
-            var18 = 24956739021027L;
-            if (24956739021027L == 0L) {
-               boolean var49 = false;
-            } else {
-               int var50 = var18 < 0L ? -1 : 1;
-            }
-
+            long var29 = 24956739021027L;
+            int var341 = var29 < 0L ? -1 : 1;
             if (this.d[1] >= 0.02F) {
                long var21 = 24956739021026L;
-               if (24956739021026L == 0L) {
-                  boolean var51 = false;
-               } else {
-                  int var52 = var21 < 0L ? -1 : 1;
-               }
-
+               int var41 = var21 < 0L ? -1 : 1;
                this.k = var15 < 0.02F ? this.d[2] : A(this.k + Z(this.d[2] - this.k) * var6);
             }
 
@@ -171,27 +125,17 @@ public final class SkyCodec {
          }
       }
 
-      float var31 = var2 ? 1.0F : 0.0F;
-      long var19 = 24956739021027L;
-      if (24956739021027L == 0L) {
-         boolean var53 = false;
-      } else {
-         int var54 = var19 < 0L ? -1 : 1;
-      }
-
       float var7;
-      label167: {
+      label131: {
+         float var31 = var2 ? 1.0F : 0.0F;
+         long var19 = 24956739021027L;
+         int var7x = var19 < 0L ? -1 : 1;
          if (!(var6 >= 1.0F)) {
-            long var34 = 24956739021027L;
-            if (24956739021027L == 0L) {
-               boolean var55 = false;
-            } else {
-               int var56 = var34 < 0L ? -1 : 1;
-            }
-
+            long var34x = 24956739021027L;
+            int var26 = var34x < 0L ? -1 : 1;
             if (!(Math.abs(var31 - this.O) < 1.0E-4F)) {
                var7 = this.O + (var31 - this.O) * var6;
-               break label167;
+               break label131;
             }
          }
 
@@ -200,13 +144,8 @@ public final class SkyCodec {
 
       this.O = var7;
       if (!var10 && var14 == this.o) {
-         var18 = 24956739021026L;
-         if (24956739021026L == 0L) {
-            boolean var57 = false;
-         } else {
-            int var58 = var18 < 0L ? -1 : 1;
-         }
-
+         long var30 = 24956739021026L;
+         int var46 = var30 < 0L ? -1 : 1;
          if (var15 == this.Y && var16 == this.k && var17 == this.O) {
             return;
          }
@@ -267,44 +206,29 @@ public final class SkyCodec {
       double var9 = Math.hypot(var8[1], var8[2]);
       double var11 = Math.toRadians(this.U[2]);
       long var13 = 8284662380362L;
-      if (8284662380362L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var50 = var13 < 0L ? -1 : 1;
-      }
-
-      double var16 = var9 > 1.0E-5 ? Math.atan2(var8[2], var8[1]) : var11;
+      int var16 = var13 < 0L ? -1 : 1;
+      double var16x = var9 > 1.0E-5 ? Math.atan2(var8[2], var8[1]) : var11;
       double var18 = U(0.02F, 0.08F, (float)var9);
       double var20 = Math.min((double)this.V, 1.15);
       double var22 = var20 + (this.V - var20) * var18;
-      double var24 = l(var16 - var11) * this.v;
+      double var24 = l(var16x - var11) * this.v;
       long var26 = 8284662380362L;
-      if (8284662380362L == 0L) {
-         boolean var51 = false;
-      } else {
-         int var52 = var26 < 0L ? -1 : 1;
-      }
-
+      int var28 = var26 < 0L ? -1 : 1;
       if (var24 > 0.0) {
          var24 *= 1.0 - 0.75 * this.n;
       }
 
-      double var28 = var11 + Math.toRadians(this.E);
+      double var28x = var11 + Math.toRadians(this.E);
       double var30 = U(0.12F, 0.6F, (float)var8[0]) * (1.0 - 0.55 * U(0.8F, 1.0F, (float)var8[0]));
-      double var32 = Math.cos(var28 + var24) * var9 * var22 + Math.cos(var28) * this.i * var30;
-      double var34 = Math.sin(var28 + var24) * var9 * var22 + Math.sin(var28) * this.i * var30;
+      double var32 = Math.cos(var28x + var24) * var9 * var22 + Math.cos(var28x) * this.i * var30;
+      double var34 = Math.sin(var28x + var24) * var9 * var22 + Math.sin(var28x) * this.i * var30;
       double var36 = Math.clamp(var8[0] + this.D * U(0.25F, 0.5F, (float)var8[0]), 0.0, 1.0);
       double var38 = Math.hypot(var32, var34);
       long var40 = 8284662380361L;
-      if (8284662380361L == 0L) {
-         boolean var53 = false;
-      } else {
-         int var54 = var40 < 0L ? -1 : 1;
-      }
-
-      double var42 = var38 > 1.0E-5 ? Math.atan2(var34, var32) : var28;
-      var42 -= Math.toRadians(30.0) * c((float)Math.toDegrees(var42)) * (1.0 - U(0.55F, 0.85F, (float)var36));
-      int var44 = N(var36, var4, var38, var42);
+      int var42 = var40 < 0L ? -1 : 1;
+      double var42x = var38 > 1.0E-5 ? Math.atan2(var34, var32) : var28x;
+      double var51 = var42x - Math.toRadians(30.0) * c((float)Math.toDegrees(var42x)) * (1.0 - U(0.55F, 0.85F, (float)var36));
+      int var44 = N(var36, var4, var38, var51);
       if (this.O >= 1.0F) {
          return var44;
       } else {
@@ -328,12 +252,7 @@ public final class SkyCodec {
       var3[0] = (float)var6[0];
       double var9 = Math.hypot(var6[1], var6[2]);
       long var11 = 85691228810829L;
-      if (85691228810829L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var14 = var11 < 0L ? -1 : 1;
-      }
-
+      int var13 = var11 < 0L ? -1 : 1;
       var3[1] = (float)var9;
       var3[2] = (float)(var7 < 0.0 ? var7 + 360.0 : var7);
    }
@@ -369,29 +288,15 @@ public final class SkyCodec {
          for (int var32 = 0; var32 < 16; var32++) {
             double var33 = (var28 + var30) * 0.5;
             long var35 = 43504361873591L;
-            if (43504361873591L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var49 = var35 < 0L ? -1 : 1;
-            }
-
+            int var30x = var35 < 0L ? -1 : 1;
             var17 = var33 * var12;
             var19 = var33 * var14;
-            long var38 = 43504361873590L;
-            if (43504361873590L == 0L) {
-               boolean var50 = false;
-            } else {
-               int var51 = var38 < 0L ? -1 : 1;
-            }
-
+            long var38x = 43504361873590L;
+            int var32x = var38x < 0L ? -1 : 1;
             if (i(var8, var0, var17, var19, var16)) {
                var28 = var33;
-               long var41 = 43504361873590L;
-               if (43504361873590L == 0L) {
-                  boolean var52 = false;
-               } else {
-                  int var53 = var41 < 0L ? -1 : 1;
-               }
+               long var41x = 43504361873590L;
+               int var34 = var41x < 0L ? -1 : 1;
             } else {
                var30 = var33;
             }
@@ -399,12 +304,7 @@ public final class SkyCodec {
 
          var17 = var28 * var12;
          long var48 = 43504361873591L;
-         if (43504361873591L == 0L) {
-            boolean var54 = false;
-         } else {
-            int var55 = var48 < 0L ? -1 : 1;
-         }
-
+         int var27 = var48 < 0L ? -1 : 1;
          var19 = var28 * var14;
          i(var8, var0, var17, var19, var16);
       }
@@ -426,33 +326,18 @@ public final class SkyCodec {
       double var15 = 1.0E-4;
       double var17 = var8[0];
       long var19 = 102593407092776L;
-      if (102593407092776L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var30 = var19 < 0L ? -1 : 1;
-      }
-
-      double var22 = -var15;
+      int var22 = var19 < 0L ? -1 : 1;
+      double var22x = -var15;
       long var24 = 102593407092777L;
-      if (102593407092777L == 0L) {
-         boolean var31 = false;
-      } else {
-         int var32 = var24 < 0L ? -1 : 1;
-      }
-
-      return var17 >= var22 && var8[0] <= 1.0 + var15 && var8[1] >= -var15 && var8[1] <= 1.0 + var15 && var8[2] >= -var15 && var8[2] <= 1.0 + var15;
+      int var25 = var24 < 0L ? -1 : 1;
+      return var17 >= var22x && var8[0] <= 1.0 + var15 && var8[1] >= -var15 && var8[1] <= 1.0 + var15 && var8[2] >= -var15 && var8[2] <= 1.0 + var15;
    }
 
    private static double j(int var0, long var1) {
       SkyKind.ensureSourceClassInitialized();
       double var3 = var0 / 255.0;
       long var5 = 32707100087668L;
-      if (32707100087668L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       return var3 <= 0.04045 ? var3 / 12.92 : Math.pow((var3 + 0.055) / 1.055, 2.4);
    }
 
@@ -460,12 +345,7 @@ public final class SkyCodec {
       SkyKind.ensureSourceClassInitialized();
       double var4 = Math.clamp(var2, 0.0, 1.0);
       long var6 = 24219501129893L;
-      if (24219501129893L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var10 = var6 < 0L ? -1 : 1;
-      }
-
+      int var8 = var6 < 0L ? -1 : 1;
       var4 = var4 <= 0.0031308 ? 12.92 * var4 : 1.055 * Math.pow(var4, 0.4166666666666667) - 0.055;
       return (int)Math.round(Math.clamp(var4, 0.0, 1.0) * 255.0);
    }
@@ -492,7 +372,7 @@ public final class SkyCodec {
       return var3 * var3 * (3.0F - 2.0F * var3);
    }
 
-public record Data(int N, float v, float F, float D, float c, float l, float y) {
+   public record Data(int N, float v, float F, float D, float c, float l, float y) {
       public int key() {
          return this.N;
       }

@@ -1,21 +1,20 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
 public sealed interface SpotifyApi
-   permits SpotifyApi.Data4,
-   SpotifyApi.Data7,
+   permits SpotifyApi.Play,
+   SpotifyApi.Pause,
    SpotifyApi.Data,
-   SpotifyApi.Data2,
-   SpotifyApi.Data9,
-   SpotifyApi.Data5,
-   SpotifyApi.Data8,
-   SpotifyApi.Data6,
-   SpotifyApi.Data3,
-   SpotifyApi.Data10 {
+   SpotifyApi.SkipNext,
+   SpotifyApi.SkipPrevious,
+   SpotifyApi.Seek,
+   SpotifyApi.SetShuffle,
+   SpotifyApi.SetRepeat,
+   SpotifyApi.SetVolume,
+   SpotifyApi.SetMuted {
    public record Data() implements SpotifyApi {
    }
 
-   public record Data10(boolean S) implements SpotifyApi {
+   public record SetMuted(boolean S) implements SpotifyApi {
       public boolean muted() {
          return this.S;
       }
@@ -25,10 +24,10 @@ public sealed interface SpotifyApi
       }
    }
 
-   public record Data2() implements SpotifyApi {
+   public record SkipNext() implements SpotifyApi {
    }
 
-   public record Data3(float v) implements SpotifyApi {
+   public record SetVolume(float v) implements SpotifyApi {
       public float level() {
          return this.v;
       }
@@ -38,10 +37,10 @@ public sealed interface SpotifyApi
       }
    }
 
-   public record Data4() implements SpotifyApi {
+   public record Play() implements SpotifyApi {
    }
 
-   public record Data5(long q) implements SpotifyApi {
+   public record Seek(long q) implements SpotifyApi {
       public long positionMs() {
          return this.q;
       }
@@ -51,20 +50,20 @@ public sealed interface SpotifyApi
       }
    }
 
-   public record Data6(SpotifyData.TypeD Z) implements SpotifyApi {
-      public SpotifyData.TypeD mode() {
+   public record SetRepeat(SpotifyData.PlaybackState Z) implements SpotifyApi {
+      public SpotifyData.PlaybackState mode() {
          return this.Z;
       }
 
-      public SpotifyData.TypeD mediaPlaybackSnapshot_PlaybackRepeatModeState8() {
+      public SpotifyData.PlaybackState mediaPlaybackSnapshot_PlaybackRepeatModeState8() {
          return this.Z;
       }
    }
 
-   public record Data7() implements SpotifyApi {
+   public record Pause() implements SpotifyApi {
    }
 
-   public record Data8(boolean y) implements SpotifyApi {
+   public record SetShuffle(boolean y) implements SpotifyApi {
       public boolean on() {
          return this.y;
       }
@@ -74,6 +73,6 @@ public sealed interface SpotifyApi
       }
    }
 
-   public record Data9() implements SpotifyApi {
+   public record SkipPrevious() implements SpotifyApi {
    }
 }

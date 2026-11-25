@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.auth;
 
-import dev.purxiy.loader.security.SecuritySupport2;
+import dev.purxiy.loader.security.ModuleSignatureCheck;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -42,8 +41,6 @@ static {
       private static long[] a;
       private static Integer[] c;
 
-// $VF: Failed to inline enum fields
-      // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
       static {
       }
    }

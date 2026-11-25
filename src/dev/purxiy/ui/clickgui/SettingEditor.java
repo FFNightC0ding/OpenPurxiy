@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.Animator;
@@ -45,11 +44,11 @@ final class SettingEditor {
       16757852, 16740230, 15765855, 16177267, 10217082, 8253640, 6091494, 9423103, 9346047, 12160255, 16748498, 15920895
    };
    final PaletteSetting setting;
-   private final List<PaletteSetting.TypeR> choices;
-   private final List<SettingEditor.TypeI> chips = new ArrayList<>();
+   private final List<PaletteSetting.PaletteEntry> choices;
+   private final List<SettingEditor.EditorState> chips = new ArrayList<>();
    private final Map<String, class_1799> icons = new HashMap<>();
-   private final Map<String, SettingEditor.TypeW> tiles = new HashMap<>();
-   private List<PaletteSetting.TypeR> shown = List.of();
+   private final Map<String, SettingEditor.SettingSlider> tiles = new HashMap<>();
+   private List<PaletteSetting.PaletteEntry> shown = List.of();
    private String query = "";
    private String chip = "All";
    private int filtered = -1;
@@ -84,7 +83,7 @@ final class SettingEditor {
    private float clearW;
    private float actionY;
    private float actionH;
-   private SettingEditor.TypeF swatches;
+   private SettingEditor.EditorGeometry swatches;
 
    SettingEditor(final PaletteSetting var1, float var2, float var3, float var4, float var5) {
       this.setting = var1;
@@ -93,15 +92,15 @@ final class SettingEditor {
       this.open.target(1.0F);
       LinkedHashMap var6 = new LinkedHashMap();
 
-      for (PaletteSetting.TypeR var8 : this.choices) {
+      for (PaletteSetting.PaletteEntry var8 : this.choices) {
          var6.merge(var8.group(), 1, (a, b) -> (Integer)a + (Integer)b);
       }
 
-      this.chips.add(new SettingEditor.TypeI("All", "All"));
-      this.chips.add(new SettingEditor.TypeI("Chosen", "Chosen"));
+      this.chips.add(new SettingEditor.EditorState("All", "All"));
+      this.chips.add(new SettingEditor.EditorState("Chosen", "Chosen"));
       if (var6.size() > 1) {
          for (String var10 : (Iterable<String>)(Object)(var6.keySet())) {
-            this.chips.add(new SettingEditor.TypeI(var10, var10));
+            this.chips.add(new SettingEditor.EditorState(var10, var10));
          }
       }
 
@@ -123,7 +122,7 @@ final class SettingEditor {
             return 48;
          }
 
-         
+
          @Override
          public String placeholder() {
             return Translations.tr("Search " + var1.plural());
@@ -163,7 +162,7 @@ final class SettingEditor {
       }
    }
 
-   class_1799 icon(PaletteSetting.TypeR var1) {
+   class_1799 icon(PaletteSetting.PaletteEntry var1) {
       return this.icons.computeIfAbsent(var1.id(), var1x -> var1.icon().get());
    }
 
@@ -173,7 +172,7 @@ final class SettingEditor {
          String var1 = this.query.trim().toLowerCase(Locale.ROOT);
          ArrayList var2 = new ArrayList();
 
-         for (PaletteSetting.TypeR var4 : this.choices) {
+         for (PaletteSetting.PaletteEntry var4 : this.choices) {
             if ((this.chip.equals("Chosen") ? this.setting.has(var4.id()) : this.chip.equals("All") || var4.group().equals(this.chip))
                && (var1.isEmpty() || this.matches(var4, var1))) {
                var2.add(var4);
@@ -184,7 +183,7 @@ final class SettingEditor {
       }
    }
 
-   private boolean matches(PaletteSetting.TypeR var1, String var2) {
+   private boolean matches(PaletteSetting.PaletteEntry var1, String var2) {
       String var3 = var1.literal() ? var1.name() : Translations.tr(var1.name());
       return var3.toLowerCase(Locale.ROOT).contains(var2)
          || var1.name().toLowerCase(Locale.ROOT).contains(var2)
@@ -199,7 +198,7 @@ final class SettingEditor {
       } else {
          int var2 = 0;
 
-         for (PaletteSetting.TypeR var4 : this.choices) {
+         for (PaletteSetting.PaletteEntry var4 : this.choices) {
             if (var4.group().equals(var1)) {
                var2++;
             }
@@ -209,8 +208,8 @@ final class SettingEditor {
       }
    }
 
-   private SettingEditor.TypeW tile(PaletteSetting.TypeR var1) {
-      return this.tiles.computeIfAbsent(var1.id(), var1x -> new SettingEditor.TypeW(this.setting.has(var1x)));
+   private SettingEditor.SettingSlider tile(PaletteSetting.PaletteEntry var1) {
+      return this.tiles.computeIfAbsent(var1.id(), var1x -> new SettingEditor.SettingSlider(this.setting.has(var1x)));
    }
 
    void render(DrawContext var1) {
@@ -315,7 +314,7 @@ final class SettingEditor {
       float var4 = 30.0F;
       float var5 = this.px + this.pw - 20.0F - var4;
       float var6 = this.py + 20.0F;
-      boolean var7 = var3 && var1.hover(this.closeKey, var5, var6, var4, var4, DrawContext.TypeE.HAND);
+      boolean var7 = var3 && var1.hover(this.closeKey, var5, var6, var4, var4, DrawContext.Cursor.HAND);
       float var8 = this.closeHover.target(var7 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       var2.circle(var5 + var4 / 2.0F, var6 + var4 / 2.0F, var4 / 2.0F, BlendMode.withAlpha(-1, 0.05F + 0.08F * var8));
       var2.icon("x", var5 + var4 / 2.0F, var6 + var4 / 2.0F, 15.0F, BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var8));
@@ -335,7 +334,7 @@ final class SettingEditor {
       boolean var9 = false;
       boolean var10 = false;
 
-      for (PaletteSetting.TypeR var12 : this.shown) {
+      for (PaletteSetting.PaletteEntry var12 : this.shown) {
          boolean var13 = this.setting.has(var12.id());
          var9 |= !var13;
          var10 |= var13;
@@ -347,7 +346,7 @@ final class SettingEditor {
 
    private void action(DrawContext var1, Canvas var2, Object var3, Animator var4, float var5, float var6, float var7, String var8, String var9, boolean var10) {
       float var11 = this.actionH;
-      boolean var12 = var10 && var1.hover(var3, var5, var7 - var11 / 2.0F, var6, var11, DrawContext.TypeE.HAND);
+      boolean var12 = var10 && var1.hover(var3, var5, var7 - var11 / 2.0F, var6, var11, DrawContext.Cursor.HAND);
       float var13 = var4.target(var12 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       int var14 = var10 ? BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var13) : BlendMode.withAlpha(Icons.TEXT_3, 0.7F);
       var2.roundRect(var5, var7 - var11 / 2.0F, var6, var11, var11 / 2.0F, BlendMode.lerp(218103807, 419430399, var13));
@@ -361,9 +360,9 @@ final class SettingEditor {
    private void chips(DrawContext var1, Canvas var2, float var3, boolean var4) {
       float var5 = this.px + 26.0F;
       float var6 = 28.0F;
-      SettingEditor.TypeI var7 = null;
+      SettingEditor.EditorState var7 = null;
 
-      for (SettingEditor.TypeI var9 : this.chips) {
+      for (SettingEditor.EditorState var9 : this.chips) {
          String var10 = Integer.toString(this.count(var9.name));
          var9.w = var2.textWidth(Fonts.SEMIBOLD, var9.label, 11.5F) + var2.textWidth(Fonts.MEDIUM, var10, 10.5F) + 34.0F;
          var9.x = var5;
@@ -389,9 +388,9 @@ final class SettingEditor {
          var2.roundRectCorners(var15, var3 - var6 / 2.0F, var17, var6, var6 / 2.0F, 822083583, 352321535, 16777215, 16777215);
       }
 
-      for (SettingEditor.TypeI var18 : this.chips) {
+      for (SettingEditor.EditorState var18 : this.chips) {
          boolean var19 = var18 == var7;
-         boolean var11 = var4 && !var19 && var1.hover(var18.key, var18.x, var3 - var6 / 2.0F, var18.w, var6, DrawContext.TypeE.HAND);
+         boolean var11 = var4 && !var19 && var1.hover(var18.key, var18.x, var3 - var6 / 2.0F, var18.w, var6, DrawContext.Cursor.HAND);
          float var12 = var18.hover.target(var11 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          if (!var19) {
             var2.roundRect(var18.x, var3 - var6 / 2.0F, var18.w, var6, var6 / 2.0F, BlendMode.lerp(184549375, 385875967, var12));
@@ -426,7 +425,7 @@ final class SettingEditor {
       this.scrollTarget = Math.max(0.0F, Math.min(this.maxScroll, this.scrollTarget));
       float var12 = this.scroll.target(this.scrollTarget).update(MotionStyle.PANEL.dt(var1.dt));
 
-      for (SettingEditor.TypeW var14 : this.tiles.values()) {
+      for (SettingEditor.SettingSlider var14 : this.tiles.values()) {
          var14.placed = false;
       }
 
@@ -450,8 +449,8 @@ final class SettingEditor {
                      break;
                   }
 
-                  PaletteSetting.TypeR var22 = this.shown.get(var21);
-                  SettingEditor.TypeW var23 = this.tile(var22);
+                  PaletteSetting.PaletteEntry var22 = this.shown.get(var21);
+                  SettingEditor.SettingSlider var23 = this.tile(var22);
                   float var24 = var5 + var20 * (var9 + 10.0F);
                   float var25 = var16 + (1.0F - var18) * 12.0F;
                   boolean var26 = var4 && var18 > 0.95F && var16 + 30.0F > this.gridTop && var16 + 30.0F < this.gridBottom;
@@ -477,7 +476,7 @@ final class SettingEditor {
    }
 
    private void renderTile(
-      DrawContext var1, Canvas var2, PaletteSetting.TypeR var3, SettingEditor.TypeW var4, float var5, float var6, float var7, float var8, boolean var9
+      DrawContext var1, Canvas var2, PaletteSetting.PaletteEntry var3, SettingEditor.SettingSlider var4, float var5, float var6, float var7, float var8, boolean var9
    ) {
       boolean var10 = this.setting.has(var3.id());
       float var11 = var4.chosen.target(var10 ? 1.0F : 0.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
@@ -485,10 +484,10 @@ final class SettingEditor {
       float var13 = var6 + 30.0F;
       float var14 = var5 + var7 - 14.0F - 11.0F;
       float var15 = var14 - 11.0F - 16.0F;
-      boolean var16 = var9 && var1.hover(var4.key, var5, var6, var7, 60.0F, DrawContext.TypeE.HAND);
+      boolean var16 = var9 && var1.hover(var4.key, var5, var6, var7, 60.0F, DrawContext.Cursor.HAND);
       boolean var17 = var16 && Math.abs(var1.mouseX - var15) <= 11.0F && Math.abs(var1.mouseY - var13) <= 11.0F;
       if (var17) {
-         var1.claim(var4.dotKey, DrawContext.TypeE.HAND);
+         var1.claim(var4.dotKey, DrawContext.Cursor.HAND);
       }
 
       float var18 = var4.hover.target(var16 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
@@ -582,7 +581,7 @@ final class SettingEditor {
       var2.popAlpha();
    }
 
-   private void ripple(Canvas var1, SettingEditor.TypeW var2, float var3, float var4, float var5, float var6, int var7) {
+   private void ripple(Canvas var1, SettingEditor.SettingSlider var2, float var3, float var4, float var5, float var6, int var7) {
       float var8 = (var3 - var2.rippleAt) * MotionStyle.TOGGLE.speed();
       if (!(var8 < 0.0F) && !(var8 > 0.6F)) {
          float var9 = var8 / 0.6F;
@@ -627,7 +626,7 @@ final class SettingEditor {
    static void stack(Canvas var0,  SettingEditor var1, PaletteSetting var2, float var3, float var4, float var5, int var6) {
       ArrayList var7 = new ArrayList(var6);
       if (var2.count() > 0) {
-         for (PaletteSetting.TypeR var9 : var2.choices()) {
+         for (PaletteSetting.PaletteEntry var9 : var2.choices()) {
             if (var2.has(var9.id())) {
                var7.add(var9);
                if (var7.size() >= var6) {
@@ -641,13 +640,13 @@ final class SettingEditor {
          KeyLabel.iconTile(var0, var3, var4 - var5 / 2.0F, var5, var5 * 0.3F, var2.icon(), 0.0F, 0.0F);
       } else {
          for (int var14 = var7.size() - 1; var14 >= 0; var14--) {
-            PaletteSetting.TypeR var15 = (PaletteSetting.TypeR)var7.get(var14);
+            PaletteSetting.PaletteEntry var15 = (PaletteSetting.PaletteEntry)var7.get(var14);
             float var10 = var3 + var5 / 2.0F + var14 * var5 * 0.62F;
             int var11 = var2.colorOf(var15.id(), var15.color());
             var0.circle(var10, var4, var5 / 2.0F + 1.5F, Theme.tint(-15593950));
             var0.circle(var10, var4, var5 / 2.0F, BlendMode.lerp(Theme.tint(-14870731), 0xFF000000 | var11, 0.18F));
             var0.ring(var10, var4, var5 / 2.0F - 0.5F, 1.0F, BlendMode.withAlpha(var11, 0.55F));
-            class_1799 var12 = var1 != null ? var1.icon(var15) : SettingEditor.TypeZ.of(var15);
+            class_1799 var12 = var1 != null ? var1.icon(var15) : SettingEditor.SettingToggle.of(var15);
             float var13 = var5 * 0.66F;
             ItemPictures.draw(var0, var12, var10 - var13 / 2.0F, var4 - var13 / 2.0F, var13);
          }
@@ -684,7 +683,7 @@ final class SettingEditor {
 
                   float var7 = this.py + 92.0F + 46.0F + 21.0F + 2.0F;
                   if (Math.abs(var2 - var7) <= 14.0F) {
-                     for (SettingEditor.TypeI var9 : this.chips) {
+                     for (SettingEditor.EditorState var9 : this.chips) {
                         if (var1 >= var9.x && var1 <= var9.x + var9.w) {
                            if (!var9.name.equals(this.chip)) {
                               this.chip = var9.name;
@@ -699,15 +698,15 @@ final class SettingEditor {
                   }
 
                   if (!(var2 < this.gridTop) && !(var2 > this.gridBottom)) {
-                     for (PaletteSetting.TypeR var15 : this.shown) {
-                        SettingEditor.TypeW var10 = this.tiles.get(var15.id());
+                     for (PaletteSetting.PaletteEntry var15 : this.shown) {
+                        SettingEditor.SettingSlider var10 = this.tiles.get(var15.id());
                         if (var10 != null && var10.placed && !(var1 < var10.x) && !(var1 > var10.x + var10.w) && !(var2 < var10.y) && !(var2 > var10.y + 60.0F)
                            )
                          {
                            float var11 = var10.y + 30.0F;
                            float var12 = var10.x + var10.w - 14.0F - 11.0F - 11.0F - 16.0F;
                            if (Math.abs(var1 - var12) <= 11.0F && Math.abs(var2 - var11) <= 11.0F) {
-                              this.swatches = new SettingEditor.TypeF(var15, var12, var11);
+                              this.swatches = new SettingEditor.EditorGeometry(var15, var12, var11);
                               SoundRequest.play(SoundEvent.EXPAND);
                               return;
                            }
@@ -733,7 +732,7 @@ final class SettingEditor {
    private void chooseShown(boolean var1) {
       ArrayList var2 = new ArrayList(this.shown.size());
 
-      for (PaletteSetting.TypeR var4 : this.shown) {
+      for (PaletteSetting.PaletteEntry var4 : this.shown) {
          var2.add(var4.id());
       }
 
@@ -788,12 +787,12 @@ final class SettingEditor {
       return var0 * var0 * (3.0F - 2.0F * var0);
    }
 
-   private final class TypeF {
+   private final class EditorGeometry {
       private static final float SIZE = 22.0F;
       private static final float GAP_S = 8.0F;
       private static final float PAD_S = 12.0F;
       private static final float HEAD = 30.0F;
-      final PaletteSetting.TypeR choice;
+      final PaletteSetting.PaletteEntry choice;
       final float ax;
       final float ay;
       final Animator open = new Animator(0.0F, 320.0F, 27.0F);
@@ -807,7 +806,7 @@ final class SettingEditor {
       float w;
       float h;
 
-      TypeF(PaletteSetting.TypeR nullx, float nullxx, float nullxxx) {
+      EditorGeometry(PaletteSetting.PaletteEntry nullx, float nullxx, float nullxxx) {
          this.choice = nullx;
          this.ax = nullxx;
          this.ay = nullxxx;
@@ -853,7 +852,7 @@ final class SettingEditor {
          float var11 = var2.textWidth(Fonts.SEMIBOLD, var10, 10.5F) + 26.0F;
          float var12 = 20.0F;
          float var13 = this.x + this.w - 12.0F - var11;
-         boolean var14 = var7 && var1.hover(this.autoKey, var13, var8 - var12 / 2.0F, var11, var12, DrawContext.TypeE.HAND);
+         boolean var14 = var7 && var1.hover(this.autoKey, var13, var8 - var12 / 2.0F, var11, var12, DrawContext.Cursor.HAND);
          float var15 = this.autoHover.target(var14 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          var2.roundRect(
             var13,
@@ -869,7 +868,7 @@ final class SettingEditor {
          for (int var16 = 0; var16 < SettingEditor.SWATCHES.length; var16++) {
             float var17 = this.x + 12.0F + var16 % var5 * 30.0F + 11.0F;
             float var18 = this.y + 12.0F + 30.0F + var16 / var5 * 30.0F + 11.0F;
-            boolean var19 = var7 && var1.hover(this.keys[var16], var17 - 11.0F, var18 - 11.0F, 22.0F, 22.0F, DrawContext.TypeE.HAND);
+            boolean var19 = var7 && var1.hover(this.keys[var16], var17 - 11.0F, var18 - 11.0F, 22.0F, 22.0F, DrawContext.Cursor.HAND);
             float var20 = this.hover[var16].target(var19 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
             int var21 = 0xFF000000 | SettingEditor.SWATCHES[var16];
             boolean var22 = var9 != -1 && (var9 & 16777215) == SettingEditor.SWATCHES[var16];
@@ -911,7 +910,7 @@ final class SettingEditor {
       }
    }
 
-   private static final class TypeI {
+   private static final class EditorState {
       final String name;
       final String label;
       final Animator hover = Animator.smooth(0.0F);
@@ -919,13 +918,13 @@ final class SettingEditor {
       float x;
       float w;
 
-      TypeI(String var1, String var2) {
+      EditorState(String var1, String var2) {
          this.name = var1;
          this.label = var2;
       }
    }
 
-   private static final class TypeW {
+   private static final class SettingSlider {
       final Animator hover = Animator.smooth(0.0F);
       final Animator chosen;
       final Animator dot = Animator.smooth(0.0F);
@@ -939,18 +938,18 @@ final class SettingEditor {
       float w;
       boolean placed;
 
-      TypeW(boolean var1) {
+      SettingSlider(boolean var1) {
          this.chosen = Animator.snappy(var1 ? 1.0F : 0.0F);
       }
    }
 
-   static final class TypeZ {
+   static final class SettingToggle {
       private static final Map<String, class_1799> CACHE = new HashMap<>();
 
-      private TypeZ() {
+      private SettingToggle() {
       }
 
-      static class_1799 of(PaletteSetting.TypeR var0) {
+      static class_1799 of(PaletteSetting.PaletteEntry var0) {
          return CACHE.computeIfAbsent(var0.id(), var1 -> var0.icon().get());
       }
    }

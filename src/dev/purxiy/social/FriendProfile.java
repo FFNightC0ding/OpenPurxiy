@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.social;
 
 import com.mojang.authlib.GameProfile;
@@ -59,7 +58,7 @@ public final class FriendProfile {
       }
    }
 
-   
+
    private static GpuTextureView view(PlayerMetadata var0) {
       class_640 var1 = Friends.presence(var0).info();
       if (var1 != null) {
@@ -73,7 +72,7 @@ public final class FriendProfile {
       return var3 == null ? null : class_310.method_1551().method_73362().method_73495(var3).method_74051();
    }
 
-   
+
    private static class_9296 profile(PlayerMetadata var0) {
       UUID var1 = var0.minecraftId();
       if (var1 == null) {
@@ -94,7 +93,7 @@ public final class FriendProfile {
       }
    }
 
-   
+
    private static GpuTextureView texture( class_2960 var0) {
       if (var0 == null) {
          return null;

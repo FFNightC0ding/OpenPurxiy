@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.config;
 
 import dev.purxiy.anim.MotionStyle;
 import dev.purxiy.i18n.Translations;
-import dev.purxiy.profile.ProfileSupport2;
+import dev.purxiy.profile.ProfileFormatters;
 import dev.purxiy.render.BlendMode;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.render.font.FontMetrics;
@@ -20,35 +19,35 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
+final class ConfigLibrarySupport extends ConfigLibraryPage {
    private static final float ROW = 60.0F;
    private static final float CODE_BOX = 34.0F;
-   final ConfigLibraryFactory2 entry;
+   final ConfigLibraryStats entry;
    private final ConfigLibrarySupport.Listener actions;
    private final String code;
-   private final ConfigLibraryRenderer8.TypeC copy = new ConfigLibraryRenderer8.TypeC();
-   private final ConfigLibraryRenderer8.TypeC share = new ConfigLibraryRenderer8.TypeC();
-   private final ConfigLibraryRenderer8.TypeW copyShare = new ConfigLibraryRenderer8.TypeW();
-   private final ConfigLibraryRenderer8.TypeC file = new ConfigLibraryRenderer8.TypeC();
-   private final ConfigLibraryRenderer8.TypeC publish = new ConfigLibraryRenderer8.TypeC();
-   private final ConfigLibraryRenderer8.TypeC done = new ConfigLibraryRenderer8.TypeC();
+   private final ConfigLibraryDash.DashBar copy = new ConfigLibraryDash.DashBar();
+   private final ConfigLibraryDash.DashBar share = new ConfigLibraryDash.DashBar();
+   private final ConfigLibraryDash.DashState copyShare = new ConfigLibraryDash.DashState();
+   private final ConfigLibraryDash.DashBar file = new ConfigLibraryDash.DashBar();
+   private final ConfigLibraryDash.DashBar publish = new ConfigLibraryDash.DashBar();
+   private final ConfigLibraryDash.DashBar done = new ConfigLibraryDash.DashBar();
    private float copiedAt = -100.0F;
    private float shareCopiedAt = -100.0F;
    private float savedAt = -100.0F;
-   
-   private ConfigLibraryFactory3.TypeB shared;
+
+   private ConfigLibraryError.LibraryError shared;
    private boolean asking;
-   
+
    private String problem;
    private float time;
 
-   ConfigLibrarySupport(float[] var1, ConfigLibraryFactory2 var2, ConfigLibrarySupport.Listener var3) {
+   ConfigLibrarySupport(float[] var1, ConfigLibraryStats var2, ConfigLibrarySupport.Listener var3) {
       super(var1);
       this.entry = var2;
       this.actions = var3;
       this.code = ConfigLibraryTransform.encode(var2);
-      this.shared = ConfigLibraryFactory3.known(var2);
-      ConfigLibrarySupport3.checkStatus(false);
+      this.shared = ConfigLibraryError.known(var2);
+      ConfigLibraryHost.checkStatus(false);
    }
 
    @Override
@@ -61,14 +60,14 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
       return "Export “" + this.entry.name + "”";
    }
 
-   
+
    @Override
    String subtitle() {
-      return "Anyone with Purxiy can import it. Your keybinds and typed text stay yours.";
+      return "Anyone with SourceByDevFFnightmare DeObfDeCompByGuideX can import it. Your keybinds and typed text stay yours.";
    }
 
    private boolean discover() {
-      return ConfigLibrarySupport3.online();
+      return ConfigLibraryHost.online();
    }
 
    private boolean behind() {
@@ -85,12 +84,12 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
       this.time = var1.time;
       float var7 = var3 + var5;
       float var8 = var4 + 30.0F - 4.0F;
-      ConfigLibraryRenderer4.iconTile(var2, var3, var8, 36.0F, "braces", Icons.MAGENTA, 0.6F);
+      ConfigLibraryPage.iconTile(var2, var3, var8, 36.0F, "braces", Icons.MAGENTA, 0.6F);
       float var9 = var3 + 50.0F;
       int var10 = this.code.length();
       this.words(var2, var9, var8, "Config code", var10 + " letters  ·  the whole config as text", Icons.TEXT_2, var5 - 50.0F - 110.0F);
       boolean var11 = var1.time - this.copiedAt < 1.6F;
-      float var12 = ConfigLibraryRenderer8.TypeC.width(var2, var11 ? "check" : "copy", var11 ? "Copied" : "Copy", 32.0F);
+      float var12 = ConfigLibraryDash.DashBar.width(var2, var11 ? "check" : "copy", var11 ? "Copied" : "Copy", 32.0F);
       this.copy
          .render(
             var1,
@@ -99,7 +98,7 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
             32.0F,
             var11 ? "check" : "copy",
             var11 ? "Copied" : "Copy",
-            var11 ? ConfigLibraryRenderer8.TypeI.DONE : ConfigLibraryRenderer8.TypeI.PRIMARY,
+            var11 ? ConfigLibraryDash.DashTone.DONE : ConfigLibraryDash.DashTone.PRIMARY,
             var6
          );
       float var13 = var4 + 60.0F - 6.0F;
@@ -126,9 +125,9 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
       var2.rect(var3, var4, var5, 1.0F, 285212671);
       var8 = var4 + 30.0F;
       boolean var14 = var1.time - this.savedAt < 1.6F;
-      ConfigLibraryRenderer4.iconTile(var2, var3, var8, 36.0F, "file-down", Icons.MAGENTA, 0.35F);
+      ConfigLibraryPage.iconTile(var2, var3, var8, 36.0F, "file-down", Icons.MAGENTA, 0.35F);
       this.words(var2, var3 + 50.0F, var8, "Save as a file", "A .json in your configs folder, with its photo", Icons.TEXT_2, var5 - 50.0F - 110.0F);
-      var12 = ConfigLibraryRenderer8.TypeC.width(var2, var14 ? "check" : null, var14 ? "Saved" : "Save", 32.0F);
+      var12 = ConfigLibraryDash.DashBar.width(var2, var14 ? "check" : null, var14 ? "Saved" : "Save", 32.0F);
       this.file
          .render(
             var1,
@@ -137,7 +136,7 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
             32.0F,
             var14 ? "check" : null,
             var14 ? "Saved" : "Save",
-            var14 ? ConfigLibraryRenderer8.TypeI.DONE : ConfigLibraryRenderer8.TypeI.QUIET,
+            var14 ? ConfigLibraryDash.DashTone.DONE : ConfigLibraryDash.DashTone.QUIET,
             var6
          );
       var4 += 60.0F;
@@ -145,7 +144,7 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
          var2.rect(var3, var4, var5, 1.0F, 285212671);
          var8 = var4 + 30.0F;
          boolean var15 = ConfigLibraryTransform.isShared(this.entry);
-         ConfigLibraryRenderer4.iconTile(var2, var3, var8, 36.0F, "globe", Icons.MAGENTA, var15 ? 0.8F : 0.35F);
+         ConfigLibraryPage.iconTile(var2, var3, var8, 36.0F, "globe", Icons.MAGENTA, var15 ? 0.8F : 0.35F);
          this.words(
             var2,
             var3 + 50.0F,
@@ -156,8 +155,8 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
             var5 - 50.0F - 120.0F
          );
          String var16 = var15 ? "Stop" : "Publish";
-         var12 = ConfigLibraryRenderer8.TypeC.width(var2, (String)null, var16, 32.0F);
-         this.publish.render(var1, var7 - var12, var8, 32.0F, (String)null, var16, ConfigLibraryRenderer8.TypeI.QUIET, var6);
+         var12 = ConfigLibraryDash.DashBar.width(var2, (String)null, var16, 32.0F);
+         this.publish.render(var1, var7 - var12, var8, 32.0F, (String)null, var16, ConfigLibraryDash.DashTone.QUIET, var6);
          var4 += 60.0F;
       } else {
          this.publish.shown = false;
@@ -187,9 +186,9 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
 
    private void shareRow(DrawContext var1, Canvas var2, float var3, float var4, float var5, boolean var6) {
       float var7 = var3 + var5;
-      boolean var8 = ConfigLibrarySupport3.shareCodes();
-      ConfigLibraryFactory3.TypeB var9 = this.shared;
-      ConfigLibraryRenderer4.iconTile(var2, var3, var4, 36.0F, "hash", Icons.MAGENTA, var9 != null ? 0.8F : 0.35F);
+      boolean var8 = ConfigLibraryHost.shareCodes();
+      ConfigLibraryError.LibraryError var9 = this.shared;
+      ConfigLibraryPage.iconTile(var2, var3, var4, 36.0F, "hash", Icons.MAGENTA, var9 != null ? 0.8F : 0.35F);
       if (var9 != null) {
          String var10 = var9.code();
          float var11 = 0.0F;
@@ -220,33 +219,33 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
          int var19 = Icons.TEXT_2;
          String var20;
          if (this.asking) {
-            var20 = "Getting a code from the Purxiy server…";
+            var20 = "Getting a code from the SourceByDevFFnightmare DeObfDeCompByGuideX server…";
          } else if (this.problem != null) {
             String var24 = this.problem;
 
             var20 = switch (var24) {
-               case "offline", "slow_down" -> "Can't reach the Purxiy server: try again in a moment";
+               case "offline", "slow_down" -> "Can't reach the SourceByDevFFnightmare DeObfDeCompByGuideX server: try again in a moment";
                case "too_large" -> "This config is too large for a share code";
                default -> "The server would not make a code";
             };
             var19 = -29785;
          } else if (!var8) {
-            var20 = ConfigLibrarySupport3.unknown() ? "Asking the Purxiy server…" : "A 5-digit code: comes with the Purxiy server";
+            var20 = ConfigLibraryHost.unknown() ? "Asking the SourceByDevFFnightmare DeObfDeCompByGuideX server…" : "A 5-digit code: comes with the SourceByDevFFnightmare DeObfDeCompByGuideX server";
          } else {
             var20 = "A 5-digit code anyone can type into Import";
          }
 
          this.words(var2, var3 + 50.0F, var4, "Share code", var20, var19, var5 - 50.0F - 120.0F);
          String var23 = this.problem != null ? "Try again" : "Get code";
-         float var25 = ConfigLibraryRenderer8.TypeC.width(var2, (String)null, var23, 32.0F);
+         float var25 = ConfigLibraryDash.DashBar.width(var2, (String)null, var23, 32.0F);
          if (this.asking) {
             float var27 = MotionStyle.reduced() ? 0.5F : this.time * 1.4F % 1.0F;
             var2.arc(var7 - var25 / 2.0F, var4, 9.0F, 1.6F, var27 * 360.0F, 100.0F, BlendMode.withAlpha(Theme.tint(-1783297), 0.0F), Theme.tint(-1783297), true);
             this.share.shown = false;
          } else if (!var8 && this.problem == null) {
-            ConfigLibraryRenderer4.disabled(var1, this.share, var7 - var25, var4, 32.0F, (String)null, var23);
+            ConfigLibraryPage.disabled(var1, this.share, var7 - var25, var4, 32.0F, (String)null, var23);
          } else {
-            this.share.render(var1, var7 - var25, var4, 32.0F, (String)null, var23, ConfigLibraryRenderer8.TypeI.QUIET, var6);
+            this.share.render(var1, var7 - var25, var4, 32.0F, (String)null, var23, ConfigLibraryDash.DashTone.QUIET, var6);
          }
       }
    }
@@ -268,13 +267,13 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
    }
 
    private static String until(long var0) {
-      return ProfileSupport2.date(LocalDate.ofInstant(Instant.ofEpochMilli(var0), ZoneId.systemDefault()));
+      return ProfileFormatters.date(LocalDate.ofInstant(Instant.ofEpochMilli(var0), ZoneId.systemDefault()));
    }
 
    @Override
    void footer(DrawContext var1, Canvas var2, float var3, float var4, float var5, boolean var6) {
-      float var7 = ConfigLibraryRenderer8.TypeC.width(var2, (String)null, "Done", 34.0F);
-      this.done.render(var1, var4 - var7, var5, 34.0F, (String)null, "Done", ConfigLibraryRenderer8.TypeI.QUIET, var6);
+      float var7 = ConfigLibraryDash.DashBar.width(var2, (String)null, "Done", 34.0F);
+      this.done.render(var1, var4 - var7, var5, 34.0F, (String)null, "Done", ConfigLibraryDash.DashTone.QUIET, var6);
    }
 
    void copyCode() {
@@ -288,7 +287,7 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
       if (!this.asking) {
          this.asking = true;
          this.problem = null;
-         ConfigLibraryFactory3.create(this.entry, (var1, var2) -> {
+         ConfigLibraryError.create(this.entry, (var1, var2) -> {
             this.asking = false;
             if (var1 == null) {
                this.problem = var2;
@@ -309,7 +308,7 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
          return true;
       } else if (this.share.hit(var1, var2)) {
          this.share.press();
-         ConfigLibrarySupport3.checkStatus(true);
+         ConfigLibraryHost.checkStatus(true);
          this.askCode();
          return true;
       } else if (this.copyShare.hit(var1, var2) && this.shared != null) {
@@ -353,10 +352,10 @@ final class ConfigLibrarySupport extends ConfigLibraryRenderer4 {
    }
 
    interface Listener {
-      void copied(ConfigLibraryFactory2 var1);
+      void copied(ConfigLibraryStats var1);
 
-      void saveFile(ConfigLibraryFactory2 var1);
+      void saveFile(ConfigLibraryStats var1);
 
-      void publish(ConfigLibraryFactory2 var1, float var2, float var3);
+      void publish(ConfigLibraryStats var1, float var2, float var3);
    }
 }

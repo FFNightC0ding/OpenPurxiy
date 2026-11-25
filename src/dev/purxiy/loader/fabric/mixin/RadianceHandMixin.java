@@ -1,11 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import dev.purxiy.loader.fabric.client.ClientRegistry16;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.EntityMaskPipeline;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_11279;
 import net.minecraft.class_11659;
 import net.minecraft.class_4587;
@@ -32,8 +31,8 @@ public abstract class RadianceHandMixin {
       )}
    )
    private void purxiy$radianceHand(class_759 var1, float var2, class_4587 var3, class_11659 var4, class_746 var5, int var6, Operation<Void> var7) {
-      var7.call(new Object[]{var1, var2, var3, ClientRegistry16.handCollector(var4), var5, var6});
-      ClientRegistry16.drawHandMask();
+      var7.call(new Object[]{var1, var2, var3, EntityMaskPipeline.handCollector(var4), var5, var6});
+      EntityMaskPipeline.drawHandMask();
    }
 
    @WrapOperation(
@@ -44,7 +43,7 @@ public abstract class RadianceHandMixin {
       )}
    )
    private GpuBufferSlice purxiy$radianceHudProjection(class_11279 var1, int var2, int var3, float var4, Operation<GpuBufferSlice> var5) {
-      ClientRegistry16.hudProjection(var2, var3, var4);
+      EntityMaskPipeline.hudProjection(var2, var3, var4);
       return (GpuBufferSlice)var5.call(new Object[]{var1, var2, var3, var4});
    }
 
@@ -56,7 +55,7 @@ public abstract class RadianceHandMixin {
       )}
    )
    private void purxiy$radianceLight(class_9779 var1, CallbackInfo var2) {
-      ClientSupport3.handComposite();
-      ClientRegistry16.composite();
+      SkyPipelineRouter.handComposite();
+      EntityMaskPipeline.composite();
    }
 }

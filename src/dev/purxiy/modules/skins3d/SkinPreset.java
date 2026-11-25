@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -133,19 +132,11 @@ public enum SkinPreset {
    public final float t;
    public final SkinPreset.Data h;
    public final int y;
-   
    private final class_2960 b;
-   
    private final class_2960 F;
-   
    private class_8685 u;
-   
    private class_8685 J;
    public static int S = 0;
-
-
-
-
 
    private SkinPreset(
       String nullxx,
@@ -186,28 +177,20 @@ public enum SkinPreset {
       this.h = nullxxxxxxxxx;
       this.y = nullxxxxxxxxxx;
       long var14 = 14648057342154L;
-      if (14648057342154L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var17 = var14 < 0L ? -1 : 1;
-      }
-
-      int var16 = 2076109922;
+      int var16 = var14 < 0L ? -1 : 1;
+      var16 = 2076109922;
       this.b = nullxx.equals("own") ? null : ClientServices.id("textures/skins3d/" + nullxx + ".png");
       this.F = nullxxxxxxxxxxx ? ClientServices.id("models/skins3d/" + nullxx + ".vxm") : null;
    }
 
-   
    public class_2960 texture() {
       return this == B && Skins3DUpdater.unmasked() ? T : this.b;
    }
 
-   
    public class_2960 voxelModel() {
       return this == B && Skins3DUpdater.unmasked() ? Q : this.F;
    }
 
-   
    public static class_2960 voxelModel(class_2960 var0) {
       if (var0.equals(T)) {
          return Q;
@@ -222,7 +205,6 @@ public enum SkinPreset {
       }
    }
 
-   
    public static SkinPreset sculpted(class_2960 var0) {
       if (var0.equals(T)) {
          return B;
@@ -279,7 +261,6 @@ public enum SkinPreset {
       return n;
    }
 
-   
    public static SkinPreset byKey(String var0) {
       for (SkinPreset var4 : values()) {
          if (var4.x.equalsIgnoreCase(var0) || var4.N.equalsIgnoreCase(var0)) {
@@ -290,10 +271,10 @@ public enum SkinPreset {
       return null;
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
 
-public record Data(float p, float Y, float M, float w, float b, float y, float q) {
+   public record Data(float p, float Y, float M, float w, float b, float y, float q) {
       public static final SkinPreset.Data P = new SkinPreset.Data(1.0F, 1.0F, 1.0F, 1.0F, 1.0F);
 
       public Data(float var1, float var2, float var3, float var4, float var5) {

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import org.joml.Quaternionf;
@@ -20,7 +19,7 @@ public final class Skins3DSupport {
    private Skins3DSupport() {
    }
 
-   public static void reach(Skins3DSupport3 var0, int var1, Vector3f var2, float var3, Vector3f var4, float var5) {
+   public static void reach(Skins3DRestPose var0, int var1, Vector3f var2, float var3, Vector3f var4, float var5) {
       if (!(var5 <= 0.0F)) {
          float var6 = 4.0F;
          float var7 = var3 - 4.0F;
@@ -74,14 +73,14 @@ public final class Skins3DSupport {
          : var1.set((float)Math.atan2(var13 > 0.0F ? var11 : -var11, var12), var14, 0.0F);
    }
 
-   public static Vector3f palm(Skins3DSupport3 var0, int var1, float var2, Vector3f var3) {
+   public static Vector3f palm(Skins3DRestPose var0, int var1, float var2, Vector3f var3) {
       float var4 = var0.y[var1];
       var3.set(0.0F, 4.0F + (var2 - 4.0F) * (float)Math.cos(var4), -(var2 - 4.0F) * (float)Math.sin(var4));
       r.rotationZYX(var0.v[var1], var0.D[var1], var0.d[var1]).transform(var3);
       return var3.add(var0.V[var1], var0.b[var1], var0.F[var1]);
    }
 
-   public static Quaternionf forearm(Skins3DSupport3 var0, int var1, Quaternionf var2) {
+   public static Quaternionf forearm(Skins3DRestPose var0, int var1, Quaternionf var2) {
       return var2.rotationZYX(var0.v[var1], var0.D[var1], var0.d[var1]).rotateX(-var0.y[var1]);
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.auras;
 
 import dev.purxiy.loader.fabric.ModuleDescriptor;
@@ -16,17 +15,14 @@ import net.minecraft.class_746;
 
 final class AuraFactory {
    private static final class_5819 u = class_5819.method_43047();
-   private final Supplier<List<AuraFactory.Data2>> k;
+   private final Supplier<List<AuraFactory.CosmeticEntry>> k;
    private final Supplier<Float> F;
    final List<AuraFactory.Data> H;
-   
    private final Consumer<class_746> m;
    private final Supplier<String> G;
 
-
-
    private AuraFactory(
-      Supplier<List<AuraFactory.Data2>> var1, Supplier<Float> var2, List<AuraFactory.Data> var3,  Consumer<class_746> var4, Supplier<String> var5
+      Supplier<List<AuraFactory.CosmeticEntry>> var1, Supplier<Float> var2, List<AuraFactory.Data> var3, Consumer<class_746> var4, Supplier<String> var5
    ) {
       this.k = var1;
       this.F = var2;
@@ -35,7 +31,7 @@ final class AuraFactory {
       this.G = var5;
    }
 
-   List<AuraFactory.Data2> timeline() {
+   List<AuraFactory.CosmeticEntry> timeline() {
       return this.k.get();
    }
 
@@ -43,7 +39,6 @@ final class AuraFactory {
       return this.F.get();
    }
 
-   
    String note() {
       return this.G.get();
    }
@@ -55,8 +50,8 @@ final class AuraFactory {
    }
 
    private static void O(long var0) {
-      if (!AuraSupport2.moved()) {
-         AuraSupport2.overlook(26.0F, 1.55F);
+      if (!AuraFrameView.moved()) {
+         AuraFrameView.overlook(26.0F, 1.55F);
       }
    }
 
@@ -71,7 +66,7 @@ final class AuraFactory {
    }
 
    private static class_243 c(class_746 var0, double var1, double var3) {
-      class_243 var5 = AuraSupport2.position();
+      class_243 var5 = AuraFrameView.position();
       double var6 = var0.method_23317() - var5.field_1352;
       double var8 = var0.method_23321() - var5.field_1350;
       double var10 = Math.max(0.001, Math.sqrt(var6 * var6 + var8 * var8));
@@ -98,14 +93,14 @@ final class AuraFactory {
    }
 
    private static AuraFactory H(long var0) {
-      Consumer var2 = var0x -> AuraRenderer3.previewGather();
-      Consumer var3 = var0x -> AuraSupport2.turntable(9.0F);
-      Consumer var4 = var0x -> AuraRenderer3.pulse();
+      Consumer var2 = var0x -> AuraRenderPass.previewGather();
+      Consumer var3 = var0x -> AuraFrameView.turntable(9.0F);
+      Consumer var4 = var0x -> AuraRenderPass.pulse();
       List var5 = List.of(
-         new AuraFactory.Data2(0.0F, "Gather", var2),
-         new AuraFactory.Data2(0.5F, "Turn", var3),
-         new AuraFactory.Data2(4.4F, "Pulse", var4),
-         new AuraFactory.Data2(6.9F, "Pulse", var4)
+         new AuraFactory.CosmeticEntry(0.0F, "Gather", var2),
+         new AuraFactory.CosmeticEntry(0.5F, "Turn", var3),
+         new AuraFactory.CosmeticEntry(4.4F, "Pulse", var4),
+         new AuraFactory.CosmeticEntry(6.9F, "Pulse", var4)
       );
       List var6 = List.of(
          new AuraFactory.Data("Gather", "sparkles", var2), new AuraFactory.Data("Pulse", "radio", var4), new AuraFactory.Data("Turn", "rotate-3d", var3)
@@ -114,7 +109,7 @@ final class AuraFactory {
    }
 
    static class_243 from(class_746 var0) {
-      class_243 var1 = AuraSupport2.position();
+      class_243 var1 = AuraFrameView.position();
       return new class_243(var1.field_1352, var0.method_23318() + var0.method_17682() * 0.7, var1.field_1350);
    }
 
@@ -144,7 +139,7 @@ final class AuraFactory {
       return H(var3);
    }
 
-record Data(String C, String D, Consumer<class_746> n) {
+   record Data(String C, String D, Consumer<class_746> n) {
       public String label() {
          return this.C;
       }
@@ -170,7 +165,7 @@ record Data(String C, String D, Consumer<class_746> n) {
       }
    }
 
-   record Data2(float a, String Q, Consumer<class_746> H) {
+   record CosmeticEntry(float a, String Q, Consumer<class_746> H) {
       public float at() {
          return this.a;
       }

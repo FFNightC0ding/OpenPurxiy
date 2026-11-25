@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.halo;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -43,11 +42,7 @@ final class HaloCache {
    private static final boolean[] S = new boolean[]{
       false, false, false, false, true, false, false, false, true, false, true, false, false, false, false, false
    };
-   private static final ExecutorService N = ClientServices.visualExecutor("Purxiy halo skin colour");
-
-
-
-
+   private static final ExecutorService N = ClientServices.visualExecutor("SourceByDevFFnightmare DeObfDeCompByGuideX halo skin colour");
 
    private HaloCache() {
    }
@@ -85,20 +80,10 @@ final class HaloCache {
       if (var3 instanceof class_1043 var5) {
          class_1011 var6 = var5.method_4525();
          long var7 = 61390862158636L;
-         if (61390862158636L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var14 = var7 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
          if (var6 != null) {
-            long var10 = 61390862158637L;
-            if (61390862158637L == 0L) {
-               boolean var15 = false;
-            } else {
-               int var16 = var10 < 0L ? -1 : 1;
-            }
-
+            long var10x = 61390862158637L;
+            int var11 = var10x < 0L ? -1 : 1;
             if (var6.method_4307() == 64 && var6.method_4323() == 64) {
                var4 = var6.method_61942();
             }
@@ -110,17 +95,16 @@ final class HaloCache {
          long var2x = 99854505942591L;
          HaloDesign.ensureSourceClassInitialized();
          return analyse(var13 != null ? var13 : h(var2x, var2));
-      }, N).whenComplete((var1, var2x) -> {
+      }, N).whenComplete((var1, var2xx) -> {
          HaloDesign.ensureSourceClassInitialized();
-         if (var2x != null) {
-            ClientServices.LOGGER.debug("Halo: no colour from skin {}: {}", var2, var2x.toString());
+         if (var2xx != null) {
+            ClientServices.LOGGER.debug("Halo: no colour from skin {}: {}", var2, var2xx.toString());
          }
 
          w.put(var2, var1 == null ? 0 : var1);
       });
    }
 
-   
    private static int[] h(long var0, class_2960 var2) {
       HaloDesign.ensureSourceClassInitialized();
       Optional var3 = class_310.method_1551().method_1478().method_14486(var2);
@@ -129,29 +113,39 @@ final class HaloCache {
       } else {
          try {
             int[] var10;
-            try (
-               InputStream var4 = ((class_3298)var3.get()).method_14482();
+            try (InputStream var4 = ((class_3298)var3.get()).method_14482()) {
                class_1011 var5 = class_1011.method_4309(var4);
-            ) {
-               int var6 = var5.method_4307();
-               long var7 = 99854505942590L;
-               if (99854505942590L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var16 = var7 < 0L ? -1 : 1;
+
+               try {
+                  int var6 = var5.method_4307();
+                  long var7 = 99854505942590L;
+                  int var10x = var7 < 0L ? -1 : 1;
+                  var10 = var6 == 64 && var5.method_4323() == 64 ? var5.method_61942() : null;
+               } catch (Throwable var13) {
+                  if (var5 != null) {
+                     try {
+                        var5.close();
+                     } catch (Throwable var12) {
+                        var13.addSuppressed(var12);
+                     }
+                  }
+
+                  throw var13;
                }
 
-               var10 = var6 == 64 && var5.method_4323() == 64 ? var5.method_61942() : null;
+               if (var5 != null) {
+                  var5.close();
+               }
             }
 
             return var10;
-         } catch (IOException var15) {
+         } catch (IOException var151) {
             return null;
          }
       }
    }
 
-   static int analyse( int[] var0) {
+   static int analyse(int[] var0) {
       long var1 = 75929532623725L;
       long var3 = var1 ^ 87027485884340L;
       long var5 = var1 ^ 124432900297250L;
@@ -311,12 +305,7 @@ final class HaloCache {
    private static double H(long var0, double var2) {
       HaloDesign.ensureSourceClassInitialized();
       long var4 = 78830092905305L;
-      if (78830092905305L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       return var2 <= 0.04045 ? var2 / 12.92 : Math.pow((var2 + 0.055) / 1.055, 2.4);
    }
 
@@ -324,14 +313,9 @@ final class HaloCache {
       HaloDesign.ensureSourceClassInitialized();
       double var4 = Math.clamp(var0, 0.0, 1.0);
       long var6 = 75351796343936L;
-      if (75351796343936L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var11 = var6 < 0L ? -1 : 1;
-      }
-
-      double var9 = var4 <= 0.0031308 ? var4 * 12.92 : 1.055 * Math.pow(var4, 0.4166666666666667) - 0.055;
-      return (int)Math.round(Math.clamp(var9, 0.0, 1.0) * 255.0);
+      int var9 = var6 < 0L ? -1 : 1;
+      double var9x = var4 <= 0.0031308 ? var4 * 12.92 : 1.055 * Math.pow(var4, 0.4166666666666667) - 0.055;
+      return (int)Math.round(Math.clamp(var9x, 0.0, 1.0) * 255.0);
    }
 
    static void release() {
@@ -350,5 +334,4 @@ final class HaloCache {
 
       w.clear();
    }
-
 }

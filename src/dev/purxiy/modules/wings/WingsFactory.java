@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.wings;
 
 import dev.purxiy.loader.fabric.ModuleDescriptor;
@@ -6,6 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.class_1109;
+import net.minecraft.class_1297;
 import net.minecraft.class_243;
 import net.minecraft.class_310;
 import net.minecraft.class_3414;
@@ -16,17 +16,15 @@ import net.minecraft.class_746;
 
 final class WingsFactory {
    private static final class_5819 m = class_5819.method_43047();
-   private final Supplier<List<WingsFactory.Data2>> J;
+   private final Supplier<List<WingsFactory.CosmeticEntry>> J;
    private final Supplier<Float> s;
    final List<WingsFactory.Data> g;
-   
    private final Consumer<class_746> A;
    private final Supplier<String> O;
-
    private static final String[] b = new String[15];
 
    private WingsFactory(
-      Supplier<List<WingsFactory.Data2>> var1, Supplier<Float> var2, List<WingsFactory.Data> var3,  Consumer<class_746> var4, Supplier<String> var5
+      Supplier<List<WingsFactory.CosmeticEntry>> var1, Supplier<Float> var2, List<WingsFactory.Data> var3, Consumer<class_746> var4, Supplier<String> var5
    ) {
       this.J = var1;
       this.s = var2;
@@ -35,7 +33,7 @@ final class WingsFactory {
       this.O = var5;
    }
 
-   List<WingsFactory.Data2> timeline() {
+   List<WingsFactory.CosmeticEntry> timeline() {
       return this.J.get();
    }
 
@@ -43,7 +41,6 @@ final class WingsFactory {
       return this.s.get();
    }
 
-   
    String note() {
       return this.O.get();
    }
@@ -99,9 +96,9 @@ final class WingsFactory {
 
    private static WingsFactory W(int var0, int var1, short var2) {
       Consumer var3 = var0x -> WingsSupport.turntable(9.0F);
-      Consumer var4 = var0x -> WingsUpdater2.preview(WingsUpdater.TypeK.t, 2.6F);
+      Consumer var4 = var0x -> WingsState.preview(WingsUpdater.WingPhase.t, 2.6F);
       Consumer var5 = var0x -> {
-         WingsUpdater2.preview(WingsUpdater.TypeK.T, 1.6F);
+         WingsState.preview(WingsUpdater.WingPhase.T, 1.6F);
          class_310.method_1551()
             .method_1483()
             .method_4873(
@@ -111,20 +108,20 @@ final class WingsFactory {
                   0.35F,
                   1.5F + m.method_43057() * 0.2F,
                   m,
-                  ((net.minecraft.class_1297)(Object)var0x).method_23317(),
-                  ((net.minecraft.class_1297)(Object)var0x).method_23318() + ((net.minecraft.class_1297)(Object)var0x).method_17682() * 0.7,
-                  ((net.minecraft.class_1297)(Object)var0x).method_23321()
+                  ((class_1297)var0x).method_23317(),
+                  ((class_1297)var0x).method_23318() + ((class_1297)var0x).method_17682() * 0.7,
+                  ((class_1297)var0x).method_23321()
                )
             );
       };
-      Consumer var6 = var0x -> WingsUpdater2.preview(WingsUpdater.TypeK.l, 2.2F);
-      Consumer var7 = var0x -> WingsUpdater2.preview(WingsUpdater.TypeK.b, 1.6F);
+      Consumer var6 = var0x -> WingsState.preview(WingsUpdater.WingPhase.l, 2.2F);
+      Consumer var7 = var0x -> WingsState.preview(WingsUpdater.WingPhase.b, 1.6F);
       List var8 = List.of(
-         new WingsFactory.Data2(0.0F, "Turn", var3),
-         new WingsFactory.Data2(0.3F, "Spread", var4),
-         new WingsFactory.Data2(3.0F, "Beat", var5),
-         new WingsFactory.Data2(4.8F, "Glide", var6),
-         new WingsFactory.Data2(7.2F, "Fold", var7)
+         new WingsFactory.CosmeticEntry(0.0F, "Turn", var3),
+         new WingsFactory.CosmeticEntry(0.3F, "Spread", var4),
+         new WingsFactory.CosmeticEntry(3.0F, "Beat", var5),
+         new WingsFactory.CosmeticEntry(4.8F, "Glide", var6),
+         new WingsFactory.CosmeticEntry(7.2F, "Fold", var7)
       );
       List var9 = List.of(
          new WingsFactory.Data("Spread", "maximize-2", var4),
@@ -133,7 +130,7 @@ final class WingsFactory {
          new WingsFactory.Data("Fold", "minimize-2", var7),
          new WingsFactory.Data("Turn", "rotate-3d", var3)
       );
-      return new WingsFactory(() -> var8, () -> 9.2F, var9, var0x -> WingsUpdater2.preview(WingsUpdater.TypeK.b, 0.1F), () -> null);
+      return new WingsFactory(() -> var8, () -> 9.2F, var9, var0x -> WingsState.preview(WingsUpdater.WingPhase.b, 0.1F), () -> null);
    }
 
    static class_243 from(class_746 var0) {
@@ -170,7 +167,7 @@ final class WingsFactory {
       return W(var5, var6, (short)var7);
    }
 
-record Data(String f, String j, Consumer<class_746> Z) {
+   record Data(String f, String j, Consumer<class_746> Z) {
       public String label() {
          return this.f;
       }
@@ -196,7 +193,7 @@ record Data(String f, String j, Consumer<class_746> Z) {
       }
    }
 
-   record Data2(float r, String m, Consumer<class_746> d) {
+   record CosmeticEntry(float r, String m, Consumer<class_746> d) {
       public float at() {
          return this.r;
       }

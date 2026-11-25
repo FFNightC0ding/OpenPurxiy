@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -38,7 +37,7 @@ public final class HudSlot {
       return HudLayoutEngine.active();
    }
 
-   public static HudSlot.TypeB bounds(String var0) {
+   public static HudSlot.SlotRect bounds(String var0) {
       for (HudModule var2 : HudRegistry.elements()) {
          if (var2.id().equals(var0)) {
             return var2.editBounds();
@@ -73,6 +72,6 @@ public final class HudSlot {
       return HudRegistry.elements().stream().filter(var0 -> !(var0 instanceof HudGroupModule)).toList();
    }
 
-   public record TypeB(float x, float y, float width, float height) {
+   public record SlotRect(float x, float y, float width, float height) {
    }
 }

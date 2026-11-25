@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer9;
+import dev.purxiy.loader.fabric.client.EquipmentRenderPass;
 import dev.purxiy.ui.WBuilder;
 import java.util.List;
 import net.minecraft.class_4588;
@@ -27,7 +26,7 @@ public abstract class Skins3DPartMixin {
       cancellable = true
    )
    private void purxiy$compile(class_4665 var1, class_4588 var2, int var3, int var4, int var5, CallbackInfo var6) {
-      if (ClientRenderer9.paint((class_630)(Object)(Object)this, var1, var2, var3, var4, var5)) {
+      if (EquipmentRenderPass.paint((class_630)(Object)(Object)this, var1, var2, var3, var4, var5)) {
          var6.cancel();
       } else if (WBuilder.active()) {
          WBuilder.compile(this.field_3663, var1, var2, var3, var4, var5);

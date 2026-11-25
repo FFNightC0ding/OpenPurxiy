@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.nick;
 
 import java.nio.charset.StandardCharsets;
@@ -12,11 +11,11 @@ final class NickHiderBuilder {
    static final int P = 1;
    static final int Q = 0;
    static final NickHiderBuilder U;
-   private final NickHiderBuilder.TypeE E;
+   private final NickHiderBuilder.NickSpan E;
    private final int p;
    private final int t;
 
-   private NickHiderBuilder(NickHiderBuilder.TypeE var1, int var2, int var3) {
+   private NickHiderBuilder(NickHiderBuilder.NickSpan var1, int var2, int var3) {
       this.E = var1;
       this.p = var2;
       this.t = var3;
@@ -34,7 +33,7 @@ final class NickHiderBuilder {
       return this.p;
    }
 
-   int find(int[] var1, int[] var2,  Object[] var3, int var4, NickHiderBuilder.TypeL var5) {
+   int find(int[] var1, int[] var2, Object[] var3, int var4, NickHiderBuilder.NickMask var5) {
       long var6 = 42012666535671L;
       long var8 = var6 ^ 26822381474889L;
       int var10 = (int)((var6 ^ 122635096307203L) >>> 56);
@@ -42,7 +41,7 @@ final class NickHiderBuilder {
       var5.o = 0;
       if (var4 >= this.p && this.t != 0) {
          for (int var13 = 0; var13 < var4; var13++) {
-            NickHiderBuilder.TypeE var14 = this.E.child(var2[var13]);
+            NickHiderBuilder.NickSpan var14 = this.E.child(var2[var13]);
             if (var14 != null && M(var8, var1, var2, var3, var13)) {
                NickHiderBuilder.Data var15 = var14.r != null && B(var1, var2, var3, var4, (byte)var10, var11, var13) ? var14.r : null;
                int var16 = var13 + 1;
@@ -74,65 +73,34 @@ final class NickHiderBuilder {
       }
    }
 
-   private static boolean M(long var0, int[] var2,  int[] var3, Object[] var4, int var5) {
+   private static boolean M(long var0, int[] var2, int[] var3, Object[] var4, int var5) {
       long var6 = 37743333875968L;
       NickHiderCodec.ensureSourceClassInitialized();
       if (var5 != 0) {
          int var8 = var2[var5];
          long var9 = 68516616440509L;
-         if (68516616440509L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var25 = var9 < 0L ? -1 : 1;
-         }
-
-         int var11 = var3[var5];
+         int var11 = var9 < 0L ? -1 : 1;
+         var11 = var3[var5];
          long var12 = 68516616440510L;
-         if (68516616440510L == 0L) {
-            boolean var26 = false;
-         } else {
-            int var27 = var12 < 0L ? -1 : 1;
-         }
-
+         int var15 = var12 < 0L ? -1 : 1;
          if (NickHiderSupport.isWord(var8, var11)) {
-            int var15;
             for (var15 = var5 - 1; var15 > 0; var15--) {
                var8 = var2[var15];
                long var16 = 68516616440510L;
-               if (68516616440510L == 0L) {
-                  boolean var28 = false;
-               } else {
-                  int var29 = var16 < 0L ? -1 : 1;
-               }
-
+               int var24 = var16 < 0L ? -1 : 1;
                boolean var18 = NickHiderSupport.ignorable(var8);
                long var19 = 68516616440509L;
-               if (68516616440509L == 0L) {
-                  boolean var30 = false;
-               } else {
-                  int var31 = var19 < 0L ? -1 : 1;
-               }
-
+               int var20 = var19 < 0L ? -1 : 1;
                if (!var18) {
                   break;
                }
             }
 
             long var23 = 68516616440510L;
-            if (68516616440510L == 0L) {
-               boolean var32 = false;
-            } else {
-               int var33 = var23 < 0L ? -1 : 1;
-            }
-
+            int var27 = var23 < 0L ? -1 : 1;
             var8 = var2[var15];
             long var24 = 68516616440510L;
-            if (68516616440510L == 0L) {
-               boolean var34 = false;
-            } else {
-               int var35 = var24 < 0L ? -1 : 1;
-            }
-
+            int var191 = var24 < 0L ? -1 : 1;
             return !NickHiderSupport.isWord(var8, var3[var15]) || Y(var4, var15, var6, var5);
          }
       }
@@ -140,45 +108,24 @@ final class NickHiderBuilder {
       return true;
    }
 
-   private static boolean B(int[] var0, int[] var1,  Object[] var2, int var3, byte var4, long var5, int var7) {
+   private static boolean B(int[] var0, int[] var1, Object[] var2, int var3, byte var4, long var5, int var7) {
       long var8 = 81075616000244L;
       long var10 = var8 ^ 118675001084404L;
       NickHiderCodec.ensureSourceClassInitialized();
       long var12 = 81075616000243L;
-      if (81075616000243L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var29 = var12 < 0L ? -1 : 1;
-      }
-
+      int var15 = var12 < 0L ? -1 : 1;
       if (var7 != var3 - 1) {
-         int var15 = var0[var7];
+         var15 = var0[var7];
          long var16 = 81075616000244L;
-         if (81075616000244L == 0L) {
-            boolean var30 = false;
-         } else {
-            int var31 = var16 < 0L ? -1 : 1;
-         }
-
-         int var18 = var1[var7];
+         int var18 = var16 < 0L ? -1 : 1;
+         var18 = var1[var7];
          long var19 = 81075616000243L;
-         if (81075616000243L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var19 < 0L ? -1 : 1;
-         }
-
+         int var21 = var19 < 0L ? -1 : 1;
          if (NickHiderSupport.isWord(var15, var18)) {
-            int var21;
             for (var21 = var7 + 1; var21 < var3 - 1; var21++) {
                boolean var22 = false;
                long var23 = 81075616000244L;
-               if (81075616000244L == 0L) {
-                  boolean var34 = false;
-               } else {
-                  int var35 = var23 < 0L ? -1 : 1;
-               }
-
+               int var241 = var23 < 0L ? -1 : 1;
                var15 = var0[var21];
                if (!NickHiderSupport.ignorable(var15)) {
                   break;
@@ -186,14 +133,9 @@ final class NickHiderBuilder {
             }
 
             long var27 = 81075616000243L;
-            if (81075616000243L == 0L) {
-               boolean var36 = false;
-            } else {
-               int var37 = var27 < 0L ? -1 : 1;
-            }
-
+            int var24 = var27 < 0L ? -1 : 1;
             var15 = var0[var21];
-            int var24 = 0;
+            var24 = 0;
             var24 = var1[var21];
             return !NickHiderSupport.isWord(var15, var24) || Y(var2, var7, var10, var21);
          }
@@ -202,7 +144,7 @@ final class NickHiderBuilder {
       return true;
    }
 
-   private static boolean Y( Object[] var0, int var1, long var2, int var4) {
+   private static boolean Y(Object[] var0, int var1, long var2, int var4) {
       NickHiderCodec.ensureSourceClassInitialized();
       return var0 != null && !Objects.equals(var0[var1], var0[var4]);
    }
@@ -237,11 +179,11 @@ final class NickHiderBuilder {
       r = (int)var2[0];
       N = (int)var2[2];
       K = (int)var2[1];
-      U = new NickHiderBuilder.TypeR().build();
+      U = new NickHiderBuilder.NickMaskRef().build();
    }
 
-   record Data(String c,  NickHiderCodec n, int b, boolean x, boolean L) {
-      static NickHiderBuilder.Data of(String var0,  NickHiderCodec var1, int var2) {
+   record Data(String c, NickHiderCodec n, int b, boolean x, boolean L) {
+      static NickHiderBuilder.Data of(String var0, NickHiderCodec var1, int var2) {
          return new NickHiderBuilder.Data(var0, var1, var2, var0.chars().anyMatch(Character::isUpperCase), var0.chars().anyMatch(Character::isLowerCase));
       }
 
@@ -249,7 +191,6 @@ final class NickHiderBuilder {
          return this.c;
       }
 
-      
       public NickHiderCodec alias() {
          return this.n;
       }
@@ -270,7 +211,6 @@ final class NickHiderBuilder {
          return this.c;
       }
 
-      
       public NickHiderCodec formattedNicknameState2() {
          return this.n;
       }
@@ -288,19 +228,16 @@ final class NickHiderBuilder {
       }
    }
 
-   private static final class TypeE {
+   private static final class NickSpan {
       private static final int[] x = new int[0];
-      private static final NickHiderBuilder.TypeE[] o = new NickHiderBuilder.TypeE[0];
-      
-      private NickHiderBuilder.TypeE[] C;
+      private static final NickHiderBuilder.NickSpan[] o = new NickHiderBuilder.NickSpan[0];
+      private NickHiderBuilder.NickSpan[] C;
       private int[] z = x;
-      private NickHiderBuilder.TypeE[] Z = o;
+      private NickHiderBuilder.NickSpan[] Z = o;
       private int i;
-      
       NickHiderBuilder.Data r;
 
-      
-      NickHiderBuilder.TypeE child(int var1) {
+      NickHiderBuilder.NickSpan child(int var1) {
          if (this.C != null && var1 < 128) {
             return this.C[var1];
          } else {
@@ -314,12 +251,12 @@ final class NickHiderBuilder {
          }
       }
 
-      NickHiderBuilder.TypeE childOrCreate(int var1) {
-         NickHiderBuilder.TypeE var2 = this.child(var1);
+      NickHiderBuilder.NickSpan childOrCreate(int var1) {
+         NickHiderBuilder.NickSpan var2 = this.child(var1);
          if (var2 != null) {
             return var2;
          } else {
-            var2 = new NickHiderBuilder.TypeE();
+            var2 = new NickHiderBuilder.NickSpan();
             if (this.i == this.z.length) {
                int var3 = Math.max(2, this.i * 2);
                this.z = Arrays.copyOf(this.z, var3);
@@ -330,7 +267,7 @@ final class NickHiderBuilder {
             this.Z[this.i] = var2;
             this.i++;
             if (this.C == null && this.i > 12) {
-               this.C = new NickHiderBuilder.TypeE[128];
+               this.C = new NickHiderBuilder.NickSpan[128];
 
                for (int var5 = 0; var5 < this.i; var5++) {
                   if (this.z[var5] < 128) {
@@ -346,7 +283,7 @@ final class NickHiderBuilder {
       }
    }
 
-   static final class TypeL {
+   static final class NickMask {
       int[] p = new int[4];
       int[] P = new int[4];
       NickHiderBuilder.Data[] I = new NickHiderBuilder.Data[4];
@@ -372,13 +309,13 @@ final class NickHiderBuilder {
       }
    }
 
-   static final class TypeR {
-      private final NickHiderBuilder.TypeE q = new NickHiderBuilder.TypeE();
+   static final class NickMaskRef {
+      private final NickHiderBuilder.NickSpan q = new NickHiderBuilder.NickSpan();
       private int I = Integer.MAX_VALUE;
       private int p;
 
-      NickHiderBuilder.TypeR add(String var1, NickHiderBuilder.Data var2) {
-         NickHiderBuilder.TypeE var3 = this.q;
+      NickHiderBuilder.NickMaskRef add(String var1, NickHiderBuilder.Data var2) {
+         NickHiderBuilder.NickSpan var3 = this.q;
          int var4 = 0;
          int var5 = 0;
 

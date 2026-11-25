@@ -1,13 +1,11 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hitsplash;
-
-import net.minecraft.class_1309;
 
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.class_1109;
+import net.minecraft.class_1309;
 import net.minecraft.class_243;
 import net.minecraft.class_310;
 import net.minecraft.class_3414;
@@ -20,19 +18,12 @@ final class HitSplashFactory {
    private static final class_5819 T = class_5819.method_43047();
    private final Supplier<List<HitSplashFactory.Data>> h;
    private final Supplier<Float> U;
-   final List<HitSplashFactory.Data2> a;
-   
+   final List<HitSplashFactory.CosmeticEntry> a;
    private final Consumer<class_746> J;
    private final Supplier<String> F;
 
-
-
    private HitSplashFactory(
-      Supplier<List<HitSplashFactory.Data>> var1,
-      Supplier<Float> var2,
-      List<HitSplashFactory.Data2> var3,
-       Consumer<class_746> var4,
-      Supplier<String> var5
+      Supplier<List<HitSplashFactory.Data>> var1, Supplier<Float> var2, List<HitSplashFactory.CosmeticEntry> var3, Consumer<class_746> var4, Supplier<String> var5
    ) {
       this.h = var1;
       this.U = var2;
@@ -49,7 +40,6 @@ final class HitSplashFactory {
       return this.U.get();
    }
 
-   
    String note() {
       return this.F.get();
    }
@@ -105,16 +95,16 @@ final class HitSplashFactory {
 
    private static HitSplashFactory J(long var0) {
       Consumer var2 = var0x -> {
-         hit((class_746)(var0x), false);
-         HitSplashRenderer.previewHit((class_1309)(Object)var0x, from((class_746)(var0x)), false);
+         hit((class_746)var0x, false);
+         HitSplashRenderer.previewHit((class_1309)var0x, from((class_746)var0x), false);
       };
       Consumer var3 = var0x -> {
-         hit((class_746)(var0x), true);
-         HitSplashRenderer.previewHit((class_1309)(Object)var0x, from((class_746)(var0x)), true);
+         hit((class_746)var0x, true);
+         HitSplashRenderer.previewHit((class_1309)var0x, from((class_746)var0x), true);
       };
       Consumer var4 = var0x -> {
-         hit((class_746)(var0x), true);
-         HitSplashRenderer.previewKill((class_1309)(Object)var0x, from((class_746)(var0x)));
+         hit((class_746)var0x, true);
+         HitSplashRenderer.previewKill((class_1309)var0x, from((class_746)var0x));
       };
       List var5 = List.of(
          new HitSplashFactory.Data(0.0F, "Hit", var2),
@@ -123,10 +113,10 @@ final class HitSplashFactory {
          new HitSplashFactory.Data(1.6F, "Kill", var4)
       );
       List var6 = List.of(
-         new HitSplashFactory.Data2("Hit", "swords", var2),
-         new HitSplashFactory.Data2("Critical", "sparkle", var3),
-         new HitSplashFactory.Data2("Kill", "skull", var4),
-         new HitSplashFactory.Data2("Clear", "eraser", var0x -> HitSplashRenderer.clear())
+         new HitSplashFactory.CosmeticEntry("Hit", "swords", var2),
+         new HitSplashFactory.CosmeticEntry("Critical", "sparkle", var3),
+         new HitSplashFactory.CosmeticEntry("Kill", "skull", var4),
+         new HitSplashFactory.CosmeticEntry("Clear", "eraser", var0x -> HitSplashRenderer.clear())
       );
       return new HitSplashFactory(() -> var5, () -> 2.6F, var6, null, () -> null);
    }
@@ -162,7 +152,7 @@ final class HitSplashFactory {
       return J(var3);
    }
 
-record Data(float C, String I, Consumer<class_746> v) {
+   record Data(float C, String I, Consumer<class_746> v) {
       public float at() {
          return this.C;
       }
@@ -188,7 +178,7 @@ record Data(float C, String I, Consumer<class_746> v) {
       }
    }
 
-   record Data2(String q, String U, Consumer<class_746> i) {
+   record CosmeticEntry(String q, String U, Consumer<class_746> i) {
       public String label() {
          return this.q;
       }

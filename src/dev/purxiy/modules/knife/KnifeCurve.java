@@ -1,7 +1,5 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
-import java.nio.charset.StandardCharsets;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -90,5 +88,4 @@ public final class KnifeCurve {
    static float rad(float var0) {
       return var0 * (float) Math.PI / 180.0F;
    }
-
 }

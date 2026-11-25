@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import dev.purxiy.duck.ScreenHook;
@@ -20,20 +19,19 @@ import net.minecraft.class_572.class_573;
 import org.joml.Vector3f;
 
 public final class Skins3DTransform {
-   private static final Int2ObjectMap<Skins3DTransform.TypeE> x = new Int2ObjectOpenHashMap();
+   private static final Int2ObjectMap<Skins3DTransform.SkinTransform> x = new Int2ObjectOpenHashMap();
    private static final Map<SkinPreset, Skins3DApi> v = new EnumMap<>(SkinPreset.class);
-   private static final Map<Skins3DBuilder.TypeR, Skins3DCodec.Data> D = new IdentityHashMap<>();
-   private static final Skins3DSupport3 e = new Skins3DSupport3();
+   private static final Map<Skins3DBuilder.SkinQuad, Skins3DCodec.Data> D = new IdentityHashMap<>();
+   private static final Skins3DRestPose e = new Skins3DRestPose();
    private static final Skins3DCurve G = new Skins3DCurve();
    private static final Skins3DCurve k = new Skins3DCurve();
-   private static final Skins3DTransform2.TypeO W = new Skins3DTransform2.TypeO();
+   private static final Skins3DPose.PoseAngles W = new Skins3DPose.PoseAngles();
    private static final Vector3f b = new Vector3f();
    private static final float g = 2.1333334F;
    private static long I = 0L;
    private static int n = 0;
    private static final class_630[] j = new class_630[7];
-   private static final Map<class_10055, Skins3DSupport5> V = new WeakHashMap<>();
-
+   private static final Map<class_10055, Skins3DGroundPose> V = new WeakHashMap<>();
    private static final Integer[] c = new Integer[4];
    private static final long d = 10000000000L;
 
@@ -52,10 +50,10 @@ public final class Skins3DTransform {
       V.remove(var1);
       Skins3DApi var14 = var13 == null ? null : v.get(var13);
       if (var14 != null) {
-         Skins3DTransform.TypeE var15 = (Skins3DTransform.TypeE)x.get(var0.method_5628());
+         Skins3DTransform.SkinTransform var15 = (Skins3DTransform.SkinTransform)x.get(var0.method_5628());
          long var16 = System.nanoTime();
          if (var15 == null) {
-            var15 = new Skins3DTransform.TypeE();
+            var15 = new Skins3DTransform.SkinTransform();
             var15.b = var16;
             x.put(var0.method_5628(), var15);
          }
@@ -105,7 +103,7 @@ public final class Skins3DTransform {
             var15.M = var25;
             var15.U = true;
             var15.w = (var15.w + var26 * 0.6662F * var14.cadence(var15.C)) % 6283.1855F;
-            Skins3DSupport5 var27 = new Skins3DSupport5();
+            Skins3DGroundPose var27 = new Skins3DGroundPose();
             var27.L = var14;
             var27.W = Math.min(1.0F, var1.field_53451 * 1.25F);
             var27.H = var15.C;
@@ -140,29 +138,19 @@ public final class Skins3DTransform {
       }
    }
 
-   private static void c(Skins3DTransform.TypeE var0, long var1, Skins3DSupport5 var3, Skins3DApi var4, SkinPreset var5, float var6, boolean var7) {
+   private static void c(Skins3DTransform.SkinTransform var0, long var1, Skins3DGroundPose var3, Skins3DApi var4, SkinPreset var5, float var6, boolean var7) {
       SkinPreset.ensureSourceClassInitialized();
       boolean var8 = var3.W < 0.08F && var0.Y < 0.1F && var0.y < 0.5F;
       var0.A = var8 ? var0.A + var6 : 0.0F;
       long var9 = 63112419731045L;
-      if (63112419731045L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var33 = var9 < 0L ? -1 : 1;
-      }
-
+      int var12 = var9 < 0L ? -1 : 1;
       if (!var8) {
          var0.K = 0;
          var0.k = Math.max(var0.k, 2.5F);
       }
 
-      long var12 = 63112419731045L;
-      if (63112419731045L == 0L) {
-         boolean var34 = false;
-      } else {
-         int var35 = var12 < 0L ? -1 : 1;
-      }
-
+      long var12x = 63112419731045L;
+      int var29 = var12x < 0L ? -1 : 1;
       if (var0.K != 0) {
          var0.q = var0.q + var6 / var4.habitSeconds(var0.K);
          if (var0.q >= 1.0F) {
@@ -176,44 +164,16 @@ public final class Skins3DTransform {
             float var14;
             int var15 = (var14 = var0.A - 2.5F) == 0.0F ? 0 : (var14 < 0.0F ? -1 : 1);
             long var16 = 63112419731046L;
-            if (63112419731046L == 0L) {
-               boolean var36 = false;
-            } else {
-               int var37 = var16 < 0L ? -1 : 1;
-            }
-
+            int var18 = var16 < 0L ? -1 : 1;
             if (var15 > 0) {
-               int var18 = var4.habits();
+               var18 = var4.habits();
                int var19 = 1 + ThreadLocalRandom.current().nextInt(var18);
                long var20 = 63112419731045L;
-               if (63112419731045L == 0L) {
-                  boolean var38 = false;
-               } else {
-                  int var39 = var20 < 0L ? -1 : 1;
-               }
-
-               long var23 = 63112419731045L;
-               if (63112419731045L == 0L) {
-                  boolean var40 = false;
-               } else {
-                  int var41 = var23 < 0L ? -1 : 1;
-               }
-
+               int var23 = var20 < 0L ? -1 : 1;
+               long var23x = 63112419731045L;
                if (var19 == var0.Q) {
-                  long var25 = 63112419731045L;
-                  if (63112419731045L == 0L) {
-                     boolean var42 = false;
-                  } else {
-                     int var43 = var25 < 0L ? -1 : 1;
-                  }
-
-                  long var27 = 63112419731045L;
-                  if (63112419731045L == 0L) {
-                     boolean var44 = false;
-                  } else {
-                     int var45 = var27 < 0L ? -1 : 1;
-                  }
-
+                  long var25x = 63112419731045L;
+                  long var27x = 63112419731045L;
                   if (var18 > 1) {
                      var19 = var19 % var18 + 1;
                   }
@@ -225,29 +185,14 @@ public final class Skins3DTransform {
          }
       }
 
-      long var29 = 63112419731045L;
-      if (63112419731045L == 0L) {
-         boolean var46 = false;
-      } else {
-         int var47 = var29 < 0L ? -1 : 1;
-      }
-
+      long var29x = 63112419731045L;
+      int var311 = var29x < 0L ? -1 : 1;
       if (var7) {
          long var30 = 63112419731045L;
-         if (63112419731045L == 0L) {
-            boolean var48 = false;
-         } else {
-            int var49 = var30 < 0L ? -1 : 1;
-         }
-
+         int var35 = var30 < 0L ? -1 : 1;
          if (n > 0) {
             long var32 = 63112419731046L;
-            if (63112419731046L == 0L) {
-               boolean var50 = false;
-            } else {
-               int var51 = var32 < 0L ? -1 : 1;
-            }
-
+            int var37 = var32 < 0L ? -1 : 1;
             if (n <= var4.habits()) {
                var0.K = n;
                var0.q = 0.0F;
@@ -257,11 +202,11 @@ public final class Skins3DTransform {
       }
 
       if (var5 == SkinPreset.I && var7) {
-         float var31 = Skins3DUpdater3.sincePlayed();
+         float var31x = Skins3DTimer.sincePlayed();
          float var17 = var4.habitSeconds(1);
-         if (var31 >= 0.0F && var31 < var17) {
+         if (var31x >= 0.0F && var31x < var17) {
             var0.K = 1;
-            var0.q = var31 / var17;
+            var0.q = var31x / var17;
          }
       }
    }
@@ -277,15 +222,15 @@ public final class Skins3DTransform {
       return V.get(var0) != null;
    }
 
-   static void pose(class_591 var0, class_10055 var1, Skins3DBuilder.TypeR var2) {
+   static void pose(class_591 var0, class_10055 var1, Skins3DBuilder.SkinQuad var2) {
       long var3 = 24993557561374L;
       long var5 = var3 ^ 78974967880742L;
       int var7 = (int)((var3 ^ 40536908671022L) >>> 48);
       long var8 = (var3 ^ 40536908671022L) << 16 >>> 16;
       long var10 = var3 ^ 73982423552421L;
-      Skins3DSupport5 var12 = V.get(var1);
+      Skins3DGroundPose var12 = V.get(var1);
       if (var12 != null && var12.L != null) {
-         Skins3DSupport3 var13 = y(var0, e, (short)var7, var8);
+         Skins3DRestPose var13 = y(var0, e, (short)var7, var8);
          Skins3DCurve var14 = Skins3DCodec.read(var13, G);
          Skins3DCurve var15 = k.set(var14);
          var12.L.move(var15, var14, var12);
@@ -293,7 +238,7 @@ public final class Skins3DTransform {
          var12.L.finish(var13, var12);
          boolean var16 = var12.S != 0;
          if (var16) {
-            Skins3DTransform2.figure(var13, var12, W, b);
+            Skins3DPose.figure(var13, var12, W, b);
          }
 
          if (var1.field_53410) {
@@ -321,7 +266,7 @@ public final class Skins3DTransform {
       var0.field_27433.field_3656 -= 3.2F;
    }
 
-   private static Skins3DCodec.Data o(Skins3DBuilder.TypeR var0, long var1) {
+   private static Skins3DCodec.Data o(Skins3DBuilder.SkinQuad var0, long var1) {
       SkinPreset.ensureSourceClassInitialized();
       Skins3DCodec.Data var3 = D.get(var0);
       if (var3 == null) {
@@ -347,7 +292,7 @@ public final class Skins3DTransform {
       return j;
    }
 
-   private static Skins3DSupport3 y(class_591 var0, Skins3DSupport3 var1, short var2, long var3) {
+   private static Skins3DRestPose y(class_591 var0, Skins3DRestPose var1, short var2, long var3) {
       long var5 = 55411387689008L;
       long var7 = var5 ^ 133928076705828L;
       int var9 = (int)((var5 ^ 133928076705828L) >>> 48);
@@ -367,13 +312,13 @@ public final class Skins3DTransform {
          var1.N[var13] = var14.field_37938;
          var1.z[var13] = var14.field_37939;
          var1.x[var13] = var14.field_37940;
-         var1.y[var13] = ((ScreenHook)(Object)(var14)).purxiy$bend();
+         var1.y[var13] = ((ScreenHook)(Object)var14).purxiy$bend();
       }
 
       return var1;
    }
 
-   private static void h(class_591 var0, long var1, Skins3DSupport3 var3) {
+   private static void h(class_591 var0, long var1, Skins3DRestPose var3) {
       long var4 = 83201962043412L;
       byte var6 = 0;
       int var7 = 1269561188;
@@ -384,12 +329,7 @@ public final class Skins3DTransform {
       for (int var10 = 0; var10 < 7; var10++) {
          class_630 var11 = var9[var10];
          long var12 = 94498475315643L;
-         if (94498475315643L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var16 = var12 < 0L ? -1 : 1;
-         }
-
+         int var14 = var12 < 0L ? -1 : 1;
          var11.field_3657 = var3.V[var10];
          var11.field_3656 = var3.b[var10];
          var11.field_3655 = var3.F[var10];
@@ -401,17 +341,12 @@ public final class Skins3DTransform {
          var11.field_37940 = var3.x[var10];
       }
 
-      ((ScreenHook)(Object)(var0.field_3401)).purxiy$bend(var3.y[2], -1.0F);
+      ((ScreenHook)(Object)var0.field_3401).purxiy$bend(var3.y[2], -1.0F);
       long var15 = 94498475315643L;
-      if (94498475315643L == 0L) {
-         boolean var17 = false;
-      } else {
-         int var18 = var15 < 0L ? -1 : 1;
-      }
-
-      ((ScreenHook)(Object)(var0.field_27433)).purxiy$bend(var3.y[3], -1.0F);
-      ((ScreenHook)(Object)(var0.field_3392)).purxiy$bend(var3.y[4], 1.0F);
-      ((ScreenHook)(Object)(var0.field_3397)).purxiy$bend(var3.y[5], 1.0F);
+      int var16 = var15 < 0L ? -1 : 1;
+      ((ScreenHook)(Object)var0.field_27433).purxiy$bend(var3.y[3], -1.0F);
+      ((ScreenHook)(Object)var0.field_3392).purxiy$bend(var3.y[4], 1.0F);
+      ((ScreenHook)(Object)var0.field_3397).purxiy$bend(var3.y[5], 1.0F);
    }
 
    static void devHabit(int var0) {
@@ -430,37 +365,22 @@ public final class Skins3DTransform {
    private static float E(float var0, long var1) {
       SkinPreset.ensureSourceClassInitialized();
       long var3 = 22742797050650L;
-      if (22742797050650L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var14 = var3 < 0L ? -1 : 1;
-      }
-
-      float var6 = Math.max(0.0F, Math.min(1.0F, var0));
+      int var6 = var3 < 0L ? -1 : 1;
+      float var6x = Math.max(0.0F, Math.min(1.0F, var0));
       long var7 = 22742797050651L;
-      if (22742797050651L == 0L) {
-         boolean var15 = false;
-      } else {
-         int var16 = var7 < 0L ? -1 : 1;
-      }
-
-      if (var6 < 0.22F) {
-         float var13 = var6 / 0.22F;
+      int var9 = var7 < 0L ? -1 : 1;
+      if (var6x < 0.22F) {
+         float var13 = var6x / 0.22F;
          return 1.0F - (1.0F - var13) * (1.0F - var13) * (1.0F - var13);
       } else {
-         float var9 = (var6 - 0.22F) / 0.78F;
+         float var9x = (var6x - 0.22F) / 0.78F;
          long var10 = 22742797050651L;
-         if (22742797050651L == 0L) {
-            boolean var17 = false;
-         } else {
-            int var18 = var10 < 0L ? -1 : 1;
-         }
-
-         return 1.0F - (var9 < 0.5F ? 4.0F * var9 * var9 * var9 : 1.0F - (float)Math.pow(-2.0F * var9 + 2.0F, 3.0) / 2.0F);
+         int var11 = var10 < 0L ? -1 : 1;
+         return 1.0F - (var9x < 0.5F ? 4.0F * var9x * var9x * var9x : 1.0F - (float)Math.pow(-2.0F * var9x + 2.0F, 3.0) / 2.0F);
       }
    }
 
-private static final class TypeE {
+   private static final class SkinTransform {
       long b;
       double v;
       boolean c;

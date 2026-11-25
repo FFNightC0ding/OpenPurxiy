@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.font;
 
 import dev.purxiy.assets.AssetPaths;
@@ -222,7 +221,7 @@ public final class TrueTypeFont implements AutoCloseable {
       if (!Character.isWhitespace(var1) && !Character.isISOControl(var1)) {
          this.workers.execute(() -> {
             try {
-               GlyphRasterizer.TypeW var4x = GlyphRasterizer.rasterize(this.info, var2);
+               GlyphRasterizer.GlyphBitmap var4x = GlyphRasterizer.rasterize(this.info, var2);
                if (var4x == null) {
                   var9.state = 2;
                   return;

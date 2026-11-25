@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry7;
+import dev.purxiy.loader.fabric.client.SkyTintProvider;
 import net.minecraft.class_9955;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +15,7 @@ public abstract class CyberspaceCloudMixin {
       cancellable = true
    )
    private void purxiy$cyberspaceClouds(CallbackInfo var1) {
-      if (ClientRegistry7.hidesClouds()) {
+      if (SkyTintProvider.hidesClouds()) {
          var1.cancel();
       }
    }

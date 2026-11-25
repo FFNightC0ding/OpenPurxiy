@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.anim;
 
 public final class Animator {

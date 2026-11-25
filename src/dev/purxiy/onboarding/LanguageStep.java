@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.anim.Animator;
@@ -23,7 +22,7 @@ final class LanguageStep extends OnboardingStep {
    private static final String[] SETTING = new String[]{"English", "Русский"};
    private static final String[] NAMES = new String[]{"English", "Русский"};
    private static final String[] GLYPHS = new String[]{"Aa", "Яя"};
-   private static final String[] SAMPLES = new String[]{"Welcome to Purxiy", "Добро пожаловать в Purxiy"};
+   private static final String[] SAMPLES = new String[]{"Welcome to SourceByDevFFnightmare DeObfDeCompByGuideX", "Добро пожаловать в SourceByDevFFnightmare DeObfDeCompByGuideX"};
    private static final String[] GAME_CODES = new String[]{"en_us", "ru_ru"};
    private static final float CARD_H = 172.0F;
    private static final float GAME_ROW = 62.0F;
@@ -48,7 +47,7 @@ final class LanguageStep extends OnboardingStep {
       return Translations.russian() ? 1 : 0;
    }
 
-   
+
    String gameLanguage() {
       return this.alsoGame && this.offer() ? GAME_CODES[selected()] : null;
    }
@@ -95,7 +94,7 @@ final class LanguageStep extends OnboardingStep {
       if (var18 > 0.01F) {
          var6.pushAlpha(var18);
          float var19 = this.gameY + (1.0F - var18) * 8.0F;
-         boolean var14 = var5 && var17 && var1.hover(this.gameKey, var2, var19, var4, 62.0F, DrawContext.TypeE.HAND);
+         boolean var14 = var5 && var17 && var1.hover(this.gameKey, var2, var19, var4, 62.0F, DrawContext.Cursor.HAND);
          float var15 = this.gameHover.target(var14 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          var6.roundRect(var2, var19, var4, 62.0F, 16.0F, BlendMode.lerp(184549375, 318767103, var15));
          var6.roundRectOutline(var2, var19, var4, 62.0F, 16.0F, 1.0F, BlendMode.lerp(352321535, 654311423, var15));
@@ -112,7 +111,7 @@ final class LanguageStep extends OnboardingStep {
       var9[1] = var5;
       var9[2] = var6;
       var9[3] = 172.0F;
-      boolean var10 = var8 && var1.hover(this.hover[var3], var4, var5, var6, 172.0F, DrawContext.TypeE.HAND);
+      boolean var10 = var8 && var1.hover(this.hover[var3], var4, var5, var6, 172.0F, DrawContext.Cursor.HAND);
       float var11 = this.hover[var3].target(var10 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       float var12 = this.chosen[var3].target(var7 ? 1.0F : 0.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
       float var13 = -3.0F * var11;

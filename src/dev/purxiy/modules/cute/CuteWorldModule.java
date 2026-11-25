@@ -1,14 +1,14 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cute;
 
 import dev.purxiy.config.BooleanSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
-import dev.purxiy.loader.fabric.client.ClientRegistry15;
-import dev.purxiy.loader.fabric.client.ClientUpdater2;
+import dev.purxiy.loader.fabric.client.SkinTextureProvider;
+import dev.purxiy.loader.fabric.client.TickRouter;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import net.minecraft.class_10042;
 import net.minecraft.class_2960;
@@ -27,8 +27,6 @@ public final class CuteWorldModule extends ModuleDescriptor {
    public final BooleanSetting N;
    public final NumberSetting R;
 
-
-
    public CuteWorldModule() {
       super("cute_world", "Cute World", "Sparkling eyes, rosy cheeks and a world full of little smiles", "heart");
       this.section("Little faces");
@@ -37,52 +35,45 @@ public final class CuteWorldModule extends ModuleDescriptor {
       this.w = this.mode("expression", "Expression", "Choose their little personality", "Sparkle", new String[]{"Sparkle", "Happy", "Sleepy"});
       this.n = this.bool("blush", "Rosy cheeks", "A soft touch of pink beneath the eyes", true);
       this.h = this.bool("adapt", "Read skin colours", "Use the face's own skin tone and eye colour; keep hair and clothes", true);
-      this.g = this.number("softness", "Plush colours", "Soften mob textures into pastels", 0.3, 0.0, 0.7, 0.05, NumberSetting.Listener.PERCENT);
+      this.g = this.number("softness", "Plush colours", "Soften mob textures into pastels", 0.3, 0.0, 0.7, 0.05, Listener.PERCENT);
       this.section("A softer world");
       this.L = this.bool("scenery", "Pastel scenery", "Candy-coloured leaves, soft grass, water, sky and clouds", true);
       this.O = this.mode("palette", "Palette", "The colours of your little world", "Sakura", new String[]{"Sakura", "Peach", "Lavender"});
       this.section("A little love");
       this.N = this.bool("hearts", "Hearts & sparkles", "Occasional hearts over creatures and sparkles in the air", true);
-      this.R = this.number("amount", "Sprinkles", "How often little hearts and sparkles appear", 0.5, 0.1, 1.0, 0.1, NumberSetting.Listener.PERCENT);
+      this.R = this.number("amount", "Sprinkles", "How often little hearts and sparkles appear", 0.5, 0.1, 1.0, 0.1, Listener.PERCENT);
       this.R.visibleWhen(this.N::get);
       this.O.visibleWhen(this.L::get);
       this.g.visibleWhen(this.e::get);
       this.h.visibleWhen(this.f::get);
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       var1.own(ClientServices.acquire(this.id()));
-      CuteWorldUpdater2.install(this, var1);
-      var1.own(CuteWorldUpdater2::uninstall);
-      var1.own(ClientUpdater2.install(new ClientUpdater2.Listener() {
-         @Override
+      CuteWorldTicker.install(this, var1);
+      var1.own(CuteWorldTicker::uninstall);
+      var1.own(TickRouter.install(new dev.purxiy.loader.fabric.client.TickRouter.Listener() {
          public void tick(class_310 var1) {
-            CuteWorldUpdater2.tick(var1);
+            CuteWorldTicker.tick(var1);
          }
 
-         @Override
          public int nature(int var1, String var2) {
-            return CuteWorldUpdater2.nature(var1, var2);
+            return CuteWorldTicker.nature(var1, var2);
          }
       }));
-      var1.own(ClientRegistry15.install(new ClientRegistry15.Listener() {
-         @Override
+      var1.own(SkinTextureProvider.install(new dev.purxiy.loader.fabric.client.SkinTextureProvider.Listener() {
          public boolean applies(class_10042 var1) {
             return CuteWorldUpdater.applies(var1);
          }
 
-         @Override
          public class_2960 texture(class_2960 var1, class_10042 var2, class_583<?> var3) {
             return CuteWorldUpdater.texture(var1, var2, var3);
          }
 
-         @Override
          public void clear() {
             CuteWorldUpdater.clear();
          }
       }));
-      var1.own(ModuleWidget.onTick(CuteWorldUpdater2::tick));
+      var1.own(ModuleWidget.onTick(CuteWorldTicker::tick));
    }
-
 }

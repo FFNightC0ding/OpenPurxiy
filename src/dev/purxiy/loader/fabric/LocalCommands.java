@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dev.purxiy.loader.fabric.client.ClientSupport2;
+import dev.purxiy.loader.fabric.client.ChatCommandRouter;
 import java.util.ArrayDeque;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.class_2558;
@@ -12,7 +11,7 @@ import net.minecraft.class_310;
 import net.minecraft.class_2558.class_11506;
 
 public final class LocalCommands {
-   private static final ArrayDeque<LocalCommands.TypeU> pending = new ArrayDeque<>();
+   private static final ArrayDeque<LocalCommands.PendingNotice> pending = new ArrayDeque<>();
 
    private LocalCommands() {
    }
@@ -41,33 +40,33 @@ public final class LocalCommands {
          if (var0.length() > 1024) {
             return true;
          } else if (ModuleState.moduleActive("roles")) {
-            ClientSupport2.chat(var0);
+            ChatCommandRouter.chat(var0);
             return true;
          } else {
-            queue(new LocalCommands.TypeU(var0, (class_2558)null, System.nanoTime() + TimeUnit.SECONDS.toNanos(60L)));
+            queue(new LocalCommands.PendingNotice(var0, (class_2558)null, System.nanoTime() + TimeUnit.SECONDS.toNanos(60L)));
             return true;
          }
       } else {
-         return ClientSupport2.chat(var0);
+         return ChatCommandRouter.chat(var0);
       }
    }
 
    public static boolean click(class_2558 var0) {
       check();
       if (!(var0 instanceof class_11506 var1 && var1.comp_4378().equals(class_2960.method_60655("purxiy", "roles")))) {
-         return ClientSupport2.click(var0);
+         return ChatCommandRouter.click(var0);
       } else if (var1.comp_4379().flatMap(var0x -> var0x.method_68658()).orElse("").length() > 1024) {
          return true;
       } else if (ModuleState.moduleActive("roles")) {
-         ClientSupport2.click(var0);
+         ChatCommandRouter.click(var0);
          return true;
       } else {
-         queue(new LocalCommands.TypeU((String)null, var0, System.nanoTime() + TimeUnit.SECONDS.toNanos(60L)));
+         queue(new LocalCommands.PendingNotice((String)null, var0, System.nanoTime() + TimeUnit.SECONDS.toNanos(60L)));
          return true;
       }
    }
 
-   private static void queue(LocalCommands.TypeU var0) {
+   private static void queue(LocalCommands.PendingNotice var0) {
       JsonObject var1 = roles();
       if (var1 != null && LoaderMessages.authorized && LoaderMessages.menuAllowed()) {
          if (pending.size() >= 16) {
@@ -87,7 +86,7 @@ public final class LocalCommands {
       check();
       if (LoaderMessages.authorized && LoaderMessages.menuAllowed()) {
          while (!pending.isEmpty()) {
-            LocalCommands.TypeU var0 = pending.peekFirst();
+            LocalCommands.PendingNotice var0 = pending.peekFirst();
             if (System.nanoTime() <= var0.deadline && LoaderMessages.requested("roles")) {
                if (!ModuleState.moduleActive("roles")) {
                   return;
@@ -95,9 +94,9 @@ public final class LocalCommands {
 
                pending.removeFirst();
                if (var0.chat != null) {
-                  ClientSupport2.chat(var0.chat);
+                  ChatCommandRouter.chat(var0.chat);
                } else {
-                  ClientSupport2.click(var0.click);
+                  ChatCommandRouter.click(var0.click);
                }
             } else {
                pending.removeFirst();
@@ -108,6 +107,6 @@ public final class LocalCommands {
       }
    }
 
-   private record TypeU(String chat, class_2558 click, long deadline) {
+   private record PendingNotice(String chat, class_2558 click, long deadline) {
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.targethud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -12,8 +11,6 @@ import net.minecraft.class_310;
 
 final class TargetSupport {
    private static final float I = 2.0F;
-
-
 
    static void figure(Canvas var0, class_2960 var1, float var2, float var3) {
       long var4 = 57545142677754L;
@@ -60,42 +57,17 @@ final class TargetSupport {
       TargetHud.ensureSourceClassInitialized();
       float var15 = var3 ? 32.0F : 64.0F;
       long var16 = 51624578797594L;
-      if (51624578797594L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var32 = var16 < 0L ? -1 : 1;
-      }
-
-      long var19 = 51624578797594L;
-      if (51624578797594L == 0L) {
-         boolean var33 = false;
-      } else {
-         int var34 = var19 < 0L ? -1 : 1;
-      }
-
+      int var19 = var16 < 0L ? -1 : 1;
+      long var19x = 51624578797594L;
+      int var30 = var19x < 0L ? -1 : 1;
       if (var3) {
          long var21 = 51624578797594L;
-         if (51624578797594L == 0L) {
-            boolean var35 = false;
-         } else {
-            int var36 = var21 < 0L ? -1 : 1;
-         }
-
+         int var23 = var21 < 0L ? -1 : 1;
          long var24 = 51624578797594L;
-         if (51624578797594L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var24 < 0L ? -1 : 1;
-         }
-
+         int var24x = var24 < 0L ? -1 : 1;
          if (var11 >= 32) {
             long var26 = 51624578797594L;
-            if (51624578797594L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var26 < 0L ? -1 : 1;
-            }
-
+            int var35 = var26 < 0L ? -1 : 1;
             var8 = var8 == 20 ? 4 : 44;
             byte var28 = 20;
             var0.image(
@@ -105,23 +77,17 @@ final class TargetSupport {
          }
       }
 
-      float var30 = var6 * var14;
+      float var30x = var6 * var14;
       float var22 = var7 * var14;
       float var23 = var8 / 64.0F;
       float var31 = var11;
       long var25 = 51624578797594L;
-      if (51624578797594L == 0L) {
-         boolean var39 = false;
-      } else {
-         int var40 = var25 < 0L ? -1 : 1;
-      }
-
-      var0.image(var1, var2, false, var4, var5, var30, var22, var23, var31 / var15, (var8 + var6) / 64.0F, (var11 + var7) / var15, 0.0F, -1);
+      int var28 = var25 < 0L ? -1 : 1;
+      var0.image(var1, var2, false, var4, var5, var30x, var22, var23, var31 / var15, (var8 + var6) / 64.0F, (var11 + var7) / var15, 0.0F, -1);
       if (!var3 || var13 < 32) {
          var0.image(
             var1, var2, false, var4, var5, var6 * var14, var7 * var14, var12 / 64.0F, var13 / var15, (var12 + var6) / 64.0F, (var13 + var7) / var15, 0.0F, -1
          );
       }
    }
-
 }

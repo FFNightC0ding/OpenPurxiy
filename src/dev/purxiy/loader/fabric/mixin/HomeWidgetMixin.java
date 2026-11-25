@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry21;
+import dev.purxiy.loader.fabric.client.GuiRenderContext;
 import net.minecraft.class_1144;
 import net.minecraft.class_332;
 import net.minecraft.class_339;
@@ -23,7 +22,7 @@ public abstract class HomeWidgetMixin {
       )}
    )
    private void purxiy$begin(class_332 var1, int var2, int var3, float var4, CallbackInfo var5) {
-      ClientRegistry21.widgetBegin((class_339)(Object)(Object)this, var1);
+      GuiRenderContext.widgetBegin((class_339)(Object)(Object)this, var1);
    }
 
    @Inject(
@@ -35,7 +34,7 @@ public abstract class HomeWidgetMixin {
       )}
    )
    private void purxiy$end(class_332 var1, int var2, int var3, float var4, CallbackInfo var5) {
-      ClientRegistry21.widgetEnd((class_339)(Object)(Object)this, var1);
+      GuiRenderContext.widgetEnd((class_339)(Object)(Object)this, var1);
    }
 
    @Inject(
@@ -44,7 +43,7 @@ public abstract class HomeWidgetMixin {
       cancellable = true
    )
    private void purxiy$click(class_1144 var1, CallbackInfo var2) {
-      if (ClientRegistry21.click()) {
+      if (GuiRenderContext.click()) {
          var2.cancel();
       }
    }

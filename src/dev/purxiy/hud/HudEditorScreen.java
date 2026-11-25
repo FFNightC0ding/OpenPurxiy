@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -10,7 +9,7 @@ import net.minecraft.class_332;
 import net.minecraft.class_437;
 
 public final class HudEditorScreen extends class_437 {
-   
+
    private final class_437 parent;
    private AutoCloseable rendererLease;
 

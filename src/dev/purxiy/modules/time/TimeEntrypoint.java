@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.time;
 
 import dev.purxiy.loader.api.ModuleContext;
@@ -9,18 +8,15 @@ import java.util.Set;
 
 public final class TimeEntrypoint implements ModuleEntrypoint {
    public static boolean a;
-
-
    private static final long d = Long.MIN_VALUE;
 
-   @Override
    public AutoCloseable start(ModuleContext var1) {
       Map var2 = var1.settings();
-      String var3 = (String)(var2.getOrDefault("preset", "Custom"));
+      String var3 = (String)var2.getOrDefault("preset", "Custom");
       if (!Set.of("Morning", "Day", "Sunset", "Night", "Custom").contains(var3)) {
          throw new IllegalArgumentException("Time preset");
       } else {
-         double var4 = Double.parseDouble((String)(var2.getOrDefault("time", "6000")));
+         double var4 = Double.parseDouble((String)var2.getOrDefault("time", "6000"));
          if (Double.isFinite(var4) && !(var4 < 0.0) && !(var4 > 24000.0)) {
             int var6 = TimeSupport.selectedTime(var3, (int)Math.round(Math.round(var4 / 250.0) * 250.0));
             var1.onWorldTime((var1x, var3x, var4x) -> {
@@ -31,12 +27,7 @@ public final class TimeEntrypoint implements ModuleEntrypoint {
             var1.onWorldFrame(var1x -> {
                long var2x = var1x.present() ? var1x.identity() : Long.MIN_VALUE;
                long var4x = 81643568365217L;
-               if (81643568365217L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var7x = var4x < 0L ? -1 : 1;
-               }
-
+               int var6x = var4x < 0L ? -1 : 1;
                if (var2x != var7[0]) {
                   var7[0] = var2x;
                   if (var1x.present()) {
@@ -51,5 +42,4 @@ public final class TimeEntrypoint implements ModuleEntrypoint {
          }
       }
    }
-
 }

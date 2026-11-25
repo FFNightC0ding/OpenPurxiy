@@ -1,9 +1,9 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cape;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -40,7 +40,6 @@ import net.minecraft.class_8685;
 import net.minecraft.class_9334;
 import net.minecraft.class_12079.class_10726;
 import net.minecraft.class_12079.class_12081;
-
 import org.lwjgl.system.MemoryUtil;
 
 public final class CapeCache {
@@ -59,7 +58,7 @@ public final class CapeCache {
    private static final class_12081 v = new class_10726(ClientServices.id("cape"), J);
    private static final class_12081 sJ = new class_10726(class_2960.method_60656("entity/equipment/wings/elytra"));
    private static final class_2960 s = sJ.comp_3627();
-   private static final RenderPipeline W = RenderPipeline.builder()
+   private static final RenderPipeline W = RenderPipeline.builder(new Snippet[0])
       .withLocation(ClientServices.id("pipeline/cape"))
       .withVertexShader(ClientServices.id("core/cape"))
       .withFragmentShader(ClientServices.id("core/cape"))
@@ -75,31 +74,19 @@ public final class CapeCache {
    private static final int S = 9;
    private static final int sr = 10;
    private static final int R = 48;
-   
-   private static CapeCache.TypeW b;
-   
-   private static CapeCache.TypeW d;
-   
+   private static CapeCache.CapeTexture b;
+   private static CapeCache.CapeTexture d;
    private static GpuTexture sA;
-   
    private static GpuTexture e;
-   
    private static GpuTexture N;
-   
    private static GpuTextureView C;
-   
    private static GpuTextureView L;
-   
    private static GpuTextureView K;
-   
    private static class_12137 P;
-   
    private static GpuBuffer Z;
-   
    private static ByteBuffer f;
    private static int Y = 0;
    private static boolean x;
-   
    private static String A;
    private static double j;
    private static long n = 0L;
@@ -108,16 +95,13 @@ public final class CapeCache {
    private static long Q = 0L;
    private static long G = -1L;
    private static long T = -1L;
-   
    private static CapeDesign r;
    private static long V = 0L;
-   
    private static CapeDesign D;
    private static long i = 0L;
    private static double y = -1.0;
    private static float O;
    private static boolean B;
-   
    private static GpuQuery H;
    private static double sn;
    private static int I = 0;
@@ -129,10 +113,6 @@ public final class CapeCache {
    private static int M = 0;
    private static int F = 0;
    public static boolean m;
-
-
-
-
    private static final long[] eb = new long[]{8618250700340156104L, 4746642308812072652L, 1209155884083794299L};
    private static final Long[] fb = new Long[3];
 
@@ -159,7 +139,7 @@ public final class CapeCache {
       }
    }
 
-   public static boolean wears( class_8685 var0) {
+   public static boolean wears(class_8685 var0) {
       return var0 != null && var0.comp_1627() == v;
    }
 
@@ -187,7 +167,7 @@ public final class CapeCache {
       }
    }
 
-   public static void preview( CapeDesign var0) {
+   public static void preview(CapeDesign var0) {
       long var1 = 74674835944227L;
       long var3 = var1 ^ 69000410562361L;
       long var5 = var1 ^ 105333650246709L;
@@ -204,7 +184,6 @@ public final class CapeCache {
       return D != null && System.nanoTime() < i ? D : X.selected();
    }
 
-   
    public static GpuTextureView swatches() {
       long var0 = 114667820948617L;
       long var2 = var0 ^ 31436636755141L;
@@ -284,27 +263,17 @@ public final class CapeCache {
          try {
             GpuDevice var14 = RenderSystem.getDevice();
             long var15 = 30951444823829L;
-            if (30951444823829L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var35 = var15 < 0L ? -1 : 1;
-            }
-
-            boolean var18 = var14.precompilePipeline(W).isValid();
+            int var18 = var15 < 0L ? -1 : 1;
+            boolean var18x = var14.precompilePipeline(W).isValid();
             long var19 = 30951444823829L;
-            if (30951444823829L == 0L) {
-               boolean var36 = false;
-            } else {
-               int var37 = var19 < 0L ? -1 : 1;
-            }
-
-            if (!var18) {
+            int var22 = var19 < 0L ? -1 : 1;
+            if (!var18x) {
                x = true;
-               ClientServices.LOGGER.error("Purxiy cape: the cape shader did not compile; capes stay as they are");
+               ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX cape: the cape shader did not compile; capes stay as they are");
                return false;
             } else {
                if (P == null) {
-                  int var22 = Math.max(1, Math.min(16, var14.getMaxSupportedAnisotropy()));
+                  var22 = Math.max(1, Math.min(16, var14.getMaxSupportedAnisotropy()));
                   P = var14.createSampler(
                      AddressMode.CLAMP_TO_EDGE, AddressMode.CLAMP_TO_EDGE, FilterMode.LINEAR, FilterMode.LINEAR, var22, OptionalDouble.empty()
                   );
@@ -313,16 +282,27 @@ public final class CapeCache {
                if (e == null) {
                   try (InputStream var33 = resource("assets/purxiy/textures/cape/mark_sdf.png")) {
                      long var23 = 30951444823830L;
-                     if (30951444823830L == 0L) {
-                        boolean var38 = false;
-                     } else {
-                        int var39 = var23 < 0L ? -1 : 1;
+                     int var23x = var23 < 0L ? -1 : 1;
+                     class_1011 var25x = class_1011.method_4309(var33);
+
+                     try {
+                        e = var14.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cape mark", 5, TextureFormat.RGBA8, var25x.method_4307(), var25x.method_4323(), 1, 1);
+                        var14.createCommandEncoder().writeToTexture(e, var25x);
+                        L = var14.createTextureView(e);
+                     } catch (Throwable var28) {
+                        if (var25x != null) {
+                           try {
+                              var25x.close();
+                           } catch (Throwable var27) {
+                              var28.addSuppressed(var27);
+                           }
+                        }
+
+                        throw var28;
                      }
 
-                     try (class_1011 var25 = class_1011.method_4309(var33)) {
-                        e = var14.createTexture(() -> "Purxiy cape mark", 5, TextureFormat.RGBA8, var25.method_4307(), var25.method_4323(), 1, 1);
-                        var14.createCommandEncoder().writeToTexture(e, var25);
-                        L = var14.createTextureView(e);
+                     if (var25x != null) {
+                        var25x.close();
                      }
                   }
                }
@@ -333,20 +313,20 @@ public final class CapeCache {
 
                if (Z == null) {
                   Y = Math.max(48, U(var7, 48, var14.getUniformOffsetAlignment()));
-                  Z = var14.createBuffer(ClientServices.label(() -> "Purxiy cape"), 136, Y * 10);
+                  Z = var14.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cape"), 136, Y * 10);
                   f = MemoryUtil.memAlloc(Y * 10);
                }
 
                class_310 var34 = class_310.method_1551();
-               b = new CapeCache.TypeW("Purxiy cape", 1, 5, P);
-               d = new CapeCache.TypeW("Purxiy cape glow", 2, 4, P);
+               b = new CapeCache.CapeTexture("SourceByDevFFnightmare DeObfDeCompByGuideX cape", 1, 5, P);
+               d = new CapeCache.CapeTexture("SourceByDevFFnightmare DeObfDeCompByGuideX cape glow", 2, 4, P);
                var34.method_1531().method_4616(J, b);
                var34.method_1531().method_4616(l, d);
                x(var9);
                return true;
             }
-         } catch (Exception var32) {
-            X(var32, var4, var5, var6);
+         } catch (Exception var30) {
+            X(var30, var4, var5, var6);
             x = true;
             return false;
          }
@@ -365,55 +345,36 @@ public final class CapeCache {
             }
          }
       } catch (Exception var21) {
-         ClientServices.LOGGER.warn("Purxiy cape: could not read the elytra texture, the wings stay rectangular", var21);
+         ClientServices.LOGGER.warn("SourceByDevFFnightmare DeObfDeCompByGuideX cape: could not read the elytra texture, the wings stay rectangular", var21);
       }
 
-      label123: {
+      label112: {
          short var22 = 22369;
          if (var4 != null) {
             long var24 = 929335707L;
-            if (929335707L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var26 = var24 < 0L ? -1 : 1;
-            }
-
+            int var8 = var24 < 0L ? -1 : 1;
             if (var4.method_4307() * 32 == var4.method_4323() * 64) {
                if (var4.method_4307() != 64) {
-                  class_1011 var8 = new class_1011(64, 32, true);
+                  class_1011 var8x = new class_1011(64, 32, true);
                   int var9 = var4.method_4307() / 64;
 
                   for (int var10 = 0; var10 < 32; var10++) {
                      long var11 = 929335706L;
-                     if (929335706L == 0L) {
-                        boolean var27 = false;
-                     } else {
-                        int var28 = var11 < 0L ? -1 : 1;
-                     }
+                     int var14 = var11 < 0L ? -1 : 1;
 
-                     for (int var14 = 0; var14 < 64; var14++) {
+                     for (int var14x = 0; var14x < 64; var14x++) {
                         long var15 = 929335707L;
-                        if (929335707L == 0L) {
-                           boolean var29 = false;
-                        } else {
-                           int var30 = var15 < 0L ? -1 : 1;
-                        }
-
-                        var8.method_61941(var14, var10, var4.method_61940(var14 * var9 + var9 / 2, var10 * var9 + var9 / 2));
+                        int var16 = var15 < 0L ? -1 : 1;
+                        var8x.method_61941(var14x, var10, var4.method_61940(var14x * var9 + var9 / 2, var10 * var9 + var9 / 2));
                      }
                   }
 
                   long var25 = 929335706L;
-                  if (929335706L == 0L) {
-                     boolean var31 = false;
-                  } else {
-                     int var32 = var25 < 0L ? -1 : 1;
-                  }
-
+                  int var12 = var25 < 0L ? -1 : 1;
                   var4.close();
-                  var4 = var8;
+                  var4 = var8x;
                }
-               break label123;
+               break label112;
             }
          }
 
@@ -428,19 +389,19 @@ public final class CapeCache {
       class_1011 var23 = var4;
 
       try {
-         N = var3.createTexture(() -> "Purxiy cape elytra", 5, TextureFormat.RGBA8, 64, 32, 1, 1);
+         N = var3.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cape elytra", 5, TextureFormat.RGBA8, 64, 32, 1, 1);
          var3.createCommandEncoder().writeToTexture(N, var23);
          K = var3.createTextureView(N);
-      } catch (Throwable var19) {
+      } catch (Throwable var191) {
          if (var4 != null) {
             try {
                var23.close();
             } catch (Throwable var17) {
-               var19.addSuppressed(var17);
+               var191.addSuppressed(var17);
             }
          }
 
-         throw var19;
+         throw var191;
       }
 
       if (var4 != null) {
@@ -458,12 +419,7 @@ public final class CapeCache {
       CapeModule.ensureSourceClassInitialized();
       if (b != null && d != null) {
          long var9 = 137627930201113L;
-         if (137627930201113L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var60 = var9 < 0L ? -1 : 1;
-         }
-
+         int var53 = var9 < 0L ? -1 : 1;
          if (G != V) {
             G = V;
             Q = System.nanoTime();
@@ -476,57 +432,32 @@ public final class CapeCache {
                float var14 = (float)(y >= 0.0 ? y : j);
                boolean var15 = var12.F.enabled();
                long var16 = 137627930201114L;
-               if (137627930201114L == 0L) {
-                  boolean var61 = false;
-               } else {
-                  int var62 = var16 < 0L ? -1 : 1;
-               }
-
-               boolean var18 = var15 && (float)(System.nanoTime() - o) / 1.0E9F < 1.5F;
+               int var18 = var16 < 0L ? -1 : 1;
+               boolean var18x = var15 && (float)(System.nanoTime() - o) / 1.0E9F < 1.5F;
                float var19 = var12.e.floatValue();
                Std140Builder var20 = Std140Builder.intoBuffer(f.clear());
 
                for (int var21 = 0; var21 < 9; var21++) {
                   long var22 = 137627930201114L;
-                  if (137627930201114L == 0L) {
-                     boolean var63 = false;
-                  } else {
-                     int var64 = var22 < 0L ? -1 : 1;
-                  }
-
+                  int var24 = var22 < 0L ? -1 : 1;
                   long var25 = 137627930201113L;
-                  if (137627930201113L == 0L) {
-                     boolean var65 = false;
-                  } else {
-                     int var66 = var25 < 0L ? -1 : 1;
-                  }
-
+                  int var25x = var25 < 0L ? -1 : 1;
                   boolean var27 = var21 >= 5;
-                  CapeCache.TypeW var28 = var27 ? d : b;
+                  CapeCache.CapeTexture var28 = var27 ? d : b;
                   int var29 = var27 ? var21 - 5 : var21;
                   f.position(var21 * Y);
                   var20.putVec4(var14, var13.ordinal(), var27 ? 1.0F : 0.0F, var28.texel(var29))
-                     .putVec4(0.0F, 0.0F, var18 ? 0.0F : 1.0F, 0.0F)
+                     .putVec4(0.0F, 0.0F, var18x ? 0.0F : 1.0F, 0.0F)
                      .putVec4(var19, 0.0F, 0.0F, 0.0F);
                }
 
                long var55 = 137627930201113L;
-               if (137627930201113L == 0L) {
-                  boolean var67 = false;
-               } else {
-                  int var68 = var55 < 0L ? -1 : 1;
-               }
-
+               int var23 = var55 < 0L ? -1 : 1;
                f.position(0).limit(9 * Y);
-               CommandEncoder var23 = RenderSystem.getDevice().createCommandEncoder();
+               CommandEncoder var23x = RenderSystem.getDevice().createCommandEncoder();
                long var24 = 137627930201114L;
-               if (137627930201114L == 0L) {
-                  boolean var69 = false;
-               } else {
-                  int var70 = var24 < 0L ? -1 : 1;
-               }
-
-               var23.writeToBuffer(Z.slice(0L, 9 * Y), f);
+               int var591 = var24 < 0L ? -1 : 1;
+               var23x.writeToBuffer(Z.slice(0L, 9 * Y), f);
                f.limit(f.capacity());
                boolean var26 = false;
                Object var56 = null;
@@ -537,69 +468,58 @@ public final class CapeCache {
 
                   for (int var58 = 0; var58 < 9; var58++) {
                      long var30 = 137627930201114L;
-                     if (137627930201114L == 0L) {
-                        boolean var71 = false;
-                     } else {
-                        int var72 = var30 < 0L ? -1 : 1;
-                     }
+                     int var33 = var30 < 0L ? -1 : 1;
+                     long var33x = 137627930201113L;
+                     boolean var35x = var58 >= 5;
+                     CapeCache.CapeTexture var36 = var35x ? d : b;
+                     int var37 = var35x ? var58 - 5 : var58;
+                     RenderPass var38 = var23x.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cape", var36.a[var37], OptionalInt.of(0));
 
-                     long var33 = 137627930201113L;
-                     if (137627930201113L == 0L) {
-                        boolean var73 = false;
-                     } else {
-                        int var74 = var33 < 0L ? -1 : 1;
-                     }
-
-                     boolean var35 = var58 >= 5;
-                     CapeCache.TypeW var36 = var35 ? d : b;
-                     int var37 = var35 ? var58 - 5 : var58;
-
-                     try (RenderPass var38 = var23.createRenderPass(() -> "Purxiy cape", var36.a[var37], OptionalInt.of(0))) {
+                     try {
                         var38.setPipeline(W);
                         var38.setUniform("PurxiyCape", Z.slice(var58 * Y, 48L));
                         long var39 = 137627930201113L;
-                        if (137627930201113L == 0L) {
-                           boolean var75 = false;
-                        } else {
-                           int var76 = var39 < 0L ? -1 : 1;
-                        }
-
+                        int var39x = var39 < 0L ? -1 : 1;
                         R(var7, var38);
-                        long var42 = 137627930201114L;
-                        if (137627930201114L == 0L) {
-                           boolean var77 = false;
-                        } else {
-                           int var78 = var42 < 0L ? -1 : 1;
-                        }
-
+                        long var42x = 137627930201114L;
+                        int var41 = var42x < 0L ? -1 : 1;
                         var38.draw(0, 6);
                         metric("drawn");
+                     } catch (Throwable var48) {
+                        if (var38 != null) {
+                           try {
+                              var38.close();
+                           } catch (Throwable var47) {
+                              var48.addSuppressed(var47);
+                           }
+                        }
+
+                        throw var48;
+                     }
+
+                     if (var38 != null) {
+                        var38.close();
                      }
                   }
 
                   var57 = false;
                } finally {
                   if (var57 && var56 != null) {
-                     var23.timerQueryEnd((GpuQuery)var56);
+                     var23x.timerQueryEnd((GpuQuery)var56);
                      H = (GpuQuery)var56;
                   }
                }
 
-               long var59 = 137627930201113L;
-               if (137627930201113L == 0L) {
-                  boolean var79 = false;
-               } else {
-                  int var80 = var59 < 0L ? -1 : 1;
-               }
-
+               long var59x = 137627930201113L;
+               int var301 = var59x < 0L ? -1 : 1;
                if (var56 != null) {
-                  var23.timerQueryEnd((GpuQuery)var56);
+                  var23x.timerQueryEnd((GpuQuery)var56);
                   H = (GpuQuery)var56;
                }
 
                A = null;
-            } catch (RuntimeException var53) {
-               X(var53, var4, var5, var6);
+            } catch (RuntimeException var50) {
+               X(var50, var4, var5, var6);
             }
 
             return;
@@ -615,7 +535,7 @@ public final class CapeCache {
       int var8 = CapeDesign.values().length;
       int var9 = 26318;
       if (sA == null) {
-         sA = var7.createTexture(() -> "Purxiy cape swatches", 12, TextureFormat.RGBA8, 128 * var8, 205, 1, 1);
+         sA = var7.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cape swatches", 12, TextureFormat.RGBA8, 128 * var8, 205, 1, 1);
          C = var7.createTextureView(sA);
       }
 
@@ -628,29 +548,34 @@ public final class CapeCache {
       CommandEncoder var13 = var7.createCommandEncoder();
       var13.writeToBuffer(Z.slice(var11 * Y, 48L), f);
       f.clear();
+      RenderPass var14 = var13.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cape swatches", C, OptionalInt.of(0));
 
-      try (RenderPass var14 = var13.createRenderPass(() -> "Purxiy cape swatches", C, OptionalInt.of(0))) {
+      try {
          var14.setPipeline(W);
          long var15 = 2014539147L;
-         if (2014539147L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var23 = var15 < 0L ? -1 : 1;
-         }
-
-         long var18 = 2014539147L;
-         if (2014539147L == 0L) {
-            boolean var24 = false;
-         } else {
-            int var25 = var18 < 0L ? -1 : 1;
-         }
-
+         int var18 = var15 < 0L ? -1 : 1;
+         long var18x = 2014539147L;
+         int var17x = var18x < 0L ? -1 : 1;
          var14.setUniform("PurxiyCape", Z.slice(var11 * Y, 48L));
-         int var17 = -1837911529;
+         var17x = -1837911529;
          R(var5, var14);
          var9 = 1837907168;
          var14.draw(0, var8 * 6);
          metric("drawn");
+      } catch (Throwable var21) {
+         if (var14 != null) {
+            try {
+               var14.close();
+            } catch (Throwable var20) {
+               var21.addSuppressed(var20);
+            }
+         }
+
+         throw var21;
+      }
+
+      if (var14 != null) {
+         var14.close();
       }
    }
 
@@ -662,19 +587,9 @@ public final class CapeCache {
    private static int U(long var0, int var2, int var3) {
       CapeModule.ensureSourceClassInitialized();
       long var4 = 113112922174604L;
-      if (113112922174604L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var9 = var4 < 0L ? -1 : 1;
-      }
-
-      long var7 = 113112922174604L;
-      if (113112922174604L == 0L) {
-         boolean var10 = false;
-      } else {
-         int var11 = var7 < 0L ? -1 : 1;
-      }
-
+      int var7 = var4 < 0L ? -1 : 1;
+      long var7x = 113112922174604L;
+      int var8 = var7x < 0L ? -1 : 1;
       return var3 <= 1 ? 48 : (48 + var3 - 1) / var3 * var3;
    }
 
@@ -683,11 +598,10 @@ public final class CapeCache {
       String var4 = var0.toString();
       if (!var4.equals(A)) {
          A = var4;
-         ClientServices.LOGGER.error("Purxiy cape could not draw", var0);
+         ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX cape could not draw", var0);
       }
    }
 
-   
    private static GpuQuery W(char var0, short var1, int var2, CommandEncoder var3) {
       CapeModule.ensureSourceClassInitialized();
       if (H != null) {
@@ -704,7 +618,7 @@ public final class CapeCache {
          var5 = 23505;
          I = var6;
          if (var6 == 120) {
-            ClientServices.LOGGER.info("Purxiy cape: {} ms GPU per frame ({})", String.format(Locale.ROOT, "%.3f", sn / I), showing().E);
+            ClientServices.LOGGER.info("SourceByDevFFnightmare DeObfDeCompByGuideX cape: {} ms GPU per frame ({})", String.format(Locale.ROOT, "%.3f", sn / I), showing().E);
             sn = 0.0;
             I = 0;
          }
@@ -850,7 +764,7 @@ public final class CapeCache {
       }
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 718) & 32767;
       if (fb[var3] == null) {
          fb[var3] = eb[var3] ^ var1;
@@ -859,11 +773,11 @@ private static long b(int var0, long var1) {
       return fb[var3];
    }
 
-private static final class TypeW extends class_1044 {
+   private static final class CapeTexture extends class_1044 {
       final GpuTextureView[] a;
       private final int C;
 
-      TypeW(String var1, int var2, int var3, class_12137 var4) {
+      CapeTexture(String var1, int var2, int var3, class_12137 var4) {
          this.C = var2;
          this.a = new GpuTextureView[var3];
          GpuDevice var5 = RenderSystem.getDevice();
@@ -880,7 +794,6 @@ private static final class TypeW extends class_1044 {
          return (this.C << var1) / 16.0F;
       }
 
-      @Override
       public void close() {
          for (GpuTextureView var4 : this.a) {
             if (var4 != null) {

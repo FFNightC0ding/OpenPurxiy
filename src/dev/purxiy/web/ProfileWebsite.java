@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.web;
 
 import com.google.gson.JsonObject;
@@ -25,7 +24,7 @@ public final class ProfileWebsite {
       return AccountGate.authorized();
    }
 
-   public static ProfileWebsite.TypeT link() {
+   public static ProfileWebsite.ShortCode link() {
       return null;
    }
 
@@ -109,6 +108,6 @@ public final class ProfileWebsite {
       }
    }
 
-   public record TypeT(String code, long expiresAt) {
+   public record ShortCode(String code, long expiresAt) {
    }
 }

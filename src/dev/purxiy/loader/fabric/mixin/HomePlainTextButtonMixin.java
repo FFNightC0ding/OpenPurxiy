@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry21;
+import dev.purxiy.loader.fabric.client.GuiRenderContext;
 import net.minecraft.class_332;
 import net.minecraft.class_339;
 import net.minecraft.class_7077;
@@ -19,7 +18,7 @@ public abstract class HomePlainTextButtonMixin {
    )
    private void purxiy$link(class_332 var1, int var2, int var3, float var4, CallbackInfo var5) {
       class_339 var6 = (class_339)(Object)(Object)this;
-      if (ClientRegistry21.active() && ClientRegistry21.link(var6, var6.method_25369())) {
+      if (GuiRenderContext.active() && GuiRenderContext.link(var6, var6.method_25369())) {
          var5.cancel();
       }
    }

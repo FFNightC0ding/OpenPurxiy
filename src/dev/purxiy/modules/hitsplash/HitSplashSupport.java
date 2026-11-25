@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hitsplash;
 
 import dev.purxiy.anim.Easing;
 import dev.purxiy.anim.MotionStyle;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import java.util.Locale;
 import net.minecraft.class_1268;
 import net.minecraft.class_1297;
@@ -42,7 +41,6 @@ public final class HitSplashSupport {
    private static final Easing v = P(0.45F, 0.0F, 0.25F, 1.0F);
    private static boolean h;
    private static boolean I;
-   
    private static class_5498 G;
    private static float ny;
    private static float n;
@@ -194,115 +192,59 @@ public final class HitSplashSupport {
 
    private static void m(long var0) {
       long var2 = 48387028582266L;
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       long var4 = System.nanoTime();
       float var6 = nW == 0L ? 0.0F : Math.min(0.1F, (float)(var4 - nW) / 1.0E9F);
       nW = var4;
       long var7 = 31973599632311L;
-      if (31973599632311L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var33 = var7 < 0L ? -1 : 1;
-      }
-
+      int var10 = var7 < 0L ? -1 : 1;
       O = var6;
-      long var10 = 31973599632311L;
-      if (31973599632311L == 0L) {
-         boolean var34 = false;
-      } else {
-         int var35 = var10 < 0L ? -1 : 1;
-      }
-
+      long var10x = 31973599632311L;
+      int var29 = var10x < 0L ? -1 : 1;
       if (g >= 0.0F) {
          long var12 = 31973599632310L;
-         if (31973599632310L == 0L) {
-            boolean var36 = false;
-         } else {
-            int var37 = var12 < 0L ? -1 : 1;
-         }
-
+         int var15 = var12 < 0L ? -1 : 1;
          ny = g;
       } else {
          long var28 = 31973599632311L;
-         if (31973599632311L == 0L) {
-            boolean var38 = false;
-         } else {
-            int var39 = var28 < 0L ? -1 : 1;
-         }
-
+         int var311 = var28 < 0L ? -1 : 1;
          Z = Math.min(x, Z + var6);
          long var15 = 31973599632310L;
-         if (31973599632310L == 0L) {
-            boolean var40 = false;
-         } else {
-            int var41 = var15 < 0L ? -1 : 1;
-         }
-
-         float var17 = x <= 0.0F ? 1.0F : Z / x;
-         ny = n + (o - n) * (o > n ? j : v).apply(var17);
+         int var15x = var15 < 0L ? -1 : 1;
+         float var17x = x <= 0.0F ? 1.0F : Z / x;
+         ny = n + (o - n) * (o > n ? j : v).apply(var17x);
       }
 
-      float var29 = 1.0F - (float)Math.exp(-var6 * 9.0);
+      float var29x = 1.0F - (float)Math.exp(-var6 * 9.0);
       long var13 = 31973599632310L;
-      if (31973599632310L == 0L) {
-         boolean var42 = false;
-      } else {
-         int var43 = var13 < 0L ? -1 : 1;
-      }
-
-      u = u + (D - u) * var29;
-      W = W + (P - W) * var29;
-      long var30 = 31973599632310L;
-      if (31973599632310L == 0L) {
-         boolean var44 = false;
-      } else {
-         int var45 = var30 < 0L ? -1 : 1;
-      }
-
+      int var30 = var13 < 0L ? -1 : 1;
+      u = u + (D - u) * var29x;
+      W = W + (P - W) * var29x;
+      long var30x = 31973599632310L;
+      int var31 = var30x < 0L ? -1 : 1;
       n5 = n5 + (F - n5) * (1.0F - (float)Math.exp(-var6 * 7.0));
-      float var31 = z ? 1.0F - (float)Math.exp(-var6 * 6.0) : 1.0F;
-      k = k + (p - k) * var31;
+      float var31x = z ? 1.0F - (float)Math.exp(-var6 * 6.0) : 1.0F;
+      k = k + (p - k) * var31x;
       float var18 = nU - nY;
       long var19 = 31973599632310L;
-      if (31973599632310L == 0L) {
-         boolean var46 = false;
-      } else {
-         int var47 = var19 < 0L ? -1 : 1;
-      }
-
-      nY += var18 * var31;
+      int var22 = var19 < 0L ? -1 : 1;
+      nY += var18 * var31x;
       z = true;
-      long var22 = 31973599632311L;
-      if (31973599632311L == 0L) {
-         boolean var48 = false;
-      } else {
-         int var49 = var22 < 0L ? -1 : 1;
-      }
-
+      long var22x = 31973599632311L;
       if (b >= 0.0F) {
          b += var6;
          float var25;
          int var24 = (var25 = b - nA) == 0.0F ? 0 : (var25 < 0.0F ? -1 : 1);
          long var26 = 31973599632310L;
-         if (31973599632310L == 0L) {
-            boolean var50 = false;
-         } else {
-            int var51 = var26 < 0L ? -1 : 1;
-         }
-
+         int var26x = var26 < 0L ? -1 : 1;
          if (var24 >= 0) {
             b = -1.0F;
          }
       }
 
       if (!h) {
-         long var32 = 31973599632311L;
-         if (31973599632311L == 0L) {
-            boolean var52 = false;
-         } else {
-            int var53 = var32 < 0L ? -1 : 1;
-         }
-
+         long var32x = 31973599632311L;
+         int var39 = var32x < 0L ? -1 : 1;
          if (ny <= 5.0E-4F && Z >= x && g < 0.0F) {
             j(var2);
          }
@@ -310,7 +252,7 @@ public final class HitSplashSupport {
    }
 
    private static void j(long var0) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       class_310 var2 = class_310.method_1551();
       if (G != null && var2.field_1690.method_31044() == class_5498.field_26665) {
          var2.field_1690.method_31043(G);
@@ -428,7 +370,7 @@ public final class HitSplashSupport {
             class_746 var20 = var19.field_1724;
             float var21 = ny;
             class_243 var22 = var20.method_30950(var3);
-            float var23 = var20.method_17682() * ClientSupport3.bodyHeight(var20);
+            float var23 = var20.method_17682() * SkyPipelineRouter.bodyHeight(var20);
             class_243 var24 = var22.method_1031(0.0, var23 * 0.53, 0.0);
             float var25 = Easing.SMOOTHSTEP.apply(L(var17, (var21 - 0.72F) / 0.28F));
             float var26 = b >= 0.0F ? 360.0F * Easing.SINE_IN_OUT.apply(b / nA) : 0.0F;
@@ -533,10 +475,10 @@ public final class HitSplashSupport {
    }
 
    private static boolean h(class_1937 var0, class_1297 var1, class_243 var2, int var3, class_243 var4, short var5, class_243 var6, class_243 var7, short var8) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       class_243 var9 = var2;
 
-      for (int var10 = 1; var10 <= (int)bb; var10++) {
+      for (int var10 = 1; var10 <= 12; var10++) {
          class_243 var11 = E(var2, var4, var6, var7, 1.0F - (float)Math.pow(1.0F - var10 / 12.0F, 2.2));
          if (var0.method_17742(new class_3959(var9, var11, class_3960.field_23142, class_242.field_1348, var1)).method_17783() != class_240.field_1333) {
             return true;
@@ -556,8 +498,8 @@ public final class HitSplashSupport {
    private static void y(class_1937 var0, long var1, class_746 var3) {
       long var4 = 130550769959399L;
       class_310 var6 = class_310.method_1551();
-      HitSplashRenderer2.ensureSourceClassInitialized();
-      float var7 = var3.method_17682() * ClientSupport3.bodyHeight(var3);
+      HitSplashStudioScreen.ensureSourceClassInitialized();
+      float var7 = var3.method_17682() * SkyPipelineRouter.bodyHeight(var3);
       class_243 var8 = var3.method_73189().method_1031(0.0, var7 * 0.53, 0.0);
       float var9 = (float)(var7 * 1.12F / 0.47F / (2.0 * Math.tan(Math.toRadians(23.0))));
       double var10 = Math.tan(Math.toRadians(23.0));
@@ -568,21 +510,12 @@ public final class HitSplashSupport {
          for (int var16 = 0; var16 < X.length; var16++) {
             class_243 var17 = L(var8, var3.method_36454() + X[var16], M[var15], var9 * 1.1F, var12, var10);
             long var18 = 102484033048213L;
-            if (102484033048213L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var51 = var18 < 0L ? -1 : 1;
-            }
-
+            int var49 = var18 < 0L ? -1 : 1;
             var14[var15][var16] = n(var4, var0, var3, var8, var17);
          }
 
          long var39 = 102484033048212L;
-         if (102484033048212L == 0L) {
-            boolean var52 = false;
-         } else {
-            int var53 = var39 < 0L ? -1 : 1;
-         }
+         int var45 = var39 < 0L ? -1 : 1;
       }
 
       for (float var19 : new float[]{0.92F, 0.5F}) {
@@ -590,47 +523,22 @@ public final class HitSplashSupport {
 
          while (var20 < M.length) {
             long var21 = 102484033048212L;
-            if (102484033048212L == 0L) {
-               boolean var54 = false;
-            } else {
-               int var55 = var21 < 0L ? -1 : 1;
-            }
+            int var50 = var21 < 0L ? -1 : 1;
 
             for (int var24 = 0; var24 < X.length; var24++) {
                long var25 = 102484033048213L;
-               if (102484033048213L == 0L) {
-                  boolean var56 = false;
-               } else {
-                  int var57 = var25 < 0L ? -1 : 1;
-               }
-
-               float var28 = Math.abs(X[var24]);
+               int var25x = var25 < 0L ? -1 : 1;
+               float var28x = Math.abs(X[var24]);
                long var29 = 102484033048213L;
-               if (102484033048213L == 0L) {
-                  boolean var58 = false;
-               } else {
-                  int var59 = var29 < 0L ? -1 : 1;
-               }
-
-               float var31;
-               int var32 = (var31 = var28 - 90.0F) == 0.0F ? 0 : (var31 < 0.0F ? -1 : 1);
+               float var31x;
+               int var32 = (var31x = var28x - 90.0F) == 0.0F ? 0 : (var31x < 0.0F ? -1 : 1);
                long var33 = 102484033048212L;
-               if (102484033048212L == 0L) {
-                  boolean var60 = false;
-               } else {
-                  int var61 = var33 < 0L ? -1 : 1;
-               }
-
+               int var32x = var33 < 0L ? -1 : 1;
                if (var32 <= 0) {
-                  float var35;
-                  int var36 = (var35 = var14[var20][var24] - var19) == 0.0F ? 0 : (var35 < 0.0F ? -1 : 1);
+                  float var35x;
+                  int var36 = (var35x = var14[var20][var24] - var19) == 0.0F ? 0 : (var35x < 0.0F ? -1 : 1);
                   long var37 = 102484033048212L;
-                  if (102484033048212L == 0L) {
-                     boolean var62 = false;
-                  } else {
-                     int var63 = var37 < 0L ? -1 : 1;
-                  }
-
+                  int var36x = var37 < 0L ? -1 : 1;
                   if (var36 >= 0) {
                      T = X[var24];
                      N = M[var20];
@@ -640,20 +548,12 @@ public final class HitSplashSupport {
             }
 
             var20++;
-            long var50 = 102484033048212L;
-            if (102484033048212L == 0L) {
-               boolean var64 = false;
-            } else {
-               int var65 = var50 < 0L ? -1 : 1;
-            }
+            long var50x = 102484033048212L;
+            int var24x = var50x < 0L ? -1 : 1;
          }
 
          long var48 = 102484033048213L;
-         if (102484033048213L == 0L) {
-            boolean var66 = false;
-         } else {
-            int var67 = var48 < 0L ? -1 : 1;
-         }
+         int var56 = var48 < 0L ? -1 : 1;
       }
 
       int var41 = 0;
@@ -661,11 +561,7 @@ public final class HitSplashSupport {
 
       for (int var45 = 0; var45 < M.length; var45++) {
          long var47 = 102484033048213L;
-         if (102484033048213L == 0L) {
-            boolean var68 = false;
-         } else {
-            int var69 = var47 < 0L ? -1 : 1;
-         }
+         int var51 = var47 < 0L ? -1 : 1;
 
          for (int var22 = 0; var22 < X.length; var22++) {
             if (var14[var45][var22] > var14[var41][var43] + 0.05F) {
@@ -675,21 +571,12 @@ public final class HitSplashSupport {
          }
 
          long var49 = 102484033048213L;
-         if (102484033048213L == 0L) {
-            boolean var70 = false;
-         } else {
-            int var71 = var49 < 0L ? -1 : 1;
-         }
+         int var57 = var49 < 0L ? -1 : 1;
       }
 
       T = X[var43];
       long var46 = 102484033048213L;
-      if (102484033048213L == 0L) {
-         boolean var72 = false;
-      } else {
-         int var73 = var46 < 0L ? -1 : 1;
-      }
-
+      int var48 = var46 < 0L ? -1 : 1;
       N = M[var41];
    }
 
@@ -701,7 +588,7 @@ public final class HitSplashSupport {
    }
 
    private static float n(long var0, class_1937 var2, class_1297 var3, class_243 var4, class_243 var5) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       class_243 var6 = var5.method_1020(var4);
       double var7 = var6.method_1033();
       if (var7 < 1.0E-4) {
@@ -710,42 +597,24 @@ public final class HitSplashSupport {
          double var9 = var7;
 
          for (int var11 = 0; var11 < 5; var11++) {
-            long var18 = 130550769959399L;
-            if (130550769959399L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var30 = var18 < 0L ? -1 : 1;
-            }
-
-            double var12 = var11 == 1 ? 0.1 : (var11 == 2 ? -0.1 : 0.0);
-            long var21 = 130550769959398L;
-            if (130550769959398L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var21 < 0L ? -1 : 1;
-            }
-
-            double var14 = var11 == 3 ? 0.1 : (var11 == 4 ? -0.1 : 0.0);
-            long var23 = 130550769959399L;
-            if (130550769959399L == 0L) {
-               boolean var33 = false;
-            } else {
-               int var34 = var23 < 0L ? -1 : 1;
-            }
-
+            double var12;
+            double var14;
             double var16;
-            label94: {
+            label76: {
+               long var18 = 130550769959399L;
+               int var12x = var18 < 0L ? -1 : 1;
+               var12 = var11 == 1 ? 0.1 : (var11 == 2 ? -0.1 : 0.0);
+               long var21 = 130550769959398L;
+               int var14x = var21 < 0L ? -1 : 1;
+               var14 = var11 == 3 ? 0.1 : (var11 == 4 ? -0.1 : 0.0);
+               long var23 = 130550769959399L;
+               int var16x = var23 < 0L ? -1 : 1;
                if (var11 != 1) {
                   long var25 = 130550769959399L;
-                  if (130550769959399L == 0L) {
-                     boolean var35 = false;
-                  } else {
-                     int var36 = var25 < 0L ? -1 : 1;
-                  }
-
+                  int var22 = var25 < 0L ? -1 : 1;
                   if (var11 != 2) {
                      var16 = var11 == 3 ? -0.1 : 0.0;
-                     break label94;
+                     break label76;
                   }
                }
 
@@ -755,25 +624,15 @@ public final class HitSplashSupport {
             class_243 var20 = var4.method_1031(var12, var14, var16);
             class_243 var28 = var5.method_1031(var12, var14, var16);
             class_3965 var22 = var2.method_17742(new class_3959(var20, var28, class_3960.field_23142, class_242.field_1348, var3));
-            var23 = 130550769959399L;
-            if (130550769959399L == 0L) {
-               boolean var37 = false;
-            } else {
-               int var38 = var23 < 0L ? -1 : 1;
-            }
-
+            long var31 = 130550769959399L;
+            int var271 = var31 < 0L ? -1 : 1;
             if (var22.method_17783() != class_240.field_1333) {
                var9 = Math.min(var9, var22.method_17784().method_1022(var20) - 0.2);
             }
          }
 
          long var27 = 130550769959399L;
-         if (130550769959399L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var27 < 0L ? -1 : 1;
-         }
-
+         int var13 = var27 < 0L ? -1 : 1;
          return (float)Math.clamp(var9 / var7, Math.min(1.0, 0.7 / var7), 1.0);
       }
    }
@@ -800,12 +659,31 @@ public final class HitSplashSupport {
    }
 
    private static float L(long var0, float var2) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       return var2 < 0.0F ? 0.0F : Math.min(var2, 1.0F);
    }
 
    static String describe() {
-      return String.format(Locale.ROOT, ab, q, I, h, ny, T, u, W, n5, S, E[0], E[1], E[2], s, a, k, nY, A);
+      return String.format(
+         Locale.ROOT,
+         "faced %.1f, engaged %s, wanted %s, path %.3f, side %.0f, orbit %.1f/%.1f, zoom %.2f, room %.2f, at %.2f %.2f %.2f yaw %.1f pitch %.1f, frame %.2f/%.2f, game fov %.1f",
+         q,
+         I,
+         h,
+         ny,
+         T,
+         u,
+         W,
+         n5,
+         S,
+         E[0],
+         E[1],
+         E[2],
+         s,
+         a,
+         k,
+         nY,
+         A
+      );
    }
-
 }

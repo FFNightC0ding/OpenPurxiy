@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.runtime;
 
 import dev.purxiy.loader.api.ModuleEntrypoint;

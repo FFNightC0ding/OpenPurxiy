@@ -1,11 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.purxiy.duck.RenderPassHolder;
 import dev.purxiy.duck.ScreenHook;
-import dev.purxiy.loader.fabric.client.ClientRegistry17;
-import dev.purxiy.loader.fabric.client.ClientRegistry19;
+import dev.purxiy.loader.fabric.client.SwingStateProvider;
+import dev.purxiy.loader.fabric.client.HandSweepPipeline;
 import dev.purxiy.loader.fabric.mixin.ModelPartAccessor;
 import dev.purxiy.render.RenderPipelines;
 import java.util.Locale;
@@ -46,8 +45,8 @@ public final class KnifeRenderer {
    private static final float N = 0.5F;
    private static final float b = 0.08F;
    private static final Quaternionf J = new Quaternionf();
-   private static final KnifeGeometry.TypeZ M = new KnifeGeometry.TypeZ();
-   private static final KnifeGeometry.TypeZ k = new KnifeGeometry.TypeZ();
+   private static final KnifeGeometry.KnifeBounds M = new KnifeGeometry.KnifeBounds();
+   private static final KnifeGeometry.KnifeBounds k = new KnifeGeometry.KnifeBounds();
    private static final Vector3f B = new Vector3f(-0.2F, -0.72F, -0.28F);
    private static final Vector3f w = new Vector3f(0.15F, 0.35F, -1.0F);
    private static final Matrix4f V = new Matrix4f();
@@ -56,7 +55,6 @@ public final class KnifeRenderer {
    private static int q = 1;
    private static final float g = 0.97F;
    private static final float S = 4.0F;
-
    private static final String[] c = new String[3];
 
    private KnifeRenderer() {
@@ -72,21 +70,21 @@ public final class KnifeRenderer {
       int var15 = (int)(var11 << 48 >>> 48);
       long var16 = var9 ^ 43331220555090L;
       if (var1 == class_1268.field_5808 && !var0.method_7325() && var0 instanceof class_746 var18) {
-         KnifeApi var19 = KnifeFactory3.of(var2);
+         KnifeApi var19 = KnifeLookup.of(var2);
          if (var19 == null) {
             return false;
          } else {
             class_310 var20 = class_310.method_1551();
             float var21 = var20.method_61966().method_60637(true);
             boolean var22 = !var0.method_6079().method_7960();
-            KnifeCurve var23 = KnifeSupport3.frame(var19, var18, var21, var22, var19.draws());
+            KnifeCurve var23 = KnifeAttackShell.frame(var19, var18, var21, var22, var19.draws());
             int var24 = var0.method_6068() == class_1306.field_6183 ? 1 : -1;
             boolean var25 = var0.method_52814().comp_1629() == class_7920.field_41122;
             var5.method_22903();
-            float var26 = (float)(Math.tan(Math.toRadians(ClientRegistry19.fov()) * 0.5) / Math.tan(Math.toRadians(var19.fov()) * 0.5));
+            float var26 = (float)(Math.tan(Math.toRadians(HandSweepPipeline.fov()) * 0.5) / Math.tan(Math.toRadians(var19.fov()) * 0.5));
             var5.method_23760().method_23761().mulLocal(new Matrix4f().scaling(var26, var26, 1.0F));
-            Matrix4f var27 = ClientRegistry17.placement(class_1268.field_5808, var24, 0.5F, new Matrix4f());
-            var5.method_34425(ClientRegistry17.placement(class_1268.field_5808, var24, 1.0F, new Matrix4f()).invert().mul(var27));
+            Matrix4f var27 = SwingStateProvider.placement(class_1268.field_5808, var24, 0.5F, new Matrix4f());
+            var5.method_34425(SwingStateProvider.placement(class_1268.field_5808, var24, 1.0F, new Matrix4f()).invert().mul(var27));
             if (var4 > 0.001F && var0.method_6047().method_7909() != var2.method_7909()) {
                float var28 = var4 * var4 * (3.0F - 2.0F * var4);
                var5.method_46416(0.0F, -0.85F * var28, 0.12F * var28);
@@ -110,10 +108,10 @@ public final class KnifeRenderer {
             var5.method_22905(var24, 1.0F, 1.0F);
             var5.method_46416(i.x, i.y, i.z);
             var5.method_22907(J);
-            KnifeTransform.TypeH var30 = KnifeTransform.sheet(var19.sheet());
+            KnifeTransform.PoseKey var30 = KnifeTransform.sheet(var19.sheet());
             var5.method_22905(var30.M, var30.M, var30.M);
-            ClientRegistry19.sweeps(false);
-            var19.submit(var5, var6, var7, var2.method_7958(), KnifeSupport6.glint(var19));
+            HandSweepPipeline.sweeps(false);
+            var19.submit(var5, var6, var7, var2.method_7958(), KnifeWieldPipeline.glint(var19));
             var5.method_22909();
             if (!var0.method_5767()) {
                J.transform(T.set(0.0F, 1.0F, 0.0F));
@@ -144,10 +142,10 @@ public final class KnifeRenderer {
                }
             }
 
-            ClientRegistry19.sweeps(true);
+            HandSweepPipeline.sweeps(true);
             var5.method_22909();
-            KnifeUpdater2.metric("great_drawn");
-            KnifeUpdater2.metric("drawn");
+            KnifeSwingState.metric("great_drawn");
+            KnifeSwingState.metric("drawn");
             return true;
          }
       } else {
@@ -167,25 +165,15 @@ public final class KnifeRenderer {
    }
 
    private static void F(float var0, float var1, Vector3f var2, long var3) {
-      KnifeUpdater2.ensureSourceClassInitialized();
+      KnifeSwingState.ensureSourceClassInitialized();
       float var5 = var0 - var1 * 0.3F;
       if (!(var5 <= 0.0F)) {
          Vector3f var6 = new Vector3f(var2).negate();
          long var7 = 96066348828736L;
-         if (96066348828736L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var12 = var7 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
          var6.fma(-var6.dot(T), T);
-         long var10 = 96066348828736L;
-         if (96066348828736L == 0L) {
-            boolean var13 = false;
-         } else {
-            int var14 = var10 < 0L ? -1 : 1;
-         }
-
+         long var10x = 96066348828736L;
+         int var11 = var10x < 0L ? -1 : 1;
          if (var6.lengthSquared() > 1.0E-8F) {
             var2.fma(var5, var6.normalize());
          }
@@ -204,9 +192,9 @@ public final class KnifeRenderer {
       int var8,
       boolean var9,
       char var10,
-      KnifeGeometry.TypeZ var11
+      KnifeGeometry.KnifeBounds var11
    ) {
-      KnifeUpdater2.ensureSourceClassInitialized();
+      KnifeSwingState.ensureSourceClassInitialized();
       boolean var12 = var9 == (var8 == 1);
       var1.method_22903();
       var1.method_22905(var8, 1.0F, 1.0F);
@@ -218,7 +206,7 @@ public final class KnifeRenderer {
          var0.method_4221(var1, var2, var3, var6, var7.method_74091(class_1664.field_7568));
       }
 
-      class_591 var13 = (class_591)(var0.method_4038());
+      class_591 var13 = (class_591)var0.method_4038();
       ((ScreenHook)(Object)(var12 ? var13.field_3401 : var13.field_27433)).purxiy$bend(var11.M, -1.0F);
       var1.method_22909();
       var1.method_22903();
@@ -229,12 +217,11 @@ public final class KnifeRenderer {
       var2.method_73483(
          var1,
          class_12249.method_76000(var6),
-         new KnifeRenderer.TypeM(var12 ? var13.field_3401 : var13.field_27433, var14 ? (var12 ? var13.field_3486 : var13.field_3484) : null, var11.T, var3)
+         new KnifeRenderer.ArmMesh(var12 ? var13.field_3401 : var13.field_27433, var14 ? (var12 ? var13.field_3486 : var13.field_3484) : null, var11.T, var3)
       );
       var1.method_22909();
    }
 
-   
    public static Matrix4f drawnIn() {
       return p == RenderPipelines.get().frame() ? V : null;
    }
@@ -251,8 +238,7 @@ public final class KnifeRenderer {
       return String.format(Locale.ROOT, "main %s %s %s other %s %s %s", M.e, M.h, M.R, k.e, k.h, k.R);
    }
 
-private record TypeM(class_630 c,  class_630 w, float X, int m) implements RenderPassHolder {
-      @Override
+   private record ArmMesh(class_630 c, class_630 w, float X, int m) implements RenderPassHolder {
       public void render(class_4665 var1, class_4588 var2) {
          J(this.c, var1, var2, this.X, this.m);
          if (this.w != null) {
@@ -261,9 +247,9 @@ private record TypeM(class_630 c,  class_630 w, float X, int m) implements Rende
       }
 
       private static void J(class_630 var0, class_4665 var1, class_4588 var2, float var3, int var4) {
-         KnifeUpdater2.ensureSourceClassInitialized();
+         KnifeSwingState.ensureSourceClassInitialized();
 
-         for (class_628 var6 : ((ModelPartAccessor)(Object)(var0)).purxiy$cubes()) {
+         for (class_628 var6 : ((ModelPartAccessor)(Object)var0).purxiy$cubes()) {
             float var7 = (var6.field_3645 + var6.field_3648) * 0.5F;
             float var8 = (var6.field_3643 + var6.field_3646) * 0.5F;
             float var9 = var6.field_3647 - var6.field_3644;
@@ -312,7 +298,6 @@ private record TypeM(class_630 c,  class_630 w, float X, int m) implements Rende
          return this.c;
       }
 
-      
       public class_630 sleeve() {
          return this.w;
       }
@@ -329,7 +314,6 @@ private record TypeM(class_630 c,  class_630 w, float X, int m) implements Rende
          return this.c;
       }
 
-      
       public class_630 minecraftObjectState2() {
          return this.w;
       }

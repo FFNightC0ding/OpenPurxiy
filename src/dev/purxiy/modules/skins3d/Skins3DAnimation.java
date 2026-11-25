@@ -1,11 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 public final class Skins3DAnimation {
    private Skins3DAnimation() {
    }
 
-   public static void stride(Skins3DCurve var0, Skins3DSupport5 var1, Skins3DAnimation.Data var2, Skins3DAnimation.Data var3) {
+   public static void stride(Skins3DCurve var0, Skins3DGroundPose var1, Skins3DAnimation.Data var2, Skins3DAnimation.Data var3) {
       float var4 = var1.H;
       float var5 = var1.N;
       float var6 = (float)Math.cos(var5);
@@ -53,7 +52,7 @@ public final class Skins3DAnimation {
       var0.v = var0.v + mix(var2.nod(), var3.nod(), var4) * (float)Math.cos(2.0F * var5);
    }
 
-   public static void busyArms(Skins3DCurve var0, Skins3DCurve var1, Skins3DSupport5 var2) {
+   public static void busyArms(Skins3DCurve var0, Skins3DCurve var1, Skins3DGroundPose var2) {
       if (!var2.h) {
          var0.s = var1.s;
          var0.f = var1.f;
@@ -69,7 +68,7 @@ public final class Skins3DAnimation {
       }
    }
 
-   public static float breath(Skins3DSupport5 var0, float var1) {
+   public static float breath(Skins3DGroundPose var0, float var1) {
       return (float)Math.sin(var0.V * 2.0F * Math.PI / var1);
    }
 

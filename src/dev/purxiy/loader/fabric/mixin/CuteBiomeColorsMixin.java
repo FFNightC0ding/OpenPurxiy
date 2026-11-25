@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientUpdater2;
+import dev.purxiy.loader.fabric.client.TickRouter;
 import net.minecraft.class_1163;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +15,7 @@ public abstract class CuteBiomeColorsMixin {
       cancellable = true
    )
    private static void purxiy$grass(CallbackInfoReturnable<Integer> var0) {
-      var0.setReturnValue(ClientUpdater2.nature(var0.getReturnValueI(), "grass"));
+      var0.setReturnValue(TickRouter.nature(var0.getReturnValueI(), "grass"));
    }
 
    @Inject(
@@ -25,7 +24,7 @@ public abstract class CuteBiomeColorsMixin {
       cancellable = true
    )
    private static void purxiy$leaves(CallbackInfoReturnable<Integer> var0) {
-      var0.setReturnValue(ClientUpdater2.nature(var0.getReturnValueI(), "leaves"));
+      var0.setReturnValue(TickRouter.nature(var0.getReturnValueI(), "leaves"));
    }
 
    @Inject(
@@ -34,6 +33,6 @@ public abstract class CuteBiomeColorsMixin {
       cancellable = true
    )
    private static void purxiy$water(CallbackInfoReturnable<Integer> var0) {
-      var0.setReturnValue(ClientUpdater2.nature(var0.getReturnValueI(), "water"));
+      var0.setReturnValue(TickRouter.nature(var0.getReturnValueI(), "water"));
    }
 }

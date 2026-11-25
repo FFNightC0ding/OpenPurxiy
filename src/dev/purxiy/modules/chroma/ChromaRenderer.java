@@ -1,10 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.chroma;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.pipeline.RenderPipeline.Builder;
+import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -18,7 +18,7 @@ import com.mojang.blaze3d.textures.TextureFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.class_5596;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.client.ClientCache;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import java.nio.ByteBuffer;
 import java.util.Locale;
 import java.util.OptionalInt;
@@ -29,46 +29,30 @@ import net.minecraft.class_276;
 import net.minecraft.class_290;
 import net.minecraft.class_310;
 import net.minecraft.class_1011.class_1012;
-
 import org.lwjgl.system.MemoryUtil;
 
 final class ChromaRenderer {
    private static final int q = 2272;
    private static final RenderPipeline[] e = new RenderPipeline[4];
-   
    private static GpuBuffer x;
-   
    private static ByteBuffer A;
-   
    private static GpuTexture u;
-   
    private static GpuTextureView L;
-   
    private static ByteBuffer I;
-   
    private static GpuTexture R;
-   
    private static GpuTextureView D;
-   
    private static GpuTexture J;
-   
    private static GpuTexture h;
-   
    private static GpuTextureView g;
-   
    private static GpuTextureView i;
    private static int f = 0;
    private static int Q = 0;
    private static boolean H;
    private static boolean B;
    private static boolean o;
-   
    private static GpuQuery Y;
    private static double N;
    private static int y = 0;
-
-
-
    private static final Integer[] d = new Integer[17];
    private static final long j = 2272L;
 
@@ -81,7 +65,7 @@ final class ChromaRenderer {
       if (e[var5] != null) {
          return e[var5];
       } else {
-         Builder var6 = RenderPipeline.builder();
+         Builder var6 = RenderPipeline.builder(new Snippet[0]);
          String var7 = var2 ? "_living" : "";
          String var8 = var4 ? "_masked" : "";
          Builder var10 = var6.withLocation(ClientServices.id("pipeline/chroma" + var7 + var8))
@@ -148,7 +132,7 @@ final class ChromaRenderer {
       int var14 = (int)(var3 << 32 >>> 32);
       long var15 = var1 ^ 10480406120270L;
       long var17 = var1 ^ 31126303006179L;
-      boolean var19 = H && B && ChromaRenderer2.E.p.enabled();
+      boolean var19 = H && B && ChromaRenderPass.E.p.enabled();
       B = false;
       H = false;
       class_276 var20 = var0.method_1522();
@@ -157,7 +141,7 @@ final class ChromaRenderer {
       GpuTextureView var23 = var20.method_71640();
       if (var21 != null && var22 != null && var23 != null) {
          GpuDevice var24 = RenderSystem.getDevice();
-         GpuTextureView var25 = ChromaRenderer2.s ? ClientSupport3.handMask() : null;
+         GpuTextureView var25 = ChromaRenderPass.s ? SkyPipelineRouter.handMask() : null;
          boolean var26 = var25 != null;
          RenderPipeline var28 = j(var5, (char)var6, var19, (short)var7, var26);
          if (var24.precompilePipeline(var28).isValid()) {
@@ -172,24 +156,42 @@ final class ChromaRenderer {
             class_12137 var32 = RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST);
             GpuQuery var33 = o ? q((char)var12, (short)var13, var14, var31) : null;
 
-            try (RenderPass var34 = var31.createRenderPass(() -> "Purxiy chroma", var22, OptionalInt.empty())) {
-               var34.setPipeline(var28);
-               RenderSystem.bindDefaultUniforms(var34);
-               var34.setUniform("PurxiyChroma", x);
-               var34.bindTexture("SceneSampler", D, var32);
-               var34.bindTexture("DepthSampler", var23, var32);
-               var34.bindTexture("PaintSampler", L, var32);
-               if (var19) {
-                  var34.bindTexture("TerrainDepthSampler", g, var32);
-                  var34.bindTexture("OpaqueDepthSampler", i, var32);
+            try {
+               RenderPass var34 = var31.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX chroma", var22, OptionalInt.empty());
+
+               try {
+                  var34.setPipeline(var28);
+                  RenderSystem.bindDefaultUniforms(var34);
+                  var34.setUniform("PurxiyChroma", x);
+                  var34.bindTexture("SceneSampler", D, var32);
+                  var34.bindTexture("DepthSampler", var23, var32);
+                  var34.bindTexture("PaintSampler", L, var32);
+                  if (var19) {
+                     var34.bindTexture("TerrainDepthSampler", g, var32);
+                     var34.bindTexture("OpaqueDepthSampler", i, var32);
+                  }
+
+                  if (var25 != null) {
+                     var34.bindTexture("HandMaskSampler", var25, var32);
+                  }
+
+                  var34.draw(0, 3);
+                  ChromaRenderPass.metric("drawn");
+               } catch (Throwable var41) {
+                  if (var34 != null) {
+                     try {
+                        var34.close();
+                     } catch (Throwable var40) {
+                        var41.addSuppressed(var40);
+                     }
+                  }
+
+                  throw var41;
                }
 
-               if (var25 != null) {
-                  var34.bindTexture("HandMaskSampler", var25, var32);
+               if (var34 != null) {
+                  var34.close();
                }
-
-               var34.draw(0, 3);
-               ChromaRenderer2.metric("drawn");
             } finally {
                if (var33 != null) {
                   var31.timerQueryEnd(var33);
@@ -202,37 +204,23 @@ final class ChromaRenderer {
 
    private static void d(CommandEncoder var0, long var1) {
       ByteBuffer var3 = I;
-      ChromaRenderer2.v.upload((var2, var3x, var4) -> {
+      ChromaRenderPass.v.upload((var2, var3xx, var4) -> {
          ChromaCodec.ensureSourceClassInitialized();
          long var5 = 41211718623906L;
-         if (41211718623906L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var12 = var5 < 0L ? -1 : 1;
-         }
-
+         int var8 = var5 < 0L ? -1 : 1;
          var3.clear();
-         long var8 = 41211718623906L;
-         if (41211718623906L == 0L) {
-            boolean var13 = false;
-         } else {
-            int var14 = var8 < 0L ? -1 : 1;
-         }
-
+         long var8x = 41211718623906L;
+         int var10 = var8x < 0L ? -1 : 1;
          if (var4 == null) {
             MemoryUtil.memSet(MemoryUtil.memAddress0(var3), 0, var3.capacity());
-            long var10 = 41211718623906L;
-            if (41211718623906L == 0L) {
-               boolean var15 = false;
-            } else {
-               int var16 = var10 < 0L ? -1 : 1;
-            }
+            long var10x = 41211718623906L;
+            int var11 = var10x < 0L ? -1 : 1;
          } else {
             var3.put(var4);
             var3.clear();
          }
 
-         var0.writeToTexture(u, var3, class_1012.field_4997, 0, 0, var2, var3x, 32, 32);
+         var0.writeToTexture(u, var3, class_1012.field_4997, 0, 0, var2, var3xx, 32, 32);
       }, Integer.MAX_VALUE);
    }
 
@@ -242,114 +230,75 @@ final class ChromaRenderer {
       short var9 = 21073;
       int var10 = 468279301;
       ChromaCodec.ensureSourceClassInitialized();
-      ChromaModule var11 = ChromaRenderer2.E;
-      ChromaKind var12 = ChromaKind.of(var11.Z.get());
+      ChromaModule var11 = ChromaRenderPass.E;
+      ChromaKind var12 = ChromaKind.of((String)var11.Z.get());
       int var13 = var12.Z;
       int var14 = var12.V;
       int var15 = var12.r;
       long var16 = 36845388245334L;
-      if (36845388245334L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var54 = var16 < 0L ? -1 : 1;
+      int var19 = var16 < 0L ? -1 : 1;
+      if (ChromaRenderPass.L != null) {
+         var13 = ChromaRenderPass.L[0];
+         var14 = ChromaRenderPass.L[1];
+         var15 = ChromaRenderPass.L[2];
       }
 
-      if (ChromaRenderer2.L != null) {
-         var13 = ChromaRenderer2.L[0];
-         var14 = ChromaRenderer2.L[1];
-         var15 = ChromaRenderer2.L[2];
-      }
-
-      double var19 = ChromaRenderer2.z;
+      double var19x = ChromaRenderPass.z;
       short var21 = 4802;
-      double var22 = ChromaRenderer2.P;
-      double var24 = ChromaRenderer2.O;
-      int var26 = (int)Math.floor(var19);
+      double var22 = ChromaRenderPass.P;
+      double var24 = ChromaRenderPass.O;
+      int var26 = (int)Math.floor(var19x);
       int var27 = (int)Math.floor(var22);
       int var28 = (int)Math.floor(var24);
       short var29 = 512;
-      Std140Builder var30 = Std140Builder.intoBuffer(A.clear()).putMat4f(ChromaRenderer2.A);
+      Std140Builder var30 = Std140Builder.intoBuffer(A.clear()).putMat4f(ChromaRenderPass.A);
       float var31 = var0;
       float var32 = var1;
       long var33 = 36845388245333L;
-      if (36845388245333L == 0L) {
-         boolean var55 = false;
-      } else {
-         int var56 = var33 < 0L ? -1 : 1;
-      }
-
-      Std140Builder var36 = var30.putVec4(var31, var32, 2.0F / (ChromaRenderer2.t * var1), (float)(ChromaRenderer2.k % 3600.0))
-         .putVec4((float)(var19 - var26), (float)(var22 - var27), (float)(var24 - var28), (float)var22)
+      int var36 = var33 < 0L ? -1 : 1;
+      Std140Builder var36x = var30.putVec4(var31, var32, 2.0F / (ChromaRenderPass.t * var1), (float)(ChromaRenderPass.k % 3600.0))
+         .putVec4((float)(var19x - var26), (float)(var22 - var27), (float)(var24 - var28), (float)var22)
          .putIVec4(var26, var27, var28, 0)
-         .putIVec4(var26 & var29 - 1, var28 & var29 - 1, ChromaRenderer2.v.windowX() - var26, ChromaRenderer2.v.windowZ() - var28);
-      int var18 = Math.floorMod(ChromaRenderer2.tick(), 65534);
-      int var37 = ChromaRenderer2.v.fade();
-      int var35 = Math.min(ChromaRenderer2.C.size(), 64);
-      ChromaRenderer2.ensureSourceClassInitialized();
-      Std140Builder var38 = var36.putIVec4(var18, var37, var35, 0)
+         .putIVec4(var26 & var29 - 1, var28 & var29 - 1, ChromaRenderPass.v.windowX() - var26, ChromaRenderPass.v.windowZ() - var28);
+      int var18x = Math.floorMod(ChromaRenderPass.tick(), 65534);
+      int var37 = ChromaRenderPass.v.fade();
+      int var35 = Math.min(ChromaRenderPass.C.size(), 64);
+      ChromaRenderPass.ensureSourceClassInitialized();
+      Std140Builder var38 = var36x.putIVec4(var18x, var37, var35, 0)
          .putVec4(y(var5, var13), k(var13, var7), x(var13, var9, var10), var11.f.floatValue())
          .putVec4(y(var5, var14), k(var14, var7), x(var14, var9, var10), 1.0F)
-         .putVec4(y(var5, var15), k(var15, var7), x(var15, var9, var10), Math.max(ChromaRenderer2.g, var11.f.floatValue()))
-         .putVec4(ChromaRenderer2.S, var4 ? 1.0F : 0.0F, 0.0F, 0.0F);
-      double var39 = ChromaRenderer2.k;
+         .putVec4(y(var5, var15), k(var15, var7), x(var15, var9, var10), Math.max(ChromaRenderPass.g, var11.f.floatValue()))
+         .putVec4(ChromaRenderPass.S, var4 ? 1.0F : 0.0F, 0.0F, 0.0F);
+      double var39 = ChromaRenderPass.k;
       int var41 = 0;
 
-      for (ChromaRenderer2.TypeR var43 : ChromaRenderer2.C) {
+      for (ChromaRenderPass.ChromaBatch var43 : ChromaRenderPass.C) {
          long var44 = 36845388245333L;
-         if (36845388245333L == 0L) {
-            boolean var57 = false;
-         } else {
-            int var58 = var44 < 0L ? -1 : 1;
-         }
-
-         long var46 = 36845388245333L;
-         if (36845388245333L == 0L) {
-            boolean var59 = false;
-         } else {
-            int var60 = var46 < 0L ? -1 : 1;
-         }
-
-         long var48 = 36845388245333L;
-         if (36845388245333L == 0L) {
-            boolean var61 = false;
-         } else {
-            int var62 = var48 < 0L ? -1 : 1;
-         }
-
+         int var46 = var44 < 0L ? -1 : 1;
+         long var46x = 36845388245333L;
+         int var48 = var46x < 0L ? -1 : 1;
+         long var48x = 36845388245333L;
+         int var50 = var48x < 0L ? -1 : 1;
          if (var41 >= 64) {
-            long var50 = 36845388245334L;
-            if (36845388245334L == 0L) {
-               boolean var63 = false;
-            } else {
-               int var64 = var50 < 0L ? -1 : 1;
-            }
+            long var50x = 36845388245334L;
+            int var52 = var50x < 0L ? -1 : 1;
             break;
          }
 
-         var38.putVec4((float)(var43.X - var19), (float)(var43.q - var22), (float)(var43.W - var24), var43.radiusAt(var39))
+         var38.putVec4((float)(var43.X - var19x), (float)(var43.q - var22), (float)(var43.W - var24), var43.radiusAt(var39))
             .putVec4(var43.wetAt(var39), 0.0F, 0.0F, 0.0F);
          var41++;
       }
 
       while (true) {
          long var52 = 36845388245333L;
-         if (36845388245333L == 0L) {
-            boolean var65 = false;
-         } else {
-            int var66 = var52 < 0L ? -1 : 1;
-         }
-
+         int var56 = var52 < 0L ? -1 : 1;
          if (var41 >= 64) {
             return var38.get();
          }
 
          long var53 = 36845388245333L;
-         if (36845388245333L == 0L) {
-            boolean var67 = false;
-         } else {
-            int var68 = var53 < 0L ? -1 : 1;
-         }
-
+         int var59 = var53 < 0L ? -1 : 1;
          var38.putVec4(0.0F, 0.0F, 0.0F, 0.0F).putVec4(0.0F, 0.0F, 0.0F, 0.0F);
          var41++;
       }
@@ -358,12 +307,12 @@ final class ChromaRenderer {
    private static void T(GpuDevice var0, long var1) {
       ChromaCodec.ensureSourceClassInitialized();
       if (x == null) {
-         x = var0.createBuffer(ClientServices.label(() -> "Purxiy chroma"), 136, 2272L);
+         x = var0.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX chroma"), 136, 2272L);
          A = MemoryUtil.memAlloc(2272);
          I = MemoryUtil.memAlloc(4096);
-         u = var0.createTexture(() -> "Purxiy chroma paint", 5, TextureFormat.RGBA8, 512, 512, 1, 1);
+         u = var0.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX chroma paint", 5, TextureFormat.RGBA8, 512, 512, 1, 1);
          L = var0.createTextureView(u);
-         ChromaRenderer2.v.resend();
+         ChromaRenderPass.v.resend();
       }
    }
 
@@ -371,12 +320,7 @@ final class ChromaRenderer {
       ChromaCodec.ensureSourceClassInitialized();
       if (R != null) {
          long var5 = 57474121905147L;
-         if (57474121905147L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var8 = var5 < 0L ? -1 : 1;
-         }
-
+         int var7 = var5 < 0L ? -1 : 1;
          if (f == var3 && Q == var4) {
             return;
          }
@@ -391,11 +335,11 @@ final class ChromaRenderer {
          h.close();
       }
 
-      R = var0.createTexture(() -> "Purxiy chroma scene", 5, TextureFormat.RGBA8, var3, var4, 1, 1);
+      R = var0.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX chroma scene", 5, TextureFormat.RGBA8, var3, var4, 1, 1);
       D = var0.createTextureView(R);
-      J = var0.createTexture(() -> "Purxiy chroma terrain depth", 5, TextureFormat.DEPTH32, var3, var4, 1, 1);
+      J = var0.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX chroma terrain depth", 5, TextureFormat.DEPTH32, var3, var4, 1, 1);
       g = var0.createTextureView(J);
-      h = var0.createTexture(() -> "Purxiy chroma opaque depth", 5, TextureFormat.DEPTH32, var3, var4, 1, 1);
+      h = var0.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX chroma opaque depth", 5, TextureFormat.DEPTH32, var3, var4, 1, 1);
       i = var0.createTextureView(h);
       f = var3;
       Q = var4;
@@ -415,7 +359,6 @@ final class ChromaRenderer {
       return (var0 & 0xFF) / 255.0F;
    }
 
-   
    private static GpuQuery q(char var0, short var1, int var2, CommandEncoder var3) {
       ChromaCodec.ensureSourceClassInitialized();
       if (Y != null) {
@@ -430,8 +373,8 @@ final class ChromaRenderer {
          if (++y == 240) {
             ClientServices.LOGGER
                .info(
-                  "Purxiy chroma: {} ms GPU per frame ({} blooms, {} regions)",
-                  new Object[]{String.format(Locale.ROOT, "%.3f", N / y), ChromaRenderer2.C.size(), ChromaRenderer2.v.regionCount()}
+                  "SourceByDevFFnightmare DeObfDeCompByGuideX chroma: {} ms GPU per frame ({} blooms, {} regions)",
+                  new Object[]{String.format(Locale.ROOT, "%.3f", N / y), ChromaRenderPass.C.size(), ChromaRenderPass.v.regionCount()}
                );
             N = 0.0;
             y = 0;
@@ -570,7 +513,7 @@ final class ChromaRenderer {
          if (I != null) {
             MemoryUtil.memFree(I);
          }
-      } catch (Exception var354) {
+      } catch (Exception var3541) {
          var0++;
       } finally {
          I = null;
@@ -580,5 +523,4 @@ final class ChromaRenderer {
          throw new IllegalStateException("GPU resources did not close");
       }
    }
-
 }

@@ -1,13 +1,14 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.notifications;
 
 import dev.purxiy.anim.Easing;
 import dev.purxiy.anim.MotionStyle;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.hud.HudBounds;
 import dev.purxiy.hud.HudGroupBounds;
 import dev.purxiy.hud.HudLayout;
 import dev.purxiy.hud.HudModule;
+import dev.purxiy.hud.HudLayout.HudToast;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.render.font.FontStyle;
 import dev.purxiy.render.font.FontWeight;
@@ -22,13 +23,11 @@ public final class NotificationsHud extends HudModule {
    private static final float M = 32.0F;
    private static final float D = 5.0F;
    private static final float v = 0.35F;
-   private final NumberSetting O = this.number("duration", "Duration", "How long a notification stays", 2.5, 1.5, 6.0, 0.5, NumberSetting.Listener.unit("s"));
-   private final List<HudLayout.TypeP> x = new ArrayList<>();
+   private final NumberSetting O = this.number("duration", "Duration", "How long a notification stays", 2.5, 1.5, 6.0, 0.5, Listener.unit("s"));
+   private final List<HudToast> x = new ArrayList<>();
    private float p = 150.0F;
    public static int w = 0;
    public static boolean B;
-
-
 
    public NotificationsHud() {
       super("notifications", "Notifications", "A quiet message when a keybind toggles a module", "bell", 1.0, 1.0);
@@ -38,20 +37,14 @@ public final class NotificationsHud extends HudModule {
    private void G(HudBounds var1, long var2) {
       this.x.clear();
       long var4 = 720288752439L;
-      if (720288752439L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       HudLayout.prune(var1.time, this.O.floatValue());
       this.x.addAll(HudLayout.toasts());
       if (this.x.isEmpty() && var1.editing) {
-         this.x.add(new HudLayout.TypeP("Freelook", "Enabled", "scan-eye", true, var1.time - 1.0F));
+         this.x.add(new HudToast("Freelook", "Enabled", "scan-eye", true, var1.time - 1.0F));
       }
    }
 
-   @Override
    protected boolean hasContent(HudBounds var1) {
       long var2 = 137930309389101L;
       long var4 = var2 ^ 138357331355674L;
@@ -59,7 +52,6 @@ public final class NotificationsHud extends HudModule {
       return !this.x.isEmpty();
    }
 
-   @Override
    protected void measure(HudBounds var1, float[] var2) {
       long var3 = 67310310281663L;
       long var5 = var3 ^ 67690088395400L;
@@ -67,7 +59,7 @@ public final class NotificationsHud extends HudModule {
       int var7 = Math.max(1, this.x.size());
       float var8 = 0.0F;
 
-      for (HudLayout.TypeP var10 : this.x) {
+      for (HudToast var10 : this.x) {
          var8 = Math.max(var8, Math.max(Fonts.SEMIBOLD.width(var10.title(), 9.5F), Fonts.MEDIUM.width(var10.message(), 8.5F)));
       }
 
@@ -76,7 +68,6 @@ public final class NotificationsHud extends HudModule {
       var2[1] = var7 * 32.0F + (var7 - 1) * 5.0F;
    }
 
-   @Override
    protected void render(Canvas var1, HudBounds var2) {
       long var3 = 116831985691848L;
       long var5 = var3 ^ 131322856889928L;
@@ -86,7 +77,7 @@ public final class NotificationsHud extends HudModule {
       float var10 = this.O.floatValue();
 
       for (int var11 = 0; var11 < this.x.size(); var11++) {
-         HudLayout.TypeP var12 = this.x.get(var11);
+         HudToast var12 = this.x.get(var11);
          float var13 = var12.lifetime(var10);
          float var14 = (var2.time - var12.createdAt()) * MotionStyle.MENU.speed();
          boolean var15 = var2.editing && HudLayout.toasts().isEmpty();
@@ -106,28 +97,21 @@ public final class NotificationsHud extends HudModule {
       }
    }
 
-   private void Z(Canvas var1, HudLayout.TypeP var2, float var3, float var4, long var5) {
+   private void Z(Canvas var1, HudToast var2, float var3, float var4, long var5) {
       this.panel(var1, 0.0F, var3, this.p, 32.0F, 9.0F);
       HudGroupBounds.iconTile(var1, 7.0F, var3 + 7.0F, 18.0F, 6.0F, var2.icon(), var2.positive() ? 1.0F : 0.0F, 0.0F);
       long var7 = 32083090944639L;
-      if (32083090944639L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var11 = var7 < 0L ? -1 : 1;
-      }
-
+      int var10 = var7 < 0L ? -1 : 1;
       this.text(var1, Fonts.SEMIBOLD, var2.title(), 32.0F, var3 + 12.0F, 9.5F, Icons.TEXT, FontStyle.LEFT, FontWeight.MIDDLE);
       this.text(var1, Fonts.MEDIUM, var2.message(), 32.0F, var3 + 22.5F, 8.5F, var2.positive() ? Icons.PURPLE : Icons.TEXT_2, FontStyle.LEFT, FontWeight.MIDDLE);
-      float var10 = (this.p - 18.0F) * var4;
-      if (var10 > 1.0F) {
-         var1.roundRectGradient(9.0F, var3 + 32.0F - 3.0F, var10, 1.4F, 0.7F, 0.0F, Icons.INDIGO, Icons.MAGENTA);
+      float var10x = (this.p - 18.0F) * var4;
+      if (var10x > 1.0F) {
+         var1.roundRectGradient(9.0F, var3 + 32.0F - 3.0F, var10x, 1.4F, 0.7F, 0.0F, Icons.INDIGO, Icons.MAGENTA);
       }
    }
 
-   @Override
    protected void closeContent() {
       this.x.clear();
       HudLayout.clear();
    }
-
 }

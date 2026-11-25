@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_241;
 import net.minecraft.class_746;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +16,6 @@ public abstract class MountMovementMixin {
       cancellable = true
    )
    private void purxiy$driveHeading(class_241 var1, CallbackInfoReturnable<class_241> var2) {
-      var2.setReturnValue(ClientRenderer5.drivingInput((class_241)var2.getReturnValue()));
+      var2.setReturnValue(CameraStateReader.drivingInput((class_241)var2.getReturnValue()));
    }
 }

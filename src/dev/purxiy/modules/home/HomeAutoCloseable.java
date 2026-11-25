@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.home;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -6,6 +5,7 @@ import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.pipeline.RenderPipeline.Builder;
+import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -37,7 +37,6 @@ import net.minecraft.class_290;
 import net.minecraft.class_310;
 import net.minecraft.class_6367;
 import org.joml.Matrix4f;
-
 import org.lwjgl.system.MemoryUtil;
 
 final class HomeAutoCloseable implements AutoCloseable {
@@ -47,7 +46,7 @@ final class HomeAutoCloseable implements AutoCloseable {
       .add("Color", VertexFormatElement.COLOR)
       .add("Grow", SkyVertexFormat.POS_LOCAL)
       .build();
-   private static final RenderPipeline P = RenderPipeline.builder()
+   private static final RenderPipeline P = RenderPipeline.builder(new Snippet[0])
       .withLocation(ClientServices.id("pipeline/home_sky"))
       .withVertexShader(ClientServices.id("core/home_sky"))
       .withFragmentShader(ClientServices.id("core/home_sky"))
@@ -62,7 +61,7 @@ final class HomeAutoCloseable implements AutoCloseable {
    private static final RenderPipeline M = P("home_solid", 88976651066837L, "SOLID", false);
    private static final RenderPipeline V = P("home_water", 88976651066837L, "WATER", true);
    private static final RenderPipeline u = P("home_clouds", 88976651066837L, "CLOUDS", true);
-   private static final RenderPipeline m = RenderPipeline.builder()
+   private static final RenderPipeline m = RenderPipeline.builder(new Snippet[0])
       .withLocation(ClientServices.id("pipeline/home_particles"))
       .withVertexShader(ClientServices.id("core/home_particle"))
       .withFragmentShader(ClientServices.id("core/home_particle"))
@@ -74,7 +73,7 @@ final class HomeAutoCloseable implements AutoCloseable {
       .withCull(false)
       .withVertexFormat(n, class_5596.field_27382)
       .build();
-   private static final RenderPipeline g = RenderPipeline.builder()
+   private static final RenderPipeline g = RenderPipeline.builder(new Snippet[0])
       .withLocation(ClientServices.id("pipeline/home_composite"))
       .withVertexShader("core/screenquad")
       .withFragmentShader(ClientServices.id("core/home_composite"))
@@ -93,33 +92,26 @@ final class HomeAutoCloseable implements AutoCloseable {
    static final int q = 1;
    static final int E = 2;
    static final int Y = 3;
-   final HomeAutoCloseable.TypeH x = new HomeAutoCloseable.TypeH("terrain");
-   final HomeAutoCloseable.TypeH k = new HomeAutoCloseable.TypeH("water");
-   HomeAutoCloseable.TypeH X = new HomeAutoCloseable.TypeH("forest");
-   HomeAutoCloseable.TypeH U = new HomeAutoCloseable.TypeH("old forest");
-   final HomeAutoCloseable.TypeH d = new HomeAutoCloseable.TypeH("clouds");
-   final HomeAutoCloseable.TypeH D = new HomeAutoCloseable.TypeH("particles");
-   
+   final HomeAutoCloseable.HomeLease x = new HomeAutoCloseable.HomeLease("terrain");
+   final HomeAutoCloseable.HomeLease k = new HomeAutoCloseable.HomeLease("water");
+   HomeAutoCloseable.HomeLease X = new HomeAutoCloseable.HomeLease("forest");
+   HomeAutoCloseable.HomeLease U = new HomeAutoCloseable.HomeLease("old forest");
+   final HomeAutoCloseable.HomeLease d = new HomeAutoCloseable.HomeLease("clouds");
+   final HomeAutoCloseable.HomeLease D = new HomeAutoCloseable.HomeLease("particles");
    private class_6367 A;
    private final BlurPipeline h = new BlurPipeline();
-   
    private GpuBuffer t;
-   
    private GpuBuffer G;
-   
    private GpuBuffer p;
-   
    private ByteBuffer Z;
    private int a;
-
    private static final String[] e = new String[52];
-
    private static final Integer[] i = new Integer[14];
    private static final long[] j = new long[]{7613868609598900869L, 6217830737918024691L, 2334061076209702607L, 2852311656254319253L, 4304165463177710582L};
    private static final Long[] l = new Long[5];
 
    private static RenderPipeline P(String var0, long var1, String var3, boolean var4) {
-      Builder var5 = RenderPipeline.builder()
+      Builder var5 = RenderPipeline.builder(new Snippet[0])
          .withLocation(ClientServices.id("pipeline/" + var0))
          .withVertexShader(ClientServices.id("core/home_block"))
          .withFragmentShader(ClientServices.id("core/home_block"))
@@ -131,24 +123,15 @@ final class HomeAutoCloseable implements AutoCloseable {
          .withVertexFormat(n, class_5596.field_27382);
       boolean var6 = var3.equals("CLOUDS");
       long var7 = 88976651066836L;
-      if (88976651066836L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var12 = var7 < 0L ? -1 : 1;
-      }
-
+      int var10 = var7 < 0L ? -1 : 1;
       if (!var6) {
          var5.withSampler("Sampler0");
       }
 
       if (var4) {
          var5.withBlend(BlendFunction.TRANSLUCENT_PREMULTIPLIED_ALPHA).withDepthWrite(false);
-         long var10 = 88976651066837L;
-         if (88976651066837L == 0L) {
-            boolean var13 = false;
-         } else {
-            int var14 = var10 < 0L ? -1 : 1;
-         }
+         long var10x = 88976651066837L;
+         int var11 = var10x < 0L ? -1 : 1;
       } else {
          var5.withoutBlend().withDepthWrite(true);
       }
@@ -156,7 +139,7 @@ final class HomeAutoCloseable implements AutoCloseable {
       return var5.build();
    }
 
-   void render(HomeAutoCloseable.TypeI var1) {
+   void render(HomeAutoCloseable.HomeWorker var1) {
       long var2 = 27786686954494L;
       long var4 = var2 ^ 76458410862762L;
       long var6 = var2 ^ 16180093475065L;
@@ -206,10 +189,11 @@ final class HomeAutoCloseable implements AutoCloseable {
          class_5590 var30 = RenderSystem.getSequentialBuffer(class_5596.field_27382);
          GpuBuffer var31 = var30.method_68274(Math.max(6, var29 * 6));
          class_6367 var32 = this.A;
+         RenderPass var33 = var21.createRenderPass(
+            () -> "SourceByDevFFnightmare DeObfDeCompByGuideX home world", var32.method_71639(), OptionalInt.of(-16777216), var32.method_71640(), OptionalDouble.of(1.0)
+         );
 
-         try (RenderPass var33 = var21.createRenderPass(
-               () -> "Purxiy home world", var32.method_71639(), OptionalInt.of(-16777216), var32.method_71640(), OptionalDouble.of(1.0)
-            )) {
+         try {
             var33.setPipeline(P);
             var33.setUniform("HomeFrame", this.t);
             var33.bindTexture("CelestialSampler", var25 != null ? var25 : var23.method_71659(), var28);
@@ -258,6 +242,20 @@ final class HomeAutoCloseable implements AutoCloseable {
                var33.drawIndexed(0, 0, this.D.F * 6, 1);
                HomeUpdater.metric("drawn");
             }
+         } catch (Throwable var43) {
+            if (var33 != null) {
+               try {
+                  var33.close();
+               } catch (Throwable var40) {
+                  var43.addSuppressed(var40);
+               }
+            }
+
+            throw var43;
+         }
+
+         if (var33 != null) {
+            var33.close();
          }
 
          GpuTextureView var48 = var32.method_71639();
@@ -268,43 +266,53 @@ final class HomeAutoCloseable implements AutoCloseable {
          }
 
          class_12137 var55 = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
+         RenderPass var36 = var21.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX home composite", var15, OptionalInt.empty());
 
-         try (RenderPass var36 = var21.createRenderPass(() -> "Purxiy home composite", var15, OptionalInt.empty())) {
+         try {
             var36.setPipeline(g);
             var36.setUniform("HomeComposite", this.p);
             var36.bindTexture("SceneSampler", var48, var55);
             var36.bindTexture("BlurSampler", var51, var55);
             var36.draw(0, 3);
             HomeUpdater.metric("drawn");
+         } catch (Throwable var42) {
+            if (var36 != null) {
+               try {
+                  var36.close();
+               } catch (Throwable var39) {
+                  var42.addSuppressed(var39);
+               }
+            }
+
+            throw var42;
+         }
+
+         if (var36 != null) {
+            var36.close();
          }
       }
    }
 
-   private void q(RenderPass var1, long var2, HomeAutoCloseable.TypeH var4, Object var5, int var6) {
-      int var7 = (var4.drawable(var5) ? 1 : 0);
+   private void q(RenderPass var1, long var2, HomeAutoCloseable.HomeLease var4, Object var5, int var6) {
+      int var7 = var4.drawable(var5) ? 1 : 0;
       long var8 = 26331087872775L;
-      if (26331087872775L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var12 = var8 < 0L ? -1 : 1;
-      }
-
-      if ((var7 != 0)) {
+      int var10 = var8 < 0L ? -1 : 1;
+      if (var7 != 0) {
          var1.setUniform("HomeDraw", this.G.slice((long)var6 * this.a, 16L));
          var7 = 1356597848;
          var1.setVertexBuffer(0, var4.C);
-         int var10 = 1356603251;
+         var10 = 1356603251;
          var1.drawIndexed(0, 0, var4.F * 6, 1);
          HomeUpdater.metric("drawn");
       }
    }
 
-   private void r(CommandEncoder var1, HomeAutoCloseable.TypeI var2, int var3, int var4, long var5) {
+   private void r(CommandEncoder var1, HomeAutoCloseable.HomeWorker var2, int var3, int var4, long var5) {
       long var7 = 73616875743921L;
-      HomeUpdater2.TypeZ var9 = var2.v;
-      HomeSupport2.ensureSourceClassInitialized();
-      float[] var10 = HomeUpdater2.direction(var9.y, var9.n);
-      float[] var11 = HomeUpdater2.direction(var9.r, var9.v);
+      HomePalette.HomeColorSet var9 = var2.v;
+      HomeGuiBridge.ensureSourceClassInitialized();
+      float[] var10 = HomePalette.direction(var9.y, var9.n);
+      float[] var11 = HomePalette.direction(var9.r, var9.v);
       float[] var12 = var2.X != null ? var2.X.s : new float[4];
       float[] var13 = var2.X != null ? var2.X.p : new float[4];
       Std140Builder var14 = Std140Builder.intoBuffer(this.Z.clear())
@@ -349,9 +357,9 @@ final class HomeAutoCloseable implements AutoCloseable {
    }
 
    private void b(GpuDevice var1, int var2, short var3, short var4, int var5, int var6) {
-      HomeSupport2.ensureSourceClassInitialized();
+      HomeGuiBridge.ensureSourceClassInitialized();
       if (this.A == null) {
-         this.A = new class_6367("Purxiy home world", var5, var6, true);
+         this.A = new class_6367("SourceByDevFFnightmare DeObfDeCompByGuideX home world", var5, var6, true);
       } else if (this.A.field_1482 != var5 || this.A.field_1481 != var6) {
          this.A.method_1234(var5, var6);
       }
@@ -359,9 +367,9 @@ final class HomeAutoCloseable implements AutoCloseable {
       if (this.t == null) {
          int var7 = Math.max(16, var1.getUniformOffsetAlignment());
          this.a = (16 + var7 - 1) / var7 * var7;
-         this.t = var1.createBuffer(ClientServices.label(() -> "Purxiy home frame"), 136, 368L);
-         this.G = var1.createBuffer(ClientServices.label(() -> "Purxiy home draws"), 136, this.a * 4L);
-         this.p = var1.createBuffer(ClientServices.label(() -> "Purxiy home composite"), 136, 64L);
+         this.t = var1.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX home frame"), 136, 368L);
+         this.G = var1.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX home draws"), 136, this.a * 4L);
+         this.p = var1.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX home composite"), 136, 64L);
          this.Z = MemoryUtil.memAlloc(Math.max(368, this.a * 4));
       }
    }
@@ -390,7 +398,6 @@ final class HomeAutoCloseable implements AutoCloseable {
       }
    }
 
-   
    GpuTextureView depth() {
       return this.A != null ? this.A.method_71640() : null;
    }
@@ -472,7 +479,7 @@ final class HomeAutoCloseable implements AutoCloseable {
       }
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 28050) & 32767;
       if (l[var3] == null) {
          l[var3] = j[var3] ^ var1;
@@ -481,20 +488,18 @@ private static long b(int var0, long var1) {
       return l[var3];
    }
 
-static final class TypeH implements AutoCloseable {
+   static final class HomeLease implements AutoCloseable {
       final String I;
-      
       GpuBuffer C;
       int F;
-      
       Object Z;
-      private static final String a = "Purxiy home ";
+      private static final String a = "SourceByDevFFnightmare DeObfDeCompByGuideX home ";
 
-      TypeH(String var1) {
+      HomeLease(String var1) {
          this.I = var1;
       }
 
-      void upload(ByteBuffer var1, int var2,  Object var3) {
+      void upload(ByteBuffer var1, int var2, Object var3) {
          GpuDevice var4 = RenderSystem.getDevice();
          long var5 = var1.remaining();
          if (this.C == null || this.C.size() < var5) {
@@ -508,7 +513,7 @@ static final class TypeH implements AutoCloseable {
                var7 <<= 1;
             }
 
-            this.C = var4.createBuffer(ClientServices.label(() -> a + this.I), 40, var7);
+            this.C = var4.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX home " + this.I), 40, var7);
          }
 
          if (var5 > 0L) {
@@ -536,10 +541,9 @@ static final class TypeH implements AutoCloseable {
 
          this.F = 0;
       }
+   }
 
-}
-
-   static final class TypeI {
+   static final class HomeWorker {
       final Matrix4f s = new Matrix4f();
       final Matrix4f Y = new Matrix4f();
       final Matrix4f V = new Matrix4f();
@@ -558,9 +562,8 @@ static final class TypeH implements AutoCloseable {
       float k;
       float F = 1.0F;
       float W;
-      HomeUpdater2.TypeZ v;
-      
-      HomeCodec2 X;
+      HomePalette.HomeColorSet v;
+      HomeBlocks X;
       float L = 1000000.0F;
       float i = -1.0F;
       float u = 1.0F;

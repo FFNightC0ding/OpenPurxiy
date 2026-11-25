@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.serverinfo;
 
 import dev.purxiy.hud.HudBounds;
@@ -9,13 +8,10 @@ public final class ServerHud extends HudElementGroup {
    public static int a = 0;
    public static int b = 0;
 
-
-
    public ServerHud() {
       super("server_info", "Server", "The address of the server you are on", "server", 0.0, 0.0);
    }
 
-   @Override
    protected String value(HudBounds var1) {
       if (var1.mc.method_1496()) {
          return "Singleplayer";
@@ -25,9 +21,7 @@ public final class ServerHud extends HudElementGroup {
       }
    }
 
-   @Override
    protected String sample() {
       return "play.purxiy.dev";
    }
-
 }

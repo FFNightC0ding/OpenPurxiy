@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.Animator;
@@ -31,7 +30,7 @@ final class LayoutEditor {
    private final List<ModuleRow> current = new ArrayList<>();
    private final List<ModuleRow> outgoing = new ArrayList<>();
    private final float[][] outgoingRects = new float[64][2];
-   
+
    private Category category;
    private float enterTime;
    private float exitTime = -10.0F;
@@ -44,16 +43,16 @@ final class LayoutEditor {
    private float areaY;
    private float areaW;
    private float areaH;
-   
+
    private ModuleRow pressed;
-   
+
    private ModuleRow hidden;
    private final float[] editButton = new float[4];
    private final Animator editHover = Animator.smooth(0.0F);
-   
+
    private ModuleRow target;
 
-   
+
    Category category() {
       return this.category;
    }
@@ -89,7 +88,7 @@ final class LayoutEditor {
       this.hidden = var1;
    }
 
-   
+
    ModuleRow card(Module var1) {
       return this.cards.get(var1);
    }
@@ -195,7 +194,7 @@ final class LayoutEditor {
       this.editButton[1] = var9;
       this.editButton[2] = var6;
       this.editButton[3] = var7;
-      boolean var10 = var1.hover(this.editButton, var8, var9, var6, var7, DrawContext.TypeE.HAND);
+      boolean var10 = var1.hover(this.editButton, var8, var9, var6, var7, DrawContext.Cursor.HAND);
       float var11 = this.editHover.target(var10 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       if (var11 > 0.01F) {
          var2.glow(var8, var9, var6, var7, var7 / 2.0F, 16.0F, BlendMode.withAlpha(Icons.VIOLET, 0.35F * var11));
@@ -224,12 +223,12 @@ final class LayoutEditor {
       var1.roundRect(var8 - 1.5F, var7, 3.0F, var6, 1.5F, BlendMode.withAlpha(-1, 0.18F * var4));
    }
 
-   
+
    ModuleRow target() {
       return this.target;
    }
 
-   
+
    private ModuleRow cardAt(float var1, float var2) {
       if (!(var2 < this.areaY - 6.0F) && !(var2 > this.areaY + this.areaH)) {
          for (ModuleRow var4 : this.current) {
@@ -244,21 +243,21 @@ final class LayoutEditor {
       }
    }
 
-   LayoutEditor.TypeD mouseDown(float var1, float var2, int var3) {
+   LayoutEditor.EditorMode mouseDown(float var1, float var2, int var3) {
       float[] var4 = this.editButton;
       if (var4[2] > 0.0F && var1 >= var4[0] && var1 <= var4[0] + var4[2] && var2 >= var4[1] && var2 <= var4[1] + var4[3]) {
-         return LayoutEditor.TypeD.EDIT_HUD;
+         return LayoutEditor.EditorMode.EDIT_HUD;
       } else {
          ModuleRow var5 = this.cardAt(var1, var2);
          this.target = var5;
          if (var5 == null) {
-            return LayoutEditor.TypeD.NONE;
+            return LayoutEditor.EditorMode.NONE;
          } else if (var3 != 1 && var5.module.toggleable() && !var5.overSettingsButton(var1, var2)) {
             this.pressed = var5;
             var5.pressed = true;
-            return LayoutEditor.TypeD.CONSUMED;
+            return LayoutEditor.EditorMode.CONSUMED;
          } else {
-            return LayoutEditor.TypeD.OPEN_PANEL;
+            return LayoutEditor.EditorMode.OPEN_PANEL;
          }
       }
    }
@@ -290,14 +289,14 @@ final class LayoutEditor {
       return var0 * var0 * (3.0F - 2.0F * var0);
    }
 
-   static enum TypeD {
+   static enum EditorMode {
       NONE,
       OPEN_PANEL,
       EDIT_HUD,
       CONSUMED;
 
-      private static LayoutEditor.TypeD[] $values() {
-         return new LayoutEditor.TypeD[]{NONE, OPEN_PANEL, EDIT_HUD, CONSUMED};
+      private static LayoutEditor.EditorMode[] $values() {
+         return new LayoutEditor.EditorMode[]{NONE, OPEN_PANEL, EDIT_HUD, CONSUMED};
       }
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.pipeline;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -53,14 +52,14 @@ public final class SkyVertexFormat {
          }
       }
 
-      throw new IllegalStateException("Purxiy: no free vertex format element ids left");
+      throw new IllegalStateException("SourceByDevFFnightmare DeObfDeCompByGuideX: no free vertex format element ids left");
    }
 
    static {
       if (VERTEX_SIZE != 104) {
-         throw new IllegalStateException("Unexpected Purxiy vertex size " + VERTEX_SIZE);
+         throw new IllegalStateException("Unexpected SourceByDevFFnightmare DeObfDeCompByGuideX vertex size " + VERTEX_SIZE);
       } else if (AMBIENCE_VERTEX_SIZE != 56) {
-         throw new IllegalStateException("Unexpected Purxiy ambience vertex size " + AMBIENCE_VERTEX_SIZE);
+         throw new IllegalStateException("Unexpected SourceByDevFFnightmare DeObfDeCompByGuideX ambience vertex size " + AMBIENCE_VERTEX_SIZE);
       }
    }
 }

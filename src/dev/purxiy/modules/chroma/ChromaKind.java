@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.chroma;
 
 public enum ChromaKind {
@@ -38,5 +37,4 @@ public enum ChromaKind {
 
       return f;
    }
-
 }

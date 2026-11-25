@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cyberspace;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -6,6 +5,7 @@ import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.pipeline.RenderPipeline.Builder;
+import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -19,7 +19,7 @@ import com.mojang.blaze3d.textures.TextureFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.class_5596;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.client.ClientCache;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.Locale;
@@ -30,7 +30,6 @@ import net.minecraft.class_12137;
 import net.minecraft.class_276;
 import net.minecraft.class_290;
 import net.minecraft.class_310;
-
 import org.lwjgl.system.MemoryUtil;
 
 final class CyberspaceRenderer {
@@ -42,18 +41,12 @@ final class CyberspaceRenderer {
    private static final int D = 4;
    private static final int R = 124;
    private static final int I = 8288;
-   
    private static GpuBuffer z;
-   
    private static ByteBuffer P;
-   
    private static GpuBuffer M;
-   
    private static ByteBuffer f;
    private static final double[] B = new double[9];
-   
    private static GpuTexture Y;
-   
    private static GpuTextureView v;
    private static int q = 0;
    private static int T = 0;
@@ -61,12 +54,9 @@ final class CyberspaceRenderer {
    private static final float[] a = new float[9];
    private static boolean h;
    private static boolean S;
-   
    private static GpuQuery W;
    private static double V;
    private static int e = 0;
-
-
    private static final long[] d = new long[]{
       -4109423895650627686L,
       -6286805034665756488L,
@@ -98,15 +88,10 @@ final class CyberspaceRenderer {
    }
 
    private static RenderPipeline E(long var0, boolean var2) {
-      Builder var3 = RenderPipeline.builder();
+      Builder var3 = RenderPipeline.builder(new Snippet[0]);
       long var4 = 28269077807663L;
-      if (28269077807663L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var4 < 0L ? -1 : 1;
-      }
-
-      Builder var7 = var3.withLocation(ClientServices.id(var2 ? "pipeline/cyberspace_masked" : "pipeline/cyberspace"))
+      int var7 = var4 < 0L ? -1 : 1;
+      Builder var7x = var3.withLocation(ClientServices.id(var2 ? "pipeline/cyberspace_masked" : "pipeline/cyberspace"))
          .withVertexShader(ClientServices.id("core/cyberspace"))
          .withFragmentShader(ClientServices.id("core/cyberspace"))
          .withUniform("Fog", class_10789.field_60031)
@@ -119,22 +104,17 @@ final class CyberspaceRenderer {
          .withCull(false)
          .withVertexFormat(class_290.field_60033, class_5596.field_27379);
       if (var2) {
-         var7.withShaderDefine("MASKED").withSampler("HandMaskSampler");
+         var7x.withShaderDefine("MASKED").withSampler("HandMaskSampler");
       }
 
-      return var7.build();
+      return var7x.build();
    }
 
    private static RenderPipeline K(long var0, boolean var2) {
-      Builder var3 = RenderPipeline.builder();
+      Builder var3 = RenderPipeline.builder(new Snippet[0]);
       long var4 = 105912506823316L;
-      if (105912506823316L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var4 < 0L ? -1 : 1;
-      }
-
-      Builder var7 = var3.withLocation(ClientServices.id(var2 ? "pipeline/cyberspace_flight_masked" : "pipeline/cyberspace_flight"))
+      int var7 = var4 < 0L ? -1 : 1;
+      Builder var7x = var3.withLocation(ClientServices.id(var2 ? "pipeline/cyberspace_flight_masked" : "pipeline/cyberspace_flight"))
          .withVertexShader(ClientServices.id("core/cyberspace_flight"))
          .withFragmentShader(ClientServices.id("core/cyberspace_flight"))
          .withUniform("PurxiyCyberspace", class_10789.field_60031)
@@ -146,10 +126,10 @@ final class CyberspaceRenderer {
          .withCull(false)
          .withVertexFormat(class_290.field_60033, class_5596.field_27379);
       if (var2) {
-         var7.withShaderDefine("MASKED").withSampler("HandMaskSampler");
+         var7x.withShaderDefine("MASKED").withSampler("HandMaskSampler");
       }
 
-      return var7.build();
+      return var7x.build();
    }
 
    static void setTiming(boolean var0) {
@@ -172,9 +152,9 @@ final class CyberspaceRenderer {
       GpuTexture var15 = var14.method_30277();
       GpuTextureView var16 = var14.method_71639();
       GpuTextureView var17 = var14.method_71640();
-      if (var15 != null && var16 != null && var17 != null && CyberspaceRenderer2.W != null) {
+      if (var15 != null && var16 != null && var17 != null && CyberspaceRenderPass.W != null) {
          GpuDevice var18 = RenderSystem.getDevice();
-         GpuTextureView var19 = CyberspaceRenderer2.w ? ClientSupport3.handMask() : null;
+         GpuTextureView var19 = CyberspaceRenderPass.w ? SkyPipelineRouter.handMask() : null;
          RenderPipeline var20 = var19 != null ? l : J;
          if (var18.precompilePipeline(var20).isValid()) {
             int var21 = var14.field_1482;
@@ -185,11 +165,12 @@ final class CyberspaceRenderer {
             var23.writeToBuffer(z.slice(), Q(var21, var22, var12, var19 != null));
             GpuQuery var24 = S ? l(var23, (char)var5, var6, var7) : null;
             class_12137 var25 = RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST);
+            RenderPass var26 = var23.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cyberspace", var16, OptionalInt.empty());
 
-            try (RenderPass var26 = var23.createRenderPass(() -> "Purxiy cyberspace", var16, OptionalInt.empty())) {
+            try {
                var26.setPipeline(var20);
                RenderSystem.bindDefaultUniforms(var26);
-               var26.setUniform("Fog", CyberspaceRenderer2.W);
+               var26.setUniform("Fog", CyberspaceRenderPass.W);
                var26.setUniform("PurxiyCyberspace", z);
                var26.bindTexture("SceneSampler", v, var25);
                var26.bindTexture("DepthSampler", var17, var25);
@@ -198,7 +179,21 @@ final class CyberspaceRenderer {
                }
 
                var26.draw(0, 3);
-               CyberspaceRenderer2.metric("drawn");
+               CyberspaceRenderPass.metric("drawn");
+            } catch (Throwable var35) {
+               if (var26 != null) {
+                  try {
+                     var26.close();
+                  } catch (Throwable var33) {
+                     var35.addSuppressed(var33);
+                  }
+               }
+
+               throw var35;
+            }
+
+            if (var26 != null) {
+               var26.close();
             }
 
             try {
@@ -213,82 +208,51 @@ final class CyberspaceRenderer {
       }
    }
 
-   private static void l(
-      GpuDevice var0, CommandEncoder var1, GpuTextureView var2, GpuTextureView var3,  GpuTextureView var4, long var5, class_12137 var7
-   ) {
+   private static void l(GpuDevice var0, CommandEncoder var1, GpuTextureView var2, GpuTextureView var3, GpuTextureView var4, long var5, class_12137 var7) {
       long var8 = 129837988206336L;
       byte var10 = 0;
       short var11 = 30230;
       int var12 = (int)(var8 << 32 >>> 32);
-      CyberspaceRenderer2.ensureSourceClassInitialized();
-      if (!(CyberspaceRenderer2.K <= 0.001F) && (!CyberspaceUpdater.m.isEmpty() || !CyberspaceUpdater.b.isEmpty())) {
+      CyberspaceRenderPass.ensureSourceClassInitialized();
+      if (!(CyberspaceRenderPass.K <= 0.001F) && (!CyberspaceUpdater.m.isEmpty() || !CyberspaceUpdater.b.isEmpty())) {
          RenderPipeline var13 = var4 != null ? A : H;
          if (var0.precompilePipeline(var13).isValid()) {
             if (M == null) {
-               M = var0.createBuffer(ClientServices.label(() -> "Purxiy cyberspace flight"), 136, 8288L);
+               M = var0.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cyberspace flight"), 136, 8288L);
                f = MemoryUtil.memCalloc(8288);
             }
 
             Std140Builder var14 = Std140Builder.intoBuffer(f.clear())
-               .putMat4f(CyberspaceRenderer2.e)
-               .putVec4(CyberspaceRenderer2.N.x, CyberspaceRenderer2.N.y, CyberspaceRenderer2.N.z, 0.0F)
-               .putVec4(CyberspaceRenderer2.O.x, CyberspaceRenderer2.O.y, CyberspaceRenderer2.O.z, 0.0F);
+               .putMat4f(CyberspaceRenderPass.e)
+               .putVec4(CyberspaceRenderPass.N.x, CyberspaceRenderPass.N.y, CyberspaceRenderPass.N.z, 0.0F)
+               .putVec4(CyberspaceRenderPass.O.x, CyberspaceRenderPass.O.y, CyberspaceRenderPass.O.z, 0.0F);
             int var15 = 0;
             Iterator var16 = CyberspaceUpdater.m.iterator();
 
             while (var16.hasNext()) {
                long var17 = 30778817184085L;
-               if (30778817184085L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var61 = var17 < 0L ? -1 : 1;
-               }
-
-               CyberspaceUpdater.TypeQ var20 = (CyberspaceUpdater.TypeQ)var16.next();
+               int var49 = var17 < 0L ? -1 : 1;
+               CyberspaceUpdater.SkyUniforms var20 = (CyberspaceUpdater.SkyUniforms)var16.next();
                long var21 = 30778817184085L;
-               if (30778817184085L == 0L) {
-                  boolean var62 = false;
-               } else {
-                  int var63 = var21 < 0L ? -1 : 1;
-               }
-
+               int var23 = var21 < 0L ? -1 : 1;
                if (var15 >= 124) {
                   break;
                }
 
-               float var24 = m((char)var10, (char)var11, var12, var20.m, var20.T, var20.j) * CyberspaceRenderer2.K * k(0.0F, 0.25F, var20.w);
+               float var24 = m((char)var10, (char)var11, var12, var20.m, var20.T, var20.j) * CyberspaceRenderPass.K * k(0.0F, 0.25F, var20.w);
                long var25 = 30778817184086L;
-               if (30778817184086L == 0L) {
-                  boolean var64 = false;
-               } else {
-                  int var65 = var25 < 0L ? -1 : 1;
-               }
-
+               int var25x = var25 < 0L ? -1 : 1;
                float var28;
                int var29 = (var28 = var24 - 0.001F) == 0.0F ? 0 : (var28 < 0.0F ? -1 : 1);
                long var30 = 30778817184085L;
-               if (30778817184085L == 0L) {
-                  boolean var66 = false;
-               } else {
-                  int var67 = var30 < 0L ? -1 : 1;
-               }
-
+               int var29x = var30 < 0L ? -1 : 1;
                if (var29 <= 0) {
                   long var33 = 30778817184086L;
-                  if (30778817184086L == 0L) {
-                     boolean var68 = false;
-                  } else {
-                     int var69 = var33 < 0L ? -1 : 1;
-                  }
+                  int var60 = var33 < 0L ? -1 : 1;
                } else {
                   CyberspaceUpdater.trail(var20, B);
                   long var58 = 30778817184086L;
-                  if (30778817184086L == 0L) {
-                     boolean var70 = false;
-                  } else {
-                     int var71 = var58 < 0L ? -1 : 1;
-                  }
-
+                  int var67 = var58 < 0L ? -1 : 1;
                   float var36 = var20.s >= 0.0F ? 1.0F - k(0.0F, 0.15F, var20.s) : 1.0F;
                   var14.putVec4(g(B[0]), S(B[1]), M(B[2]), var20.l)
                      .putVec4(g(B[3]), S(B[4]), M(B[5]), var24)
@@ -299,115 +263,86 @@ final class CyberspaceRenderer {
             }
 
             long var46 = 30778817184086L;
-            if (30778817184086L == 0L) {
-               boolean var72 = false;
-            } else {
-               int var73 = var46 < 0L ? -1 : 1;
-            }
-
+            int var47 = var46 < 0L ? -1 : 1;
             var16 = CyberspaceUpdater.b.iterator();
 
             while (true) {
-               int var47 = (var16.hasNext() ? 1 : 0);
+               var47 = var16.hasNext() ? 1 : 0;
                long var50 = 30778817184086L;
-               if (30778817184086L == 0L) {
-                  boolean var74 = false;
-               } else {
-                  int var75 = var50 < 0L ? -1 : 1;
-               }
-
-               if ((var47 == 0)) {
+               int var491 = var50 < 0L ? -1 : 1;
+               if (var47 == 0) {
                   break;
                }
 
-               CyberspaceUpdater.TypeS var51 = (CyberspaceUpdater.TypeS)var16.next();
+               CyberspaceUpdater.CloudUniforms var51 = (CyberspaceUpdater.CloudUniforms)var16.next();
                long var54 = 30778817184085L;
-               if (30778817184085L == 0L) {
-                  boolean var76 = false;
-               } else {
-                  int var77 = var54 < 0L ? -1 : 1;
-               }
-
-               long var56 = 30778817184085L;
-               if (30778817184085L == 0L) {
-                  boolean var78 = false;
-               } else {
-                  int var79 = var56 < 0L ? -1 : 1;
-               }
-
+               int var561 = var54 < 0L ? -1 : 1;
+               long var56x = 30778817184085L;
+               int var601 = var56x < 0L ? -1 : 1;
                if (var15 >= 124) {
                   long var57 = 30778817184085L;
-                  if (30778817184085L == 0L) {
-                     boolean var84 = false;
-                  } else {
-                     int var85 = var57 < 0L ? -1 : 1;
-                  }
+                  int var66 = var57 < 0L ? -1 : 1;
                   break;
                }
 
-               float var31 = m((char)var10, (char)var11, var12, var51.g, var51.W, var51.U) * CyberspaceRenderer2.K;
+               float var31 = m((char)var10, (char)var11, var12, var51.g, var51.W, var51.U) * CyberspaceRenderPass.K;
                float var32 = k(0.0F, 0.4F, var51.H) * (1.0F - k(var51.q - 0.9F, var51.q, var51.H));
                long var59 = 30778817184085L;
-               if (30778817184085L == 0L) {
-                  boolean var80 = false;
-               } else {
-                  int var81 = var59 < 0L ? -1 : 1;
-               }
-
-               float var60;
-               var47 = (var60 = var31 * var32 - 0.001F) == 0.0F ? 0 : (var60 < 0.0F ? -1 : 1);
+               int var69 = var59 < 0L ? -1 : 1;
+               float var60x;
+               var47 = (var60x = var31 * var32 - 0.001F) == 0.0F ? 0 : (var60x < 0.0F ? -1 : 1);
                long var37 = 30778817184085L;
-               if (30778817184085L == 0L) {
-                  boolean var82 = false;
-               } else {
-                  int var83 = var37 < 0L ? -1 : 1;
-               }
-
+               int var40 = var37 < 0L ? -1 : 1;
                if (var47 > 0) {
-                  float var40 = g(var51.g);
+                  float var40x = g(var51.g);
                   float var41 = S(var51.W);
                   float var42 = M(var51.U);
-                  var14.putVec4(var40, var41, var42, var51.t * (0.4F + 0.6F * var32))
-                     .putVec4(var40, var41, var42, var31)
-                     .putVec4(var40, var41, var42, 0.0F)
+                  var14.putVec4(var40x, var41, var42, var51.t * (0.4F + 0.6F * var32))
+                     .putVec4(var40x, var41, var42, var31)
+                     .putVec4(var40x, var41, var42, 0.0F)
                      .putVec4(var51.K, 1.0F, var51.r, var32);
                   var15++;
                }
             }
 
-            long var49 = 30778817184086L;
-            if (30778817184086L == 0L) {
-               boolean var86 = false;
-            } else {
-               int var87 = var49 < 0L ? -1 : 1;
-            }
-
+            long var49x = 30778817184086L;
+            int var21x = var49x < 0L ? -1 : 1;
             if (var15 != 0) {
-               ByteBuffer var22 = var14.get();
-               var1.writeToBuffer(M.slice(0L, var22.remaining()), var22);
+               ByteBuffer var22x = var14.get();
+               var1.writeToBuffer(M.slice(0L, var22x.remaining()), var22x);
+               RenderPass var23x = var1.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cyberspace flight", var2, OptionalInt.empty());
 
-               try (RenderPass var23 = var1.createRenderPass(() -> "Purxiy cyberspace flight", var2, OptionalInt.empty())) {
-                  var23.setPipeline(var13);
-                  RenderSystem.bindDefaultUniforms(var23);
-                  var23.setUniform("PurxiyCyberspace", z);
-                  var23.setUniform("PurxiyCyberspaceFlight", M);
+               try {
+                  var23x.setPipeline(var13);
+                  RenderSystem.bindDefaultUniforms(var23x);
+                  var23x.setUniform("PurxiyCyberspace", z);
+                  var23x.setUniform("PurxiyCyberspaceFlight", M);
                   int var52 = 44114;
                   long var55 = 30778817184085L;
-                  if (30778817184085L == 0L) {
-                     boolean var88 = false;
-                  } else {
-                     int var89 = var55 < 0L ? -1 : 1;
-                  }
-
+                  int var27 = var55 < 0L ? -1 : 1;
                   var52 = 1081562475;
-                  int var27 = 1081540950;
-                  var23.bindTexture("DepthSampler", var3, var7);
+                  var27 = 1081540950;
+                  var23x.bindTexture("DepthSampler", var3, var7);
                   if (var4 != null) {
-                     var23.bindTexture("HandMaskSampler", var4, var7);
+                     var23x.bindTexture("HandMaskSampler", var4, var7);
                   }
 
-                  var23.draw(0, var15 * 18);
-                  CyberspaceRenderer2.metric("drawn");
+                  var23x.draw(0, var15 * 18);
+                  CyberspaceRenderPass.metric("drawn");
+               } catch (Throwable var38) {
+                  if (var23x != null) {
+                     try {
+                        var23x.close();
+                     } catch (Throwable var371) {
+                        var38.addSuppressed(var371);
+                     }
+                  }
+
+                  throw var38;
+               }
+
+               if (var23x != null) {
+                  var23x.close();
                }
             }
          }
@@ -415,95 +350,85 @@ final class CyberspaceRenderer {
    }
 
    private static float m(char var0, char var1, int var2, double var3, double var5, double var7) {
-      double var9 = var3 - CyberspaceRenderer2.x;
-      CyberspaceRenderer2.ensureSourceClassInitialized();
-      double var11 = var5 - CyberspaceRenderer2.p;
-      double var13 = var7 - CyberspaceRenderer2.j;
+      double var9 = var3 - CyberspaceRenderPass.x;
+      CyberspaceRenderPass.ensureSourceClassInitialized();
+      double var11 = var5 - CyberspaceRenderPass.p;
+      double var13 = var7 - CyberspaceRenderPass.j;
       float var15 = (float)Math.sqrt(var9 * var9 + var11 * var11 + var13 * var13);
-      float var16 = CyberspaceRenderer2.U >= CyberspaceRenderer2.F ? 1.0F : 1.0F - k(CyberspaceRenderer2.U - 0.6F, CyberspaceRenderer2.U + 0.6F, var15);
-      float var17 = CyberspaceRenderer2.d <= 0.0F ? 1.0F : k(CyberspaceRenderer2.d - 0.6F, CyberspaceRenderer2.d + 0.6F, var15);
+      float var16 = CyberspaceRenderPass.U >= CyberspaceRenderPass.F ? 1.0F : 1.0F - k(CyberspaceRenderPass.U - 0.6F, CyberspaceRenderPass.U + 0.6F, var15);
+      float var17 = CyberspaceRenderPass.d <= 0.0F ? 1.0F : k(CyberspaceRenderPass.d - 0.6F, CyberspaceRenderPass.d + 0.6F, var15);
       return var16 * var17;
    }
 
    private static float g(double var0) {
-      return (float)(var0 - CyberspaceRenderer2.b);
+      return (float)(var0 - CyberspaceRenderPass.b);
    }
 
    private static float S(double var0) {
-      return (float)(var0 - CyberspaceRenderer2.B);
+      return (float)(var0 - CyberspaceRenderPass.B);
    }
 
    private static float M(double var0) {
-      return (float)(var0 - CyberspaceRenderer2.v);
+      return (float)(var0 - CyberspaceRenderPass.v);
    }
 
    private static ByteBuffer Q(int var0, int var1, long var2, boolean var4) {
       long var5 = 6913732406772L;
-      CyberspaceModule var7 = CyberspaceRenderer2.I;
-      V(CyberspaceLoader.resolve(var7.I.get(), var7.O.argb()), var5);
-      int var8 = (int)Math.floor(CyberspaceRenderer2.b);
-      CyberspaceRenderer2.ensureSourceClassInitialized();
-      int var9 = (int)Math.floor(CyberspaceRenderer2.B);
-      int var10 = (int)Math.floor(CyberspaceRenderer2.v);
-      float var11 = CyberspaceRenderer2.F;
-      float var12 = CyberspaceRenderer2.U >= var11 ? 1.0E9F : CyberspaceRenderer2.U;
-      float var13 = CyberspaceRenderer2.d <= 0.0F ? -100.0F : CyberspaceRenderer2.d;
-      float var14 = k(0.55F * var11, var11, CyberspaceRenderer2.U >= var11 ? var11 : CyberspaceRenderer2.U)
-         * (1.0F - k(0.55F * var11, var11, Math.max(CyberspaceRenderer2.d, 0.0F)));
-      float var15 = CyberspaceRenderer2.P;
-      float var16 = CyberspaceRenderer2.l;
-      Std140Builder var17 = Std140Builder.intoBuffer(P.clear()).putMat4f(CyberspaceRenderer2.y).putIVec4(var8, var9, var10, var4 ? 1 : 0);
-      float var18 = (float)(CyberspaceRenderer2.b - var8);
-      float var19 = (float)(CyberspaceRenderer2.B - var9);
-      float var20 = (float)(CyberspaceRenderer2.v - var10);
+      CyberspaceModule var7 = CyberspaceRenderPass.I;
+      V(CyberspaceLoader.resolve((String)var7.I.get(), var7.O.argb()), var5);
+      int var8 = (int)Math.floor(CyberspaceRenderPass.b);
+      CyberspaceRenderPass.ensureSourceClassInitialized();
+      int var9 = (int)Math.floor(CyberspaceRenderPass.B);
+      int var10 = (int)Math.floor(CyberspaceRenderPass.v);
+      float var11 = CyberspaceRenderPass.F;
+      float var12 = CyberspaceRenderPass.U >= var11 ? 1.0E9F : CyberspaceRenderPass.U;
+      float var13 = CyberspaceRenderPass.d <= 0.0F ? -100.0F : CyberspaceRenderPass.d;
+      float var14 = k(0.55F * var11, var11, CyberspaceRenderPass.U >= var11 ? var11 : CyberspaceRenderPass.U)
+         * (1.0F - k(0.55F * var11, var11, Math.max(CyberspaceRenderPass.d, 0.0F)));
+      float var15 = CyberspaceRenderPass.P;
+      float var16 = CyberspaceRenderPass.l;
+      Std140Builder var17 = Std140Builder.intoBuffer(P.clear()).putMat4f(CyberspaceRenderPass.y).putIVec4(var8, var9, var10, var4 ? 1 : 0);
+      float var18 = (float)(CyberspaceRenderPass.b - var8);
+      float var19 = (float)(CyberspaceRenderPass.B - var9);
+      float var20 = (float)(CyberspaceRenderPass.v - var10);
       long var21 = 137685455586018L;
-      if (137685455586018L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var31 = var21 < 0L ? -1 : 1;
-      }
-
-      Std140Builder var24 = var17.putVec4(var18, var19, var20, (float)(CyberspaceRenderer2.X % 3600.0))
-         .putVec4(var0, var1, CyberspaceRenderer2.EH, CyberspaceRenderer2.R)
-         .putVec4(U[0], U[1], U[2], CyberspaceRenderer2.q)
-         .putVec4(U[3], U[4], U[5], CyberspaceRenderer2.k)
-         .putVec4(U[6], U[7], U[8], CyberspaceRenderer2.E)
-         .putVec4(CyberspaceRenderer2.S, 0.0F, CyberspaceRenderer2.z, (float)Math.floor(CyberspaceRenderer2.X * 18.0) % 997.0F)
-         .putVec4(-((float)Math.sin(var15)), (float)Math.cos(var15), 0.0F, CyberspaceRenderer2.r ? 1.0F : 0.0F)
+      int var24 = var21 < 0L ? -1 : 1;
+      Std140Builder var24x = var17.putVec4(var18, var19, var20, (float)(CyberspaceRenderPass.X % 3600.0))
+         .putVec4(var0, var1, CyberspaceRenderPass.EH, CyberspaceRenderPass.R)
+         .putVec4(U[0], U[1], U[2], CyberspaceRenderPass.q)
+         .putVec4(U[3], U[4], U[5], CyberspaceRenderPass.k)
+         .putVec4(U[6], U[7], U[8], CyberspaceRenderPass.E)
+         .putVec4(CyberspaceRenderPass.S, 0.0F, CyberspaceRenderPass.z, (float)Math.floor(CyberspaceRenderPass.X * 18.0) % 997.0F)
+         .putVec4(-((float)Math.sin(var15)), (float)Math.cos(var15), 0.0F, CyberspaceRenderPass.r ? 1.0F : 0.0F)
          .putVec4(-((float)Math.sin(var16)), (float)Math.cos(var16), 0.0F, 0.0F)
          .putVec4(
-            (float)(CyberspaceRenderer2.x - CyberspaceRenderer2.b),
-            (float)(CyberspaceRenderer2.p - CyberspaceRenderer2.B),
-            (float)(CyberspaceRenderer2.j - CyberspaceRenderer2.v),
+            (float)(CyberspaceRenderPass.x - CyberspaceRenderPass.b),
+            (float)(CyberspaceRenderPass.p - CyberspaceRenderPass.B),
+            (float)(CyberspaceRenderPass.j - CyberspaceRenderPass.v),
             var12
          )
          .putVec4(var13, var14, var11, 0.0F)
-         .putIVec4(CyberspaceRenderer2.f, CyberspaceRenderer2.H, CyberspaceRenderer2.EP, CyberspaceRenderer2.i ? 1 : 0)
-         .putVec4(CyberspaceRenderer2.n, CyberspaceRenderer2.D, CyberspaceRenderer2.w ? 1.0F : 0.0F, 0.0F);
+         .putIVec4(CyberspaceRenderPass.f, CyberspaceRenderPass.H, CyberspaceRenderPass.EP, CyberspaceRenderPass.i ? 1 : 0)
+         .putVec4(CyberspaceRenderPass.n, CyberspaceRenderPass.D, CyberspaceRenderPass.w ? 1.0F : 0.0F, 0.0F);
 
       for (int var25 = 0; var25 < 4; var25++) {
-         double var26 = CyberspaceRenderer2.M[var25 * 4 + 3];
+         double var26 = CyberspaceRenderPass.M[var25 * 4 + 3];
          long var28 = 137685455586018L;
-         if (137685455586018L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var28 < 0L ? -1 : 1;
-         }
-
-         var24.putVec4(
-            (float)(CyberspaceRenderer2.M[var25 * 4] - CyberspaceRenderer2.b),
-            (float)(CyberspaceRenderer2.M[var25 * 4 + 1] - CyberspaceRenderer2.B),
-            (float)(CyberspaceRenderer2.M[var25 * 4 + 2] - CyberspaceRenderer2.v),
+         int var29 = var28 < 0L ? -1 : 1;
+         var24x.putVec4(
+            (float)(CyberspaceRenderPass.M[var25 * 4] - CyberspaceRenderPass.b),
+            (float)(CyberspaceRenderPass.M[var25 * 4 + 1] - CyberspaceRenderPass.B),
+            (float)(CyberspaceRenderPass.M[var25 * 4 + 2] - CyberspaceRenderPass.v),
             (float)var26
          );
       }
 
-      return var24.get();
+      return var24x.get();
    }
 
    private static void V(CyberspaceLoader var0, long var1) {
       long var3 = 122209926681081L;
-      CyberspaceRenderer2.ensureSourceClassInitialized();
+      CyberspaceRenderPass.ensureSourceClassInitialized();
       D(0, var0.l, var3);
       D(3, var0.M, var3);
       D(6, var0.Q, var3);
@@ -515,11 +440,7 @@ final class CyberspaceRenderer {
       }
 
       long var9 = 6913732406771L;
-      if (6913732406771L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var10 = var9 < 0L ? -1 : 1;
-      }
+      int var8 = var9 < 0L ? -1 : 1;
    }
 
    private static void D(int var0, int var1, long var2) {
@@ -534,27 +455,17 @@ final class CyberspaceRenderer {
    }
 
    private static void o(GpuDevice var0, long var1, int var3, int var4) {
-      CyberspaceRenderer2.ensureSourceClassInitialized();
+      CyberspaceRenderPass.ensureSourceClassInitialized();
       if (z == null) {
-         z = var0.createBuffer(ClientServices.label(() -> "Purxiy cyberspace"), 136, 336L);
+         z = var0.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cyberspace"), 136, 336L);
          P = MemoryUtil.memAlloc(336);
       }
 
       long var5 = 94455817554674L;
-      if (94455817554674L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var10 = var5 < 0L ? -1 : 1;
-      }
-
+      int var8 = var5 < 0L ? -1 : 1;
       if (Y != null) {
-         long var8 = 94455817554674L;
-         if (94455817554674L == 0L) {
-            boolean var11 = false;
-         } else {
-            int var12 = var8 < 0L ? -1 : 1;
-         }
-
+         long var8x = 94455817554674L;
+         int var9 = var8x < 0L ? -1 : 1;
          if (q == var3 && T == var4) {
             return;
          }
@@ -565,15 +476,14 @@ final class CyberspaceRenderer {
          Y.close();
       }
 
-      Y = var0.createTexture(() -> "Purxiy cyberspace scene", 5, TextureFormat.RGBA8, var3, var4, 1, 1);
+      Y = var0.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX cyberspace scene", 5, TextureFormat.RGBA8, var3, var4, 1, 1);
       v = var0.createTextureView(Y);
       q = var3;
       T = var4;
    }
 
-   
    private static GpuQuery l(CommandEncoder var0, char var1, int var2, int var3) {
-      CyberspaceRenderer2.ensureSourceClassInitialized();
+      CyberspaceRenderPass.ensureSourceClassInitialized();
       if (W != null) {
          OptionalLong var4 = W.getValue();
          int var5 = 0;
@@ -586,7 +496,7 @@ final class CyberspaceRenderer {
          V = V + var4.getAsLong() / 1000000.0;
          var5 = 1675122789;
          if (++e == 240) {
-            ClientServices.LOGGER.info("Purxiy cyberspace: {} ms GPU per frame at {}x{}", new Object[]{String.format(Locale.ROOT, "%.3f", V / e), q, T});
+            ClientServices.LOGGER.info("SourceByDevFFnightmare DeObfDeCompByGuideX cyberspace: {} ms GPU per frame at {}x{}", new Object[]{String.format(Locale.ROOT, "%.3f", V / e), q, T});
             V = 0.0;
             e = 0;
          }
@@ -713,7 +623,7 @@ final class CyberspaceRenderer {
       }
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 24415) & 32767;
       if (k[var3] == null) {
          k[var3] = i[var3] ^ var1;
@@ -721,5 +631,4 @@ private static long b(int var0, long var1) {
 
       return k[var3];
    }
-
 }

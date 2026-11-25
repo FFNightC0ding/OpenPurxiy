@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry6;
+import dev.purxiy.loader.fabric.client.ChunkRenderProvider;
 import net.minecraft.class_12074;
 import net.minecraft.class_4587;
 import net.minecraft.class_4588;
@@ -26,7 +25,7 @@ public abstract class PlaceOutlineMixin {
    ) {
       var1.method_22903();
       this.purxiy$placeFollows = true;
-      ClientRegistry6.follow(var9.comp_4932(), var1, var3, var5, var7);
+      ChunkRenderProvider.follow(var9.comp_4932(), var1, var3, var5, var7);
    }
 
    @Inject(

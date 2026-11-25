@@ -1,11 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.roles;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import dev.purxiy.anim.MotionStyle;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import dev.purxiy.render.BlendMode;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.render.font.FontStyle;
@@ -31,19 +30,17 @@ public final class RolesRenderer {
    private static final float z = 1.2F;
    private static final float J = 1.3F;
    private static final String l = "Alex";
-   private static final UUID k = UUID.nameUUIDFromBytes("Purxiy Roles preview".getBytes(StandardCharsets.UTF_8));
+   private static final UUID k = UUID.nameUUIDFromBytes("SourceByDevFFnightmare DeObfDeCompByGuideX Roles preview".getBytes(StandardCharsets.UTF_8));
    private static final float g = 9.0F;
    private final RolesModule K;
-   private final RolesRenderer3.TypeL i = new RolesRenderer3.TypeL();
-   private final RolesRenderer3.TypeL W = new RolesRenderer3.TypeL();
-   private RolesRenderer2 Z = null;
-   private RolesRenderer2 P = null;
+   private final RolesOverlay.RolePlate i = new RolesOverlay.RolePlate();
+   private final RolesOverlay.RolePlate W = new RolesOverlay.RolePlate();
+   private RolesPlate Z = null;
+   private RolesPlate P = null;
    private class_2561 r = null;
    private class_2561 n = class_2561.method_43473();
    private int j = -1;
    private float w;
-
-
    private static final long[] d = new long[]{
       7272483631027985967L,
       -8463171373838917252L,
@@ -92,7 +89,7 @@ public final class RolesRenderer {
       var22.roundRect(var2, var23, var4, 140.0F, 10.0F, Theme.tint(-15725540));
       this.e(var22, var2 + 3.0F, var17, (char)var18, var23 + 3.0F, var4 - 6.0F, 134.0F, (short)var19);
       var22.captureBackdrop();
-      RolesSupport7 var24 = RolesSupport7.current();
+      RolesNameTagSettings var24 = RolesNameTagSettings.current();
       boolean var25 = var24.enabled();
       float var26 = var23 + 140.0F - 18.0F;
       float var27 = var2 + var4 * 0.6F;
@@ -114,18 +111,18 @@ public final class RolesRenderer {
       var0.push();
       var0.translate(var2, var3);
       var0.scale(1.3F);
-      RolesSupport5.figure(var0, var1, 0.0F, 0.0F);
+      RolesLifetime.figure(var0, var1, 0.0F, 0.0F);
       var0.pop();
    }
 
-   private void R(Canvas var1, short var2, RolesRenderer3.TypeL var3, int var4, float var5, float var6, int var7, float var8, boolean var9, RolesSupport7 var10) {
+   private void R(Canvas var1, short var2, RolesOverlay.RolePlate var3, int var4, float var5, float var6, int var7, float var8, boolean var9, RolesNameTagSettings var10) {
       RolesRegistry.ensureSourceClassInitialized();
       var1.push();
       var1.translate(var5, var6);
       if (var9) {
          float var11 = Math.min(1.2F, var8 * 2.0F / Math.max(1.0F, var3.width()));
          var1.scale(var11);
-         RolesRenderer3.draw(var1, var3, var10.look(), var10.e.floatValue());
+         RolesOverlay.draw(var1, var3, var10.look(), var10.e.floatValue());
       } else {
          float var14 = var3.t.S * Fonts.SEMIBOLD.capHeight / 7.0F;
          float var12 = var3.t.U + 2.0F * var14;
@@ -150,12 +147,7 @@ public final class RolesRenderer {
       float var16 = var14 - 9.0F;
       int var17 = var15 ? Icons.TEXT : Icons.TEXT_2;
       long var18 = 35542332980241L;
-      if (35542332980241L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var21 = var18 < 0L ? -1 : 1;
-      }
-
+      int var20 = var18 < 0L ? -1 : 1;
       var1.text(Fonts.MEDIUM, "Tab list", var4, var16, 10.0F, var17, FontStyle.LEFT, FontWeight.MIDDLE);
       var1.push();
       var1.translate(var4, var14);
@@ -169,7 +161,7 @@ public final class RolesRenderer {
       }
    }
 
-   private static void p(Canvas var0, float var1, float var2, float var3, class_2960 var4, RolesRenderer2 var5, long var6) {
+   private static void p(Canvas var0, float var1, float var2, float var3, class_2960 var4, RolesPlate var5, long var6) {
       long var8 = 59769929493648L;
       var0.rect(var1, var2, var3, 8.0F, 553648127);
       Q(var0, var4, var1, var2, 8.0F, var8);
@@ -192,92 +184,59 @@ public final class RolesRenderer {
    }
 
    private void S(long var1) {
-      long var3 = 2788584743226L;
-      RolesRegistry.ensureSourceClassInitialized();
-      class_310 var6 = class_310.method_1551();
-      RolesSupport7 var5 = RolesSupport7.current();
-      class_2561 var7 = RolesRegistry.prefix();
-      long var8 = 44703556288718L;
-      if (44703556288718L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var33 = var8 < 0L ? -1 : 1;
-      }
-
-      Object var11 = var6.field_1724 != null ? var6.field_1724.method_5476() : class_2561.method_43470(var6.method_1548().method_1676());
-      boolean var12 = !var5.enabled() || var5.o.is("Minecraft");
-      boolean var13 = !var5.enabled() || var5.C.enabled();
-      int var14 = Objects.hash(
-         this.K.enabled(), this.K.everyone(), this.K.C.enabled(), var5.enabled(), var12, var13, var5.X.enabled(), var5.d.get(), ClientRegistry5.generation()
-      );
-      long var15 = 44703556288718L;
-      if (44703556288718L == 0L) {
-         boolean var34 = false;
-      } else {
-         int var35 = var15 < 0L ? -1 : 1;
-      }
-
-      label173: {
-         if (var14 == this.j && var7 == this.r && var11.equals(this.n) && this.i.t != null) {
+      long var3;
+      RolesNameTagSettings var5;
+      label152: {
+         var3 = 2788584743226L;
+         RolesRegistry.ensureSourceClassInitialized();
+         class_310 var6 = class_310.method_1551();
+         var5 = RolesNameTagSettings.current();
+         class_2561 var7 = RolesRegistry.prefix();
+         long var8 = 44703556288718L;
+         int var11 = var8 < 0L ? -1 : 1;
+         Object var11x = var6.field_1724 != null ? var6.field_1724.method_5476() : class_2561.method_43470(var6.method_1548().method_1676());
+         boolean var12 = !var5.enabled() || var5.o.is("Minecraft");
+         boolean var13 = !var5.enabled() || var5.C.enabled();
+         int var14 = Objects.hash(
+            this.K.enabled(), this.K.everyone(), this.K.C.enabled(), var5.enabled(), var12, var13, var5.X.enabled(), var5.d.get(), TabListProvider.generation()
+         );
+         long var15 = 44703556288718L;
+         int var32 = var15 < 0L ? -1 : 1;
+         if (var14 == this.j && var7 == this.r && var11x.equals(this.n) && this.i.t != null) {
             long var17 = 44703556288718L;
-            if (44703556288718L == 0L) {
-               boolean var36 = false;
-            } else {
-               int var37 = var17 < 0L ? -1 : 1;
-            }
-
+            int var19 = var17 < 0L ? -1 : 1;
             if (!this.i.t.stale() && !this.Z.stale()) {
-               break label173;
+               break label152;
             }
          }
 
          this.j = var14;
          this.r = var7;
-         this.n = (class_2561)var11;
-         boolean var32 = this.K.enabled();
-         class_2561 var18 = RolesRegistry.own((class_2561)var11);
-         Object var19 = var32 && this.K.everyone() ? RolesRegistry.withRoles(class_2561.method_43470("Alex"), "Alex") : class_2561.method_43470("Alex");
+         this.n = (class_2561)var11x;
+         boolean var32x = this.K.enabled();
+         class_2561 var18 = RolesRegistry.own((class_2561)var11x);
+         Object var19 = var32x && this.K.everyone() ? RolesRegistry.withRoles(class_2561.method_43470("Alex"), "Alex") : class_2561.method_43470("Alex");
          long var20 = 44703556288717L;
-         if (44703556288717L == 0L) {
-            boolean var38 = false;
-         } else {
-            int var39 = var20 < 0L ? -1 : 1;
-         }
-
-         this.i.t = RolesRenderer2.of(var18, 9.0F, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, var13, var12);
-         this.W.t = RolesRenderer2.of((class_2561)var19, 9.0F, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, var13, var12);
-         boolean var22 = var32 && this.K.C.enabled();
+         int var22 = var20 < 0L ? -1 : 1;
+         this.i.t = RolesPlate.of(var18, 9.0F, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, var13, var12);
+         this.W.t = RolesPlate.of((class_2561)var19, 9.0F, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, var13, var12);
+         boolean var22x = var32x && this.K.C.enabled();
          float var23 = 7.0F / Fonts.SEMIBOLD.capHeight;
-         this.Z = RolesRenderer2.of((class_2561)(var22 ? var18 : var11), var23, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, true, true);
+         this.Z = RolesPlate.of((class_2561)(var22x ? var18 : var11x), var23, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, true, true);
          long var24 = 44703556288718L;
-         if (44703556288718L == 0L) {
-            boolean var40 = false;
-         } else {
-            int var41 = var24 < 0L ? -1 : 1;
-         }
-
-         this.P = RolesRenderer2.of((class_2561)(var22 ? var19 : class_2561.method_43470("Alex")), var23, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, true, true);
+         int var25 = var24 < 0L ? -1 : 1;
+         this.P = RolesPlate.of((class_2561)(var22x ? var19 : class_2561.method_43470("Alex")), var23, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, true, true);
       }
 
-      for (RolesRenderer3.TypeL var9 : new RolesRenderer3.TypeL[]{this.i, this.W}) {
+      for (RolesOverlay.RolePlate var9 : new RolesOverlay.RolePlate[]{this.i, this.W}) {
          var9.j = var5.X.enabled() ? (var9 == this.i ? R(var3) : class_1068.method_4648(k).comp_1626().comp_3627()) : null;
          var9.s = null;
          long var10 = 44703556288717L;
-         if (44703556288717L == 0L) {
-            boolean var42 = false;
-         } else {
-            int var43 = var10 < 0L ? -1 : 1;
-         }
-
-         var13 = var5.d.is("Off");
+         int var36 = var10 < 0L ? -1 : 1;
+         boolean var27 = var5.d.is("Off");
          long var31 = 44703556288718L;
-         if (44703556288718L == 0L) {
-            boolean var44 = false;
-         } else {
-            int var45 = var31 < 0L ? -1 : 1;
-         }
-
-         var9.J = var13 ? 0 : (var5.d.is("Bar") ? 1 : 2);
+         int var241 = var31 < 0L ? -1 : 1;
+         var9.J = var27 ? 0 : (var5.d.is("Bar") ? 1 : 2);
          var9.T = 1.0F;
          var9.a = 1.0F;
          var9.i = 0.0F;
@@ -285,7 +244,7 @@ public final class RolesRenderer {
          var9.m = false;
          var9.W = false;
          var9.U = 0.0F;
-         RolesRenderer3.measure(var9);
+         RolesOverlay.measure(var9);
       }
    }
 
@@ -314,15 +273,9 @@ public final class RolesRenderer {
       RolesRegistry.ensureSourceClassInitialized();
       class_310 var2 = class_310.method_1551();
       long var3 = 2788584743225L;
-      if (2788584743225L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var6 = var3 < 0L ? -1 : 1;
-      }
-
+      int var5 = var3 < 0L ? -1 : 1;
       return var2.field_1724 != null
          ? var2.field_1724.method_52814().comp_1626().comp_3627()
          : class_1068.method_4648(var2.method_1548().method_44717()).comp_1626().comp_3627();
    }
-
 }

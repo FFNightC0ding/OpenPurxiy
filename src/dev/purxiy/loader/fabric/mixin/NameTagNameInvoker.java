@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import net.minecraft.class_1297;
@@ -14,6 +13,6 @@ public interface NameTagNameInvoker {
    boolean purxiy$shouldShowName(class_1297 var1, double var2);
 
    @Invoker("method_62426")
-   
+
    class_2561 purxiy$nameTag(class_1297 var1);
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import org.joml.Matrix4f;
@@ -10,10 +9,6 @@ public final class KnifeModels {
    public static final float v = 0.105F;
    private static final KnifeModels.Model[][] R = new KnifeModels.Model[5][4];
    private static final KnifeModels.Model[] D = new KnifeModels.Model[5];
-
-
-
-
 
    public static Matrix4f hinge(Matrix4f var0, int var1, float var2) {
       return var0.translate(var1 * 0.021F, 0.105F, 0.0F).rotateZ((float)Math.toRadians(var2)).translate(-var1 * 0.021F, -0.105F, 0.0F);
@@ -76,7 +71,7 @@ public final class KnifeModels {
       int var9 = (int)((var5 ^ 96345044408300L) >>> 32);
       int var10 = (int)((var5 ^ 96345044408300L) << 32 >>> 48);
       int var12 = (int)((var5 ^ 96345044408300L) << 48 >>> 48);
-      KnifeBuilder.TypeB var13 = new KnifeBuilder.TypeB();
+      KnifeBuilder.KnifeMeshBuilder var13 = new KnifeBuilder.KnifeMeshBuilder();
 
       int var14 = switch (var3) {
          case 1 -> -13354164;
@@ -108,9 +103,7 @@ public final class KnifeModels {
                   yield -11024702;
                } else {
                   var17 = 9646137;
-                  yield var2 == 2
-                     ? -7760534
-                     : (var2 == 3 ? -4614805 : -9053971);
+                  yield var2 == 2 ? -7760534 : (var2 == 3 ? -4614805 : -9053971);
                }
             }
          }
@@ -125,14 +118,15 @@ public final class KnifeModels {
 
       var18 = 9646137;
       if (var2 == 0) {
-         float[][] var19 = new float[7][];
-         var19[0] = new float[]{0.09F, -0.035F, 0.033F};
-         var19[1] = new float[]{0.135F, -0.047F, 0.05F};
-         var19[2] = new float[]{0.18F, -0.046F, 0.071F};
-         var19[3] = new float[]{0.23F, -0.016F, 0.104F};
-         var19[4] = new float[]{0.275F, 0.033F, 0.119F};
-         var19[5] = new float[]{0.31F, 0.082F, 0.128F};
-         var19[6] = new float[]{0.325F, 0.139F, 0.139F};
+         float[][] var19 = new float[][]{
+            {0.09F, -0.035F, 0.033F},
+            {0.135F, -0.047F, 0.05F},
+            {0.18F, -0.046F, 0.071F},
+            {0.23F, -0.016F, 0.104F},
+            {0.275F, 0.033F, 0.119F},
+            {0.31F, 0.082F, 0.128F},
+            {0.325F, 0.139F, 0.139F}
+         };
          var13.blade(B(var19, var9, var10, (short)var12), 0.01F, var14, var15);
          var13.material(0.15F).grip(0.0F, -0.135F, 0.102F, 0.037F, 0.022F, var32);
 
@@ -223,13 +217,14 @@ public final class KnifeModels {
             }
          } else {
             int var40 = var3 == 0 ? -10438183 : var14;
-            float[][] var45 = new float[6][];
-            var45[0] = new float[]{0.09F, -0.024F, 0.024F};
-            var45[1] = new float[]{0.16F, -0.077F, 0.06F};
-            var45[2] = new float[]{0.213F, -0.053F, 0.086F};
-            var45[3] = new float[]{0.26F, -0.06F, 0.039F};
-            var45[4] = new float[]{0.335F, -0.02F, 0.05F};
-            var45[5] = new float[]{0.43F, 0.019F, 0.019F};
+            float[][] var45 = new float[][]{
+               {0.09F, -0.024F, 0.024F},
+               {0.16F, -0.077F, 0.06F},
+               {0.213F, -0.053F, 0.086F},
+               {0.26F, -0.06F, 0.039F},
+               {0.335F, -0.02F, 0.05F},
+               {0.43F, 0.019F, 0.019F}
+            };
             var13.blade(var45, 0.022F, var40, var3 == 0 ? -3213313 : var15);
             var13.material(0.25F).grip(0.0F, -0.175F, 0.073F, 0.025F, 0.023F, -14077109);
 
@@ -279,7 +274,7 @@ public final class KnifeModels {
    }
 
    private static KnifeBuilder i(int var0, int var1, long var2, int var4) {
-      KnifeBuilder.TypeB var5 = new KnifeBuilder.TypeB();
+      KnifeBuilder.KnifeMeshBuilder var5 = new KnifeBuilder.KnifeMeshBuilder();
       float var6 = var0 * 0.026F;
       var5.material(0.8F).grip(var6, -0.204F, 0.108F, 0.021F, 0.018F, var1);
       var5.material(0.3F).box(var6, -0.046F, 0.0F, 0.032F, 0.239F, 0.038F, -14143175);
@@ -288,12 +283,7 @@ public final class KnifeModels {
       while (var7 < 6) {
          int[] var8 = new int[]{-1, 1};
          long var9 = 112478163011374L;
-         if (112478163011374L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var28 = var9 < 0L ? -1 : 1;
-         }
-
+         int var24 = var9 < 0L ? -1 : 1;
          int[] var12 = var8;
          int var13 = var8.length;
          int var14 = 0;
@@ -301,30 +291,16 @@ public final class KnifeModels {
          while (var14 < var13) {
             int var15 = var12[var14];
             long var16 = 112478163011374L;
-            if (112478163011374L == 0L) {
-               boolean var29 = false;
-            } else {
-               int var30 = var16 < 0L ? -1 : 1;
-            }
-
+            int var19 = var16 < 0L ? -1 : 1;
             var5.material(0.7F).bolt(var6, -0.153F + var7 * 0.039F, var15 * 0.0195F, 0.008F, var4);
             var5.bolt(var6, -0.153F + var7 * 0.039F, var15 * 0.02F, 0.0048F, -15722205);
             var14++;
-            long var19 = 112478163011374L;
-            if (112478163011374L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var19 < 0L ? -1 : 1;
-            }
+            long var19x = 112478163011374L;
          }
 
          var7++;
          long var26 = 112478163011375L;
-         if (112478163011375L == 0L) {
-            boolean var33 = false;
-         } else {
-            int var34 = var26 < 0L ? -1 : 1;
-         }
+         int var161 = var26 < 0L ? -1 : 1;
       }
 
       int[] var22 = new int[]{-1, 1};
@@ -334,29 +310,15 @@ public final class KnifeModels {
       while (var10 < var23) {
          int var11 = var22[var10];
          long var25 = 112478163011375L;
-         if (112478163011375L == 0L) {
-            boolean var35 = false;
-         } else {
-            int var36 = var25 < 0L ? -1 : 1;
-         }
-
+         int var28 = var25 < 0L ? -1 : 1;
          var5.bolt(var6, 0.101F, var11 * 0.019F, 0.01F, var4);
          var10++;
          long var27 = 112478163011374L;
-         if (112478163011374L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var27 < 0L ? -1 : 1;
-         }
+         int var30 = var27 < 0L ? -1 : 1;
       }
 
       long var24 = 112478163011374L;
-      if (112478163011374L == 0L) {
-         boolean var39 = false;
-      } else {
-         int var40 = var24 < 0L ? -1 : 1;
-      }
-
+      int var26 = var24 < 0L ? -1 : 1;
       var5.box(var6, -0.204F, 0.0F, 0.038F, 0.015F, 0.038F, var4);
       if (var0 == 1) {
          var5.box(var6, -0.22F, 0.0F, 0.011F, 0.026F, 0.015F, var1);
@@ -365,13 +327,13 @@ public final class KnifeModels {
       return var5.build();
    }
 
-public record Model(KnifeBuilder C, KnifeBuilder H, KnifeBuilder O) {
-      public KnifeBuilder posed(int var1, KnifeRenderer7.Data var2) {
-         return this.posed(KnifeGeometry2.inHand(var1, var2, new Matrix4f()), var2.handleA(), var2.handleB());
+   public record Model(KnifeBuilder C, KnifeBuilder H, KnifeBuilder O) {
+      public KnifeBuilder posed(int var1, KnifeGestureRenderer.Data var2) {
+         return this.posed(KnifePlacement.inHand(var1, var2, new Matrix4f()), var2.handleA(), var2.handleB());
       }
 
       public KnifeBuilder posed(Matrix4f var1, float var2, float var3) {
-         KnifeBuilder.TypeB var4 = new KnifeBuilder.TypeB();
+         KnifeBuilder.KnifeMeshBuilder var4 = new KnifeBuilder.KnifeMeshBuilder();
          var4.append(this.C, var1);
          if (this.H != null) {
             var4.append(this.H, KnifeModels.hinge(new Matrix4f(var1), -1, var2));

@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry4;
+import dev.purxiy.loader.fabric.client.NametagLiftProvider;
 import net.minecraft.class_10055;
 import net.minecraft.class_1007;
 import net.minecraft.class_11890;
@@ -17,6 +16,6 @@ public abstract class HaloRendererMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$haloName(class_11890 var1, class_10055 var2, float var3, CallbackInfo var4) {
-      ClientRegistry4.liftName(var1, var2);
+      NametagLiftProvider.liftName(var1, var2);
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.roles;
 
 import dev.purxiy.i18n.Translations;
@@ -32,13 +31,9 @@ public final class RolesSupport {
    private static final int h = 11840722;
    private static final int E = 8156569;
    private static final int N = 16748451;
-   static final class_7591 q = new class_7591(-3563265, null, class_2561.method_43470("Purxiy"), "Purxiy Roles");
-   private static final class_7591 i = new class_7591(-3563265, null, class_2561.method_43470("Purxiy"), "Purxiy Roles");
+   static final class_7591 q = new class_7591(-3563265, null, class_2561.method_43470("SourceByDevFFnightmare DeObfDeCompByGuideX"), "SourceByDevFFnightmare DeObfDeCompByGuideX Roles");
+   private static final class_7591 i = new class_7591(-3563265, null, class_2561.method_43470("SourceByDevFFnightmare DeObfDeCompByGuideX"), "SourceByDevFFnightmare DeObfDeCompByGuideX Roles");
    private static final String[] w = new String[]{"Your tag", "Staff star", "Media", "Donut level", "Prefix", "Name", "Worn by", "Tab list"};
-
-
-
-
 
    private RolesSupport() {
    }
@@ -49,7 +44,7 @@ public final class RolesSupport {
       var0.field_1705.method_1743().method_44811(menu(), null, q);
    }
 
-   static void answer(RolesSupport6.Data var0, boolean var1) {
+   static void answer(RolesChatFilter.Data var0, boolean var1) {
       long var2 = 49642820809336L;
       long var4 = var2 ^ 24019949054907L;
       long var6 = var2 ^ 55112763752442L;
@@ -64,56 +59,37 @@ public final class RolesSupport {
       }
    }
 
-   private static void t(long var0, RolesSupport6.Data var2) {
+   private static void t(long var0, RolesChatFilter.Data var2) {
       RolesRegistry.ensureSourceClassInitialized();
       class_5250 var3 = class_2561.method_43473();
       class_5250 var4 = class_2561.method_43470(Translations.tr("Roles"));
       long var5 = 34332593327490L;
-      if (34332593327490L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var20 = var5 < 0L ? -1 : 1;
-      }
-
+      int var8 = var5 < 0L ? -1 : 1;
       var3 = var3.method_10852(var4.method_54663(13213951).method_27692(class_124.field_1067))
          .method_10852(class_2561.method_43470(" › ").method_54663(8156569));
       var4 = class_2561.method_43470(var2.message());
-      boolean var8 = var2.error();
+      boolean var8x = var2.error();
       long var9 = 34332593327489L;
-      if (34332593327489L == 0L) {
-         boolean var21 = false;
-      } else {
-         int var22 = var9 < 0L ? -1 : 1;
-      }
-
-      class_5250 var11 = var3.method_10852(var4.method_54663(var8 ? 16748451 : 16184319));
+      int var11 = var9 < 0L ? -1 : 1;
+      class_5250 var11x = var3.method_10852(var4.method_54663(var8x ? 16748451 : 16184319));
       boolean var12 = var2.error();
       long var13 = 34332593327490L;
-      if (34332593327490L == 0L) {
-         boolean var23 = false;
-      } else {
-         int var24 = var13 < 0L ? -1 : 1;
-      }
-
+      int var15 = var13 < 0L ? -1 : 1;
       if (var12) {
-         var11.method_10852(class_2561.method_43470("   " + Translations.tr("Type .fr for the menu")).method_54663(8156569));
-         long var15 = 34332593327489L;
-         if (34332593327489L == 0L) {
-            boolean var25 = false;
-         } else {
-            int var26 = var15 < 0L ? -1 : 1;
-         }
+         var11x.method_10852(class_2561.method_43470("   " + Translations.tr("Type .fr for the menu")).method_54663(8156569));
+         long var15x = 34332593327489L;
+         int var16 = var15x < 0L ? -1 : 1;
       } else if (RolesRegistry.J.enabled() && RolesRegistry.any()) {
-         var11.method_10852(class_2561.method_43470("   ")).method_10852(preview());
+         var11x.method_10852(class_2561.method_43470("   ")).method_10852(preview());
       }
 
-      class_310.method_1551().field_1705.method_1743().method_44811(var11, null, i);
+      class_310.method_1551().field_1705.method_1743().method_44811(var11x, null, i);
    }
 
    public static boolean click(class_2558 var0) {
       if (var0 instanceof class_11506 var1 && W.equals(var1.comp_4378())) {
          String var2 = var1.comp_4379().flatMap(var0x -> var0x.method_68658()).orElse("");
-         RolesSupport6.run(var2, true);
+         RolesChatFilter.run(var2, true);
          return true;
       } else {
          return false;
@@ -172,24 +148,24 @@ public final class RolesSupport {
       }
 
       class_5250 var43 = T(var38, var19, var37, "Prefix", var12);
-      boolean var44 = !RolesSupport4.plain(var18.E.get()).isBlank();
+      boolean var44 = !RolesCache.plain((String)var18.E.get()).isBlank();
       var43.method_10852(
          var44
-            ? RolesSupport4.legacy(var18.E.get().strip(), class_2583.field_24360.method_36139(16184319))
+            ? RolesCache.legacy(((String)var18.E.get()).strip(), class_2583.field_24360.method_36139(16184319))
             : class_2561.method_43470(Translations.tr("none")).method_54663(8156569)
       );
       var43.method_27693("   ")
-         .method_10852(W(Translations.tr("Edit"), var2, ".fr set prefix " + var18.E.get().strip(), "Type your prefix after it: &c, &6 … colour it"));
+         .method_10852(W(Translations.tr("Edit"), var2, ".fr set prefix " + ((String)var18.E.get()).strip(), "Type your prefix after it: &c, &6 … colour it"));
       if (var44) {
          var43.method_27693("  ").method_10852(u(Translations.tr("Clear"), 8156569, "set prefix", "Click to remove your prefix", var14));
       }
 
-      RolesRegistry.TypeU var45 = RolesRegistry.nick();
+      RolesRegistry.RoleCache var45 = RolesRegistry.nick();
       boolean var30 = var45.enabled() && var45.p.enabled();
       class_5250 var31 = T(var38, var19, var37, "Name", var12);
       var31.method_10852(
          var30
-            ? RolesSupport4.legacy(var45.S.get().strip(), class_2583.field_24360.method_36139(16184319))
+            ? RolesCache.legacy(((String)var45.S.get()).strip(), class_2583.field_24360.method_36139(16184319))
             : class_2561.method_43470(F((byte)var6, var7, var8)).method_54663(16184319)
       );
       var31.method_27693("   ")
@@ -215,26 +191,16 @@ public final class RolesSupport {
       class_5250 var7 = class_2561.method_43473();
       var7.method_10852(class_2561.method_43470(var6).method_54663(11840722));
       long var8 = 99119692877180L;
-      if (99119692877180L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var17 = var8 < 0L ? -1 : 1;
-      }
-
-      short var11 = 17451;
+      int var11 = var8 < 0L ? -1 : 1;
+      short var11x = 17451;
       int var12 = Math.max(1, var2 - var1.method_1727(var6));
       int var13 = Math.max(1, var1.method_1727(" "));
       String var14 = Character.toString(57345).repeat(var12 % var13);
       var7.method_10852(class_2561.method_43470(" ".repeat(var12 / var13)));
       long var15 = 99119692877180L;
-      if (99119692877180L == 0L) {
-         boolean var18 = false;
-      } else {
-         int var19 = var15 < 0L ? -1 : 1;
-      }
-
+      int var16 = var15 < 0L ? -1 : 1;
       if (!var14.isEmpty()) {
-         var7.method_10852(class_2561.method_43470(var14).method_10862(class_2583.field_24360.method_27704(RolesSupport2.S)));
+         var7.method_10852(class_2561.method_43470(var14).method_10862(class_2583.field_24360.method_27704(RolesShadow.S)));
       }
 
       var0.method_27693("\n").method_10852(var7);
@@ -255,14 +221,9 @@ public final class RolesSupport {
       RolesRegistry.ensureSourceClassInitialized();
       int var7 = var3 ? 13213951 : 11840722;
       long var8 = 129870612820897L;
-      if (129870612820897L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var12 = var8 < 0L ? -1 : 1;
-      }
-
-      class_5250 var11 = u(var2, var7, var4, var3 ? "Chosen" : "Click to choose", var5);
-      return var3 ? var11.method_27692(class_124.field_1067) : var11;
+      int var11 = var8 < 0L ? -1 : 1;
+      class_5250 var11x = u(var2, var7, var4, var3 ? "Chosen" : "Click to choose", var5);
+      return var3 ? var11x.method_27692(class_124.field_1067) : var11x;
    }
 
    private static class_5250 u(String var0, int var1, String var2, String var3, long var4) {
@@ -319,81 +280,51 @@ public final class RolesSupport {
       for (int var6 = 0; var6 < var4.size(); var6++) {
          if (((class_303)var4.get(var6)).comp_894() == q) {
             long var7 = 62666965309891L;
-            if (62666965309891L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var28 = var7 < 0L ? -1 : 1;
-            }
-
+            int var10 = var7 < 0L ? -1 : 1;
             var5 = var6;
             break;
          }
       }
 
       long var24 = 62666965309890L;
-      if (62666965309890L == 0L) {
-         boolean var29 = false;
-      } else {
-         int var30 = var24 < 0L ? -1 : 1;
-      }
-
+      int var9 = var24 < 0L ? -1 : 1;
       if (var5 < 0) {
          return false;
       } else {
-         class_303 var9 = (class_303)var4.get(var5);
-         class_303 var10 = new class_303(var9.comp_892(), menu(), null, q);
+         class_303 var9x = (class_303)var4.get(var5);
+         class_303 var10 = new class_303(var9x.comp_892(), menu(), null, q);
 
          for (int var11 = var4.size() - 1; var11 > var5; var11--) {
             long var12 = 62666965309891L;
-            if (62666965309891L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var12 < 0L ? -1 : 1;
-            }
-
+            int var14 = var12 < 0L ? -1 : 1;
             if (((class_303)var4.get(var11)).comp_894() == q) {
                var4.remove(var11);
             }
          }
 
          long var25 = 62666965309891L;
-         if (62666965309891L == 0L) {
-            boolean var33 = false;
-         } else {
-            int var34 = var25 < 0L ? -1 : 1;
-         }
-
+         int var13 = var25 < 0L ? -1 : 1;
          var4.set(var5, var10);
-         List var13 = var3.purxiy$trimmedMessages();
+         List var13x = var3.purxiy$trimmedMessages();
          int var14 = -1;
 
-         for (int var15 = 0; var15 < var13.size(); var15++) {
-            if (((class_7590)var13.get(var15)).comp_897() == q) {
+         for (int var15 = 0; var15 < var13x.size(); var15++) {
+            if (((class_7590)var13x.get(var15)).comp_897() == q) {
                long var16 = 62666965309891L;
-               if (62666965309891L == 0L) {
-                  boolean var35 = false;
-               } else {
-                  int var36 = var16 < 0L ? -1 : 1;
-               }
-
+               int var19 = var16 < 0L ? -1 : 1;
                var14 = var15;
                break;
             }
          }
 
-         var13.removeIf(var0x -> false);
+         var13x.removeIf(var0x -> false);
          long var26 = 62666965309890L;
-         if (62666965309890L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var26 < 0L ? -1 : 1;
-         }
-
-         class_310 var18 = class_310.method_1551();
+         int var18 = var26 < 0L ? -1 : 1;
+         class_310 var18x = class_310.method_1551();
          int var19 = class_3532.method_15357(
-            class_338.method_1806(var18.field_1690.method_42556().method_41753()) / var18.field_1690.method_42554().method_41753()
+            class_338.method_1806((Double)var18x.field_1690.method_42556().method_41753()) / (Double)var18x.field_1690.method_42554().method_41753()
          );
-         List var20 = var10.method_75757(var18.field_1772, var19);
+         List var20 = var10.method_75757(var18x.field_1772, var19);
          ArrayList var21 = new ArrayList(var20.size());
 
          for (int var22 = var20.size() - 1; var22 >= 0; var22--) {
@@ -401,18 +332,12 @@ public final class RolesSupport {
          }
 
          long var27 = 62666965309891L;
-         if (62666965309891L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var27 < 0L ? -1 : 1;
-         }
-
+         int var22 = var27 < 0L ? -1 : 1;
          if (var14 >= 0) {
-            var13.addAll(var14, var21);
+            var13x.addAll(var14, var21);
          }
 
          return true;
       }
    }
-
 }

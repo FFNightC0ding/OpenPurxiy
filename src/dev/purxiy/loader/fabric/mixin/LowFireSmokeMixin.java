@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.purxiy.loader.fabric.client.ClientRegistry12;
+import dev.purxiy.loader.fabric.client.ModuleActivityProvider;
 import net.minecraft.class_1937;
 import net.minecraft.class_2394;
 import net.minecraft.class_4770;
@@ -21,6 +20,6 @@ public abstract class LowFireSmokeMixin {
       )}
    )
    private boolean purxiy$noSmoke(class_1937 var1, class_2394 var2, double var3, double var5, double var7, double var9, double var11, double var13) {
-      return !ClientRegistry12.active();
+      return !ModuleActivityProvider.active();
    }
 }

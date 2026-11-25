@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.nick;
 
 import java.lang.Character.UnicodeScript;
@@ -12,8 +11,6 @@ final class NickHiderSupport {
    private static final String o = "ℂcℊgℋhℌhℍhℎhℐiℑiℒlℓlℕnℙpℚqℛrℜrℝrℤzℨzℬbℭcℯeℰeℱfℳmℴoℹiᵃaᵇbᶜcᵈdᵉeᶠfᵍgʰhⁱiʲjᵏkˡlᵐmⁿnᵒoᵖpʳrˢsᵗtᵘuᵛvʷwˣxʸyᶻz⁰0¹1²2³3⁴4⁵5⁶6⁷7⁸8⁹9₀0₁1₂2₃3₄4₅5₆6₇7₈8₉9";
    private static final int[] w = new int[96];
    private static final char[] I = new char[96];
-
-
 
    private NickHiderSupport() {
    }
@@ -73,5 +70,4 @@ final class NickHiderSupport {
    static int plain(int var0) {
       return var0 >= 65281 && var0 <= 65374 ? var0 - 65248 : var0;
    }
-
 }

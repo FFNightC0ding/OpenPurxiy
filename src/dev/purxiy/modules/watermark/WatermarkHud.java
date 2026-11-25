@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.watermark;
 
 import dev.purxiy.config.BooleanSetting;
@@ -21,19 +20,15 @@ public final class WatermarkHud extends HudModule {
    private static final float x = 8.0F;
    private static final float v = 18.0F;
    private static final float a = 6.2F;
-   
    private TextureLoader y;
-   
    private TextureLoader A;
    private final ModeSetting q = this.mode("style", "Style", null, "Mark & name", new String[]{"Mark & name", "Mark only"});
    private final BooleanSetting k = this.bool("fps", "Show FPS", "Frames per second after the name", false);
    public static boolean z;
    public static int u = 0;
 
-
-
    public WatermarkHud() {
-      super("watermark", "Watermark", "The Purxiy mark in your corner", "sparkles", 0.0, 0.0);
+      super("watermark", "Watermark", "The SourceByDevFFnightmare DeObfDeCompByGuideX mark in your corner", "sparkles", 0.0, 0.0);
       this.enabledByDefault();
    }
 
@@ -44,12 +39,10 @@ public final class WatermarkHud extends HudModule {
       }
    }
 
-   @Override
    protected boolean mergeable() {
       return true;
    }
 
-   @Override
    protected float cornerRadius() {
       return 12.0F;
    }
@@ -62,7 +55,6 @@ public final class WatermarkHud extends HudModule {
       return HudElement.fps() + " fps";
    }
 
-   @Override
    protected void measure(HudBounds var1, float[] var2) {
       long var3 = 109126158163329L;
       long var5 = var3 ^ 115416667079566L;
@@ -85,7 +77,6 @@ public final class WatermarkHud extends HudModule {
       var2[1] = 24.0F;
    }
 
-   @Override
    protected void render(Canvas var1, HudBounds var2) {
       long var3 = 37548235568352L;
       long var5 = var3 ^ 46046372424431L;
@@ -117,7 +108,6 @@ public final class WatermarkHud extends HudModule {
       }
    }
 
-   @Override
    protected void closeContent() {
       try {
          if (this.y != null) {
@@ -132,5 +122,4 @@ public final class WatermarkHud extends HudModule {
          this.A = null;
       }
    }
-
 }

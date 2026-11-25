@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import net.minecraft.class_333;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +14,6 @@ public abstract class NickNarratorMixin {
       argsOnly = true
    )
    private String purxiy$hideNames(String var1) {
-      return ClientRegistry5.plain(var1);
+      return TabListProvider.plain(var1);
    }
 }

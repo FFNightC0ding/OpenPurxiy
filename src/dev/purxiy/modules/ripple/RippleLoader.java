@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.ripple;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class RippleLoader {
    public static final String V = "Accent";
    public static final Map<String, String> w = Map.of("Lilac", "Accent");
    static final RippleLoader t = new RippleLoader("Accent", 13481727, 11306751, 15442687);
-   static final RippleLoader C = new RippleLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final RippleLoader C = new RippleLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final RippleLoader q = new RippleLoader("Dream", 16758499, 12890367, 10404095);
    public static final String Y = "Custom";
    static final List<RippleLoader> d = List.of(t, C, q);
@@ -21,10 +20,6 @@ public final class RippleLoader {
    public final int D;
    public final int v;
    public final int H;
-
-
-
-
 
    private RippleLoader(String var1, int var2, int var3, int var4) {
       this.R = var1;
@@ -85,5 +80,4 @@ public final class RippleLoader {
    private static int i(float var0, float var1, long var2, float var4) {
       return ClientSupport.hsvToRgb(var0 - (float)Math.floor(var0), var1, var4) & 16777215;
    }
-
 }

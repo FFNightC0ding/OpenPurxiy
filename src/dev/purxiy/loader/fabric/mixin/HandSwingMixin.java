@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry17;
-import dev.purxiy.loader.fabric.client.ClientRegistry25;
+import dev.purxiy.loader.fabric.client.SwingStateProvider;
+import dev.purxiy.loader.fabric.client.AttackAnimationProvider;
 import net.minecraft.class_1268;
 import net.minecraft.class_1309;
 import net.minecraft.class_310;
@@ -23,8 +22,8 @@ public abstract class HandSwingMixin {
    )
    private void purxiy$swingStarts(class_1268 var1, boolean var2, CallbackInfo var3) {
       if ((Object)this == class_310.method_1551().field_1724) {
-         ClientRegistry17.onSwing(var1, ((HandSwingAccessor)this).purxiy$swingDuration());
-         ClientRegistry25.onSwing();
+         SwingStateProvider.onSwing(var1, ((HandSwingAccessor)this).purxiy$swingDuration());
+         AttackAnimationProvider.onSwing();
       }
    }
 }

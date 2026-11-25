@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.anim.Animator;
@@ -41,7 +40,7 @@ public abstract class HudModule extends Module implements ModuleEntrypoint {
    boolean pinned;
    float pinScale = 1.0F;
    final float[] pin = new float[3];
-   
+
    private final Module owner;
    final Animator presence = Animator.smooth(0.0F);
    final Animator renderX = new Animator(0.0F, 420.0F, 42.0F);
@@ -53,9 +52,9 @@ public abstract class HudModule extends Module implements ModuleEntrypoint {
    float pinFromY;
    float pinFromScale;
    boolean wanted;
-   
+
    HudGroupModule group;
-   
+
    HudGroupModule dockedTo;
    int dockedSlot = -1;
    final Animator dockX = new Animator(0.0F, 300.0F, 35.0F);
@@ -125,7 +124,7 @@ public abstract class HudModule extends Module implements ModuleEntrypoint {
       this.render(var1, var2);
    }
 
-   
+
    public final HudGroupModule group() {
       return this.group;
    }
@@ -152,7 +151,7 @@ public abstract class HudModule extends Module implements ModuleEntrypoint {
       return false;
    }
 
-   
+
    protected String editorHint(float var1, float var2) {
       return null;
    }
@@ -331,9 +330,9 @@ public abstract class HudModule extends Module implements ModuleEntrypoint {
       return this.settingsModule().id();
    }
 
-   final HudSlot.TypeB editBounds() {
+   final HudSlot.SlotRect editBounds() {
       return this.arranged() && this.presence.value() > 0.01F
-         ? new HudSlot.TypeB(this.renderX.value(), this.renderY.value(), this.renderWidth(), this.renderHeight())
+         ? new HudSlot.SlotRect(this.renderX.value(), this.renderY.value(), this.renderWidth(), this.renderHeight())
          : null;
    }
 

@@ -1,8 +1,15 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.auth;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 
@@ -37,8 +44,28 @@ public final class ServerAccount implements AutoCloseable {
       return this.token;
    }
 
-   public JsonObject call(String method, String path, JsonObject body) throws Exception {
-      throw new UnsupportedOperationException("Online account services are disabled in this build");
+      public JsonObject call(String method, String path, JsonObject body) throws Exception {
+      URI target = this.origin.resolve(path);
+      String payload = body != null ? body.toString() : "{}";
+      HttpRequest.Builder builder = HttpRequest.newBuilder(target)
+         .timeout(Duration.ofSeconds(20))
+         .header("Content-Type", "application/json");
+      if (this.token != null && !this.token.isEmpty()) {
+         builder.header("Authorization", "Bearer " + this.token);
+      }
+      String verb = method == null ? "POST" : method.toUpperCase(java.util.Locale.ROOT);
+      if (verb.equals("GET") || verb.equals("HEAD") || verb.equals("DELETE")) {
+         builder.method(verb, HttpRequest.BodyPublishers.noBody());
+      } else {
+         builder.method(verb, HttpRequest.BodyPublishers.ofString(payload, StandardCharsets.UTF_8));
+      }
+      HttpResponse<String> response = HttpClient.newHttpClient().send(
+         builder.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+      if (response.statusCode() < 200 || response.statusCode() >= 300) {
+         throw new IOException("Account call failed: HTTP " + response.statusCode());
+      }
+      JsonElement parsed = JsonParser.parseString(response.body());
+      return parsed != null && parsed.isJsonObject() ? parsed.getAsJsonObject() : new JsonObject();
    }
 
    public void close() {

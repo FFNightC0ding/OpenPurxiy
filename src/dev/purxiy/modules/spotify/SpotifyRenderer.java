@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
 import dev.purxiy.i18n.Translations;
@@ -34,28 +33,26 @@ final class SpotifyRenderer {
    static final int g = -16317425;
    private static final float x = 64.0F;
 
-
-
    private SpotifyRenderer() {
    }
 
-   static float leaveTime(SpotifyUpdater4.TypeM<?> var0) {
+   static float leaveTime(SpotifyPlaylist.PlaylistSource<?> var0) {
       int var1 = Math.max(3, var0.t.o.length);
       return var0.U ? 0.3F + var1 * 0.02F : 0.6F + var1 * 0.045F;
    }
 
-   static float breakTime(SpotifyUpdater2.TypeH<?> var0) {
+   static float breakTime(SpotifyCacheStore.LyricStream<?> var0) {
       return (0.52F + Math.max(0, var0.letters().length - 1) * 0.04F) * (var0.z ? 0.6F : 1.0F);
    }
 
-   static float standHeight(SpotifyUpdater2.TypeH<?> var0) {
+   static float standHeight(SpotifyCacheStore.LyricStream<?> var0) {
       return 0.06F + var0.inkBelow() + var0.inkAbove();
    }
 
-   static float presence(SpotifyUpdater4.TypeM<?> var0, double var1, float var3, SpotifyRenderer.TypeO var4) {
-      SpotifyUpdater4.TypeN var5 = var0.t;
+   static float presence(SpotifyPlaylist.PlaylistSource<?> var0, double var1, float var3, SpotifyRenderer.WidgetCache var4) {
+      SpotifyPlaylist.PlaylistState var5 = var0.t;
       float var6 = Float.isNaN(var0.q) ? var0.K : var0.q;
-      boolean var7 = var4.B || var5.k == SpotifyUpdater4.TypeA.M;
+      boolean var7 = var4.B || var5.k == SpotifyPlaylist.PlaylistKind.M;
       float var8 = 0.0F;
 
       for (int var9 = 0; var9 < var5.o.length; var9++) {
@@ -66,13 +63,13 @@ final class SpotifyRenderer {
       return var8 * var0.j;
    }
 
-   static float presence(SpotifyUpdater2.TypeH<?> var0, float var1) {
+   static float presence(SpotifyCacheStore.LyricStream<?> var0, float var1) {
       float var2 = ease((var1 - var0.P) / (0.34F + 0.5F * var0.letters().length * 0.02F));
       float var3 = var0.leaving() ? smooth((var1 - var0.e) / (var0.z ? breakTime(var0) : 0.3F)) : 0.0F;
       return var2 * (1.0F - var3) * (0.72F + 0.27999997F * var0.V);
    }
 
-   static void draw(Canvas var0, SpotifyUpdater4.TypeM<?> var1, double var2, float var4, SpotifyRenderer.TypeO var5) {
+   static void draw(Canvas var0, SpotifyPlaylist.PlaylistSource<?> var1, double var2, float var4, SpotifyRenderer.WidgetCache var5) {
       long var6 = 117080994534010L;
       long var8 = var6 ^ 22448238154953L;
       int var10 = (int)((var6 ^ 22448238154953L) >>> 48);
@@ -87,20 +84,20 @@ final class SpotifyRenderer {
       }
    }
 
-   private static void l(Canvas var0, char var1, SpotifyUpdater4.TypeM var2, double var3, int var5, float var6, char var7, SpotifyRenderer.TypeO var8) {
+   private static void l(Canvas var0, char var1, SpotifyPlaylist.PlaylistSource var2, double var3, int var5, float var6, char var7, SpotifyRenderer.WidgetCache var8) {
       long var9 = 138635778459315L;
       long var11 = var9 ^ 40044224678216L;
       long var13 = var9 ^ 9498333214388L;
       SpotifyCurve.ensureSourceClassInitialized();
-      SpotifyUpdater4.TypeN var15 = var2.t;
-      boolean var16 = var15.k == SpotifyUpdater4.TypeA.M;
+      SpotifyPlaylist.PlaylistState var15 = var2.t;
+      boolean var16 = var15.k == SpotifyPlaylist.PlaylistKind.M;
       boolean var17 = var8.B || var16;
       float var18 = -var15.C * 64.0F / 2.0F;
       float var19 = 69.12F;
       int var20 = 2115414100;
       float var21 = Float.isNaN(var2.q) ? var2.K : var2.q;
       boolean var22 = var2.g == 0 && !var2.leaving();
-      float var23 = var8.B && var15.h != null ? SpotifySupport4.position(var15.h, var15.s, (long)var3) : Float.MAX_VALUE;
+      float var23 = var8.B && var15.h != null ? SpotifySyllables.position(var15.h, var15.s, (long)var3) : Float.MAX_VALUE;
       float var24 = U(var0);
       float var25 = 0.01F * var24;
       float var26 = 0.1F * var24;
@@ -120,10 +117,10 @@ final class SpotifyRenderer {
             int var37 = 0;
             if (var36 == var30) {
                float var38 = ease(reveal(var2, var35, var3, var6, var21, var17));
-               var37 = (short)1715;
+               int var63 = 1715;
                float var39 = smooth(leave(var2, var35, var6));
                float var40 = var38 * (1.0F - var39);
-               var37 = 2115414100;
+               var63 = 2115414100;
                if (var40 > 0.002F) {
                   var31 = Math.max(var31, var15.E[var35] + var15.W[var35] * var38);
                   var33 = Math.max(var33, var40);
@@ -180,7 +177,7 @@ final class SpotifyRenderer {
                float var43 = var17 ? 0.0F : (float)Math.exp(-var42 / 0.5F * 2.2F) * (1.0F - var60);
                float var44 = (var8.Y ? 0.3F : 0.42F) * var8.k * (1.0F - 0.5F * var8.L) * var62;
                var0.textGlow(
-                  SpotifyUpdater4.T,
+                  SpotifyPlaylist.T,
                   var73,
                   var68,
                   var71 + (var8.Y ? 0.02F : 0.04F) * 64.0F,
@@ -196,7 +193,7 @@ final class SpotifyRenderer {
                   float var45 = (var22 ? 0.3F + 0.25F * var8.L + 0.55F * var43 : 0.1F) * Math.max(var74, var43);
                   if (var45 > 0.01F) {
                      var0.textGlow(
-                        SpotifyUpdater4.T,
+                        SpotifyPlaylist.T,
                         var73,
                         var68,
                         var71,
@@ -215,7 +212,7 @@ final class SpotifyRenderer {
                if (var8.B && !var16 && var74 < 1.0F && var15.h != null) {
                   float var46 = g(var73, var11, var23 - var15.A[var50], var68);
                   var0.textSweep(
-                     SpotifyUpdater4.T,
+                     SpotifyPlaylist.T,
                      var73,
                      var68,
                      var71,
@@ -230,7 +227,7 @@ final class SpotifyRenderer {
                   );
                } else {
                   var0.text(
-                     SpotifyUpdater4.T,
+                     SpotifyPlaylist.T,
                      var73,
                      var68,
                      var71,
@@ -278,7 +275,7 @@ final class SpotifyRenderer {
       }
    }
 
-   static void stand(Canvas var0, SpotifyUpdater2.TypeH<?> var1, float var2, SpotifyRenderer.TypeO var3) {
+   static void stand(Canvas var0, SpotifyCacheStore.LyricStream<?> var1, float var2, SpotifyRenderer.WidgetCache var3) {
       Translations.pause();
 
       try {
@@ -300,7 +297,7 @@ final class SpotifyRenderer {
          if (var7 < 0.0F && var6 >= 0.34F + (var5 - 1) * 0.02F) {
             String var39 = var1.text();
             var0.textGlow(
-               SpotifyUpdater4.T,
+               SpotifyPlaylist.T,
                var39,
                var8,
                var9 + 2.56F,
@@ -314,7 +311,7 @@ final class SpotifyRenderer {
             );
             if (var17 > 0.01F) {
                var0.textGlow(
-                  SpotifyUpdater4.T,
+                  SpotifyPlaylist.T,
                   var39,
                   var8,
                   var9,
@@ -328,9 +325,9 @@ final class SpotifyRenderer {
                );
             }
 
-            var0.text(SpotifyUpdater4.T, var39, var8, var9, 64.0F, BlendMode.withAlpha(var14, var13), FontStyle.LEFT, FontWeight.BASELINE, 0.0F);
+            var0.text(SpotifyPlaylist.T, var39, var8, var9, 64.0F, BlendMode.withAlpha(var14, var13), FontStyle.LEFT, FontWeight.BASELINE, 0.0F);
          } else {
-            float var18 = SpotifyUpdater4.T.capHeight * 64.0F / 2.0F;
+            float var18 = SpotifyPlaylist.T.capHeight * 64.0F / 2.0F;
             int var19 = var3.J ? var12 : Theme.tint(-263681);
             float var20 = !(var7 < 0.0F) && !var1.z ? 70.4F * cubicOut(var7 / 0.3F) : 0.0F;
             float var21 = var1.z ? 0.6F : 1.0F;
@@ -345,7 +342,7 @@ final class SpotifyRenderer {
                   float var28 = var26 * (float)Math.sin(Math.PI * Math.min(1.0F, var25 * 1.15F)) * (var3.J ? 0.42F : 0.26F);
                   if (!(var27 <= 0.002F) || !(var28 <= 0.002F)) {
                      String var29 = var4[var22];
-                     float var30 = SpotifyUpdater4.T.measure(var29, 64.0F, 0.0F);
+                     float var30 = SpotifyPlaylist.T.measure(var29, 64.0F, 0.0F);
                      float var31 = SpotifySupport.hash(var1.F * 131L + var22);
                      float var32 = var8 + var1.letterX(var22) + var30 / 2.0F + var1.M * 0.5F * 64.0F * (float)Math.pow(var25, 1.5);
                      float var33 = var9 - var18 + (1.0F - springOut(var23)) * 0.62F * 64.0F - var20 - 0.35F * var25 * var25 * 64.0F;
@@ -357,7 +354,7 @@ final class SpotifyRenderer {
                      float var35 = -var30 / 2.0F;
                      if (var27 > 0.002F) {
                         var0.textGlow(
-                           SpotifyUpdater4.T,
+                           SpotifyPlaylist.T,
                            var29,
                            var35,
                            var18 + 2.56F,
@@ -373,7 +370,7 @@ final class SpotifyRenderer {
 
                      if (var28 > 0.002F) {
                         var0.textGlow(
-                           SpotifyUpdater4.T,
+                           SpotifyPlaylist.T,
                            var29,
                            var35,
                            var18,
@@ -390,7 +387,7 @@ final class SpotifyRenderer {
                      if (var27 > 0.002F) {
                         if (var17 > 0.01F) {
                            var0.textGlow(
-                              SpotifyUpdater4.T,
+                              SpotifyPlaylist.T,
                               var29,
                               var35,
                               var18,
@@ -404,7 +401,7 @@ final class SpotifyRenderer {
                            );
                         }
 
-                        var0.text(SpotifyUpdater4.T, var29, var35, var18, 64.0F, BlendMode.withAlpha(var14, var27), FontStyle.LEFT, FontWeight.BASELINE, 0.0F);
+                        var0.text(SpotifyPlaylist.T, var29, var35, var18, 64.0F, BlendMode.withAlpha(var14, var27), FontStyle.LEFT, FontWeight.BASELINE, 0.0F);
                      }
 
                      var0.pop();
@@ -419,7 +416,7 @@ final class SpotifyRenderer {
       }
    }
 
-   static void shadow(Canvas var0, float var1, float var2, SpotifyRenderer.TypeO var3) {
+   static void shadow(Canvas var0, float var1, float var2, SpotifyRenderer.WidgetCache var3) {
       if (!(var2 <= 0.002F)) {
          var0.shadow(
             -var1 / 2.0F - 12.8F,
@@ -436,7 +433,7 @@ final class SpotifyRenderer {
       }
    }
 
-   static float reveal(SpotifyUpdater4.TypeM<?> var0, int var1, double var2, float var4, float var5, boolean var6) {
+   static float reveal(SpotifyPlaylist.PlaylistSource<?> var0, int var1, double var2, float var4, float var5, boolean var6) {
       float var7 = (var4 - var5 - var1 * 0.055F) / 0.46F;
       if (var6) {
          return clamp01(var7);
@@ -446,7 +443,7 @@ final class SpotifyRenderer {
       }
    }
 
-   static float leave(SpotifyUpdater4.TypeM<?> var0, int var1, float var2) {
+   static float leave(SpotifyPlaylist.PlaylistSource<?> var0, int var1, float var2) {
       if (!var0.leaving()) {
          return 0.0F;
       } else {
@@ -456,15 +453,10 @@ final class SpotifyRenderer {
       }
    }
 
-   private static float w(SpotifyUpdater4.TypeN var0, int var1, float var2, long var3) {
+   private static float w(SpotifyPlaylist.PlaylistState var0, int var1, float var2, long var3) {
       SpotifyCurve.ensureSourceClassInitialized();
       long var5 = 130520441876487L;
-      if (130520441876487L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       return var2 == Float.MAX_VALUE ? 1.0F : clamp01((var2 - var0.A[var1]) / Math.max(1, var0.o[var1].length()));
    }
 
@@ -474,18 +466,13 @@ final class SpotifyRenderer {
          return var4 - 64.0F;
       } else {
          long var5 = 99493682712571L;
-         if (99493682712571L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var11 = var5 < 0L ? -1 : 1;
-         }
-
+         int var8 = var5 < 0L ? -1 : 1;
          if (var3 >= var0.length()) {
-            return var4 + SpotifyUpdater4.T.measure(var0, 64.0F, 0.0F) + 64.0F;
+            return var4 + SpotifyPlaylist.T.measure(var0, 64.0F, 0.0F) + 64.0F;
          } else {
-            int var8 = (int)var3;
-            float var9 = SpotifyUpdater4.T.measure(var0.substring(0, var8), 64.0F, 0.0F);
-            float var10 = SpotifyUpdater4.T.measure(var0.substring(var8, var8 + 1), 64.0F, 0.0F);
+            var8 = (int)var3;
+            float var9 = SpotifyPlaylist.T.measure(var0.substring(0, var8), 64.0F, 0.0F);
+            float var10 = SpotifyPlaylist.T.measure(var0.substring(var8, var8 + 1), 64.0F, 0.0F);
             return var4 + var9 + var10 * (var3 - var8);
          }
       }
@@ -521,7 +508,7 @@ final class SpotifyRenderer {
       return var0 < 0.0F ? 0.0F : Math.min(1.0F, var0);
    }
 
-static final class TypeO {
+   static final class WidgetCache {
       boolean B;
       boolean J = true;
       int g = Theme.tint(-4907020);

@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry6;
+import dev.purxiy.loader.fabric.client.ChunkRenderProvider;
 import net.minecraft.class_11516;
 import net.minecraft.class_11517;
 import net.minecraft.class_4076;
@@ -26,7 +25,7 @@ public abstract class PlaceSectionMixin {
    )
    private void purxiy$placeCopied(class_6850 var1, CallbackInfoReturnable<class_4577> var2) {
       long var3 = this.method_62975();
-      ClientRegistry6.sectionCopied(class_4076.method_18686(var3), class_4076.method_18689(var3), class_4076.method_18690(var3));
+      ChunkRenderProvider.sectionCopied(class_4076.method_18686(var3), class_4076.method_18689(var3), class_4076.method_18690(var3));
    }
 
    @Inject(
@@ -36,7 +35,7 @@ public abstract class PlaceSectionMixin {
    private void purxiy$placeMeshed(class_11517 var1, CallbackInfo var2) {
       if (var1 != class_11516.field_60935) {
          long var3 = this.method_62975();
-         ClientRegistry6.sectionMeshed(class_4076.method_18686(var3), class_4076.method_18689(var3), class_4076.method_18690(var3));
+         ChunkRenderProvider.sectionMeshed(class_4076.method_18686(var3), class_4076.method_18689(var3), class_4076.method_18690(var3));
       }
    }
 }

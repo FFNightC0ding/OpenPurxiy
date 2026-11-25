@@ -1,12 +1,11 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import dev.purxiy.hud.HudElement;
 import dev.purxiy.loader.auth.AccessDeniedException;
-import dev.purxiy.loader.fabric.client.ClientRenderer4;
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
-import dev.purxiy.loader.fabric.client.ClientRenderer9;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.MenuRenderPass;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
+import dev.purxiy.loader.fabric.client.EquipmentRenderPass;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import dev.purxiy.ui.clickgui.MenuScreen;
 import java.security.KeyFactory;
@@ -33,6 +32,7 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents.AfterInit;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents.AfterKeyPress;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents.AllowKeyPress;
+import net.minecraft.class_2561;
 import net.minecraft.class_2960;
 import net.minecraft.class_304;
 import net.minecraft.class_310;
@@ -44,6 +44,8 @@ import org.lwjgl.glfw.GLFW;
 import org.slf4j.LoggerFactory;
 
 public final class FabricBootstrap implements ClientModInitializer {
+   public static final String CREDITS =
+      "SourceByDevFFnightmare DeObfDeCompByGuideX  |  sources: DevFFNightmare  |  deobfuscation and rebuild: GuideX";
    public void onInitializeClient() {
       ScreenEvents.AFTER_INIT.register((AfterInit)(var0, var1x, var2x, var3) -> {
          if (var1x instanceof class_442 || var1x instanceof class_433) {
@@ -52,15 +54,15 @@ public final class FabricBootstrap implements ClientModInitializer {
                   var0.method_1507(new MenuScreen(var1xx));
                }
             });
-            ScreenKeyboardEvents.allowKeyPress(var1x).register((AllowKeyPress)(var0x, var1xx) -> ClientRenderer4.allowKey(var1xx.comp_4795()));
+            ScreenKeyboardEvents.allowKeyPress(var1x).register((AllowKeyPress)(var0x, var1xx) -> MenuRenderPass.allowKey(var1xx.comp_4795()));
          }
       });
-      ClientEntityEvents.ENTITY_LOAD.register((Load)(var0, var1x) -> ClientSupport3.entityLoaded(var0));
-      WorldRenderEvents.BEFORE_ENTITIES.register((BeforeEntities)var0 -> ClientSupport3.keepDepth(false));
+      ClientEntityEvents.ENTITY_LOAD.register((Load)(var0, var1x) -> SkyPipelineRouter.entityLoaded(var0));
+      WorldRenderEvents.BEFORE_ENTITIES.register((BeforeEntities)var0 -> SkyPipelineRouter.keepDepth(false));
       WorldRenderEvents.BEFORE_TRANSLUCENT.register((BeforeTranslucent)var0 -> {
-         ClientSupport3.keepDepth(true);
-         ClientRenderer9.world(var0);
-         ClientRenderer5.render(var0);
+         SkyPipelineRouter.keepDepth(true);
+         EquipmentRenderPass.world(var0);
+         CameraStateReader.render(var0);
       });
       class_11900 var1 = class_11900.method_74698(class_2960.method_60655("purxiy_loader", "main"));
       GarageActions.init();
@@ -89,6 +91,11 @@ public final class FabricBootstrap implements ClientModInitializer {
       );
       OwnerThread.install();
       ClientPlayConnectionEvents.DISCONNECT.register((Disconnect)(var0, var1x) -> ModuleWidget.disconnected(var1x));
+      ClientPlayConnectionEvents.JOIN.register((var0, var1x, var2x) -> {
+         if (class_310.method_1551().field_1724 != null) {
+            class_310.method_1551().field_1724.method_7353(class_2561.method_43470(CREDITS), false);
+         }
+      });
       if (ModuleState.active == null) {
          OfflineBootstrap.init();
       }
@@ -97,7 +104,7 @@ public final class FabricBootstrap implements ClientModInitializer {
             try {
                ModuleState.active.close();
             } catch (Exception var2x) {
-               LoggerFactory.getLogger("PurxiyLoader").error("Module cleanup failed");
+               LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader").error("Module cleanup failed");
             }
          }
 

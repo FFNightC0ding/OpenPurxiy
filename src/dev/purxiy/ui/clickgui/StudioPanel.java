@@ -1,13 +1,12 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.Animator;
 import dev.purxiy.anim.MotionStyle;
 import dev.purxiy.modules.Category;
 import dev.purxiy.modules.SettingSection;
-import dev.purxiy.profile.ProfileRenderer11;
+import dev.purxiy.profile.ProfilePanel;
 import dev.purxiy.profile.ProfileSupport;
-import dev.purxiy.profile.ProfileSupport5;
+import dev.purxiy.profile.ProfileSkin;
 import dev.purxiy.render.BlendMode;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.render.font.FontStyle;
@@ -19,7 +18,7 @@ import dev.purxiy.sound.SoundRequest;
 import dev.purxiy.ui.DrawContext;
 import dev.purxiy.ui.Icons;
 import dev.purxiy.ui.Theme;
-import dev.purxiy.ui.config.ConfigLibraryRenderer14;
+import dev.purxiy.ui.config.ConfigLibraryPanel;
 import java.util.Arrays;
 
 final class StudioPanel {
@@ -200,7 +199,7 @@ final class StudioPanel {
       }
 
       if (var43 >= 0 && !this.dragging) {
-         var1.claim(this.keys[var43], DrawContext.TypeE.HAND);
+         var1.claim(this.keys[var43], DrawContext.Cursor.HAND);
       }
 
       for (int var45 = 0; var45 < N; var45++) {
@@ -377,7 +376,7 @@ final class StudioPanel {
          float var16 = var3 + (-var5 / 2.0F + 17.0F) * var13 * var9;
          int var17 = BlendMode.lerp(BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var12), Icons.TEXT, var14);
          float var18 = lerp(var6 * 0.7F, 20.0F, var9);
-         if (var10 == Category.PROFILE && ProfileSupport5.face(var1, var16 - var18 / 2.0F, var4 - var18 / 2.0F, var18, var18 / 2.0F, -1)) {
+         if (var10 == Category.PROFILE && ProfileSkin.face(var1, var16 - var18 / 2.0F, var4 - var18 / 2.0F, var18, var18 / 2.0F, -1)) {
             var1.ring(var16, var4, var18 / 2.0F, 1.2F, BlendMode.withAlpha(-1, 0.2F + 0.3F * Math.max(var12, var14)));
          } else {
             var1.icon(var10.icon, var16, var4, var15, var17);
@@ -413,7 +412,7 @@ final class StudioPanel {
       this.homeY = var15 - var12 / 2.0F;
       this.homeW = var13;
       this.homeH = var12;
-      boolean var16 = var5 > 0.9F && var1.hover(this.homeKey, this.homeX - 6.0F, this.homeY - 6.0F, var13 + 12.0F, var12 + 12.0F, DrawContext.TypeE.HAND);
+      boolean var16 = var5 > 0.9F && var1.hover(this.homeKey, this.homeX - 6.0F, this.homeY - 6.0F, var13 + 12.0F, var12 + 12.0F, DrawContext.Cursor.HAND);
       float var17 = this.homeHover.target(var16 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       float var18 = var8 ? 0.85F : 0.78F + 0.22F * (float)Math.sin(var7 * 1.8);
       var2.pushAlpha(var6);
@@ -453,8 +452,8 @@ final class StudioPanel {
          var1.text(Fonts.REGULAR, var8.tagline, var2, var3 + 44.0F + var10, 13.5F, BlendMode.withAlpha(Icons.TEXT_2, var9), FontStyle.CENTER, FontWeight.TOP);
          if (var8 == Category.PROFILE || var8 == Category.CONFIGS) {
             boolean var11 = var8 == Category.PROFILE;
-            int var12 = var11 ? (ProfileSupport.live() != null ? 1 : 0) : ConfigLibraryRenderer14.inUse();
-            String var13 = var11 ? ProfileRenderer11.orbitLine() : ConfigLibraryRenderer14.orbitLine();
+            int var12 = var11 ? (ProfileSupport.live() != null ? 1 : 0) : ConfigLibraryPanel.inUse();
+            String var13 = var11 ? ProfilePanel.orbitLine() : ConfigLibraryPanel.orbitLine();
             float var14 = var1.textWidth(Fonts.MEDIUM, var13, 11.5F);
             float var15 = var14 + 30.0F;
             float var16 = 26.0F;
@@ -473,13 +472,13 @@ final class StudioPanel {
       return this.hitCategory;
    }
 
-   StudioPanel.TypeU mouseDown(float var1, float var2) {
+   StudioPanel.PanelMode mouseDown(float var1, float var2) {
       if (this.view > 0.5F
          && var1 >= this.homeX - 6.0F
          && var1 <= this.homeX + this.homeW + 6.0F
          && var2 >= this.homeY - 6.0F
          && var2 <= this.homeY + this.homeH + 6.0F) {
-         return StudioPanel.TypeU.HOME;
+         return StudioPanel.PanelMode.HOME;
       } else {
          int var3 = -1;
          float var4 = -1.0F;
@@ -494,11 +493,11 @@ final class StudioPanel {
          if (var3 >= 0) {
             this.hitCategory = CATS[var3];
             if (this.view > 0.5F) {
-               return StudioPanel.TypeU.TAB;
+               return StudioPanel.PanelMode.TAB;
             } else {
                return CATS[var3] == this.front() && Math.abs(this.pos.value() - this.pos.target()) < 0.35F
-                  ? StudioPanel.TypeU.OPEN_FRONT
-                  : StudioPanel.TypeU.FOCUS;
+                  ? StudioPanel.PanelMode.OPEN_FRONT
+                  : StudioPanel.PanelMode.FOCUS;
             }
          } else if (this.view < 0.5F) {
             this.dragging = true;
@@ -508,9 +507,9 @@ final class StudioPanel {
             this.dragStartPos = this.pos.value();
             this.dragLastTime = System.nanoTime();
             this.dragVelocity = 0.0F;
-            return StudioPanel.TypeU.DRAG;
+            return StudioPanel.PanelMode.DRAG;
          } else {
-            return StudioPanel.TypeU.NONE;
+            return StudioPanel.PanelMode.NONE;
          }
       }
    }
@@ -580,7 +579,7 @@ final class StudioPanel {
       return var0 + (var1 - var0) * var2;
    }
 
-   static enum TypeU {
+   static enum PanelMode {
       NONE,
       OPEN_FRONT,
       FOCUS,
@@ -588,8 +587,8 @@ final class StudioPanel {
       HOME,
       DRAG;
 
-      private static StudioPanel.TypeU[] $values() {
-         return new StudioPanel.TypeU[]{NONE, OPEN_FRONT, FOCUS, TAB, HOME, DRAG};
+      private static StudioPanel.PanelMode[] $values() {
+         return new StudioPanel.PanelMode[]{NONE, OPEN_FRONT, FOCUS, TAB, HOME, DRAG};
       }
    }
 }

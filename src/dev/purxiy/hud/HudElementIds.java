@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -31,14 +30,14 @@ final class HudElementIds {
       "staff_list",
       "target_hud"
    );
-   private static final Map<String, HudElementIds.TypeH> boxes = new HashMap<>();
+   private static final Map<String, HudElementIds.HudIdTable> boxes = new HashMap<>();
    private static long laidOutFrame = Long.MIN_VALUE;
 
    private HudElementIds() {
    }
 
    static void measure(String var0, long var1, float var3, float var4, float var5, float var6, float var7, boolean var8) {
-      boxes.put(var0, new HudElementIds.TypeH(var0, var1, var3, var4, var5, var6, var7, var8));
+      boxes.put(var0, new HudElementIds.HudIdTable(var0, var1, var3, var4, var5, var6, var7, var8));
       laidOutFrame = Long.MIN_VALUE;
    }
 
@@ -47,7 +46,7 @@ final class HudElementIds {
          layout(var1);
       }
 
-      HudElementIds.TypeH var4 = boxes.get(var0);
+      HudElementIds.HudIdTable var4 = boxes.get(var0);
       if (var4 != null && var4.frame == var1) {
          var3[0] = var4.x;
          var3[1] = var4.y;
@@ -57,12 +56,12 @@ final class HudElementIds {
    }
 
    private static void layout(long var0) {
-      List var2 = boxes.values().stream().filter(var2x -> var2x.frame == var0).sorted(Comparator.<HudElementIds.TypeH>comparingInt(var0x -> {
+      List var2 = boxes.values().stream().filter(var2x -> var2x.frame == var0).sorted(Comparator.<HudElementIds.HudIdTable>comparingInt(var0x -> {
          int var1 = ORDER.indexOf(var0x.id);
          return var1 < 0 ? ORDER.size() : var1;
       }).thenComparing(var0x -> var0x.id)).toList();
 
-      for (HudElementIds.TypeH var4 : ((Iterable<HudElementIds.TypeH>)(Object)var2)) {
+      for (HudElementIds.HudIdTable var4 : ((Iterable<HudElementIds.HudIdTable>)(Object)var2)) {
          var4.x = var4.baseX;
          var4.y = var4.baseY;
       }
@@ -71,7 +70,7 @@ final class HudElementIds {
          laidOutFrame = var0;
       } else {
          for (int var10 = 0; var10 < var2.size(); var10++) {
-            HudElementIds.TypeH var11 = (HudElementIds.TypeH)var2.get(var10);
+            HudElementIds.HudIdTable var11 = (HudElementIds.HudIdTable)var2.get(var10);
             if (!var11.placed) {
                boolean var5 = var11.y + var11.height / 2.0F > var11.canvasHeight / 2.0F;
 
@@ -79,7 +78,7 @@ final class HudElementIds {
                   boolean var7 = false;
 
                   for (int var8 = 0; var8 < var2.size(); var8++) {
-                     HudElementIds.TypeH var9 = (HudElementIds.TypeH)var2.get(var8);
+                     HudElementIds.HudIdTable var9 = (HudElementIds.HudIdTable)var2.get(var8);
                      if (var10 != var8
                         && (var8 < var10 || var9.placed)
                         && var11.x < var9.x + var9.width + 3.0F
@@ -109,7 +108,7 @@ final class HudElementIds {
       laidOutFrame = Long.MIN_VALUE;
    }
 
-   private static final class TypeH {
+   private static final class HudIdTable {
       final String id;
       final long frame;
       final float baseX;
@@ -121,7 +120,7 @@ final class HudElementIds {
       float x;
       float y;
 
-      TypeH(String var1, long var2, float var4, float var5, float var6, float var7, float var8, boolean var9) {
+      HudIdTable(String var1, long var2, float var4, float var5, float var6, float var7, float var8, boolean var9) {
          this.id = var1;
          this.frame = var2;
          this.baseX = var4;

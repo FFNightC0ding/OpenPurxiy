@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_2664;
 import net.minecraft.class_634;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,6 +15,6 @@ public abstract class ChromaPacketMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$chromaBlast(class_2664 var1, CallbackInfo var2) {
-      ClientSupport3.blast(var1.comp_2883(), var1.comp_4594());
+      SkyPipelineRouter.blast(var1.comp_2883(), var1.comp_4594());
    }
 }

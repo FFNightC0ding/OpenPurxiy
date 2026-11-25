@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry25;
+import dev.purxiy.loader.fabric.client.AttackAnimationProvider;
 import net.minecraft.class_1297;
 import net.minecraft.class_3414;
 import net.minecraft.class_3419;
@@ -31,7 +30,7 @@ public abstract class KnifeSoundMixin {
       long var12,
       CallbackInfo var14
    ) {
-      if (ClientRegistry25.mutes(var8, var2, var4, var6)) {
+      if (AttackAnimationProvider.mutes(var8, var2, var4, var6)) {
          var14.cancel();
       }
    }

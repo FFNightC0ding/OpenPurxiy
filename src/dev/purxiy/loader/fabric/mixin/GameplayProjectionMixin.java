@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import dev.purxiy.hud.HudPlacement;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_4184;
 import net.minecraft.class_761;
 import net.minecraft.class_9779;
@@ -35,6 +34,6 @@ public abstract class GameplayProjectionMixin {
       CallbackInfo var11
    ) {
       HudPlacement.beginFrame(var4, var5, var6);
-      ClientSupport3.view(var4, var5, var6, var8);
+      SkyPipelineRouter.view(var4, var5, var6, var8);
    }
 }

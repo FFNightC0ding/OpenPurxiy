@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry6;
+import dev.purxiy.loader.fabric.client.ChunkRenderProvider;
 import net.minecraft.class_2338;
 import net.minecraft.class_636;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +15,7 @@ public abstract class PlaceGameModeMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$placeDestroyStarted(class_2338 var1, CallbackInfoReturnable<Boolean> var2) {
-      ClientRegistry6.destroyStarted(var1);
+      ChunkRenderProvider.destroyStarted(var1);
    }
 
    @Inject(
@@ -24,6 +23,6 @@ public abstract class PlaceGameModeMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$placeDestroyEnded(class_2338 var1, CallbackInfoReturnable<Boolean> var2) {
-      ClientRegistry6.destroyEnded(var2.getReturnValueZ());
+      ChunkRenderProvider.destroyEnded(var2.getReturnValueZ());
    }
 }

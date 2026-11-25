@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonElement;
@@ -53,11 +52,11 @@ public final class MenuKeyBinding {
       return var1;
    }
 
-   public static List<MenuKeyBinding.TypeV> bound() {
+   public static List<MenuKeyBinding.BindingRow> bound() {
       check();
       ArrayList var0 = new ArrayList();
       if (menu != null) {
-         var0.add(new MenuKeyBinding.TypeV("menu", "Purxiy menu", "Opens Purxiy anywhere", KeyBindingHelper.getBoundKeyOf(menu).method_1444(), false));
+         var0.add(new MenuKeyBinding.BindingRow("menu", "SourceByDevFFnightmare DeObfDeCompByGuideX menu", "Opens SourceByDevFFnightmare DeObfDeCompByGuideX anywhere", KeyBindingHelper.getBoundKeyOf(menu).method_1444(), false));
       }
 
       for (JsonElement var2 : LoaderMessages.catalog) {
@@ -67,7 +66,7 @@ public final class MenuKeyBinding {
          int var6 = ModuleCatalog.key(var3);
          if (ModuleCatalog.toggleable(var3) && var6 != -1 && (ModuleCatalog.keyToggles(var3) || var5)) {
             var0.add(
-               new MenuKeyBinding.TypeV(var4, LinkAccountScreen.name(var3), ModuleCatalog.keyToggles(var3) ? "Turns it on and off" : "Its action", var6, true)
+               new MenuKeyBinding.BindingRow(var4, LinkAccountScreen.name(var3), ModuleCatalog.keyToggles(var3) ? "Turns it on and off" : "Its action", var6, true)
             );
          }
 
@@ -80,7 +79,7 @@ public final class MenuKeyBinding {
                   int var11 = Integer.parseInt((String)var7.get(var10.get("id").getAsString()));
                   if (var11 != -1) {
                      var0.add(
-                        new MenuKeyBinding.TypeV(
+                        new MenuKeyBinding.BindingRow(
                            var4 + "/" + var10.get("id").getAsString(), LinkAccountScreen.name(var3), var10.get("name").getAsString(), var11, true
                         )
                      );
@@ -154,6 +153,6 @@ public final class MenuKeyBinding {
       }
    }
 
-   public record TypeV(String id, String title, String action, int key, boolean removable) {
+   public record BindingRow(String id, String title, String action, int key, boolean removable) {
    }
 }

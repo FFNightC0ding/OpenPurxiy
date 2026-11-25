@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.sky;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -109,34 +108,26 @@ public final class SkySupport {
    private static final SkyKind[] r = SkyKind.values();
    private static final float[] c = new float[r.length - 1];
    private static final SkyCodec[] q = new SkyCodec[r.length];
-
-   // The per-style codecs were never constructed (the array stayed full of nulls), so the first sky frame threw an
-   // NPE in extract() and the loader tore the whole module host down - every module switched itself off.
-   static {
-      for (int var0 = 0; var0 < q.length; var0++) {
-         q[var0] = new SkyCodec();
-      }
-   }
    private static SkyCatalog x_;
    private static SkyCatalog X;
-   private static int xE = 0;
+   private static int xE;
    private static boolean xn;
    private static float xz;
    private static float C;
    private static float t;
-   private static int b = 0;
+   private static int b;
    private static float xQ;
-   private static final Matrix4f K = new Matrix4f();
-   private static final Matrix4f x2 = new Matrix4f();
-   private static long M = -9223372036854775808L;
-   private static long xI = 0L;
+   private static final Matrix4f K;
+   private static final Matrix4f x2;
+   private static long M;
+   private static long xI;
    private static double xG;
    private static double s;
    private static float xX;
    private static float xZ;
-   private static final Vector3f R = new Vector3f();
-   private static final Vector3f H = new Vector3f();
-   private static final Vector3f x6 = new Vector3f();
+   private static final Vector3f R;
+   private static final Vector3f H;
+   private static final Vector3f x6;
    private static float L;
    private static float xo;
    private static float x4;
@@ -152,23 +143,19 @@ public final class SkySupport {
    private static GpuBuffer xW;
    private static ByteBuffer xb;
    private static String F;
-   private static final float[] Y = new float[4];
-   private static final float[] xS = new float[4];
+   private static final float[] Y;
+   private static final float[] xS;
    private static boolean x0;
    private static GpuQuery A;
    private static double xJ;
-   private static int xD = 0;
-   private static int B = 0;
+   private static int xD;
+   private static int B;
    static SkyModule I;
    private static ModuleContext xm;
-   private static int xa = 0;
-   private static int xP = 0;
-
-
-
-
-   private static final long[] eb = new long[]{1346373062445822417L, -2103473856920565623L, 7188566353384851749L, 1765549318640854796L};
-   private static final Long[] fb = new Long[4];
+   private static int xa;
+   private static int xP;
+   private static final long[] eb;
+   private static final Long[] fb;
 
    private SkySupport() {
    }
@@ -258,14 +245,9 @@ public final class SkySupport {
 
    private static SkyCatalog c(long var0, SkyModule var2) {
       SkyKind.ensureSourceClassInitialized();
-      SkyCatalog var3 = SkyCatalog.byName(var2.D.get());
+      SkyCatalog var3 = SkyCatalog.byName((String)var2.D.get());
       long var4 = 89616269853771L;
-      if (89616269853771L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       if (var3 != X || q[0].generation() != xE) {
          X = var3;
          xE = q[0].generation();
@@ -302,14 +284,9 @@ public final class SkySupport {
       V(6, var4, var2.W, var6);
       V(7, var4, var2.j, var6);
       V(8, var4, var2.Z, var6);
-      var45 = (short)2458;
+      int var421 = 2458;
       long var17 = 138461375427435L;
-      if (138461375427435L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var53 = var17 < 0L ? -1 : 1;
-      }
-
+      int var20 = var17 < 0L ? -1 : 1;
       var9 = 6869720220568555102L;
       V(9, var4, var2.p, var6);
       V(10, var4, var2.P, var6);
@@ -323,81 +300,41 @@ public final class SkySupport {
       xf[54] = var2.U;
       xf[55] = var2.E;
       xf[56] = var2.s;
-      float var20 = O(var11, var12, var13);
+      float var20x = O(var11, var12, var13);
 
       for (int var21 = 0; var21 < 3; var21++) {
          long var22 = 138461375427435L;
-         if (138461375427435L == 0L) {
-            boolean var54 = false;
-         } else {
-            int var55 = var22 < 0L ? -1 : 1;
-         }
-
-         xf[6 + var21] = xf[6 + var21] * var20;
+         int var24 = var22 < 0L ? -1 : 1;
+         xf[6 + var21] = xf[6 + var21] * var20x;
       }
 
       long var48 = 138461375427435L;
-      if (138461375427435L == 0L) {
-         boolean var56 = false;
-      } else {
-         int var57 = var48 < 0L ? -1 : 1;
-      }
-
-      int var23 = 0;
+      int var23 = var48 < 0L ? -1 : 1;
+      var23 = 0;
 
       while (true) {
          long var24 = 138461375427434L;
-         if (138461375427434L == 0L) {
-            boolean var58 = false;
-         } else {
-            int var59 = var24 < 0L ? -1 : 1;
-         }
-
+         int var27 = var24 < 0L ? -1 : 1;
          if (var23 >= c.length) {
             long var49 = 138461375427435L;
-            if (138461375427435L == 0L) {
-               boolean var70 = false;
-            } else {
-               int var71 = var49 < 0L ? -1 : 1;
-            }
+            int var51 = var49 < 0L ? -1 : 1;
 
             for (int var29 = 0; var29 < 51; var29++) {
                xf[var29] = xf[var29] * var3;
             }
 
             long var50 = 138461375427434L;
-            if (138461375427434L == 0L) {
-               boolean var72 = false;
-            } else {
-               int var73 = var50 < 0L ? -1 : 1;
-            }
-
+            int var29 = var50 < 0L ? -1 : 1;
             return;
          }
 
-         long var27 = 138461375427435L;
-         if (138461375427435L == 0L) {
-            boolean var60 = false;
-         } else {
-            int var61 = var27 < 0L ? -1 : 1;
-         }
-
-         float var30;
-         var45 = (var30 = c[var23] - 0.0F) == 0.0F ? 0 : (var30 < 0.0F ? -1 : 1);
+         long var27x = 138461375427435L;
+         float var30x;
+         var421 = (var30x = c[var23] - 0.0F) == 0.0F ? 0 : (var30x < 0.0F ? -1 : 1);
          long var31 = 138461375427435L;
-         if (138461375427435L == 0L) {
-            boolean var62 = false;
-         } else {
-            int var63 = var31 < 0L ? -1 : 1;
-         }
-
-         if (var45 <= 0) {
+         if (var421 <= 0) {
             long var34 = 138461375427435L;
-            if (138461375427435L == 0L) {
-               boolean var64 = false;
-            } else {
-               int var65 = var34 < 0L ? -1 : 1;
-            }
+            int var36 = var34 < 0L ? -1 : 1;
          } else {
             SkyKind var51 = r[var23 + 1];
             int var35 = q[var23 + 1].carry(var51.Z);
@@ -407,24 +344,15 @@ public final class SkySupport {
                int var38 = 16 - var37 * 8;
                float var39 = (var35 >> var38 & 0xFF) / 255.0F;
                long var40 = 138461375427434L;
-               if (138461375427434L == 0L) {
-                  boolean var66 = false;
-               } else {
-                  int var67 = var40 < 0L ? -1 : 1;
-               }
-
-               float var42 = (var36 >> var38 & 0xFF) / 255.0F;
-               xf[6 + var37] = xf[6 + var37] + (var39 + (var42 - var39) * var14) * c[var23];
+               int var38x = var40 < 0L ? -1 : 1;
+               float var42x = (var36 >> var38 & 0xFF) / 255.0F;
+               xf[6 + var37] = xf[6 + var37] + (var39 + (var42x - var39) * var14) * c[var23];
             }
          }
 
          var23++;
-         long var52 = 138461375427435L;
-         if (138461375427435L == 0L) {
-            boolean var68 = false;
-         } else {
-            int var69 = var52 < 0L ? -1 : 1;
-         }
+         long var52x = 138461375427435L;
+         int var58 = var52x < 0L ? -1 : 1;
       }
    }
 
@@ -435,31 +363,21 @@ public final class SkySupport {
       double var6 = xG - var4 * 210.0;
       float var8 = xl[11];
       long var9 = 114569556699847L;
-      if (114569556699847L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var22 = var9 < 0L ? -1 : 1;
-      }
-
+      int var12 = var9 < 0L ? -1 : 1;
       if (!(var8 <= 0.001F) && !(var6 > 120.0)) {
-         Random var12 = new Random((long)var4 * 2685821657736338717L + 17L);
-         Vector3f var13 = m(var12.nextFloat() * 360.0F, 25.0F + var12.nextFloat() * 30.0F);
+         Random var12x = new Random((long)var4 * 2685821657736338717L + 17L);
+         Vector3f var13 = m(var12x.nextFloat() * 360.0F, 25.0F + var12x.nextFloat() * 30.0F);
          Vector3f var14 = new Vector3f(var13);
          long var15 = 114569556699846L;
-         if (114569556699846L == 0L) {
-            boolean var23 = false;
-         } else {
-            int var24 = var15 < 0L ? -1 : 1;
-         }
-
-         Vector3f var17 = var14.cross(0.0F, 1.0F, 0.0F).normalize().mul(var12.nextBoolean() ? 1.0F : -1.0F);
-         Vector3f var18 = Z(var13, var2, new Vector3f(var17).mul(0.9F).add(0.0F, -0.3F, 0.0F));
-         float var19 = (float)Math.toRadians(18.0 + var12.nextFloat() * 14.0) * (float)(var6 / 120.0);
+         int var17 = var15 < 0L ? -1 : 1;
+         Vector3f var17x = var14.cross(0.0F, 1.0F, 0.0F).normalize().mul(var12x.nextBoolean() ? 1.0F : -1.0F);
+         Vector3f var18 = Z(var13, var2, new Vector3f(var17x).mul(0.9F).add(0.0F, -0.3F, 0.0F));
+         float var19 = (float)Math.toRadians(18.0 + var12x.nextFloat() * 14.0) * (float)(var6 / 120.0);
          R.set(var13).mul((float)Math.cos(var19)).add(new Vector3f(var18).mul((float)Math.sin(var19)));
          Vector3f var20 = new Vector3f(var13).mul(-((float)Math.sin(var19))).add(new Vector3f(var18).mul((float)Math.cos(var19)));
          Vector3f var21 = Z(R, var2, new Vector3f((float)Math.sin(xz), -((float)Math.cos(xz)), 0.0F));
          H.set(Z(R, var2, var21.mul(0.7F).sub(var20.mul(0.3F))));
-         xo = (float)Math.toRadians(14.0 + var12.nextFloat() * 12.0);
+         xo = (float)Math.toRadians(14.0 + var12x.nextFloat() * 12.0);
          L = xl[11] * Q(0.0F, 12.0F, (float)var6) * (1.0F - Q(105.0F, 120.0F, (float)var6));
       } else {
          L = 0.0F;
@@ -495,15 +413,10 @@ public final class SkySupport {
          long var5;
          int var2 = (var5 = M - RenderPipelines.get().frame()) == 0L ? 0 : (var5 < 0L ? -1 : 1);
          long var7 = 97837950858375L;
-         if (97837950858375L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var12 = var7 < 0L ? -1 : 1;
-         }
-
+         int var13 = var7 < 0L ? -1 : 1;
          if (var2 == 0 && !d(var3)) {
-            boolean var13 = true;
-            return new Matrix4d(var13 ? x2 : K).mul(new Matrix4d(RenderSystem.getModelViewMatrix()));
+            boolean var13x = true;
+            return new Matrix4d(var13x ? x2 : K).mul(new Matrix4d(RenderSystem.getModelViewMatrix()));
          }
       }
 
@@ -569,12 +482,7 @@ public final class SkySupport {
             double var27 = Math.cos(var25) * var21;
             double var29 = Math.sin(var25) * var21;
             long var31 = 125815353116160L;
-            if (125815353116160L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var46 = var31 < 0L ? -1 : 1;
-            }
-
+            int var34 = var31 < 0L ? -1 : 1;
             var23.set(
                var1.x * var19 + var2.x * var27 + var3.x * var29,
                var1.y * var19 + var2.y * var27 + var3.y * var29,
@@ -582,13 +490,8 @@ public final class SkySupport {
                0.0
             );
             var0.transform(var23);
-            long var34 = 125815353116161L;
-            if (125815353116161L == 0L) {
-               boolean var47 = false;
-            } else {
-               int var48 = var34 < 0L ? -1 : 1;
-            }
-
+            long var34x = 125815353116161L;
+            int var351 = var34x < 0L ? -1 : 1;
             if (var23.w <= 1.0E-6) {
                var10[0] = -1.0F;
                var10[1] = -1.0F;
@@ -605,27 +508,17 @@ public final class SkySupport {
 
          double var43 = (var15 - var11) * 0.04;
          long var26 = 125815353116161L;
-         if (125815353116161L == 0L) {
-            boolean var49 = false;
-         } else {
-            int var50 = var26 < 0L ? -1 : 1;
-         }
-
-         double var44 = var43 + 4.0 / var8;
+         int var44 = var26 < 0L ? -1 : 1;
+         double var44x = var43 + 4.0 / var8;
          double var45 = (var17 - var13) * 0.04 + 4.0 / var9;
          long var33 = 125815353116160L;
-         if (125815353116160L == 0L) {
-            boolean var51 = false;
-         } else {
-            int var52 = var33 < 0L ? -1 : 1;
-         }
-
-         double var35 = Math.max(-1.0, var11 - var44);
+         int var35 = var33 < 0L ? -1 : 1;
+         double var35x = Math.max(-1.0, var11 - var44x);
          double var37 = Math.max(-1.0, var13 - var45);
-         double var39 = Math.min(1.0, var15 + var44);
+         double var39 = Math.min(1.0, var15 + var44x);
          double var41 = Math.min(1.0, var17 + var45);
-         if (var35 < var39 && var37 < var41) {
-            var10[0] = (float)var35;
+         if (var35x < var39 && var37 < var41) {
+            var10[0] = (float)var35x;
             var10[1] = (float)var37;
             var10[2] = (float)var39;
             var10[3] = (float)var41;
@@ -731,12 +624,7 @@ public final class SkySupport {
       int var3 = I.g.index();
       CompiledRenderPipeline var4 = var2.precompilePipeline(SkyPipelines.sky(var3));
       long var5 = 50230805266372L;
-      if (50230805266372L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       return var4.isValid()
          && var2.precompilePipeline(SkyPipelines.skySpace(var3)).isValid()
          && var2.precompilePipeline(SkyPipelines.skyBodies(var3)).isValid();
@@ -785,24 +673,13 @@ public final class SkySupport {
             CommandEncoder var33 = RenderSystem.getDevice().createCommandEncoder();
             Matrix4f var34 = O(var26);
             long var35 = 98450555766157L;
-            if (98450555766157L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var78 = var35 < 0L ? -1 : 1;
-            }
-
-            long var38 = 98450555766157L;
-            if (98450555766157L == 0L) {
-               boolean var79 = false;
-            } else {
-               int var80 = var38 < 0L ? -1 : 1;
-            }
-
+            int var38 = var35 < 0L ? -1 : 1;
+            long var38x = 98450555766157L;
             if (B > 0) {
                B--;
                ClientServices.LOGGER
                   .info(
-                     "Purxiy sky camera: centre {} {} {}, right {} {} {}, planet {} {}",
+                     "SourceByDevFFnightmare DeObfDeCompByGuideX sky camera: centre {} {} {}, right {} {} {}, planet {} {}",
                      new Object[]{
                         var34.m20(),
                         var34.m21(),
@@ -817,70 +694,98 @@ public final class SkySupport {
             }
 
             Z(var19, var33, var34, var0, var21.field_1482, var21.field_1481, var24);
-            class_12137 var41 = RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR);
-            GpuQuery var42 = x0 ? u(var7, (byte)var9, var33) : null;
+            class_12137 var41x = RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR);
+            GpuQuery var42 = x0 ? u(var7, var9, var33) : null;
             boolean var43 = false;
 
             try {
                var43 = true;
                if (var24) {
-                  try (RenderPass var44 = var33.createRenderPass(() -> "Purxiy sky (soft layers)", xR, OptionalInt.empty())) {
-                     long var45 = 98450555766157L;
-                     if (98450555766157L == 0L) {
-                        boolean var81 = false;
-                     } else {
-                        int var82 = var45 < 0L ? -1 : 1;
-                     }
+                  RenderPass var44 = var33.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX sky (soft layers)", xR, OptionalInt.empty());
 
+                  try {
+                     long var45 = 98450555766157L;
+                     int var44x = var45 < 0L ? -1 : 1;
                      var44.setPipeline(SkyPipelines.skySpace(var25));
                      var44.setUniform("PurxiySky", xW);
-                     var44.bindTexture("NoiseSampler", G, var41);
+                     var44.bindTexture("NoiseSampler", G, var41x);
                      long var48 = 98450555766156L;
-                     if (98450555766156L == 0L) {
-                        boolean var83 = false;
-                     } else {
-                        int var84 = var48 < 0L ? -1 : 1;
+                     int var47 = var48 < 0L ? -1 : 1;
+                     var44.draw(0, 3);
+                     var47 = 1315407245;
+                     metric("drawn");
+                  } catch (Throwable var61) {
+                     if (var44 != null) {
+                        try {
+                           var44.close();
+                        } catch (Throwable var58) {
+                           var61.addSuppressed(var58);
+                        }
                      }
 
-                     var44.draw(0, 3);
-                     int var47 = 1315407245;
-                     metric("drawn");
+                     throw var61;
+                  }
+
+                  if (var44 != null) {
+                     var44.close();
                   }
                }
 
-               try (RenderPass var73 = var33.createRenderPass(() -> "Purxiy sky", var68, OptionalInt.empty())) {
-                  long var75 = 98450555766156L;
-                  if (98450555766156L == 0L) {
-                     boolean var85 = false;
-                  } else {
-                     int var86 = var75 < 0L ? -1 : 1;
-                  }
+               RenderPass var73 = var33.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX sky", var68, OptionalInt.empty());
 
+               try {
+                  long var75 = 98450555766156L;
+                  int var76 = var75 < 0L ? -1 : 1;
                   var73.setPipeline(SkyPipelines.sky(var25));
                   RenderSystem.bindDefaultUniforms(var73);
                   var73.setUniform("PurxiySky", xW);
-                  var73.bindTexture("NoiseSampler", G, var41);
+                  var73.bindTexture("NoiseSampler", G, var41x);
                   var73.bindTexture("SpaceSampler", xR, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
                   var73.draw(0, 3);
-                  int var76 = 1315407245;
+                  var76 = 1315407245;
                   metric("drawn");
+               } catch (Throwable var60) {
+                  if (var73 != null) {
+                     try {
+                        var73.close();
+                     } catch (Throwable var57) {
+                        var60.addSuppressed(var57);
+                     }
+                  }
+
+                  throw var60;
+               }
+
+               if (var73 != null) {
+                  var73.close();
                }
 
                if (var32) {
                   long var74 = 98450555766156L;
-                  if (98450555766156L == 0L) {
-                     boolean var87 = false;
-                  } else {
-                     int var88 = var74 < 0L ? -1 : 1;
+                  int var43x = var74 < 0L ? -1 : 1;
+                  RenderPass var77x = var33.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX sky (planet, singularity)", var68, OptionalInt.empty());
+
+                  try {
+                     var77x.setPipeline(SkyPipelines.skyBodies(var25));
+                     var77x.setUniform("PurxiySky", xW);
+                     var77x.bindTexture("NoiseSampler", G, var41x);
+                     int var46 = 1315412515;
+                     var77x.draw(0, 12);
+                     metric("drawn");
+                  } catch (Throwable var59) {
+                     if (var77x != null) {
+                        try {
+                           var77x.close();
+                        } catch (Throwable var56) {
+                           var59.addSuppressed(var56);
+                        }
+                     }
+
+                     throw var59;
                   }
 
-                  try (RenderPass var77 = var33.createRenderPass(() -> "Purxiy sky (planet, singularity)", var68, OptionalInt.empty())) {
-                     var77.setPipeline(SkyPipelines.skyBodies(var25));
-                     var77.setUniform("PurxiySky", xW);
-                     var77.bindTexture("NoiseSampler", G, var41);
-                     int var46 = 1315412515;
-                     var77.draw(0, 12);
-                     metric("drawn");
+                  if (var77x != null) {
+                     var77x.close();
                   }
                } else {
                   var43 = false;
@@ -899,12 +804,12 @@ public final class SkySupport {
 
             return true;
          }
-      } catch (Throwable var67) {
+      } catch (Throwable var63) {
          metric("draw_failures");
-         String var22 = var67.toString();
+         String var22 = var63.toString();
          if (!var22.equals(F)) {
             F = var22;
-            ClientServices.LOGGER.error("Purxiy sky failed, showing vanilla's", var67);
+            ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX sky failed, showing vanilla's", var63);
          }
 
          return false;
@@ -926,12 +831,7 @@ public final class SkySupport {
       if (A != null) {
          OptionalLong var4 = A.getValue();
          long var5 = 423033285336L;
-         if (423033285336L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var5 < 0L ? -1 : 1;
-         }
-
+         int var8 = var5 < 0L ? -1 : 1;
          if (var4.isEmpty()) {
             return null;
          }
@@ -939,17 +839,12 @@ public final class SkySupport {
          A.close();
          A = null;
          xJ = xJ + var4.getAsLong() / 1000000.0;
-         long var8 = 423033285335L;
-         if (423033285335L == 0L) {
-            boolean var11 = false;
-         } else {
-            int var12 = var8 < 0L ? -1 : 1;
-         }
-
+         long var8x = 423033285335L;
+         int var9 = var8x < 0L ? -1 : 1;
          if (++xD == 240) {
             ClientServices.LOGGER
                .info(
-                  "Purxiy sky: {} ms GPU per frame ({} quality, {}x{})",
+                  "SourceByDevFFnightmare DeObfDeCompByGuideX sky: {} ms GPU per frame ({} quality, {}x{})",
                   new Object[]{
                      String.format(Locale.ROOT, "%.3f", xJ / xD),
                      I.g.get(),
@@ -978,19 +873,14 @@ public final class SkySupport {
       float var17 = P[56];
       float var18 = (float)Math.sqrt(var15 * var15 + var16 * var16 + var17 * var17);
       long var19 = 46325385586274L;
-      if (46325385586274L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var39 = var19 < 0L ? -1 : 1;
-      }
-
+      int var22 = var19 < 0L ? -1 : 1;
       if (var18 > 1.0E-4F) {
          var15 /= var18;
          var16 /= var18;
          var17 /= var18;
       }
 
-      Std140Builder var22 = Std140Builder.intoBuffer(xb.clear())
+      Std140Builder var22x = Std140Builder.intoBuffer(xb.clear())
          .putMat4f(var3)
          .putMat4f(var13)
          .putVec4(-((float)Math.sin(xz)), (float)Math.cos(xz), 0.0F, xl[5])
@@ -1003,13 +893,8 @@ public final class SkySupport {
          .putVec4(x1.x, x1.y, x1.z, 0.036F)
          .putVec4(o.x, o.y, o.z, xl[10] * O(var10, var11, var12));
       long var23 = 46325385586275L;
-      if (46325385586275L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var23 < 0L ? -1 : 1;
-      }
-
-      Std140Builder var26 = var22.putVec4(xj.x, xj.y, xj.z, 0.08279999F)
+      int var26 = var23 < 0L ? -1 : 1;
+      Std140Builder var26x = var22x.putVec4(xj.x, xj.y, xj.z, 0.08279999F)
          .putVec4(xS[0], xS[1], xS[2], xS[3])
          .putVec4(R.x, R.y, R.z, L)
          .putVec4(H.x, H.y, H.z, xo)
@@ -1024,52 +909,28 @@ public final class SkySupport {
          .putVec4(xl[13], xl[14], 0.0F, 0.0F);
 
       for (int var27 = 0; var27 < 17; var27++) {
-         var26.putVec4(P[var27 * 3], P[var27 * 3 + 1], P[var27 * 3 + 2], 1.0F);
+         var26x.putVec4(P[var27 * 3], P[var27 * 3 + 1], P[var27 * 3 + 2], 1.0F);
          long var28 = 46325385586275L;
-         if (46325385586275L == 0L) {
-            boolean var42 = false;
-         } else {
-            int var43 = var28 < 0L ? -1 : 1;
-         }
+         int var28x = var28 < 0L ? -1 : 1;
       }
 
       long var37 = 46325385586274L;
-      if (46325385586274L == 0L) {
-         boolean var44 = false;
-      } else {
-         int var45 = var37 < 0L ? -1 : 1;
-      }
-
-      int var30 = 1;
+      int var30 = var37 < 0L ? -1 : 1;
+      var30 = 1;
 
       while (true) {
          long var31 = 46325385586275L;
-         if (46325385586275L == 0L) {
-            boolean var46 = false;
-         } else {
-            int var47 = var31 < 0L ? -1 : 1;
-         }
-
+         int var30x = var31 < 0L ? -1 : 1;
          if (var30 >= q.length) {
             long var38 = 46325385586275L;
-            if (46325385586275L == 0L) {
-               boolean var50 = false;
-            } else {
-               int var51 = var38 < 0L ? -1 : 1;
-            }
-
-            var2.writeToBuffer(xW.slice(), var26.get());
+            int var40 = var38 < 0L ? -1 : 1;
+            var2.writeToBuffer(xW.slice(), var26x.get());
             return;
          }
 
-         q[var30].write(var26);
-         long var34 = 46325385586274L;
-         if (46325385586274L == 0L) {
-            boolean var48 = false;
-         } else {
-            int var49 = var34 < 0L ? -1 : 1;
-         }
-
+         q[var30].write(var26x);
+         long var34x = 46325385586274L;
+         int var32 = var34x < 0L ? -1 : 1;
          var30++;
       }
    }
@@ -1078,51 +939,43 @@ public final class SkySupport {
       long var2 = 48162728707056L;
       GpuDevice var4 = RenderSystem.getDevice();
       SkyKind.ensureSourceClassInitialized();
-      xi = var4.createTexture(() -> "Purxiy sky noise", 5, TextureFormat.RGBA8, 256, 256, 1, 1);
+      xi = var4.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX sky noise", 5, TextureFormat.RGBA8, 256, 256, 1, 1);
+      class_1011 var5 = new class_1011(256, 256, false);
 
-      try (class_1011 var5 = new class_1011(256, 256, false)) {
+      try {
          for (int var6 = 0; var6 < 256; var6++) {
             long var7 = 15468606354143L;
-            if (15468606354143L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var22 = var7 < 0L ? -1 : 1;
-            }
+            int var21 = var7 < 0L ? -1 : 1;
 
             for (int var10 = 0; var10 < 256; var10++) {
                int var11 = z(var10, var6, 0, var2);
                long var12 = 15468606354144L;
-               if (15468606354144L == 0L) {
-                  boolean var23 = false;
-               } else {
-                  int var24 = var12 < 0L ? -1 : 1;
-               }
-
-               int var15 = z(var10 + 37, var6 + 17, 0, var2);
+               int var15 = var12 < 0L ? -1 : 1;
+               var15 = z(var10 + 37, var6 + 17, 0, var2);
                int var16 = z(var10, var6, 1, var2);
-               int var17 = z(var10 + 37, var6 + 17, 1, var2);
-               var5.method_61941(var10, var6, var17 << 24 | var11 << 16 | var15 << 8 | var16);
+               int var17x = z(var10 + 37, var6 + 17, 1, var2);
+               var5.method_61941(var10, var6, var17x << 24 | var11 << 16 | var15 << 8 | var16);
             }
 
-            long var21 = 15468606354144L;
-            if (15468606354144L == 0L) {
-               boolean var25 = false;
-            } else {
-               int var26 = var21 < 0L ? -1 : 1;
-            }
+            long var21x = 15468606354144L;
          }
 
          var4.createCommandEncoder().writeToTexture(xi, var5);
          long var20 = 15468606354144L;
-         if (15468606354144L == 0L) {
-            boolean var27 = false;
-         } else {
-            int var28 = var20 < 0L ? -1 : 1;
+         int var8 = var20 < 0L ? -1 : 1;
+      } catch (Throwable var171) {
+         try {
+            var5.close();
+         } catch (Throwable var161) {
+            var171.addSuppressed(var161);
          }
+
+         throw var171;
       }
 
+      var5.close();
       G = var4.createTextureView(xi);
-      xW = var4.createBuffer(ClientServices.label(() -> "Purxiy sky uniforms"), 136, xq);
+      xW = var4.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX sky uniforms"), 136, xq);
       xb = MemoryUtil.memAlloc(xq);
    }
 
@@ -1131,12 +984,7 @@ public final class SkySupport {
       if (xu != null) {
          int var4 = xu.getWidth(0);
          long var5 = 5653108918548L;
-         if (5653108918548L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var5 < 0L ? -1 : 1;
-         }
-
+         int var7 = var5 < 0L ? -1 : 1;
          if (var4 == var0 && xu.getHeight(0) == var1) {
             return;
          }
@@ -1150,7 +998,7 @@ public final class SkySupport {
       GpuDevice var8 = RenderSystem.getDevice();
       xu = var8.createTexture(() -> {
          long var0x = 111816964834266L;
-         return "Purxiy sky soft layers";
+         return "SourceByDevFFnightmare DeObfDeCompByGuideX sky soft layers";
       }, 12, TextureFormat.RGBA8, var0, var1, 1, 1);
       xR = var8.createTextureView(xu);
    }
@@ -1176,12 +1024,7 @@ public final class SkySupport {
       Vector3f var4 = new Vector3f(var3).sub(new Vector3f(var0).mul(var0.dot(var3)));
       float var5 = var4.length();
       long var6 = 17795386483526L;
-      if (17795386483526L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var9 = var6 < 0L ? -1 : 1;
-      }
-
+      int var8 = var6 < 0L ? -1 : 1;
       if (var5 < 1.0E-4F) {
          var4.set(var0).cross(0.0F, 1.0F, 0.0F);
          var5 = var4.length();
@@ -1213,9 +1056,9 @@ public final class SkySupport {
       char var10 = '\ue945';
       int var11 = (int)(var7 << 48 >>> 48);
       return var0 & 0xFF000000
-         | X(var9, (char)var10, var0 >> 16, var1, (char)var11, var6) << 16
-         | X(var9, (char)var10, var0 >> 8, var2, (char)var11, var6) << 8
-         | X(var9, (char)var10, var0, var5, (char)var11, var6);
+         | X(var9, var10, var0 >> 16, var1, (char)var11, var6) << 16
+         | X(var9, var10, var0 >> 8, var2, (char)var11, var6) << 8
+         | X(var9, var10, var0, var5, (char)var11, var6);
    }
 
    private static int X(int var0, char var1, int var2, float var3, char var4, float var5) {
@@ -1226,12 +1069,7 @@ public final class SkySupport {
    private static float W(float var0, float var1, float var2, long var3) {
       SkyKind.ensureSourceClassInitialized();
       long var5 = 133251608329065L;
-      if (133251608329065L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       return var0 < var1 ? Math.min(var1, var0 + var2) : Math.max(var1, var0 - var2);
    }
 
@@ -1391,7 +1229,7 @@ public final class SkySupport {
       }
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 27699) & 32767;
       if (fb[var3] == null) {
          fb[var3] = eb[var3] ^ var1;
@@ -1400,4 +1238,27 @@ private static long b(int var0, long var1) {
       return fb[var3];
    }
 
+   static {
+      for (int var0 = 0; var0 < q.length; var0++) {
+         q[var0] = new SkyCodec();
+      }
+
+      xE = 0;
+      b = 0;
+      K = new Matrix4f();
+      x2 = new Matrix4f();
+      M = Long.MIN_VALUE;
+      xI = 0L;
+      R = new Vector3f();
+      H = new Vector3f();
+      x6 = new Vector3f();
+      Y = new float[4];
+      xS = new float[4];
+      xD = 0;
+      B = 0;
+      xa = 0;
+      xP = 0;
+      eb = new long[]{1346373062445822417L, -2103473856920565623L, 7188566353384851749L, 1765549318640854796L};
+      fb = new Long[4];
+   }
 }

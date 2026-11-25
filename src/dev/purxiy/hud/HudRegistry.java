@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.anim.Easing;
@@ -38,7 +37,9 @@ public final class HudRegistry {
    }
 
    public static void registerElements(Consumer<Module> var0) {
-      throw new UnsupportedOperationException("Payloads register their own HUD elements");
+            for (HudModule var1 : ELEMENTS) {
+         var0.accept(var1.settingsModule());
+      }
    }
 
    public static List<HudModule> elements() {
@@ -65,7 +66,7 @@ public final class HudRegistry {
       return false;
    }
 
-   
+
    static HudGroupModule freeGroup() {
       for (HudGroupModule var1 : GROUPS) {
          if (var1.free()) {

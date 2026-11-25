@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.client;
 
 import com.mojang.blaze3d.shaders.ShaderType;
@@ -28,7 +27,7 @@ import net.minecraft.class_3298;
 import net.minecraft.class_3300;
 
 public final class ClientCodec {
-   private static final Map<Long, ClientCodec.TypeI> owners = new LinkedHashMap<>();
+   private static final Map<Long, ClientCodec.ResourceCompile> owners = new LinkedHashMap<>();
    private static final Map<class_2960, String> published = new HashMap<>();
    private static long sequence = 0L;
 
@@ -85,15 +84,15 @@ public final class ClientCodec {
          } else {
             long var11 = ++sequence;
             published.putAll(var3);
-            owners.put(var11, new ClientCodec.TypeI(var0, Set.copyOf(var2), new HashMap<>()));
+            owners.put(var11, new ClientCodec.ResourceCompile(var0, Set.copyOf(var2), new HashMap<>()));
             return () -> {
                check();
-               ClientCodec.TypeI var2x = owners.remove(var11);
+               ClientCodec.ResourceCompile var2x = owners.remove(var11);
                if (var2x != null) {
                   var2x.compiled().clear();
                   HashSet var3x = new HashSet();
 
-                  for (ClientCodec.TypeI var5x : owners.values()) {
+                  for (ClientCodec.ResourceCompile var5x : owners.values()) {
                      var3x.addAll(var5x.paths());
                   }
 
@@ -127,7 +126,7 @@ public final class ClientCodec {
 
    private static InputStream open(long var0, String var2) throws IOException {
       check();
-      ClientCodec.TypeI var3 = owners.get(var0);
+      ClientCodec.ResourceCompile var3 = owners.get(var0);
       if (var3 == null) {
          throw new IOException("Shader owner closed");
       } else {
@@ -143,9 +142,9 @@ public final class ClientCodec {
          String var2 = var1 == ShaderType.VERTEX ? ".vsh" : ".fsh";
          String var3 = var0.method_12832();
          class_2960 var4 = ClientServices.id("shaders/" + var3 + var2);
-         ClientCodec.TypeI var5 = null;
+         ClientCodec.ResourceCompile var5 = null;
 
-         for (ClientCodec.TypeI var7 : owners.values()) {
+         for (ClientCodec.ResourceCompile var7 : owners.values()) {
             if (var7.paths().contains(var4)) {
                var5 = var7;
                break;
@@ -168,7 +167,7 @@ public final class ClientCodec {
                   for (Entry var11 : owners.entrySet()) {
                      long var12 = (Long)var11.getKey();
 
-                     for (class_2960 var15 : ((ClientCodec.TypeI)var11.getValue()).paths()) {
+                     for (class_2960 var15 : ((ClientCodec.ResourceCompile)var11.getValue()).paths()) {
                         var8.put(var15, new class_3298(var9, () -> open(var12, var15.method_12832())));
                      }
                   }
@@ -192,6 +191,6 @@ public final class ClientCodec {
       }
    }
 
-   private record TypeI(ModuleContext context, Set<class_2960> paths, Map<String, String> compiled) {
+   private record ResourceCompile(ModuleContext context, Set<class_2960> paths, Map<String, String> compiled) {
    }
 }

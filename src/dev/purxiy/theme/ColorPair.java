@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.theme;
 
 record ColorPair(int rgb, int on, int off) {

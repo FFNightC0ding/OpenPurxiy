@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.client;
 
 import net.minecraft.class_10055;
@@ -9,7 +8,7 @@ import net.minecraft.class_742;
 import net.minecraft.class_8685;
 
 public final class ClientTransform {
-   private static final ClientSupport3.TypeX<ClientTransform.Listener> listeners = ClientSupport3.TypeX.create();
+   private static final SkyPipelineRouter.PipelineList<ClientTransform.Listener> listeners = SkyPipelineRouter.PipelineList.create();
 
    public static AutoCloseable install(ClientTransform.Listener var0) {
       if (listeners.subscribers() != 0) {

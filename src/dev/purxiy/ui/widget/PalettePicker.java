@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;
@@ -22,17 +21,17 @@ public final class PalettePicker {
    private static final float FIELD_H = 112.0F;
    private static final float STRIP_W = 16.0F;
    private static final float GAP = 14.0F;
-   private static final PalettePicker.TypeS[] SWATCHES = new PalettePicker.TypeS[]{
-      new PalettePicker.TypeS("Lilac", -4944641),
-      new PalettePicker.TypeS("Rose", -28744),
-      new PalettePicker.TypeS("Crimson", -50340),
-      new PalettePicker.TypeS("Sunset", -24742),
-      new PalettePicker.TypeS("Gold", -11930),
-      new PalettePicker.TypeS("Mint", -9444427),
-      new PalettePicker.TypeS("Aqua", -11544344),
-      new PalettePicker.TypeS("Ocean", -11563521),
-      new PalettePicker.TypeS("Ice", -2234625),
-      new PalettePicker.TypeS("Mono", -1)
+   private static final PalettePicker.PaletteOption[] SWATCHES = new PalettePicker.PaletteOption[]{
+      new PalettePicker.PaletteOption("Lilac", -4944641),
+      new PalettePicker.PaletteOption("Rose", -28744),
+      new PalettePicker.PaletteOption("Crimson", -50340),
+      new PalettePicker.PaletteOption("Sunset", -24742),
+      new PalettePicker.PaletteOption("Gold", -11930),
+      new PalettePicker.PaletteOption("Mint", -9444427),
+      new PalettePicker.PaletteOption("Aqua", -11544344),
+      new PalettePicker.PaletteOption("Ocean", -11563521),
+      new PalettePicker.PaletteOption("Ice", -2234625),
+      new PalettePicker.PaletteOption("Mono", -1)
    };
    private static final int[] HUES = new int[]{-65536, -256, -16711936, -16711681, -16776961, -65281, -65536};
    private final ColorSetting setting;
@@ -112,7 +111,7 @@ public final class PalettePicker {
 
       for (int var10 = 0; var10 < var6; var10++) {
          float var11 = var2 + this.slot * (var10 + 0.5F);
-         boolean var12 = var1.hover(this.hover[var10], var11 - this.slot / 2.0F, var3, this.slot, 66.0F, DrawContext.TypeE.HAND);
+         boolean var12 = var1.hover(this.hover[var10], var11 - this.slot / 2.0F, var3, this.slot, 66.0F, DrawContext.Cursor.HAND);
          float var13 = this.hover[var10].target(var12 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          float var14 = this.chosen[var10].target(var10 == var7 ? 1.0F : 0.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
          float var15 = 1.6F * var13;
@@ -296,6 +295,6 @@ public final class PalettePicker {
       return var0 < 0.0F ? 0.0F : Math.min(var0, 1.0F);
    }
 
-   private record TypeS(String name, int color) {
+   private record PaletteOption(String name, int color) {
    }
 }

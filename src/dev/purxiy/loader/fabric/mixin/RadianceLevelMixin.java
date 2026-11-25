@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import dev.purxiy.loader.fabric.client.ClientRegistry16;
+import dev.purxiy.loader.fabric.client.EntityMaskPipeline;
 import net.minecraft.class_4184;
 import net.minecraft.class_761;
 import net.minecraft.class_9779;
@@ -33,7 +32,7 @@ public abstract class RadianceLevelMixin {
       boolean var10,
       CallbackInfo var11
    ) {
-      ClientRegistry16.beginFrame(var5, var6);
+      EntityMaskPipeline.beginFrame(var5, var6);
    }
 
    @Inject(
@@ -53,6 +52,6 @@ public abstract class RadianceLevelMixin {
       boolean var10,
       CallbackInfo var11
    ) {
-      ClientRegistry16.endLevel();
+      EntityMaskPipeline.endLevel();
    }
 }

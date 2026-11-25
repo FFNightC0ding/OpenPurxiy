@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry22;
+import dev.purxiy.loader.fabric.client.ItemRenderPipeline;
 import net.minecraft.class_10444;
 import net.minecraft.class_11659;
 import net.minecraft.class_4587;
@@ -17,7 +16,7 @@ public abstract class GlassItemMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$glassItemStart(class_4587 var1, class_11659 var2, int var3, int var4, int var5, CallbackInfo var6) {
-      ClientRegistry22.enterItem();
+      ItemRenderPipeline.enterItem();
    }
 
    @Inject(
@@ -25,6 +24,6 @@ public abstract class GlassItemMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$glassItemEnd(class_4587 var1, class_11659 var2, int var3, int var4, int var5, CallbackInfo var6) {
-      ClientRegistry22.exitItem();
+      ItemRenderPipeline.exitItem();
    }
 }

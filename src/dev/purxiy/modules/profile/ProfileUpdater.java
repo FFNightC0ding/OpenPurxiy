@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.profile;
 
 import com.google.gson.Gson;
@@ -41,28 +40,20 @@ public final class ProfileUpdater {
    private static final float G = 5.0F;
    private static final double V = 12.0;
    private static final double F = 2.0;
-   private static final ExecutorService w = ClientServices.visualExecutor("Purxiy Profile IO");
-   
+   private static final ExecutorService w = ClientServices.visualExecutor("SourceByDevFFnightmare DeObfDeCompByGuideX Profile IO");
    private static ProfileLoader y;
-   
    private static UUID A;
-   
    private static ProfileLoader J;
    private static boolean x;
    private static long K = 0L;
    private static long M = 0L;
    private static long T = 0L;
-   
-   private static ProfileLoader.TypeQ O;
-   
-   private static ProfileLoader2 q;
-   
-   private static ProfileLoader.TypeB u;
+   private static ProfileLoader.ProfileCacheEntry O;
+   private static ProfileTrack q;
+   private static ProfileLoader.ProfileRecord u;
    private static LocalDate m = LocalDate.now();
    private static long X = 0L;
-   
    private static class_243 j;
-   
    private static String l;
    private static float b;
    private static float Q;
@@ -78,13 +69,11 @@ public final class ProfileUpdater {
    private static final long[] W = new long[21];
    private static int L = 0;
    private static int C = 0;
-   private static ProfileUpdater.TypeN D;
+   private static ProfileUpdater.ProfileTask D;
    static ProfileModule n;
    private static ModuleContext Z;
    private static int v = 0;
    private static int k = 0;
-
-
    private static final long[] i = new long[]{7206471141945943671L, 4419359548310954745L, 1111828095987587566L};
    private static final Long[] o = new Long[3];
 
@@ -97,13 +86,11 @@ public final class ProfileUpdater {
       return J != null ? J : x(var2, class_310.method_1551());
    }
 
-   
-   public static ProfileLoader.TypeQ live() {
+   public static ProfileLoader.ProfileCacheEntry live() {
       return J != null ? ProfileFactory.live(J) : O;
    }
 
-   
-   public static ProfileLoader2 journey() {
+   public static ProfileTrack journey() {
       ProfileLoader var0 = data();
       return J == null && q != null && q.length() >= 12.0 ? q : var0.n;
    }
@@ -140,7 +127,7 @@ public final class ProfileUpdater {
       }
    }
 
-   public static void onDamage( class_1297 var0, int var1) {
+   public static void onDamage(class_1297 var0, int var1) {
       class_310 var2 = class_310.method_1551();
       if (O != null
          && var0 != null
@@ -156,7 +143,7 @@ public final class ProfileUpdater {
       }
    }
 
-   public static void onEntityEvent( class_1297 var0, byte var1) {
+   public static void onEntityEvent(class_1297 var0, byte var1) {
       long var2 = 129349464381108L;
       long var4 = var2 ^ 43236100117792L;
       long var6 = var2 ^ 75545953386325L;
@@ -164,7 +151,7 @@ public final class ProfileUpdater {
       if (var1 == 3 && O != null && var0 instanceof class_1309 var9 && var9 != var8.field_1724 && h.containsKey(var9.method_5628())) {
          float var10 = h.remove(var9.method_5628());
          if (!(H() - var10 > 5.0F) && v()) {
-            ProfileLoader3 var11 = data().day(m);
+            ProfileStats var11 = data().day(m);
             if (var9 instanceof class_1657) {
                var11.k++;
                O.Q.k++;
@@ -250,7 +237,7 @@ public final class ProfileUpdater {
             f = var27;
          }
 
-         ProfileLoader3 var36 = var26.day(m);
+         ProfileStats var36 = var26.day(m);
          if (v() && !var30 && (n.n.enabled() || (var27 - f) / 1.0E9 < 300.0)) {
             var36.A += var29;
             O.Q.A += var29;
@@ -288,7 +275,7 @@ public final class ProfileUpdater {
       }
    }
 
-   private static void U(int var0, char var1, class_746 var2, char var3, double var4, ProfileLoader3 var6) {
+   private static void U(int var0, char var1, class_746 var2, char var3, double var4, ProfileStats var6) {
       ProfileLoader.ensureSourceClassInitialized();
       if (!ModuleWidget.claimed("mounted")) {
          short var7 = 14400;
@@ -340,18 +327,13 @@ public final class ProfileUpdater {
       int var8 = L + 1;
       int var9 = z.length;
       long var10 = 15918293017461L;
-      if (15918293017461L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var18 = var10 < 0L ? -1 : 1;
-      }
-
+      int var13 = var10 < 0L ? -1 : 1;
       L = var8 % var9;
       z[L] = var1.field_1352;
       c[L] = var1.field_1350;
       W[L] = var2;
       if (C >= z.length - 1 && v()) {
-         int var13 = (L + 1) % z.length;
+         var13 = (L + 1) % z.length;
          double var14 = (var2 - W[var13]) / 1.0E9;
          if (var14 > 0.5) {
             double var16 = Math.hypot(var1.field_1352 - z[var13], var1.field_1350 - c[var13]) / var14;
@@ -398,33 +380,23 @@ public final class ProfileUpdater {
       ProfileLoader.ensureSourceClassInitialized();
       class_1132 var6 = var0.method_1576();
       class_642 var7 = var0.method_1558();
-      String var8;
-      String var9;
-      if (var6 != null) {
+             String var8;
+       String var9;
+       boolean var13;
+       if (var6 != null) {
          var9 = var6.method_27728().method_150();
          var8 = "world:" + var9;
       } else {
          long var10 = 39203533010603L;
-         if (39203533010603L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var19 = var10 < 0L ? -1 : 1;
-         }
-
+         int var12 = var10 < 0L ? -1 : 1;
          if (var7 != null) {
-            boolean var13;
-            label64: {
+            label52: {
                if (var7.field_3752 != null) {
                   long var14 = 39203533010602L;
-                  if (39203533010602L == 0L) {
-                     boolean var20 = false;
-                  } else {
-                     int var21 = var14 < 0L ? -1 : 1;
-                  }
-
+                  int var151 = var14 < 0L ? -1 : 1;
                   if (!var7.field_3752.isBlank() && !var7.field_3752.equals("Minecraft Server")) {
                      var13 = true;
-                     break label64;
+                     break label52;
                   }
                }
 
@@ -433,7 +405,7 @@ public final class ProfileUpdater {
 
             var9 = var13 ? var7.field_3752 : var7.field_3761;
             long var15 = 39203533010602L;
-            var13 = (39203533010602L == 0L ? 0 : (var15 < 0L ? -1 : 1)) != 0;
+            boolean var18 = (var15 < 0L ? -1 : 1) != 0;
             var8 = "server:" + var7.field_3761.toLowerCase(Locale.ROOT);
          } else {
             var9 = "Minecraft";
@@ -442,15 +414,10 @@ public final class ProfileUpdater {
       }
 
       long var17 = System.currentTimeMillis();
-      O = new ProfileLoader.TypeQ(var17, var9, new ProfileLoader3());
-      long var12 = 39203533010602L;
-      if (39203533010602L == 0L) {
-         boolean var22 = false;
-      } else {
-         int var23 = var12 < 0L ? -1 : 1;
-      }
-
-      q = new ProfileLoader2(var17, var9);
+      O = new ProfileLoader.ProfileCacheEntry(var17, var9, new ProfileStats());
+      long var12x = 39203533010602L;
+      int var14 = var12x < 0L ? -1 : 1;
+      q = new ProfileTrack(var17, var9);
       u = var1.place(var8, var9);
       X = var2;
       f = var2;
@@ -467,7 +434,7 @@ public final class ProfileUpdater {
    static void endSession() {
       long var0 = 16445342185602L;
       long var2 = var0 ^ 39011975851063L;
-      ProfileLoader.TypeQ var4 = O;
+      ProfileLoader.ProfileCacheEntry var4 = O;
       if (var4 != null) {
          ProfileLoader var5 = y;
          if (var5 != null) {
@@ -526,21 +493,16 @@ public final class ProfileUpdater {
          ProfileLoader var11 = null;
          Path var12 = o(var7, var10, var8, (byte)var9);
          long var13 = 36961595424973L;
-         if (36961595424973L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var24 = var13 < 0L ? -1 : 1;
-         }
-
+         int var23 = var13 < 0L ? -1 : 1;
          if (Files.isRegularFile(var12)) {
             try (BufferedReader var16 = Files.newBufferedReader(var12, StandardCharsets.UTF_8)) {
                var11 = ProfileLoader.load(JsonParser.parseReader(var16).getAsJsonObject());
-            } catch (Exception var22) {
-               ClientServices.LOGGER.error("Could not read the profile {}, starting a new one", var12, var22);
+            } catch (Exception var21) {
+               ClientServices.LOGGER.error("Could not read the profile {}, starting a new one", var12, var21);
 
                try {
                   Files.copy(var12, var12.resolveSibling(var10 + ".broken.json"), StandardCopyOption.REPLACE_EXISTING);
-               } catch (IOException var19) {
+               } catch (IOException var18) {
                }
             }
          }
@@ -550,13 +512,8 @@ public final class ProfileUpdater {
             var11.D = LocalDate.now();
          }
 
-         long var23 = 36961595424974L;
-         if (36961595424974L == 0L) {
-            boolean var25 = false;
-         } else {
-            int var26 = var23 < 0L ? -1 : 1;
-         }
-
+         long var23x = 36961595424974L;
+         int var17 = var23x < 0L ? -1 : 1;
          var11.T = var2.method_1548().method_1676();
          y = var11;
          A = var10;
@@ -572,19 +529,19 @@ public final class ProfileUpdater {
 
    private static void c(class_310 var0, ProfileLoader var1, UUID var2) {
       Path var3 = var0.method_1586().method_19636();
-      D = new ProfileUpdater.TypeN(var1, CompletableFuture.supplyAsync(() -> ProfileSupport3.scan(var3, var2), w));
+      D = new ProfileUpdater.ProfileTask(var1, CompletableFuture.supplyAsync(() -> ProfileModuleTotals.scan(var3, var2), w));
    }
 
    private static void D(int var0, int var1, char var2) {
       long var3 = 100955911513900L;
       long var5 = var3 ^ 130148062950297L;
       ProfileLoader.ensureSourceClassInitialized();
-      ProfileUpdater.TypeN var7 = D;
+      ProfileUpdater.ProfileTask var7 = D;
       if (var7 != null && var7.task().isDone()) {
          D = null;
          ProfileLoader var8 = var7.target();
          if (y == var8) {
-            ProfileSupport3.Data var9;
+            ProfileModuleTotals.Data var9;
             try {
                var9 = var7.task().join();
             } catch (CompletionException var11) {
@@ -634,12 +591,7 @@ public final class ProfileUpdater {
             H(var6x, var7x, o(var9x, var4, var10x, (byte)var11), var6, var8, var7);
          };
          long var10 = 50095763559604L;
-         if (50095763559604L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var13 = var10 < 0L ? -1 : 1;
-         }
-
+         int var12 = var10 < 0L ? -1 : 1;
          if (var2) {
             var9.run();
          } else {
@@ -663,11 +615,11 @@ public final class ProfileUpdater {
 
             try {
                Files.move(var7, var2, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-            } catch (AtomicMoveNotSupportedException var12) {
+            } catch (AtomicMoveNotSupportedException var121) {
                Files.move(var7, var2, StandardCopyOption.REPLACE_EXISTING);
             }
-         } catch (IOException var14) {
-            ClientServices.LOGGER.error("Could not save the profile {}", var2, var14);
+         } catch (IOException var141) {
+            ClientServices.LOGGER.error("Could not save the profile {}", var2, var141);
          }
       }
    }
@@ -731,7 +683,7 @@ public final class ProfileUpdater {
       X = 0L;
    }
 
-private static long a(int var0, long var1) {
+   private static long a(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 1906) & 32767;
       if (o[var3] == null) {
          o[var3] = i[var3] ^ var1;
@@ -740,12 +692,12 @@ private static long a(int var0, long var1) {
       return o[var3];
    }
 
-private record TypeN(ProfileLoader v, CompletableFuture<ProfileSupport3.Data> C) {
+   private record ProfileTask(ProfileLoader v, CompletableFuture<ProfileModuleTotals.Data> C) {
       public ProfileLoader target() {
          return this.v;
       }
 
-      public CompletableFuture<ProfileSupport3.Data> task() {
+      public CompletableFuture<ProfileModuleTotals.Data> task() {
          return this.C;
       }
 
@@ -753,7 +705,7 @@ private record TypeN(ProfileLoader v, CompletableFuture<ProfileSupport3.Data> C)
          return this.v;
       }
 
-      public CompletableFuture<ProfileSupport3.Data> completableFutureState6() {
+      public CompletableFuture<ProfileModuleTotals.Data> completableFutureState6() {
          return this.C;
       }
    }

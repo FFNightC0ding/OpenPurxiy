@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.client;
 
 import com.google.gson.Gson;
@@ -29,7 +28,7 @@ import net.minecraft.class_3419;
 import net.minecraft.class_1111.class_1112;
 
 public final class ClientLoader {
-   private static final Map<Long, Map<class_2960, ClientLoader.TypeS>> owners = new LinkedHashMap<>();
+   private static final Map<Long, Map<class_2960, ClientLoader.ResourceReload>> owners = new LinkedHashMap<>();
    private static final Gson GSON = new GsonBuilder().registerTypeAdapter(class_1110.class, new class_1115()).create();
    private static long sequence;
 
@@ -84,14 +83,14 @@ public final class ClientLoader {
             for (class_1111 var11 : var20.method_4761()) {
                if (var11.method_4768() != class_1112.field_5474
                   || !var11.method_4767().method_12836().equals("purxiy")
-                  || ClientRegistry24.resource(var11.method_4766()).isEmpty()) {
+                  || ResourceProvider.resource(var11.method_4766()).isEmpty()) {
                   throw new IllegalArgumentException("Sound must refer to its admitted private file");
                }
 
                var22.method_4885(var11);
             }
 
-            var16.put(var7, new ClientLoader.TypeS(var22, List.copyOf(var20.method_4761())));
+            var16.put(var7, new ClientLoader.ResourceReload(var22, List.copyOf(var20.method_4761())));
          }
 
          OwnedSoundAccess var17 = (OwnedSoundAccess)class_310.method_1551().method_1483();
@@ -111,9 +110,9 @@ public final class ClientLoader {
                   OwnedSoundAccess var4x = (OwnedSoundAccess)var3x;
                   var2x.forEach((var2xx, var3xx) -> {
                      var3x.method_4875((class_2960)(var2xx), (class_3419)null);
-                     var4x.purxiy$events().remove(var2xx, ((ClientLoader.TypeS)(Object)var3xx).event());
+                     var4x.purxiy$events().remove(var2xx, ((ClientLoader.ResourceReload)(Object)var3xx).event());
 
-                     for (class_1111 var5 : ((ClientLoader.TypeS)(Object)var3xx).files()) {
+                     for (class_1111 var5 : ((ClientLoader.ResourceReload)(Object)var3xx).files()) {
                         var4x.purxiy$files().remove(var5.method_4766());
                      }
                   });
@@ -125,13 +124,13 @@ public final class ClientLoader {
       }
    }
 
-   private static void bind(Map<class_2960, ClientLoader.TypeS> var0) {
+   private static void bind(Map<class_2960, ClientLoader.ResourceReload> var0) {
       OwnedSoundAccess var1 = (OwnedSoundAccess)class_310.method_1551().method_1483();
       var0.forEach((var1x, var2) -> {
          var1.purxiy$events().put(var1x, var2.event());
 
          for (class_1111 var4 : var2.files()) {
-            var1.purxiy$files().put(var4.method_4766(), ClientRegistry24.resource(var4.method_4766()).orElseThrow());
+            var1.purxiy$files().put(var4.method_4766(), ResourceProvider.resource(var4.method_4766()).orElseThrow());
          }
       });
    }
@@ -144,6 +143,6 @@ public final class ClientLoader {
       }
    }
 
-   private record TypeS(class_1146 event, List<class_1111> files) {
+   private record ResourceReload(class_1146 event, List<class_1111> files) {
    }
 }

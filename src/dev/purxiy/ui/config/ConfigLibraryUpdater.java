@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.config;
 
 import com.google.gson.JsonArray;
@@ -28,17 +27,17 @@ final class ConfigLibraryUpdater {
    private static final long REFRESH_MS = 30000L;
    private static final long[] BACKOFF = new long[]{3000L, 8000L, 20000L, 45000L, 90000L};
    private static final ScheduledExecutorService TIMER = Executors.newSingleThreadScheduledExecutor(var0 -> {
-      Thread var1 = new Thread(var0, "Purxiy Configs");
+      Thread var1 = new Thread(var0, "SourceByDevFFnightmare DeObfDeCompByGuideX Configs");
       var1.setDaemon(true);
       return var1;
    });
-   private static final List<ConfigLibraryFactory2> COMMUNITY = new ArrayList<>();
-   private static final Map<String, ConfigLibraryFactory2> BY_CODE = new HashMap<>();
-   private static ConfigLibraryUpdater.TypeB state = ConfigLibraryUpdater.TypeB.IDLE;
+   private static final List<ConfigLibraryStats> COMMUNITY = new ArrayList<>();
+   private static final Map<String, ConfigLibraryStats> BY_CODE = new HashMap<>();
+   private static ConfigLibraryUpdater.LoadState state = ConfigLibraryUpdater.LoadState.IDLE;
    private static boolean listing;
    private static long listedAt = 0L;
    private static boolean busy;
-   
+
    private static String working;
    private static boolean reconciled;
    private static int failures = 0;
@@ -54,7 +53,7 @@ final class ConfigLibraryUpdater {
       class_310.method_1551().execute(var0);
    }
 
-   
+
    static String[] notice() {
       return NOTICES.poll();
    }
@@ -65,23 +64,23 @@ final class ConfigLibraryUpdater {
       }
    }
 
-   static ConfigLibraryUpdater.TypeG status(ConfigLibraryFactory2 var0) {
+   static ConfigLibraryUpdater.SyncState status(ConfigLibraryStats var0) {
       if (REFUSED.containsKey(var0.id) && REFUSED.get(var0.id).equals(signature(var0))) {
-         return ConfigLibraryUpdater.TypeG.REFUSED;
+         return ConfigLibraryUpdater.SyncState.REFUSED;
       } else if (!var0.unsynced()) {
-         return ConfigLibraryUpdater.TypeG.ONLINE;
+         return ConfigLibraryUpdater.SyncState.ONLINE;
       } else if (busy && var0.id.equals(working)) {
-         return ConfigLibraryUpdater.TypeG.SENDING;
+         return ConfigLibraryUpdater.SyncState.SENDING;
       } else {
-         return failures > 0 ? ConfigLibraryUpdater.TypeG.WAITING : ConfigLibraryUpdater.TypeG.SENDING;
+         return failures > 0 ? ConfigLibraryUpdater.SyncState.WAITING : ConfigLibraryUpdater.SyncState.SENDING;
       }
    }
 
    static boolean unreachable() {
-      return failures > 0 || state == ConfigLibraryUpdater.TypeB.OFFLINE;
+      return failures > 0 || state == ConfigLibraryUpdater.LoadState.OFFLINE;
    }
 
-   private static String signature(ConfigLibraryFactory2 var0) {
+   private static String signature(ConfigLibraryStats var0) {
       return var0.edited + "|" + var0.photo;
    }
 
@@ -95,7 +94,7 @@ final class ConfigLibraryUpdater {
             String var3 = ConfigLibraryTransform.nextUnpublish();
             boolean var4 = var3 != null;
 
-            for (ConfigLibraryFactory2 var6 : (Iterable<ConfigLibraryFactory2>)(Object)(var2)) {
+            for (ConfigLibraryStats var6 : (Iterable<ConfigLibraryStats>)(Object)(var2)) {
                var4 |= var6.unsynced() && !refused(var6);
             }
 
@@ -109,7 +108,7 @@ final class ConfigLibraryUpdater {
             } else if (var3 != null) {
                unpublish(var3);
             } else {
-               for (ConfigLibraryFactory2 var9 : (Iterable<ConfigLibraryFactory2>)(Object)(var2)) {
+               for (ConfigLibraryStats var9 : (Iterable<ConfigLibraryStats>)(Object)(var2)) {
                   if (var9.unsynced() && !refused(var9)) {
                      push(var9);
                      return;
@@ -120,7 +119,7 @@ final class ConfigLibraryUpdater {
       }
    }
 
-   private static boolean refused(ConfigLibraryFactory2 var0) {
+   private static boolean refused(ConfigLibraryStats var0) {
       return signature(var0).equals(REFUSED.get(var0.id));
    }
 
@@ -140,7 +139,7 @@ final class ConfigLibraryUpdater {
       var1.whenComplete((var1x, var2x) -> main(() -> {
          busy = false;
          working = null;
-         if (var2x != null && ConfigLibrarySupport3.unreachable(var2x)) {
+         if (var2x != null && ConfigLibraryHost.unreachable(var2x)) {
             failures++;
             retryAt = System.currentTimeMillis() + BACKOFF[Math.min(BACKOFF.length - 1, failures - 1)];
             later(retryAt - System.currentTimeMillis());
@@ -160,7 +159,7 @@ final class ConfigLibraryUpdater {
    }
 
    private static void reconcile() {
-      run((String)null, ConfigLibrarySupport3.call("GET", "/api/configs/mine", (JsonObject)null, ConfigLibraryLoader.token()), (var0, var1) -> {
+      run((String)null, ConfigLibraryHost.call("GET", "/api/configs/mine", (JsonObject)null, ConfigLibraryLoader.token()), (var0, var1) -> {
          if (var1 != null) {
             reconciled = true;
          } else {
@@ -173,13 +172,13 @@ final class ConfigLibraryUpdater {
 
             HashSet var6 = new HashSet();
 
-            for (ConfigLibraryFactory2 var5 : ConfigLibraryTransform.mine()) {
+            for (ConfigLibraryStats var5 : ConfigLibraryTransform.mine()) {
                if (var5.code != null) {
                   var6.add(var5.code);
                }
             }
 
-            for (ConfigLibraryFactory2 var10 : new ArrayList<>(ConfigLibraryTransform.shared())) {
+            for (ConfigLibraryStats var10 : new ArrayList<>(ConfigLibraryTransform.shared())) {
                if (var10.code != null && var10.synced > 0L && !var2.contains(var10.code)) {
                   ConfigLibraryTransform.lost(var10);
                   tell("cloud-off", "“" + var10.name + "” is no longer online");
@@ -198,17 +197,17 @@ final class ConfigLibraryUpdater {
    private static void unpublish(String var0) {
       run(
          (String)null,
-         ConfigLibrarySupport3.call("DELETE", "/api/configs/" + var0, (JsonObject)null, ConfigLibraryLoader.token()),
+         ConfigLibraryHost.call("DELETE", "/api/configs/" + var0, (JsonObject)null, ConfigLibraryLoader.token()),
          (var1, var2) -> ConfigLibraryTransform.unpublished(var0)
       );
    }
 
-   private static void push(ConfigLibraryFactory2 var0) {
+   private static void push(ConfigLibraryStats var0) {
       long var1 = var0.edited;
       String var3 = var0.photo;
       String var4 = ConfigLibraryLoader.token();
       if (var0.code == null) {
-         run(var0.id, ConfigLibrarySupport3.call("POST", "/api/configs", payload(var0), var4), (var3x, var4x) -> {
+         run(var0.id, ConfigLibraryHost.call("POST", "/api/configs", payload(var0), var4), (var3x, var4x) -> {
             if (var4x != null) {
                refusedBy(var0, var4x);
             } else {
@@ -222,7 +221,7 @@ final class ConfigLibraryUpdater {
             }
          });
       } else if (var0.synced != var1) {
-         run(var0.id, ConfigLibrarySupport3.call("PUT", "/api/configs/" + var0.code, payload(var0), var4), (var3x, var4x) -> {
+         run(var0.id, ConfigLibraryHost.call("PUT", "/api/configs/" + var0.code, payload(var0), var4), (var3x, var4x) -> {
             if (var4x != null) {
                refusedBy(var0, var4x);
             } else {
@@ -231,14 +230,14 @@ final class ConfigLibraryUpdater {
             }
          });
       } else if (var3 != null) {
-         byte[] var5 = ConfigLibraryRenderer13.read(var0);
+         byte[] var5 = ConfigLibraryFile.read(var0);
          if (var5 == null) {
             var0.photo = null;
             ConfigLibraryTransform.changed(var0);
             return;
          }
 
-         run(var0.id, ConfigLibrarySupport3.photo(var0.code, var5, var4), (var2, var3x) -> {
+         run(var0.id, ConfigLibraryHost.photo(var0.code, var5, var4), (var2, var3x) -> {
             if (var3x != null) {
                refusedBy(var0, var3x);
             } else {
@@ -247,7 +246,7 @@ final class ConfigLibraryUpdater {
             }
          });
       } else {
-         run(var0.id, ConfigLibrarySupport3.call("DELETE", "/api/configs/" + var0.code + "/photo", (JsonObject)null, var4), (var1x, var2) -> {
+         run(var0.id, ConfigLibraryHost.call("DELETE", "/api/configs/" + var0.code + "/photo", (JsonObject)null, var4), (var1x, var2) -> {
             if (var2 != null) {
                refusedBy(var0, var2);
             } else {
@@ -258,8 +257,8 @@ final class ConfigLibraryUpdater {
       }
    }
 
-   private static void refusedBy(ConfigLibraryFactory2 var0, Throwable var1) {
-      String var2 = ConfigLibrarySupport3.refusal(var1);
+   private static void refusedBy(ConfigLibraryStats var0, Throwable var1) {
+      String var2 = ConfigLibraryHost.refusal(var1);
       if ("not_found".equals(var2) && var0.code != null) {
          ConfigLibraryTransform.lost(var0);
          tell("cloud-off", "“" + var0.name + "” is no longer online");
@@ -284,7 +283,7 @@ final class ConfigLibraryUpdater {
       }
    }
 
-   private static JsonObject payload(ConfigLibraryFactory2 var0) {
+   private static JsonObject payload(ConfigLibraryStats var0) {
       JsonObject var1 = ConfigLibraryTransform.body(var0);
       var1.remove("v");
       JsonArray var2 = new JsonArray();
@@ -301,11 +300,11 @@ final class ConfigLibraryUpdater {
       return var1;
    }
 
-   static ConfigLibraryUpdater.TypeB state() {
+   static ConfigLibraryUpdater.LoadState state() {
       return state;
    }
 
-   static List<ConfigLibraryFactory2> community() {
+   static List<ConfigLibraryStats> community() {
       return Collections.unmodifiableList(COMMUNITY);
    }
 
@@ -315,20 +314,20 @@ final class ConfigLibraryUpdater {
          listing = true;
          listedAt = var1;
          if (COMMUNITY.isEmpty()) {
-            state = ConfigLibraryUpdater.TypeB.LOADING;
+            state = ConfigLibraryUpdater.LoadState.LOADING;
          }
 
-         ConfigLibrarySupport3.call("GET", "/api/configs", (JsonObject)null, ConfigLibraryLoader.token()).whenComplete((var0x, var1x) -> main(() -> {
+         ConfigLibraryHost.call("GET", "/api/configs", (JsonObject)null, ConfigLibraryLoader.token()).whenComplete((var0x, var1x) -> main(() -> {
             listing = false;
             listedAt = System.currentTimeMillis();
             if (var1x == null) {
                take(var0x);
-               state = ConfigLibraryUpdater.TypeB.READY;
+               state = ConfigLibraryUpdater.LoadState.READY;
                failures = 0;
                retryAt = 0L;
                kick();
-            } else if (COMMUNITY.isEmpty() || ConfigLibrarySupport3.unreachable(var1x)) {
-               state = ConfigLibraryUpdater.TypeB.OFFLINE;
+            } else if (COMMUNITY.isEmpty() || ConfigLibraryHost.unreachable(var1x)) {
+               state = ConfigLibraryUpdater.LoadState.OFFLINE;
             }
          }));
       }
@@ -348,7 +347,7 @@ final class ConfigLibraryUpdater {
          JsonObject var6 = var5.getAsJsonObject();
          String var7 = var6.get("code").getAsString();
          if (var10.add(var7)) {
-            ConfigLibraryFactory2 var8 = BY_CODE.computeIfAbsent(var7, var1x -> fresh(var6));
+            ConfigLibraryStats var8 = BY_CODE.computeIfAbsent(var7, var1x -> fresh(var6));
             update(var8, var6);
             var8.featured = var1.contains(var7);
             var9.add(var8);
@@ -359,8 +358,8 @@ final class ConfigLibraryUpdater {
       COMMUNITY.clear();
       COMMUNITY.addAll(var9);
 
-      for (ConfigLibraryFactory2 var12 : ConfigLibraryTransform.mine()) {
-         ConfigLibraryFactory2 var13 = var12.code == null ? null : BY_CODE.get(var12.code);
+      for (ConfigLibraryStats var12 : ConfigLibraryTransform.mine()) {
+         ConfigLibraryStats var13 = var12.code == null ? null : BY_CODE.get(var12.code);
          if (var13 != null && var13.own) {
             var12.likes = var13.likes;
             var12.downloads = var13.downloads;
@@ -368,21 +367,21 @@ final class ConfigLibraryUpdater {
       }
    }
 
-   private static ConfigLibraryFactory2 fresh(JsonObject var0) {
-      return new ConfigLibraryFactory2(
+   private static ConfigLibraryStats fresh(JsonObject var0) {
+      return new ConfigLibraryStats(
          var0.get("code").getAsString(),
          "",
          "",
          "",
          List.of(),
          new String[0],
-         ConfigLibraryFactory2.TypeT.COMMUNITY,
+         ConfigLibraryStats.ConfigOrigin.COMMUNITY,
          var0.has("createdAt") ? var0.get("createdAt").getAsLong() : System.currentTimeMillis(),
          0.5F
       );
    }
 
-   private static void update(ConfigLibraryFactory2 var0, JsonObject var1) {
+   private static void update(ConfigLibraryStats var0, JsonObject var1) {
       var0.code = var1.get("code").getAsString();
       var0.name = ConfigLibraryTransform.clean(text(var1, "name"));
       var0.author = text(var1, "author");
@@ -426,14 +425,14 @@ final class ConfigLibraryUpdater {
       }
    }
 
-   static void get(String var0, ConfigLibraryFactory2.TypeT var1, BiConsumer<ConfigLibraryFactory2, String> var2) {
-      ConfigLibrarySupport3.call("POST", "/api/configs/" + var0.toUpperCase(Locale.ROOT) + "/get", (JsonObject)null, ConfigLibraryLoader.token())
+   static void get(String var0, ConfigLibraryStats.ConfigOrigin var1, BiConsumer<ConfigLibraryStats, String> var2) {
+      ConfigLibraryHost.call("POST", "/api/configs/" + var0.toUpperCase(Locale.ROOT) + "/get", (JsonObject)null, ConfigLibraryLoader.token())
          .whenComplete((var2x, var3) -> main(() -> {
             if (var3 != null) {
-               var2.accept(null, ConfigLibrarySupport3.unreachable(var3) ? "offline" : Objects.requireNonNullElse(ConfigLibrarySupport3.refusal(var3), "error"));
+               var2.accept(null, ConfigLibraryHost.unreachable(var3) ? "offline" : Objects.requireNonNullElse(ConfigLibraryHost.refusal(var3), "error"));
             } else {
                JsonObject var4 = var2x.getAsJsonObject("config");
-               ConfigLibraryFactory2 var5 = BY_CODE.get(var4.get("code").getAsString());
+               ConfigLibraryStats var5 = BY_CODE.get(var4.get("code").getAsString());
                if (var5 == null) {
                   var5 = fresh(var4);
                }
@@ -445,14 +444,14 @@ final class ConfigLibraryUpdater {
          }));
    }
 
-   static void like(ConfigLibraryFactory2 var0, Consumer<String> var1) {
+   static void like(ConfigLibraryStats var0, Consumer<String> var1) {
       if (var0.code != null) {
          boolean var2 = !var0.liked;
          var0.liked = var2;
          var0.likes = Math.max(0, var0.likes + (var2 ? 1 : -1));
          JsonObject var3 = new JsonObject();
          var3.addProperty("liked", var2);
-         ConfigLibrarySupport3.call("POST", "/api/configs/" + var0.code + "/like", var3, ConfigLibraryLoader.token())
+         ConfigLibraryHost.call("POST", "/api/configs/" + var0.code + "/like", var3, ConfigLibraryLoader.token())
             .whenComplete((var3x, var4) -> main(() -> {
                if (var4 != null) {
                   if (var0.liked == var2) {
@@ -460,7 +459,7 @@ final class ConfigLibraryUpdater {
                      var0.likes = Math.max(0, var0.likes + (var2 ? -1 : 1));
                   }
 
-                  String var5 = ConfigLibrarySupport3.refusal(var4);
+                  String var5 = ConfigLibraryHost.refusal(var4);
                   if (var5 != null) {
                      var1.accept(var5);
                   }
@@ -473,10 +472,10 @@ final class ConfigLibraryUpdater {
       }
    }
 
-   static void report(ConfigLibraryFactory2 var0, BiConsumer<Boolean, String> var1) {
+   static void report(ConfigLibraryStats var0, BiConsumer<Boolean, String> var1) {
       if (var0.code != null) {
-         ConfigLibrarySupport3.call("POST", "/api/configs/" + var0.code + "/report", (JsonObject)null, ConfigLibraryLoader.token())
-            .whenComplete((var1x, var2) -> main(() -> var1.accept(var2 == null, var2 == null ? null : ConfigLibrarySupport3.refusal(var2))));
+         ConfigLibraryHost.call("POST", "/api/configs/" + var0.code + "/report", (JsonObject)null, ConfigLibraryLoader.token())
+            .whenComplete((var1x, var2) -> main(() -> var1.accept(var2 == null, var2 == null ? null : ConfigLibraryHost.refusal(var2))));
       }
    }
 
@@ -496,17 +495,17 @@ final class ConfigLibraryUpdater {
       return var2 != null && var2.isJsonPrimitive() ? var2.getAsString() : "";
    }
 
-   public static void deleteOwn(ConfigLibraryFactory2 var0, BiConsumer<Boolean, String> var1) {
+   public static void deleteOwn(ConfigLibraryStats var0, BiConsumer<Boolean, String> var1) {
       if (var0.own && var0.code != null && var0.code.matches("PRX-[A-Z2-9]{4}-[A-Z2-9]{4}")) {
          String var2 = var0.code;
-         ConfigLibrarySupport3.call("DELETE", "/api/configs/" + var2, (JsonObject)null, ConfigLibraryLoader.token()).whenComplete((var2x, var3) -> main(() -> {
-            if (var3 != null && !"not_found".equals(ConfigLibrarySupport3.refusal(var3))) {
-               var1.accept(false, ConfigLibrarySupport3.unreachable(var3) ? "offline" : ConfigLibrarySupport3.refusal(var3));
+         ConfigLibraryHost.call("DELETE", "/api/configs/" + var2, (JsonObject)null, ConfigLibraryLoader.token()).whenComplete((var2x, var3) -> main(() -> {
+            if (var3 != null && !"not_found".equals(ConfigLibraryHost.refusal(var3))) {
+               var1.accept(false, ConfigLibraryHost.unreachable(var3) ? "offline" : ConfigLibraryHost.refusal(var3));
             } else {
                COMMUNITY.removeIf(var1xxx -> var2.equals(var1xxx.code));
                BY_CODE.remove(var2);
 
-               for (ConfigLibraryFactory2 var4 : new ArrayList<>(ConfigLibraryTransform.mine())) {
+               for (ConfigLibraryStats var4 : new ArrayList<>(ConfigLibraryTransform.mine())) {
                   if (var2.equals(var4.code)) {
                      ConfigLibraryTransform.lost(var4);
                   }
@@ -520,25 +519,25 @@ final class ConfigLibraryUpdater {
       }
    }
 
-   static enum TypeB {
+   static enum LoadState {
       IDLE,
       LOADING,
       READY,
       OFFLINE;
 
-      private static ConfigLibraryUpdater.TypeB[] $values() {
-         return new ConfigLibraryUpdater.TypeB[]{IDLE, LOADING, READY, OFFLINE};
+      private static ConfigLibraryUpdater.LoadState[] $values() {
+         return new ConfigLibraryUpdater.LoadState[]{IDLE, LOADING, READY, OFFLINE};
       }
    }
 
-   static enum TypeG {
+   static enum SyncState {
       ONLINE,
       SENDING,
       WAITING,
       REFUSED;
 
-      private static ConfigLibraryUpdater.TypeG[] $values() {
-         return new ConfigLibraryUpdater.TypeG[]{ONLINE, SENDING, WAITING, REFUSED};
+      private static ConfigLibraryUpdater.SyncState[] $values() {
+         return new ConfigLibraryUpdater.SyncState[]{ONLINE, SENDING, WAITING, REFUSED};
       }
    }
 }

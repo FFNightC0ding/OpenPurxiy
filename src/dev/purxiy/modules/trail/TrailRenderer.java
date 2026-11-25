@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.trail;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
@@ -7,13 +6,10 @@ import com.mojang.blaze3d.systems.GpuQuery;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -36,17 +32,13 @@ public final class TrailRenderer {
    private static final int p = Integer.MIN_VALUE;
    private static final float z = 1.1F;
    private static final Int2ObjectMap<TrailSupport> O = new Int2ObjectOpenHashMap();
-   private static final TrailSupport2 I = new TrailSupport2();
-   private static final TrailSupport2.TypeF y = new TrailSupport2.TypeF();
-   private static final TrailSupport4.TypeN w = new TrailSupport4.TypeN();
+   private static final TrailPoints I = new TrailPoints();
+   private static final TrailPoints.TrailPoint y = new TrailPoints.TrailPoint();
+   private static final TrailPipelines.TrailSlot w = new TrailPipelines.TrailSlot();
    private static final double[] m = new double[3];
-   
-   private static TrailSupport4.TypeI i;
-   
+   private static TrailPipelines.TrailVertexSink i;
    private static class_638 l;
-   
    private static TrailStyle d;
-   
    private static String j;
    private static final List<class_1297> g = new ArrayList<>();
    private static final int[] f = new int[3];
@@ -60,7 +52,6 @@ public final class TrailRenderer {
    private static double x;
    private static double M;
    private static float t;
-   
    private static GpuBufferSlice R;
    private static boolean H;
    private static boolean r;
@@ -70,7 +61,6 @@ public final class TrailRenderer {
    private static double a;
    private static boolean S;
    private static boolean N;
-   
    private static GpuQuery C;
    private static double Q;
    private static int c = 0;
@@ -80,10 +70,7 @@ public final class TrailRenderer {
    private static int q = 0;
    private static int X = 0;
    public static boolean o;
-
    private static final String[] u = new String[10];
-
-
 
    private TrailRenderer() {
    }
@@ -144,7 +131,7 @@ public final class TrailRenderer {
             String var16 = var17.toString();
             if (!var16.equals(j)) {
                j = var16;
-               ClientServices.LOGGER.error("Purxiy trail failed", var17);
+               ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX trail failed", var17);
             }
          }
       } else {
@@ -182,104 +169,60 @@ public final class TrailRenderer {
       }
 
       long var40 = 37655780834157L;
-      if (37655780834157L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var46 = var40 < 0L ? -1 : 1;
-      }
-
-      class_746 var22 = var0.field_1724;
-      if (var22 != null) {
+      class_1297 var22 = var0.field_1724;
+      class_746 var22x = var0.field_1724;
+      if (var22x != null) {
          long var25 = 37655780834158L;
-         if (37655780834158L == 0L) {
-            boolean var47 = false;
-         } else {
-            int var48 = var25 < 0L ? -1 : 1;
-         }
-
-         if (u(var9, (char)var10, var11, var22, var22)) {
-            w(var22.method_5628(), var22, var4, var12, var5, var6, var18, var17, var13, var16, (char)var14);
+         int var25x = var25 < 0L ? -1 : 1;
+         if (u(var9, (char)var10, var11, var22x, var22x)) {
+            w(var22x.method_5628(), var22x, var4, var12, var5, var6, var18, var17, var13, var16, (char)var14);
          }
       }
 
-      if (var22 != null) {
+      if (var22x != null) {
          boolean var23 = var15.k.enabled();
          long var24 = 37655780834158L;
-         if (37655780834158L == 0L) {
-            boolean var49 = false;
-         } else {
-            int var50 = var24 < 0L ? -1 : 1;
-         }
-
+         int var42 = var24 < 0L ? -1 : 1;
          if (!var23) {
             var23 = false;
             long var27 = 37655780834157L;
-            if (37655780834157L == 0L) {
-               boolean var51 = false;
-            } else {
-               int var52 = var27 < 0L ? -1 : 1;
-            }
+            int var281 = var27 < 0L ? -1 : 1;
          } else {
-            List var42 = g;
+            List<class_1297> var42x = g;
             long var28 = 37655780834158L;
-            if (37655780834158L == 0L) {
-               boolean var53 = false;
-            } else {
-               int var54 = var28 < 0L ? -1 : 1;
-            }
-
-            var42.clear();
-            int var30 = 0;
+            int var30 = var28 < 0L ? -1 : 1;
+            var42x.clear();
+            var30 = 0;
 
             for (class_742 var32 : var3.method_18456()) {
-               if (var32 != var22 && u(var9, (char)var10, var11, var22, var32)) {
-                  var42.add(var32);
+               if (var32 != var22x && u(var9, (char)var10, var11, var22x, var32)) {
+                  var42x.add(var32);
                }
             }
 
-            var30 = var42.size();
+            var30 = var42x.size();
             long var44 = 37655780834158L;
-            if (37655780834158L == 0L) {
-               boolean var55 = false;
-            } else {
-               int var56 = var44 < 0L ? -1 : 1;
-            }
-
+            int var32x = var44 < 0L ? -1 : 1;
             if (var30 > 16) {
-               var42.sort((var1x, var2) -> Double.compare(((net.minecraft.class_1297)(Object)var1x).method_5858(var22), ((net.minecraft.class_1297)(Object)var2).method_5858(var22)));
+               var42x.sort((var1x, var2) -> Double.compare(var1x.method_5858(var22), var2.method_5858(var22)));
             }
 
-            for (int var33 = 0; var33 < Math.min(var42.size(), 16); var33++) {
+            for (int var33 = 0; var33 < Math.min(var42x.size(), 16); var33++) {
                long var34 = 37655780834157L;
-               if (37655780834157L == 0L) {
-                  boolean var57 = false;
-               } else {
-                  int var58 = var34 < 0L ? -1 : 1;
-               }
-
-               class_1297 var37 = (class_1297)var42.get(var33);
-               w(var37.method_5628(), var37, var4, var12, var5, var6, var18, var17, var13, var16, (char)var14);
+               int var37 = var34 < 0L ? -1 : 1;
+               class_1297 var37x = (class_1297)var42x.get(var33);
+               w(var37x.method_5628(), var37x, var4, var12, var5, var6, var18, var17, var13, var16, (char)var14);
             }
 
-            long var45 = 37655780834157L;
-            if (37655780834157L == 0L) {
-               boolean var59 = false;
-            } else {
-               int var60 = var45 < 0L ? -1 : 1;
-            }
-
-            var42.clear();
+            long var45x = 37655780834157L;
+            int var341 = var45x < 0L ? -1 : 1;
+            var42x.clear();
          }
       }
 
       O.values().removeIf(var2 -> {
          long var3x = 14149593658809L;
-         if (14149593658809L == 0L) {
-            boolean var10000x = false;
-         } else {
-            int var6x = var3x < 0L ? -1 : 1;
-         }
-
+         int var5x = var3x < 0L ? -1 : 1;
          if (!var2.T) {
             var2.idle(P, var6, var16);
          }
@@ -326,7 +269,7 @@ public final class TrailRenderer {
 
    static void anchor(class_1297 var0, float var1, TrailStyle var2, double[] var3) {
       class_243 var4 = var0.method_30950(var1);
-      double var5 = var0.method_17682() * ClientSupport3.bodyHeight(var0);
+      double var5 = var0.method_17682() * SkyPipelineRouter.bodyHeight(var0);
       double var7 = var4.field_1351;
       if (var2.atHips()) {
          var7 += var5 * (var5 < 1.0 ? 0.5 : 0.47);
@@ -354,7 +297,7 @@ public final class TrailRenderer {
    }
 
    static int[] palette(TrailModule var0, int[] var1) {
-      TrailLoader var2 = TrailLoader.resolve(var0.f.get(), var0.Q.argb());
+      TrailLoader var2 = TrailLoader.resolve((String)var0.f.get(), var0.Q.argb());
       var1[0] = var2.y;
       var1[1] = var2.l;
       var1[2] = var2.N;
@@ -362,19 +305,14 @@ public final class TrailRenderer {
    }
 
    private static void J(class_310 var0, long var1, TrailStyle var3) {
-      if (!O.isEmpty() && R != null && TrailSupport4.ready(TrailSupport4.U)) {
+      if (!O.isEmpty() && R != null && TrailPipelines.ready(TrailPipelines.U)) {
          class_276 var4 = var0.method_1522();
          GpuTextureView var5 = var4.method_71639();
          GpuTextureView var6 = var4.method_71640();
          if (var5 != null && var6 != null) {
             TrailModule var7 = F;
             long var8 = 94725924037748L;
-            if (94725924037748L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var22 = var8 < 0L ? -1 : 1;
-            }
-
+            int var11 = var8 < 0L ? -1 : 1;
             y.O = var3;
             y.T = var7.B.floatValue();
             y.E = var7.t.floatValue();
@@ -383,60 +321,45 @@ public final class TrailRenderer {
             y.y = Y;
             y.x = x;
             y.B = M;
-            long var11 = 94725924037748L;
-            if (94725924037748L == 0L) {
-               boolean var23 = false;
-            } else {
-               int var24 = var11 < 0L ? -1 : 1;
-            }
-
+            long var11x = 94725924037748L;
+            int var13 = var11x < 0L ? -1 : 1;
             if (i == null) {
-               i = new TrailSupport4.TypeI("world");
+               i = new TrailPipelines.TrailVertexSink("world");
             }
 
             i.reset();
-            long var13 = 94725924037749L;
-            if (94725924037749L == 0L) {
-               boolean var25 = false;
-            } else {
-               int var26 = var13 < 0L ? -1 : 1;
-            }
-
-            TrailSupport var16 = var0.field_1724 != null && var0.field_1690.method_31044().method_31034()
+            long var13x = 94725924037749L;
+            int var16 = var13x < 0L ? -1 : 1;
+            TrailSupport var16x = var0.field_1724 != null && var0.field_1690.method_31044().method_31034()
                ? (TrailSupport)O.get(var0.field_1724.method_5628())
                : null;
             ObjectIterator var17 = O.values().iterator();
 
             while (var17.hasNext()) {
                TrailSupport var18 = (TrailSupport)var17.next();
-               y.b = var18 == var16 ? 1.1F : 0.3F;
+               y.b = var18 == var16x ? 1.1F : 0.3F;
                I.path(var18.j, P, y, i);
                I.motes(var18.b, y, i);
             }
 
             long var21 = 94725924037749L;
-            if (94725924037749L == 0L) {
-               boolean var27 = false;
-            } else {
-               int var28 = var21 < 0L ? -1 : 1;
-            }
-
+            int var19 = var21 < 0L ? -1 : 1;
             if (i.quads() != 0) {
-               TrailSupport4.TypeN var19 = w;
-               var19.n.set(Z);
-               var19.w.set(n);
-               var19.V = k;
-               var19.r = y.z;
-               var19.Z = y.E;
-               var19.g = var3;
-               var19.B = t;
-               var19.m = Math.max(6.0F, var4.field_1481 * 0.011F);
-               var19.H = Math.max(30.0F, var4.field_1481 * 0.065F);
-               var19.b = 0.7F;
-               var19.T = 1.2F;
-               palette(var7, var19.K);
+               TrailPipelines.TrailSlot var19x = w;
+               var19x.n.set(Z);
+               var19x.w.set(n);
+               var19x.V = k;
+               var19x.r = y.z;
+               var19x.Z = y.E;
+               var19x.g = var3;
+               var19x.B = t;
+               var19x.m = Math.max(6.0F, var4.field_1481 * 0.011F);
+               var19x.H = Math.max(30.0F, var4.field_1481 * 0.065F);
+               var19x.b = 0.7F;
+               var19x.T = 1.2F;
+               palette(var7, var19x.K);
                Object var20 = null;
-               TrailSupport4.drawWorld(i, var19, var5, var6, R, (GpuQuery)var20);
+               TrailPipelines.drawWorld(i, var19x, var5, var6, R, (GpuQuery)var20);
                if (var20 != null) {
                   C = (GpuQuery)var20;
                }
@@ -445,17 +368,11 @@ public final class TrailRenderer {
       }
    }
 
-   
    private static GpuQuery x(CommandEncoder var0, int var1, long var2) {
       if (C != null) {
          OptionalLong var4 = C.getValue();
          long var5 = 98662031611119L;
-         if (98662031611119L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var5 < 0L ? -1 : 1;
-         }
-
+         int var8 = var5 < 0L ? -1 : 1;
          if (var4.isEmpty()) {
             return null;
          }
@@ -464,16 +381,11 @@ public final class TrailRenderer {
          C = null;
          Q = Q + var4.getAsLong() / 1000000.0;
          b += var1;
-         long var8 = 98662031611119L;
-         if (98662031611119L == 0L) {
-            boolean var11 = false;
-         } else {
-            int var12 = var8 < 0L ? -1 : 1;
-         }
-
+         long var8x = 98662031611119L;
+         int var9 = var8x < 0L ? -1 : 1;
          if (++c == 240) {
             ClientServices.LOGGER
-               .info("Purxiy trail: {} ms GPU per frame ({} quads, {} trails)", new Object[]{String.format(Locale.ROOT, "%.3f", Q / c), b / c, O.size()});
+               .info("SourceByDevFFnightmare DeObfDeCompByGuideX trail: {} ms GPU per frame ({} quads, {} trails)", new Object[]{String.format(Locale.ROOT, "%.3f", Q / c), b / c, O.size()});
             Q = 0.0;
             c = 0;
             b = 0;
@@ -483,7 +395,7 @@ public final class TrailRenderer {
       return var0.timerQueryBegin();
    }
 
-public static void install(TrailModule var0, ModuleContext var1) {
+   public static void install(TrailModule var0, ModuleContext var1) {
       F = var0;
       e = var1;
    }
@@ -531,7 +443,6 @@ public static void install(TrailModule var0, ModuleContext var1) {
       }
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
-
 }

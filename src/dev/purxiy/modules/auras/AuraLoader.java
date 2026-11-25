@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.auras;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class AuraLoader {
    public static final String P = "Accent";
    public static final Map<String, String> d = Map.of("Lilac", "Accent");
    static final AuraLoader y = new AuraLoader("Accent", 13481727, 11306751, 15442687);
-   static final AuraLoader J = new AuraLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final AuraLoader J = new AuraLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final AuraLoader F = new AuraLoader("Dream", 16758499, 12890367, 10404095);
    public static final String p = "Custom";
    static final List<AuraLoader> u = List.of(y, J, F);
@@ -21,10 +20,6 @@ public final class AuraLoader {
    public final int A;
    public final int R;
    public final int n;
-
-
-
-
 
    private AuraLoader(String var1, int var2, int var3, int var4) {
       this.o = var1;
@@ -85,5 +80,4 @@ public final class AuraLoader {
    private static int l(float var0, float var1, long var2, float var4) {
       return ClientSupport.hsvToRgb(var0 - (float)Math.floor(var0), var1, var4) & 16777215;
    }
-
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.profile;
 
 import com.google.gson.JsonNull;
@@ -7,7 +6,7 @@ import dev.purxiy.core.ImageFiles;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.modules.SettingSection;
 import dev.purxiy.social.Friends;
-import dev.purxiy.ui.config.ConfigLibrarySupport3;
+import dev.purxiy.ui.config.ConfigLibraryHost;
 import dev.purxiy.web.ProfileWebsite;
 import dev.purxiy.web.WebLinks;
 import java.io.IOException;
@@ -82,7 +81,7 @@ public final class ProfileUpdater {
                   nextAt = System.currentTimeMillis() + 60000L;
                }
 
-               ClientServices.LOGGER.info("Profile: not shown on the website yet ({})", String.valueOf(ConfigLibrarySupport3.refusal(var2)));
+               ClientServices.LOGGER.info("Profile: not shown on the website yet ({})", String.valueOf(ConfigLibraryHost.refusal(var2)));
             }
          }));
       }
@@ -104,7 +103,7 @@ public final class ProfileUpdater {
 
          ((JsonObject)var2x).add("profile", var1);
          return (JsonObject)var2x;
-      }).thenCompose(var1x -> ConfigLibrarySupport3.call("PUT", "/api/client/profile", (JsonObject)(var1x), var0));
+      }).thenCompose(var1x -> ConfigLibraryHost.call("PUT", "/api/client/profile", (JsonObject)(var1x), var0));
    }
 
    private static void stopping(class_310 var0) {
@@ -134,7 +133,7 @@ public final class ProfileUpdater {
       if (var3 != null) {
          busy = true;
          nextAt = var1 + 60000L;
-         ConfigLibrarySupport3.call("DELETE", "/api/client/profile", (JsonObject)null, var3).whenComplete((var1x, var2) -> var0.execute(() -> {
+         ConfigLibraryHost.call("DELETE", "/api/client/profile", (JsonObject)null, var3).whenComplete((var1x, var2) -> var0.execute(() -> {
             busy = false;
             if (var2 == null) {
                ProfileWebsite.profileShown(false);

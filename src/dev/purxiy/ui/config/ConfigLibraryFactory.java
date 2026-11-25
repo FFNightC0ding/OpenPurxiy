@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.config;
 
 import dev.purxiy.modules.Category;

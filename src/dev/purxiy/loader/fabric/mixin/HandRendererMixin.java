@@ -1,12 +1,11 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.purxiy.loader.fabric.client.ClientRegistry17;
-import dev.purxiy.loader.fabric.client.ClientRegistry19;
-import dev.purxiy.loader.fabric.client.ClientRenderer10;
+import dev.purxiy.loader.fabric.client.SwingStateProvider;
+import dev.purxiy.loader.fabric.client.HandSweepPipeline;
+import dev.purxiy.loader.fabric.client.HudRenderPass;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import net.minecraft.class_1007;
 import net.minecraft.class_11659;
@@ -46,8 +45,8 @@ public abstract class HandRendererMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$handsBegin(float var1, class_4587 var2, class_11659 var3, class_746 var4, int var5, CallbackInfo var6) {
-      ClientRegistry17.beginHands(var2, var1, var4);
-      ClientRegistry19.beginHands(var5, ModuleWidget.claimed("hand-studio"));
+      SwingStateProvider.beginHands(var2, var1, var4);
+      HandSweepPipeline.beginHands(var5, ModuleWidget.claimed("hand-studio"));
    }
 
    @ModifyArg(
@@ -59,7 +58,7 @@ public abstract class HandRendererMixin {
       )
    )
    private float purxiy$swayPitch(float var1) {
-      return ClientRegistry17.swayPitch(var1);
+      return SwingStateProvider.swayPitch(var1);
    }
 
    @ModifyArg(
@@ -71,7 +70,7 @@ public abstract class HandRendererMixin {
       )
    )
    private float purxiy$swayYaw(float var1) {
-      return ClientRegistry17.swayYaw(var1);
+      return SwingStateProvider.swayYaw(var1);
    }
 
    @WrapOperation(
@@ -97,34 +96,34 @@ public abstract class HandRendererMixin {
    ) {
       class_1799 var13 = var7;
       float var14 = var8;
-      class_1799 var15 = ClientRegistry17.preview(var5);
+      class_1799 var15 = SwingStateProvider.preview(var5);
       if (var15 != null) {
          var13 = var15;
          var14 = 0.0F;
       }
 
       if (var5 == class_1268.field_5808 && ModuleWidget.claimed("hand-studio")) {
-         var14 = ClientRegistry17.studioLowered(var13);
+         var14 = SwingStateProvider.studioLowered(var13);
       }
 
       if (var5 == class_1268.field_5808) {
-         ClientRegistry17.traceLowered(var14);
+         SwingStateProvider.traceLowered(var14);
       }
 
-      if (!var13.method_7960() || ClientRegistry17.emptyHandShown()) {
-         var14 = ClientRegistry17.equip(var5, var14);
+      if (!var13.method_7960() || SwingStateProvider.emptyHandShown()) {
+         var14 = SwingStateProvider.equip(var5, var14);
          class_1306 var16 = var5 == class_1268.field_5808 ? var2.method_6068() : var2.method_6068().method_5928();
          int var17 = var16 == class_1306.field_6183 ? 1 : -1;
          var9.method_22903();
-         ClientRegistry17.place(var9, var5, var17);
-         class_11659 var18 = ClientRegistry19.collector(var5, var10);
+         SwingStateProvider.place(var9, var5, var17);
+         class_11659 var18 = HandSweepPipeline.collector(var5, var10);
 
          try {
-            if (!ClientRenderer10.render(var2, var5, var13, var6, var14, var9, var18, var11, this.field_4046)) {
+            if (!HudRenderPass.render(var2, var5, var13, var6, var14, var9, var18, var11, this.field_4046)) {
                var12.call(new Object[]{var1, var2, var3, var4, var5, var6, var13, var14, var9, var18, var11});
             }
          } finally {
-            ClientRegistry19.endHand();
+            HandSweepPipeline.endHand();
             var9.method_22909();
          }
       }
@@ -140,7 +139,7 @@ public abstract class HandRendererMixin {
    private void purxiy$swing(
       class_759 var1, float var2, class_4587 var3, int var4, class_1306 var5, Operation<Void> var6, @Local(argsOnly = true) class_1268 var7
    ) {
-      if (!ClientRegistry17.swingItem(var3, var7, var4)) {
+      if (!SwingStateProvider.swingItem(var3, var7, var4)) {
          var6.call(new Object[]{var1, var2, var3, var4, var5});
       }
    }
@@ -164,9 +163,9 @@ public abstract class HandRendererMixin {
       @Local(argsOnly = true) class_1268 var9
    ) {
       class_746 var10 = class_310.method_1551().field_1724;
-      if (ClientRegistry17.swingsOwned() && var10 != null) {
+      if (SwingStateProvider.swingsOwned() && var10 != null) {
          boolean var11 = var7 == class_1306.field_6183;
-         ClientRegistry17.armPose(var2, var9, var11 ? 1 : -1, var5);
+         SwingStateProvider.armPose(var2, var9, var11 ? 1 : -1, var5);
          class_1007 var12 = this.field_4046.method_74405(var10);
          class_2960 var13 = var10.method_52814().comp_1626().comp_3627();
          if (var11) {
@@ -187,7 +186,7 @@ public abstract class HandRendererMixin {
       )}
    )
    private float purxiy$cooldownDip(class_746 var1, float var2, Operation<Float> var3) {
-      return ClientRegistry17.cooldownDip() ? (Float)var3.call(new Object[]{var1, var2}) : 1.0F;
+      return SwingStateProvider.cooldownDip() ? (Float)var3.call(new Object[]{var1, var2}) : 1.0F;
    }
 
    @WrapOperation(
@@ -198,6 +197,6 @@ public abstract class HandRendererMixin {
       )}
    )
    private boolean purxiy$instantSwitch(class_759 var1, class_1799 var2, class_1799 var3, Operation<Boolean> var4) {
-      return ClientRegistry17.instantSwitch() || (Boolean)var4.call(new Object[]{var1, var2, var3});
+      return SwingStateProvider.instantSwitch() || (Boolean)var4.call(new Object[]{var1, var2, var3});
    }
 }

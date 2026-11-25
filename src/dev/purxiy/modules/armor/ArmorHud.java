@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.armor;
 
 import dev.purxiy.config.BooleanSetting;
@@ -37,15 +36,13 @@ public final class ArmorHud extends HudModule {
    private List<class_1799> B;
    public static boolean X;
 
-
-
    public ArmorHud() {
       super("armor_status", "Armor Status", "Durability of everything you wear", "shield-half", 1.0, 0.72);
       this.enabledByDefault();
    }
 
    private List r(long var1) {
-      ArmorHud.TypeT.ensureSourceClassInitialized();
+      ArmorHud.ArmorPiece.ensureSourceClassInitialized();
       if (this.B == null) {
          this.B = List.of(
             new class_1799(class_1802.field_8805),
@@ -57,14 +54,9 @@ public final class ArmorHud extends HudModule {
 
          for (int var3 = 0; var3 < this.B.size(); var3++) {
             long var4 = 83577373988411L;
-            if (83577373988411L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var8 = var4 < 0L ? -1 : 1;
-            }
-
-            class_1799 var7 = this.B.get(var3);
-            var7.method_7974((int)(var7.method_7936() * (0.1F + 0.2F * var3)));
+            int var7 = var4 < 0L ? -1 : 1;
+            class_1799 var7x = this.B.get(var3);
+            var7x.method_7974((int)(var7x.method_7936() * (0.1F + 0.2F * var3)));
          }
       }
 
@@ -73,7 +65,7 @@ public final class ArmorHud extends HudModule {
 
    private void p(long var1, HudBounds var3) {
       long var4 = 83577373988411L;
-      ArmorHud.TypeT.ensureSourceClassInitialized();
+      ArmorHud.ArmorPiece.ensureSourceClassInitialized();
       this.h.clear();
       if (!var3.live()) {
          if (var3.editing) {
@@ -83,71 +75,29 @@ public final class ArmorHud extends HudModule {
          for (class_1304 var9 : H) {
             class_1799 var10 = var3.player.method_6118(var9);
             long var11 = 63589241098169L;
-            if (63589241098169L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var32 = var11 < 0L ? -1 : 1;
-            }
-
-            long var14 = 63589241098169L;
-            if (63589241098169L == 0L) {
-               boolean var33 = false;
-            } else {
-               int var34 = var14 < 0L ? -1 : 1;
-            }
-
+            int var14 = var11 < 0L ? -1 : 1;
+            long var14x = 63589241098169L;
+            int var31 = var14x < 0L ? -1 : 1;
             boolean var16 = var10.method_7960();
             long var17 = 63589241098168L;
-            if (63589241098168L == 0L) {
-               boolean var35 = false;
-            } else {
-               int var36 = var17 < 0L ? -1 : 1;
-            }
-
+            int var18 = var17 < 0L ? -1 : 1;
             if (!var16) {
                this.h.add(var10);
             }
          }
 
          long var23 = 63589241098168L;
-         if (63589241098168L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var23 < 0L ? -1 : 1;
-         }
-
+         int var23x = var23 < 0L ? -1 : 1;
          boolean var24 = this.G.enabled();
          long var27 = 63589241098169L;
-         if (63589241098169L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var27 < 0L ? -1 : 1;
-         }
-
+         int var281 = var27 < 0L ? -1 : 1;
          if (var24) {
             for (class_1799 var30 : new class_1799[]{var3.player.method_6047(), var3.player.method_6079()}) {
                long var31 = 63589241098168L;
-               if (63589241098168L == 0L) {
-                  boolean var41 = false;
-               } else {
-                  int var42 = var31 < 0L ? -1 : 1;
-               }
-
-               long var19 = 63589241098168L;
-               if (63589241098168L == 0L) {
-                  boolean var43 = false;
-               } else {
-                  int var44 = var19 < 0L ? -1 : 1;
-               }
-
+               int var19 = var31 < 0L ? -1 : 1;
+               long var19x = 63589241098168L;
                var24 = var30.method_7960();
-               long var21 = 63589241098169L;
-               if (63589241098169L == 0L) {
-                  boolean var45 = false;
-               } else {
-                  int var46 = var21 < 0L ? -1 : 1;
-               }
-
+               long var21x = 63589241098169L;
                if (!var24) {
                   this.h.add(var30);
                }
@@ -155,20 +105,14 @@ public final class ArmorHud extends HudModule {
          }
 
          var24 = this.h.isEmpty();
-         long var28 = 63589241098169L;
-         if (63589241098169L == 0L) {
-            boolean var47 = false;
-         } else {
-            int var48 = var28 < 0L ? -1 : 1;
-         }
-
+         long var28x = 63589241098169L;
+         int var33 = var28x < 0L ? -1 : 1;
          if (var24 && var3.editing) {
             this.h.addAll(this.r(var4));
          }
       }
    }
 
-   @Override
    protected boolean hasContent(HudBounds var1) {
       long var2 = 96537112422049L;
       long var4 = var2 ^ 121054901807384L;
@@ -180,12 +124,10 @@ public final class ArmorHud extends HudModule {
       return this.q.is("Horizontal");
    }
 
-   @Override
    protected boolean mergeable() {
       return true;
    }
 
-   @Override
    protected void renderMiniature(Canvas var1, HudBounds var2) {
       long var3 = 105351810363349L;
       long var5 = var3 ^ 29906544265064L;
@@ -201,16 +143,13 @@ public final class ArmorHud extends HudModule {
    }
 
    private static String r(long var0, class_1799 var2) {
-      ArmorHud.TypeT.ensureSourceClassInitialized();
-      class_10192 var3 = var2.method_58694(class_9334.field_54196);
+      ArmorHud.ArmorPiece.ensureSourceClassInitialized();
+      class_10192 var3 = (class_10192)var2.method_58694(class_9334.field_54196);
       if (var3 != null) {
-         int var12 = ArmorHud.TypeT.J[var3.comp_3174().ordinal()];
+         int var12 = ArmorHud.ArmorPiece.J[var3.comp_3174().ordinal()];
          long var13 = 75737617475773L;
-         if (75737617475773L == 0L) {
-            boolean var17 = false;
-         } else {
-            int var18 = var13 < 0L ? -1 : 1;
-         }
+         int var15 = var13 < 0L ? -1 : 1;
+
          return switch (var12) {
             case 1 -> "hard-hat";
             case 2 -> "shirt";
@@ -220,49 +159,34 @@ public final class ArmorHud extends HudModule {
       } else {
          boolean var4 = var2.method_31573(class_3489.field_42611);
          long var5 = 75737617475773L;
-         if (75737617475773L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var14 = var5 < 0L ? -1 : 1;
-         }
-
-         String var8;
+         int var8 = var5 < 0L ? -1 : 1;
+         String var8x;
          if (var4) {
-            var8 = "sword";
+            var8x = "sword";
          } else {
             var4 = var2.method_31573(class_3489.field_42612);
             long var9 = 75737617475772L;
-            if (75737617475772L == 0L) {
-               boolean var15 = false;
-            } else {
-               int var16 = var9 < 0L ? -1 : 1;
-            }
-
-            var8 = var4 ? "axe" : "box";
+            int var10 = var9 < 0L ? -1 : 1;
+            var8x = var4 ? "axe" : "box";
          }
 
-         return var8;
+         return var8x;
       }
    }
 
    private String B(long var1, class_1799 var3) {
-      ArmorHud.TypeT.ensureSourceClassInitialized();
+      ArmorHud.ArmorPiece.ensureSourceClassInitialized();
       if (!var3.method_7963()) {
          return var3.method_7947() > 1 ? Integer.toString(var3.method_7947()) : "";
       } else {
          int var4 = var3.method_7936() - var3.method_7919();
-         String var5 = this.S.get();
+         String var5 = (String)this.S.get();
          byte var6 = -1;
          switch (var5.hashCode()) {
             case -1748399175:
                boolean var7 = var5.equals("Bar only");
                long var8 = 130828646028520L;
-               if (130828646028520L == 0L) {
-                  boolean var15 = false;
-               } else {
-                  int var16 = var8 < 0L ? -1 : 1;
-               }
-
+               int var13 = var8 < 0L ? -1 : 1;
                if (var7) {
                   var6 = 1;
                }
@@ -270,12 +194,7 @@ public final class ArmorHud extends HudModule {
             case 985725989:
                if (var5.equals("Percent")) {
                   long var11 = 130828646028520L;
-                  if (130828646028520L == 0L) {
-                     boolean var10000 = false;
-                  } else {
-                     int var14 = var11 < 0L ? -1 : 1;
-                  }
-
+                  int var12 = var11 < 0L ? -1 : 1;
                   var6 = 0;
                }
          }
@@ -291,7 +210,6 @@ public final class ArmorHud extends HudModule {
       return this.S.is("Bar only") ? 23.0F : 19.0F + Fonts.SEMIBOLD.width("0000", 8.5F);
    }
 
-   @Override
    protected void measure(HudBounds var1, float[] var2) {
       long var3 = 95275960731473L;
       long var5 = var3 ^ 131694569203353L;
@@ -317,11 +235,10 @@ public final class ArmorHud extends HudModule {
       byte var8 = 0;
       int var9 = 238554214;
       int var10 = (int)(var6 << 48 >>> 48);
-      ArmorHud.TypeT.ensureSourceClassInitialized();
+      ArmorHud.ArmorPiece.ensureSourceClassInitialized();
       return this.d(var4) ? new float[]{5.0F + var3 * (this.r(var8, var9, var10) + 4.0F), 3.0F} : new float[]{5.0F, 5.0F + var3 * 17.0F - 1.0F};
    }
 
-   @Override
    protected void render(Canvas var1, HudBounds var2) {
       long var3 = 88386520202039L;
       long var5 = var3 ^ 42468600623071L;
@@ -349,7 +266,6 @@ public final class ArmorHud extends HudModule {
       }
    }
 
-   @Override
    protected void renderVanilla(HudDragState var1, HudBounds var2) {
       long var3 = 78431161654321L;
       long var5 = var3 ^ 43157964180512L;
@@ -360,7 +276,7 @@ public final class ArmorHud extends HudModule {
       }
    }
 
-static class TypeT {
+   static class ArmorPiece {
       static final int[] J = new int[class_1304.values().length];
       public static boolean Y;
 

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.wings;
 
 import dev.purxiy.render.BlendMode;
@@ -18,8 +17,6 @@ public enum WingDesign {
    public final boolean w;
    public final boolean e;
    private static final int n = -776;
-
-
 
    private WingDesign(String nullxx, String nullxxx, String nullxxxx, int nullxxxxx, boolean nullxxxxxx, boolean nullxxxxxxx, boolean nullxxxxxxxx) {
       this.x = nullxx;
@@ -168,8 +165,7 @@ public enum WingDesign {
    }
 
    private static float B(float var0, long var1) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       return var0 < 0.0F ? 0.0F : Math.min(var0, 1.0F);
    }
-
 }

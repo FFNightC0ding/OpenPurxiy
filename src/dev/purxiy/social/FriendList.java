@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.social;
 
 import com.google.gson.Gson;
@@ -26,9 +25,9 @@ public final class FriendList {
    private FriendList() {
    }
 
-   public static FriendList.TypeI read(String var0) {
+   public static FriendList.FriendRoster read(String var0) {
       ArrayList var1 = new ArrayList();
-      FriendList.TypeO var2 = new FriendList.TypeO();
+      FriendList.FriendIdentity var2 = new FriendList.FriendIdentity();
       JsonObject var3 = JsonParser.parseString(var0).getAsJsonObject();
       JsonElement var4 = var3.get("friends");
       if (var4 instanceof JsonArray) {
@@ -48,16 +47,16 @@ public final class FriendList {
          var2.reported = string(var10, "reported");
       }
 
-      return new FriendList.TypeI(var1, var2);
+      return new FriendList.FriendRoster(var1, var2);
    }
 
-   
+
    private static PlayerMetadata friend(JsonObject var0) {
       String var1 = string(var0, "name");
       if (var1 == null) {
          return null;
       } else {
-         PlayerMetadata.TypeI var2 = "purxiy".equals(string(var0, "kind")) ? PlayerMetadata.TypeI.PURXIY : PlayerMetadata.TypeI.PLAYER;
+         PlayerMetadata.PlayerKind var2 = "purxiy".equals(string(var0, "kind")) ? PlayerMetadata.PlayerKind.PURXIY : PlayerMetadata.PlayerKind.PLAYER;
          String var3 = string(var0, "id");
          long var4 = var0.has("added") ? var0.get("added").getAsLong() : System.currentTimeMillis();
          PlayerMetadata var6 = new PlayerMetadata(var3 == null ? newId() : var3, var2, var1, var4);
@@ -69,17 +68,17 @@ public final class FriendList {
                UUID var11 = uuid(string(var10, "uuid"));
                String var12 = string(var10, "name");
                if (var11 != null && var12 != null) {
-                  var6.accounts.add(new PlayerMetadata.TypeS(var11, var12));
+                  var6.accounts.add(new PlayerMetadata.AccountRef(var11, var12));
                }
             }
          }
 
-         if (var2 == PlayerMetadata.TypeI.PLAYER) {
+         if (var2 == PlayerMetadata.PlayerKind.PLAYER) {
             var6.lookup = var6.uuid != null
-               ? PlayerMetadata.TypeE.FOUND
-               : (var0.has("unknown") && var0.get("unknown").getAsBoolean() ? PlayerMetadata.TypeE.UNKNOWN : PlayerMetadata.TypeE.PENDING);
+               ? PlayerMetadata.LookupState.FOUND
+               : (var0.has("unknown") && var0.get("unknown").getAsBoolean() ? PlayerMetadata.LookupState.UNKNOWN : PlayerMetadata.LookupState.PENDING);
          } else {
-            var6.lookup = PlayerMetadata.TypeE.FOUND;
+            var6.lookup = PlayerMetadata.LookupState.FOUND;
             var6.gone = var0.has("gone") && var0.get("gone").getAsBoolean();
          }
 
@@ -89,7 +88,7 @@ public final class FriendList {
       }
    }
 
-   public static String write(List<PlayerMetadata> var0, FriendList.TypeO var1) {
+   public static String write(List<PlayerMetadata> var0, FriendList.FriendIdentity var1) {
       JsonObject var2 = new JsonObject();
       var2.addProperty("version", 1);
       JsonArray var3 = new JsonArray();
@@ -115,7 +114,7 @@ public final class FriendList {
    private static JsonObject json(PlayerMetadata var0) {
       JsonObject var1 = new JsonObject();
       var1.addProperty("id", var0.id);
-      var1.addProperty("kind", var0.kind == PlayerMetadata.TypeI.PURXIY ? "purxiy" : "player");
+      var1.addProperty("kind", var0.kind == PlayerMetadata.PlayerKind.PURXIY ? "purxiy" : "player");
       var1.addProperty("name", var0.name);
       if (var0.uuid != null) {
          var1.addProperty("uuid", var0.uuid.toString());
@@ -124,7 +123,7 @@ public final class FriendList {
       if (!var0.accounts.isEmpty()) {
          JsonArray var2 = new JsonArray();
 
-         for (PlayerMetadata.TypeS var4 : var0.accounts) {
+         for (PlayerMetadata.AccountRef var4 : var0.accounts) {
             JsonObject var5 = new JsonObject();
             var5.addProperty("uuid", var4.uuid().toString());
             var5.addProperty("name", var4.name());
@@ -134,7 +133,7 @@ public final class FriendList {
          var1.add("accounts", var2);
       }
 
-      if (var0.lookup == PlayerMetadata.TypeE.UNKNOWN) {
+      if (var0.lookup == PlayerMetadata.LookupState.UNKNOWN) {
          var1.addProperty("unknown", true);
       }
 
@@ -154,9 +153,9 @@ public final class FriendList {
       return var1;
    }
 
-   public static FriendList.TypeI load(Path var0) {
+   public static FriendList.FriendRoster load(Path var0) {
       if (!Files.isRegularFile(var0)) {
-         return new FriendList.TypeI(new ArrayList<>(), new FriendList.TypeO());
+         return new FriendList.FriendRoster(new ArrayList<>(), new FriendList.FriendIdentity());
       } else {
          try {
             return read(Files.readString(var0, StandardCharsets.UTF_8));
@@ -166,7 +165,7 @@ public final class FriendList {
             } catch (IOException var3) {
             }
 
-            return new FriendList.TypeI(new ArrayList<>(), new FriendList.TypeO());
+            return new FriendList.FriendRoster(new ArrayList<>(), new FriendList.FriendIdentity());
          }
       }
    }
@@ -204,13 +203,13 @@ public final class FriendList {
       return Base64.getUrlEncoder().withoutPadding().encodeToString(var0);
    }
 
-   
+
    private static String string(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
       return var2 != null && var2.isJsonPrimitive() ? var2.getAsString() : null;
    }
 
-   
+
    private static UUID uuid( String var0) {
       if (var0 == null) {
          return null;
@@ -223,13 +222,13 @@ public final class FriendList {
       }
    }
 
-   public record TypeI(List<PlayerMetadata> friends, FriendList.TypeO me) {
+   public record FriendRoster(List<PlayerMetadata> friends, FriendList.FriendIdentity me) {
    }
 
-   public static final class TypeO {
-      
+   public static final class FriendIdentity {
+
       public String username;
-      
+
       public String reported;
    }
 }

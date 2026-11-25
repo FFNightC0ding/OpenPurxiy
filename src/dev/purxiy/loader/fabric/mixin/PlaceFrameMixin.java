@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry6;
+import dev.purxiy.loader.fabric.client.ChunkRenderProvider;
 import net.minecraft.class_11658;
 import net.minecraft.class_11661;
 import net.minecraft.class_4587;
@@ -18,7 +17,7 @@ public abstract class PlaceFrameMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$placeFrame(CallbackInfo var1) {
-      ClientRegistry6.beginFrame();
+      ChunkRenderProvider.beginFrame();
    }
 
    @Inject(
@@ -26,6 +25,6 @@ public abstract class PlaceFrameMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$placeSubmit(class_4587 var1, class_11658 var2, class_11661 var3, CallbackInfo var4) {
-      ClientRegistry6.submit(var1, var2, var3);
+      ChunkRenderProvider.submit(var1, var2, var3);
    }
 }

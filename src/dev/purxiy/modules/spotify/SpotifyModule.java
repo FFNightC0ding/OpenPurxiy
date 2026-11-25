@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
 import dev.purxiy.config.BooleanSetting;
@@ -6,17 +5,18 @@ import dev.purxiy.config.IntegerSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
 import dev.purxiy.config.Setting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.hud.HudBounds;
 import dev.purxiy.hud.HudLayout;
 import dev.purxiy.hud.HudModule;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.CosmeticCatalog;
 import dev.purxiy.loader.fabric.CosmeticRegistry;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
-import dev.purxiy.loader.fabric.client.ClientRegistry18;
-import dev.purxiy.loader.fabric.client.ClientRenderer8;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.FrameStateProvider;
+import dev.purxiy.loader.fabric.client.SimpleDrawPass;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter.FrameHook;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import dev.purxiy.render.RenderPipelines;
 import java.util.List;
@@ -35,7 +35,7 @@ public final class SpotifyModule extends ModuleDescriptor {
    public static final String A = "Ground and sky";
    public static final String l = "As sung";
    public static final String s = "Whole line";
-   private static final NumberSetting.Listener v = var0x -> {
+   private static final Listener v = var0x -> {
       long var2 = 92946667063537L;
       String var4;
       if (Math.abs(var0x) < 0.001) {
@@ -78,12 +78,10 @@ public final class SpotifyModule extends ModuleDescriptor {
    public final IntegerSetting i;
    public final IntegerSetting Q;
    public final IntegerSetting K;
-   final SpotifyRenderer6 V;
-   final SpotifyRenderer7 u;
+   final SpotifyHudWidget V;
+   final SpotifyCompactWidget u;
    private long M;
    private float T;
-
-
 
    public SpotifyModule() {
       super("spotify_player", "Spotify Player", "Your music on screen, with lyrics to sing along", "music");
@@ -115,20 +113,20 @@ public final class SpotifyModule extends ModuleDescriptor {
          new String[]{"As sung", "Whole line"}
       );
       this.L = this.number(
-         "world_distance", "Distance", "How far ahead of you the words are written on the ground", 6.0, 3.0, 16.0, 0.5, NumberSetting.Listener.unit(" blocks")
+         "world_distance", "Distance", "How far ahead of you the words are written on the ground", 6.0, 3.0, 16.0, 0.5, Listener.unit(" blocks")
       );
-      this.X = this.number("world_size", "Size", "How large the words are written", 1.0, 0.6, 1.6, 0.05, NumberSetting.Listener.PERCENT);
+      this.X = this.number("world_size", "Size", "How large the words are written", 1.0, 0.6, 1.6, 0.05, Listener.PERCENT);
       this.W = this.bool("world_open_sky", "Only in open sky", "Blocks hide the words: they only show where you can see the sky", true);
       this.Y = this.bool("lyrics_menus", "In the menus", "On the ground of the main menu's world, and beside Minecraft's other menus", true);
       this.section("Player");
-      this.V = new SpotifyRenderer6(this);
+      this.V = new SpotifyHudWidget(this);
       this.m = this.mode("controls", "Controls", "The buttons below the song", "Always", new String[]{"Always", "In chat", "Hidden"});
       this.d = this.bool("art", "Album art", null, true);
       this.w = this.bool("visualizer", "Visualizer", "Little bars that move with the music", true);
-      this.G = this.mode("colors", "Colours", "Purxiy's purple, or the colour of the album cover", "Purxiy", new String[]{"Purxiy", "Album"});
+      this.G = this.mode("colors", "Colours", "SourceByDevFFnightmare DeObfDeCompByGuideX's purple, or the colour of the album cover", "SourceByDevFFnightmare DeObfDeCompByGuideX", new String[]{"SourceByDevFFnightmare DeObfDeCompByGuideX", "Album"});
       this.section("Lyrics");
-      this.u = new SpotifyRenderer7(this);
-      this.p = this.number("lines", "Lines", "How many lines you see at once", 2.0, 1.0, 5.0, 1.0, NumberSetting.Listener.INTEGER);
+      this.u = new SpotifyCompactWidget(this);
+      this.p = this.number("lines", "Lines", "How many lines you see at once", 2.0, 1.0, 5.0, 1.0, Listener.INTEGER);
       this.c = this.mode("width", "Width", null, "Normal", new String[]{"Narrow", "Normal", "Wide"});
       this.t = this.mode("align", "Alignment", "Auto follows where the lyrics are on screen", "Auto", new String[]{"Auto", "Left", "Centre", "Right"});
       this.g = this.bool("sweep", "Word sweep", "The words light up as they are sung", true);
@@ -137,7 +135,7 @@ public final class SpotifyModule extends ModuleDescriptor {
       this.section("Playback");
       this.S = this.mode("source", "Follow", "Spotify, or whichever app plays music", "Spotify", new String[]{"Spotify", "Any player"});
       this.y = this.mode("paused", "When paused", null, "Dim", new String[]{"Show", "Dim", "Hide"});
-      this.r = this.number("volume_step", "Volume step", "For the volume keys and scrolling", 0.05, 0.01, 0.2, 0.01, NumberSetting.Listener.PERCENT);
+      this.r = this.number("volume_step", "Volume step", "For the volume keys and scrolling", 0.05, 0.01, 0.2, 0.01, Listener.PERCENT);
       this.section("Keys");
       this.O = this.keybind("key_play", "Play / pause", null);
       this.U = this.keybind("key_next", "Next track", null);
@@ -300,43 +298,34 @@ public final class SpotifyModule extends ModuleDescriptor {
       }
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       var1.own(ClientServices.acquire(this.id()));
       SpotifyRegistry.install(this, var1);
       var1.own(this.V.start(var1));
       var1.own(this.u.start(var1));
       var1.onFrame(var1x -> this.frame((float)var1x));
-      var1.own(ClientSupport3.VIEW.subscribe(0, (var0, var1x, var2, var3) -> SpotifyRenderer5.beginFrame(var0, var1x, var2)));
-      var1.own(ClientSupport3.AFTER_WORLD.subscribe(200, SpotifyRenderer5::render));
-      var1.own(ClientRenderer8.install(SpotifyRenderer9::draw));
-      var1.own(ModuleWidget.onActualAttack((var0, var1x) -> SpotifyRenderer5.attacked(var0, var1x)));
+      var1.own(SkyPipelineRouter.VIEW.subscribe(0, (FrameHook)(var0, var1x, var2, var3) -> SpotifyPipeline.beginFrame(var0, var1x, var2)));
+      var1.own(SkyPipelineRouter.AFTER_WORLD.subscribe(200, SpotifyPipeline::render));
+      var1.own(SimpleDrawPass.install(SpotifyOverlay::draw));
+      var1.own(ModuleWidget.onActualAttack((var0, var1x) -> SpotifyPipeline.attacked(var0, var1x)));
       var1.own(ModuleWidget.onKey((var1x, var2, var3) -> {
          SpotifyCurve.ensureSourceClassInitialized();
          if (var3 != 0 && class_310.method_1551().field_1755 == null) {
             long var4 = 2850671202489L;
-            if (2850671202489L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var7 = var4 < 0L ? -1 : 1;
-            }
-
+            int var6 = var4 < 0L ? -1 : 1;
             this.onKey(var1x, var3 == 2);
          }
       }));
-      var1.own(CosmeticRegistry.register(this.id(), this.getClass().getClassLoader(), () -> new SpotifyRenderer8(this)));
+      var1.own(CosmeticRegistry.register(this.id(), this.getClass().getClassLoader(), () -> new SpotifyEditorScreen(this)));
       var1.own(SpotifyRegistry::uninstall);
-      var1.own(ClientRegistry18.install(new ClientRegistry18.Listener() {
-         @Override
+      var1.own(FrameStateProvider.install(new dev.purxiy.loader.fabric.client.FrameStateProvider.Listener() {
          public void frame() {
             SpotifyRegistry.get().frame();
          }
       }));
    }
 
-   @Override
-   protected CosmeticCatalog.Listener createPreview() {
-      return new SpotifyRenderer10(this);
+   protected dev.purxiy.loader.fabric.CosmeticCatalog.Listener createPreview() {
+      return new SpotifyEditorPage(this);
    }
-
 }

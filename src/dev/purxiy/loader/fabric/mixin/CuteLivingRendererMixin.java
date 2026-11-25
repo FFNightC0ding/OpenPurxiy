@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.purxiy.loader.fabric.client.ClientRegistry15;
+import dev.purxiy.loader.fabric.client.SkinTextureProvider;
 import net.minecraft.class_10042;
 import net.minecraft.class_2960;
 import net.minecraft.class_583;
@@ -25,6 +24,6 @@ public abstract class CuteLivingRendererMixin {
       )}
    )
    private class_2960 purxiy$cute(class_2960 var1, @Local(argsOnly = true) class_10042 var2) {
-      return ClientRegistry15.texture(var1, var2, this.field_4737);
+      return SkinTextureProvider.texture(var1, var2, this.field_4737);
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -16,27 +15,26 @@ import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryUtil;
 
 public final class MountRenderer {
-   private static final MountUpdater7 a = new MountUpdater7();
+   private static final MountSampler a = new MountSampler();
    private static final MountGeometry E = new MountGeometry();
-   private static final MountRenderer7.TypeV Z = new MountRenderer7.TypeV();
+   private static final MountDrawBuffers.MountVertex Z = new MountDrawBuffers.MountVertex();
    private static class_6367 g;
    private static GpuBuffer P;
    private static ByteBuffer w;
    private static boolean S;
    private static String F;
-
    private static final String[] c = new String[5];
 
    private MountRenderer() {
    }
 
-   public static boolean ready(MountFactory.Data7 var0) {
-      return MountRenderer7.acquire(var0.id()) != null;
+   public static boolean ready(MountFactory.MountSpec var0) {
+      return MountDrawBuffers.acquire(var0.id()) != null;
    }
 
    public static void draw(
       Canvas var0,
-      MountFactory.Data7 var1,
+      MountFactory.MountSpec var1,
       int var2,
       float var3,
       float var4,
@@ -49,7 +47,7 @@ public final class MountRenderer {
       float var11
    ) {
       if (!(var8 <= 0.0F) && !(var9 <= 0.0F) && !(var5 <= 0.0F) && !(var0.alpha() <= 0.0F)) {
-         MountRenderer7.TypeK var12 = MountRenderer7.acquire(var1.id());
+         MountDrawBuffers.MountBuffers var12 = MountDrawBuffers.acquire(var1.id());
          if (var12 != null) {
             try {
                GpuDevice var13 = RenderSystem.getDevice();
@@ -60,13 +58,13 @@ public final class MountRenderer {
                int var18 = Math.max(1, Math.round(var8 * var17));
                int var19 = Math.max(1, Math.round(var9 * var17));
                if (g == null) {
-                  g = new class_6367("Purxiy garage showroom", var18, var19, true);
+                  g = new class_6367("SourceByDevFFnightmare DeObfDeCompByGuideX garage showroom", var18, var19, true);
                } else if (g.field_1482 != var18 || g.field_1481 != var19) {
                   g.method_1234(var18, var19);
                }
 
                if (P == null) {
-                  P = var13.createBuffer(ClientServices.label(() -> "Purxiy garage camera"), 136, 128L);
+                  P = var13.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX garage camera"), 136, 128L);
                   w = MemoryUtil.memAlloc(128);
                }
 
@@ -95,12 +93,12 @@ public final class MountRenderer {
                Matrix4f var25 = new Matrix4f().ortho(-var24 * var23, var24 * var23, -var24, var24, 1.0F, 18.0F);
                CommandEncoder var26 = var13.createCommandEncoder();
                var26.writeToBuffer(P.slice(), Std140Builder.intoBuffer(w.clear()).putMat4f(var22).putMat4f(var25).get());
-               MountRenderer7.linear(var2, Z.h);
+               MountDrawBuffers.linear(var2, Z.h);
                Z.Q = 0.55F;
                Z.u = 0.72F;
                Z.T.set(-0.45F, 0.78F, 0.44F).normalize();
                Z.z = 1.0F;
-               MountRenderer7.linear(Theme.tint(-3558145), Z.V);
+               MountDrawBuffers.linear(Theme.tint(-3558145), Z.V);
                Z.b.set(0.55F, 0.52F, 0.62F);
                Z.Y.set(0.42F, 0.38F, 0.55F);
                Z.N = 1.0F;
@@ -113,7 +111,7 @@ public final class MountRenderer {
                Z.W = 1.0F / var18;
                Z.c = 1.0F / var19;
                Z.I = 0.0F;
-               MountRenderer7.draw(var12, E.A, Z, a, g.method_71639(), g.method_71640(), null, null, P);
+               MountDrawBuffers.draw(var12, E.A, Z, a, g.method_71639(), g.method_71640(), null, null, P);
                var0.image(
                   g.method_71639(),
                   RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR),
@@ -130,27 +128,27 @@ public final class MountRenderer {
                   -1
                );
                F = null;
-            } catch (RuntimeException var27) {
-               MountRenderer4.drawFailed();
-               if (!var27.toString().equals(F)) {
-                  ClientServices.LOGGER.error("Purxiy garage preview could not render", var27);
+            } catch (RuntimeException var271) {
+               MountCameraReader.drawFailed();
+               if (!var271.toString().equals(F)) {
+                  ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX garage preview could not render", var271);
                }
 
-               F = var27.toString();
+               F = var271.toString();
             }
          }
       }
    }
 
-   public static class_6367 portrait(MountFactory.Data7 var0, int var1, int var2) {
-      MountRenderer7.TypeK var3 = MountRenderer7.acquire(var0.id());
+   public static class_6367 portrait(MountFactory.MountSpec var0, int var1, int var2) {
+      MountDrawBuffers.MountBuffers var3 = MountDrawBuffers.acquire(var0.id());
       if (var3 == null) {
          return null;
       } else {
          GpuDevice var4 = RenderSystem.getDevice();
-         class_6367 var5 = new class_6367("Purxiy garage portrait", var1, var2, true);
+         class_6367 var5 = new class_6367("SourceByDevFFnightmare DeObfDeCompByGuideX garage portrait", var1, var2, true);
          if (P == null) {
-            P = var4.createBuffer(ClientServices.label(() -> "Purxiy garage camera"), 136, 128L);
+            P = var4.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX garage camera"), 136, 128L);
             w = MemoryUtil.memAlloc(128);
          }
 
@@ -185,8 +183,8 @@ public final class MountRenderer {
          Matrix4f var13 = new Matrix4f().ortho(-var9 * var12, var9 * var12, -var9, var9, 1.0F, 18.0F);
          CommandEncoder var14 = var4.createCommandEncoder();
          var14.writeToBuffer(P.slice(), Std140Builder.intoBuffer(w.clear()).putMat4f(var11).putMat4f(var13).get());
-         MountFactory.Data4 var15 = var0.paints().getFirst();
-         MountRenderer7.linear(var15.color(), Z.h);
+         MountFactory.LiveryStripe var15 = var0.paints().getFirst();
+         MountDrawBuffers.linear(var15.color(), Z.h);
          Z.Q = 0.55F;
          Z.u = 0.72F;
          Z.T.set(-0.45F, 0.78F, 0.44F).normalize();
@@ -205,7 +203,7 @@ public final class MountRenderer {
          Z.c = 1.0F / var2;
          Z.I = 0.0F;
          Z.v = 0.0F;
-         MountRenderer7.draw(var3, E.A, Z, a, var5.method_71639(), var5.method_71640(), null, null, P);
+         MountDrawBuffers.draw(var3, E.A, Z, a, var5.method_71639(), var5.method_71640(), null, null, P);
          return var5;
       }
    }
@@ -230,5 +228,4 @@ public final class MountRenderer {
       S = false;
       F = null;
    }
-
 }

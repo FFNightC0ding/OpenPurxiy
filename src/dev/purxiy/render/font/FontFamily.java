@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.font;
 
 import com.mojang.blaze3d.textures.GpuTextureView;
@@ -18,10 +17,10 @@ public final class FontFamily {
    float v0;
    float u1;
    float v1;
-   
+
    GpuTextureView page;
    volatile int state = 0;
-   
+
    float[] kerningAfter;
 
    FontFamily(int var1, int var2, float var3) {
@@ -54,7 +53,7 @@ public final class FontFamily {
       return this.y1;
    }
 
-   
+
    public GpuTextureView pageView() {
       return this.page;
    }

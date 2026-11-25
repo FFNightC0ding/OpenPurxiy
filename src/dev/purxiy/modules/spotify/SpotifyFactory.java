@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -15,26 +14,20 @@ public final class SpotifyFactory {
    private final ConcurrentLinkedQueue<SpotifyApi> M = new ConcurrentLinkedQueue<>();
    private final ConcurrentLinkedQueue<SpotifyApi> E = new ConcurrentLinkedQueue<>();
    private final Object J = new Object();
-   
    private volatile SpotifyData e;
-   
    private volatile SpotifyFactory.Data s;
-   private volatile SpotifyFactory.TypeQ F = SpotifyFactory.TypeQ.o;
+   private volatile SpotifyFactory.TrackSource F = SpotifyFactory.TrackSource.o;
    private volatile boolean X = true;
    private volatile long n;
    private volatile long C;
    private volatile float o = -1.0F;
    private volatile boolean R;
    private volatile float h;
-   
    private volatile String W;
-   
    private Consumer<String> b;
    private Thread p;
    private Thread U;
    private volatile boolean G;
-
-
    private static final long[] f = new long[]{
       7281235989989821407L,
       6425409607920651794L,
@@ -66,8 +59,8 @@ public final class SpotifyFactory {
       return this.d;
    }
 
-   public SpotifyFactory.TypeQ health() {
-      return this.d ? this.F : SpotifyFactory.TypeQ.E;
+   public SpotifyFactory.TrackSource health() {
+      return this.d ? this.F : SpotifyFactory.TrackSource.E;
    }
 
    public void logTo(Consumer<String> var1) {
@@ -99,12 +92,10 @@ public final class SpotifyFactory {
       }
    }
 
-   
    public SpotifyData state() {
       return this.e;
    }
 
-   
    public SpotifyFactory.Data artwork() {
       return this.s;
    }
@@ -121,14 +112,13 @@ public final class SpotifyFactory {
       return this.h;
    }
 
-   
    public String lastError() {
       return this.W;
    }
 
    public void send(SpotifyApi var1) {
       if (!this.G && this.d) {
-         if (!(var1 instanceof SpotifyApi.Data3) && !(var1 instanceof SpotifyApi.Data10)) {
+         if (!(var1 instanceof SpotifyApi.SetVolume) && !(var1 instanceof SpotifyApi.SetMuted)) {
             this.M.add(var1);
          } else {
             this.E.add(var1);
@@ -143,17 +133,12 @@ public final class SpotifyFactory {
    private synchronized void q(long var1) {
       SpotifyCurve.ensureSourceClassInitialized();
       long var3 = 31896829993122L;
-      if (31896829993122L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var6 = var3 < 0L ? -1 : 1;
-      }
-
+      int var5 = var3 < 0L ? -1 : 1;
       if (this.p == null) {
-         this.p = ClientServices.visualWorker(() -> this.j(117582736866384L), "Purxiy Media");
+         this.p = ClientServices.visualWorker(() -> this.j(117582736866384L), "SourceByDevFFnightmare DeObfDeCompByGuideX Media");
          this.p.setDaemon(true);
          this.p.start();
-         this.U = ClientServices.visualWorker(() -> this.s(3610, 15018, (short)-20989), "Purxiy Audio");
+         this.U = ClientServices.visualWorker(() -> this.s(3610, 15018, (short)-20989), "SourceByDevFFnightmare DeObfDeCompByGuideX Audio");
          this.U.setDaemon(true);
          this.U.start();
       }
@@ -184,7 +169,7 @@ public final class SpotifyFactory {
       long var5 = 56161253748480L;
       long var7 = 82343596743169L;
       SpotifyCurve.ensureSourceClassInitialized();
-      SpotifySupport5 var9 = new SpotifySupport5();
+      SpotifyQueue var9 = new SpotifyQueue();
       boolean var10 = false;
 
       try {
@@ -194,91 +179,52 @@ public final class SpotifyFactory {
 
          while (!Thread.currentThread().isInterrupted()) {
             long var15 = 117582736866384L;
-            if (117582736866384L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var45 = var15 < 0L ? -1 : 1;
-            }
-
+            int var18 = var15 < 0L ? -1 : 1;
             if (!this.v(var7)) {
                long var38 = 117582736866383L;
-               if (117582736866383L == 0L) {
-                  boolean var58 = false;
-               } else {
-                  int var59 = var38 < 0L ? -1 : 1;
-               }
-
+               int var40 = var38 < 0L ? -1 : 1;
                this.e = null;
-               long var40 = 117582736866384L;
-               if (117582736866384L == 0L) {
-                  boolean var60 = false;
-               } else {
-                  int var61 = var40 < 0L ? -1 : 1;
-               }
-
+               long var40x = 117582736866384L;
+               int var44 = var40x < 0L ? -1 : 1;
                if (var9.open()) {
                   var9.close();
                }
 
                this.y(1000L, var3);
                long var43 = 117582736866384L;
-               if (117582736866384L == 0L) {
-                  boolean var62 = false;
-               } else {
-                  int var63 = var43 < 0L ? -1 : 1;
-               }
+               int var48 = var43 < 0L ? -1 : 1;
             } else {
-               long var18 = System.nanoTime();
+               long var18x = System.nanoTime();
 
                try {
                   if (!var9.open()) {
                      long var20;
-                     int var22 = (var20 = var18 - var13) == 0L ? 0 : (var20 < 0L ? -1 : 1);
+                     int var22 = (var20 = var18x - var13) == 0L ? 0 : (var20 < 0L ? -1 : 1);
                      long var23 = 117582736866383L;
-                     if (117582736866383L == 0L) {
-                        boolean var46 = false;
-                     } else {
-                        int var47 = var23 < 0L ? -1 : 1;
-                     }
-
+                     int var26 = var23 < 0L ? -1 : 1;
                      if (var22 < 0) {
                         long var44 = 117582736866383L;
-                        if (117582736866383L == 0L) {
-                           boolean var56 = false;
-                        } else {
-                           int var57 = var44 < 0L ? -1 : 1;
-                        }
-
+                        int var261 = var44 < 0L ? -1 : 1;
                         this.y(250L, var3);
                         continue;
                      }
 
                      var9.start();
-                     this.F = SpotifyFactory.TypeQ.I;
+                     this.F = SpotifyFactory.TrackSource.I;
                   }
 
-                  SpotifyApi var21;
                   boolean var39;
+                  SpotifyApi var21;
                   for (var39 = false; (var21 = this.M.poll()) != null; var39 = true) {
                      long var41 = 117582736866383L;
-                     if (117582736866383L == 0L) {
-                        boolean var48 = false;
-                     } else {
-                        int var49 = var41 < 0L ? -1 : 1;
-                     }
-
+                     int var25 = var41 < 0L ? -1 : 1;
                      var9.send(var21);
                   }
 
                   long var42 = 117582736866383L;
-                  if (117582736866383L == 0L) {
-                     boolean var50 = false;
-                  } else {
-                     int var51 = var42 < 0L ? -1 : 1;
-                  }
-
+                  int var46 = var42 < 0L ? -1 : 1;
                   if (var39) {
-                     var11 = var18 + 1500000000L;
+                     var11 = var18x + 1500000000L;
                   }
 
                   SpotifyData var25 = var9.poll(this.X, var39);
@@ -289,27 +235,17 @@ public final class SpotifyFactory {
                   }
 
                   long var27 = 117582736866384L;
-                  if (117582736866384L == 0L) {
-                     boolean var52 = false;
-                  } else {
-                     int var53 = var27 < 0L ? -1 : 1;
-                  }
-
+                  int var27x = var27 < 0L ? -1 : 1;
                   this.e = var25;
                   this.W = null;
-                  long var30 = 117582736866384L;
-                  if (117582736866384L == 0L) {
-                     boolean var54 = false;
-                  } else {
-                     int var55 = var30 < 0L ? -1 : 1;
-                  }
-
-                  this.y(var18 < var11 ? 30L : (var25 == null ? 500L : 50L), var3);
-               } catch (Throwable var35) {
-                  this.L("media", var5, var35);
+                  long var30x = 117582736866384L;
+                  int var29 = var30x < 0L ? -1 : 1;
+                  this.y(var18x < var11 ? 30L : (var25 == null ? 500L : 50L), var3);
+               } catch (Throwable var33) {
+                  this.L("media", var5, var33);
                   this.e = null;
                   var9.close();
-                  this.F = SpotifyFactory.TypeQ.u;
+                  this.F = SpotifyFactory.TrackSource.u;
                   var13 = System.nanoTime() + 5000000000L;
                   this.y(1000L, var3);
                }
@@ -325,12 +261,7 @@ public final class SpotifyFactory {
       }
 
       long var37 = 117582736866384L;
-      if (117582736866384L == 0L) {
-         boolean var64 = false;
-      } else {
-         int var65 = var37 < 0L ? -1 : 1;
-      }
-
+      int var36 = var37 < 0L ? -1 : 1;
       var9.close();
       SpotifyCache.endThread();
    }
@@ -340,7 +271,7 @@ public final class SpotifyFactory {
       long var6 = var4 ^ 67131232141571L;
       long var8 = var4 ^ 75858358301698L;
       SpotifyCurve.ensureSourceClassInitialized();
-      SpotifySupport8 var10 = new SpotifySupport8();
+      SpotifyControls var10 = new SpotifyControls();
       boolean var11 = false;
 
       try {
@@ -395,13 +326,13 @@ public final class SpotifyFactory {
                   for (; (var38 = this.E.poll()) != null; var14 = var18 + 300000000L) {
                      var17 = -20989;
                      var17 = 15018;
-                     if (var38 instanceof SpotifyApi.Data3 var40) {
+                     if (var38 instanceof SpotifyApi.SetVolume var40) {
                         var10.setVolume(var40.level());
                         this.o = Math.max(0.0F, Math.min(1.0F, var40.level()));
                      } else {
-                        boolean var42 = var38 instanceof SpotifyApi.Data10;
+                        boolean var42 = var38 instanceof SpotifyApi.SetMuted;
                         if (var42) {
-                           SpotifyApi.Data10 var24 = (SpotifyApi.Data10)var38;
+                           SpotifyApi.SetMuted var24 = (SpotifyApi.SetMuted)var38;
                            var10.setMuted(var24.muted());
                            this.R = var24.muted();
                         }
@@ -418,8 +349,8 @@ public final class SpotifyFactory {
                   this.h = var41 ? var10.peak() : 0.0F;
                   var17 = -20989;
                   this.Y(var41 ? 16L : 100L);
-               } catch (Throwable var28) {
-                  this.L("audio", var6, var28);
+               } catch (Throwable var281) {
+                  this.L("audio", var6, var281);
                   var10.close();
                   this.o = -1.0F;
                   this.h = 0.0F;
@@ -446,7 +377,7 @@ public final class SpotifyFactory {
          return var1;
       } else {
          String var2 = var0.toLowerCase(Locale.ROOT);
-         if (SpotifySupport5.isSpotify(var2)) {
+         if (SpotifyQueue.isSpotify(var2)) {
             var1.add("spotify.exe");
          }
 
@@ -472,12 +403,7 @@ public final class SpotifyFactory {
       SpotifyCurve.ensureSourceClassInitialized();
       String var5 = var1 + ": " + var4;
       long var6 = 56161253748480L;
-      if (56161253748480L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var9 = var6 < 0L ? -1 : 1;
-      }
-
+      int var8 = var6 < 0L ? -1 : 1;
       if (!var5.equals(this.W)) {
          this.W = var5;
          if (this.b != null) {
@@ -524,7 +450,7 @@ public final class SpotifyFactory {
       this.b = null;
    }
 
-private static long a(int var0, long var1) {
+   private static long a(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 5917) & 32767;
       if (g[var3] == null) {
          g[var3] = f[var3] ^ var1;
@@ -533,7 +459,7 @@ private static long a(int var0, long var1) {
       return g[var3];
    }
 
-public record Data(long Y, byte[] v) {
+   public record Data(long Y, byte[] v) {
       public long track() {
          return this.Y;
       }
@@ -551,11 +477,10 @@ public record Data(long Y, byte[] v) {
       }
    }
 
-   public static enum TypeQ {
+   public static enum TrackSource {
       o,
       I,
       u,
       E;
-
-}
+   }
 }

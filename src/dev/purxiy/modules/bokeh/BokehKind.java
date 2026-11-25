@@ -1,11 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.bokeh;
 
 public enum BokehKind {
    O("Round", "Soft round discs, the classic creamy look."),
    e("Oval", "Tall ovals, as a cinema lens draws them."),
    C("Blades", "Six softly curved blades, like a stopped-down aperture."),
-   p("Star", "Every light becomes a little Purxiy star."),
+   p("Star", "Every light becomes a little SourceByDevFFnightmare DeObfDeCompByGuideX star."),
    o("Heart", "Every light becomes a soft little heart.");
 
    public final String V;
@@ -27,5 +26,4 @@ public enum BokehKind {
 
       return var1;
    }
-
 }

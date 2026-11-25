@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.shockwave;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class ShockwaveLoader {
    public static final String Y = "Accent";
    public static final Map<String, String> w = Map.of("Lilac", "Accent");
    static final ShockwaveLoader D = new ShockwaveLoader("Accent", 13481727, 11306751, 15442687);
-   static final ShockwaveLoader M = new ShockwaveLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final ShockwaveLoader M = new ShockwaveLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final ShockwaveLoader v = new ShockwaveLoader("Dream", 16758499, 12890367, 10404095);
    public static final String X = "Custom";
    static final List<ShockwaveLoader> l = List.of(D, M, v);
@@ -21,8 +20,6 @@ public final class ShockwaveLoader {
    public final int o;
    public final int B;
    public final int O;
-
-
    private static final long[] c = new long[]{-5443196259563616474L, -8532233919004797025L, 7871072270492928593L, 2170110254104300673L};
    private static final Integer[] d = new Integer[4];
 
@@ -90,7 +87,7 @@ public final class ShockwaveLoader {
       return ClientSupport.hsvToRgb(var0 - (float)Math.floor(var0), var4, var5) & 16777215;
    }
 
-private static int a(int var0, long var1) {
+   private static int a(int var0, long var1) {
       int var3 = var0 ^ (int)(var1 & 32767L) ^ 24931;
       if (d[var3] == null) {
          d[var3] = (int)(c[var3] ^ var1);
@@ -98,5 +95,4 @@ private static int a(int var0, long var1) {
 
       return d[var3];
    }
-
 }

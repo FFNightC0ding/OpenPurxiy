@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.font;
 
 import dev.purxiy.i18n.Translations;

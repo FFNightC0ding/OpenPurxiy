@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import net.minecraft.class_11659;
@@ -22,7 +21,6 @@ public interface KnifeApi {
       return 0.0F;
    }
 
-   
    default float[] grips() {
       return null;
    }
@@ -31,7 +29,7 @@ public interface KnifeApi {
 
    int deep();
 
-   KnifeSupport6.TypeR ambient();
+   KnifeWieldPipeline.WieldStage ambient();
 
    String sounds();
 

@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry7;
+import dev.purxiy.loader.fabric.client.SkyTintProvider;
 import net.minecraft.class_12076;
 import net.minecraft.class_4184;
 import net.minecraft.class_638;
@@ -18,6 +17,6 @@ public abstract class CyberspaceSkyMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$cyberspaceSky(class_638 var1, float var2, class_4184 var3, class_12076 var4, CallbackInfo var5) {
-      ClientRegistry7.sky(var4);
+      SkyTintProvider.sky(var4);
    }
 }

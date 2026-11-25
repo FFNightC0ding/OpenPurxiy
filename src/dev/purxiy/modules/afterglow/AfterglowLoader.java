@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.afterglow;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class AfterglowLoader {
    public static final String v = "Accent";
    public static final Map<String, String> n = Map.of("Lilac", "Accent");
    static final AfterglowLoader i = new AfterglowLoader("Accent", 13481727, 11306751, 15442687);
-   static final AfterglowLoader B = new AfterglowLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final AfterglowLoader B = new AfterglowLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final AfterglowLoader L = new AfterglowLoader("Dream", 16758499, 12890367, 10404095);
    public static final String c = "Custom";
    static final List<AfterglowLoader> X = List.of(i, B, L);
@@ -21,10 +20,7 @@ public final class AfterglowLoader {
    public final int t;
    public final int W;
    public final int G;
-
    private static final String[] b = new String[9];
-
-
 
    private AfterglowLoader(String var1, int var2, int var3, int var4) {
       this.p = var1;
@@ -85,5 +81,4 @@ public final class AfterglowLoader {
    private static int D(float var0, float var1, float var2, long var3) {
       return ClientSupport.hsvToRgb(var0 - (float)Math.floor(var0), var1, var2) & 16777215;
    }
-
 }

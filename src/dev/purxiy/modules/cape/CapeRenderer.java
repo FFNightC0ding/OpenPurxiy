@@ -1,9 +1,9 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cape;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -15,6 +15,7 @@ import com.mojang.blaze3d.vertex.VertexFormat.class_5596;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.client.ClientBuilder;
 import dev.purxiy.loader.fabric.client.ClientCache;
+import dev.purxiy.loader.fabric.client.ClientBuilder.SkinMeshSpec;
 import dev.purxiy.render.BlendMode;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.ui.Theme;
@@ -30,7 +31,6 @@ import net.minecraft.class_8685;
 import net.minecraft.class_12079.class_12081;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-
 import org.lwjgl.system.MemoryUtil;
 
 public final class CapeRenderer {
@@ -38,7 +38,7 @@ public final class CapeRenderer {
    private static final int x = 160;
    private static final int I = 480468;
    public static final float B = 32.5F;
-   private static final RenderPipeline o = RenderPipeline.builder()
+   private static final RenderPipeline o = RenderPipeline.builder(new Snippet[0])
       .withLocation(ClientServices.id("pipeline/profile_avatar"))
       .withVertexShader(ClientServices.id("core/profile_avatar"))
       .withFragmentShader(ClientServices.id("core/profile_avatar"))
@@ -51,17 +51,11 @@ public final class CapeRenderer {
       .withoutBlend()
       .withVertexFormat(class_290.field_1577, class_5596.field_27379)
       .build();
-   
    private static class_6367 z;
-   
    private static GpuBuffer b;
-   
    private static GpuBuffer R;
-   
    private static ByteBuffer Q;
-   
    private static ByteBuffer Y;
-   
    private static String h;
    private static final Matrix4f M = new Matrix4f();
    private static final Matrix4f H = new Matrix4f();
@@ -71,7 +65,6 @@ public final class CapeRenderer {
    private static final Vector3f t = new Vector3f();
    private static final Vector3f K = new Vector3f();
    private static final float[] w = new float[24];
-
    private static final String[] c = new String[17];
    private static final long[] d = new long[]{
       -4522994936309415217L,
@@ -94,7 +87,6 @@ public final class CapeRenderer {
       540145073994476588L,
       5769120440044785460L
    };
-
    private static final long f = 160L;
 
    private CapeRenderer() {
@@ -103,7 +95,7 @@ public final class CapeRenderer {
    public static boolean draw(
       Canvas var0,
       class_8685 var1,
-      CapeRenderer.TypeK var2,
+      CapeRenderer.CapeVertexData var2,
       float var3,
       float var4,
       float var5,
@@ -147,9 +139,9 @@ public final class CapeRenderer {
                   w(var33, (short)var19, var20, (char)var21, var34);
                   ByteBuffer var35 = Q;
                   var35.clear();
-                  int var36 = (var1.comp_1629() == class_7920.field_41122) ? 1 : 0;
-                  ClientBuilder.TypeE var37 = ClientBuilder.layers(var1);
-                  int var40 = E(var35, var22, (short)var24, var2, (boolean)(var36 != 0), var37);
+                  int var36 = var1.comp_1629() == class_7920.field_41122 ? 1 : 0;
+                  SkinMeshSpec var37 = ClientBuilder.layers(var1);
+                  int var40 = E(var35, var22, (short)var24, var2, var36 != 0, var37);
                   int var41 = var27 != null ? D(var35, var16, var2, (byte)var17, var18) : 0;
                   var35.flip();
                   CommandEncoder var42 = var28.createCommandEncoder();
@@ -165,10 +157,11 @@ public final class CapeRenderer {
                   var42.writeToBuffer(R.slice(), var45.get());
                   GpuBuffer var46 = Theme.uniforms();
                   class_12137 var47 = ClientBuilder.pixels();
+                  RenderPass var48 = var42.createRenderPass(
+                     () -> "SourceByDevFFnightmare DeObfDeCompByGuideX profile avatar", z.method_71639(), OptionalInt.of(0), z.method_71640(), OptionalDouble.of(1.0)
+                  );
 
-                  try (RenderPass var48 = var42.createRenderPass(
-                        () -> "Purxiy profile avatar", z.method_71639(), OptionalInt.of(0), z.method_71640(), OptionalDouble.of(1.0)
-                     )) {
+                  try {
                      var48.setPipeline(o);
                      var48.setUniform("ProfileAvatar", R);
                      var48.setUniform("PurxiyTheme", var46);
@@ -185,6 +178,20 @@ public final class CapeRenderer {
                         var36 = (int)var12;
                         CapeCache.metric("drawn");
                      }
+                  } catch (Throwable var50) {
+                     if (var48 != null) {
+                        try {
+                           var48.close();
+                        } catch (Throwable var49x) {
+                           var50.addSuppressed(var49x);
+                        }
+                     }
+
+                     throw var50;
+                  }
+
+                  if (var48 != null) {
+                     var48.close();
                   }
 
                   var0.image(
@@ -205,12 +212,12 @@ public final class CapeRenderer {
                   h = null;
                   return true;
                }
-            } catch (RuntimeException var53) {
-               if (!var53.toString().equals(h)) {
-                  ClientServices.LOGGER.error("Purxiy profile avatar could not render", var53);
+            } catch (RuntimeException var51) {
+               if (!var51.toString().equals(h)) {
+                  ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX profile avatar could not render", var51);
                }
 
-               h = var53.toString();
+               h = var51.toString();
                return false;
             }
          }
@@ -230,7 +237,7 @@ public final class CapeRenderer {
       M.mul(H, q);
    }
 
-   private static int E(ByteBuffer var0, long var1, short var3,  CapeRenderer.TypeK var4, boolean var5, ClientBuilder.TypeE var6) {
+   private static int E(ByteBuffer var0, long var1, short var3, CapeRenderer.CapeVertexData var4, boolean var5, SkinMeshSpec var6) {
       long var7 = 21676391598936L;
       long var9 = var7 ^ 74232745840920L;
       long var11 = var7 ^ 6303971354380L;
@@ -254,17 +261,12 @@ public final class CapeRenderer {
       int var28 = 2904;
       ClientBuilder.build(k, 0);
       long var29 = 330755487L;
-      if (330755487L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var90 = var29 < 0L ? -1 : 1;
-      }
-
+      int var32 = var29 < 0L ? -1 : 1;
       if (var25) {
          var24 += T(var0, -4.0F, var9, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0, 0, 0.0F, 64.0F, 64.0F, 0);
       }
 
-      short var32 = 2904;
+      short var32x = 2904;
       float var33 = 0.5F;
       byte var34 = 0;
       byte var35 = 32;
@@ -308,21 +310,16 @@ public final class CapeRenderer {
          var45 += T(var0, -1.0F, var9, -2.0F, -2.0F, var42, 12.0F, 4.0F, 32, 48, 0.0F, 64.0F, 64.0F, 0);
       }
 
-      var32 = 2554;
+      var32x = 2554;
       long var46 = 330755487L;
-      if (330755487L == 0L) {
-         boolean var91 = false;
-      } else {
-         int var92 = var46 < 0L ? -1 : 1;
-      }
-
+      int var49 = var46 < 0L ? -1 : 1;
       var33 = 0.25F;
       var34 = 48;
       var35 = 48;
       var36 = 4.0F;
       var37 = 12.0F;
       var39 = -2.0F;
-      int var49 = var45 + s(var0, var6, 3, -1.0F, -2.0F, var13, var39, (char)var14, var42, var37, var36, (short)var15, var35, var34, var33);
+      var49 = var45 + s(var0, var6, 3, -1.0F, -2.0F, var13, var39, (char)var14, var42, var37, var36, (short)var15, var35, var34, var33);
       r(var26[4][0] * ClientBuilder.bodyWidth(), var26[4][1], var26[4][2], 0.0F, 0.0F, 0.0F);
       ClientBuilder.build(k, 4);
       if (var25) {
@@ -330,12 +327,7 @@ public final class CapeRenderer {
       }
 
       long var50 = 330755487L;
-      if (330755487L == 0L) {
-         boolean var93 = false;
-      } else {
-         int var94 = var50 < 0L ? -1 : 1;
-      }
-
+      int var53 = var50 < 0L ? -1 : 1;
       var33 = 0.25F;
       var34 = 32;
       var35 = 0;
@@ -344,7 +336,7 @@ public final class CapeRenderer {
       var38 = 4.0F;
       var39 = -2.0F;
       var28 = var49 + s(var0, var6, 4, -2.0F, 0.0F, var13, var39, (char)var14, var38, var37, var36, (short)var15, var35, var34, var33);
-      int var53 = var28;
+      var53 = var28;
       r(var26[5][0] * ClientBuilder.bodyWidth(), var26[5][1], var26[5][2], 0.0F, 0.0F, 0.0F);
       ClientBuilder.build(k, 5);
       if (var25) {
@@ -363,7 +355,7 @@ public final class CapeRenderer {
 
    private static int s(
       ByteBuffer var0,
-       ClientBuilder.TypeE var1,
+      SkinMeshSpec var1,
       int var2,
       float var3,
       float var4,
@@ -385,7 +377,7 @@ public final class CapeRenderer {
          : ClientBuilder.triangles(var0, var1, var2, k);
    }
 
-   private static int D(ByteBuffer var0, int var1, CapeRenderer.TypeK var2, byte var3, int var4) {
+   private static int D(ByteBuffer var0, int var1, CapeRenderer.CapeVertexData var2, byte var3, int var4) {
       long var5 = 73111670828428L;
       long var7 = var5 ^ 20117203613644L;
       k.set(O);
@@ -484,20 +476,10 @@ public final class CapeRenderer {
       var0.putFloat(var4).putFloat(var5);
       ByteBuffer var7 = var0.put((byte)-1).put((byte)-1);
       long var8 = 93467252845823L;
-      if (93467252845823L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var15 = var8 < 0L ? -1 : 1;
-      }
-
+      int var11 = var8 < 0L ? -1 : 1;
       var7 = var7.put((byte)-1);
-      long var11 = 93467252845822L;
-      if (93467252845822L == 0L) {
-         boolean var16 = false;
-      } else {
-         int var17 = var11 < 0L ? -1 : 1;
-      }
-
+      long var11x = 93467252845822L;
+      int var12 = var11x < 0L ? -1 : 1;
       var7.put((byte)(var6 == 0 ? 0 : 255));
       var0.put((byte)Math.round(K.x * 127.0F)).put((byte)Math.round(K.y * 127.0F)).put((byte)Math.round(K.z * 127.0F)).put((byte)0);
    }
@@ -512,19 +494,19 @@ public final class CapeRenderer {
       CapeModule.ensureSourceClassInitialized();
       GpuDevice var5 = RenderSystem.getDevice();
       if (z == null) {
-         z = new class_6367("Purxiy profile avatar", var0, var4, true);
+         z = new class_6367("SourceByDevFFnightmare DeObfDeCompByGuideX profile avatar", var0, var4, true);
       } else if (z.field_1482 != var0 || z.field_1481 != var4) {
          z.method_1234(var0, var4);
       }
 
       if (R == null) {
-         R = var5.createBuffer(ClientServices.label(() -> "Purxiy profile avatar camera"), 136, 160L);
+         R = var5.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX profile avatar camera"), 136, 160L);
          Y = MemoryUtil.memAlloc(160);
       }
 
       if (Q == null) {
          Q = MemoryUtil.memAlloc(480468 * X);
-         b = var5.createBuffer(ClientServices.label(() -> "Purxiy profile avatar mesh"), 40, 480468 * X);
+         b = var5.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX profile avatar mesh"), 40, 480468 * X);
       }
    }
 
@@ -601,7 +583,7 @@ public final class CapeRenderer {
       }
    }
 
-public static final class TypeK {
+   public static final class CapeVertexData {
       public float d;
       public float Y;
       public float y;

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 public interface Skins3DApi {
@@ -12,8 +11,8 @@ public interface Skins3DApi {
       return 3.0F;
    }
 
-   void move(Skins3DCurve var1, Skins3DCurve var2, Skins3DSupport5 var3);
+   void move(Skins3DCurve var1, Skins3DCurve var2, Skins3DGroundPose var3);
 
-   default void finish(Skins3DSupport3 var1, Skins3DSupport5 var2) {
+   default void finish(Skins3DRestPose var1, Skins3DGroundPose var2) {
    }
 }

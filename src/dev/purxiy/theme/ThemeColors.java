@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.theme;
 
 import java.util.Arrays;
@@ -11,7 +10,7 @@ public final class ThemeColors {
    final String raw;
    final String visible;
    final int[] codepoints;
-   
+
    final ColorPair[] paints;
    final boolean hasUpper;
    final boolean hasLower;
@@ -119,7 +118,7 @@ public final class ThemeColors {
       return this.codepoints.length;
    }
 
-   
+
    ColorPair paint(int var1) {
       return this.paints == null ? null : this.paints[var1];
    }

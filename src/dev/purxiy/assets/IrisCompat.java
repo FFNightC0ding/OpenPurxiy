@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.assets;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -8,9 +7,9 @@ import java.lang.invoke.MethodType;
 import net.fabricmc.loader.api.FabricLoader;
 
 public final class IrisCompat {
-   
+
    private static final Object IRIS;
-   
+
    private static final MethodHandle IN_USE;
 
    private IrisCompat() {
@@ -37,7 +36,7 @@ public final class IrisCompat {
             var0 = var2.getMethod("getInstance").invoke(null);
             var1 = MethodHandles.publicLookup().findVirtual(var2, "isShaderPackInUse", MethodType.methodType(boolean.class));
          } catch (ReflectiveOperationException | LinkageError var3) {
-            ClientServices.LOGGER.warn("Purxiy could not ask Iris whether a shader pack is in use", var3);
+            ClientServices.LOGGER.warn("SourceByDevFFnightmare DeObfDeCompByGuideX could not ask Iris whether a shader pack is in use", var3);
             var0 = null;
             var1 = null;
          }

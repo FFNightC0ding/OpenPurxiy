@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.profile;
 
 import dev.purxiy.i18n.Translations;
@@ -7,9 +6,6 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 public final class ProfileSupport {
-
-
-
    private ProfileSupport() {
    }
 
@@ -105,30 +101,14 @@ public final class ProfileSupport {
       double var4;
       int var6 = (var4 = var2 - 100.0) == 0.0 ? 0 : (var4 < 0.0 ? -1 : 1);
       long var7 = 128481164986712L;
-      if (128481164986712L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var17 = var7 < 0L ? -1 : 1;
-      }
-
-      String var10 = String.format(Locale.ROOT, var6 < 0 ? "%.1f" : "%.0f", var2);
+      int var10 = var7 < 0L ? -1 : 1;
+      String var10x = String.format(Locale.ROOT, var6 < 0 ? "%.1f" : "%.0f", var2);
       long var11 = 128481164986712L;
-      if (128481164986712L == 0L) {
-         boolean var18 = false;
-      } else {
-         int var19 = var11 < 0L ? -1 : 1;
-      }
-
+      int var13 = var11 < 0L ? -1 : 1;
       var6 = 1513303619;
-      long var13 = 128481164986711L;
-      if (128481164986711L == 0L) {
-         boolean var20 = false;
-      } else {
-         int var21 = var13 < 0L ? -1 : 1;
-      }
-
-      int var9 = 1513297319;
-      return var10.endsWith(".0") ? var10.substring(0, var10.length() - 2) : var10;
+      long var13x = 128481164986711L;
+      int var9x = var13x < 0L ? -1 : 1;
+      var9x = 1513297319;
+      return var10x.endsWith(".0") ? var10x.substring(0, var10x.length() - 2) : var10x;
    }
-
 }

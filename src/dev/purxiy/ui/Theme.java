@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -17,16 +16,16 @@ public final class Theme {
    private static final double DESIGN_L;
    private static final double DESIGN_C;
    private static final double DESIGN_H;
-   private static final Theme.TypeV ACCENT = new Theme.TypeV();
-   private static final Theme.TypeV LOGO = new Theme.TypeV();
+   private static final Theme.ThemeAnimators ACCENT = new Theme.ThemeAnimators();
+   private static final Theme.ThemeAnimators LOGO = new Theme.ThemeAnimators();
    private static boolean started;
    private static final int[] CACHE_KEYS = new int[2048];
    private static final int[] CACHE_VALUES = new int[2048];
    private static int generation = 0;
    private static int logoGeneration = 0;
-   
+
    private static GpuBuffer uniforms;
-   
+
    private static ByteBuffer uniformsStaging;
    private static int uniformsFor = Integer.MIN_VALUE;
 
@@ -81,7 +80,7 @@ public final class Theme {
       return LOGO.moving;
    }
 
-   static Theme.TypeC logoTurn() {
+   static Theme.ThemeColors logoTurn() {
       return LOGO.turn.copy();
    }
 
@@ -91,7 +90,7 @@ public final class Theme {
 
    public static GpuBuffer uniforms() {
       if (uniforms == null) {
-         uniforms = RenderSystem.getDevice().createBuffer(() -> "Purxiy theme", 136, 32L);
+         uniforms = RenderSystem.getDevice().createBuffer(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX theme", 136, 32L);
          uniformsStaging = MemoryUtil.memAlloc(32);
       }
 
@@ -226,7 +225,7 @@ public final class Theme {
       DESIGN_H = var0[2];
    }
 
-   static final class TypeC {
+   static final class ThemeColors {
       boolean identity = true;
       double chromaScale = 1.0;
       double hueTurn;
@@ -243,8 +242,8 @@ public final class Theme {
          this.identity = (var7 & 16777215) == 11832575;
       }
 
-      Theme.TypeC copy() {
-         Theme.TypeC var1 = new Theme.TypeC();
+      Theme.ThemeColors copy() {
+         Theme.ThemeColors var1 = new Theme.ThemeColors();
          var1.identity = this.identity;
          var1.chromaScale = this.chromaScale;
          var1.hueTurn = this.hueTurn;
@@ -285,11 +284,11 @@ public final class Theme {
       }
    }
 
-   private static final class TypeV {
+   private static final class ThemeAnimators {
       private final Animator l = new Animator((float)Theme.DESIGN_L, 120.0F, 22.0F);
       private final Animator c = new Animator((float)Theme.DESIGN_C, 120.0F, 22.0F);
       private final Animator h = new Animator((float)Theme.DESIGN_H, 120.0F, 22.0F);
-      final Theme.TypeC turn = new Theme.TypeC();
+      final Theme.ThemeColors turn = new Theme.ThemeColors();
       int picked = -4944641;
       int shown = -4944641;
       boolean moving;

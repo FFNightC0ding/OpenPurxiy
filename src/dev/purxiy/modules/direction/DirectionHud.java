@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.direction;
 
 import dev.purxiy.config.ModeSetting;
@@ -26,25 +25,20 @@ public final class DirectionHud extends HudModule {
    public static boolean i;
    public static boolean w;
 
-
-
    public DirectionHud() {
       super("direction", "Direction", "A compass strip that glides with your view", "compass", 0.5, 0.0);
       this.enabledByDefault();
    }
 
-   @Override
    protected boolean mergeable() {
       return true;
    }
 
-   @Override
    protected void measure(HudBounds var1, float[] var2) {
       var2[0] = 150.0F;
       var2[1] = 22.0F + (this.y.is("Off") ? 0 : 10);
    }
 
-   @Override
    protected void render(Canvas var1, HudBounds var2) {
       float var3 = var2.live() ? var2.player.method_5705(var2.partialTick) : 180.0F + 25.0F * (float)Math.sin(var2.time * 0.6);
       float var4 = (var3 % 360.0F + 360.0F) % 360.0F;
@@ -91,5 +85,4 @@ public final class DirectionHud extends HudModule {
          this.text(var1, Fonts.SEMIBOLD, var17, var5, 27.5F, 8.0F, Icons.TEXT_2, FontStyle.CENTER, FontWeight.MIDDLE);
       }
    }
-
 }

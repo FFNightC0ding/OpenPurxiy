@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hudhider;
 
 import dev.purxiy.loader.api.HudLayer;
@@ -11,9 +10,6 @@ public final class HudHiderEntrypoint implements ModuleEntrypoint {
    public static int a = 0;
    public static int b = 0;
 
-
-
-   @Override
    public AutoCloseable start(ModuleContext var1) {
       EnumSet var2 = EnumSet.noneOf(HudLayer.class);
 
@@ -33,5 +29,4 @@ public final class HudHiderEntrypoint implements ModuleEntrypoint {
 
       return var1.hideHudLayers(var2);
    }
-
 }

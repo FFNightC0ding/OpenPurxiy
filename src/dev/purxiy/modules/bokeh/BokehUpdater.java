@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.bokeh;
 
 import java.util.Arrays;

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.font;
 
 import com.mojang.blaze3d.systems.CommandEncoder;
@@ -20,12 +19,12 @@ public final class GlyphAtlas implements AutoCloseable {
    static final int SIZE = 2048;
    private static final int GUTTER = 1;
    private static final int SHELF_STEP = 8;
-   private final List<GlyphAtlas.TypeU> pages = new ArrayList<>();
-   private final ConcurrentLinkedQueue<GlyphAtlas.TypeP> pending = new ConcurrentLinkedQueue<>();
+   private final List<GlyphAtlas.GlyphPage> pages = new ArrayList<>();
+   private final ConcurrentLinkedQueue<GlyphAtlas.GlyphKey> pending = new ConcurrentLinkedQueue<>();
    private int uploadedGlyphs;
 
-   void enqueue(FontFamily var1, GlyphRasterizer.TypeW var2) {
-      this.pending.add(new GlyphAtlas.TypeP(var1, var2));
+   void enqueue(FontFamily var1, GlyphRasterizer.GlyphBitmap var2) {
+      this.pending.add(new GlyphAtlas.GlyphKey(var1, var2));
    }
 
    public void flushUploads() {
@@ -33,11 +32,11 @@ public final class GlyphAtlas implements AutoCloseable {
          CommandEncoder var1 = RenderSystem.getDevice().createCommandEncoder();
          ByteBuffer var2 = null;
 
-         GlyphAtlas.TypeP var3;
+         GlyphAtlas.GlyphKey var3;
          try {
             while ((var3 = this.pending.poll()) != null) {
-               GlyphRasterizer.TypeW var4 = var3.field();
-               GlyphAtlas.TypeU var5 = this.allocate(var4.width(), var4.height());
+               GlyphRasterizer.GlyphBitmap var4 = var3.field();
+               GlyphAtlas.GlyphPage var5 = this.allocate(var4.width(), var4.height());
                int[] var6 = var5.lastSlot;
                int var7 = var4.width() * var4.height();
                if (var2 == null || var2.capacity() < var7) {
@@ -80,14 +79,14 @@ public final class GlyphAtlas implements AutoCloseable {
       return this.pages.size();
    }
 
-   private GlyphAtlas.TypeU allocate(int var1, int var2) {
-      for (GlyphAtlas.TypeU var4 : this.pages) {
+   private GlyphAtlas.GlyphPage allocate(int var1, int var2) {
+      for (GlyphAtlas.GlyphPage var4 : this.pages) {
          if (var4.tryPlace(var1, var2)) {
             return var4;
          }
       }
 
-      GlyphAtlas.TypeU var5 = new GlyphAtlas.TypeU(this.pages.size());
+      GlyphAtlas.GlyphPage var5 = new GlyphAtlas.GlyphPage(this.pages.size());
       this.pages.add(var5);
       if (!var5.tryPlace(var1, var2)) {
          throw new IllegalStateException("Glyph of " + var1 + "x" + var2 + " does not fit an empty atlas page");
@@ -98,7 +97,7 @@ public final class GlyphAtlas implements AutoCloseable {
 
    @Override
    public void close() {
-      for (GlyphAtlas.TypeU var2 : this.pages) {
+      for (GlyphAtlas.GlyphPage var2 : this.pages) {
          var2.view.close();
          var2.texture.close();
       }
@@ -106,19 +105,19 @@ public final class GlyphAtlas implements AutoCloseable {
       this.pages.clear();
    }
 
-   private record TypeP(FontFamily glyph, GlyphRasterizer.TypeW field) {
+   private record GlyphKey(FontFamily glyph, GlyphRasterizer.GlyphBitmap field) {
    }
 
-   private static final class TypeU {
+   private static final class GlyphPage {
       final GpuTexture texture;
       final GpuTextureView view;
       final List<int[]> shelves = new ArrayList<>();
       int bottom;
       final int[] lastSlot = new int[2];
 
-      TypeU(int var1) {
+      GlyphPage(int var1) {
          GpuDevice var2 = RenderSystem.getDevice();
-         this.texture = var2.createTexture(() -> "Purxiy glyph atlas " + var1, 13, TextureFormat.RED8, 2048, 2048, 1, 1);
+         this.texture = var2.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glyph atlas " + var1, 13, TextureFormat.RED8, 2048, 2048, 1, 1);
          this.view = var2.createTextureView(this.texture);
          var2.createCommandEncoder().clearColorTexture(this.texture, 0);
       }

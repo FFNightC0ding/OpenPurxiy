@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry20;
+import dev.purxiy.loader.fabric.client.WorldEventDispatcher;
 import net.minecraft.class_1268;
 import net.minecraft.class_1269;
 import net.minecraft.class_1747;
@@ -21,10 +20,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin({class_636.class})
 public abstract class ProfileGameModeMixin {
    @Unique
-   
+
    private class_2680 purxiy$clicked;
    @Unique
-   
+
    private class_2680 purxiy$front;
 
    @Inject(
@@ -33,7 +32,7 @@ public abstract class ProfileGameModeMixin {
    )
    private void purxiy$profileBreak(class_2338 var1, CallbackInfoReturnable<Boolean> var2) {
       if (var2.getReturnValueZ()) {
-         ClientRegistry20.onBlockBroken();
+         WorldEventDispatcher.onBlockBroken();
       }
    }
 
@@ -63,7 +62,7 @@ public abstract class ProfileGameModeMixin {
             var5.field_1687.method_8320(var3.method_17777()) != this.purxiy$clicked
                || var5.field_1687.method_8320(var3.method_17777().method_10093(var3.method_17780())) != this.purxiy$front
          )) {
-         ClientRegistry20.onBlockPlaced();
+         WorldEventDispatcher.onBlockPlaced();
       }
 
       this.purxiy$clicked = null;

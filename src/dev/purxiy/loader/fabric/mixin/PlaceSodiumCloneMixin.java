@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry6;
+import dev.purxiy.loader.fabric.client.ChunkRenderProvider;
 import net.minecraft.class_2680;
 import net.minecraft.class_2804;
 import net.minecraft.class_4076;
@@ -36,8 +35,8 @@ public abstract class PlaceSodiumCloneMixin {
       require = 0
    )
    private void purxiy$placeHide(CallbackInfo var1) {
-      ClientRegistry6.hideIn(this.blockData, this.pos.method_18674(), this.pos.method_18683(), this.pos.method_18687());
-      ClientRegistry6.lightIn(this.lightDataArrays, this.pos.method_18674(), this.pos.method_18683(), this.pos.method_18687());
-      ClientRegistry6.sectionCopied(this.pos.method_18674(), this.pos.method_18683(), this.pos.method_18687());
+      ChunkRenderProvider.hideIn(this.blockData, this.pos.method_18674(), this.pos.method_18683(), this.pos.method_18687());
+      ChunkRenderProvider.lightIn(this.lightDataArrays, this.pos.method_18674(), this.pos.method_18683(), this.pos.method_18687());
+      ChunkRenderProvider.sectionCopied(this.pos.method_18674(), this.pos.method_18683(), this.pos.method_18687());
    }
 }

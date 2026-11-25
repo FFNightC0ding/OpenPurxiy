@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.config;
 
 import com.google.gson.Gson;
@@ -24,7 +23,7 @@ import net.fabricmc.loader.api.FabricLoader;
 final class ConfigLibraryLoader {
    private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
    private static final int VERSION = 1;
-   
+
    private static String token;
 
    private ConfigLibraryLoader() {
@@ -42,14 +41,14 @@ final class ConfigLibraryLoader {
       return folder().resolve("discover");
    }
 
-   static ConfigLibraryLoader.TypeQ load() {
+   static ConfigLibraryLoader.LibrarySnapshot load() {
       Path var0 = folder().resolve("library.json");
       ArrayList var1 = new ArrayList();
       ArrayList var2 = new ArrayList();
       ArrayList var3 = new ArrayList();
       String var4 = null;
       if (!Files.isRegularFile(var0)) {
-         return new ConfigLibraryLoader.TypeQ(var1, var2, (String)null, var3);
+         return new ConfigLibraryLoader.LibrarySnapshot(var1, var2, (String)null, var3);
       } else {
          try {
             JsonObject var5 = JsonParser.parseString(Files.readString(var0, StandardCharsets.UTF_8)).getAsJsonObject();
@@ -80,11 +79,11 @@ final class ConfigLibraryLoader {
             }
          }
 
-         return new ConfigLibraryLoader.TypeQ(var1, var2, var4, var3);
+         return new ConfigLibraryLoader.LibrarySnapshot(var1, var2, var4, var3);
       }
    }
 
-   static void save(List<ConfigLibraryFactory2> var0, List<ConfigLibraryFactory2> var1,  ConfigLibraryFactory2 var2, List<String> var3) {
+   static void save(List<ConfigLibraryStats> var0, List<ConfigLibraryStats> var1,  ConfigLibraryStats var2, List<String> var3) {
       JsonObject var4 = new JsonObject();
       var4.addProperty("version", 1);
       var4.addProperty("active", var2 == null ? null : var2.id);
@@ -100,7 +99,7 @@ final class ConfigLibraryLoader {
       write(folder().resolve("library.json"), GSON.toJson(var4));
    }
 
-   private static JsonObject write(ConfigLibraryFactory2 var0) {
+   private static JsonObject write(ConfigLibraryStats var0) {
       JsonObject var1 = new JsonObject();
       var1.addProperty("id", var0.id);
       var1.addProperty("name", var0.name);
@@ -140,26 +139,26 @@ final class ConfigLibraryLoader {
       return var1;
    }
 
-   private static ConfigLibraryFactory2 read(JsonObject var0) {
+   private static ConfigLibraryStats read(JsonObject var0) {
       ArrayList var1 = new ArrayList();
 
       for (JsonElement var3 : array(var0, "modules")) {
          var1.add(var3.getAsString());
       }
 
-      ConfigLibraryFactory2.TypeT var10;
+      ConfigLibraryStats.ConfigOrigin var10;
       try {
-         var10 = ConfigLibraryFactory2.TypeT.valueOf(string(var0, "source", "SAVED"));
+         var10 = ConfigLibraryStats.ConfigOrigin.valueOf(string(var0, "source", "SAVED"));
       } catch (IllegalArgumentException var9) {
-         var10 = ConfigLibraryFactory2.TypeT.SAVED;
+         var10 = ConfigLibraryStats.ConfigOrigin.SAVED;
       }
 
-      if (var10 == ConfigLibraryFactory2.TypeT.COMMUNITY) {
-         var10 = ConfigLibraryFactory2.TypeT.ADDED;
+      if (var10 == ConfigLibraryStats.ConfigOrigin.COMMUNITY) {
+         var10 = ConfigLibraryStats.ConfigOrigin.ADDED;
       }
 
       long var11 = var0.has("created") ? var0.get("created").getAsLong() : System.currentTimeMillis();
-      ConfigLibraryFactory2 var5 = new ConfigLibraryFactory2(
+      ConfigLibraryStats var5 = new ConfigLibraryStats(
          var0.get("id").getAsString(),
          string(var0, "name", "Config"),
          string(var0, "author", ""),
@@ -247,6 +246,6 @@ final class ConfigLibraryLoader {
       }
    }
 
-   record TypeQ(List<ConfigLibraryFactory2> configs, List<String> shared,  String active, List<String> unpublish) {
+   record LibrarySnapshot(List<ConfigLibraryStats> configs, List<String> shared,  String active, List<String> unpublish) {
    }
 }

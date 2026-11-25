@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -16,95 +15,61 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public final class KnifeTransform {
-   private static final Map<String, KnifeTransform.TypeH> R = new HashMap<>();
+   private static final Map<String, KnifeTransform.PoseKey> R = new HashMap<>();
    private static final String L = System.getProperty("purxiy.wieldSheets");
-
    private static final String[] b = new String[47];
    private static final long[] c = new long[]{-8742439455913222866L, -4710603967252621221L};
-
 
    private KnifeTransform() {
    }
 
    private static void T(float[] var0, float[][] var1, boolean[] var2, long var3, int var5, float[][] var6) {
-      KnifeUpdater2.ensureSourceClassInitialized();
+      KnifeSwingState.ensureSourceClassInitialized();
       int var7 = var0.length;
 
       for (int var8 = 0; var8 < var7; var8++) {
          long var9 = 46656259779867L;
-         if (46656259779867L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var29 = var9 < 0L ? -1 : 1;
-         }
-
+         int var27 = var9 < 0L ? -1 : 1;
          if (var8 != 0) {
             long var12 = 46656259779867L;
-            if (46656259779867L == 0L) {
-               boolean var30 = false;
-            } else {
-               int var31 = var12 < 0L ? -1 : 1;
-            }
-
+            int var14 = var12 < 0L ? -1 : 1;
             if (var8 != var7 - 1 && !var2[var8]) {
-               float var14 = var0[var8] - var0[var8 - 1];
+               float var14x = var0[var8] - var0[var8 - 1];
                float var15 = var0[var8 + 1] - var0[var8];
-               float var16 = (var1[var8][var5] - var1[var8 - 1][var5]) / var14;
+               float var16 = (var1[var8][var5] - var1[var8 - 1][var5]) / var14x;
                float var17 = (var1[var8 + 1][var5] - var1[var8][var5]) / var15;
                long var18 = 46656259779866L;
-               if (46656259779866L == 0L) {
-                  boolean var34 = false;
-               } else {
-                  int var35 = var18 < 0L ? -1 : 1;
-               }
-
-               float var20 = var16 * var17;
+               int var20 = var18 < 0L ? -1 : 1;
+               float var20x = var16 * var17;
                long var21 = 46656259779866L;
-               if (46656259779866L == 0L) {
-                  boolean var36 = false;
-               } else {
-                  int var37 = var21 < 0L ? -1 : 1;
-               }
-
-               if (var20 <= 0.0F) {
+               int var28 = var21 < 0L ? -1 : 1;
+               if (var20x <= 0.0F) {
                   var6[var8][var5] = 0.0F;
                   long var23 = 46656259779866L;
-                  if (46656259779866L == 0L) {
-                     boolean var38 = false;
-                  } else {
-                     int var39 = var23 < 0L ? -1 : 1;
-                  }
+                  int var241 = var23 < 0L ? -1 : 1;
                } else {
-                  float var28 = (var16 * var15 + var17 * var14) / (var14 + var15);
+                  float var28x = (var16 * var15 + var17 * var14x) / (var14x + var15);
                   float var24 = 3.0F * Math.min(Math.abs(var16), Math.abs(var17));
-                  var6[var8][var5] = Math.copySign(Math.min(Math.abs(var28), var24), var28);
+                  var6[var8][var5] = Math.copySign(Math.min(Math.abs(var28x), var24), var28x);
                }
                continue;
             }
          }
 
          var6[var8][var5] = 0.0F;
-         long var27 = 46656259779866L;
-         if (46656259779866L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var27 < 0L ? -1 : 1;
-         }
+         long var27x = 46656259779866L;
+         int var281 = var27x < 0L ? -1 : 1;
       }
 
       long var26 = 46656259779867L;
-      if (46656259779867L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var26 < 0L ? -1 : 1;
-      }
+      int var10 = var26 < 0L ? -1 : 1;
    }
 
-   public static synchronized KnifeTransform.TypeH sheet(String var0) {
+   public static synchronized KnifeTransform.PoseKey sheet(String var0) {
       long var1 = 33534988711942L;
       int var3 = (int)((var1 ^ 119466745508075L) >>> 56);
       long var4 = (var1 ^ 119466745508075L) << 8 >>> 8;
-      KnifeTransform.TypeH var6 = R.get(var0);
+      KnifeTransform.PoseKey var6 = R.get(var0);
       if (var6 == null) {
          var6 = n((byte)var3, var0, var4);
          R.put(var0, var6);
@@ -117,20 +82,15 @@ public final class KnifeTransform {
       R.clear();
    }
 
-   private static KnifeTransform.TypeH n(byte var0, String var1, long var2) {
-      KnifeUpdater2.ensureSourceClassInitialized();
+   private static KnifeTransform.PoseKey n(byte var0, String var1, long var2) {
+      KnifeSwingState.ensureSourceClassInitialized();
       String var4 = null;
 
       try {
          if (L != null) {
             Path var5 = Path.of(L, var1 + ".txt");
             long var6 = 126274152122605L;
-            if (126274152122605L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var15 = var6 < 0L ? -1 : 1;
-            }
-
+            int var8 = var6 < 0L ? -1 : 1;
             if (Files.exists(var5)) {
                var4 = Files.readString(var5, StandardCharsets.UTF_8);
             }
@@ -147,22 +107,22 @@ public final class KnifeTransform {
          ClientServices.LOGGER.error("Could not read the {} wield sheet", var1, var12);
       }
 
-      KnifeTransform.TypeH var14 = new KnifeTransform.TypeH(var1);
+      KnifeTransform.PoseKey var14 = new KnifeTransform.PoseKey(var1);
       if (var4 == null) {
          ClientServices.LOGGER.warn("No wield sheet for {}", var1);
          return var14;
       } else {
          try {
             parse(var4, var14);
-         } catch (RuntimeException var9) {
-            ClientServices.LOGGER.error("The {} wield sheet is broken: {}", var1, var9.getMessage());
+         } catch (RuntimeException var91) {
+            ClientServices.LOGGER.error("The {} wield sheet is broken: {}", var1, var91.getMessage());
          }
 
          return var14;
       }
    }
 
-   static void parse(String var0, KnifeTransform.TypeH var1) {
+   static void parse(String var0, KnifeTransform.PoseKey var1) {
       long var2 = 59197084748316L;
       int var4 = (int)((var2 ^ 8912354557851L) >>> 56);
       long var5 = (var2 ^ 8912354557851L) << 8 >>> 8;
@@ -175,7 +135,7 @@ public final class KnifeTransform {
       float var13 = -1.0F;
       float var14 = -1.0F;
       ArrayList var15 = new ArrayList();
-      ArrayList var16 = new ArrayList();
+      ArrayList<float[]> var16 = new ArrayList();
       ArrayList var17 = new ArrayList();
       ArrayList var18 = new ArrayList();
       ArrayList var19 = new ArrayList();
@@ -213,7 +173,7 @@ public final class KnifeTransform {
                var1.a
                   .put(
                      var7,
-                     new KnifeTransform.TypeU(
+                     new KnifeTransform.PoseTrack(
                         var7,
                         var8,
                         var45,
@@ -225,7 +185,7 @@ public final class KnifeTransform {
                         var10 >= 0.0F ? var10 + 0.07F : var45,
                         1.0F,
                         var28,
-                        (float[][])(var16.toArray(new float[0][])),
+                        var16.toArray(new float[0][]),
                         var29,
                         var30,
                         var19
@@ -419,7 +379,7 @@ public final class KnifeTransform {
       return new float[]{Float.parseFloat(var1[0]), Float.parseFloat(var1[1]), Float.parseFloat(var1[2])};
    }
 
-   static void aimed(float[] var0, float[] var1,  float[] var2,  float[] var3) {
+   static void aimed(float[] var0, float[] var1, float[] var2, float[] var3) {
       Vector3f var4 = new Vector3f(var1[0], var1[1], var1[2]).normalize();
       float var5 = (float)Math.toDegrees(Math.asin(Math.clamp(-var4.z, -1.0F, 1.0F)));
       float var6 = (float)Math.toDegrees(Math.atan2(-var4.x, var4.y));
@@ -444,8 +404,8 @@ public final class KnifeTransform {
       return var1 + 360.0F * Math.round((var0 - var1) / 360.0F);
    }
 
-   private static boolean a(String var0, float[] var1,  List var2, byte var3,  long var4, float var6, String var7) {
-      KnifeUpdater2.ensureSourceClassInitialized();
+   private static boolean a(String var0, float[] var1, List var2, byte var3, long var4, float var6, String var7) {
+      KnifeSwingState.ensureSourceClassInitialized();
       boolean var8 = var0.equals("stop");
       boolean var9 = false;
       if (var8) {
@@ -453,49 +413,34 @@ public final class KnifeTransform {
       } else {
          String[] var10 = var0.split("=", 2);
          long var11 = 67954780632454L;
-         if (67954780632454L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var25 = var11 < 0L ? -1 : 1;
-         }
-
+         int var14 = var11 < 0L ? -1 : 1;
          if (var10.length < 2) {
             throw new IllegalArgumentException(var7 + ": unknown option " + var0);
          } else {
-            String var14 = var10[0];
+            String var14x = var10[0];
             byte var15 = -1;
-            switch (var14.hashCode()) {
+            switch (var14x.hashCode()) {
                case 3282:
-                  if (var14.equals("fx")) {
+                  if (var14x.equals("fx")) {
                      var15 = 3;
                   }
                   break;
                case 3317767:
-                  if (var14.equals("left")) {
+                  if (var14x.equals("left")) {
                      var15 = 0;
                   }
                   break;
                case 109526449:
-                  if (var14.equals("slide")) {
+                  if (var14x.equals("slide")) {
                      long var23 = 67954780632455L;
-                     if (67954780632455L == 0L) {
-                        boolean var28 = false;
-                     } else {
-                        int var29 = var23 < 0L ? -1 : 1;
-                     }
-
+                     int var25 = var23 < 0L ? -1 : 1;
                      var15 = 1;
                   }
                   break;
                case 109627663:
-                  if (var14.equals("sound")) {
+                  if (var14x.equals("sound")) {
                      long var16 = 67954780632455L;
-                     if (67954780632455L == 0L) {
-                        boolean var26 = false;
-                     } else {
-                        int var27 = var16 < 0L ? -1 : 1;
-                     }
-
+                     int var18 = var16 < 0L ? -1 : 1;
                      var15 = 2;
                   }
             }
@@ -507,11 +452,7 @@ public final class KnifeTransform {
                case 1:
                   var1[7] = Float.parseFloat(var10[1]);
                   long var24 = 67954780632455L;
-                  if (67954780632455L == 0L) {
-                     boolean var32 = false;
-                  } else {
-                     int var33 = var24 < 0L ? -1 : 1;
-                  }
+                  int var27 = var24 < 0L ? -1 : 1;
                   break;
                case 2:
                case 3:
@@ -521,15 +462,10 @@ public final class KnifeTransform {
 
                   String[] var18 = var10[1].split("/");
                   long var19 = 67954780632455L;
-                  if (67954780632455L == 0L) {
-                     boolean var30 = false;
-                  } else {
-                     int var31 = var19 < 0L ? -1 : 1;
-                  }
-
-                  float var21 = var18.length > 1 ? Float.parseFloat(var18[1]) : 1.0F;
+                  int var21 = var19 < 0L ? -1 : 1;
+                  float var21x = var18.length > 1 ? Float.parseFloat(var18[1]) : 1.0F;
                   float var22 = var18.length > 2 ? Float.parseFloat(var18[2]) : 1.0F;
-                  var2.add(new KnifeTransform.Data(var6, var10[0], var18[0], var21, var22));
+                  var2.add(new KnifeTransform.Data(var6, var10[0], var18[0], var21x, var22));
                   break;
                default:
                   throw new IllegalArgumentException(var7 + ": unknown option " + var0);
@@ -540,7 +476,7 @@ public final class KnifeTransform {
       }
    }
 
-public record Data(float Z, String J, String k, float L, float j) {
+   public record Data(float Z, String J, String k, float L, float j) {
       public float time() {
          return this.Z;
       }
@@ -582,22 +518,21 @@ public record Data(float Z, String J, String k, float L, float j) {
       }
    }
 
-   public static final class TypeH {
+   public static final class PoseKey {
       public final String z;
       public final Map<String, float[]> T = new HashMap<>();
-      public final Map<String, KnifeTransform.TypeU> a = new HashMap<>();
+      public final Map<String, KnifeTransform.PoseTrack> a = new HashMap<>();
       public final Map<String, Float> q = new HashMap<>();
       public float k = 0.07F;
       public float b = 0.22F;
       public float M = 1.0F;
       private static final String c = "ready";
 
-      TypeH(String var1) {
+      PoseKey(String var1) {
          this.z = var1;
       }
 
-      
-      public KnifeTransform.TypeU clip(String var1) {
+      public KnifeTransform.PoseTrack clip(String var1) {
          return this.a.get(var1);
       }
 
@@ -609,7 +544,7 @@ public record Data(float Z, String J, String k, float L, float j) {
       public KnifeCurve pose(String var1, KnifeCurve var2) {
          float[] var3 = this.T.get(var1);
          if (var3 == null) {
-            var3 = this.T.get(c);
+            var3 = this.T.get("ready");
          }
 
          return var3 == null ? var2.set(new KnifeCurve()) : var2.set(var3);
@@ -618,16 +553,14 @@ public record Data(float Z, String J, String k, float L, float j) {
       public boolean has(String var1) {
          return this.T.containsKey(var1);
       }
+   }
 
-}
-
-   public static final class TypeU {
+   public static final class PoseTrack {
       public final String o;
       public final float E;
       public final float T;
       public final float R;
       public final float v;
-      
       public final String N;
       public final float J;
       public final float t;
@@ -639,9 +572,9 @@ public record Data(float Z, String J, String k, float L, float j) {
       final boolean[] W;
       public final List<KnifeTransform.Data> U;
 
-      TypeU(
+      PoseTrack(
          String var1,
-          String var2,
+         String var2,
          float var3,
          float var4,
          float var5,
@@ -655,9 +588,9 @@ public record Data(float Z, String J, String k, float L, float j) {
          this(var1, var2, var3, var4, var5, var6, 0.0F, var3, var4 >= 0.0F ? var4 + 0.07F : var3, 1.0F, var7, var8, var9, var10, var11);
       }
 
-      TypeU(
+      PoseTrack(
          String var1,
-          String var2,
+         String var2,
          float var3,
          float var4,
          float var5,

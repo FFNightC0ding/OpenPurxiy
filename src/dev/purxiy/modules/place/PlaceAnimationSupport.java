@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.place;
 
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.client.ClientSupport4;
+import dev.purxiy.loader.fabric.client.SectionLightSnapshot;
 import dev.purxiy.loader.fabric.mixin.PlaceLevelRendererInvoker;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
@@ -62,27 +61,20 @@ public final class PlaceAnimationSupport {
    private static final float j = 1.006F;
    private static final float N = 0.95F;
    private static final float q = 0.8F;
-   
    private static class_1921 x;
    private static final Map<class_7764, Boolean> U = new WeakHashMap<>();
-   private static final List<PlaceAnimationSupport.TypeP> u = new ArrayList<>();
-   private static volatile PlaceAnimationSupport.TypeG i = PlaceAnimationSupport.TypeG.u;
+   private static final List<PlaceAnimationSupport.PlaceState> u = new ArrayList<>();
+   private static volatile PlaceAnimationSupport.PlaceSnapshot i = PlaceAnimationSupport.PlaceSnapshot.u;
    private static int e = 0;
    private static int r = 0;
-   
    private static class_1750 W;
-   private static final List<PlaceAnimationSupport.TypeR> X = new ArrayList<>();
-   
+   private static final List<PlaceAnimationSupport.PlacedBlock> X = new ArrayList<>();
    private static class_2338 R;
-   
    private static class_2680 n;
-   
    private static class_2680 y;
-   
    private static class_638 Y;
    private static long D = 0L;
-   private static final PlaceMotion.TypeW v = new PlaceMotion.TypeW();
-   
+   private static final PlaceMotion.PlacePose v = new PlaceMotion.PlacePose();
    private static String I;
    private static float C = -1.0F;
    private static boolean E;
@@ -101,7 +93,6 @@ public final class PlaceAnimationSupport {
    private static int c = 0;
    private static int m = 0;
    public static boolean z;
-
    private static final String[] g = new String[7];
    private static final long[] h = new long[]{
       -6291364059267607919L,
@@ -118,7 +109,6 @@ public final class PlaceAnimationSupport {
       -1369924649470297767L,
       1127550179798881813L
    };
-
 
    private PlaceAnimationSupport() {
    }
@@ -157,7 +147,7 @@ public final class PlaceAnimationSupport {
       int var9 = (int)((var3 ^ 19310063376050L) << 32 >>> 32);
       if (r > 0) {
          if (l(var1, var5, var2) && X.size() < 8) {
-            X.add(new PlaceAnimationSupport.TypeR(var0.method_10062(), var2));
+            X.add(new PlaceAnimationSupport.PlacedBlock(var0.method_10062(), var2));
          }
       } else if (!u.isEmpty()) {
          W(var0, var2, var7, var9);
@@ -234,7 +224,7 @@ public final class PlaceAnimationSupport {
                class_742 var20 = C(var17, var19, var11);
                if (var20 != null) {
                   q(
-                     List.of(new PlaceAnimationSupport.TypeR(var0.method_10062(), var18)),
+                     List.of(new PlaceAnimationSupport.PlacedBlock(var0.method_10062(), var18)),
                      var3,
                      s(var17.field_1687, var0, (char)var13, var20.method_33571(), var14)
                   );
@@ -253,77 +243,39 @@ public final class PlaceAnimationSupport {
       int var11 = (int)(var7 << 48 >>> 48);
       PlaceMotion.ensureSourceClassInitialized();
 
-      for (PlaceAnimationSupport.TypeP var13 : u) {
+      for (PlaceAnimationSupport.PlaceState var13 : u) {
          if (!var13.T) {
             long var14 = 72693337159267L;
-            if (72693337159267L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var40 = var14 < 0L ? -1 : 1;
-            }
-
-            if (var13.n == PlaceAnimationSupport.TypeO.s) {
-               long var17 = 72693337159267L;
-               if (72693337159267L == 0L) {
-                  boolean var41 = false;
-               } else {
-                  int var42 = var17 < 0L ? -1 : 1;
-               }
-
-               int var19 = var13.V.size();
+            int var17 = var14 < 0L ? -1 : 1;
+            if (var13.n == PlaceAnimationSupport.PlacePhase.s) {
+               long var17x = 72693337159267L;
+               int var19 = var17x < 0L ? -1 : 1;
+               var19 = var13.V.size();
                long var20 = 72693337159266L;
-               if (72693337159266L == 0L) {
-                  boolean var43 = false;
-               } else {
-                  int var44 = var20 < 0L ? -1 : 1;
-               }
-
+               int var23 = var20 < 0L ? -1 : 1;
                if (var19 < 8) {
-                  float var23;
-                  var19 = (var23 = var13.age(v(var5)) - 0.9F) == 0.0F ? 0 : (var23 < 0.0F ? -1 : 1);
+                  float var23x;
+                  var19 = (var23x = var13.age(v(var5)) - 0.9F) == 0.0F ? 0 : (var23x < 0.0F ? -1 : 1);
                   long var24 = 72693337159266L;
-                  if (72693337159266L == 0L) {
-                     boolean var45 = false;
-                  } else {
-                     int var46 = var24 < 0L ? -1 : 1;
-                  }
-
+                  int var24x = var24 < 0L ? -1 : 1;
                   if (var19 > 0) {
                      long var39 = 72693337159266L;
-                     if (72693337159266L == 0L) {
-                        boolean var53 = false;
-                     } else {
-                        int var54 = var39 < 0L ? -1 : 1;
-                     }
+                     int var42 = var39 < 0L ? -1 : 1;
                   } else {
-                     for (PlaceAnimationSupport.TypeU var28 : var13.V) {
+                     for (PlaceAnimationSupport.PlaceAnimation var28 : var13.V) {
                         long var29 = 72693337159266L;
-                        if (72693337159266L == 0L) {
-                           boolean var47 = false;
-                        } else {
-                           int var48 = var29 < 0L ? -1 : 1;
-                        }
-
+                        int var28x = var29 < 0L ? -1 : 1;
                         var19 = var28.Q.method_19455(var1);
-                        long var32 = 72693337159266L;
-                        if (72693337159266L == 0L) {
-                           boolean var49 = false;
-                        } else {
-                           int var50 = var32 < 0L ? -1 : 1;
-                        }
-
+                        long var32x = 72693337159266L;
+                        int var30 = var32x < 0L ? -1 : 1;
                         if (var19 == 1 && !var28.Q.equals(var1)) {
-                           var13.V.add(new PlaceAnimationSupport.TypeU(var1, var2, var0));
+                           var13.V.add(new PlaceAnimationSupport.PlaceAnimation(var1, var2, var0));
                            return true;
                         }
                      }
 
-                     long var38 = 72693337159266L;
-                     if (72693337159266L == 0L) {
-                        boolean var51 = false;
-                     } else {
-                        int var52 = var38 < 0L ? -1 : 1;
-                     }
+                     long var38x = 72693337159266L;
+                     int var41 = var38x < 0L ? -1 : 1;
                   }
                }
             }
@@ -331,52 +283,26 @@ public final class PlaceAnimationSupport {
       }
 
       long var35 = 72693337159266L;
-      if (72693337159266L == 0L) {
-         boolean var55 = false;
-      } else {
-         int var56 = var35 < 0L ? -1 : 1;
-      }
-
+      int var321 = var35 < 0L ? -1 : 1;
       return false;
    }
 
-   
    private static class_742 C(class_310 var0, class_243 var1, long var2) {
       PlaceMotion.ensureSourceClassInitialized();
 
       for (class_742 var5 : var0.field_1687.method_18456()) {
          long var6 = 34679693304472L;
-         if (34679693304472L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var19 = var6 < 0L ? -1 : 1;
-         }
-
+         int var9 = var6 < 0L ? -1 : 1;
          if (var5 != var0.field_1724) {
-            long var9 = 34679693304472L;
-            if (34679693304472L == 0L) {
-               boolean var20 = false;
-            } else {
-               int var21 = var9 < 0L ? -1 : 1;
-            }
-
-            long var11 = 34679693304471L;
-            if (34679693304471L == 0L) {
-               boolean var22 = false;
-            } else {
-               int var23 = var11 < 0L ? -1 : 1;
-            }
-
+            long var9x = 34679693304472L;
+            int var11 = var9x < 0L ? -1 : 1;
+            long var11x = 34679693304471L;
+            int var14 = var11x < 0L ? -1 : 1;
             if (var5.field_6252) {
-               double var14;
-               int var16 = (var14 = var5.method_33571().method_1025(var1) - 56.25) == 0.0 ? 0 : (var14 < 0.0 ? -1 : 1);
+               double var14x;
+               int var16 = (var14x = var5.method_33571().method_1025(var1) - 56.25) == 0.0 ? 0 : (var14x < 0.0 ? -1 : 1);
                long var17 = 34679693304471L;
-               if (34679693304471L == 0L) {
-                  boolean var24 = false;
-               } else {
-                  int var25 = var17 < 0L ? -1 : 1;
-               }
-
+               int var17x = var17 < 0L ? -1 : 1;
                if (var16 < 0) {
                   return var5;
                }
@@ -401,19 +327,9 @@ public final class PlaceAnimationSupport {
             if (var0.method_8320(var13).method_26206(var0, var13, var12.method_10153())) {
                double var15 = class_243.method_24953(var13).method_1025(var3);
                long var17 = 118821397939420L;
-               if (118821397939420L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var21 = var17 < 0L ? -1 : 1;
-               }
-
-               long var19 = 118821397939419L;
-               if (118821397939419L == 0L) {
-                  boolean var22 = false;
-               } else {
-                  int var23 = var19 < 0L ? -1 : 1;
-               }
-
+               int var19 = var17 < 0L ? -1 : 1;
+               long var19x = 118821397939419L;
+               int var21 = var19x < 0L ? -1 : 1;
                if (var15 < var7) {
                   var7 = var15;
                   var6 = var12;
@@ -428,20 +344,10 @@ public final class PlaceAnimationSupport {
    private static boolean l(class_2680 var0, long var1, class_2680 var3) {
       PlaceMotion.ensureSourceClassInitialized();
       long var4 = 83230634199565L;
-      if (83230634199565L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var9 = var4 < 0L ? -1 : 1;
-      }
-
+      int var7 = var4 < 0L ? -1 : 1;
       if (!var3.method_26215()) {
-         long var7 = 83230634199564L;
-         if (83230634199564L == 0L) {
-            boolean var10 = false;
-         } else {
-            int var11 = var7 < 0L ? -1 : 1;
-         }
-
+         long var7x = 83230634199564L;
+         int var8 = var7x < 0L ? -1 : 1;
          if (var0.method_26204() != var3.method_26204() && (var3.method_26217() == class_2464.field_11458 || var3.method_31709())) {
             return true;
          }
@@ -450,7 +356,7 @@ public final class PlaceAnimationSupport {
       return false;
    }
 
-   private static void q(List var0, long var1, class_2350 var3) {
+   private static void q(List<PlacedBlock> var0, long var1, class_2350 var3) {
       long var4 = 86284767263384L;
       short var6 = 20089;
       char var7 = '볦';
@@ -466,84 +372,51 @@ public final class PlaceAnimationSupport {
       class_310 var18 = class_310.method_1551();
       class_638 var19 = var18.field_1687;
       if (var19 != null) {
-         for (PlaceAnimationSupport.TypeR var21 : ((Iterable<PlaceAnimationSupport.TypeR>)(Object)var0)) {
+         for (PlaceAnimationSupport.PlacedBlock var21 : var0) {
             p(var21.w, var11);
          }
 
          ArrayList var42 = new ArrayList(var0.size());
          long var43 = 85374220276536L;
-         if (85374220276536L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var50 = var43 < 0L ? -1 : 1;
-         }
-
-         ArrayList var24 = var42;
+         int var24 = var43 < 0L ? -1 : 1;
+         ArrayList<PlaceAnimationSupport.PlaceAnimation>var24x = var42;
          class_238 var25 = null;
 
-         label100:
-         for (PlaceAnimationSupport.TypeR var27 : ((Iterable<PlaceAnimationSupport.TypeR>)(Object)var0)) {
+         label79:
+         for (PlaceAnimationSupport.PlacedBlock var27 : var0) {
             class_2680 var28 = var19.method_8320(var27.w);
             if (var28.method_26204() != var27.Y.method_26204()) {
                long var46 = 85374220276536L;
-               if (85374220276536L == 0L) {
-                  boolean var59 = false;
-               } else {
-                  int var60 = var46 < 0L ? -1 : 1;
-               }
+               int var51 = var46 < 0L ? -1 : 1;
             } else {
-               for (PlaceAnimationSupport.TypeU var30 : ((Iterable<PlaceAnimationSupport.TypeU>)(Object)var24)) {
+               for (PlaceAnimationSupport.PlaceAnimation var30 : var24x) {
                   long var31 = 85374220276536L;
-                  if (85374220276536L == 0L) {
-                     boolean var51 = false;
-                  } else {
-                     int var52 = var31 < 0L ? -1 : 1;
-                  }
-
-                  boolean var34 = var30.Q.equals(var27.w);
+                  int var34 = var31 < 0L ? -1 : 1;
+                  boolean var34x = var30.Q.equals(var27.w);
                   long var35 = 85374220276536L;
-                  if (85374220276536L == 0L) {
-                     boolean var53 = false;
-                  } else {
-                     int var54 = var35 < 0L ? -1 : 1;
-                  }
-
-                  if (var34) {
-                     long var38 = 85374220276535L;
-                     if (85374220276535L == 0L) {
-                        boolean var55 = false;
-                     } else {
-                        int var56 = var38 < 0L ? -1 : 1;
-                     }
-                     continue label100;
+                  int var35x = var35 < 0L ? -1 : 1;
+                  if (var34x) {
+                     long var38x = 85374220276535L;
+                     int var37 = var38x < 0L ? -1 : 1;
+                     continue label79;
                   }
                }
 
-               var24.add(new PlaceAnimationSupport.TypeU(var27.w, var28, var19));
+               var24x.add(new PlaceAnimationSupport.PlaceAnimation(var27.w, var28, var19));
                long var45 = 85374220276536L;
-               if (85374220276536L == 0L) {
-                  boolean var57 = false;
-               } else {
-                  int var58 = var45 < 0L ? -1 : 1;
-               }
-
+               int var491 = var45 < 0L ? -1 : 1;
                class_238 var32 = Y(var19, var13, var27.w, var28);
                var25 = var25 == null ? var32 : var25.method_991(var32);
             }
          }
 
          long var44 = 85374220276535L;
-         if (85374220276535L == 0L) {
-            boolean var61 = false;
-         } else {
-            int var62 = var44 < 0L ? -1 : 1;
-         }
-
-         if (!var24.isEmpty() && var25 != null) {
+         int var43x = var44 < 0L ? -1 : 1;
+         if (!var24x.isEmpty() && var25 != null) {
             PlaceAnimationModule var47 = H;
             PlaceMotion.Style var48 = var47.motionStyle();
             class_243 var49 = n(var25, var6, (short)var7, var3, var48.fromFace(), var8);
-            A(var9, new PlaceAnimationSupport.TypeP(var24, var49, var3, var48, var47.J.floatValue(), var47.l.floatValue(), false, System.nanoTime()));
+            A(var9, new PlaceAnimationSupport.PlaceState(var24x, var49, var3, var48, var47.J.floatValue(), var47.l.floatValue(), false, System.nanoTime()));
          }
       }
    }
@@ -556,16 +429,16 @@ public final class PlaceAnimationSupport {
       p(var4, var10);
       PlaceAnimationModule var14 = H;
       class_238 var15 = Y(var0, var12, var4, var5);
-      List var16 = List.of(new PlaceAnimationSupport.TypeU(var4, var5, var0));
+      List var16 = List.of(new PlaceAnimationSupport.PlaceAnimation(var4, var5, var0));
       A(
          var8,
-         new PlaceAnimationSupport.TypeP(
+         new PlaceAnimationSupport.PlaceState(
             var16, var15.method_1005(), class_2350.field_11033, PlaceMotion.Style.I, var14.J.floatValue(), var14.l.floatValue() * 0.8F, true, System.nanoTime()
          )
       );
    }
 
-   private static void A(long var0, PlaceAnimationSupport.TypeP var2) {
+   private static void A(long var0, PlaceAnimationSupport.PlaceState var2) {
       long var3 = 6360580864854L;
       byte var5 = 0;
       int var6 = 97054761;
@@ -584,7 +457,7 @@ public final class PlaceAnimationSupport {
       if (!var4) {
          return var6;
       } else {
-         return switch (PlaceAnimationSupport.TypeK.A[var3.ordinal()]) {
+         return switch (PlaceAnimationSupport.PlaceBatch.A[var3.ordinal()]) {
             case 1 -> new class_243(var6.field_1352, var0.field_1322, var6.field_1350);
             case 2 -> new class_243(var6.field_1352, var0.field_1325, var6.field_1350);
             case 3 -> new class_243(var6.field_1352, var6.field_1351, var0.field_1321);
@@ -612,27 +485,18 @@ public final class PlaceAnimationSupport {
       PlaceMotion.ensureSourceClassInitialized();
 
       for (int var13 = u.size() - 1; var13 >= 0; var13--) {
-         PlaceAnimationSupport.TypeP var14 = u.get(var13);
+         PlaceAnimationSupport.PlaceState var14 = u.get(var13);
 
          for (int var15 = var14.V.size() - 1; var15 >= 0; var15--) {
-            PlaceAnimationSupport.TypeU var16 = var14.V.get(var15);
+            PlaceAnimationSupport.PlaceAnimation var16 = var14.V.get(var15);
             boolean var17 = var16.Q.equals(var0);
             int var18 = -1344897751;
             if (!var17) {
                long var19 = 12062L;
-               if (12062L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var26 = var19 < 0L ? -1 : 1;
-               }
+               int var21 = var19 < 0L ? -1 : 1;
             } else {
                long var25 = 12062L;
-               if (12062L == 0L) {
-                  boolean var27 = false;
-               } else {
-                  int var28 = var25 < 0L ? -1 : 1;
-               }
-
+               int var28 = var25 < 0L ? -1 : 1;
                if (var14.T) {
                   if (!var1.method_26215()) {
                      u.remove(var13);
@@ -645,7 +509,7 @@ public final class PlaceAnimationSupport {
                   var12 = var17;
                } else {
                   var14.V.remove(var15);
-                  if (var14.n == PlaceAnimationSupport.TypeO.i && !var16.t) {
+                  if (var14.n == PlaceAnimationSupport.PlacePhase.i && !var16.t) {
                      e--;
                   }
 
@@ -655,24 +519,14 @@ public final class PlaceAnimationSupport {
          }
 
          long var23 = 12062L;
-         if (12062L == 0L) {
-            boolean var29 = false;
-         } else {
-            int var30 = var23 < 0L ? -1 : 1;
-         }
-
+         int var26 = var23 < 0L ? -1 : 1;
          if (var14.V.isEmpty()) {
             u.remove(var13);
          }
       }
 
       long var22 = 12062L;
-      if (12062L == 0L) {
-         boolean var31 = false;
-      } else {
-         int var32 = var22 < 0L ? -1 : 1;
-      }
-
+      int var24 = var22 < 0L ? -1 : 1;
       if (var12) {
       }
    }
@@ -686,11 +540,11 @@ public final class PlaceAnimationSupport {
       boolean var8 = false;
 
       for (int var9 = u.size() - 1; var9 >= 0; var9--) {
-         PlaceAnimationSupport.TypeP var10 = u.get(var9);
+         PlaceAnimationSupport.PlaceState var10 = u.get(var9);
          boolean var11 = var10.V.removeIf(var2 -> {
             PlaceMotion.ensureSourceClassInitialized();
             if (var2.Q.equals(var0)) {
-               if (var10.n == PlaceAnimationSupport.TypeO.i && !var2.t) {
+               if (var10.n == PlaceAnimationSupport.PlacePhase.i && !var2.t) {
                   e--;
                }
 
@@ -700,43 +554,23 @@ public final class PlaceAnimationSupport {
             }
          });
          long var12 = 67998896542701L;
-         if (67998896542701L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var20 = var12 < 0L ? -1 : 1;
-         }
-
+         int var15 = var12 < 0L ? -1 : 1;
          if (var11) {
             var8 = true;
          }
 
          var11 = var10.V.isEmpty();
-         long var15 = 67998896542702L;
-         if (67998896542702L == 0L) {
-            boolean var21 = false;
-         } else {
-            int var22 = var15 < 0L ? -1 : 1;
-         }
-
+         long var15x = 67998896542702L;
+         int var16 = var15x < 0L ? -1 : 1;
          if (var11) {
             u.remove(var9);
          }
       }
 
       long var18 = 67998896542702L;
-      if (67998896542702L == 0L) {
-         boolean var23 = false;
-      } else {
-         int var24 = var18 < 0L ? -1 : 1;
-      }
-
+      int var19 = var18 < 0L ? -1 : 1;
       long var13 = 67998896542702L;
-      if (67998896542702L == 0L) {
-         boolean var25 = false;
-      } else {
-         int var26 = var13 < 0L ? -1 : 1;
-      }
-
+      int var13x = var13 < 0L ? -1 : 1;
       if (var8) {
       }
    }
@@ -750,8 +584,8 @@ public final class PlaceAnimationSupport {
       int var8 = (int)(var4 << 48 >>> 48);
       class_310 var9 = class_310.method_1551();
 
-      for (PlaceAnimationSupport.TypeP var11 : u) {
-         if (!var11.T && var11.n == PlaceAnimationSupport.TypeO.s) {
+      for (PlaceAnimationSupport.PlaceState var11 : u) {
+         if (!var11.T && var11.n == PlaceAnimationSupport.PlacePhase.s) {
             Q(var9, var2, var11);
          }
       }
@@ -763,7 +597,7 @@ public final class PlaceAnimationSupport {
       W = null;
    }
 
-   private static void Z(PlaceAnimationSupport.TypeP var0, short var1, int var2, char var3) {
+   private static void Z(PlaceAnimationSupport.PlaceState var0, short var1, int var2, char var3) {
       long var4 = 6360580864854L;
       long var6 = var4 ^ 49077142138952L;
       long var8 = var4 ^ 77817742899505L;
@@ -771,12 +605,12 @@ public final class PlaceAnimationSupport {
       int var11 = (int)((var4 ^ 77817742899505L) << 32 >>> 48);
       int var12 = (int)(var8 << 48 >>> 48);
       PlaceMotion.ensureSourceClassInitialized();
-      if (!var0.T && var0.n == PlaceAnimationSupport.TypeO.s) {
+      if (!var0.T && var0.n == PlaceAnimationSupport.PlacePhase.s) {
          Q(class_310.method_1551(), var6, var0);
       }
 
-      if (var0.n == PlaceAnimationSupport.TypeO.i) {
-         for (PlaceAnimationSupport.TypeU var14 : var0.V) {
+      if (var0.n == PlaceAnimationSupport.PlacePhase.i) {
+         for (PlaceAnimationSupport.PlaceAnimation var14 : var0.V) {
             if (!var14.t) {
                e--;
             }
@@ -791,7 +625,7 @@ public final class PlaceAnimationSupport {
       i = r(u, (short)var5, var6);
    }
 
-   private static PlaceAnimationSupport.TypeG r(List var0, short var1, long var2) {
+   private static PlaceAnimationSupport.PlaceSnapshot r(List<PlaceAnimationSupport.PlaceState> var0, short var1, long var2) {
       long var4 = (long)var1 << 48 | var2 << 16 >>> 16;
       int var6 = (int)((var4 ^ 31098243061609L) >>> 32);
       int var7 = (int)((var4 ^ 31098243061609L) << 32 >>> 32);
@@ -799,10 +633,10 @@ public final class PlaceAnimationSupport {
       int var8 = 0;
       byte var9 = 0;
 
-      for (PlaceAnimationSupport.TypeP var11 : ((Iterable<PlaceAnimationSupport.TypeP>)(Object)var0)) {
+      for (PlaceAnimationSupport.PlaceState var11 : var0) {
          byte var12 = (byte)(var11.T ? 1 : 0);
          if (var2 >= 0L) {
-            if (!var11.T && var11.n == PlaceAnimationSupport.TypeO.s) {
+            if (!var11.T && var11.n == PlaceAnimationSupport.PlacePhase.s) {
                var8 += var11.V.size();
             }
 
@@ -815,7 +649,7 @@ public final class PlaceAnimationSupport {
       }
 
       if (var2 > 0L && var8 == 0) {
-         return PlaceAnimationSupport.TypeG.u;
+         return PlaceAnimationSupport.PlaceSnapshot.u;
       } else {
          long[] var22 = new long[var8];
          class_2680[] var23 = new class_2680[var8];
@@ -831,17 +665,17 @@ public final class PlaceAnimationSupport {
             if (var16.hasNext()) {
                var17 = var16.next();
             } else {
-               var17 = new PlaceAnimationSupport.TypeG(var22, var23, var24, var13);
+               var17 = new PlaceAnimationSupport.PlaceSnapshot(var22, var23, var24, var13);
                if (var2 > 1L) {
-                  return (PlaceAnimationSupport.TypeG)var17;
+                  return (PlaceAnimationSupport.PlaceSnapshot)var17;
                }
             }
 
             while (true) {
                label95:
                while (true) {
-                  PlaceAnimationSupport.TypeP var18 = (PlaceAnimationSupport.TypeP)var17;
-                  PlaceAnimationSupport.TypeP var19 = var18;
+                  PlaceAnimationSupport.PlaceState var18 = (PlaceAnimationSupport.PlaceState)var17;
+                  PlaceAnimationSupport.PlaceState var19 = var18;
                   if (var1 >= 0) {
                      if (var2 <= 1L) {
                         if (!var18.T) {
@@ -860,8 +694,8 @@ public final class PlaceAnimationSupport {
                      var19 = var18;
                   }
 
-                  if (var19.n == PlaceAnimationSupport.TypeO.s) {
-                     for (PlaceAnimationSupport.TypeU var21 : var18.V) {
+                  if (var19.n == PlaceAnimationSupport.PlacePhase.s) {
+                     for (PlaceAnimationSupport.PlaceAnimation var21 : var18.V) {
                         if (var1 >= 0) {
                            var22[var15] = var21.Q.method_10063();
                            var17 = var23;
@@ -893,17 +727,17 @@ public final class PlaceAnimationSupport {
                   break;
                }
 
-               var17 = new PlaceAnimationSupport.TypeG(var22, var23, var24, var13);
+               var17 = new PlaceAnimationSupport.PlaceSnapshot(var22, var23, var24, var13);
                if (var2 > 1L) {
-                  return (PlaceAnimationSupport.TypeG)var17;
+                  return (PlaceAnimationSupport.PlaceSnapshot)var17;
                }
             }
          }
       }
    }
 
-   public static void hideIn( class_7522<class_2680> var0, int var1, int var2, int var3) {
-      PlaceAnimationSupport.TypeG var4 = i;
+   public static void hideIn(class_7522<class_2680> var0, int var1, int var2, int var3) {
+      PlaceAnimationSupport.PlaceSnapshot var4 = i;
       if (var4.c.length != 0 && var0 instanceof class_2841 var5) {
          for (int var6 = 0; var6 < var4.c.length; var6++) {
             long var7 = var4.c[var6];
@@ -961,9 +795,8 @@ public final class PlaceAnimationSupport {
       return var5;
    }
 
-   
-   public static ClientSupport4 lightIn(int var0, int var1, int var2) {
-      PlaceAnimationSupport.TypeG var3 = i;
+   public static SectionLightSnapshot lightIn(int var0, int var1, int var2) {
+      PlaceAnimationSupport.PlaceSnapshot var3 = i;
       if (var3.c.length == 0) {
          return null;
       } else {
@@ -985,12 +818,12 @@ public final class PlaceAnimationSupport {
             }
          }
 
-         return var4 == 0 ? null : new ClientSupport4(Arrays.copyOf(var5, var4), Arrays.copyOf(var6, var4), Arrays.copyOf(var7, var4));
+         return var4 == 0 ? null : new SectionLightSnapshot(Arrays.copyOf(var5, var4), Arrays.copyOf(var6, var4), Arrays.copyOf(var7, var4));
       }
    }
 
    public static void lightIn(class_2804[] var0, int var1, int var2, int var3) {
-      PlaceAnimationSupport.TypeG var4 = i;
+      PlaceAnimationSupport.PlaceSnapshot var4 = i;
       if (var4.c.length != 0) {
          boolean[] var5 = new boolean[var0.length];
 
@@ -1020,9 +853,9 @@ public final class PlaceAnimationSupport {
 
    public static void sectionCopied(int var0, int var1, int var2) {
       if (e > 0) {
-         for (PlaceAnimationSupport.TypeP var4 : u) {
-            if (var4.n == PlaceAnimationSupport.TypeO.i) {
-               for (PlaceAnimationSupport.TypeU var6 : var4.V) {
+         for (PlaceAnimationSupport.PlaceState var4 : u) {
+            if (var4.n == PlaceAnimationSupport.PlacePhase.i) {
+               for (PlaceAnimationSupport.PlaceAnimation var6 : var4.V) {
                   if (!var6.M && var6.in(var0, var1, var2)) {
                      var6.M = true;
                   }
@@ -1034,9 +867,9 @@ public final class PlaceAnimationSupport {
 
    public static void sectionMeshed(int var0, int var1, int var2) {
       if (e > 0) {
-         for (PlaceAnimationSupport.TypeP var4 : u) {
-            if (var4.n == PlaceAnimationSupport.TypeO.i) {
-               for (PlaceAnimationSupport.TypeU var6 : var4.V) {
+         for (PlaceAnimationSupport.PlaceState var4 : u) {
+            if (var4.n == PlaceAnimationSupport.PlacePhase.i) {
+               for (PlaceAnimationSupport.PlaceAnimation var6 : var4.V) {
                   if (var6.M && !var6.t && var6.in(var0, var1, var2)) {
                      var6.t = true;
                      e--;
@@ -1047,10 +880,10 @@ public final class PlaceAnimationSupport {
       }
    }
 
-   private static void Q(class_310 var0, long var1, PlaceAnimationSupport.TypeP var3) {
+   private static void Q(class_310 var0, long var1, PlaceAnimationSupport.PlaceState var3) {
       PlaceMotion.ensureSourceClassInitialized();
       if (var0.field_1769 instanceof PlaceLevelRendererInvoker var5) {
-         for (PlaceAnimationSupport.TypeU var7 : var3.V) {
+         for (PlaceAnimationSupport.PlaceAnimation var7 : var3.V) {
             var5.purxiy$setBlockDirty(var7.Q, true);
          }
       }
@@ -1076,24 +909,24 @@ public final class PlaceAnimationSupport {
             boolean var10 = false;
 
             for (int var11 = u.size() - 1; var11 >= 0; var11--) {
-               PlaceAnimationSupport.TypeP var12 = u.get(var11);
+               PlaceAnimationSupport.PlaceState var12 = u.get(var11);
                if (!var9.field_1687.method_8477(var12.V.getFirst().Q)) {
-                  if (var12.n == PlaceAnimationSupport.TypeO.i) {
-                     for (PlaceAnimationSupport.TypeU var20 : var12.V) {
+                  if (var12.n == PlaceAnimationSupport.PlacePhase.i) {
+                     for (PlaceAnimationSupport.PlaceAnimation var20 : var12.V) {
                         if (!var20.t) {
                            e--;
                         }
                      }
                   }
 
-                  var10 |= var12.n == PlaceAnimationSupport.TypeO.s && !var12.T;
+                  var10 |= var12.n == PlaceAnimationSupport.PlacePhase.s && !var12.T;
                   u.remove(var11);
-               } else if (var12.n == PlaceAnimationSupport.TypeO.s) {
+               } else if (var12.n == PlaceAnimationSupport.PlacePhase.s) {
                   if (!(var12.age(D) < 1.0F)) {
                      if (var12.T) {
                         u.remove(var11);
                      } else {
-                        var12.n = PlaceAnimationSupport.TypeO.i;
+                        var12.n = PlaceAnimationSupport.PlacePhase.i;
                         var12.j = D;
                         e = e + var12.V.size();
                         var10 = true;
@@ -1102,7 +935,7 @@ public final class PlaceAnimationSupport {
                } else {
                   boolean var13 = true;
 
-                  for (PlaceAnimationSupport.TypeU var15 : var12.V) {
+                  for (PlaceAnimationSupport.PlaceAnimation var15 : var12.V) {
                      if (var15.t) {
                         var15.x++;
                      }
@@ -1111,7 +944,7 @@ public final class PlaceAnimationSupport {
                   }
 
                   if (var13 || D - var12.j > 4000000000L) {
-                     for (PlaceAnimationSupport.TypeU var21 : var12.V) {
+                     for (PlaceAnimationSupport.PlaceAnimation var21 : var12.V) {
                         if (!var21.t) {
                            e--;
                         }
@@ -1123,9 +956,8 @@ public final class PlaceAnimationSupport {
             }
 
             if (var10) {
-
-               for (PlaceAnimationSupport.TypeP var17 : u) {
-                  if (var17.n == PlaceAnimationSupport.TypeO.i && var17.j == D) {
+               for (PlaceAnimationSupport.PlaceState var17 : u) {
+                  if (var17.n == PlaceAnimationSupport.PlacePhase.i && var17.j == D) {
                      Q(var9, var2, var17);
                   }
                }
@@ -1151,23 +983,23 @@ public final class PlaceAnimationSupport {
          try {
             class_243 var13 = var1.field_63082.field_63078;
             PlaceAnimationModule var14 = H;
-            PlaceAnimationLoader var15 = PlaceAnimationLoader.resolve(var14.D.get(), var14.q.argb());
+            PlaceAnimationLoader var15 = PlaceAnimationLoader.resolve((String)var14.D.get(), var14.q.argb());
             float var16 = var14.v.floatValue();
             class_824 var17 = var12.method_31975();
             float var18 = var12.method_61966().method_60637(false);
 
-            for (PlaceAnimationSupport.TypeP var20 : u) {
-               float var21 = var20.n == PlaceAnimationSupport.TypeO.i ? 1.0F : Math.min(var20.age(D), 1.0F);
+            for (PlaceAnimationSupport.PlaceState var20 : u) {
+               float var21 = var20.n == PlaceAnimationSupport.PlacePhase.i ? 1.0F : Math.min(var20.age(D), 1.0F);
                if (var20.T) {
                   PlaceMotion.broken(var21, v);
                } else {
                   PlaceMotion.placed(var20.R, var21, var20.L, v);
                }
 
-               float var22 = var20.n == PlaceAnimationSupport.TypeO.i ? 0.9985F : 1.0F;
+               float var22 = var20.n == PlaceAnimationSupport.PlacePhase.i ? 0.9985F : 1.0F;
                float var23 = var16 * v.W;
 
-               for (PlaceAnimationSupport.TypeU var25 : var20.V) {
+               for (PlaceAnimationSupport.PlaceAnimation var25 : var20.V) {
                   var0.method_22903();
                   f(var0, var9, (char)var10, var20, var11, var25, var13, var22);
                   if (var25.T) {
@@ -1216,55 +1048,28 @@ public final class PlaceAnimationSupport {
 
    private static long[] K(int var0, int var1, long var2, int var4) {
       PlaceMotion.ensureSourceClassInitialized();
-      PlaceAnimationSupport.TypeG var5 = i;
+      PlaceAnimationSupport.PlaceSnapshot var5 = i;
       long[] var6 = new long[0];
       long[] var7 = var5.c;
       int var8 = var7.length;
 
       for (int var9 = 0; var9 < var8; var9++) {
          long var10 = 68216909674148L;
-         if (68216909674148L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var27 = var10 < 0L ? -1 : 1;
-         }
-
-         long var13 = var7[var9];
+         int var13 = var10 < 0L ? -1 : 1;
+         long var13x = var7[var9];
          long var15 = 68216909674147L;
-         if (68216909674147L == 0L) {
-            boolean var28 = false;
-         } else {
-            int var29 = var15 < 0L ? -1 : 1;
-         }
-
-         int var18 = class_4076.method_18675(class_2338.method_10061(var13));
+         int var18 = var15 < 0L ? -1 : 1;
+         var18 = class_4076.method_18675(class_2338.method_10061(var13x));
          long var19 = 68216909674147L;
-         if (68216909674147L == 0L) {
-            boolean var30 = false;
-         } else {
-            int var31 = var19 < 0L ? -1 : 1;
-         }
-
+         int var19x = var19 < 0L ? -1 : 1;
          if (var18 == var0) {
-            var18 = class_2338.method_10071(var13);
-            long var21 = 68216909674147L;
-            if (68216909674147L == 0L) {
-               boolean var32 = false;
-            } else {
-               int var33 = var21 < 0L ? -1 : 1;
-            }
-
+            var18 = class_2338.method_10071(var13x);
+            long var21x = 68216909674147L;
             var18 = class_4076.method_18675(var18);
-            long var23 = 68216909674148L;
-            if (68216909674148L == 0L) {
-               boolean var34 = false;
-            } else {
-               int var35 = var23 < 0L ? -1 : 1;
-            }
-
-            if (var18 == var1 && class_4076.method_18675(class_2338.method_10083(var13)) == var4) {
+            long var23x = 68216909674148L;
+            if (var18 == var1 && class_4076.method_18675(class_2338.method_10083(var13x)) == var4) {
                var6 = Arrays.copyOf(var6, var6.length + 1);
-               var6[var6.length - 1] = var13;
+               var6[var6.length - 1] = var13x;
             }
          }
       }
@@ -1284,35 +1089,16 @@ public final class PlaceAnimationSupport {
          for (long var10 : var6) {
             class_2338 var12 = class_2338.method_10092(var10);
             long var13 = 88371620314461L;
-            if (88371620314461L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var24 = var13 < 0L ? -1 : 1;
-            }
-
-            long var16 = 88371620314462L;
-            if (88371620314462L == 0L) {
-               boolean var25 = false;
-            } else {
-               int var26 = var16 < 0L ? -1 : 1;
-            }
-
-            boolean var18 = var2.method_8320(var12).method_26215();
+            int var16 = var13 < 0L ? -1 : 1;
+            long var16x = 88371620314462L;
+            int var18 = var16x < 0L ? -1 : 1;
+            boolean var18x = var2.method_8320(var12).method_26215();
             long var19 = 88371620314462L;
-            if (88371620314462L == 0L) {
-               boolean var27 = false;
-            } else {
-               int var28 = var19 < 0L ? -1 : 1;
-            }
-
-            if (!var18) {
+            int var21 = var19 < 0L ? -1 : 1;
+            if (!var18x) {
                if (q(var3, var12)) {
-                  long var21 = 88371620314461L;
-                  if (88371620314461L == 0L) {
-                     boolean var29 = false;
-                  } else {
-                     int var30 = var21 < 0L ? -1 : 1;
-                  }
+                  long var21x = 88371620314461L;
+                  int var22 = var21x < 0L ? -1 : 1;
                } else {
                   M++;
                   ClientServices.LOGGER
@@ -1322,83 +1108,50 @@ public final class PlaceAnimationSupport {
          }
 
          long var23 = 88371620314461L;
-         if (88371620314461L == 0L) {
-            boolean var31 = false;
-         } else {
-            int var32 = var23 < 0L ? -1 : 1;
-         }
+         int var24 = var23 < 0L ? -1 : 1;
       }
    }
 
    private static boolean q(long var0, class_2338 var2) {
       PlaceMotion.ensureSourceClassInitialized();
 
-      for (PlaceAnimationSupport.TypeP var4 : u) {
-         for (PlaceAnimationSupport.TypeU var6 : var4.V) {
+      for (PlaceAnimationSupport.PlaceState var4 : u) {
+         for (PlaceAnimationSupport.PlaceAnimation var6 : var4.V) {
             long var7 = 93817125659656L;
-            if (93817125659656L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var11 = var7 < 0L ? -1 : 1;
-            }
-
+            int var9 = var7 < 0L ? -1 : 1;
             if (var6.Q.equals(var2)) {
                return true;
             }
          }
 
          long var10 = 93817125659657L;
-         if (93817125659657L == 0L) {
-            boolean var12 = false;
-         } else {
-            int var13 = var10 < 0L ? -1 : 1;
-         }
+         int var11 = var10 < 0L ? -1 : 1;
       }
 
       return false;
    }
 
-   
-   private static PlaceAnimationSupport.TypeP x(class_2338 var0, long var1) {
+   private static PlaceAnimationSupport.PlaceState x(class_2338 var0, long var1) {
       PlaceMotion.ensureSourceClassInitialized();
 
-      for (PlaceAnimationSupport.TypeP var4 : u) {
+      for (PlaceAnimationSupport.PlaceState var4 : u) {
          long var5 = 76859810266496L;
-         if (76859810266496L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var16 = var5 < 0L ? -1 : 1;
-         }
-
-         if (!var4.T && var4.n == PlaceAnimationSupport.TypeO.s) {
-            for (PlaceAnimationSupport.TypeU var9 : var4.V) {
+         int var15 = var5 < 0L ? -1 : 1;
+         if (!var4.T && var4.n == PlaceAnimationSupport.PlacePhase.s) {
+            for (PlaceAnimationSupport.PlaceAnimation var9 : var4.V) {
                long var10 = 76859810266496L;
-               if (76859810266496L == 0L) {
-                  boolean var17 = false;
-               } else {
-                  int var18 = var10 < 0L ? -1 : 1;
-               }
-
-               boolean var12 = var9.Q.equals(var0);
+               int var12 = var10 < 0L ? -1 : 1;
+               boolean var12x = var9.Q.equals(var0);
                long var13 = 76859810266496L;
-               if (76859810266496L == 0L) {
-                  boolean var19 = false;
-               } else {
-                  int var20 = var13 < 0L ? -1 : 1;
-               }
-
-               if (var12) {
+               int var14 = var13 < 0L ? -1 : 1;
+               if (var12x) {
                   return var4;
                }
             }
          }
 
-         long var15 = 76859810266497L;
-         if (76859810266497L == 0L) {
-            boolean var21 = false;
-         } else {
-            int var22 = var15 < 0L ? -1 : 1;
-         }
+         long var15x = 76859810266497L;
+         int var17 = var15x < 0L ? -1 : 1;
       }
 
       return null;
@@ -1408,11 +1161,11 @@ public final class PlaceAnimationSupport {
       long var2 = 48303993650244L;
       long var4 = var2 ^ 67490662218046L;
       long var6 = var2 ^ 120989091480005L;
-      PlaceAnimationSupport.TypeP var8 = x(var0, var6);
+      PlaceAnimationSupport.PlaceState var8 = x(var0, var6);
       if (var8 == null) {
          return false;
       } else {
-         PlaceMotion.TypeW var9 = PlaceMotion.placed(var8.R, Math.min(var8.age(v(var4)), 1.0F), var8.L, new PlaceMotion.TypeW());
+         PlaceMotion.PlacePose var9 = PlaceMotion.placed(var8.R, Math.min(var8.age(v(var4)), 1.0F), var8.L, new PlaceMotion.PlacePose());
          class_2351 var10 = var8.C.method_10166();
          class_2350 var11 = var8.C.method_10153();
          double[] var12 = new double[]{var8.W.field_1352, var8.W.field_1351, var8.W.field_1350};
@@ -1443,7 +1196,7 @@ public final class PlaceAnimationSupport {
       long var8 = 88853496176923L;
       long var10 = var8 ^ 77243166499937L;
       long var12 = var8 ^ 23263701081242L;
-      PlaceAnimationSupport.TypeP var14 = x(var0, var12);
+      PlaceAnimationSupport.PlaceState var14 = x(var0, var12);
       if (var14 == null) {
          return false;
       } else {
@@ -1455,7 +1208,7 @@ public final class PlaceAnimationSupport {
          var1.method_22904(var16 + var15.method_10148() * v.u, var18 + var15.method_10164() * v.u, var20 + var15.method_10165() * v.u);
          class_2351 var22 = var14.C.method_10166();
          if (v.h != 0.0F) {
-            var1.method_22907(switch (PlaceAnimationSupport.TypeK.a[var22.ordinal()]) {
+            var1.method_22907(switch (PlaceAnimationSupport.PlaceBatch.a[var22.ordinal()]) {
                case 1 -> class_7833.field_40714.rotation(v.h);
                case 2 -> class_7833.field_40716.rotation(v.h);
                case 3 -> class_7833.field_40718.rotation(v.h);
@@ -1472,7 +1225,7 @@ public final class PlaceAnimationSupport {
    }
 
    private static void f(
-      class_4587 var0, int var1, char var2, PlaceAnimationSupport.TypeP var3, int var4, PlaceAnimationSupport.TypeU var5, class_243 var6, float var7
+      class_4587 var0, int var1, char var2, PlaceAnimationSupport.PlaceState var3, int var4, PlaceAnimationSupport.PlaceAnimation var5, class_243 var6, float var7
    ) {
       var0.method_22904(var3.W.field_1352 - var6.field_1352, var3.W.field_1351 - var6.field_1351, var3.W.field_1350 - var6.field_1350);
       PlaceMotion.ensureSourceClassInitialized();
@@ -1483,7 +1236,7 @@ public final class PlaceAnimationSupport {
 
       class_2351 var9 = var3.C.method_10166();
       if (v.h != 0.0F) {
-         var0.method_22907(switch (PlaceAnimationSupport.TypeK.a[var9.ordinal()]) {
+         var0.method_22907(switch (PlaceAnimationSupport.PlaceBatch.a[var9.ordinal()]) {
             case 1 -> class_7833.field_40714.rotation(v.h);
             case 2 -> class_7833.field_40716.rotation(v.h);
             case 3 -> class_7833.field_40718.rotation(v.h);
@@ -1499,50 +1252,31 @@ public final class PlaceAnimationSupport {
       var0.method_22904(var5.Q.method_10263() - var3.W.field_1352, var5.Q.method_10264() - var3.W.field_1351, var5.Q.method_10260() - var3.W.field_1350);
    }
 
-   private static void E(class_4665 var0, class_4588 var1, long var2, List var4, float var5, int var6, int var7, boolean var8) {
+   private static void E(class_4665 var0, class_4588 var1, long var2, List<class_10889> var4, float var5, int var6, int var7, boolean var8) {
       long var9 = 102570561779327L;
       long var11 = 81601942156065L;
       PlaceMotion.ensureSourceClassInitialized();
       float var13 = Math.clamp(var5, 0.0F, 1.0F);
 
-      for (class_10889 var15 : ((Iterable<class_10889>)(Object)var4)) {
+      for (class_10889 var15 : var4) {
          for (class_2350 var19 : J) {
             long var20 = 57964375062897L;
-            if (57964375062897L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var51 = var20 < 0L ? -1 : 1;
-            }
+            int var48 = var20 < 0L ? -1 : 1;
 
             for (class_777 var24 : var15.method_68509(var19)) {
                long var25 = 57964375062896L;
-               if (57964375062896L == 0L) {
-                  boolean var52 = false;
-               } else {
-                  int var53 = var25 < 0L ? -1 : 1;
-               }
-
-               boolean var27 = n(var9, var24.comp_3724());
+               int var27 = var25 < 0L ? -1 : 1;
+               boolean var27x = n(var9, var24.comp_3724());
                long var28 = 57964375062897L;
-               if (57964375062897L == 0L) {
-                  boolean var54 = false;
-               } else {
-                  int var55 = var28 < 0L ? -1 : 1;
-               }
-
-               if (var27 == var8) {
-                  class_2350 var30 = var24.comp_3723();
+               int var30 = var28 < 0L ? -1 : 1;
+               if (var27x == var8) {
+                  class_2350 var30x = var24.comp_3723();
                   int var31 = 0;
 
                   for (int var32 = var8 ? 6 : 4; var31 < var32; var31++) {
                      long var33 = 57964375062897L;
-                     if (57964375062897L == 0L) {
-                        boolean var56 = false;
-                     } else {
-                        int var57 = var33 < 0L ? -1 : 1;
-                     }
-
-                     int var35 = var8 ? G[var31] : var31;
+                     int var35 = var33 < 0L ? -1 : 1;
+                     var35 = var8 ? G[var31] : var31;
                      Vector3fc var36 = var24.method_76648(var35);
                      float var37 = Math.clamp(var36.y(), 0.0F, 1.0F);
                      int var38 = e(var7 >> 16, var11, var6 >> 16, var37);
@@ -1552,56 +1286,38 @@ public final class PlaceAnimationSupport {
                         var0, 0.5F + (var36.x() - 0.5F) * 1.006F, 0.5F + (var36.y() - 0.5F) * 1.006F, 0.5F + (var36.z() - 0.5F) * 1.006F
                      );
                      long var42 = 57964375062897L;
-                     if (57964375062897L == 0L) {
-                        boolean var58 = false;
-                     } else {
-                        int var59 = var42 < 0L ? -1 : 1;
-                     }
-
+                     int var50 = var42 < 0L ? -1 : 1;
                      if (var8) {
                         var41.method_1336(var38, var39, var40, Math.round(var13 * 255.0F));
                         long var44 = 57964375062897L;
-                        if (57964375062897L == 0L) {
-                           boolean var60 = false;
-                        } else {
-                           int var61 = var44 < 0L ? -1 : 1;
-                        }
+                        int var451 = var44 < 0L ? -1 : 1;
                      } else {
-                        float var50 = var13 * 0.95F;
+                        float var50x = var13 * 0.95F;
                         long var45 = var24.method_76649(var35);
                         var41.method_1336(
-                              Math.min(Math.round(var38 * var50), 255), Math.min(Math.round(var39 * var50), 255), Math.min(Math.round(var40 * var50), 255), 255
+                              Math.min(Math.round(var38 * var50x), 255),
+                              Math.min(Math.round(var39 * var50x), 255),
+                              Math.min(Math.round(var40 * var50x), 255),
+                              255
                            )
                            .method_22913(class_5611.method_76641(var45), class_5611.method_76642(var45))
                            .method_22922(class_4608.field_21444)
                            .method_60803(15728880)
-                           .method_60831(var0, var30.method_10148(), var30.method_10164(), var30.method_10165());
+                           .method_60831(var0, var30x.method_10148(), var30x.method_10164(), var30x.method_10165());
                      }
                   }
 
                   long var49 = 57964375062897L;
-                  if (57964375062897L == 0L) {
-                     boolean var62 = false;
-                  } else {
-                     int var63 = var49 < 0L ? -1 : 1;
-                  }
+                  int var331 = var49 < 0L ? -1 : 1;
                }
             }
 
-            long var48 = 57964375062896L;
-            if (57964375062896L == 0L) {
-               boolean var64 = false;
-            } else {
-               int var65 = var48 < 0L ? -1 : 1;
-            }
+            long var48x = 57964375062896L;
+            int var501 = var48x < 0L ? -1 : 1;
          }
 
          long var47 = 57964375062897L;
-         if (57964375062897L == 0L) {
-            boolean var66 = false;
-         } else {
-            int var67 = var47 < 0L ? -1 : 1;
-         }
+         int var47x = var47 < 0L ? -1 : 1;
       }
    }
 
@@ -1612,66 +1328,39 @@ public final class PlaceAnimationSupport {
       if (var4 == null) {
          var4 = true;
 
-         label95: {
+         label72: {
             try {
                int var5 = 0;
 
-               label85:
+               label62:
                while (var5 < var3.method_45815()) {
                   long var6 = 102570561779327L;
-                  if (102570561779327L == 0L) {
-                     boolean var10000 = false;
-                  } else {
-                     int var21 = var6 < 0L ? -1 : 1;
-                  }
+                  int var20 = var6 < 0L ? -1 : 1;
 
                   for (int var9 = 0; var9 < var3.method_45807(); var9++) {
                      long var10 = 102570561779326L;
-                     if (102570561779326L == 0L) {
-                        boolean var22 = false;
-                     } else {
-                        int var23 = var10 < 0L ? -1 : 1;
-                     }
-
-                     boolean var13 = var3.method_45810(0, var9, var5);
+                     int var13 = var10 < 0L ? -1 : 1;
+                     boolean var13x = var3.method_45810(0, var9, var5);
                      long var14 = 102570561779326L;
-                     if (102570561779326L == 0L) {
-                        boolean var24 = false;
-                     } else {
-                        int var25 = var14 < 0L ? -1 : 1;
-                     }
-
-                     if (var13) {
+                     int var14x = var14 < 0L ? -1 : 1;
+                     if (var13x) {
                         var4 = false;
-                        long var16 = 102570561779326L;
-                        if (102570561779326L == 0L) {
-                           boolean var26 = false;
-                        } else {
-                           int var27 = var16 < 0L ? -1 : 1;
-                        }
-                        break label85;
+                        long var16x = 102570561779326L;
+                        break label62;
                      }
                   }
 
                   var5++;
-                  long var20 = 102570561779326L;
-                  if (102570561779326L == 0L) {
-                     boolean var28 = false;
-                  } else {
-                     int var29 = var20 < 0L ? -1 : 1;
-                  }
+                  long var20x = 102570561779326L;
+                  int var101 = var20x < 0L ? -1 : 1;
                }
-            } catch (RuntimeException var18) {
+            } catch (RuntimeException var17) {
                var4 = false;
-               break label95;
+               break label72;
             }
 
             long var19 = 102570561779326L;
-            if (102570561779326L == 0L) {
-               boolean var30 = false;
-            } else {
-               int var31 = var19 < 0L ? -1 : 1;
-            }
+            int var7 = var19 < 0L ? -1 : 1;
          }
 
          U.put(var3, var4);
@@ -1696,22 +1385,12 @@ public final class PlaceAnimationSupport {
       PlaceMotion.ensureSourceClassInitialized();
       String var3 = var0.toString();
       long var4 = 66623604736740L;
-      if (66623604736740L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var9 = var4 < 0L ? -1 : 1;
-      }
-
-      long var7 = 66623604736740L;
-      if (66623604736740L == 0L) {
-         boolean var10 = false;
-      } else {
-         int var11 = var7 < 0L ? -1 : 1;
-      }
-
+      int var7 = var4 < 0L ? -1 : 1;
+      long var7x = 66623604736740L;
+      int var8 = var7x < 0L ? -1 : 1;
       if (!var3.equals(I)) {
          I = var3;
-         ClientServices.LOGGER.error("Purxiy place animation failed", var0);
+         ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX place animation failed", var0);
       }
    }
 
@@ -1746,8 +1425,8 @@ public final class PlaceAnimationSupport {
       T = null;
    }
 
-private record TypeG(long[] c, class_2680[] l, byte[] p, byte[] i) {
-      static final PlaceAnimationSupport.TypeG u = new PlaceAnimationSupport.TypeG(new long[0], new class_2680[0], new byte[0], new byte[0]);
+   private record PlaceSnapshot(long[] c, class_2680[] l, byte[] p, byte[] i) {
+      static final PlaceAnimationSupport.PlaceSnapshot u = new PlaceAnimationSupport.PlaceSnapshot(new long[0], new class_2680[0], new byte[0], new byte[0]);
 
       public long[] positions() {
          return this.c;
@@ -1782,7 +1461,7 @@ private record TypeG(long[] c, class_2680[] l, byte[] p, byte[] i) {
       }
    }
 
-   static class TypeK {
+   static class PlaceBatch {
       static final int[] A;
       static final int[] a = new int[class_2351.values().length];
 
@@ -1836,14 +1515,13 @@ private record TypeG(long[] c, class_2680[] l, byte[] p, byte[] i) {
       }
    }
 
-   private static enum TypeO {
+   private static enum PlacePhase {
       s,
       i;
+   }
 
-}
-
-   private static final class TypeP {
-      final List<PlaceAnimationSupport.TypeU> V;
+   private static final class PlaceState {
+      final List<PlaceAnimationSupport.PlaceAnimation> V;
       final class_243 W;
       final class_2350 C;
       final PlaceMotion.Style R;
@@ -1851,10 +1529,10 @@ private record TypeG(long[] c, class_2680[] l, byte[] p, byte[] i) {
       final float N;
       final boolean T;
       final long B;
-      PlaceAnimationSupport.TypeO n = PlaceAnimationSupport.TypeO.s;
+      PlaceAnimationSupport.PlacePhase n = PlaceAnimationSupport.PlacePhase.s;
       long j;
 
-      TypeP(List<PlaceAnimationSupport.TypeU> var1, class_243 var2, class_2350 var3, PlaceMotion.Style var4, float var5, float var6, boolean var7, long var8) {
+      PlaceState(List<PlaceAnimationSupport.PlaceAnimation> var1, class_243 var2, class_2350 var3, PlaceMotion.Style var4, float var5, float var6, boolean var7, long var8) {
          this.V = new ArrayList<>(var1);
          this.W = var2;
          this.C = var3;
@@ -1870,7 +1548,7 @@ private record TypeG(long[] c, class_2680[] l, byte[] p, byte[] i) {
       }
    }
 
-   private record TypeR(class_2338 w, class_2680 Y) {
+   private record PlacedBlock(class_2338 w, class_2680 Y) {
       public class_2338 pos() {
          return this.w;
       }
@@ -1888,26 +1566,23 @@ private record TypeG(long[] c, class_2680[] l, byte[] p, byte[] i) {
       }
    }
 
-   private static final class TypeU {
+   private static final class PlaceAnimation {
       final class_2338 Q;
       class_2680 j;
       class_2680 g;
-      final PlaceAnimationSupport2 c;
+      final PlaceAnimationState c;
       boolean T;
       boolean r;
-      
       private List<class_10889> y;
-      
       private Boolean I;
       boolean M;
       boolean t;
       int x;
-
       private static final String[] b = new String[2];
 
-      TypeU(class_2338 var1, class_2680 var2, class_638 var3) {
+      PlaceAnimation(class_2338 var1, class_2680 var2, class_638 var3) {
          this.Q = var1;
-         this.c = new PlaceAnimationSupport2(var1, var2, var3);
+         this.c = new PlaceAnimationState(var1, var2, var3);
          this.restate(var2);
       }
 
@@ -1961,6 +1636,5 @@ private record TypeG(long[] c, class_2680[] l, byte[] p, byte[] i) {
       public String toString() {
          return this.Q.method_23854() + " " + this.j.method_26204().method_9518().getString() + (this.M ? " copied" : "") + (this.t ? " meshed" : "");
       }
-
-}
+   }
 }

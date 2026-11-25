@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry16;
+import dev.purxiy.loader.fabric.client.EntityMaskPipeline;
 import net.minecraft.class_10017;
 import net.minecraft.class_11659;
 import net.minecraft.class_12075;
@@ -25,7 +24,7 @@ public abstract class RadianceDispatcherMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$radianceExtract(class_1297 var1, float var2, CallbackInfoReturnable<class_10017> var3) {
-      ClientRegistry16.extract(var1, (class_10017)var3.getReturnValue());
+      EntityMaskPipeline.extract(var1, (class_10017)var3.getReturnValue());
    }
 
    @WrapOperation(
@@ -36,6 +35,6 @@ public abstract class RadianceDispatcherMixin {
       )}
    )
    private void purxiy$radiance(class_897<?, ?> var1, class_10017 var2, class_4587 var3, class_11659 var4, class_12075 var5, Operation<Void> var6) {
-      var6.call(new Object[]{var1, var2, var3, ClientRegistry16.collector(var2, var4), var5});
+      var6.call(new Object[]{var1, var2, var3, EntityMaskPipeline.collector(var2, var4), var5});
    }
 }

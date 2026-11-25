@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.fakestats;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ final class FakeStatsCodec {
    private FakeStatsCodec() {
    }
 
-   static double parse( String var0) {
+   static double parse(String var0) {
       long var1 = 86489153035873L;
       long var3 = var1 ^ 15397860594557L;
       if (var0 == null) {
@@ -53,7 +52,7 @@ final class FakeStatsCodec {
       try {
          double var3 = Double.parseDouble(var0);
          return Double.isFinite(var3) ? var3 : Double.NaN;
-      } catch (NumberFormatException var5) {
+      } catch (NumberFormatException var51) {
          return Double.NaN;
       }
    }
@@ -180,28 +179,17 @@ final class FakeStatsCodec {
          char var5 = var1.charAt(var4);
          boolean var6 = Character.isDigit(var5);
          long var7 = 52050520412370L;
-         if (52050520412370L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var11 = var7 < 0L ? -1 : 1;
-         }
-
+         int var9 = var7 < 0L ? -1 : 1;
          if (var6) {
             return var4;
          }
       }
 
       long var10 = 52050520412371L;
-      if (52050520412371L == 0L) {
-         boolean var12 = false;
-      } else {
-         int var13 = var10 < 0L ? -1 : 1;
-      }
-
+      int var11 = var10 < 0L ? -1 : 1;
       return -1;
    }
 
    public static void ensureSourceClassInitialized() {
    }
-
 }

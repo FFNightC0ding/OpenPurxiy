@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.font;
 
 import java.io.IOException;
@@ -12,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class Fonts {
    public static final String PRELOAD = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~áàâäãåçéèêëíìîïñóòôöõúùûüýÿÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝ€£¥©®°±×÷·•–—…‘’“”«»→←↑↓";
    public static final GlyphAtlas ATLAS = new GlyphAtlas();
-   private static final ExecutorService WORKERS = Executors.newFixedThreadPool(2, new Fonts.TypeO());
+   private static final ExecutorService WORKERS = Executors.newFixedThreadPool(2, new Fonts.FontThreads());
    public static TrueTypeFont REGULAR;
    public static TrueTypeFont MEDIUM;
    public static TrueTypeFont SEMIBOLD;
@@ -34,7 +33,7 @@ public final class Fonts {
             BOLD = font("Inter Bold", "inter-bold.ttf");
             ICONS = font("Lucide", "lucide.ttf");
          } catch (IOException var4) {
-            throw new IllegalStateException("Purxiy: failed to load fonts", var4);
+            throw new IllegalStateException("SourceByDevFFnightmare DeObfDeCompByGuideX: failed to load fonts", var4);
          }
 
          for (TrueTypeFont var3 : new TrueTypeFont[]{MEDIUM, SEMIBOLD, REGULAR, BOLD}) {
@@ -51,12 +50,12 @@ public final class Fonts {
       return new TrueTypeFont(var0, "assets/purxiy/fonts/" + var1, ATLAS, WORKERS);
    }
 
-   private static final class TypeO implements ThreadFactory {
+   private static final class FontThreads implements ThreadFactory {
       private final AtomicInteger counter = new AtomicInteger();
 
       @Override
       public Thread newThread(Runnable var1) {
-         String var2 = "Purxiy Glyph Worker #" + this.counter.incrementAndGet();
+         String var2 = "SourceByDevFFnightmare DeObfDeCompByGuideX Glyph Worker #" + this.counter.incrementAndGet();
          Thread var3 = AccessController.doPrivileged((PrivilegedAction<Thread>)(() -> new Thread((ThreadGroup)null, var1, var2, 0L, false)));
          var3.setContextClassLoader(Fonts.class.getClassLoader());
          var3.setDaemon(true);

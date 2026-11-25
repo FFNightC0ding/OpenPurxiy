@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.core.ImageFiles;
 import dev.purxiy.i18n.Translations;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import dev.purxiy.modules.SettingSection;
 import dev.purxiy.render.BlendMode;
 import dev.purxiy.render.Canvas;
@@ -26,7 +25,7 @@ final class NameStep extends OnboardingStep {
    private float editedAt = -100.0F;
 
    NameStep(WelcomeScreen var1) {
-      super(var1, "Your name", "What should we call you?", "Your profile shows this name and Purxiy greets you with it. Your Minecraft name stays the same.");
+      super(var1, "Your name", "What should we call you?", "Your profile shows this name and SourceByDevFFnightmare DeObfDeCompByGuideX greets you with it. Your Minecraft name stays the same.");
       Slider var2 = new Slider(new Slider.Listener() {
          @Override
          public String get() {
@@ -43,7 +42,7 @@ final class NameStep extends OnboardingStep {
             return SettingSection.PROFILE.name.maxLength();
          }
 
-         
+
          @Override
          public String placeholder() {
             return "Type your name…";
@@ -53,7 +52,7 @@ final class NameStep extends OnboardingStep {
    }
 
    static String minecraftName() {
-      return ClientRegistry5.plain(class_310.method_1551().method_1548().method_1676());
+      return TabListProvider.plain(class_310.method_1551().method_1548().method_1676());
    }
 
    @Override
@@ -101,7 +100,7 @@ final class NameStep extends OnboardingStep {
       );
       float var16 = var14 + var13 / 2.0F + 20.0F;
       float var17 = var9 + var8 - 22.0F - var16;
-      var6.text(Fonts.SEMIBOLD, "PURXIY ID", var16, var3 + 28.0F, 9.5F, Icons.TEXT_3, FontStyle.LEFT, FontWeight.MIDDLE, 0.12F);
+      var6.text(Fonts.SEMIBOLD, "SOURCEBYDEVFFNIGHTMARE DEOBFDECOMPBYGUIDEX ID", var16, var3 + 28.0F, 9.5F, Icons.TEXT_3, FontStyle.LEFT, FontWeight.MIDDLE, 0.12F);
       Translations.pause();
       String var18 = FontMetrics.ellipsize(Fonts.SEMIBOLD, var11, 22.0F, var17, 0.0F);
       float var19 = Math.max(0.0F, 1.0F - (var7 - this.editedAt) / 0.5F);

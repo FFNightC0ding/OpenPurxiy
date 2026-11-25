@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import com.google.gson.Gson;
@@ -19,9 +18,7 @@ import java.util.Map.Entry;
 final class Skins3DLoader {
    private static final Gson G = new GsonBuilder().setPrettyPrinting().create();
    private final Path e;
-   private final Map<String, Skins3DLoader.TypeR> F = new LinkedHashMap<>();
-
-
+   private final Map<String, Skins3DLoader.SkinSource> F = new LinkedHashMap<>();
 
    Skins3DLoader(Path var1) {
       this.e = var1;
@@ -39,7 +36,7 @@ final class Skins3DLoader {
 
             for (Entry var4 : var1.getAsJsonObject("worlds").entrySet()) {
                if (((String)var4.getKey()).matches("[0-9a-f]{64}")) {
-                  Skins3DLoader.TypeR var5 = (Skins3DLoader.TypeR)G.fromJson((JsonElement)var4.getValue(), Skins3DLoader.TypeR.class);
+                  Skins3DLoader.SkinSource var5 = (Skins3DLoader.SkinSource)G.fromJson((JsonElement)var4.getValue(), Skins3DLoader.SkinSource.class);
                   if (var5 != null && var5.valid()) {
                      if (var5.r != null) {
                         var5.r.snapshot();
@@ -52,14 +49,14 @@ final class Skins3DLoader {
 
             this.F.clear();
             this.F.putAll(var2);
-         } catch (RuntimeException var6) {
-            throw new IOException("Invalid mask store", var6);
+         } catch (RuntimeException var61) {
+            throw new IOException("Invalid mask store", var61);
          }
       }
    }
 
-   Skins3DLoader.TypeR world(String var1) {
-      return this.F.computeIfAbsent(var1, var0 -> new Skins3DLoader.TypeR());
+   Skins3DLoader.SkinSource world(String var1) {
+      return this.F.computeIfAbsent(var1, var0 -> new Skins3DLoader.SkinSource());
    }
 
    void save() throws IOException {
@@ -77,16 +74,12 @@ final class Skins3DLoader {
       }
    }
 
-static final class TypeR {
+   static final class SkinSource {
       String A = "minecraft:overworld";
-      
-      Skins3DUpdater2 r;
-
-
+      Skins3DCamera r;
 
       boolean valid() {
          return this.A != null && this.A.matches("[a-z0-9_.-]+:[a-z0-9/._-]+") && (this.r == null || this.r.valid());
       }
-
-}
+   }
 }

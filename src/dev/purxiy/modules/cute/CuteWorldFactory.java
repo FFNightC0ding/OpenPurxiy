@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cute;
 
 import dev.purxiy.loader.fabric.mixin.ModelPartAccessor;
@@ -15,18 +14,16 @@ import net.minecraft.class_630.class_618;
 import net.minecraft.class_630.class_628;
 
 public final class CuteWorldFactory {
-   private static final Map<class_583<?>, List<CuteWorldTransform.Data3>> p = new WeakHashMap<>();
-   public static final List<CuteWorldTransform.Data3> w = List.of(
-      new CuteWorldTransform.Data3(0.125, 0.125, 0.25, 0.25, CuteWorldTransform.TypeY.g),
-      new CuteWorldTransform.Data3(0.625, 0.125, 0.75, 0.25, CuteWorldTransform.TypeY.J)
+   private static final Map<class_583<?>, List<CuteWorldTransform.TextureQuad>> p = new WeakHashMap<>();
+   public static final List<CuteWorldTransform.TextureQuad> w = List.of(
+      new CuteWorldTransform.TextureQuad(0.125, 0.125, 0.25, 0.25, CuteWorldTransform.CutePart.g),
+      new CuteWorldTransform.TextureQuad(0.625, 0.125, 0.75, 0.25, CuteWorldTransform.CutePart.J)
    );
-
-
 
    private CuteWorldFactory() {
    }
 
-   public static List<CuteWorldTransform.Data3> of(class_583<?> var0) {
+   public static List<CuteWorldTransform.TextureQuad> of(class_583<?> var0) {
       return p.computeIfAbsent(var0, var0x -> g(50532400952376L, var0x));
    }
 
@@ -38,62 +35,48 @@ public final class CuteWorldFactory {
       W(var2.method_63512(), var7, var3);
       String var8 = var2.getClass().getSimpleName();
       if (var8.equals("FrogModel")) {
-         var7.replaceAll(var0x -> new CuteWorldTransform.Data3(((CuteWorldTransform.Data3)var0x).u0(), ((CuteWorldTransform.Data3)var0x).v0(), ((CuteWorldTransform.Data3)var0x).u1(), ((CuteWorldTransform.Data3)var0x).v1(), CuteWorldTransform.TypeY.I));
-         l(var2.method_63512(), "left_eye", CuteWorldTransform.TypeY.T, var7, var5);
-         l(var2.method_63512(), "right_eye", CuteWorldTransform.TypeY.T, var7, var5);
+         var7.replaceAll(
+            var0x -> new CuteWorldTransform.TextureQuad(
+               ((CuteWorldTransform.TextureQuad)var0x).u0(),
+               ((CuteWorldTransform.TextureQuad)var0x).v0(),
+               ((CuteWorldTransform.TextureQuad)var0x).u1(),
+               ((CuteWorldTransform.TextureQuad)var0x).v1(),
+               CuteWorldTransform.CutePart.I
+            )
+         );
+         l(var2.method_63512(), "left_eye", CuteWorldTransform.CutePart.T, var7, var5);
+         l(var2.method_63512(), "right_eye", CuteWorldTransform.CutePart.T, var7, var5);
       }
 
-      label60: {
+      label48: {
          if (var7.isEmpty()) {
             long var9 = 50532400952376L;
-            if (50532400952376L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var21 = var9 < 0L ? -1 : 1;
-            }
-
-            boolean var12 = var8.contains("Ghast");
+            int var12 = var9 < 0L ? -1 : 1;
+            boolean var12x = var8.contains("Ghast");
             long var13 = 50532400952376L;
-            if (50532400952376L == 0L) {
-               boolean var22 = false;
-            } else {
-               int var23 = var13 < 0L ? -1 : 1;
+            int var16 = var13 < 0L ? -1 : 1;
+            if (var12x) {
+               break label48;
             }
 
-            if (var12) {
-               break label60;
-            }
-
-            long var16 = 50532400952375L;
-            if (50532400952375L == 0L) {
-               boolean var24 = false;
-            } else {
-               int var25 = var16 < 0L ? -1 : 1;
-            }
-
-            var12 = var8.contains("Bee");
-            long var18 = 50532400952375L;
-            if (50532400952375L == 0L) {
-               boolean var26 = false;
-            } else {
-               int var27 = var18 < 0L ? -1 : 1;
-            }
-
-            if (var12) {
-               break label60;
+            long var16x = 50532400952375L;
+            var12x = var8.contains("Bee");
+            long var18x = 50532400952375L;
+            if (var12x) {
+               break label48;
             }
          }
 
          if (var8.equals("SlimeModel")) {
-            l(var2.method_63512(), "cube", CuteWorldTransform.TypeY.I, var7, var5);
-            l(var2.method_63512(), "left_eye", CuteWorldTransform.TypeY.T, var7, var5);
-            l(var2.method_63512(), "right_eye", CuteWorldTransform.TypeY.T, var7, var5);
+            l(var2.method_63512(), "cube", CuteWorldTransform.CutePart.I, var7, var5);
+            l(var2.method_63512(), "left_eye", CuteWorldTransform.CutePart.T, var7, var5);
+            l(var2.method_63512(), "right_eye", CuteWorldTransform.CutePart.T, var7, var5);
          }
 
          return List.copyOf(var7);
       }
 
-      l(var2.method_63512(), "body", CuteWorldTransform.TypeY.K, var7, var5);
+      l(var2.method_63512(), "body", CuteWorldTransform.CutePart.K, var7, var5);
       return List.copyOf(var7);
    }
 
@@ -101,7 +84,7 @@ public final class CuteWorldFactory {
       long var4 = var2 ^ 0L;
       long var6 = var2 ^ 45639030189052L;
       CuteWorldUpdater.ensureSourceClassInitialized();
-      Iterator var8 = ((ModelPartAccessor)(Object)(var0)).purxiy$children().entrySet().iterator();
+      Iterator var8 = ((ModelPartAccessor)(Object)var0).purxiy$children().entrySet().iterator();
       byte var9 = 0;
 
       while (var8.hasNext()) {
@@ -115,14 +98,13 @@ public final class CuteWorldFactory {
                      var11 = (Entry)var8.next();
                      String var13 = (String)var11.getKey();
                      var10 = var13;
-                     int var14 = var9;
                      if (var2 > 1L) {
                         var12 = 968083020;
                         if (var2 < 1L) {
                            break label49;
                         }
 
-                        var14 = 968096693;
+                        int var14 = 968096693;
                      }
 
                      if (var13.equals("head")) {
@@ -146,7 +128,7 @@ public final class CuteWorldFactory {
                   }
                }
 
-               Q((class_630)var11.getValue(), CuteWorldTransform.TypeY.K, var1, var6);
+               Q((class_630)var11.getValue(), CuteWorldTransform.CutePart.K, var1, var6);
             }
 
             var10 = var11.getValue();
@@ -156,12 +138,12 @@ public final class CuteWorldFactory {
       }
    }
 
-   private static void l(class_630 var0, String var1, CuteWorldTransform.TypeY var2, List var3, long var4) {
+   private static void l(class_630 var0, String var1, CuteWorldTransform.CutePart var2, List var3, long var4) {
       long var6 = var4 ^ 94867298891458L;
       long var8 = var4 ^ 0L;
       CuteWorldUpdater.ensureSourceClassInitialized();
 
-      for (Entry var11 : ((ModelPartAccessor)(Object)(var0)).purxiy$children().entrySet()) {
+      for (Entry var11 : ((ModelPartAccessor)(Object)var0).purxiy$children().entrySet()) {
          Object var12 = (String)var11.getKey();
          if (var4 > 0L) {
             if (!var12.equals(var1)) {
@@ -178,13 +160,13 @@ public final class CuteWorldFactory {
       }
    }
 
-   private static void Q(class_630 var0, CuteWorldTransform.TypeY var1, List var2, long var3) {
+   private static void Q(class_630 var0, CuteWorldTransform.CutePart var1, List var2, long var3) {
       long var6 = var3 ^ 23730068384793L;
       CuteWorldUpdater.ensureSourceClassInitialized();
       class_593 var8 = null;
       class_628 var9 = null;
       float var10 = 0.0F;
-      Iterator var11 = ((ModelPartAccessor)(Object)(var0)).purxiy$cubes().iterator();
+      Iterator var11 = ((ModelPartAccessor)(Object)var0).purxiy$cubes().iterator();
       boolean var12 = false;
 
       while (var11.hasNext()) {
@@ -192,7 +174,7 @@ public final class CuteWorldFactory {
          float var14 = (var13.field_3648 - var13.field_3645) * (var13.field_3647 - var13.field_3644);
          float var15 = var14;
 
-         label151:
+         label142:
          while (!(var15 <= var10)) {
             for (class_593 var19 : var13.field_3649) {
                if (var3 > 0L) {
@@ -200,7 +182,7 @@ public final class CuteWorldFactory {
                   if (var3 > 1L) {
                      var15 = var19.comp_3185().z();
                      if (var3 <= 1L) {
-                        continue label151;
+                        continue label142;
                      }
 
                      if (!(var15 < -0.9F)) {
@@ -279,18 +261,18 @@ public final class CuteWorldFactory {
 
             if (var40 > var37) {
                double var30 = 0.54;
-               if (var1 == CuteWorldTransform.TypeY.K && var9 != null) {
+               if (var1 == CuteWorldTransform.CutePart.K && var9 != null) {
                   var30 = Q(var0, var9, 0.0F, var6, 0.0F, var30);
 
-                  for (Entry var33 : ((ModelPartAccessor)(Object)(var0)).purxiy$children().entrySet()) {
+                  for (Entry var33 : ((ModelPartAccessor)(Object)var0).purxiy$children().entrySet()) {
                      boolean var5;
-                     label97: {
-                        label96: {
-                           label95: {
+                     label99: {
+                        label98: {
+                           label97: {
                               Object var34 = (String)var33.getKey();
                               if (var3 >= 0L) {
                                  if (var34.equals("nose")) {
-                                    break label95;
+                                    break label97;
                                  }
 
                                  var34 = var33.getKey();
@@ -304,11 +286,11 @@ public final class CuteWorldFactory {
 
                                  var5 = ((String)var35).equals("muzzle");
                                  if (var3 < 0L) {
-                                    break label97;
+                                    break label99;
                                  }
 
                                  if (!var5) {
-                                    break label96;
+                                    break label98;
                                  }
                               }
                            }
@@ -327,7 +309,7 @@ public final class CuteWorldFactory {
                }
 
                if (var3 >= 0L) {
-                  var2.add(new CuteWorldTransform.Data3(var36, var37, var38, var39, var1, var30));
+                  var2.add(new CuteWorldTransform.TextureQuad(var36, var37, var38, var39, var1, var30));
                }
             }
          }
@@ -336,7 +318,7 @@ public final class CuteWorldFactory {
 
    private static double Q(class_630 var0, class_628 var1, float var2, long var3, float var5, double var6) {
       CuteWorldUpdater.ensureSourceClassInitialized();
-      Iterator var8 = ((ModelPartAccessor)(Object)(var0)).purxiy$cubes().iterator();
+      Iterator var8 = ((ModelPartAccessor)(Object)var0).purxiy$cubes().iterator();
       byte var9 = 0;
 
       while (var8.hasNext()) {
@@ -399,5 +381,4 @@ public final class CuteWorldFactory {
 
       return var6;
    }
-
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -42,24 +41,18 @@ public final class Skins3DUpdater {
    private static final int k = 1;
    private static final int n = 2;
    private static final double g = 6.0;
-   
    private static Skins3DLoader v;
-   
-   private static Skins3DLoader.TypeR X;
-   
+   private static Skins3DLoader.SkinSource X;
    private static class_638 u;
    private static String B = "";
    private static int i = 0;
    private static int D = 0;
    private static boolean x;
-   
    private static class_243 T;
    private static long I = 0L;
-   
    private static class_243 E;
    private static final Matrix4f Q = new Matrix4f();
    private static final Vector3f Y = new Vector3f();
-
    private static final String[] b = new String[9];
    private static final long c = 150000000L;
 
@@ -76,7 +69,7 @@ public final class Skins3DUpdater {
       if (X == null) {
          return false;
       } else {
-         return i != 0 ? Skins3DTransform2.bare(Y(var7), v((byte)var4, M(), var5, var6)) : X.r != null;
+         return i != 0 ? Skins3DPose.bare(Y(var7), v((byte)var4, M(), var5, var6)) : X.r != null;
       }
    }
 
@@ -86,8 +79,8 @@ public final class Skins3DUpdater {
          && var0.field_1687 != null
          && var0.field_1724.method_5805()
          && !var0.field_1724.method_7325()
-         && Skins3DTransform3.h.enabled()
-         && Skins3DTransform3.h.preset() == SkinPreset.B
+         && Skins3DRig.h.enabled()
+         && Skins3DRig.h.preset() == SkinPreset.B
          && SkinPreset.spiderTexture(var0.field_1724.method_52814().comp_1626().comp_3627());
    }
 
@@ -98,7 +91,7 @@ public final class Skins3DUpdater {
       int var6 = (int)((var1 ^ 31485456131011L) << 16 >>> 48);
       int var7 = (int)(var3 << 32 >>> 32);
       class_310 var8 = class_310.method_1551();
-      if (Skins3DTransform3.h.j.matches(var0) && var8.field_1755 == null && var8.method_18506() == null && active()) {
+      if (Skins3DRig.h.j.matches(var0) && var8.field_1755 == null && var8.method_18506() == null && active()) {
          u((short)var5, (char)var6, var7);
          return true;
       } else {
@@ -117,7 +110,7 @@ public final class Skins3DUpdater {
             i = 1;
          } else {
             label56: {
-               Skins3DUpdater2 var10 = X.r;
+               Skins3DCamera var10 = X.r;
                boolean var11 = X.A.equals(x(var7));
                class_243 var12 = new class_243(var10.T, var10.L + 0.05, var10.Z);
                double var13 = var11 ? var9.field_1724.method_73189().method_1022(var12) : Double.POSITIVE_INFINITY;
@@ -143,7 +136,7 @@ public final class Skins3DUpdater {
                var9.field_1724
                   .method_7353(
                      var11
-                        ? class_2561.method_43469("purxiy.spiderman.mask_distance", Math.round(var13))
+                        ? class_2561.method_43469("purxiy.spiderman.mask_distance", new Object[]{Math.round(var13)})
                         : class_2561.method_43471("purxiy.spiderman.mask_other_dimension"),
                      true
                   );
@@ -181,7 +174,7 @@ public final class Skins3DUpdater {
          }
 
          if (X != null && !var0.method_1493() && !x) {
-            if (Skins3DTransform3.h.enabled() && Skins3DTransform3.h.preset() == SkinPreset.B) {
+            if (Skins3DRig.h.enabled() && Skins3DRig.h.preset() == SkinPreset.B) {
                Skins3DFactory.get(SkinPreset.T, false);
                Skins3DFactory.model(SkinPreset.H);
                Skins3DFactory.model(SkinPreset.q);
@@ -230,13 +223,13 @@ public final class Skins3DUpdater {
                }
             }
 
-            Skins3DUpdater2 var23 = X.r;
+            Skins3DCamera var23 = X.r;
             if (var23 != null && i != 2 && X.A.equals(x(var11)) && var0.field_1687.method_22340(class_2338.method_49637(var23.T, var23.L, var23.Z))) {
                boolean var21 = var23.A;
                var23.tick((var1x, var3x, var5x, var7x, var9x, var11x) -> {
                   class_238 var13x = new class_238(var1x - 0.205, var3x, var5x - 0.27, var1x + 0.205, var3x + 0.075, var5x + 0.27);
                   class_243 var14 = class_1297.method_20736(null, new class_243(var7x, var9x, var11x), var13x, var0.field_1687, List.of());
-                  return new Skins3DUpdater2.Data(var14.field_1352, var14.field_1351, var14.field_1350);
+                  return new Skins3DCamera.Data(var14.field_1352, var14.field_1351, var14.field_1350);
                });
                if (var23.L < var0.field_1687.method_31607() - 32) {
                   X.r = null;
@@ -264,7 +257,7 @@ public final class Skins3DUpdater {
       double var15 = Math.toRadians(var0.field_1724.field_6283);
       class_243 var17 = new class_243(-Math.sin(var15) * 0.2, 0.13, Math.cos(var15) * 0.2);
       X.A = x(var7);
-      X.r = new Skins3DUpdater2(
+      X.r = new Skins3DCamera(
          var14.field_1352,
          var14.field_1351 - 0.1,
          var14.field_1350,
@@ -285,20 +278,10 @@ public final class Skins3DUpdater {
       SkinPreset.ensureSourceClassInitialized();
       int var4 = J(var3);
       long var5 = 97128256846698L;
-      if (97128256846698L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var10 = var5 < 0L ? -1 : 1;
-      }
-
+      int var8 = var5 < 0L ? -1 : 1;
       if (var2 < var4) {
-         long var8 = 97128256846699L;
-         if (97128256846699L == 0L) {
-            boolean var11 = false;
-         } else {
-            int var12 = var8 < 0L ? -1 : 1;
-         }
-
+         long var8x = 97128256846699L;
+         int var9 = var8x < 0L ? -1 : 1;
          if (var2 + 1 >= J(var3)) {
             return true;
          }
@@ -312,7 +295,7 @@ public final class Skins3DUpdater {
       short var6 = 30880;
       int var7 = 9838472;
       int var8 = (int)(var4 << 56 >>> 56);
-      w(var6, var7, (byte)var8, class_3417.field_14581.comp_349(), var0, var3);
+      w(var6, var7, (byte)var8, (class_3414)class_3417.field_14581.comp_349(), var0, var3);
    }
 
    private static void w(int var0, int var1, byte var2, class_3414 var3, float var4, float var5) {
@@ -339,54 +322,33 @@ public final class Skins3DUpdater {
       cancelAction();
       class_1132 var5 = var2.method_1576();
       long var6 = 38478256421558L;
-      if (38478256421558L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var22 = var6 < 0L ? -1 : 1;
-      }
-
-      String var9;
+      int var9 = var6 < 0L ? -1 : 1;
+      String var9x;
       if (var5 != null) {
-         var9 = "singleplayer:" + var2.method_1576().method_27050(class_5218.field_24188).toAbsolutePath().normalize();
+         var9x = "singleplayer:" + var2.method_1576().method_27050(class_5218.field_24188).toAbsolutePath().normalize();
       } else {
          class_642 var10 = var2.method_1558();
          long var11 = 38478256421557L;
-         if (38478256421557L == 0L) {
-            boolean var23 = false;
-         } else {
-            int var24 = var11 < 0L ? -1 : 1;
-         }
-
+         int var14 = var11 < 0L ? -1 : 1;
          if (var10 != null) {
-            var9 = "server:" + var2.method_1558().field_3761.trim().toLowerCase(Locale.ROOT);
+            var9x = "server:" + var2.method_1558().field_3761.trim().toLowerCase(Locale.ROOT);
          } else {
-            var9 = "connection:" + var2.field_1724.field_3944.method_48296().method_10755();
+            var9x = "connection:" + var2.field_1724.field_3944.method_48296().method_10755();
          }
       }
 
       try {
-         String var20 = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(var9.getBytes(StandardCharsets.UTF_8)));
+         String var20 = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(var9x.getBytes(StandardCharsets.UTF_8)));
          long var21 = 38478256421558L;
-         if (38478256421558L == 0L) {
-            boolean var25 = false;
-         } else {
-            int var26 = var21 < 0L ? -1 : 1;
-         }
-
-         long var14 = 38478256421557L;
-         if (38478256421557L == 0L) {
-            boolean var27 = false;
-         } else {
-            int var28 = var14 < 0L ? -1 : 1;
-         }
-
+         int var20x = var21 < 0L ? -1 : 1;
+         long var14x = 38478256421557L;
          if (v == null) {
             v = new Skins3DLoader(FabricLoader.getInstance().getConfigDir().resolve("purxiy/spiderman-masks.json"));
 
             try {
                v.load();
-            } catch (IOException var18) {
-               ClientServices.LOGGER.warn("Could not read costume masks", var18);
+            } catch (IOException var15) {
+               ClientServices.LOGGER.warn("Could not read costume masks", var15);
             }
          }
 
@@ -397,8 +359,8 @@ public final class Skins3DUpdater {
          }
 
          u = var2.field_1687;
-      } catch (NoSuchAlgorithmException var19) {
-         throw new IllegalStateException(var19);
+      } catch (NoSuchAlgorithmException var16) {
+         throw new IllegalStateException(var16);
       }
    }
 
@@ -428,17 +390,12 @@ public final class Skins3DUpdater {
    private static void C(long var0) {
       SkinPreset.ensureSourceClassInitialized();
       long var2 = 91384910323851L;
-      if (91384910323851L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var2 < 0L ? -1 : 1;
-      }
-
+      int var6 = var2 < 0L ? -1 : 1;
       if (v != null) {
          try {
             v.save();
-         } catch (IOException var6) {
-            ClientServices.LOGGER.warn("Could not save costume masks", var6);
+         } catch (IOException var5) {
+            ClientServices.LOGGER.warn("Could not save costume masks", var5);
          }
       }
    }
@@ -446,23 +403,12 @@ public final class Skins3DUpdater {
    private static int Y(long var0) {
       SkinPreset.ensureSourceClassInitialized();
       long var2 = 67856124373137L;
-      if (67856124373137L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var2 < 0L ? -1 : 1;
-      }
-
-      int var5;
+      int var5 = var2 < 0L ? -1 : 1;
       if (i == 1) {
          var5 = 1;
       } else {
          long var6 = 67856124373138L;
-         if (67856124373138L == 0L) {
-            boolean var9 = false;
-         } else {
-            int var10 = var6 < 0L ? -1 : 1;
-         }
-
+         int var7 = var6 < 0L ? -1 : 1;
          var5 = i == 2 ? 2 : 0;
       }
 
@@ -477,7 +423,7 @@ public final class Skins3DUpdater {
       return class_310.method_1551().method_61966().method_60637(false);
    }
 
-   static void extract(class_10055 var0, Skins3DSupport5 var1) {
+   static void extract(class_10055 var0, Skins3DGroundPose var1) {
       long var2 = 89672487513511L;
       long var4 = var2 ^ 665767562494L;
       int var6 = (int)((var2 ^ 665767562494L) >>> 56);
@@ -504,7 +450,7 @@ public final class Skins3DUpdater {
             var1.r = var0.field_63604 <= 0.0F || var0.field_53408 != class_1306.field_6182;
          }
 
-         Skins3DUpdater2 var14 = X.r;
+         Skins3DCamera var14 = X.r;
          if (i == 2 && var14 != null) {
             class_243 var15 = new class_243(var0.field_53325, var0.field_53326 + 1.3 * var0.field_53453, var0.field_53327);
             Vector3f var16 = u(new class_243(var14.T, var14.L + 0.05, var14.Z).method_1020(var15), var0.field_53446).normalize();
@@ -517,14 +463,14 @@ public final class Skins3DUpdater {
       }
    }
 
-   static void attach(class_591 var0, class_10055 var1, Skins3DTransform2.TypeO var2, Skins3DSupport3 var3, Vector3f var4) {
+   static void attach(class_591 var0, class_10055 var1, Skins3DPose.PoseAngles var2, Skins3DRestPose var3, Vector3f var4) {
       class_310 var5 = class_310.method_1551();
       if (var5.field_1724 != null && var1.field_53528 == var5.field_1724.method_5628()) {
          if (var2.c) {
-            Skins3DBuilder.TypeR var6 = Skins3DFactory.model(var2.B ? SkinPreset.q : SkinPreset.H);
+            Skins3DBuilder.SkinQuad var6 = Skins3DFactory.model(var2.B ? SkinPreset.q : SkinPreset.H);
             if (var6 != null) {
                class_630 var7 = var0.field_3394;
-               Skins3DTransform3.set(var7, var6.R[0]);
+               Skins3DRig.set(var7, var6.R[0]);
                var7.field_3665 = true;
                var7.field_3657 = var2.k;
                var7.field_3656 = var2.L;
@@ -612,30 +558,15 @@ public final class Skins3DUpdater {
    private static float F(float var0, float var1, long var2, float var4) {
       SkinPreset.ensureSourceClassInitialized();
       long var5 = 39637046769161L;
-      if (39637046769161L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var12 = var5 < 0L ? -1 : 1;
-      }
-
+      int var8 = var5 < 0L ? -1 : 1;
       if (!(var0 <= 0.0F) && !(var0 >= 1.0F)) {
-         long var8 = 39637046769162L;
-         if (39637046769162L == 0L) {
-            boolean var13 = false;
-         } else {
-            int var14 = var8 < 0L ? -1 : 1;
-         }
-
+         long var8x = 39637046769162L;
+         int var10 = var8x < 0L ? -1 : 1;
          if (var0 < var1) {
             return u(var0 / var1);
          } else {
-            long var10 = 39637046769161L;
-            if (39637046769161L == 0L) {
-               boolean var15 = false;
-            } else {
-               int var16 = var10 < 0L ? -1 : 1;
-            }
-
+            long var10x = 39637046769161L;
+            int var11 = var10x < 0L ? -1 : 1;
             return var0 > 1.0F - var4 ? u((1.0F - var0) / var4) : 1.0F;
          }
       } else {
@@ -652,7 +583,6 @@ public final class Skins3DUpdater {
       return i == 0 && X != null && X.r != null && X.r.A;
    }
 
-   
    static Skins3DUpdater.Data visual(float var0) {
       long var1 = 133355261235401L;
       long var3 = var1 ^ 41848842449241L;
@@ -663,7 +593,7 @@ public final class Skins3DUpdater {
       long var10 = var1 ^ 131009346984569L;
       class_310 var12 = class_310.method_1551();
       if (X != null && var12.field_1724 != null) {
-         Skins3DUpdater2 var13 = X.r;
+         Skins3DCamera var13 = X.r;
          if (var13 != null && X.A.equals(x(var3))) {
             if (i == 2) {
                float var14 = v((byte)var7, var0, var8, var9);
@@ -708,8 +638,7 @@ public final class Skins3DUpdater {
       return var10.method_35590(var11, var8);
    }
 
-   
-   static Skins3DUpdater.Data2 web(float var0) {
+   static Skins3DUpdater.PoseVector web(float var0) {
       long var1 = 25137485277009L;
       long var3 = var1 ^ 83153716464218L;
       long var5 = var1 ^ 78929770841608L;
@@ -727,7 +656,7 @@ public final class Skins3DUpdater {
                ? var15.method_35590(E != null ? E : var15, var14)
                : l(Math.clamp((var12 - var13) / (0.6F - var13), 0.0F, 1.0F), var0, var10);
             float var17 = 1.0F - Math.clamp((var12 - 0.6F) / 0.05F, 0.0F, 1.0F);
-            return new Skins3DUpdater.Data2(var15, var16, var17);
+            return new Skins3DUpdater.PoseVector(var15, var16, var17);
          } else {
             return null;
          }
@@ -745,7 +674,11 @@ public final class Skins3DUpdater {
       return new class_243(-Math.sin(var0), 0.0, Math.cos(var0));
    }
 
-record Data(boolean K, class_243 N, float i, float V, float C, float r) {
+   private static double xd(long v) {
+      return (v >>> 32 & 65535L) / 65535.0;
+   }
+
+   record Data(boolean K, class_243 N, float i, float V, float C, float r) {
       public boolean shell() {
          return this.K;
       }
@@ -795,7 +728,7 @@ record Data(boolean K, class_243 N, float i, float V, float C, float r) {
       }
    }
 
-   record Data2(class_243 G, class_243 L, float C) {
+   record PoseVector(class_243 G, class_243 L, float C) {
       public class_243 from() {
          return this.G;
       }
@@ -819,9 +752,5 @@ record Data(boolean K, class_243 N, float i, float V, float C, float r) {
       public float floatState16() {
          return this.C;
       }
-   }
-
-   private static double xd(long v) {
-      return (double)((v >>> 32) & 0xFFFFL) / 65535.0;
    }
 }

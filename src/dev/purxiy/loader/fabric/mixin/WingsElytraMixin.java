@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry11;
+import dev.purxiy.loader.fabric.client.ElytraStateProvider;
 import net.minecraft.class_10034;
 import net.minecraft.class_10055;
 import net.minecraft.class_11659;
@@ -20,7 +19,7 @@ public abstract class WingsElytraMixin {
       cancellable = true
    )
    private void purxiy$wingsInstead(class_4587 var1, class_11659 var2, int var3, class_10034 var4, float var5, float var6, CallbackInfo var7) {
-      if (var4 instanceof class_10055 var8 && ClientRegistry11.hidesElytra(var8)) {
+      if (var4 instanceof class_10055 var8 && ElytraStateProvider.hidesElytra(var8)) {
          var7.cancel();
       }
    }

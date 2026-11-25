@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import dev.purxiy.config.BooleanSetting;
@@ -6,18 +5,20 @@ import dev.purxiy.config.IntegerSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
 import dev.purxiy.config.Setting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.CosmeticCatalog;
 import dev.purxiy.loader.fabric.CosmeticRegistry;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import dev.purxiy.loader.fabric.client.ClientCodec;
 import dev.purxiy.loader.fabric.client.ClientLoader;
-import dev.purxiy.loader.fabric.client.ClientRegistry24;
-import dev.purxiy.loader.fabric.client.ClientRegistry25;
-import dev.purxiy.loader.fabric.client.ClientRenderer10;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.ResourceProvider;
+import dev.purxiy.loader.fabric.client.AttackAnimationProvider;
+import dev.purxiy.loader.fabric.client.HudRenderPass;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import dev.purxiy.loader.fabric.client.ClientUpdater;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter.FrameHook;
+import dev.purxiy.loader.fabric.client.ClientUpdater.ModulePayload;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import java.util.List;
 import net.minecraft.class_10444;
@@ -61,8 +62,6 @@ public final class KnifeModule extends ModuleDescriptor {
    public final BooleanSetting n;
    public final BooleanSetting t;
 
-
-
    public KnifeModule() {
       super("knives", "Knives", "Five iconic knives and three blades for both hands", "sword");
       long var1 = 17517801914293L;
@@ -70,13 +69,13 @@ public final class KnifeModule extends ModuleDescriptor {
       this.U = this.mode("model", "Knife", "Five sculpted blades, each with tricks of its own", "Karambit", KnifeModels.u);
       this.F = this.mode("finish", "Finish", "The blade's metal and handle accents", "Signature", new String[]{"Signature", "Obsidian", "Doppler", "Gold"});
       this.j = new ModeSetting[5];
-      this.h = this.add(new IntegerSetting("inspect_key", "Inspect key", "Play a trick; press again to chain the next", 73));
-      this.g = this.add(new IntegerSetting("slash_key", "Slash key", "Slash the air; it hits nothing"));
+      this.h = (IntegerSetting)this.add(new IntegerSetting("inspect_key", "Inspect key", "Play a trick; press again to chain the next", 73));
+      this.g = (IntegerSetting)this.add(new IntegerSetting("slash_key", "Slash key", "Slash the air; it hits nothing"));
       this.p = this.section("Animation").bool("auto_inspect", "Idle tricks", "Plays with your blade while you stand still", true);
       this.A = this.number("interval", "Trick interval", "Seconds of idle time between tricks", 12.0, 5.0, 30.0, 1.0, var0 -> Math.round(var0) + " s");
       this.r = this.bool("walk_tricks", "Walking tricks", "Keeps playing with your blade as you move", true);
       this.q = this.number("walk_pause", "Pause between", "None: each trick flows straight into the next", 0.0, 0.0, 6.0, 0.1, var0 -> {
-         KnifeUpdater2.ensureSourceClassInitialized();
+         KnifeSwingState.ensureSourceClassInitialized();
          int var2 = 0;
          String var3x;
          if (var0 < 0.05) {
@@ -89,18 +88,18 @@ public final class KnifeModule extends ModuleDescriptor {
 
          return var3x;
       });
-      this.x = this.number("flow_tempo", "Tempo on the move", "How fast the tricks play as you move", 1.25, 1.0, 1.6, 0.05, NumberSetting.Listener.MULTIPLIER);
+      this.x = this.number("flow_tempo", "Tempo on the move", "How fast the tricks play as you move", 1.25, 1.0, 1.6, 0.05, Listener.MULTIPLIER);
       this.D = this.bool("air_slashes", "Air slashes", "Tricks may slash the air in front of you", true);
-      this.C = this.number("speed", "Animation speed", "Tempo of every trick and the draw", 1.0, 0.65, 1.5, 0.05, NumberSetting.Listener.MULTIPLIER);
+      this.C = this.number("speed", "Animation speed", "Tempo of every trick and the draw", 1.0, 0.65, 1.5, 0.05, Listener.MULTIPLIER);
       this.R = this.bool("draw", "Draw animation", "A flourish when you equip a sword", true);
       this.J = this.bool("two_handed", "Two-handed tricks", "Your other hand joins in while it holds nothing", true);
       this.H = this.section("Sound").bool("sounds", "Trick sounds", "Clean steel sounds for every flip, spin and catch", true);
       this.B = this.mode(
          "attack_sounds", "Attack sounds", "A swish on every attack, a cut when it hits", "Knife", new String[]{"Knife", "Knife and sword", "Sword"}
       );
-      this.w = this.number("volume", "Volume", "Of the knife's sounds", 0.7, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT);
+      this.w = this.number("volume", "Volume", "Of the knife's sounds", 0.7, 0.0, 1.0, 0.05, Listener.PERCENT);
       this.d = this.section("Placement").bool("offhand", "Off-hand knives", "Replace swords in your other hand too", true);
-      this.l = this.number("size", "Knife size", "Scale around the grip", 1.0, 0.7, 1.3, 0.05, NumberSetting.Listener.PERCENT);
+      this.l = this.number("size", "Knife size", "Scale around the grip", 1.0, 0.7, 1.3, 0.05, Listener.PERCENT);
       this.z = this.mode("weapon", "Weapon", "A knife, or a blade held in both hands", "Knife", z(var3));
       this.P = this.section("Two-handed blade")
          .number(
@@ -120,26 +119,26 @@ public final class KnifeModule extends ModuleDescriptor {
       this.q.visibleWhen(this.r::enabled);
       this.x.visibleWhen(this.r::enabled);
       this.w.visibleWhen(() -> {
-         KnifeUpdater2.ensureSourceClassInitialized();
+         KnifeSwingState.ensureSourceClassInitialized();
          boolean var1x = false;
          return this.H.enabled() || !this.B.is("Sword");
       });
 
       for (int var5 = 0; var5 < this.j.length; var5++) {
-         this.j[var5] = this.add(
+         this.j[var5] = (ModeSetting)this.add(
             new ModeSetting(KnifeCamos.settingId(var5), KnifeModels.u[var5] + " camo", "Remembered for this knife", "Original", KnifeCamos.choices(var5))
          );
       }
 
       this.F.visibleWhen(() -> {
-         KnifeUpdater2.ensureSourceClassInitialized();
+         KnifeSwingState.ensureSourceClassInitialized();
          boolean var1x = false;
          return this.camo() == null || this.great();
       });
 
       for (Setting var8 : new Setting[]{this.J, this.d, this.l}) {
          var8.visibleWhen(() -> {
-            KnifeUpdater2.ensureSourceClassInitialized();
+            KnifeSwingState.ensureSourceClassInitialized();
             boolean var1x = false;
             return !this.great();
          });
@@ -151,14 +150,14 @@ public final class KnifeModule extends ModuleDescriptor {
    }
 
    private static String[] z(long var0) {
-      String[] var2 = new String[KnifeFactory2.B.length + 1];
+      String[] var2 = new String[KnifeBlades.B.length + 1];
       var2[0] = "Knife";
-      System.arraycopy(KnifeFactory2.B, 0, var2, 1, KnifeFactory2.B.length);
+      System.arraycopy(KnifeBlades.B, 0, var2, 1, KnifeBlades.B.length);
       return var2;
    }
 
    public boolean great() {
-      return KnifeFactory2.index(this.z.get()) >= 0;
+      return KnifeBlades.index((String)this.z.get()) >= 0;
    }
 
    public ModeSetting camoSetting(int var1) {
@@ -166,15 +165,15 @@ public final class KnifeModule extends ModuleDescriptor {
    }
 
    public ModeSetting camoSetting() {
-      return this.camoSetting(KnifeModels.index(this.U.get()));
+      return this.camoSetting(KnifeModels.index((String)this.U.get()));
    }
 
    public KnifeCamos.Camo camo() {
-      return KnifeCamos.find(KnifeModels.index(this.U.get()), this.camoSetting().get());
+      return KnifeCamos.find(KnifeModels.index((String)this.U.get()), (String)this.camoSetting().get());
    }
 
    public KnifeModels.Model geometry() {
-      return KnifeModels.get(KnifeModels.index(this.U.get()), this.F.get(), this.camoSetting().get());
+      return KnifeModels.get(KnifeModels.index((String)this.U.get()), (String)this.F.get(), (String)this.camoSetting().get());
    }
 
    public boolean collectionSetting(Setting<?> var1) {
@@ -191,15 +190,13 @@ public final class KnifeModule extends ModuleDescriptor {
       }
    }
 
-   @Override
    protected void onDisable() {
-      KnifeUpdater2.reset();
+      KnifeSwingState.reset();
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       var1.own(
-         ClientRegistry24.install(
+         ResourceProvider.install(
             var1,
             List.of(
                "assets/purxiy/knife/tricks.txt",
@@ -367,99 +364,85 @@ public final class KnifeModule extends ModuleDescriptor {
          )
       );
       var1.own(ClientServices.acquire(this.id()));
-      KnifeUpdater2.install(this, var1);
-      var1.own(ClientUpdater.install(new ClientUpdater.Listener() {
-         @Override
+      KnifeSwingState.install(this, var1);
+      var1.own(ClientUpdater.install(new dev.purxiy.loader.fabric.client.ClientUpdater.Listener() {
          public boolean update(class_10444 var1, class_1799 var2, class_811 var3, class_11566 var4) {
             return KnifeUpdater.update(var1, var2, var3, var4);
          }
 
-         @Override
-         public void submit(ClientUpdater.TypeV var1, class_811 var2, class_4587 var3, class_11659 var4, int var5, int var6, boolean var7, int var8) {
+         public void submit(ModulePayload var1, class_811 var2, class_4587 var3, class_11659 var4, int var5, int var6, boolean var7, int var8) {
             KnifeUpdater.submit(var1, var2, var3, var4, var5, var6, var7, var8);
          }
       }));
       var1.own(
-         ClientRenderer10.install(
-            new ClientRenderer10.Listener() {
-               @Override
+         HudRenderPass.install(
+            new dev.purxiy.loader.fabric.client.HudRenderPass.Listener() {
                public boolean render(
                   class_742 var1, class_1268 var2, class_1799 var3, float var4, float var5, class_4587 var6, class_11659 var7, int var8, class_898 var9
                ) {
-                  return KnifeRenderer5.render(var1, var2, var3, var4, var5, var6, var7, var8, var9);
+                  return KnifeMaterialMesh.render(var1, var2, var3, var4, var5, var6, var7, var8, var9);
                }
             }
          )
       );
-      var1.own(ModuleWidget.onTick(KnifeUpdater2::tick));
+      var1.own(ModuleWidget.onTick(KnifeSwingState::tick));
       var1.own(ModuleWidget.onDisconnect(var0 -> {
-         KnifeUpdater2.reset();
-         KnifeSupport3.reset();
+         KnifeSwingState.reset();
+         KnifeAttackShell.reset();
       }));
       var1.own(ModuleWidget.onKey((var0, var1x, var2) -> {
          long var3 = 58184662080315L;
          if (var2 == 1 && class_310.method_1551().field_1755 == null) {
-            KnifeUpdater2.onKey(var0);
+            KnifeSwingState.onKey(var0);
          }
       }));
-      var1.own(ClientSupport3.VIEW.subscribe(0, (var0, var1x, var2, var3) -> KnifeSupport6.level(var0, var1x, var2)));
-      var1.onFrame(var0 -> KnifeSupport6.frame());
-      var1.own(ClientSupport3.HAND_COMPOSITE.subscribe(20, KnifeSupport6::composite));
-      var1.own(CosmeticRegistry.register(this.id(), this.getClass().getClassLoader(), () -> new KnifeRenderer2(this)));
-      var1.own(KnifeUpdater2::uninstall);
-      var1.own(KnifeSupport6::releaseResources);
-      var1.own(KnifeSupport4::releaseResources);
-      var1.own(ClientRegistry25.install(new ClientRegistry25.Listener() {
-         @Override
+      var1.own(SkyPipelineRouter.VIEW.subscribe(0, (FrameHook)(var0, var1x, var2, var3) -> KnifeWieldPipeline.level(var0, var1x, var2)));
+      var1.onFrame(var0 -> KnifeWieldPipeline.frame());
+      var1.own(SkyPipelineRouter.HAND_COMPOSITE.subscribe(20, KnifeWieldPipeline::composite));
+      var1.own(CosmeticRegistry.register(this.id(), this.getClass().getClassLoader(), () -> new KnifeEditorScreen(this)));
+      var1.own(KnifeSwingState::uninstall);
+      var1.own(KnifeWieldPipeline::releaseResources);
+      var1.own(KnifeWieldPipelines::releaseResources);
+      var1.own(AttackAnimationProvider.install(new dev.purxiy.loader.fabric.client.AttackAnimationProvider.Listener() {
          public boolean replaces(class_1799 var1, class_1268 var2) {
-            return KnifeUpdater2.replaces(var1, var2);
+            return KnifeSwingState.replaces(var1, var2);
          }
 
-         @Override
          public boolean inspect() {
-            return KnifeUpdater2.inspect();
+            return KnifeSwingState.inspect();
          }
 
-         @Override
          public boolean slash() {
-            return KnifeUpdater2.slash();
+            return KnifeSwingState.slash();
          }
 
-         @Override
          public void onSwing() {
-            KnifeUpdater2.onSwing();
+            KnifeSwingState.onSwing();
          }
 
-         @Override
          public void attackStarts() {
-            KnifeUpdater2.attackStarts();
+            KnifeSwingState.attackStarts();
          }
 
-         @Override
          public void attackSwings() {
-            KnifeUpdater2.attackSwings();
+            KnifeSwingState.attackSwings();
          }
 
-         @Override
          public void onAttack(class_1657 var1, class_1297 var2) {
-            KnifeUpdater2.onAttack(var1, var2);
+            KnifeSwingState.onAttack(var1, var2);
          }
 
-         @Override
          public boolean mutes(class_6880<class_3414> var1, double var2, double var4, double var6) {
-            return KnifeUpdater2.mutes(var1, var2, var4, var6);
+            return KnifeSwingState.mutes(var1, var2, var4, var6);
          }
 
-         @Override
          public boolean inspecting() {
-            return KnifeUpdater2.inspecting();
+            return KnifeSwingState.inspecting();
          }
       }));
    }
 
-   @Override
-   protected CosmeticCatalog.Listener createPreview() {
-      return new KnifeRenderer8(this);
+   protected dev.purxiy.loader.fabric.CosmeticCatalog.Listener createPreview() {
+      return new KnifeEditorPage(this);
    }
-
 }

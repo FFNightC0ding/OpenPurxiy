@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.afterglow;
 
 import java.util.List;
@@ -7,11 +6,29 @@ final class AfterglowCatalog {
    static final int Q = 0;
    static final int Z = 1;
    static int s = 2;
-   static AfterglowCatalog l;
-   static AfterglowCatalog q;
-   static AfterglowCatalog y;
-   static List<AfterglowCatalog> p;
-   static AfterglowCatalog I;
+   static AfterglowCatalog l = new AfterglowCatalog("Motes", 0)
+      .J(0.02F, 0.04F)
+      .N(2.5F, 5.0F)
+      .A(-0.06F, 0.1F, -0.02F, 0.05F)
+      .b(0.02F, 0.55F, 0.04F)
+      .F(0.15F, 0.5F)
+      .N(0.85F, 0.45F, 0.12F);
+   static AfterglowCatalog q = new AfterglowCatalog("Stardust", 1)
+      .J(0.01F, 0.022F)
+      .N(1.4F, 3.2F)
+      .A(-0.1F, 0.14F, -0.05F, 0.06F)
+      .b(0.01F, 0.9F, 0.02F)
+      .F(0.8F, 2.4F)
+      .N(1.0F, 0.85F, 0.25F);
+   static AfterglowCatalog y = new AfterglowCatalog("Petals", s)
+      .J(0.055F, 0.095F)
+      .N(4.0F, 7.5F)
+      .A(-0.18F, 0.18F, -0.3F, -0.1F)
+      .b(-0.02F, 0.35F, 0.22F)
+      .F(0.5F, 1.4F)
+      .N(0.92F, 0.3F, 0.08F);
+   static List<AfterglowCatalog> p = List.of(l, q, y);
+   static AfterglowCatalog I = l;
    final String h;
    final int m;
    float V;
@@ -89,34 +106,4 @@ final class AfterglowCatalog {
       this.T = var3;
       return this;
    }
-
-   // The style presets were missing from this source drop, which left p (the catalog list) null and made every
-   // AfterglowModule constructor throw an NPE, so the module switched itself back off the moment it was enabled.
-   // Size (J), lifetime (N), drift speeds (A), sway (b), spin (F) and glow (N) are rebuilt here per style.
-   static {
-      l = new AfterglowCatalog("Motes", Q)
-         .J(0.020F, 0.040F)
-         .N(2.5F, 5.0F)
-         .A(-0.06F, 0.10F, -0.02F, 0.05F)
-         .b(0.02F, 0.55F, 0.04F)
-         .F(0.15F, 0.50F)
-         .N(0.85F, 0.45F, 0.12F);
-      q = new AfterglowCatalog("Stardust", Z)
-         .J(0.010F, 0.022F)
-         .N(1.4F, 3.2F)
-         .A(-0.10F, 0.14F, -0.05F, 0.06F)
-         .b(0.01F, 0.90F, 0.02F)
-         .F(0.80F, 2.40F)
-         .N(1.00F, 0.85F, 0.25F);
-      y = new AfterglowCatalog("Petals", s)
-         .J(0.055F, 0.095F)
-         .N(4.0F, 7.5F)
-         .A(-0.18F, 0.18F, -0.30F, -0.10F)
-         .b(-0.02F, 0.35F, 0.22F)
-         .F(0.50F, 1.40F)
-         .N(0.92F, 0.30F, 0.08F);
-      p = List.of(l, q, y);
-      I = l;
-   }
-
 }

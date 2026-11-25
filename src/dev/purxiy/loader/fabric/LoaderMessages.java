@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonArray;
@@ -122,9 +121,9 @@ final class LoaderMessages {
             case SECURITY_HOLD -> "Toegang tijdelijk geblokkeerd. Neem contact op via de website.";
             default -> "Clientcontrole geweigerd. Herstel de originele loader en herstart.";
          };
-         class_128 var2 = class_128.method_560(new LoaderStartupFailure(rejectedReason), "Purxiy loader authorization");
+         class_128 var2 = class_128.method_560(new LoaderStartupFailure(rejectedReason), "SourceByDevFFnightmare DeObfDeCompByGuideX loader authorization");
          class_310.method_1551().method_1494(var2);
-         LoggerFactory.getLogger("PurxiyLoader").error("PURXIY STARTUP ABORTED: {}; module host detached; fatal crash requested", rejectedReason);
+         LoggerFactory.getLogger("DeObfDeCompByGuideX/Loader").error("SOURCEBYDEVFFNIGHTMARE DEOBFDECOMPBYGUIDEX STARTUP ABORTED: {}; module host detached; fatal crash requested", rejectedReason);
       }
 
       if (rejectedReason == null) {

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.auras;
 
 public enum AuraStyle {
@@ -41,5 +40,4 @@ public enum AuraStyle {
 
    public static void ensureSourceClassInitialized() {
    }
-
 }

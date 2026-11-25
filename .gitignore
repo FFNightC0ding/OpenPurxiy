@@ -1,0 +1,10 @@
+.gradle/
+build/
+run/
+*.log
+*.tmp
+
+# Local toolchain and decompiler caches
+tools/jdk/
+tools/*.zip
+tools/*.jar

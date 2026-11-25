@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.profile;
 
 import dev.purxiy.loader.fabric.CosmeticRegistry;
@@ -10,14 +9,11 @@ import net.minecraft.class_437;
 final class ProfileScreen extends class_437 {
    private final ProfileModule C;
 
-
-
    ProfileScreen(ProfileModule var1) {
       super(class_2561.method_43470("Profile"));
       this.C = var1;
    }
 
-   @Override
    protected void method_25426() {
       this.method_37063(
          ModuleClick.builder(class_2561.method_43470("Settings"), var1 -> CosmeticRegistry.settings(this.C.id()))
@@ -31,10 +27,9 @@ final class ProfileScreen extends class_437 {
       );
    }
 
-   @Override
    public void method_25394(class_332 var1, int var2, int var3, float var4) {
       super.method_25394(var1, var2, var3, var4);
-      ProfileLoader3 var5 = ProfileSupport2.lifetime(ProfileUpdater.data());
+      ProfileStats var5 = ProfileStatsSeries.lifetime(ProfileUpdater.data());
       var1.method_25300(this.field_22793, this.C.displayName(), this.field_22789 / 2, 24, -1385217);
       String[] var6 = new String[]{
          "Play time: " + ProfileSupport.duration(var5.A),
@@ -50,14 +45,11 @@ final class ProfileScreen extends class_437 {
       }
    }
 
-   @Override
    public boolean method_25421() {
       return false;
    }
 
-   @Override
    public void method_25419() {
       this.field_22787.method_1507(CosmeticRegistry.menu());
    }
-
 }

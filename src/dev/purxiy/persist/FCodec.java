@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.persist;
 
 import dev.purxiy.loader.fabric.MenuCommands;

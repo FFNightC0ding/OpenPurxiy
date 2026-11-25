@@ -81,7 +81,7 @@
         {
           "id": "gradient",
           "name": "Gradient",
-          "description": "Colour the list with the Purxiy gradient",
+          "description": "Colour the list with the SourceByDevFFnightmare DeObfDeCompByGuideX gradient",
           "kind": "BooleanSetting",
           "default": true
         },
@@ -128,7 +128,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -247,7 +247,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -487,7 +487,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -814,7 +814,7 @@
       "name": "Cape",
       "icon": "flag",
       "category": "COSMETICS",
-      "description": "Wear an animated Purxiy cape",
+      "description": "Wear an animated SourceByDevFFnightmare DeObfDeCompByGuideX cape",
       "toggleable": true,
       "defaultKey": -1,
       "keybindToggles": true,
@@ -825,9 +825,9 @@
           "name": "Cape",
           "description": "Which cape you wear",
           "kind": "ModeSetting",
-          "default": "Purxiy",
+          "default": "SourceByDevFFnightmare DeObfDeCompByGuideX",
           "choices": [
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Midnight",
             "Pearl",
             "Nebula",
@@ -1345,7 +1345,7 @@
       "name": "Custom Crosshair",
       "icon": "crosshair",
       "category": "RENDER",
-      "description": "Your aim, in Purxiy colours. Make it yours.",
+      "description": "Your aim, in SourceByDevFFnightmare DeObfDeCompByGuideX colours. Make it yours.",
       "toggleable": true,
       "defaultKey": -1,
       "keybindToggles": true,
@@ -1390,11 +1390,11 @@
         {
           "id": "palette",
           "name": "Palette",
-          "description": "Colours from the Purxiy night sky",
+          "description": "Colours from the SourceByDevFFnightmare DeObfDeCompByGuideX night sky",
           "kind": "ModeSetting",
-          "default": "Purxiy",
+          "default": "SourceByDevFFnightmare DeObfDeCompByGuideX",
           "choices": [
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Frost",
             "Rose",
             "Custom"
@@ -1739,7 +1739,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -2887,7 +2887,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -3745,7 +3745,7 @@
         {
           "id": "scale",
           "name": "Interface scale",
-          "description": "Size of everything in the Purxiy menu",
+          "description": "Size of everything in the SourceByDevFFnightmare DeObfDeCompByGuideX menu",
           "kind": "NumberSetting",
           "default": 1.0,
           "min": 0.8,
@@ -3806,7 +3806,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -4278,7 +4278,7 @@
       "name": "Low Fire",
       "icon": "flame",
       "category": "PLAYER",
-      "description": "Low, soft flames in the Purxiy colours",
+      "description": "Low, soft flames in the SourceByDevFFnightmare DeObfDeCompByGuideX colours",
       "toggleable": true,
       "defaultKey": -1,
       "keybindToggles": true,
@@ -4305,7 +4305,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -4438,15 +4438,15 @@
       "settingDefinitions": [
         {
           "id": "menus",
-          "name": "Purxiy main menu",
-          "description": "A living world behind Minecraft\u0027s menus, and the menus in the Purxiy style",
+          "name": "SourceByDevFFnightmare DeObfDeCompByGuideX main menu",
+          "description": "A living world behind Minecraft\u0027s menus, and the menus in the SourceByDevFFnightmare DeObfDeCompByGuideX style",
           "kind": "BooleanSetting",
           "default": true
         },
         {
           "id": "loading",
           "name": "Loading screen",
-          "description": "The Purxiy logo while the game loads, flying to its place in the menu",
+          "description": "The SourceByDevFFnightmare DeObfDeCompByGuideX logo while the game loads, flying to its place in the menu",
           "kind": "BooleanSetting",
           "default": true
         },
@@ -4701,7 +4701,7 @@
         {
           "id": "global",
           "name": "Overall speed",
-          "description": "Scales every animation in Purxiy",
+          "description": "Scales every animation in SourceByDevFFnightmare DeObfDeCompByGuideX",
           "kind": "NumberSetting",
           "default": 1.0,
           "min": 0.5,
@@ -4905,11 +4905,11 @@
         {
           "id": "font",
           "name": "Font",
-          "description": "Purxiy\u0027s Inter or Minecraft\u0027s own letters",
+          "description": "SourceByDevFFnightmare DeObfDeCompByGuideX\u0027s Inter or Minecraft\u0027s own letters",
           "kind": "ModeSetting",
-          "default": "Purxiy",
+          "default": "SourceByDevFFnightmare DeObfDeCompByGuideX",
           "choices": [
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Minecraft"
           ],
           "renamed": {}
@@ -4971,10 +4971,10 @@
           "name": "Nickname",
           "description": "Shown instead of your name · \u0026d colours work",
           "kind": "TextSetting",
-          "default": "Purxiy",
+          "default": "SourceByDevFFnightmare DeObfDeCompByGuideX",
           "maxLength": 64,
           "masked": false,
-          "placeholder": "Purxiy"
+          "placeholder": "SourceByDevFFnightmare DeObfDeCompByGuideX"
         },
         {
           "id": "also_hide",
@@ -5231,7 +5231,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -5378,7 +5378,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -5624,7 +5624,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -5930,7 +5930,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -6134,9 +6134,9 @@
           "name": "Palette",
           "description": "The colours of your dimension",
           "kind": "ModeSetting",
-          "default": "Purxiy",
+          "default": "SourceByDevFFnightmare DeObfDeCompByGuideX",
           "choices": [
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Nebula",
             "Eclipse",
             "Dream"
@@ -6791,11 +6791,11 @@
         {
           "id": "colors",
           "name": "Colours",
-          "description": "Purxiy\u0027s purple, or the colour of the album cover",
+          "description": "SourceByDevFFnightmare DeObfDeCompByGuideX\u0027s purple, or the colour of the album cover",
           "kind": "ModeSetting",
-          "default": "Purxiy",
+          "default": "SourceByDevFFnightmare DeObfDeCompByGuideX",
           "choices": [
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Album"
           ],
           "renamed": {}
@@ -7288,7 +7288,7 @@
           "default": "Accent",
           "choices": [
             "Accent",
-            "Purxiy",
+            "SourceByDevFFnightmare DeObfDeCompByGuideX",
             "Dream",
             "Custom"
           ],
@@ -7352,7 +7352,7 @@
       "name": "Watermark",
       "icon": "sparkles",
       "category": "HUD",
-      "description": "The Purxiy mark in your corner",
+      "description": "The SourceByDevFFnightmare DeObfDeCompByGuideX mark in your corner",
       "toggleable": true,
       "defaultKey": -1,
       "keybindToggles": true,
@@ -7842,7 +7842,7 @@
       "id": "mounts",
       "startup": false,
       "build": "visuals-renamed-20261115-i",
-      "name": "Purxiy Garage",
+      "name": "SourceByDevFFnightmare DeObfDeCompByGuideX Garage",
       "icon": "car-front",
       "category": "RENDER",
       "description": "Real cars and bikes that follow your own movement",

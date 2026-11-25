@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hand;
 
 import dev.purxiy.config.BooleanSetting;
@@ -27,7 +26,7 @@ import net.minecraft.class_3675.class_307;
 
 final class HandMovementScreen extends class_437 {
    private final HandMovementModule E;
-   private final HandMovementRenderer2 L;
+   private final HandMovementStudioScreen L;
    private final DrawContext t = new DrawContext();
    private final List<Runnable> p = new ArrayList<>();
    private List<Setting<?>> q = List.of();
@@ -40,8 +39,6 @@ final class HandMovementScreen extends class_437 {
    private boolean f;
    private boolean M;
    private boolean C;
-
-
    private static final long[] c = new long[]{
       3356408363585749823L,
       7483995263298440492L,
@@ -64,13 +61,12 @@ final class HandMovementScreen extends class_437 {
    };
    private static final Integer[] d = new Integer[18];
 
-   HandMovementScreen(HandMovementModule var1, HandMovementRenderer2 var2) {
+   HandMovementScreen(HandMovementModule var1, HandMovementStudioScreen var2) {
       super(class_2561.method_43470(var2.title()));
       this.E = var1;
       this.L = var2;
    }
 
-   @Override
    protected void method_25426() {
       long var1 = 67018858666165L;
       long var3 = var1 ^ 120271951160165L;
@@ -140,16 +136,14 @@ final class HandMovementScreen extends class_437 {
                break label101;
             }
 
-            var30 = 22065;
+            int var431 = 22065;
          }
 
          var20 = 8;
       }
 
       var21.r = var20;
-      int var39 = Math.max(
-         1, Math.min(11, (this.field_22790 - 61) / 22)
-      );
+      int var39 = Math.max(1, Math.min(11, (this.field_22790 - 61) / 22));
       int var23 = Math.max(0, (this.q.size() - 1) / var39);
       long var40 = 7663372252511823506L ^ var1;
       this.Y = Math.clamp((long)this.Y, 0, var23);
@@ -180,7 +174,7 @@ final class HandMovementScreen extends class_437 {
             )) {
             case 0:
                NumberSetting var34 = (NumberSetting)var29;
-               HandMovementScreen.TypeG var35 = new HandMovementScreen.TypeG(var27, var44, var41, var34);
+               HandMovementScreen.HandSettingsPanel var35 = new HandMovementScreen.HandSettingsPanel(var27, var44, var41, var34);
                if (var1 < 1L) {
                   continue;
                }
@@ -209,7 +203,7 @@ final class HandMovementScreen extends class_437 {
                   var27,
                   var44,
                   var41,
-                  () -> class_2561.method_43470(this.field_22793.method_27523(var37.get(), var41 - a(16755, 3669808754052623236L ^ var15))),
+                  () -> class_2561.method_43470(this.field_22793.method_27523((String)var37.get(), var41 - a(16755, 3669808754052623236L ^ var15))),
                   (char)var3,
                   (char)var4,
                   var5,
@@ -234,10 +228,10 @@ final class HandMovementScreen extends class_437 {
                      var5x = var38;
                   }
 
-                  int var6x = var5x.get();
+                  int var6x = (Integer)var5x.get();
                   if (var17 >= 1L) {
                      if (var6x >= 0) {
-                        return class_307.field_1668.method_1447(var38.get()).method_27445();
+                        return class_307.field_1668.method_1447((Integer)var38.get()).method_27445();
                      }
 
                      var6x = -2056365209;
@@ -259,12 +253,12 @@ final class HandMovementScreen extends class_437 {
          var43 = (this.U - 14) / 2;
       }
 
-      this.method_37063(ModuleClick.builder(class_2561.method_43470("Previous"), var4x -> {
+      ((class_4185)this.method_37063(ModuleClick.builder(class_2561.method_43470("Previous"), var4x -> {
          long var5x = (long)((char)var6) << 48 | (long)var7 << 32 >>> 16 | (long)((char)var8) << 48 >>> 48;
          long var7x = var5x ^ 94774343501180L;
          this.T(var7x, -1);
-      }).method_46434(this.r + 5, var42, var43, 20).method_46431()).field_22763 = this.Y > 0;
-      class_4185 var31 = this.method_37063(ModuleClick.builder(class_2561.method_43470("Next"), var4x -> {
+      }).method_46434(this.r + 5, var42, var43, 20).method_46431())).field_22763 = this.Y > 0;
+      class_4185 var31 = (class_4185)this.method_37063(ModuleClick.builder(class_2561.method_43470("Next"), var4x -> {
          long var5x = (long)var12 << 32 | (long)((char)var13) << 48 >>> 32 | (long)((char)var14) << 48 >>> 48;
          long var7x = var5x ^ 135158994298435L;
          this.T(var7x, 1);
@@ -293,7 +287,6 @@ final class HandMovementScreen extends class_437 {
       this.Y(var4);
    }
 
-   @Override
    public void method_25394(class_332 var1, int var2, int var3, float var4) {
       long var5 = 59910763715934L;
       long var7 = var5 ^ 114006520305416L;
@@ -333,7 +326,6 @@ final class HandMovementScreen extends class_437 {
       return RenderPipelines.get().fromGui(var1);
    }
 
-   @Override
    public boolean method_25402(class_11909 var1, boolean var2) {
       long var3 = 64803371587558L;
       long var5 = var3 ^ 117909940510128L;
@@ -349,7 +341,6 @@ final class HandMovementScreen extends class_437 {
       }
    }
 
-   @Override
    public boolean method_25403(class_11909 var1, double var2, double var4) {
       if (super.method_25403(var1, var2, var4)) {
          return true;
@@ -359,7 +350,6 @@ final class HandMovementScreen extends class_437 {
       }
    }
 
-   @Override
    public boolean method_25406(class_11909 var1) {
       super.method_25406(var1);
       this.L.mouseUp(this.o(var1.comp_4798()), this.o(var1.comp_4799()), var1.method_74245());
@@ -367,7 +357,6 @@ final class HandMovementScreen extends class_437 {
       return true;
    }
 
-   @Override
    public boolean method_25401(double var1, double var3, double var5, double var7) {
       long var9 = 6377789150208L;
       long var11 = var9 ^ 92366630575702L;
@@ -377,7 +366,6 @@ final class HandMovementScreen extends class_437 {
       return this.C(var13, (short)var14, (short)var15, var1, var3) || this.L.scroll(this.o(var1), this.o(var3), var7);
    }
 
-   @Override
    public boolean method_25404(class_11908 var1) {
       if (this.T != null) {
          if (var1.comp_4795() == 259 || var1.comp_4795() == 261) {
@@ -393,16 +381,14 @@ final class HandMovementScreen extends class_437 {
       }
    }
 
-   @Override
    public boolean method_25421() {
       return false;
    }
 
-   @Override
    public void method_25419() {
       try {
          CosmeticRegistry.storeSettings(this.E.id(), this.E.values());
-      } catch (IllegalArgumentException | IOException var2) {
+      } catch (IOException | IllegalArgumentException var2) {
          if (this.field_22787.field_1724 != null) {
             this.field_22787.field_1724.method_7353(class_2561.method_43470("Hand Studio settings could not be saved."), false);
          }
@@ -413,7 +399,6 @@ final class HandMovementScreen extends class_437 {
       this.field_22787.method_1507(CosmeticRegistry.menu());
    }
 
-   @Override
    public void method_25432() {
       if (this.M) {
          this.M = false;
@@ -434,7 +419,7 @@ final class HandMovementScreen extends class_437 {
       UiAudioPolicy.play(var0.name(), var1, var2);
    }
 
-private static int a(int var0, long var1) {
+   private static int a(int var0, long var1) {
       int var3 = var0 ^ (int)(var1 & 32767L) ^ 582;
       if (d[var3] == null) {
          d[var3] = (int)(c[var3] ^ var1);
@@ -443,10 +428,10 @@ private static int a(int var0, long var1) {
       return d[var3];
    }
 
-   private static final class TypeG extends class_357 {
+   private static final class HandSettingsPanel extends class_357 {
       private final NumberSetting N;
 
-      TypeG(int var1, int var2, int var3, NumberSetting var4) {
+      HandSettingsPanel(int var1, int var2, int var3, NumberSetting var4) {
          super(var1, var2, var3, 20, class_2561.method_43473(), var4.normalized());
          this.N = var4;
          this.method_25346();
@@ -457,12 +442,10 @@ private static int a(int var0, long var1) {
          this.method_25346();
       }
 
-      @Override
       protected void method_25346() {
          this.method_25355(class_2561.method_43470(this.N.display()));
       }
 
-      @Override
       protected void method_25344() {
          this.N.setNormalized(this.field_22753);
       }

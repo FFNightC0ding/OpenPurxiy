@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.anim.Animator;
@@ -43,55 +42,55 @@ public final class HudLayoutEngine {
    private static final float SEAM_H = 18.0F;
    private static boolean inChat;
    private static boolean inScreen;
-   
+
    private static class_437 host;
-   
+
    private static HudModule hovered;
-   
+
    private static HudModule hoveredMember;
-   
+
    private static HudModule dragging;
-   
+
    private static HudModule pressed;
    private static float grabX;
    private static float grabY;
    private static float downX;
    private static float downY;
    private static boolean moved;
-   private static List<HudLayoutEngine.TypeB> guides = new ArrayList<>();
+   private static List<HudLayoutEngine.AxisBand> guides = new ArrayList<>();
    private static float guideFade = -10.0F;
-   
+
    private static HudModule scaled;
    private static float scaledAt = -10.0F;
-   
+
    private static HudModule lastClicked;
    private static long lastClickTime = 0L;
    private static float lastHoverAt = -10.0F;
    private static final Animator APPEAR = Animator.smooth(0.0F);
    private static final Map<HudModule, Animator> HIGHLIGHT = new HashMap<>();
-   
+
    private static HudModule flashed;
    private static float flashedAt = -10.0F;
-   
+
    private static HudModule settle;
-   
+
    private static HudModule mergeTarget;
    private static int mergeIndex = 0;
    private static boolean mergeRow;
    private static final Animator MERGE = Animator.smooth(0.0F);
    private static final Animator CARET_X = new Animator(0.0F, 520.0F, 46.0F);
    private static final Animator CARET_Y = new Animator(0.0F, 520.0F, 46.0F);
-   
+
    private static HudModule caretFor;
-   
-   private static HudLayoutEngine.TypeF seam;
-   
-   private static HudLayoutEngine.TypeF shownSeam;
+
+   private static HudLayoutEngine.LayoutPass seam;
+
+   private static HudLayoutEngine.LayoutPass shownSeam;
    private static final Animator SEAM_ALPHA = Animator.smooth(0.0F);
    private static float seamSince = -10.0F;
-   
+
    private static HudModule labelFor;
-   
+
    private static HudModule labelMember;
    private static float labelX;
    private static float labelY;
@@ -129,7 +128,7 @@ public final class HudLayoutEngine {
       return inScreen;
    }
 
-   
+
    public static HudModule dragged() {
       return dragging;
    }
@@ -203,7 +202,7 @@ public final class HudLayoutEngine {
       FCodec.save();
    }
 
-   private static MenuCommands.TypeV settings() {
+   private static MenuCommands.VisualModule settings() {
       return SettingSection.HUD;
    }
 
@@ -388,12 +387,12 @@ public final class HudLayoutEngine {
       }
    }
 
-   
+
    private static HudModule elementAt(float var0, float var1) {
       return elementAt(var0, var1, (HudModule)null);
    }
 
-   
+
    private static HudModule elementAt(float var0, float var1,  HudModule var2) {
       List var3 = HudRegistry.elements();
 
@@ -413,7 +412,7 @@ public final class HudLayoutEngine {
       return null;
    }
 
-   
+
    private static HudModule memberAt( HudModule var0, float var1, float var2) {
       if (var0 instanceof HudGroupModule var3) {
          float[] var4 = new float[4];
@@ -441,7 +440,7 @@ public final class HudLayoutEngine {
       }
    }
 
-   
+
    private static HudModule unitOrMemberAt(float var0, float var1) {
       HudModule var2 = elementAt(var0, var1);
       HudModule var3 = memberAt(var2, var0, var1);
@@ -456,7 +455,7 @@ public final class HudLayoutEngine {
       float var8 = var4.height - 6.0F - var6;
       var1 = clamp(var1, 6.0F, var7);
       var2 = clamp(var2, 6.0F, var8);
-      ArrayList var9 = new ArrayList();
+      ArrayList<HudLayoutEngine.AxisBand>var9 = new ArrayList();
       if (var3 && settings().snap.enabled() && !altDown()) {
          float[] var10 = snapAxis(var0, var1, var2, var5, var6, true, var4, var9);
          var1 = clamp(var10[0], 6.0F, var7);
@@ -487,7 +486,7 @@ public final class HudLayoutEngine {
    }
 
    private static float[] snapAxis(
-      HudModule var0, float var1, float var2, float var3, float var4, boolean var5, HudBounds var6, List<HudLayoutEngine.TypeB> var7
+      HudModule var0, float var1, float var2, float var3, float var4, boolean var5, HudBounds var6, List<HudLayoutEngine.AxisBand> var7
    ) {
       float var8 = var5 ? var1 : var2;
       float var9 = var5 ? var3 : var4;
@@ -528,18 +527,18 @@ public final class HudLayoutEngine {
       } else {
          float var26 = var8 + var10;
          if (var12) {
-            var7.add(new HudLayoutEngine.TypeB(var5, var11, 0.0F, var5 ? var6.height : var6.width, true));
+            var7.add(new HudLayoutEngine.AxisBand(var5, var11, 0.0F, var5 ? var6.height : var6.width, true));
          } else if (var13 != null) {
             float var27 = var5 ? Math.min(var2, var13.y) : Math.min(var1, var13.x);
             float var28 = var5 ? Math.max(var2 + var4, var13.y + var13.screenHeight()) : Math.max(var1 + var3, var13.x + var13.screenWidth());
-            var7.add(new HudLayoutEngine.TypeB(var5, var11, var27 - 8.0F, var28 + 8.0F, false));
+            var7.add(new HudLayoutEngine.AxisBand(var5, var11, var27 - 8.0F, var28 + 8.0F, false));
          }
 
          return new float[]{var26};
       }
    }
 
-   
+
    private static float[] resolve(HudModule var0, float var1, float var2, HudBounds var3) {
       float var4 = var0.screenWidth();
       float var5 = var0.screenHeight();
@@ -655,7 +654,7 @@ public final class HudLayoutEngine {
 
       var0.placed.set(true);
       var0.moveTo(var2, var3, var1.width, var1.height);
-      guides = new ArrayList<>(List.of(new HudLayoutEngine.TypeB(true, var1.width / 2.0F, 0.0F, var1.height, true)));
+      guides = new ArrayList<>(List.of(new HudLayoutEngine.AxisBand(true, var1.width / 2.0F, 0.0F, var1.height, true)));
       guideFade = RenderPipelines.get().time();
       SoundRequest.play(SoundEvent.SELECT, 1.0F, 0.7F);
    }
@@ -822,8 +821,8 @@ public final class HudLayoutEngine {
          float[] var10 = new float[]{var0.size.floatValue(), var0.opacity.floatValue()};
          boolean var11 = var0.background.enabled();
          String var12 = var0.axis.get();
-         HudLayoutEngine.TypeA var13 = part(var4, var6, var9 ? 0.0F : -var7);
-         HudLayoutEngine.TypeA var14 = part(var5, var6, var9 ? var7 : 0.0F);
+         HudLayoutEngine.GroupLayout var13 = part(var4, var6, var9 ? 0.0F : -var7);
+         HudLayoutEngine.GroupLayout var14 = part(var5, var6, var9 ? var7 : 0.0F);
          var0.clear();
          apply(var13, var3, var12, var10, var11, var6);
          apply(var14, var3, var12, var10, var11, var6);
@@ -831,7 +830,7 @@ public final class HudLayoutEngine {
       }
    }
 
-   private static HudLayoutEngine.TypeA part(List<HudModule> var0, boolean var1, float var2) {
+   private static HudLayoutEngine.GroupLayout part(List<HudModule> var0, boolean var1, float var2) {
       float var3 = Float.MAX_VALUE;
       float var4 = Float.MAX_VALUE;
 
@@ -847,10 +846,10 @@ public final class HudLayoutEngine {
          var4 = 0.0F;
       }
 
-      return new HudLayoutEngine.TypeA(var0, var1 ? var3 + var2 : var3, var1 ? var4 : var4 + var2);
+      return new HudLayoutEngine.GroupLayout(var0, var1 ? var3 + var2 : var3, var1 ? var4 : var4 + var2);
    }
 
-   private static void apply(HudLayoutEngine.TypeA var0, HudBounds var1, String var2, float[] var3, boolean var4, boolean var5) {
+   private static void apply(HudLayoutEngine.GroupLayout var0, HudBounds var1, String var2, float[] var3, boolean var4, boolean var5) {
       List var6 = var0.members();
       if (var6.size() >= 2) {
          HudGroupModule var7 = HudRegistry.freeGroup();
@@ -970,8 +969,8 @@ public final class HudLayoutEngine {
       flashedAt = RenderPipelines.get().time();
    }
 
-   
-   private static HudLayoutEngine.TypeF findSeam(float var0, float var1, HudBounds var2) {
+
+   private static HudLayoutEngine.LayoutPass findSeam(float var0, float var1, HudBounds var2) {
       if (elementAt(var0, var1) instanceof HudGroupModule var4) {
          boolean var5 = var4.row();
          float var6 = var5 ? var0 : var1;
@@ -983,7 +982,7 @@ public final class HudLayoutEngine {
                if (var7 != null) {
                   float var10 = var4.boundary(var8);
                   if (Math.abs(var6 - var10) <= 5.0F) {
-                     HudLayoutEngine.TypeF var11 = new HudLayoutEngine.TypeF();
+                     HudLayoutEngine.LayoutPass var11 = new HudLayoutEngine.LayoutPass();
                      var11.a = var7;
                      var11.b = var9;
                      var11.group = var4;
@@ -1020,7 +1019,7 @@ public final class HudLayoutEngine {
                   if (var17 >= -1.0F && var17 <= 14.0F && var19 - var18 >= 0.5F * Math.min(var12, var16) && axisFits(var24, var26, true)) {
                      float var20 = var27 + var29 + var17 / 2.0F;
                      if (Math.abs(var0 - var20) <= 5.0F + Math.max(0.0F, var17) / 2.0F && var1 >= var18 && var1 <= var19) {
-                        HudLayoutEngine.TypeF var34 = new HudLayoutEngine.TypeF();
+                        HudLayoutEngine.LayoutPass var34 = new HudLayoutEngine.LayoutPass();
                         var34.a = var24;
                         var34.b = var26;
                         var34.vertical = true;
@@ -1037,7 +1036,7 @@ public final class HudLayoutEngine {
                   if (var17 >= -1.0F && var17 <= 14.0F && var19 - var18 >= 0.5F * Math.min(var29, var15) && axisFits(var24, var26, false)) {
                      float var33 = var28 + var12 + var17 / 2.0F;
                      if (Math.abs(var1 - var33) <= 5.0F + Math.max(0.0F, var17) / 2.0F && var0 >= var18 && var0 <= var19) {
-                        HudLayoutEngine.TypeF var21 = new HudLayoutEngine.TypeF();
+                        HudLayoutEngine.LayoutPass var21 = new HudLayoutEngine.LayoutPass();
                         var21.a = var24;
                         var21.b = var26;
                         var21.vertical = false;
@@ -1061,7 +1060,7 @@ public final class HudLayoutEngine {
          : !(var0 instanceof HudGroupModule var4 && var4.row() != var2) && !(var1 instanceof HudGroupModule var5 && var5.row() != var2);
    }
 
-   private static void layoutSeam(HudLayoutEngine.TypeF var0, HudBounds var1) {
+   private static void layoutSeam(HudLayoutEngine.LayoutPass var0, HudBounds var1) {
       Canvas var2 = RenderPipelines.get().canvas();
       int var3 = var0.buttons();
       float var4 = var3 == 2 ? 20.0F : 26.0F + var2.textWidth(Fonts.MEDIUM, "Merge", 8.0F) + 8.0F;
@@ -1116,7 +1115,7 @@ public final class HudLayoutEngine {
       var0.zone[3] = Math.max(var22 + var25, var8 + var6 + 3.0F) - var14;
    }
 
-   private static boolean free(HudLayoutEngine.TypeF var0, float var1, float var2, float var3, float var4) {
+   private static boolean free(HudLayoutEngine.LayoutPass var0, float var1, float var2, float var3, float var4) {
       for (HudModule var6 : HudRegistry.elements()) {
          if (var6.arranged()
             && !(var6.presence.value() < 0.5F)
@@ -1132,12 +1131,12 @@ public final class HudLayoutEngine {
    }
 
    private static void updateSeam(float var0, float var1, HudBounds var2, float var3, boolean var4) {
-      HudLayoutEngine.TypeF var5 = seam;
+      HudLayoutEngine.LayoutPass var5 = seam;
       if (var4) {
          seam = null;
       } else {
          if (var5 != null) {
-            HudLayoutEngine.TypeF var6 = refresh(var5);
+            HudLayoutEngine.LayoutPass var6 = refresh(var5);
             if (var6 != null) {
                layoutSeam(var6, var2);
             }
@@ -1145,9 +1144,9 @@ public final class HudLayoutEngine {
             var5 = var6 != null && inside(var6.zone, var0, var1) ? var6 : null;
          }
 
-         HudLayoutEngine.TypeF var8 = var5;
+         HudLayoutEngine.LayoutPass var8 = var5;
          if (var5 == null || !inside(var5.capsule, var0, var1)) {
-            HudLayoutEngine.TypeF var7 = findSeam(var0, var1, var2);
+            HudLayoutEngine.LayoutPass var7 = findSeam(var0, var1, var2);
             if (var7 != null) {
                layoutSeam(var7, var2);
                var8 = var7.same(var5) ? var5 : var7;
@@ -1172,8 +1171,8 @@ public final class HudLayoutEngine {
       }
    }
 
-   
-   private static HudLayoutEngine.TypeF refresh(HudLayoutEngine.TypeF var0) {
+
+   private static HudLayoutEngine.LayoutPass refresh(HudLayoutEngine.LayoutPass var0) {
       HudGroupModule var1 = var0.group;
       if (var1 != null) {
          if (var1.laidOut && var0.a.group == var1 && var0.b.group == var1) {
@@ -1198,7 +1197,7 @@ public final class HudLayoutEngine {
    }
 
    private static boolean seamClick(float var0, float var1) {
-      HudLayoutEngine.TypeF var2 = seam;
+      HudLayoutEngine.LayoutPass var2 = seam;
       if (var2 != null && !(SEAM_ALPHA.value() < 0.5F) && inside(var2.capsule, var0, var1)) {
          HudGroupModule var3 = var2.group;
          if (var3 != null) {
@@ -1461,7 +1460,7 @@ public final class HudLayoutEngine {
    }
 
    private static void seamControls(Canvas var0, float var1) {
-      HudLayoutEngine.TypeF var2 = shownSeam;
+      HudLayoutEngine.LayoutPass var2 = shownSeam;
       float var3 = SEAM_ALPHA.value();
       if (var2 != null && !(var3 <= 0.01F)) {
          float var4 = pointerX();
@@ -1745,7 +1744,7 @@ public final class HudLayoutEngine {
    private static void drawGuides(Canvas var0, float var1) {
       float var2 = dragging != null ? 1.0F : 1.0F - Math.min(1.0F, Math.max(0.0F, (var1 - guideFade - 0.5F) / 0.35F));
       if (!(var2 <= 0.01F)) {
-         for (HudLayoutEngine.TypeB var4 : guides) {
+         for (HudLayoutEngine.AxisBand var4 : guides) {
             int var5 = BlendMode.withAlpha(var4.screenCenter() ? Icons.MAGENTA : Icons.PURPLE, 0.9F * var2);
             if (var4.vertical()) {
                var0.glow(var4.position() - 0.5F, var4.from(), 1.0F, var4.to() - var4.from(), 0.5F, 6.0F, BlendMode.withAlpha(Icons.MAGENTA, 0.35F * var2));
@@ -1842,7 +1841,7 @@ public final class HudLayoutEngine {
          }
 
          if (dragging == null || !moved) {
-            HudLayoutEngine.TypeF var8 = seam;
+            HudLayoutEngine.LayoutPass var8 = seam;
             if (var8 != null && SEAM_ALPHA.value() > 0.5F) {
                if (var8.group == null) {
                   return "Merge these two into one panel";
@@ -1896,13 +1895,13 @@ public final class HudLayoutEngine {
          && var0.y + var0.screenHeight() + var5 > var2;
    }
 
-   private static boolean sameGuides(List<HudLayoutEngine.TypeB> var0, List<HudLayoutEngine.TypeB> var1) {
+   private static boolean sameGuides(List<HudLayoutEngine.AxisBand> var0, List<HudLayoutEngine.AxisBand> var1) {
       if (var0.size() != var1.size()) {
          return false;
       } else {
          for (int var2 = 0; var2 < var0.size(); var2++) {
-            if (((HudLayoutEngine.TypeB)var0.get(var2)).vertical() != ((HudLayoutEngine.TypeB)var1.get(var2)).vertical()
-               || Math.abs(((HudLayoutEngine.TypeB)var0.get(var2)).position() - ((HudLayoutEngine.TypeB)var1.get(var2)).position()) > 0.01F) {
+            if (((HudLayoutEngine.AxisBand)var0.get(var2)).vertical() != ((HudLayoutEngine.AxisBand)var1.get(var2)).vertical()
+               || Math.abs(((HudLayoutEngine.AxisBand)var0.get(var2)).position() - ((HudLayoutEngine.AxisBand)var1.get(var2)).position()) > 0.01F) {
                return false;
             }
          }
@@ -1994,7 +1993,7 @@ public final class HudLayoutEngine {
             }
             break;
          case "seam":
-            HudLayoutEngine.TypeF var9 = seam;
+            HudLayoutEngine.LayoutPass var9 = seam;
             int var10 = var1.length > 1 ? Integer.parseInt(var1[1]) : 0;
             if (var9 != null && var10 < var9.buttons()) {
                float[] var20 = var9.buttons[var10];
@@ -2032,16 +2031,16 @@ public final class HudLayoutEngine {
       );
    }
 
-   private record TypeA(List<HudModule> members, float x, float y) {
+   private record GroupLayout(List<HudModule> members, float x, float y) {
    }
 
-   private record TypeB(boolean vertical, float position, float from, float to, boolean screenCenter) {
+   private record AxisBand(boolean vertical, float position, float from, float to, boolean screenCenter) {
    }
 
-   private static final class TypeF {
+   private static final class LayoutPass {
       HudModule a;
       HudModule b;
-      
+
       HudGroupModule group;
       boolean vertical;
       float x;
@@ -2052,7 +2051,7 @@ public final class HudLayoutEngine {
       final float[][] buttons = new float[2][4];
       final Animator[] hover = new Animator[]{Animator.smooth(0.0F), Animator.smooth(0.0F)};
 
-      boolean same(HudLayoutEngine.TypeF var1) {
+      boolean same(HudLayoutEngine.LayoutPass var1) {
          return var1 != null && var1.a == this.a && var1.b == this.b && var1.group == this.group;
       }
 

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonArray;
@@ -19,7 +18,7 @@ import dev.purxiy.config.Setting;
 import dev.purxiy.config.TextSetting;
 import dev.purxiy.hud.HudModule;
 import dev.purxiy.hud.HudRegistry;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import dev.purxiy.modules.Category;
 import dev.purxiy.modules.Module;
 import java.io.IOException;
@@ -37,7 +36,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.class_310;
 
 public final class MenuCommands {
-   private static final Map<String, MenuCommands.TypeP> views = new LinkedHashMap<>();
+   private static final Map<String, MenuCommands.BuildModule> views = new LinkedHashMap<>();
    private static JsonArray source;
    private static boolean flushing;
    private static String savedGroups;
@@ -61,13 +60,13 @@ public final class MenuCommands {
                String var5 = var3.get("id").getAsString();
 
                var0.put(var3.get("id").getAsString(), switch (var5) {
-                  case "hud" -> new MenuCommands.TypeV(var3);
-                  case "profile" -> new MenuCommands.TypeJ(var3);
-                  case "interface" -> new MenuCommands.TypeG(var3);
-                  case "sound" -> new MenuCommands.TypeX(var3);
-                  case "motion" -> new MenuCommands.TypeT(var3);
-                  case "main_menu" -> new MenuCommands.TypeD(var3);
-                  default -> new MenuCommands.TypeP(var3);
+                  case "hud" -> new MenuCommands.VisualModule(var3);
+                  case "profile" -> new MenuCommands.ProfileModule(var3);
+                  case "interface" -> new MenuCommands.SliderModule(var3);
+                  case "sound" -> new MenuCommands.TriggerModule(var3);
+                  case "motion" -> new MenuCommands.ToggleModule(var3);
+                  case "main_menu" -> new MenuCommands.SimpleModule(var3);
+                  default -> new MenuCommands.BuildModule(var3);
                });
             }
 
@@ -86,7 +85,7 @@ public final class MenuCommands {
    public static void refresh() {
       ensure();
 
-      for (MenuCommands.TypeP var1 : views.values()) {
+      for (MenuCommands.BuildModule var1 : views.values()) {
          var1.refreshUnchanged();
       }
    }
@@ -96,9 +95,9 @@ public final class MenuCommands {
       return views.get(var0);
    }
 
-   public static MenuCommands.TypeV hud() {
+   public static MenuCommands.VisualModule hud() {
       ensure();
-      return (MenuCommands.TypeV)Objects.requireNonNull(views.get("hud"), "HUD metadata unavailable");
+      return (MenuCommands.VisualModule)Objects.requireNonNull(views.get("hud"), "HUD metadata unavailable");
    }
 
    public static List<Category> categories() {
@@ -140,7 +139,7 @@ public final class MenuCommands {
       if (var0.modes().contains(var1)) {
          return var1;
       } else {
-         return (var1.equals("Lilac") || var1.equals("Purxiy")) && var0.modes().contains("Accent") ? "Accent" : null;
+         return (var1.equals("Lilac") || var1.equals("SourceByDevFFnightmare DeObfDeCompByGuideX")) && var0.modes().contains("Accent") ? "Accent" : null;
       }
    }
 
@@ -159,7 +158,7 @@ public final class MenuCommands {
       if (Objects.equals(var2, var3)) {
          return true;
       } else if (var2 != null && var3 != null) {
-         MenuCommands.TypeP var4 = (MenuCommands.TypeP)byId(var0);
+         MenuCommands.BuildModule var4 = (MenuCommands.BuildModule)byId(var0);
          if (var4 == null) {
             return false;
          } else {
@@ -212,7 +211,7 @@ public final class MenuCommands {
          try {
             ensure();
 
-            for (MenuCommands.TypeP var1 : views.values()) {
+            for (MenuCommands.BuildModule var1 : views.values()) {
                var1.persist();
             }
 
@@ -228,7 +227,7 @@ public final class MenuCommands {
    public static void persistHud(HudModule var0) {
       ensure();
       String var1 = var0.settingsModule().id();
-      MenuCommands.TypeP var2 = views.get(var1);
+      MenuCommands.BuildModule var2 = views.get(var1);
       if (var2 != null) {
          LinkedHashMap var3 = new LinkedHashMap();
 
@@ -300,27 +299,27 @@ public final class MenuCommands {
       }
    }
 
-   public static final class TypeD extends MenuCommands.TypeP {
+   public static final class SimpleModule extends MenuCommands.BuildModule {
       public final Setting<?> forest = this.setting("forest");
 
-      TypeD(JsonObject var1) {
+      SimpleModule(JsonObject var1) {
          super(var1);
       }
    }
 
-   public static final class TypeG extends MenuCommands.TypeP {
+   public static final class SliderModule extends MenuCommands.BuildModule {
       public final NumberSetting scale = (NumberSetting)this.setting("scale");
       public final NumberSetting dim = (NumberSetting)this.setting("dim");
       public final ModeSetting language = (ModeSetting)this.setting("language");
       public final BooleanSetting blur = (BooleanSetting)this.setting("blur");
       public final BooleanSetting stars = (BooleanSetting)this.setting("stars");
 
-      TypeG(JsonObject var1) {
+      SliderModule(JsonObject var1) {
          super(var1);
       }
    }
 
-   public static final class TypeJ extends MenuCommands.TypeP {
+   public static final class ProfileModule extends MenuCommands.BuildModule {
       public static final String PHOTO = "Photo";
       public static final String SKIN = "Skin";
       public final TextSetting name = (TextSetting)this.setting("name");
@@ -331,13 +330,13 @@ public final class MenuCommands {
       public final BooleanSetting middleClick = (BooleanSetting)this.setting("middle_click");
       public final BooleanSetting sync = (BooleanSetting)this.setting("sync");
 
-      TypeJ(JsonObject var1) {
+      ProfileModule(JsonObject var1) {
          super(var1);
       }
 
       public String displayName() {
          String var1 = this.name.get().strip();
-         return var1.isEmpty() ? ClientRegistry5.plain(class_310.method_1551().method_1548().method_1676()) : var1;
+         return var1.isEmpty() ? TabListProvider.plain(class_310.method_1551().method_1548().method_1676()) : var1;
       }
 
       public boolean photoPortrait() {
@@ -345,12 +344,12 @@ public final class MenuCommands {
       }
    }
 
-   public static class TypeP extends Module {
+   public static class BuildModule extends Module {
       final JsonObject metadata;
       final Set<String> declared = new HashSet<>();
       final Map<String, String> saved = new LinkedHashMap<>();
 
-      TypeP(JsonObject var1) {
+      BuildModule(JsonObject var1) {
          super(
             var1.get("id").getAsString(),
             var1.get("name").getAsString(),
@@ -494,22 +493,22 @@ public final class MenuCommands {
       }
    }
 
-   public static final class TypeT extends MenuCommands.TypeP {
+   public static final class ToggleModule extends MenuCommands.BuildModule {
       public final BooleanSetting reduce = (BooleanSetting)this.setting("reduce");
 
-      TypeT(JsonObject var1) {
+      ToggleModule(JsonObject var1) {
          super(var1);
       }
    }
 
-   public static final class TypeV extends MenuCommands.TypeP {
+   public static final class VisualModule extends MenuCommands.BuildModule {
       public final NumberSetting scale = (NumberSetting)this.setting("scale");
       public final BooleanSetting glass = (BooleanSetting)this.setting("glass");
       public final BooleanSetting chatEditor = (BooleanSetting)this.setting("chat_editor");
       public final BooleanSetting snap = (BooleanSetting)this.setting("snap");
       public final BooleanSetting noOverlap = (BooleanSetting)this.setting("no_overlap");
 
-      TypeV(JsonObject var1) {
+      VisualModule(JsonObject var1) {
          super(var1);
       }
 
@@ -534,11 +533,11 @@ public final class MenuCommands {
       }
    }
 
-   public static final class TypeX extends MenuCommands.TypeP {
+   public static final class TriggerModule extends MenuCommands.BuildModule {
       public final BooleanSetting enabled = (BooleanSetting)this.setting("enabled");
       public final NumberSetting volume = (NumberSetting)this.setting("volume");
 
-      TypeX(JsonObject var1) {
+      TriggerModule(JsonObject var1) {
          super(var1);
       }
    }

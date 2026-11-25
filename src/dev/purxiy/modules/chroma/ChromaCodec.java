@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.chroma;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -24,8 +23,6 @@ public final class ChromaCodec {
    private int x;
    private int Z = 1;
    public static int m = 0;
-
-
 
    public static int expiry(int var0) {
       return Math.floorMod(var0, 65534) + 1;
@@ -106,67 +103,38 @@ public final class ChromaCodec {
    }
 
    private void e(int var1, int var2, long var3, int var5, int var6, int var7, int var8) {
+      short var9;
+      long var10;
+      byte[] var12;
+      int var13;
       long var14 = 74829538193408L;
-      short var9 = 28753;
-      long var10 = 4127095371L;
-      byte[] var12 = this.G(var1 >> 5, var2 >> 5, true, var14);
-      int var13 = ((var2 & 31) << 5 | var1 & 31) << 2;
+      var9 = 28753;
+      var10 = 4127095371L;
+      var12 = this.G(var1 >> 5, var2 >> 5, true, var14);
+      var13 = ((var2 & 31) << 5 | var1 & 31) << 2;
       int var16 = (var12[var13] & 255) << 8 | var12[var13 + 1] & 255;
       int var17 = remaining(var16, var8);
       long var18 = 40874506424787L;
-      if (40874506424787L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var34 = var18 < 0L ? -1 : 1;
-      }
-
-      label65:
+      int var21 = var18 < 0L ? -1 : 1;
+      label47:
       if (var17 > 0) {
-         int var21 = Math.round((var12[var13 + 3] & 255) * time(var17, this.Z));
+         var21 = Math.round((var12[var13 + 3] & 255) * time(var17, this.Z));
          long var22 = 40874506424786L;
-         if (40874506424786L == 0L) {
-            boolean var35 = false;
-         } else {
-            int var36 = var22 < 0L ? -1 : 1;
-         }
-
-         long var25 = 40874506424787L;
-         if (40874506424787L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var25 < 0L ? -1 : 1;
-         }
-
+         int var25 = var22 < 0L ? -1 : 1;
+         long var25x = 40874506424787L;
          if (var21 > var5) {
             var5 = var21;
             var7 = var12[var13 + 2] & 255;
          }
 
-         long var27 = 40874506424786L;
-         if (40874506424786L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var27 < 0L ? -1 : 1;
-         }
-
-         short var29 = 16285;
+         long var27x = 40874506424786L;
+         short var29x = 16285;
          long var30 = 40874506424786L;
-         if (40874506424786L == 0L) {
-            boolean var41 = false;
-         } else {
-            int var42 = var30 < 0L ? -1 : 1;
-         }
-
+         int var30x = var30 < 0L ? -1 : 1;
          if (var16 != 65535) {
-            long var32 = 40874506424786L;
-            if (40874506424786L == 0L) {
-               boolean var43 = false;
-            } else {
-               int var44 = var32 < 0L ? -1 : 1;
-            }
-
+            long var32x = 40874506424786L;
             if (remaining(var6, var8) >= var17) {
-               break label65;
+               break label47;
             }
          }
 
@@ -202,7 +170,6 @@ public final class ChromaCodec {
       }
    }
 
-   
    private byte[] G(int var1, int var2, boolean var3, long var4) {
       long var6 = key(var1, var2);
       byte[] var8 = (byte[])this.V.get(var6);
@@ -224,36 +191,15 @@ public final class ChromaCodec {
 
    private boolean l(int var1, int var2, long var3) {
       long var5 = 7487278223955L;
-      if (7487278223955L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var15 = var5 < 0L ? -1 : 1;
-      }
-
+      int var8 = var5 < 0L ? -1 : 1;
       if (this.k != Integer.MIN_VALUE) {
-         long var8 = 7487278223955L;
-         if (7487278223955L == 0L) {
-            boolean var16 = false;
-         } else {
-            int var17 = var8 < 0L ? -1 : 1;
-         }
-
+         long var8x = 7487278223955L;
+         int var10 = var8x < 0L ? -1 : 1;
          if (var1 >= this.k) {
-            long var10 = 7487278223955L;
-            if (7487278223955L == 0L) {
-               boolean var18 = false;
-            } else {
-               int var19 = var10 < 0L ? -1 : 1;
-            }
-
+            long var10x = 7487278223955L;
+            int var13 = var10x < 0L ? -1 : 1;
             if (var1 < this.k + 16) {
-               long var13 = 7487278223954L;
-               if (7487278223954L == 0L) {
-                  boolean var20 = false;
-               } else {
-                  int var21 = var13 < 0L ? -1 : 1;
-               }
-
+               long var13x = 7487278223954L;
                if (var2 >= this.g && var2 < this.g + 16) {
                   return true;
                }
@@ -392,44 +338,24 @@ public final class ChromaCodec {
       for (int var14 = 0; var14 < var12.length; var14++) {
          long var15 = keyX(var12[var14]) - var10;
          long var17 = 112346500727211L;
-         if (112346500727211L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var33 = var17 < 0L ? -1 : 1;
-         }
-
+         int var32 = var17 < 0L ? -1 : 1;
          long var20 = keyZ(var12[var14]) - var11;
          var13[var14] = var15 * var15 + var20 * var20;
       }
 
       long var29 = 112346500727210L;
-      if (112346500727210L == 0L) {
-         boolean var34 = false;
-      } else {
-         int var35 = var29 < 0L ? -1 : 1;
-      }
-
-      long[] var30 = (long[])var13.clone();
-      Arrays.sort(var30);
-      long var18 = var30[4500];
+      int var30 = var29 < 0L ? -1 : 1;
+      long[] var30x = (long[])var13.clone();
+      Arrays.sort(var30x);
+      long var18 = var30x[4500];
 
       for (int var31 = 0; var31 < var12.length; var31++) {
          long var21 = 112346500727210L;
-         if (112346500727210L == 0L) {
-            boolean var36 = false;
-         } else {
-            int var37 = var21 < 0L ? -1 : 1;
-         }
-
-         long var24;
-         int var26 = (var24 = var13[var31] - var18) == 0L ? 0 : (var24 < 0L ? -1 : 1);
+         int var24 = var21 < 0L ? -1 : 1;
+         long var24x;
+         int var26 = (var24x = var13[var31] - var18) == 0L ? 0 : (var24x < 0L ? -1 : 1);
          long var27 = 112346500727211L;
-         if (112346500727211L == 0L) {
-            boolean var38 = false;
-         } else {
-            int var39 = var27 < 0L ? -1 : 1;
-         }
-
+         int var27x = var27 < 0L ? -1 : 1;
          if (var26 > 0) {
             this.V.remove(var12[var31]);
             this.d(var7, var8, keyX(var12[var31]), keyZ(var12[var31]));
@@ -438,12 +364,7 @@ public final class ChromaCodec {
 
       this.T.clear();
       long var32 = 112346500727210L;
-      if (112346500727210L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var32 < 0L ? -1 : 1;
-      }
-
+      int var211 = var32 < 0L ? -1 : 1;
       this.T.addAll(this.V.keySet());
    }
 
@@ -464,11 +385,11 @@ public final class ChromaCodec {
       return var3 * var3 * (3.0F - 2.0F * var3);
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
 
    @FunctionalInterface
    public interface Listener {
-      void write(int var1, int var2,  byte[] var3);
+      void write(int var1, int var2, byte[] var3);
    }
 }

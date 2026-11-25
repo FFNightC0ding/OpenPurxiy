@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry9;
+import dev.purxiy.loader.fabric.client.NametagCapturePipeline;
 import net.minecraft.class_10017;
 import net.minecraft.class_11659;
 import net.minecraft.class_12075;
@@ -24,7 +23,7 @@ public abstract class NameTagRendererMixin {
       )}
    )
    private void purxiy$nameTag(class_897<?, ?> var1, class_10017 var2, class_4587 var3, class_11659 var4, class_12075 var5, Operation<Void> var6) {
-      if (!ClientRegistry9.capture(var2, var3)) {
+      if (!NametagCapturePipeline.capture(var2, var3)) {
          var6.call(new Object[]{var1, var2, var3, var4, var5});
       }
    }

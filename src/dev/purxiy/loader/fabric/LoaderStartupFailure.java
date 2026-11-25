@@ -1,17 +1,16 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import dev.purxiy.loader.auth.AccessDeniedException;
 
 final class LoaderStartupFailure extends IllegalStateException {
    LoaderStartupFailure(AccessDeniedException.Reason var1) {
-      super("Purxiy startup blocked: " + var1.name() + ". " + message(var1));
+      super("SourceByDevFFnightmare DeObfDeCompByGuideX startup blocked: " + var1.name() + ". " + message(var1));
    }
 
    private static String message(AccessDeniedException.Reason var0) {
       switch (var0) {
          case LICENCE_REQUIRED:
-            return "A valid Purxiy licence is required.";
+            return "A valid SourceByDevFFnightmare DeObfDeCompByGuideX licence is required.";
          case DEVICE_CHANGED:
             return "Link this device again on purxiy.com.";
          case RELEASE_REJECTED:

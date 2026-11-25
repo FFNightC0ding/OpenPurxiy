@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -25,9 +24,9 @@ public final class ClientBuilder {
    public static final float[][] PIVOT = new float[][]{
       {0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}, {-5.0F, 2.0F, 0.0F}, {5.0F, 2.0F, 0.0F}, {-1.9F, 12.0F, 0.0F}, {1.9F, 12.0F, 0.0F}
    };
-   private static final ClientSupport3.TypeX<ClientBuilder.Listener> sculpted = ClientSupport3.TypeX.create();
-   private static final ClientSupport3.TypeX<Supplier<class_8685>> profile = ClientSupport3.TypeX.create();
-   private static final ClientSupport3.TypeX<ClientBuilder.Listener2> models = ClientSupport3.TypeX.create();
+   private static final SkyPipelineRouter.PipelineList<ClientBuilder.Listener> sculpted = SkyPipelineRouter.PipelineList.create();
+   private static final SkyPipelineRouter.PipelineList<Supplier<class_8685>> profile = SkyPipelineRouter.PipelineList.create();
+   private static final SkyPipelineRouter.PipelineList<ClientBuilder.SkinMeshProvider> models = SkyPipelineRouter.PipelineList.create();
    private static UUID lookupFor;
    private static Supplier<class_8685> lookup;
 
@@ -42,15 +41,15 @@ public final class ClientBuilder {
       return profile.subscribe(0, var0);
    }
 
-   public static AutoCloseable model(ClientBuilder.Listener2 var0) {
+   public static AutoCloseable model(ClientBuilder.SkinMeshProvider var0) {
       return models.subscribe(0, var0);
    }
 
-   public static ClientBuilder.TypeE layers(class_8685 var0) {
+   public static ClientBuilder.SkinMeshSpec layers(class_8685 var0) {
       return models.invoke(var1 -> var1.body(var0), null);
    }
 
-   public static int triangles(ByteBuffer var0, ClientBuilder.TypeE var1, int var2, Matrix4f var3) {
+   public static int triangles(ByteBuffer var0, ClientBuilder.SkinMeshSpec var1, int var2, Matrix4f var3) {
       return models.invoke(var4 -> var4.triangles(var0, var1, var2, var3), 0);
    }
 
@@ -62,19 +61,19 @@ public final class ClientBuilder {
    }
 
    public static float yourHeight() {
-      return models.invoke(ClientBuilder.Listener2::height, 1.0F);
+      return models.invoke(ClientBuilder.SkinMeshProvider::height, 1.0F);
    }
 
    public static float bodyWidth() {
-      return models.invoke(ClientBuilder.Listener2::width, 1.0F);
+      return models.invoke(ClientBuilder.SkinMeshProvider::width, 1.0F);
    }
 
    public static float armSpread() {
-      return models.invoke(ClientBuilder.Listener2::armSpread, 1.0F);
+      return models.invoke(ClientBuilder.SkinMeshProvider::armSpread, 1.0F);
    }
 
    public static class_8685 skin() {
-      return ClientRegistry23.dress(ownSkin());
+      return ArmorRenderProvider.dress(ownSkin());
    }
 
    public static GpuTextureView view(class_2960 var0) {
@@ -94,7 +93,7 @@ public final class ClientBuilder {
    }
 
    public static class_12137 capeSampler(class_8685 var0) {
-      return ClientRegistry23.wears(var0) ? ClientRegistry23.sampler() : pixels();
+      return ArmorRenderProvider.wears(var0) ? ArmorRenderProvider.sampler() : pixels();
    }
 
    public static float[] bounds(class_630 var0) {
@@ -130,10 +129,10 @@ public final class ClientBuilder {
       int accent();
    }
 
-   public interface Listener2 {
-      ClientBuilder.TypeE body(class_8685 var1);
+   public interface SkinMeshProvider {
+      ClientBuilder.SkinMeshSpec body(class_8685 var1);
 
-      int triangles(ByteBuffer var1, ClientBuilder.TypeE var2, int var3, Matrix4f var4);
+      int triangles(ByteBuffer var1, ClientBuilder.SkinMeshSpec var2, int var3, Matrix4f var4);
 
       void build(Matrix4f var1, int var2);
 
@@ -144,8 +143,8 @@ public final class ClientBuilder {
       float armSpread();
    }
 
-   public record TypeE(class_8685 skin, boolean fullModel, boolean rigidHead, float[][] pivots, float[] headBounds) {
-      public TypeE(class_8685 skin, boolean fullModel, boolean rigidHead, float[][] pivots, float[] headBounds) {
+   public record SkinMeshSpec(class_8685 skin, boolean fullModel, boolean rigidHead, float[][] pivots, float[] headBounds) {
+      public SkinMeshSpec(class_8685 skin, boolean fullModel, boolean rigidHead, float[][] pivots, float[] headBounds) {
          pivots = copy(pivots);
          headBounds = headBounds == null ? null : (float[])headBounds.clone();
          this.skin = skin;

@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry21;
+import dev.purxiy.loader.fabric.client.GuiRenderContext;
 import net.minecraft.class_12225;
 import net.minecraft.class_327;
 import net.minecraft.class_332;
@@ -25,7 +24,7 @@ public abstract class HomeTabButtonMixin {
    )
    private void purxiy$label(class_12225 var1, CallbackInfo var2) {
       class_339 var3 = (class_339)(Object)(Object)this;
-      if (ClientRegistry21.active() && ClientRegistry21.tabLabel(var3, var3.method_25369(), this.method_49611())) {
+      if (GuiRenderContext.active() && GuiRenderContext.tabLabel(var3, var3.method_25369(), this.method_49611())) {
          var2.cancel();
       }
    }
@@ -36,7 +35,7 @@ public abstract class HomeTabButtonMixin {
       cancellable = true
    )
    private void purxiy$underline(class_332 var1, class_327 var2, int var3, CallbackInfo var4) {
-      if (ClientRegistry21.active()) {
+      if (GuiRenderContext.active()) {
          var4.cancel();
       }
    }

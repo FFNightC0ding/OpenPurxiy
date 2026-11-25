@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ final class NameValidation {
    private NameValidation() {
    }
 
-   static List<NameValidation.TypeV> capture(Throwable var0) {
+   static List<NameValidation.FrameTrace> capture(Throwable var0) {
       ArrayList var1 = new ArrayList();
 
       for (int var2 = 0; var0 != null && var2 < 3; var2++) {
@@ -27,7 +26,7 @@ final class NameValidation {
             var3.add(var8 + "." + safe(METHOD, var7.getMethodName()) + ":" + var7.getLineNumber());
          }
 
-         var1.add(new NameValidation.TypeV(safe(TYPE, var0.getClass().getName()), List.copyOf(var3)));
+         var1.add(new NameValidation.FrameTrace(safe(TYPE, var0.getClass().getName()), List.copyOf(var3)));
          Throwable var9 = var0.getCause();
          if (var9 == var0) {
             break;
@@ -43,6 +42,6 @@ final class NameValidation {
       return var1 != null && var0.matcher(var1).matches() ? var1 : "unknown";
    }
 
-   record TypeV(String type, List<String> frames) {
+   record FrameTrace(String type, List<String> frames) {
    }
 }

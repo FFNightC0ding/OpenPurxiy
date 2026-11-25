@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.radiance;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -31,16 +30,12 @@ import org.joml.Vector4f;
 final class RadianceRenderer {
    private final String i;
    private final class_9799 f = new class_9799(65536);
-   private final List<RadianceRenderer.TypeM> b = new ArrayList<>();
-   
+   private final List<RadianceRenderer.RadianceBatch> b = new ArrayList<>();
    private class_287 L;
    private int u;
-   
    private class_1921 R;
    private int v;
    private GpuBuffer t;
-
-
    private static final long d = -4172745132484853720L;
    private static final long e = 65536L;
 
@@ -74,7 +69,7 @@ final class RadianceRenderer {
       long var4 = var2 ^ 49976945976784L;
       this.i(var4);
 
-      for (RadianceRenderer.TypeM var7 : this.b) {
+      for (RadianceRenderer.RadianceBatch var7 : this.b) {
          if (var7.s == var1) {
             return true;
          }
@@ -90,22 +85,12 @@ final class RadianceRenderer {
          this.L = null;
          class_9801 var4 = var3.method_60794();
          long var5 = 36913945304230L;
-         if (36913945304230L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var12 = var5 < 0L ? -1 : 1;
-         }
-
+         int var8 = var5 < 0L ? -1 : 1;
          if (var4 != null && this.R != null) {
-            int var8 = var4.method_60822().comp_750();
+            var8 = var4.method_60822().comp_750();
             long var9 = 36913945304230L;
-            if (36913945304230L == 0L) {
-               boolean var13 = false;
-            } else {
-               int var14 = var9 < 0L ? -1 : 1;
-            }
-
-            this.b.add(new RadianceRenderer.TypeM(this.u, this.R, this.v, var8, var4));
+            int var10 = var9 < 0L ? -1 : 1;
+            this.b.add(new RadianceRenderer.RadianceBatch(this.u, this.R, this.v, var8, var4));
             this.v += var8;
          } else if (var4 != null) {
             var4.close();
@@ -122,59 +107,75 @@ final class RadianceRenderer {
       this.i(var6);
 
       try {
-         if (this.b.isEmpty()) {
-            if (var3) {
-               RenderSystem.getDevice().createCommandEncoder().clearColorTexture(var1.texture(), 0);
+         if (!this.b.isEmpty()) {
+            GpuDevice var10 = RenderSystem.getDevice();
+            CommandEncoder var11 = var10.createCommandEncoder();
+            int var12 = class_290.field_1585.getVertexSize();
+            this.E(var8, var10, (long)this.v * var12);
+            int var13 = 0;
+
+            for (RadianceRenderer.RadianceBatch var15 : this.b) {
+               var11.writeToBuffer(this.t.slice((long)var15.r * var12, (long)var15.m * var12), var15.T.method_60818());
+               var13 = Math.max(var13, var15.m / 4);
+            }
+
+            class_5590 var30 = RenderSystem.getSequentialBuffer(class_5596.field_27382);
+            GpuBuffer var31 = var30.method_68274(var13 * 6);
+            Matrix4f var16 = new Matrix4f(RenderSystem.getModelViewMatrix());
+            GpuBufferSlice[] var17 = new GpuBufferSlice[128];
+            class_12337[] var18 = new class_12337[this.b.size()];
+
+            for (int var19 = 0; var19 < this.b.size(); var19++) {
+               RadianceRenderer.RadianceBatch var20 = this.b.get(var19);
+               if (var17[var20.s] == null) {
+                  var17[var20.s] = RenderSystem.getDynamicUniforms()
+                     .method_71106(var16, new Vector4f(var20.s / 255.0F, 0.0F, 0.0F, 1.0F), new Vector3f(), new Matrix4f());
+               }
+
+               var18[var19] = (class_12337)((RenderTypeAccessor)var20.j).purxiy$setup().method_75926().get("Sampler0");
+            }
+
+            RenderPass var32 = var11.createRenderPass(
+               () -> "SourceByDevFFnightmare DeObfDeCompByGuideX radiance mask (" + this.i + ")", var1, var3 ? OptionalInt.of(0) : OptionalInt.empty(), var2, OptionalDouble.empty()
+            );
+
+            try {
+               var32.setPipeline(SkyPipelines.RADIANCE_MASK);
+               RenderSystem.bindDefaultUniforms(var32);
+               var32.setVertexBuffer(0, this.t);
+               var32.setIndexBuffer(var31, var30.method_31924());
+
+               for (int var33 = 0; var33 < this.b.size(); var33++) {
+                  RadianceRenderer.RadianceBatch var21 = this.b.get(var33);
+                  class_12337 var22 = var18[var33];
+                  if (var22 != null) {
+                     var32.setUniform("DynamicTransforms", var17[var21.s]);
+                     var32.bindTexture("Sampler0", var22.comp_5226(), var22.comp_5227());
+                     var32.drawIndexed(var21.r, 0, var21.m / 4 * 6, 1);
+                     RadianceSupport.metric("drawn");
+                  }
+               }
+            } catch (Throwable var28) {
+               if (var32 != null) {
+                  try {
+                     var32.close();
+                  } catch (Throwable var27) {
+                     var28.addSuppressed(var27);
+                  }
+               }
+
+               throw var28;
+            }
+
+            if (var32 != null) {
+               var32.close();
             }
 
             return;
          }
 
-         GpuDevice var10 = RenderSystem.getDevice();
-         CommandEncoder var11 = var10.createCommandEncoder();
-         int var12 = class_290.field_1585.getVertexSize();
-         this.E(var8, var10, (long)this.v * var12);
-         int var13 = 0;
-
-         for (RadianceRenderer.TypeM var15 : this.b) {
-            var11.writeToBuffer(this.t.slice((long)var15.r * var12, (long)var15.m * var12), var15.T.method_60818());
-            var13 = Math.max(var13, var15.m / 4);
-         }
-
-         class_5590 var30 = RenderSystem.getSequentialBuffer(class_5596.field_27382);
-         GpuBuffer var31 = var30.method_68274(var13 * 6);
-         Matrix4f var16 = new Matrix4f(RenderSystem.getModelViewMatrix());
-         GpuBufferSlice[] var17 = new GpuBufferSlice[128];
-         class_12337[] var18 = new class_12337[this.b.size()];
-
-         for (int var19 = 0; var19 < this.b.size(); var19++) {
-            RadianceRenderer.TypeM var20 = this.b.get(var19);
-            if (var17[var20.s] == null) {
-               var17[var20.s] = RenderSystem.getDynamicUniforms()
-                  .method_71106(var16, new Vector4f(var20.s / 255.0F, 0.0F, 0.0F, 1.0F), new Vector3f(), new Matrix4f());
-            }
-
-            var18[var19] = ((RenderTypeAccessor)var20.j).purxiy$setup().method_75926().get("Sampler0");
-         }
-
-         try (RenderPass var32 = var11.createRenderPass(
-               () -> "Purxiy radiance mask (" + this.i + ")", var1, var3 ? OptionalInt.of(0) : OptionalInt.empty(), var2, OptionalDouble.empty()
-            )) {
-            var32.setPipeline(SkyPipelines.RADIANCE_MASK);
-            RenderSystem.bindDefaultUniforms(var32);
-            var32.setVertexBuffer(0, this.t);
-            var32.setIndexBuffer(var31, var30.method_31924());
-
-            for (int var33 = 0; var33 < this.b.size(); var33++) {
-               RadianceRenderer.TypeM var21 = this.b.get(var33);
-               class_12337 var22 = var18[var33];
-               if (var22 != null) {
-                  var32.setUniform("DynamicTransforms", var17[var21.s]);
-                  var32.bindTexture("Sampler0", var22.comp_5226(), var22.comp_5227());
-                  var32.drawIndexed(var21.r, 0, var21.m / 4 * 6, 1);
-                  RadianceSupport.metric("drawn");
-               }
-            }
+         if (var3) {
+            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(var1.texture(), 0);
          }
       } finally {
          this.reset();
@@ -186,7 +187,7 @@ final class RadianceRenderer {
       long var3 = var1 ^ 32524170829704L;
       this.i(var3);
 
-      for (RadianceRenderer.TypeM var6 : this.b) {
+      for (RadianceRenderer.RadianceBatch var6 : this.b) {
          var6.T.close();
       }
 
@@ -200,32 +201,18 @@ final class RadianceRenderer {
          long var6;
          for (var6 = 65536L; var6 < var4; var6 <<= 1) {
             long var8 = 91977685766948L;
-            if (91977685766948L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var15 = var8 < 0L ? -1 : 1;
-            }
+            int var11 = var8 < 0L ? -1 : 1;
          }
 
          long var14 = 91977685766948L;
-         if (91977685766948L == 0L) {
-            boolean var16 = false;
-         } else {
-            int var17 = var14 < 0L ? -1 : 1;
-         }
-
+         int var14x = var14 < 0L ? -1 : 1;
          long var11 = 91977685766949L;
-         if (91977685766949L == 0L) {
-            boolean var18 = false;
-         } else {
-            int var19 = var11 < 0L ? -1 : 1;
-         }
-
+         int var12 = var11 < 0L ? -1 : 1;
          if (this.t != null) {
             this.t.close();
          }
 
-         this.t = var3.createBuffer(ClientServices.label(() -> "Purxiy radiance mask vertices (" + this.i + ")"), 40, var6);
+         this.t = var3.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX radiance mask vertices (" + this.i + ")"), 40, var6);
       }
    }
 
@@ -258,7 +245,7 @@ final class RadianceRenderer {
       }
    }
 
-private record TypeM(int s, class_1921 j, int r, int m, class_9801 T) {
+   private record RadianceBatch(int s, class_1921 j, int r, int m, class_9801 T) {
       public int slot() {
          return this.s;
       }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.keystrokes;
 
 import dev.purxiy.anim.Animator;
@@ -29,10 +28,6 @@ public final class KeystrokesHud extends HudModule {
    public static boolean N;
    public static boolean a;
 
-
-
-
-
    public KeystrokesHud() {
       super("keystrokes", "Keystrokes", "Your movement keys and clicks, live", "keyboard", 0.0, 0.45);
 
@@ -43,7 +38,6 @@ public final class KeystrokesHud extends HudModule {
       this.background.set(true);
    }
 
-   @Override
    protected void measure(HudBounds var1, float[] var2) {
       float var3 = 47.0F;
       if (this.O.enabled()) {
@@ -63,32 +57,18 @@ public final class KeystrokesHud extends HudModule {
       if (!var1.live()) {
          float var16 = var1.time % 4.0F;
          long var7 = 17184875346384L;
-         if (17184875346384L == 0L) {
-            boolean var18 = false;
-         } else {
-            int var19 = var7 < 0L ? -1 : 1;
-         }
+         int var10 = var7 < 0L ? -1 : 1;
+
          return switch (var2) {
             case 0 -> var16 < 1.2F;
             case 1 -> var16 > 1.4F && var16 < 1.9F;
             default -> false;
             case 4 -> {
-               int var10 = (int)(var1.time * 6.0F);
+               var10 = (int)(var1.time * 6.0F);
                long var11 = 17184875346384L;
-               if (17184875346384L == 0L) {
-                  boolean var20 = false;
-               } else {
-                  int var21 = var11 < 0L ? -1 : 1;
-               }
-
+               int var14 = var11 < 0L ? -1 : 1;
                var10 %= 4;
-               long var14 = 17184875346384L;
-               if (17184875346384L == 0L) {
-                  boolean var22 = false;
-               } else {
-                  int var23 = var14 < 0L ? -1 : 1;
-               }
-
+               int var141 = var14 < 0L ? -1 : 1;
                yield var10 == 0;
             }
          };
@@ -106,7 +86,6 @@ public final class KeystrokesHud extends HudModule {
       }
    }
 
-   @Override
    protected void render(Canvas var1, HudBounds var2) {
       long var3 = 136231536068608L;
       long var5 = var3 ^ 26536655489593L;
@@ -162,21 +141,12 @@ public final class KeystrokesHud extends HudModule {
       int var17 = BlendMode.lerp(Icons.TEXT, -1, var11);
       if (var9 == null) {
          long var14 = 109695272223289L;
-         if (109695272223289L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var19 = var14 < 0L ? -1 : 1;
-         }
-
+         int var16 = var14 < 0L ? -1 : 1;
          var1.roundRect(var3 + var7 / 2.0F - 10.0F, var6 + var8 / 2.0F - 1.0F, 20.0F, 2.0F, 1.0F, BlendMode.lerp(-2130706433, -1, var11));
       } else if (var10 == null) {
          this.text(var1, Fonts.SEMIBOLD, var9, var3 + var7 / 2.0F, var6 + var8 / 2.0F, 9.5F, var17, FontStyle.CENTER, FontWeight.MIDDLE);
          long var18 = 109695272223288L;
-         if (109695272223288L == 0L) {
-            boolean var20 = false;
-         } else {
-            int var21 = var18 < 0L ? -1 : 1;
-         }
+         int var19 = var18 < 0L ? -1 : 1;
       } else {
          this.text(var1, Fonts.SEMIBOLD, var9, var3 + var7 / 2.0F, var6 + var8 / 2.0F - 3.5F, 8.5F, var17, FontStyle.CENTER, FontWeight.MIDDLE);
          this.text(
@@ -194,5 +164,4 @@ public final class KeystrokesHud extends HudModule {
 
       var1.pop();
    }
-
 }

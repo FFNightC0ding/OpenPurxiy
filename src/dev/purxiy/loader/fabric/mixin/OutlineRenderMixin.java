@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_11658;
 import net.minecraft.class_4184;
 import net.minecraft.class_4587;
@@ -43,7 +42,7 @@ public abstract class OutlineRenderMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$extractOutline(class_4184 var1, class_11658 var2, CallbackInfo var3) {
-      ClientSupport3.extractOutline(var2.field_63083);
+      SkyPipelineRouter.extractOutline(var2.field_63083);
    }
 
    @Inject(
@@ -52,7 +51,7 @@ public abstract class OutlineRenderMixin {
       cancellable = true
    )
    private void purxiy$outline(class_4598 var1, class_4587 var2, boolean var3, class_11658 var4, CallbackInfo var5) {
-      if (ClientSupport3.renderOutline(var3, var4.field_63082.field_63078)) {
+      if (SkyPipelineRouter.renderOutline(var3, var4.field_63082.field_63078)) {
          var5.cancel();
       }
    }

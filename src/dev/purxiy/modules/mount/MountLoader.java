@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 import com.google.gson.Gson;
@@ -60,13 +59,12 @@ public final class MountLoader {
    public final float[] q;
    public final float[] D;
    public final List<MountLoader.Data> B;
-   public final List<MountLoader.Data2> P;
-   public final List<MountLoader.TypeT> L;
+   public final List<MountLoader.DrawRange> P;
+   public final List<MountLoader.MountModelData> L;
    public ByteBuffer X;
    public ByteBuffer I;
    public final int f;
    public final int z;
-
    private static final String[] t = new String[48];
    private static final long[] C = new long[]{
       -5036134466642675808L,
@@ -113,8 +111,8 @@ public final class MountLoader {
       float[] var2,
       float[] var3,
       List<MountLoader.Data> var4,
-      List<MountLoader.Data2> var5,
-      List<MountLoader.TypeT> var6,
+      List<MountLoader.DrawRange> var5,
+      List<MountLoader.MountModelData> var6,
       ByteBuffer var7,
       ByteBuffer var8,
       int var9,
@@ -139,7 +137,7 @@ public final class MountLoader {
    }
 
    public static CompletableFuture<MountLoader> load(String var0) {
-      return MountSupport4.submit(() -> {
+      return MountWorker.submit(() -> {
          long var1 = 3266762754324L;
 
          try {
@@ -162,7 +160,7 @@ public final class MountLoader {
       this.X = null;
       this.I = null;
 
-      for (MountLoader.TypeT var2 : this.L) {
+      for (MountLoader.MountModelData var2 : this.L) {
          if (var2.O != null) {
             for (ByteBuffer var6 : var2.O) {
                MemoryUtil.memFree(var6);
@@ -178,7 +176,7 @@ public final class MountLoader {
       char var5 = '\uec84';
       long var6 = 3648939597209L;
       long var8 = 87199710826134L;
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
 
       byte[] var10;
       try (InputStream var11 = MountLoader.class.getResourceAsStream("/assets/purxiy/garage/" + var2 + ".pgv")) {
@@ -194,41 +192,21 @@ public final class MountLoader {
       var66.get(var12);
       int var13 = var12[0];
       long var14 = 3266762754323L;
-      if (3266762754323L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var94 = var14 < 0L ? -1 : 1;
-      }
-
+      int var17 = var14 < 0L ? -1 : 1;
       if (var13 == 80) {
-         long var17 = 3266762754324L;
-         if (3266762754324L == 0L) {
-            boolean var95 = false;
-         } else {
-            int var96 = var17 < 0L ? -1 : 1;
-         }
-
+         long var17x = 3266762754324L;
+         int var19 = var17x < 0L ? -1 : 1;
          if (var12[1] == 71) {
-            var13 = var12[2];
-            long var19 = 3266762754324L;
-            if (3266762754324L == 0L) {
-               boolean var97 = false;
-            } else {
-               int var98 = var19 < 0L ? -1 : 1;
-            }
-
-            if (var13 == 86) {
-               long var21 = 3266762754324L;
-               if (3266762754324L == 0L) {
-                  boolean var99 = false;
-               } else {
-                  int var100 = var21 < 0L ? -1 : 1;
-               }
-
+            int var65 = var12[2];
+            long var19x = 3266762754324L;
+            int var21 = var19x < 0L ? -1 : 1;
+            if (var65 == 86) {
+               long var21x = 3266762754324L;
+               int var23 = var21x < 0L ? -1 : 1;
                if (var12[3] == 49) {
-                  byte[] var23 = new byte[var66.getInt()];
-                  var66.get(var23);
-                  JsonObject var24 = (JsonObject)new Gson().fromJson(new String(var23, StandardCharsets.UTF_8), JsonObject.class);
+                  byte[] var23x = new byte[var66.getInt()];
+                  var66.get(var23x);
+                  JsonObject var24 = (JsonObject)new Gson().fromJson(new String(var23x, StandardCharsets.UTF_8), JsonObject.class);
                   int var25 = var66.getInt();
                   int var26 = var66.getInt();
                   byte[] var27 = new byte[var26];
@@ -240,62 +218,42 @@ public final class MountLoader {
                   int var30;
                   for (var30 = 0; var30 < var25; var30 += var29.inflate(var28, var30, var25 - var30)) {
                      long var31 = 3266762754324L;
-                     if (3266762754324L == 0L) {
-                        boolean var101 = false;
-                     } else {
-                        int var102 = var31 < 0L ? -1 : 1;
-                     }
-
+                     int var70 = var31 < 0L ? -1 : 1;
                      boolean var33 = var29.finished();
                      long var34 = 3266762754324L;
-                     if (3266762754324L == 0L) {
-                        boolean var103 = false;
-                     } else {
-                        int var104 = var34 < 0L ? -1 : 1;
-                     }
-
+                     int var36 = var34 < 0L ? -1 : 1;
                      if (var33) {
                         break;
                      }
                   }
 
                   long var69 = 3266762754324L;
-                  if (3266762754324L == 0L) {
-                     boolean var105 = false;
-                  } else {
-                     int var106 = var69 < 0L ? -1 : 1;
-                  }
-
+                  int var731 = var69 < 0L ? -1 : 1;
                   var29.end();
                   if (var30 != var25) {
                      throw new IOException("short mesh data");
                   }
 
-                  float[] var70 = n(var3, (char)var5, var24.getAsJsonArray("lo"));
-                  float[] var71 = n(var3, (char)var5, var24.getAsJsonArray("hi"));
+                  float[] var70 = n(var3, var5, var24.getAsJsonArray("lo"));
+                  float[] var71 = n(var3, var5, var24.getAsJsonArray("hi"));
                   int var35 = var24.get("verts").getAsInt();
                   int var36 = var24.get("indices").getAsInt();
                   ArrayList var37 = new ArrayList();
 
                   for (JsonElement var39 : var24.getAsJsonArray("materials")) {
                      long var40 = 3266762754323L;
-                     if (3266762754323L == 0L) {
-                        boolean var107 = false;
-                     } else {
-                        int var108 = var40 < 0L ? -1 : 1;
-                     }
-
+                     int var42 = var40 < 0L ? -1 : 1;
                      var37.add(S(var6, var39.getAsJsonObject()));
                   }
 
                   ArrayList var72 = new ArrayList();
-                  float[][] var73 = new float[var24.getAsJsonArray("draws").size()][];
+                  float[][] var73x = new float[var24.getAsJsonArray("draws").size()][];
                   int var74 = 0;
 
                   for (JsonElement var42 : var24.getAsJsonArray("draws")) {
                      JsonObject var43 = var42.getAsJsonObject();
                      var72.add(
-                        new MountLoader.Data2(
+                        new MountLoader.DrawRange(
                            var43.get("mat").getAsInt(),
                            var43.get("part").getAsInt(),
                            var43.get("base").getAsInt(),
@@ -304,16 +262,11 @@ public final class MountLoader {
                            var43.get("count").getAsInt()
                         )
                      );
-                     var73[var74++] = n(var3, (char)var5, var43.getAsJsonArray("uv"));
+                     var73x[var74++] = n(var3, var5, var43.getAsJsonArray("uv"));
                   }
 
                   long var75 = 3266762754323L;
-                  if (3266762754323L == 0L) {
-                     boolean var109 = false;
-                  } else {
-                     int var110 = var75 < 0L ? -1 : 1;
-                  }
-
+                  int var821 = var75 < 0L ? -1 : 1;
                   ByteBuffer var44 = ByteBuffer.wrap(var28).order(ByteOrder.LITTLE_ENDIAN);
                   short[][] var45 = new short[7][var35];
 
@@ -321,24 +274,15 @@ public final class MountLoader {
                      short var47 = 0;
 
                      for (int var48 = 0; var48 < var35; var48++) {
-                        var13 = var47 + var44.getShort();
+                        var65 = var47 + var44.getShort();
                         long var49 = 3266762754324L;
-                        if (3266762754324L == 0L) {
-                           boolean var111 = false;
-                        } else {
-                           int var112 = var49 < 0L ? -1 : 1;
-                        }
-
-                        var47 = (short)var13;
+                        int var49x = var49 < 0L ? -1 : 1;
+                        var47 = (short)var65;
                         var45[var46][var48] = var47;
                      }
 
                      long var78 = 3266762754324L;
-                     if (3266762754324L == 0L) {
-                        boolean var113 = false;
-                     } else {
-                        int var114 = var78 < 0L ? -1 : 1;
-                     }
+                     int var50 = var78 < 0L ? -1 : 1;
                   }
 
                   byte[] var76 = new byte[var35];
@@ -353,8 +297,8 @@ public final class MountLoader {
                   float var52 = (var71[2] - var70[2]) / 65535.0F;
 
                   for (int var53 = 0; var53 < var72.size(); var53++) {
-                     MountLoader.Data2 var54 = (MountLoader.Data2)var72.get(var53);
-                     float[] var55 = var73[var53];
+                     MountLoader.DrawRange var54 = (MountLoader.DrawRange)var72.get(var53);
+                     float[] var55 = var73x[var53];
                      float var56 = var55[2] / 65535.0F;
                      float var57 = var55[3] / 65535.0F;
 
@@ -367,56 +311,32 @@ public final class MountLoader {
                         int var59 = var45[5][var58] & '\uffff';
                         short var60 = var45[6][var58];
                         long var61 = 3266762754324L;
-                        if (3266762754324L == 0L) {
-                           boolean var115 = false;
-                        } else {
-                           int var116 = var61 < 0L ? -1 : 1;
-                        }
-
-                        int var63 = var60 & '\uffff';
+                        int var63 = var61 < 0L ? -1 : 1;
+                        var63 = var60 & '\uffff';
                         var80.put((byte)(var59 >>> 8)).put((byte)var59).put((byte)(var63 >>> 8)).put((byte)var63);
                         var80.put(var76[var58]).put(var77[var58]).put(var79[var58]).put((byte)0);
                      }
 
                      long var86 = 3266762754324L;
-                     if (3266762754324L == 0L) {
-                        boolean var117 = false;
-                     } else {
-                        int var118 = var86 < 0L ? -1 : 1;
-                     }
+                     int var101 = var86 < 0L ? -1 : 1;
                   }
 
                   long var81 = 3266762754324L;
-                  if (3266762754324L == 0L) {
-                     boolean var119 = false;
-                  } else {
-                     int var120 = var81 < 0L ? -1 : 1;
-                  }
-
+                  int var921 = var81 < 0L ? -1 : 1;
                   var80.flip();
-                  ByteBuffer var82 = MemoryUtil.memAlloc(var36 * 4).order(ByteOrder.nativeOrder());
+                  ByteBuffer var82x = MemoryUtil.memAlloc(var36 * 4).order(ByteOrder.nativeOrder());
                   int var83 = 0;
 
                   for (int var84 = 0; var84 < var36; var84++) {
                      var83 += var44.getInt();
                      long var87 = 3266762754324L;
-                     if (3266762754324L == 0L) {
-                        boolean var121 = false;
-                     } else {
-                        int var122 = var87 < 0L ? -1 : 1;
-                     }
-
-                     var82.putInt(var83);
+                     int var102 = var87 < 0L ? -1 : 1;
+                     var82x.putInt(var83);
                   }
 
-                  var82.flip();
+                  var82x.flip();
                   long var85 = 3266762754323L;
-                  if (3266762754323L == 0L) {
-                     boolean var123 = false;
-                  } else {
-                     int var124 = var85 < 0L ? -1 : 1;
-                  }
-
+                  int var99 = var85 < 0L ? -1 : 1;
                   ArrayList var88 = new ArrayList();
 
                   for (JsonElement var91 : var24.getAsJsonArray("textures")) {
@@ -427,13 +347,8 @@ public final class MountLoader {
                   }
 
                   long var90 = 3266762754323L;
-                  if (3266762754323L == 0L) {
-                     boolean var125 = false;
-                  } else {
-                     int var126 = var90 < 0L ? -1 : 1;
-                  }
-
-                  JsonObject var92 = var24.getAsJsonObject("meta").getAsJsonObject("ground");
+                  int var106 = var90 < 0L ? -1 : 1;
+                  JsonObject var92x = var24.getAsJsonObject("meta").getAsJsonObject("ground");
                   return new MountLoader(
                      var2,
                      var70,
@@ -442,12 +357,12 @@ public final class MountLoader {
                      var72,
                      var88,
                      var80,
-                     var82,
+                     var82x,
                      var35,
                      var36,
-                     var92.get("tex").getAsInt(),
-                     n(var3, (char)var5, var92.getAsJsonArray("lo")),
-                     n(var3, (char)var5, var92.getAsJsonArray("hi"))
+                     var92x.get("tex").getAsInt(),
+                     n(var3, var5, var92x.getAsJsonArray("lo")),
+                     n(var3, var5, var92x.getAsJsonArray("hi"))
                   );
                }
             }
@@ -464,11 +379,11 @@ public final class MountLoader {
       return new MountLoader.Data(
          var2.get("name").getAsString(),
          var2.get("cls").getAsInt(),
-         n(var3, (char)var5, var2.getAsJsonArray("base")),
+         n(var3, var5, var2.getAsJsonArray("base")),
          var2.get("metal").getAsFloat(),
          var2.get("rough").getAsFloat(),
          var2.get("coat").getAsFloat(),
-         n(var3, (char)var5, var2.getAsJsonArray("emissive")),
+         n(var3, var5, var2.getAsJsonArray("emissive")),
          var2.get("emissive_gain").getAsFloat(),
          var6.equals("BLEND") ? 2 : (var6.equals("MASK") ? 1 : 0),
          var2.get("cutoff").getAsFloat(),
@@ -483,33 +398,23 @@ public final class MountLoader {
 
    private static float[] n(long var0, char var2, JsonArray var3) {
       float[] var4 = new float[var3.size()];
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
 
       for (int var5 = 0; var5 < var4.length; var5++) {
          long var6 = 1980380623L;
-         if (1980380623L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var6 < 0L ? -1 : 1;
-         }
-
+         int var8 = var6 < 0L ? -1 : 1;
          var4[var5] = var3.get(var5).getAsFloat();
       }
 
       long var9 = 1980380622L;
-      if (1980380622L == 0L) {
-         boolean var11 = false;
-      } else {
-         int var12 = var9 < 0L ? -1 : 1;
-      }
-
+      int var7 = var9 < 0L ? -1 : 1;
       return var4;
    }
 
-   private static MountLoader.TypeT c(byte[] var0, String var1, long var2) throws IOException {
+   private static MountLoader.MountModelData c(byte[] var0, String var1, long var2) throws IOException {
       long var4 = 457026356011L;
       byte var6 = 75;
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       BufferedImage var7 = ImageIO.read(new ByteArrayInputStream(var0));
       if (var7 == null) {
          throw new IOException("undecodable texture");
@@ -529,52 +434,32 @@ public final class MountLoader {
 
             for (int var22 : var11) {
                long var23 = 87199710826134L;
-               if (87199710826134L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var30 = var23 < 0L ? -1 : 1;
-               }
-
+               int var25 = var23 < 0L ? -1 : 1;
                var18.put((byte)(var22 >> 16)).put((byte)(var22 >> 8)).put((byte)var22).put((byte)(var22 >>> 24));
             }
 
             long var28 = 87199710826134L;
-            if (87199710826134L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var28 < 0L ? -1 : 1;
-            }
-
+            int var28x = var28 < 0L ? -1 : 1;
             var18.flip();
             long var29 = 87199710826133L;
-            if (87199710826133L == 0L) {
-               boolean var33 = false;
-            } else {
-               int var34 = var29 < 0L ? -1 : 1;
-            }
-
+            int var30 = var29 < 0L ? -1 : 1;
             var13[var17] = var18;
             var9 = var17 + 1;
             long var24 = 87199710826134L;
-            if (87199710826134L == 0L) {
-               boolean var35 = false;
-            } else {
-               int var36 = var24 < 0L ? -1 : 1;
-            }
-
+            int var32 = var24 < 0L ? -1 : 1;
             if (var9 < var12) {
-               var11 = e(var11, var15, var16, var4, var14, (byte)var6);
+               var11 = e(var11, var15, var16, var4, var14, var6);
                var15 = Math.max(1, var15 >> 1);
                var16 = Math.max(1, var16 >> 1);
             }
          }
 
-         return new MountLoader.TypeT(var8, var10, var1, var13);
+         return new MountLoader.MountModelData(var8, var10, var1, var13);
       }
    }
 
    private static int[] e(int[] var0, int var1, int var2, long var3, boolean var5, byte var6) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       int var7 = Math.max(1, var1 >> 1);
       int var8 = Math.max(1, var2 >> 1);
       int[] var9 = new int[var7 * var8];
@@ -596,35 +481,20 @@ public final class MountLoader {
             int var23 = (var17 >> 8 & 0xFF) + (var18 >> 8 & 0xFF) + (var19 >> 8 & 0xFF) + (var20 >> 8 & 0xFF) + 2 >> 2;
             int var24 = (var17 & 0xFF) + (var18 & 0xFF) + (var19 & 0xFF) + (var20 & 0xFF) + 2 >> 2;
             long var25 = 457026356011L;
-            if (457026356011L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var37 = var25 < 0L ? -1 : 1;
-            }
-
-            long var27 = 457026356011L;
-            if (457026356011L == 0L) {
-               boolean var38 = false;
-            } else {
-               int var39 = var27 < 0L ? -1 : 1;
-            }
-
+            int var27 = var25 < 0L ? -1 : 1;
+            long var27x = 457026356011L;
+            int var29 = var27x < 0L ? -1 : 1;
             if (var5) {
-               float var29 = var22 / 127.5F - 1.0F;
+               float var29x = var22 / 127.5F - 1.0F;
                float var30 = var23 / 127.5F - 1.0F;
                float var31 = var24 / 127.5F - 1.0F;
                long var32 = 457026356010L;
-               if (457026356010L == 0L) {
-                  boolean var40 = false;
-               } else {
-                  int var41 = var32 < 0L ? -1 : 1;
-               }
-
-               float var35 = (float)Math.sqrt(var29 * var29 + var30 * var30 + var31 * var31);
-               if (var35 > 1.0E-4F) {
-                  var22 = Math.clamp((long)Math.round((var29 / var35 + 1.0F) * 127.5F), 0, 255);
-                  var23 = Math.clamp((long)Math.round((var30 / var35 + 1.0F) * 127.5F), 0, 255);
-                  var24 = Math.clamp((long)Math.round((var31 / var35 + 1.0F) * 127.5F), 0, 255);
+               int var35 = var32 < 0L ? -1 : 1;
+               float var35x = (float)Math.sqrt(var29x * var29x + var30 * var30 + var31 * var31);
+               if (var35x > 1.0E-4F) {
+                  var22 = Math.clamp((long)Math.round((var29x / var35x + 1.0F) * 127.5F), 0, 255);
+                  var23 = Math.clamp((long)Math.round((var30 / var35x + 1.0F) * 127.5F), 0, 255);
+                  var24 = Math.clamp((long)Math.round((var31 / var35x + 1.0F) * 127.5F), 0, 255);
                }
             }
 
@@ -632,17 +502,13 @@ public final class MountLoader {
          }
 
          long var36 = 457026356011L;
-         if (457026356011L == 0L) {
-            boolean var42 = false;
-         } else {
-            int var43 = var36 < 0L ? -1 : 1;
-         }
+         int var36x = var36 < 0L ? -1 : 1;
       }
 
       return var9;
    }
 
-public record Data(String E, int i, float[] g, float K, float N, float A, float[] t, float X, int L, float z, float J, float C, int T, int B, int f, int G) {
+   public record Data(String E, int i, float[] g, float K, float N, float A, float[] t, float X, int L, float z, float J, float C, int T, int B, int f, int G) {
       public String name() {
          return this.E;
       }
@@ -772,7 +638,7 @@ public record Data(String E, int i, float[] g, float K, float N, float A, float[
       }
    }
 
-   public record Data2(int d, int F, int k, int i, int h, int n) {
+   public record DrawRange(int d, int F, int k, int i, int h, int n) {
       public int material() {
          return this.d;
       }
@@ -822,13 +688,13 @@ public record Data(String E, int i, float[] g, float K, float N, float A, float[
       }
    }
 
-   public static final class TypeT {
+   public static final class MountModelData {
       public final int r;
       public final int A;
       public final String Y;
       public ByteBuffer[] O;
 
-      TypeT(int var1, int var2, String var3, ByteBuffer[] var4) {
+      MountModelData(int var1, int var2, String var3, ByteBuffer[] var4) {
          this.r = var1;
          this.A = var2;
          this.Y = var3;

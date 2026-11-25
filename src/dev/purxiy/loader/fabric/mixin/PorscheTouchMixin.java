@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_310;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +16,7 @@ public abstract class PorscheTouchMixin {
       cancellable = true
    )
    private void purxiy$touchAttack(CallbackInfoReturnable<Boolean> var1) {
-      if (ClientRenderer5.touchAttack()) {
+      if (CameraStateReader.touchAttack()) {
          var1.setReturnValue(false);
       }
    }
@@ -28,7 +27,7 @@ public abstract class PorscheTouchMixin {
       cancellable = true
    )
    private void purxiy$touchHold(boolean var1, CallbackInfo var2) {
-      if (var1 && ClientRenderer5.blockAttackHold()) {
+      if (var1 && CameraStateReader.blockAttackHold()) {
          var2.cancel();
       }
    }
@@ -39,7 +38,7 @@ public abstract class PorscheTouchMixin {
       cancellable = true
    )
    private void purxiy$touchDisplay(CallbackInfo var1) {
-      if (ClientRenderer5.touchUse()) {
+      if (CameraStateReader.touchUse()) {
          var1.cancel();
       }
    }

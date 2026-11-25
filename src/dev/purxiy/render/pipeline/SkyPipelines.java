@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.pipeline;
 
 import com.mojang.blaze3d.pipeline.BlendFunction;

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
 import com.sun.jna.Function;
@@ -32,8 +31,6 @@ final class SpotifyCache {
    private static final Function d = x.getFunction("GetSystemTimePreciseAsFileTime", 63);
    private static final Function z = M.getFunction("CreateStreamOverRandomAccessStream", 63);
    private static final ThreadLocal<Boolean> l = ThreadLocal.withInitial(() -> false);
-
-
    private static final long[] e = new long[]{
       3877113514484275883L,
       -2328042950910264195L,
@@ -46,13 +43,12 @@ final class SpotifyCache {
       4940541282678061637L,
       7475523163306443027L
    };
-
    private static final long h = 1000000L;
 
    private SpotifyCache() {
    }
 
-   static void initThread() throws SpotifyCache.TypeB {
+   static void initThread() throws SpotifyCache.SpotifyException {
       if (!l.get()) {
          int var0 = w.invokeInt(new Object[]{1});
          if (var0 >= 0) {
@@ -60,12 +56,12 @@ final class SpotifyCache {
          }
 
          if (var0 < 0 && var0 != -2147417850) {
-            throw new SpotifyCache.TypeB("RoInitialize", var0);
+            throw new SpotifyCache.SpotifyException("RoInitialize", var0);
          }
       }
    }
 
-   static Pointer activationFactory(String var0, Memory var1) throws SpotifyCache.TypeB {
+   static Pointer activationFactory(String var0, Memory var1) throws SpotifyCache.SpotifyException {
       long var2 = 83727890251605L;
       long var4 = var2 ^ 62357282451466L;
       Pointer var6 = hstring(var0);
@@ -82,7 +78,7 @@ final class SpotifyCache {
       return var8;
    }
 
-   static Pointer createInstance(Memory var0, Memory var1) throws SpotifyCache.TypeB {
+   static Pointer createInstance(Memory var0, Memory var1) throws SpotifyCache.SpotifyException {
       long var2 = 17168897466082L;
       long var4 = var2 ^ 135298826916285L;
       PointerByReference var6 = new PointerByReference();
@@ -98,28 +94,28 @@ final class SpotifyCache {
       return Function.getFunction(var3, 63).invokeInt(var4);
    }
 
-   static void check(int var0, String var1) throws SpotifyCache.TypeB {
+   static void check(int var0, String var1) throws SpotifyCache.SpotifyException {
       if (var0 < 0) {
-         throw new SpotifyCache.TypeB(var1, var0);
+         throw new SpotifyCache.SpotifyException(var1, var0);
       }
    }
 
-   private static Pointer V( long var0, Pointer var2, String var3) throws SpotifyCache.TypeB {
+   private static Pointer V(long var0, Pointer var2, String var3) throws SpotifyCache.SpotifyException {
       SpotifyCurve.ensureSourceClassInitialized();
       if (var2 == null) {
-         throw new SpotifyCache.TypeB(var3 + " returned null", -2147467261);
+         throw new SpotifyCache.SpotifyException(var3 + " returned null", -2147467261);
       } else {
          return var2;
       }
    }
 
-   static void release( Pointer var0) {
+   static void release(Pointer var0) {
       if (var0 != null) {
          call(var0, 2);
       }
    }
 
-   static Pointer queryInterface(Pointer var0, Memory var1) throws SpotifyCache.TypeB {
+   static Pointer queryInterface(Pointer var0, Memory var1) throws SpotifyCache.SpotifyException {
       long var2 = 88427714463871L;
       long var4 = var2 ^ 40666529711904L;
       PointerByReference var6 = new PointerByReference();
@@ -127,38 +123,37 @@ final class SpotifyCache {
       return V(var4, var6.getValue(), "QueryInterface");
    }
 
-   
-   static Pointer getObject(Pointer var0, int var1, String var2) throws SpotifyCache.TypeB {
+   static Pointer getObject(Pointer var0, int var1, String var2) throws SpotifyCache.SpotifyException {
       PointerByReference var3 = new PointerByReference();
       check(call(var0, var1, var3), var2);
       return var3.getValue();
    }
 
-   static Pointer getRequired(Pointer var0, int var1, String var2) throws SpotifyCache.TypeB {
+   static Pointer getRequired(Pointer var0, int var1, String var2) throws SpotifyCache.SpotifyException {
       long var3 = 140154888137758L;
       long var5 = var3 ^ 13093725709121L;
       return V(var5, getObject(var0, var1, var2), var2);
    }
 
-   static int getInt(Pointer var0, int var1, String var2) throws SpotifyCache.TypeB {
+   static int getInt(Pointer var0, int var1, String var2) throws SpotifyCache.SpotifyException {
       IntByReference var3 = new IntByReference();
       check(call(var0, var1, var3), var2);
       return var3.getValue();
    }
 
-   static long getLong(Pointer var0, int var1, String var2) throws SpotifyCache.TypeB {
+   static long getLong(Pointer var0, int var1, String var2) throws SpotifyCache.SpotifyException {
       LongByReference var3 = new LongByReference();
       check(call(var0, var1, var3), var2);
       return var3.getValue();
    }
 
-   static boolean getBoolean(Pointer var0, int var1, String var2) throws SpotifyCache.TypeB {
+   static boolean getBoolean(Pointer var0, int var1, String var2) throws SpotifyCache.SpotifyException {
       ByteByReference var3 = new ByteByReference();
       check(call(var0, var1, var3), var2);
       return var3.getValue() != 0;
    }
 
-   static String getString(Pointer var0, int var1, String var2) throws SpotifyCache.TypeB {
+   static String getString(Pointer var0, int var1, String var2) throws SpotifyCache.SpotifyException {
       PointerByReference var3 = new PointerByReference();
       check(call(var0, var1, var3), var2);
       Pointer var4 = var3.getValue();
@@ -173,7 +168,7 @@ final class SpotifyCache {
       return var5;
    }
 
-   static int getReferenceInt(Pointer var0, int var1, String var2, int var3) throws SpotifyCache.TypeB {
+   static int getReferenceInt(Pointer var0, int var1, String var2, int var3) throws SpotifyCache.SpotifyException {
       Pointer var4 = getObject(var0, var1, var2);
       if (var4 == null) {
          return var3;
@@ -189,7 +184,7 @@ final class SpotifyCache {
       }
    }
 
-   static int getReferenceBoolean(Pointer var0, int var1, String var2) throws SpotifyCache.TypeB {
+   static int getReferenceBoolean(Pointer var0, int var1, String var2) throws SpotifyCache.SpotifyException {
       Pointer var3 = getObject(var0, var1, var2);
       if (var3 == null) {
          return -1;
@@ -205,8 +200,7 @@ final class SpotifyCache {
       }
    }
 
-   
-   static Pointer awaitObject(Pointer var0, long var1, String var3) throws SpotifyCache.TypeB {
+   static Pointer awaitObject(Pointer var0, long var1, String var3) throws SpotifyCache.SpotifyException {
       long var4 = 110354695409462L;
       long var6 = var4 ^ 50879733598176L;
       int var8 = (int)((var4 ^ 50879733598176L) >>> 48);
@@ -226,7 +220,7 @@ final class SpotifyCache {
       return var12;
    }
 
-   static boolean awaitBoolean(Pointer var0, long var1, String var3) throws SpotifyCache.TypeB {
+   static boolean awaitBoolean(Pointer var0, long var1, String var3) throws SpotifyCache.SpotifyException {
       long var4 = 23324362644592L;
       long var6 = var4 ^ 104647016600742L;
       int var8 = (int)((var4 ^ 104647016600742L) >>> 48);
@@ -246,7 +240,7 @@ final class SpotifyCache {
       return var12;
    }
 
-   private static void e(short var0, Pointer var1, long var2, short var4, String var5, int var6) throws SpotifyCache.TypeB {
+   private static void e(short var0, Pointer var1, long var2, short var4, String var5, int var6) throws SpotifyCache.SpotifyException {
       SpotifyCurve.ensureSourceClassInitialized();
       Pointer var7 = queryInterface(var1, f);
       boolean var8 = false;
@@ -273,7 +267,7 @@ final class SpotifyCache {
                   var14 = 18971;
                   if (var17 > 0) {
                      call(var7, 9);
-                     throw new SpotifyCache.TypeB(var5 + " (timed out)", -2147023436);
+                     throw new SpotifyCache.SpotifyException(var5 + " (timed out)", -2147023436);
                   }
 
                   if (var12 < 20) {
@@ -284,7 +278,7 @@ final class SpotifyCache {
                      } catch (InterruptedException var22) {
                         Thread.currentThread().interrupt();
                         call(var7, 9);
-                        throw new SpotifyCache.TypeB(var5 + " (interrupted)", -2147023673);
+                        throw new SpotifyCache.SpotifyException(var5 + " (interrupted)", -2147023673);
                      }
                   }
 
@@ -295,7 +289,7 @@ final class SpotifyCache {
 
             IntByReference var24 = new IntByReference();
             call(var7, 8, var24);
-            throw new SpotifyCache.TypeB(var5, var13 == 2 ? -2147023673 : var24.getValue());
+            throw new SpotifyCache.SpotifyException(var5, var13 == 2 ? -2147023673 : var24.getValue());
          }
       } finally {
          if (var8) {
@@ -320,7 +314,7 @@ final class SpotifyCache {
       return var2;
    }
 
-   static Pointer hstring(String var0) throws SpotifyCache.TypeB {
+   static Pointer hstring(String var0) throws SpotifyCache.SpotifyException {
       char[] var1 = var0.toCharArray();
       Memory var2 = new Memory((var1.length + 1) * 2L);
       var2.write(0L, var1, 0, var1.length);
@@ -330,7 +324,7 @@ final class SpotifyCache {
       return var3.getValue();
    }
 
-   static String string( Pointer var0) {
+   static String string(Pointer var0) {
       if (var0 == null) {
          return "";
       } else {
@@ -340,13 +334,13 @@ final class SpotifyCache {
       }
    }
 
-   static void deleteString( Pointer var0) {
+   static void deleteString(Pointer var0) {
       if (var0 != null) {
          X.invokeInt(new Object[]{var0});
       }
    }
 
-   static String taskString( Pointer var0) {
+   static String taskString(Pointer var0) {
       if (var0 == null) {
          return "";
       } else {
@@ -367,7 +361,7 @@ final class SpotifyCache {
       return var0.getValue();
    }
 
-   static Pointer streamOver(Pointer var0) throws SpotifyCache.TypeB {
+   static Pointer streamOver(Pointer var0) throws SpotifyCache.SpotifyException {
       long var1 = 119048525137596L;
       long var3 = var1 ^ 27311185447395L;
       PointerByReference var5 = new PointerByReference();
@@ -382,14 +376,13 @@ final class SpotifyCache {
       }
    }
 
-static final class TypeB extends Exception {
+   static final class SpotifyException extends Exception {
       final int d;
       private static final String a = "%s failed: 0x%08X";
 
-      TypeB(String var1, int var2) {
-         super(String.format(Locale.ROOT, a, var1, var2));
+      SpotifyException(String var1, int var2) {
+         super(String.format(Locale.ROOT, "%s failed: 0x%08X", var1, var2));
          this.d = var2;
       }
-
-}
+   }
 }

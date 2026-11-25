@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.nametags;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -81,11 +80,10 @@ public final class TagPainter {
       -4459592914770193508L
    };
 
-
    private TagPainter() {
    }
 
-   public static float measure(TagPainter.TypeQ var0) {
+   public static float measure(TagPainter.TagPlate var0) {
       long var1 = 55580168463164L;
       long var3 = var1 ^ 50677415412464L;
       long var5 = var1 ^ 132767789609255L;
@@ -102,11 +100,11 @@ public final class TagPainter {
       return var0.L;
    }
 
-   public static float height(TagPainter.TypeQ var0) {
+   public static float height(TagPainter.TagPlate var0) {
       return var0.A;
    }
 
-   public static void draw(Canvas var0, TagPainter.TypeQ var1, TagPainter.Look var2, float var3) {
+   public static void draw(Canvas var0, TagPainter.TagPlate var1, TagPainter.Look var2, float var3) {
       long var4 = 57018896886002L;
       long var6 = var4 ^ 69340648091935L;
       long var8 = var4 ^ 112346310156752L;
@@ -182,7 +180,7 @@ public final class TagPainter {
       var0.pop();
    }
 
-   private static float V(long var0, TagPainter.TypeQ var2, float var3) {
+   private static float V(long var0, TagPainter.TagPlate var2, float var3) {
       if (var2.r == null && var2.K == null) {
          return 7.0F;
       } else {
@@ -191,28 +189,18 @@ public final class TagPainter {
       }
    }
 
-   private static float w(TagPainter.TypeQ var0, long var1) {
-      return var0.R != 2 ? 0.0F : 6.0F + Fonts.SEMIBOLD.width(NameTagsSupport2.hearts(var0.z), 7.5F, 0.0F) + 2.0F + Fonts.SEMIBOLD.width("♥", 7.5F, 0.0F);
+   private static float w(TagPainter.TagPlate var0, long var1) {
+      return var0.R != 2 ? 0.0F : 6.0F + Fonts.SEMIBOLD.width(NameTagsHealth.hearts(var0.z), 7.5F, 0.0F) + 2.0F + Fonts.SEMIBOLD.width("♥", 7.5F, 0.0F);
    }
 
-   private static void C(Canvas var0, long var1, TagPainter.TypeQ var3, float var4, float var5, boolean var6) {
-      String var7 = NameTagsSupport2.hearts(var3.z);
+   private static void C(Canvas var0, long var1, TagPainter.TagPlate var3, float var4, float var5, boolean var6) {
+      String var7 = NameTagsHealth.hearts(var3.z);
       float var8 = Fonts.SEMIBOLD.width(var7, 7.5F, 0.0F);
       long var9 = 57627478369807L;
-      if (57627478369807L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var15 = var9 < 0L ? -1 : 1;
-      }
-
-      int var12 = var3.U ? -11654 : (var3.o ? -41852 : Icons.PINK);
+      int var12 = var9 < 0L ? -1 : 1;
+      var12 = var3.U ? -11654 : (var3.o ? -41852 : Icons.PINK);
       long var13 = 57627478369808L;
-      if (57627478369808L == 0L) {
-         boolean var16 = false;
-      } else {
-         int var17 = var13 < 0L ? -1 : 1;
-      }
-
+      int var14 = var13 < 0L ? -1 : 1;
       if (var6) {
          var0.textGlow(Fonts.SEMIBOLD, var7 + " ♥", var4, var5 + 0.5F, 7.5F, -1090519040, FontStyle.LEFT, FontWeight.MIDDLE, 0.0F, 0.6F, 1.6F);
       }
@@ -221,7 +209,7 @@ public final class TagPainter {
       var0.text(Fonts.SEMIBOLD, "♥", var4 + var8 + 2.0F, var5, 7.5F, var12, FontStyle.LEFT, FontWeight.MIDDLE);
    }
 
-   private static void T(Canvas var0, TagPainter.TypeQ var1, byte var2, float var3, float var4, int var5, float var6, int var7) {
+   private static void T(Canvas var0, TagPainter.TagPlate var1, byte var2, float var3, float var4, int var5, float var6, int var7) {
       long var8 = 62929138920095L;
       long var10 = var8 ^ 130888788664638L;
       float var12 = var4 - 2.0F;
@@ -231,7 +219,7 @@ public final class TagPainter {
       var0.popClip();
    }
 
-   private static void k(Canvas var0, TagPainter.TypeQ var1, long var2, float var4, float var5, float var6) {
+   private static void k(Canvas var0, TagPainter.TagPlate var1, long var2, float var4, float var5, float var6) {
       long var7 = 85973421018017L;
       float var9 = 1.6F;
       var0.shadow(var4, var5, var6, var9, var9 / 2.0F, 3.0F, 0.0F, 0.0F, 0.5F, 1711276032);
@@ -239,9 +227,9 @@ public final class TagPainter {
       x(var7, var0, var1, var4, var5, var6, var9, var9 / 2.0F);
    }
 
-   private static void x(long var0, Canvas var2, TagPainter.TypeQ var3, float var4, float var5, float var6, float var7, float var8) {
-      float var9 = NameTagsSupport2.clamp01(var3.u);
-      float var10 = NameTagsSupport2.clamp01(var3.P);
+   private static void x(long var0, Canvas var2, TagPainter.TagPlate var3, float var4, float var5, float var6, float var7, float var8) {
+      float var9 = NameTagsHealth.clamp01(var3.u);
+      float var10 = NameTagsHealth.clamp01(var3.P);
       if (var10 > var9 + 0.003F) {
          var2.roundRect(var4, var5, var6 * var10, var7, var8, Theme.tint(-1711290648));
       }
@@ -252,36 +240,21 @@ public final class TagPainter {
          var2.roundRectCorners(var4, var5, var11, var7, var8, 956301311, 956301311, 16777215, 16777215);
       }
 
-      float var16 = NameTagsSupport2.clamp01(var3.W);
+      float var16 = NameTagsHealth.clamp01(var3.W);
       long var12 = 85973421018017L;
-      if (85973421018017L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var17 = var12 < 0L ? -1 : 1;
-      }
-
+      int var15 = var12 < 0L ? -1 : 1;
       if (var16 > 0.003F) {
-         float var15 = var4 + var6 * Math.min(var9, 1.0F - var16);
-         var2.roundRect(var15, var5, var6 * var16, var7, var8, -11654);
+         float var15x = var4 + var6 * Math.min(var9, 1.0F - var16);
+         var2.roundRect(var15x, var5, var6 * var16, var7, var8, -11654);
       }
    }
 
    private static void T(Canvas var0, class_2960 var1, float var2, float var3, long var4, float var6, float var7, boolean var8) {
       var0.shadow(3.0F, 3.0F, var6, var6, var7, var8 ? 6.0F : 4.0F, 0.0F, 0.0F, 1.0F, var8 ? 1711276032 : 1073741824);
       long var9 = 14066549168620L;
-      if (14066549168620L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var14 = var9 < 0L ? -1 : 1;
-      }
-
-      long var12 = 14066549168620L;
-      if (14066549168620L == 0L) {
-         boolean var15 = false;
-      } else {
-         int var16 = var12 < 0L ? -1 : 1;
-      }
-
+      int var12 = var9 < 0L ? -1 : 1;
+      long var12x = 14066549168620L;
+      int var13 = var12x < 0L ? -1 : 1;
       if (!M(var0, var1, 3.0F, 3.0F, var6, var7)) {
          var0.roundRectGradient(3.0F, 3.0F, var6, var6, var7, 135.0F, BlendMode.withAlpha(Icons.INDIGO, 0.6F), BlendMode.withAlpha(Icons.MAGENTA, 0.5F));
       }
@@ -307,16 +280,16 @@ public final class TagPainter {
          var0.image(var7, var8, false, 3.0F, 3.0F, var4, var4, 0.125F, 0.125F, 0.25F, 0.25F, var5, -1);
          var0.image(var7, var8, false, 3.0F, 3.0F, var4, var4, 0.625F, 0.125F, 0.75F, 0.25F, var5, -1);
          return true;
-      } catch (IllegalStateException var9) {
+      } catch (IllegalStateException var91) {
          return false;
       }
    }
 
-   public static float measure(TagPainter.TypeO var0) {
+   public static float measure(TagPainter.TagGroup var0) {
       long var1 = 97820274896495L;
       long var3 = var1 ^ 14155731618296L;
       if (q(var0, var3)) {
-         TagPainter.TypeO.TypeC var9 = var0.O.getFirst();
+         TagPainter.TagGroup.TagEntry var9 = var0.O.getFirst();
          float var10 = var9.M.isEmpty() ? 0.0F : 4.5F + var9.amountWidth();
          var0.x = 15.0F;
          var0.N = 13.5F + var9.r.K + var10 + 7.0F;
@@ -324,7 +297,7 @@ public final class TagPainter {
       } else {
          float var5 = 0.0F;
 
-         for (TagPainter.TypeO.TypeC var7 : var0.O) {
+         for (TagPainter.TagGroup.TagEntry var7 : var0.O) {
             float var8 = var7.M.isEmpty() ? 0.0F : 10.0F + var7.amountWidth();
             var5 = Math.max(var5, var7.r.K + var8);
          }
@@ -339,11 +312,11 @@ public final class TagPainter {
       }
    }
 
-   public static float height(TagPainter.TypeO var0) {
+   public static float height(TagPainter.TagGroup var0) {
       return var0.x;
    }
 
-   public static void draw(Canvas var0, TagPainter.TypeO var1, TagPainter.Look var2, float var3, float var4) {
+   public static void draw(Canvas var0, TagPainter.TagGroup var1, TagPainter.Look var2, float var3, float var4) {
       long var5 = 67361217844389L;
       long var7 = var5 ^ 115911177564978L;
       long var9 = var5 ^ 125501267393590L;
@@ -359,7 +332,7 @@ public final class TagPainter {
       float var22 = var19 ? 5.5F : 7.0F;
       boolean var23 = false;
 
-      for (TagPainter.TypeO.TypeC var25 : var1.O) {
+      for (TagPainter.TagGroup.TagEntry var25 : var1.O) {
          var23 |= var25.t;
       }
 
@@ -374,7 +347,7 @@ public final class TagPainter {
 
       float var30 = var19 ? var21 / 2.0F : 10.5F;
 
-      for (TagPainter.TypeO.TypeC var26 : var1.O) {
+      for (TagPainter.TagGroup.TagEntry var26 : var1.O) {
          E(var0, 7.5F, var30, var26, var18, var16, var4);
          if (var18) {
             var26.r.drawShadow(var0, 13.5F, var30, 1.0F);
@@ -408,11 +381,11 @@ public final class TagPainter {
       var0.pop();
    }
 
-   private static boolean q(TagPainter.TypeO var0, long var1) {
+   private static boolean q(TagPainter.TagGroup var0, long var1) {
       return var0.O.size() == 1 && var0.B == 0;
    }
 
-   private static void E(Canvas var0, float var1, float var2, TagPainter.TypeO.TypeC var3, boolean var4, long var5, float var7) {
+   private static void E(Canvas var0, float var1, float var2, TagPainter.TagGroup.TagEntry var3, boolean var4, long var5, float var7) {
       if (var4) {
          var0.softCircle(7.5F, var2, 2.5F, 4.0F, Integer.MIN_VALUE);
       }
@@ -430,17 +403,12 @@ public final class TagPainter {
       var2.roundRectOutlineGradient(0.0F, 0.0F, var3, var4, var5, 1.0F, 0.0F, BlendMode.withAlpha(Icons.PURPLE, 0.55F), BlendMode.withAlpha(Icons.PINK, 0.3F));
       float var7 = var6 % 3.2F / 1.2F;
       long var8 = 92403586911498L;
-      if (92403586911498L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var12 = var8 < 0L ? -1 : 1;
-      }
-
+      int var11 = var8 < 0L ? -1 : 1;
       if (var7 < 1.0F) {
-         float var11 = -16.0F + (var3 + 32.0F) * Easing.SINE_IN_OUT.apply(var7);
+         float var11x = -16.0F + (var3 + 32.0F) * Easing.SINE_IN_OUT.apply(var7);
          var2.pushClip(0.0F, 0.0F, var3, var4, var5);
          var2.push();
-         var2.translate(var11, var4 / 2.0F);
+         var2.translate(var11x, var4 / 2.0F);
          var2.rotate(0.35F);
          var2.glow(-5.0F, -var4, 10.0F, var4 * 2.0F, 5.0F, 12.0F, BlendMode.withAlpha(Theme.tint(-1451777), 0.16F * (float)Math.sin(Math.PI * var7)));
          var2.pop();
@@ -463,18 +431,17 @@ public final class TagPainter {
       }
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
 
    public static enum Look {
       c,
       e,
       h;
+   }
 
-}
-
-   public static final class TypeO {
-      public final List<TagPainter.TypeO.TypeC> O = new ArrayList<>(4);
+   public static final class TagGroup {
+      public final List<TagPainter.TagGroup.TagEntry> O = new ArrayList<>(4);
       public int B;
       float N;
       float x;
@@ -485,14 +452,14 @@ public static void ensureSourceClassInitialized() {
       String moreText() {
          if (this.u != this.B) {
             this.u = this.B;
-            this.m = "+" + this.B + a;
+            this.m = "+" + this.B + " more";
          }
 
          return this.m;
       }
 
-public static final class TypeC {
-         public NameTagsRenderer3 r;
+      public static final class TagEntry {
+         public NameTagsPlate r;
          public String M = "";
          public int X = -4936494;
          public boolean t;
@@ -508,13 +475,10 @@ public static final class TypeC {
       }
    }
 
-   public static final class TypeQ {
-      public NameTagsRenderer3 g;
-      
-      public NameTagsRenderer3 m;
-      
+   public static final class TagPlate {
+      public NameTagsPlate g;
+      public NameTagsPlate m;
       public class_2960 r;
-      
       public String K;
       public int R;
       public float u;

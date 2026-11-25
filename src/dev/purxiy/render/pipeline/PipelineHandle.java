@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.pipeline;
 
 public final class PipelineHandle {

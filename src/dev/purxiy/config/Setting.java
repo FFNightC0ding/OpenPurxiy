@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.config;
 
 import com.google.gson.JsonElement;
@@ -7,7 +6,7 @@ import java.util.function.BooleanSupplier;
 public abstract class Setting<T> {
    private final String id;
    private final String name;
-   
+
    private final String description;
    private final T defaultValue;
    protected T value;
@@ -29,7 +28,7 @@ public abstract class Setting<T> {
       return this.name;
    }
 
-   
+
    public String description() {
       return this.description;
    }

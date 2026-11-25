@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_4184;
 import net.minecraft.class_761;
 import net.minecraft.class_9779;
@@ -33,7 +32,7 @@ public abstract class MountWorldMixin {
       boolean var10,
       CallbackInfo var11
    ) {
-      ClientRenderer5.worldStart(var4, var5, var6);
+      CameraStateReader.worldStart(var4, var5, var6);
    }
 
    @Inject(
@@ -41,6 +40,6 @@ public abstract class MountWorldMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$mountWorldEnd(CallbackInfo var1) {
-      ClientRenderer5.worldEnd();
+      CameraStateReader.worldEnd();
    }
 }

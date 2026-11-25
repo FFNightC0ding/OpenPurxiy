@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.afterglow;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.WeakHashMap;
+import net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState;
 import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
 import net.minecraft.class_10017;
 import net.minecraft.class_10042;
@@ -49,7 +49,7 @@ import net.minecraft.class_10017.class_11680;
 import org.joml.Vector3f;
 
 public final class AfterglowRegistry {
-   private static final RenderStateDataKey<AfterglowSupport2> L = RenderStateDataKey.create(ClientServices.label(() -> {
+   private static final RenderStateDataKey<AfterglowGeometry> L = RenderStateDataKey.create(ClientServices.label(() -> {
       int var0x = -2114947236;
       int var1x = 2114975621;
       int var2 = -2114951498;
@@ -66,7 +66,7 @@ public final class AfterglowRegistry {
    private static final float F = 1.0F;
    private static final class_3414 A = class_3414.method_47908(ClientServices.id("world.afterglow"));
    private static final long N = 90000000L;
-   private static final Int2ObjectOpenHashMap<AfterglowSupport2> D = new Int2ObjectOpenHashMap();
+   private static final Int2ObjectOpenHashMap<AfterglowGeometry> D = new Int2ObjectOpenHashMap();
    private static final Int2FloatOpenHashMap X = new Int2FloatOpenHashMap();
    private static final AfterglowUpdater b = new AfterglowUpdater();
    private static final class_5819 U = class_5819.method_43047();
@@ -74,7 +74,6 @@ public final class AfterglowRegistry {
    private static long w = 0L;
    private static long V = 0L;
    private static float E;
-   
    private static class_638 z;
    private static float t = -1.0F;
    private static boolean R;
@@ -93,8 +92,6 @@ public final class AfterglowRegistry {
    private static int I = 0;
    private static int p = 0;
    public static int h = 0;
-
-
    private static final long[] i = new long[]{
       8418041543335846039L,
       -7932186263885135505L,
@@ -105,7 +102,6 @@ public final class AfterglowRegistry {
       -6473626618358563560L,
       -2964079422203029082L
    };
-
    private static final long[] m = new long[]{8091408831253342495L, 96938431991166168L};
    private static final Long[] o = new Long[2];
 
@@ -144,7 +140,7 @@ public final class AfterglowRegistry {
          ObjectIterator var15 = D.values().iterator();
 
          while (var15.hasNext()) {
-            AfterglowSupport2 var16 = (AfterglowSupport2)var15.next();
+            AfterglowGeometry var16 = (AfterglowGeometry)var15.next();
             if (!var16.W) {
                class_1309 var17 = var16.n;
                if (var17.method_31481()) {
@@ -182,7 +178,7 @@ public final class AfterglowRegistry {
             if (++K == 120) {
                ClientServices.LOGGER
                   .info(
-                     "Purxiy afterglow: {} ms CPU per frame ({} dissolving, {} motes)", new Object[]{String.format(Locale.ROOT, "%.3f", k / K), D.size(), b.V}
+                     "SourceByDevFFnightmare DeObfDeCompByGuideX afterglow: {} ms CPU per frame ({} dissolving, {} motes)", new Object[]{String.format(Locale.ROOT, "%.3f", k / K), D.size(), b.V}
                   );
                k = 0.0;
                K = 0;
@@ -191,43 +187,21 @@ public final class AfterglowRegistry {
       }
    }
 
-   private static void p(AfterglowSupport2 var0, AfterglowModule var1, long var2, float var4) {
+   private static void p(AfterglowGeometry var0, AfterglowModule var1, long var2, float var4) {
       long var5 = 14777450266454L;
       AfterglowRenderer.ensureSourceClassInitialized();
       long var7 = 91961276057924L;
-      if (91961276057924L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var21 = var7 < 0L ? -1 : 1;
-      }
-
+      int var10 = var7 < 0L ? -1 : 1;
       var0.H = t >= 0.0F ? t * var0.D : var0.H + var4;
-      float var10 = Math.clamp(var0.H / var0.D, 0.0F, 1.0F);
+      float var10x = Math.clamp(var0.H / var0.D, 0.0F, 1.0F);
       long var11 = 91961276057923L;
-      if (91961276057923L == 0L) {
-         boolean var22 = false;
-      } else {
-         int var23 = var11 < 0L ? -1 : 1;
-      }
-
-      long var14 = 91961276057924L;
-      if (91961276057924L == 0L) {
-         boolean var24 = false;
-      } else {
-         int var25 = var14 < 0L ? -1 : 1;
-      }
-
+      int var14 = var11 < 0L ? -1 : 1;
+      long var14x = 91961276057924L;
       if (var0.c) {
-         long var16 = 91961276057923L;
-         if (91961276057923L == 0L) {
-            boolean var26 = false;
-         } else {
-            int var27 = var16 < 0L ? -1 : 1;
-         }
-
+         long var16x = 91961276057923L;
          if (var0.H > var0.D + 0.55F) {
-            float var19 = Math.clamp((var0.H - var0.D - 0.55F) / 1.0F, 0.0F, 1.0F);
-            float var20 = 1.0F - var19 * var19 * (3.0F - 2.0F * var19);
+            float var19x = Math.clamp((var0.H - var0.D - 0.55F) / 1.0F, 0.0F, 1.0F);
+            float var20 = 1.0F - var19x * var19x * (3.0F - 2.0F * var19x);
             var0.v = Math.min(var20, 0.999F);
             var0.a = o(var20);
             var0.b = smoothstep(0.0F, 0.3F, var20);
@@ -236,10 +210,10 @@ public final class AfterglowRegistry {
          }
       }
 
-      var0.v = var10;
-      var0.a = o(var10);
-      var0.b = smoothstep(0.0F, 0.14F, var10);
-      var0.C = Q(var10);
+      var0.v = var10x;
+      var0.a = o(var10x);
+      var0.b = smoothstep(0.0F, 0.14F, var10x);
+      var0.C = Q(var10x);
       J(var0, var1, var4, var5);
    }
 
@@ -260,7 +234,7 @@ public final class AfterglowRegistry {
       long var7 = var5 ^ 78391106669567L;
       long var9 = var5 ^ 106945486279370L;
       AfterglowRenderer.ensureSourceClassInitialized();
-      AfterglowLoader var11 = AfterglowLoader.resolve(var0.b.get(), var0.r.argb());
+      AfterglowLoader var11 = AfterglowLoader.resolve((String)var0.b.get(), var0.r.argb());
       W(v, 0, var11.t, var7);
       W(v, 3, var11.W, var7);
       W(v, 6, var11.G, var7);
@@ -277,7 +251,7 @@ public final class AfterglowRegistry {
       M = Y(y, var9, 6);
    }
 
-   private static void J(AfterglowSupport2 var0, AfterglowModule var1, float var2, long var3) {
+   private static void J(AfterglowGeometry var0, AfterglowModule var1, float var2, long var3) {
       long var5 = 74888359143341L;
       AfterglowRenderer.ensureSourceClassInitialized();
       if (var0.K != 0) {
@@ -293,22 +267,12 @@ public final class AfterglowRegistry {
             float var9;
             int var10 = (var9 = t - 0.0F) == 0.0F ? 0 : (var9 < 0.0F ? -1 : 1);
             long var11 = 14777450266453L;
-            if (14777450266453L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var24 = var11 < 0L ? -1 : 1;
-            }
-
+            int var21 = var11 < 0L ? -1 : 1;
             if (var10 >= 0) {
                for (int var22 = Math.round(var0.F * var2 / var0.D * (1.0F + U.method_43057())); var22 > 0; var22--) {
                   int var23 = U.method_43048(var0.F);
                   long var16 = 14777450266453L;
-                  if (14777450266453L == 0L) {
-                     boolean var29 = false;
-                  } else {
-                     int var30 = var16 < 0L ? -1 : 1;
-                  }
-
+                  int var17 = var16 < 0L ? -1 : 1;
                   if (Math.abs(var7[var23 * 4 + 3] - var0.a) < 0.12F) {
                      N(var0, var7, var23, var19, var5);
                   }
@@ -318,12 +282,7 @@ public final class AfterglowRegistry {
                   float var14;
                   var10 = (var14 = var7[var0.j * 4 + 3] - var0.a) == 0.0F ? 0 : (var14 < 0.0F ? -1 : 1);
                   long var15 = 14777450266454L;
-                  if (14777450266454L == 0L) {
-                     boolean var25 = false;
-                  } else {
-                     int var26 = var15 < 0L ? -1 : 1;
-                  }
-
+                  int var161 = var15 < 0L ? -1 : 1;
                   if (var10 > 0) {
                      break;
                   }
@@ -331,45 +290,31 @@ public final class AfterglowRegistry {
                   N(var0, var7, var0.j++, var19, var5);
                }
 
-               long var21 = 14777450266454L;
-               if (14777450266454L == 0L) {
-                  boolean var27 = false;
-               } else {
-                  int var28 = var21 < 0L ? -1 : 1;
-               }
+               long var21x = 14777450266454L;
+               int var16 = var21x < 0L ? -1 : 1;
             }
          }
       }
    }
 
-   private static void N(AfterglowSupport2 var0, float[] var1, int var2, float var3, long var4) {
+   private static void N(AfterglowGeometry var0, float[] var1, int var2, float var3, long var4) {
       AfterglowRenderer.ensureSourceClassInitialized();
       int var6 = (int)var1[var2 * 4];
       long var7 = 74888359143340L;
-      if (74888359143340L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var22 = var7 < 0L ? -1 : 1;
-      }
-
+      int var10 = var7 < 0L ? -1 : 1;
       if (var6 < var0.K) {
          var0.point(var6, var1[var2 * 4 + 1], var1[var2 * 4 + 2], j);
-         double var10 = var0.O + j.x;
+         double var10x = var0.O + j.x;
          double var12 = var0.I + j.y;
          double var14 = var0.L + j.z;
          long var16 = 74888359143341L;
-         if (74888359143341L == 0L) {
-            boolean var23 = false;
-         } else {
-            int var24 = var16 < 0L ? -1 : 1;
-         }
-
-         float var19 = var0.normal(var6, 0);
+         int var19 = var16 < 0L ? -1 : 1;
+         float var19x = var0.normal(var6, 0);
          float var20 = var0.normal(var6, 1);
          float var21 = var0.normal(var6, 2);
-         b.emit(var0.k, var10, var12, var14, var19, var20, var21, var3);
+         b.emit(var0.k, var10x, var12, var14, var19x, var20, var21, var3);
          if (U.method_43056()) {
-            b.emit(AfterglowCatalog.I, var10, var12, var14, var19, var20, var21, 1.0F);
+            b.emit(AfterglowCatalog.I, var10x, var12, var14, var19x, var20, var21, 1.0F);
          }
       }
    }
@@ -393,13 +338,13 @@ public final class AfterglowRegistry {
       long var15 = var2 ^ 104665631343854L;
       AfterglowModule var17 = a;
       if (var17.enabled() && var0 instanceof class_1309 var18 && var1 instanceof class_10042 var19) {
-         AfterglowSupport2 var20 = (AfterglowSupport2)D.get(var18.method_5628());
+         AfterglowGeometry var20 = (AfterglowGeometry)D.get(var18.method_5628());
          if (var20 == null || var20.n != var18) {
             if (!var18.method_29504() || !H(var18, var17, var8) || !U(var12, var13, (char)var14)) {
                return;
             }
 
-            var20 = new AfterglowSupport2(var18, (var18.method_5628() * 625341585 ^ 1597334677) & 16777215, AfterglowCatalog.byName(var17.Z.get()));
+            var20 = new AfterglowGeometry(var18, (var18.method_5628() * 625341585 ^ 1597334677) & 16777215, AfterglowCatalog.byName((String)var17.Z.get()));
             var20.D = 1.45F / var17.g.floatValue();
             D.put(var18.method_5628(), var20);
             p(var20, var17, var4, 0.0F);
@@ -433,12 +378,12 @@ public final class AfterglowRegistry {
          var19.field_53460 = false;
          var1.field_53335 = false;
          n.add(var1);
-         ((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var1).setData(L, var20);
+         ((FabricRenderState)var1).setData(L, var20);
       }
    }
 
    public static boolean beginSubmit(class_10017 var0, double var1, double var3, double var5) {
-      AfterglowSupport2 var7 = (AfterglowSupport2)((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var0).getData(L);
+      AfterglowGeometry var7 = (AfterglowGeometry)((FabricRenderState)var0).getData(L);
       if (var7 == null) {
          return false;
       } else if (var7.finished()) {
@@ -452,16 +397,16 @@ public final class AfterglowRegistry {
    }
 
    public static boolean dissolving(class_10017 var0) {
-      return ((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var0).getData(L) != null;
+      return ((FabricRenderState)var0).getData(L) != null;
    }
 
    public static class_11659 collector(class_10017 var0, class_11659 var1) {
-      AfterglowSupport2 var2 = (AfterglowSupport2)((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var0).getData(L);
-      return (class_11659)(var2 == null ? var1 : new Afterglowclass_11659(var1, var1, var2));
+      AfterglowGeometry var2 = (AfterglowGeometry)((FabricRenderState)var0).getData(L);
+      return (class_11659)(var2 == null ? var1 : new AfterglowMesh(var1, var1, var2));
    }
 
    public static List<class_11680> shadow(class_10017 var0, List<class_11680> var1) {
-      AfterglowSupport2 var2 = (AfterglowSupport2)((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var0).getData(L);
+      AfterglowGeometry var2 = (AfterglowGeometry)((FabricRenderState)var0).getData(L);
       return var2 == null ? var1 : var2.shadow(var1);
    }
 
@@ -471,7 +416,7 @@ public final class AfterglowRegistry {
          ObjectIterator var5 = D.values().iterator();
 
          while (var5.hasNext()) {
-            AfterglowSupport2 var6 = (AfterglowSupport2)var5.next();
+            AfterglowGeometry var6 = (AfterglowGeometry)var5.next();
             class_10017 var7 = var6.V;
             if (var6.W && var7 != null && !var6.finished()) {
                var7.field_61821 = 0;
@@ -505,8 +450,8 @@ public final class AfterglowRegistry {
       if (!U(var7, var8, (char)var9)) {
          return false;
       } else {
-         AfterglowSupport2 var13 = new AfterglowSupport2(
-            var0, (var0.method_5628() * 625341585 ^ 1597334677 ^ U.method_43048(65536)) & 16777215, AfterglowCatalog.byName(var12.Z.get())
+         AfterglowGeometry var13 = new AfterglowGeometry(
+            var0, (var0.method_5628() * 625341585 ^ 1597334677 ^ U.method_43048(65536)) & 16777215, AfterglowCatalog.byName((String)var12.Z.get())
          );
          var13.D = 1.45F / var12.g.floatValue();
          var13.c = true;
@@ -539,13 +484,13 @@ public final class AfterglowRegistry {
    }
 
    public static void previewEnd(class_1309 var0) {
-      AfterglowSupport2 var1 = (AfterglowSupport2)D.get(var0.method_5628());
+      AfterglowGeometry var1 = (AfterglowGeometry)D.get(var0.method_5628());
       if (var1 != null && var1.c) {
          D.remove(var0.method_5628());
       }
    }
 
-   public static void onDamage( class_1297 var0, int var1) {
+   public static void onDamage(class_1297 var0, int var1) {
       class_310 var2 = class_310.method_1551();
       if (var0 != null && var2.field_1724 != null && var1 == var2.field_1724.method_5628() && var0 != var2.field_1724) {
          X.put(var0.method_5628(), E);
@@ -557,18 +502,13 @@ public final class AfterglowRegistry {
       AfterglowRenderer.ensureSourceClassInitialized();
       if (!(var0 instanceof class_1510) && !(var0 instanceof class_1528) && !(var0 instanceof class_10275) && !(var0 instanceof class_1531)) {
          boolean var6 = var0 instanceof class_11890;
-         String var7 = var1.H.get();
+         String var7 = (String)var1.H.get();
          byte var8 = -1;
          switch (var7.hashCode()) {
             case -2099245599:
                boolean var9 = var7.equals("Players & monsters");
                long var10 = 73257361405747L;
-               if (73257361405747L == 0L) {
-                  boolean var19 = false;
-               } else {
-                  int var20 = var10 < 0L ? -1 : 1;
-               }
-
+               int var171 = var10 < 0L ? -1 : 1;
                if (var9) {
                   var8 = 1;
                }
@@ -576,12 +516,7 @@ public final class AfterglowRegistry {
             case 1171085714:
                if (var7.equals("Players")) {
                   long var13 = 73257361405748L;
-                  if (73257361405748L == 0L) {
-                     boolean var10000 = false;
-                  } else {
-                     int var18 = var13 < 0L ? -1 : 1;
-                  }
-
+                  int var14 = var13 < 0L ? -1 : 1;
                   var8 = 0;
                }
          }
@@ -591,12 +526,7 @@ public final class AfterglowRegistry {
             default -> true;
          };
          long var17 = 73257361405748L;
-         if (73257361405748L == 0L) {
-            boolean var22 = false;
-         } else {
-            int var23 = var17 < 0L ? -1 : 1;
-         }
-
+         int var18 = var17 < 0L ? -1 : 1;
          return var16 && (!var1.h.enabled() || y(var0, var4));
       } else {
          return false;
@@ -607,15 +537,10 @@ public final class AfterglowRegistry {
       AfterglowRenderer.ensureSourceClassInitialized();
       long var4 = System.nanoTime();
       long var6 = 19857753269257L;
-      if (19857753269257L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var10 = var6 < 0L ? -1 : 1;
-      }
-
+      int var9 = var6 < 0L ? -1 : 1;
       if (var4 - V >= 90000000L) {
          V = var4;
-         float var9 = Math.clamp((0.94F + U.method_43057() * 0.12F) * (float)Math.sqrt(var1), 0.75F, 1.35F);
+         float var9x = Math.clamp((0.94F + U.method_43057() * 0.12F) * (float)Math.sqrt(var1), 0.75F, 1.35F);
          class_310.method_1551()
             .method_1483()
             .method_4873(
@@ -623,7 +548,7 @@ public final class AfterglowRegistry {
                   A,
                   var0.method_5634(),
                   0.8F,
-                  var9,
+                  var9x,
                   class_5819.method_43047(),
                   var0.method_23317(),
                   var0.method_23318() + var0.method_17682() * 0.6,
@@ -646,12 +571,7 @@ public final class AfterglowRegistry {
       AfterglowRenderer.ensureSourceClassInitialized();
       boolean var3 = X.containsKey(var0.method_5628());
       long var4 = 48724554421598L;
-      if (48724554421598L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       return var3 && E - X.get(var0.method_5628()) <= 8.0F;
    }
 
@@ -712,22 +632,12 @@ public final class AfterglowRegistry {
 
       for (class_10017 var3 : n) {
          long var4 = 88127816973796L;
-         if (88127816973796L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var8 = var4 < 0L ? -1 : 1;
-         }
-
-         ((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var3).setData(L, null);
+         int var6 = var4 < 0L ? -1 : 1;
+         ((FabricRenderState)var3).setData(L, null);
       }
 
       long var7 = 88127816973797L;
-      if (88127816973797L == 0L) {
-         boolean var9 = false;
-      } else {
-         int var10 = var7 < 0L ? -1 : 1;
-      }
-
+      int var8 = var7 < 0L ? -1 : 1;
       n.clear();
    }
 
@@ -790,7 +700,7 @@ public final class AfterglowRegistry {
       }
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 31155) & 32767;
       if (o[var3] == null) {
          o[var3] = m[var3] ^ var1;
@@ -798,5 +708,4 @@ private static long b(int var0, long var1) {
 
       return o[var3];
    }
-
 }

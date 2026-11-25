@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -43,11 +42,11 @@ public final class RenderPipelines {
    private static final int WORLD_BLUR_ITERATIONS = 2;
    private static final float SHEET_FADE = 0.2F;
    private static final Matrix4fc IDENTITY = new Matrix4f();
-   private final ClipRect hud = new ClipRect("Purxiy HUD");
-   private final ClipRect ui = new ClipRect("Purxiy UI");
-   private final ClipRect world = new ClipRect("Purxiy World");
-   private final ClipRect menu = new ClipRect("Purxiy Menu");
-   private final ClipRect sheet = new ClipRect("Purxiy Sheet");
+   private final ClipRect hud = new ClipRect("SourceByDevFFnightmare DeObfDeCompByGuideX HUD");
+   private final ClipRect ui = new ClipRect("SourceByDevFFnightmare DeObfDeCompByGuideX UI");
+   private final ClipRect world = new ClipRect("SourceByDevFFnightmare DeObfDeCompByGuideX World");
+   private final ClipRect menu = new ClipRect("SourceByDevFFnightmare DeObfDeCompByGuideX Menu");
+   private final ClipRect sheet = new ClipRect("SourceByDevFFnightmare DeObfDeCompByGuideX Sheet");
    private final BlurPipeline blur = new BlurPipeline();
    private final List<Consumer<class_1011>> screenshotRequests = new ArrayList<>();
    private GpuTexture whiteTexture;
@@ -55,15 +54,15 @@ public final class RenderPipelines {
    private boolean gpuReady;
    private GpuBuffer sheetUniforms;
    private ByteBuffer sheetStaging;
-   
+
    private GpuTextureView sheetDepth;
    private float sheetM22 = -1.0F;
    private float sheetM32 = -0.1F;
    private float sheetBehind = 1.0F;
-   
-   private RenderPipelines.TypeJ sheetSky;
-   
-   private RenderPipelines.TypeW sheetStanding;
+
+   private RenderPipelines.WorldView sheetSky;
+
+   private RenderPipelines.LowFireView sheetStanding;
    private final long startNanos = System.nanoTime();
    private long lastNanos = this.startNanos;
    private long frame;
@@ -110,15 +109,15 @@ public final class RenderPipelines {
       return this.frame;
    }
 
-   public RenderPipelines.TypeM stats() {
+   public RenderPipelines.FogRange stats() {
       return this.ui.stats;
    }
 
-   public RenderPipelines.TypeM hudStats() {
+   public RenderPipelines.FogRange hudStats() {
       return this.hud.stats;
    }
 
-   public RenderPipelines.TypeM worldStats() {
+   public RenderPipelines.FogRange worldStats() {
       return this.world.stats;
    }
 
@@ -231,11 +230,11 @@ public final class RenderPipelines {
    }
 
    public Canvas beginSheet(Matrix4fc var1, float var2, float var3, float var4, Matrix4fc var5, float var6) {
-      return this.beginSheet(var1, var2, var3, var4, var5, var6, (RenderPipelines.TypeJ)null);
+      return this.beginSheet(var1, var2, var3, var4, var5, var6, (RenderPipelines.WorldView)null);
    }
 
-   public Canvas beginSheet(Matrix4fc var1, float var2, float var3, float var4, Matrix4fc var5, float var6,  RenderPipelines.TypeJ var7) {
-      return this.beginSheet(var1, var2, var3, var4, var5, var6, var7, (RenderPipelines.TypeW)null);
+   public Canvas beginSheet(Matrix4fc var1, float var2, float var3, float var4, Matrix4fc var5, float var6,  RenderPipelines.WorldView var7) {
+      return this.beginSheet(var1, var2, var3, var4, var5, var6, var7, (RenderPipelines.LowFireView)null);
    }
 
    public Canvas beginSheet(
@@ -245,8 +244,8 @@ public final class RenderPipelines {
       float var4,
       Matrix4fc var5,
       float var6,
-       RenderPipelines.TypeJ var7,
-       RenderPipelines.TypeW var8
+       RenderPipelines.WorldView var7,
+       RenderPipelines.LowFireView var8
    ) {
       return this.beginSheet(var1, var2, var3, var4, var5, var6, var7, var8, (GpuTextureView)null);
    }
@@ -258,8 +257,8 @@ public final class RenderPipelines {
       float var4,
       Matrix4fc var5,
       float var6,
-       RenderPipelines.TypeJ var7,
-       RenderPipelines.TypeW var8,
+       RenderPipelines.WorldView var7,
+       RenderPipelines.LowFireView var8,
        GpuTextureView var9
    ) {
       class_276 var10 = class_310.method_1551().method_1522();
@@ -412,7 +411,7 @@ public final class RenderPipelines {
 
    private void writeSheetUniforms(CommandEncoder var1) {
       if (this.sheetUniforms == null) {
-         this.sheetUniforms = RenderSystem.getDevice().createBuffer(() -> "Purxiy sheet", 136, 112L);
+         this.sheetUniforms = RenderSystem.getDevice().createBuffer(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX sheet", 136, 112L);
          this.sheetStaging = MemoryUtil.memAlloc(112);
       }
 
@@ -422,13 +421,13 @@ public final class RenderPipelines {
       var2.putFloat(4, this.sheetM32);
       var2.putFloat(8, this.sheetBehind);
       var2.putFloat(12, 0.2F);
-      RenderPipelines.TypeJ var3 = this.sheetSky;
+      RenderPipelines.WorldView var3 = this.sheetSky;
       var2.putFloat(16, var3 != null ? 1.0F : 0.0F);
       var2.putFloat(20, var3 != null ? var3.cameraY() : 0.0F);
       var2.putFloat(24, var3 != null ? var3.cloudY() : 0.0F);
       var2.putFloat(28, var3 != null ? var3.fogStart() : 0.0F);
       var2.putFloat(32, var3 != null ? var3.fogEnd() : 1.0F);
-      RenderPipelines.TypeW var4 = this.sheetStanding;
+      RenderPipelines.LowFireView var4 = this.sheetStanding;
       var2.putFloat(36, var4 != null ? 1.0F : 0.0F);
       var2.putFloat(40, var4 != null ? var4.lowTop() : 0.0F);
       var2.putFloat(44, 0.0F);
@@ -461,7 +460,7 @@ public final class RenderPipelines {
 
    private void initGpu() {
       GpuDevice var1 = RenderSystem.getDevice();
-      this.whiteTexture = var1.createTexture(() -> "Purxiy white", 5, TextureFormat.RGBA8, 1, 1, 1, 1);
+      this.whiteTexture = var1.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX white", 5, TextureFormat.RGBA8, 1, 1, 1, 1);
 
       try (class_1011 var2 = new class_1011(1, 1, false)) {
          var2.method_61941(0, 0, -1);
@@ -470,7 +469,7 @@ public final class RenderPipelines {
 
       this.whiteView = var1.createTextureView(this.whiteTexture);
       this.gpuReady = true;
-      ClientServices.LOGGER.info("Purxiy renderer ready ({} {}, {})", new Object[]{var1.getBackendName(), var1.getVersion(), var1.getRenderer()});
+      ClientServices.LOGGER.info("SourceByDevFFnightmare DeObfDeCompByGuideX renderer ready ({} {}, {})", new Object[]{var1.getBackendName(), var1.getVersion(), var1.getRenderer()});
    }
 
    private float mouse(boolean var1, ClipRect var2) {
@@ -493,10 +492,10 @@ public final class RenderPipelines {
       }
    }
 
-   public record TypeJ(Matrix4fc world, float cameraY, float cloudY, float fogStart, float fogEnd) {
+   public record WorldView(Matrix4fc world, float cameraY, float cloudY, float fogStart, float fogEnd) {
    }
 
-   public static final class TypeM {
+   public static final class FogRange {
       public int quads;
       public int batches;
       public int passes;
@@ -504,6 +503,6 @@ public final class RenderPipelines {
       public float cpuMillis;
    }
 
-   public record TypeW(Matrix4fc world, float lowTop) {
+   public record LowFireView(Matrix4fc world, float lowTop) {
    }
 }

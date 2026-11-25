@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.trail;
 
 final class TrailUpdater {
@@ -62,12 +61,7 @@ final class TrailUpdater {
       TrailRenderer.ensureSourceClassInitialized();
       int var4 = --this.w;
       long var5 = 9767066857167L;
-      if (9767066857167L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var5 < 0L ? -1 : 1;
-      }
-
+      int var7 = var5 < 0L ? -1 : 1;
       if (var1 != var4) {
          this.t[var1] = this.t[var4];
          this.V[var1] = this.V[var4];

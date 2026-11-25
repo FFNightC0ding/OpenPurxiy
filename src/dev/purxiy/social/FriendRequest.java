@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.social;
 
 import com.google.gson.JsonObject;
@@ -22,7 +21,7 @@ final class FriendRequest {
    private FriendRequest() {
    }
 
-   static CompletableFuture<FriendRequest.TypeJ> ask(String var0) {
+   static CompletableFuture<FriendRequest.FriendLookup> ask(String var0) {
       if (!var0.startsWith(".") && !var0.startsWith("*")) {
          HttpRequest var1 = HttpRequest.newBuilder(
                URI.create("https://api.mojang.com/users/profiles/minecraft/" + URLEncoder.encode(var0, StandardCharsets.UTF_8))
@@ -35,34 +34,34 @@ final class FriendRequest {
             .handle(
                (var0x, var1x) -> {
                   if (var1x != null) {
-                     return new FriendRequest.TypeJ(PlayerMetadata.TypeE.FAILED, (UUID)null, (String)null);
+                     return new FriendRequest.FriendLookup(PlayerMetadata.LookupState.FAILED, (UUID)null, (String)null);
                   } else {
                      int var2 = var0x.statusCode();
                      if (var2 == 404 || var2 == 204) {
-                        return new FriendRequest.TypeJ(PlayerMetadata.TypeE.UNKNOWN, (UUID)null, (String)null);
+                        return new FriendRequest.FriendLookup(PlayerMetadata.LookupState.UNKNOWN, (UUID)null, (String)null);
                      } else if (var2 != 200) {
-                        return new FriendRequest.TypeJ(PlayerMetadata.TypeE.FAILED, (UUID)null, (String)null);
+                        return new FriendRequest.FriendLookup(PlayerMetadata.LookupState.FAILED, (UUID)null, (String)null);
                      } else {
                         try {
                            JsonObject var3 = JsonParser.parseString(var0x.body()).getAsJsonObject();
                            UUID var4 = parse(var3.get("id").getAsString());
                            String var5 = var3.get("name").getAsString();
                            return var4 == null
-                              ? new FriendRequest.TypeJ(PlayerMetadata.TypeE.FAILED, (UUID)null, (String)null)
-                              : new FriendRequest.TypeJ(PlayerMetadata.TypeE.FOUND, var4, var5);
+                              ? new FriendRequest.FriendLookup(PlayerMetadata.LookupState.FAILED, (UUID)null, (String)null)
+                              : new FriendRequest.FriendLookup(PlayerMetadata.LookupState.FOUND, var4, var5);
                         } catch (RuntimeException var6) {
-                           return new FriendRequest.TypeJ(PlayerMetadata.TypeE.FAILED, (UUID)null, (String)null);
+                           return new FriendRequest.FriendLookup(PlayerMetadata.LookupState.FAILED, (UUID)null, (String)null);
                         }
                      }
                   }
                }
             );
       } else {
-         return CompletableFuture.completedFuture(new FriendRequest.TypeJ(PlayerMetadata.TypeE.UNKNOWN, (UUID)null, (String)null));
+         return CompletableFuture.completedFuture(new FriendRequest.FriendLookup(PlayerMetadata.LookupState.UNKNOWN, (UUID)null, (String)null));
       }
    }
 
-   
+
    static UUID parse(String var0) {
       String var1 = var0.replace("-", "");
       if (var1.length() != 32) {
@@ -76,6 +75,6 @@ final class FriendRequest {
       }
    }
 
-   record TypeJ(PlayerMetadata.TypeE lookup,  UUID uuid,  String name) {
+   record FriendLookup(PlayerMetadata.LookupState lookup,  UUID uuid,  String name) {
    }
 }

@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.trail;
 
 final class TrailSupport {
-   final TrailSupport3 j = new TrailSupport3();
+   final TrailCurve j = new TrailCurve();
    final TrailUpdater b = new TrailUpdater();
    private float g;
    private double z;
@@ -13,8 +12,6 @@ final class TrailSupport {
    private int E;
    boolean T;
    private double N = Double.NaN;
-
-
 
    TrailSupport(int var1) {
       this.E = var1 * 625341585 | 1;
@@ -57,7 +54,7 @@ final class TrailSupport {
          this.N = var4;
       }
 
-      float var6 = TrailSupport2.smoothstep(1.3F, 2.6F, (float)(var4 - this.N));
+      float var6 = TrailPoints.smoothstep(1.3F, 2.6F, (float)(var4 - this.N));
       return this.N + (var4 - this.N) * var6;
    }
 
@@ -146,13 +143,8 @@ final class TrailSupport {
       float var7;
       int var8 = (var7 = var6 - 0.42F) == 0.0F ? 0 : (var7 < 0.0F ? -1 : 1);
       long var9 = 88183989377559L;
-      if (88183989377559L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var20 = var9 < 0L ? -1 : 1;
-      }
-
-      int var12 = var8 < 0 ? var1[0] : (var6 < 0.8F ? var1[1] : var1[2]);
+      int var12 = var9 < 0L ? -1 : 1;
+      var12 = var8 < 0 ? var1[0] : (var6 < 0.8F ? var1[1] : var1[2]);
       float var13 = this.p(var4) * this.p(var4) * 0.4F;
       int var14 = var12 >> 16 & 0xFF;
       int var15 = var12 >> 8 & 0xFF;
@@ -171,5 +163,4 @@ final class TrailSupport {
       this.E = var3;
       return (var3 >>> 8) / 1.6777216E7F;
    }
-
 }

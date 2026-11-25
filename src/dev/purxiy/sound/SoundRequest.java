@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.sound;
 
 import dev.purxiy.loader.fabric.UiAudioPolicy;

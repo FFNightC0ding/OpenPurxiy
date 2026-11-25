@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.mojang.authlib.GameProfile;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import java.util.function.Supplier;
 import net.minecraft.class_1068;
 import net.minecraft.class_1071;
@@ -21,6 +20,6 @@ public abstract class NickSkinManagerMixin {
    )
    private void purxiy$hideSkin(GameProfile var1, boolean var2, CallbackInfoReturnable<Supplier<class_8685>> var3) {
       Supplier var4 = (Supplier)var3.getReturnValue();
-      var3.setReturnValue((Supplier<class_8685>) () -> ClientRegistry5.hideSkin(var1) ? class_1068.method_52854(var1) : (class_8685)var4.get());
+      var3.setReturnValue((Supplier<class_8685>) () -> TabListProvider.hideSkin(var1) ? class_1068.method_52854(var1) : (class_8685)var4.get());
    }
 }

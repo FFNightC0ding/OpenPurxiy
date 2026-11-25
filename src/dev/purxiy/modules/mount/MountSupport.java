@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 import com.sun.jna.Memory;
@@ -21,20 +20,15 @@ final class MountSupport {
    private static final int G = 0;
    private static final int P = 1;
    private static final int d = 2;
-   
    private Pointer y;
-   private final List<MountSupport.TypeZ> x = new ArrayList<>();
-
-
-
-
+   private final List<MountSupport.MediaPointers> x = new ArrayList<>();
    private static final long g = 4294967295L;
 
    boolean open() {
       return this.y != null;
    }
 
-   void start() throws MountCache.TypeD {
+   void start() throws MountCache.MountException {
       MountCache.initThread();
       this.y = MountCache.createInstance(H, e);
    }
@@ -52,33 +46,23 @@ final class MountSupport {
    }
 
    private void s(long var1) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
 
-      for (MountSupport.TypeZ var4 : this.x) {
+      for (MountSupport.MediaPointers var4 : this.x) {
          Pointer var5 = var4.meter();
          long var6 = 79461999392931L;
-         if (79461999392931L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var6 < 0L ? -1 : 1;
-         }
-
+         int var8 = var6 < 0L ? -1 : 1;
          MountCache.release(var5);
          MountCache.release(var4.volume());
          MountCache.release(var4.control());
       }
 
       long var9 = 79461999392932L;
-      if (79461999392932L == 0L) {
-         boolean var11 = false;
-      } else {
-         int var12 = var9 < 0L ? -1 : 1;
-      }
-
+      int var10 = var9 < 0L ? -1 : 1;
       this.x.clear();
    }
 
-   void find(Set<String> var1) throws MountCache.TypeD {
+   void find(Set<String> var1) throws MountCache.MountException {
       long var2 = 131762992366309L;
       long var4 = var2 ^ 69901773830721L;
       long var6 = var2 ^ 20732085792458L;
@@ -109,9 +93,9 @@ final class MountSupport {
       }
    }
 
-   private void m(Pointer var1, long var2, Set var4) throws MountCache.TypeD {
+   private void m(Pointer var1, long var2, Set var4) throws MountCache.MountException {
       long var5 = 34711170420206L;
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       PointerByReference var7 = new PointerByReference();
       if (MountCache.call(var1, 3, Z, 23, null, var7) >= 0 && var7.getValue() != null) {
          Pointer var8 = var7.getValue();
@@ -119,112 +103,80 @@ final class MountSupport {
          try {
             Pointer var9 = MountCache.getObject(var8, 5, "GetSessionEnumerator");
             long var10 = 111108232916015L;
-            if (111108232916015L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var38 = var10 < 0L ? -1 : 1;
-            }
+            int var13 = var10 < 0L ? -1 : 1;
+            if (var9 != null) {
+               boolean var13x = false;
 
-            if (var9 == null) {
-               return;
-            }
+               try {
+                  var13x = true;
+                  int var14 = MountCache.getInt(var9, 3, "Sessions.Count");
 
-            boolean var13 = false;
-
-            try {
-               var13 = true;
-               int var14 = MountCache.getInt(var9, 3, "Sessions.Count");
-
-               for (int var15 = 0; var15 < var14; var15++) {
-                  PointerByReference var16 = new PointerByReference();
-                  long var17 = 111108232916014L;
-                  if (111108232916014L == 0L) {
-                     boolean var39 = false;
-                  } else {
-                     int var40 = var17 < 0L ? -1 : 1;
-                  }
-
-                  long var20 = 111108232916014L;
-                  if (111108232916014L == 0L) {
-                     boolean var41 = false;
-                  } else {
-                     int var42 = var20 < 0L ? -1 : 1;
-                  }
-
-                  if (MountCache.call(var9, 4, var15, var16) >= 0 && var16.getValue() != null) {
-                     try {
-                        this.T(var16.getValue(), var4, var5);
-                     } finally {
-                        MountCache.release(var16.getValue());
+                  for (int var15 = 0; var15 < var14; var15++) {
+                     PointerByReference var16 = new PointerByReference();
+                     long var17 = 111108232916014L;
+                     int var20 = var17 < 0L ? -1 : 1;
+                     long var20x = 111108232916014L;
+                     if (MountCache.call(var9, 4, var15, var16) >= 0 && var16.getValue() != null) {
+                        try {
+                           this.T(var16.getValue(), var4, var5);
+                        } finally {
+                           MountCache.release(var16.getValue());
+                        }
                      }
                   }
+
+                  var13x = false;
+               } finally {
+                  if (var13x) {
+                     MountCache.release(var9);
+                  }
                }
 
-               var13 = false;
-            } finally {
-               if (var13) {
-                  MountCache.release(var9);
-               }
+               long var37 = 111108232916014L;
+               int var38 = var37 < 0L ? -1 : 1;
+               MountCache.release(var9);
+               return;
             }
-
-            long var37 = 111108232916014L;
-            if (111108232916014L == 0L) {
-               boolean var43 = false;
-            } else {
-               int var44 = var37 < 0L ? -1 : 1;
-            }
-
-            MountCache.release(var9);
          } finally {
             MountCache.release(var8);
          }
       }
    }
 
-   private void T(Pointer var1, Set var2, long var3) throws MountCache.TypeD {
+   private void T(Pointer var1, Set var2, long var3) throws MountCache.MountException {
       long var5 = 48500828313112L;
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       Pointer var7 = MountCache.queryInterface(var1, o);
       boolean var8 = false;
       boolean var9 = false;
 
-      label114: {
+      label106: {
          try {
             var9 = true;
             int var10 = MountCache.getInt(var7, 3, "Session.State");
             long var11 = 34711170420206L;
-            if (34711170420206L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var23 = var11 < 0L ? -1 : 1;
-            }
-
+            int var14 = var11 < 0L ? -1 : 1;
             if (var10 == 2) {
                var9 = false;
-               break label114;
+               break label106;
             }
 
             if (!var2.contains(t(var7, var5))) {
                var9 = false;
-               break label114;
+               break label106;
             }
 
-            Pointer var14 = MountCache.queryInterface(var7, T);
+            Pointer var14x = MountCache.queryInterface(var7, T);
             Pointer var15 = null;
 
             try {
                var15 = MountCache.queryInterface(var7, p);
-            } catch (MountCache.TypeD var21) {
+            } catch (MountCache.MountException var21) {
             }
 
-            this.x.add(new MountSupport.TypeZ(var7, var14, var15));
+            this.x.add(new MountSupport.MediaPointers(var7, var14x, var15));
             long var16 = 34711170420205L;
-            if (34711170420205L == 0L) {
-               boolean var24 = false;
-            } else {
-               int var25 = var16 < 0L ? -1 : 1;
-            }
-
+            int var17 = var16 < 0L ? -1 : 1;
             var8 = true;
             var9 = false;
          } finally {
@@ -240,7 +192,7 @@ final class MountSupport {
    }
 
    private static String t(Pointer var0, long var1) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       PointerByReference var3 = new PointerByReference();
       if (MountCache.call(var0, 12, var3) >= 0) {
          String var4 = MountCache.taskString(var3.getValue()).toLowerCase(Locale.ROOT);
@@ -260,8 +212,8 @@ final class MountSupport {
          : "";
    }
 
-   boolean alive() throws MountCache.TypeD {
-      for (MountSupport.TypeZ var2 : this.x) {
+   boolean alive() throws MountCache.MountException {
+      for (MountSupport.MediaPointers var2 : this.x) {
          if (MountCache.getInt(var2.control(), 3, "Session.State") == 2) {
             return false;
          }
@@ -270,7 +222,7 @@ final class MountSupport {
       return true;
    }
 
-   float volume() throws MountCache.TypeD {
+   float volume() throws MountCache.MountException {
       if (this.x.isEmpty()) {
          return -1.0F;
       } else {
@@ -280,29 +232,29 @@ final class MountSupport {
       }
    }
 
-   boolean muted() throws MountCache.TypeD {
+   boolean muted() throws MountCache.MountException {
       return this.x.isEmpty() ? false : MountCache.getInt(this.x.getFirst().volume(), 6, "GetMute") != 0;
    }
 
-   void setVolume(float var1) throws MountCache.TypeD {
+   void setVolume(float var1) throws MountCache.MountException {
       float var2 = Math.max(0.0F, Math.min(1.0F, var1));
 
-      for (MountSupport.TypeZ var4 : this.x) {
+      for (MountSupport.MediaPointers var4 : this.x) {
          MountCache.check(MountCache.call(var4.volume(), 3, var2, null), "SetMasterVolume");
       }
    }
 
-   void setMuted(boolean var1) throws MountCache.TypeD {
-      for (MountSupport.TypeZ var3 : this.x) {
+   void setMuted(boolean var1) throws MountCache.MountException {
+      for (MountSupport.MediaPointers var3 : this.x) {
          MountCache.check(MountCache.call(var3.volume(), 5, var1 ? 1 : 0, null), "SetMute");
       }
    }
 
-   float peak() throws MountCache.TypeD {
+   float peak() throws MountCache.MountException {
       float var1 = 0.0F;
       FloatByReference var2 = new FloatByReference();
 
-      for (MountSupport.TypeZ var4 : this.x) {
+      for (MountSupport.MediaPointers var4 : this.x) {
          if (var4.meter() != null && MountCache.call(var4.meter(), 3, var2) >= 0) {
             var1 = Math.max(var1, var2.getValue());
          }
@@ -311,7 +263,7 @@ final class MountSupport {
       return var1;
    }
 
-private record TypeZ(Pointer s, Pointer r,  Pointer m) {
+   private record MediaPointers(Pointer s, Pointer r, Pointer m) {
       public Pointer control() {
          return this.s;
       }
@@ -320,7 +272,6 @@ private record TypeZ(Pointer s, Pointer r,  Pointer m) {
          return this.r;
       }
 
-      
       public Pointer meter() {
          return this.m;
       }
@@ -333,7 +284,6 @@ private record TypeZ(Pointer s, Pointer r,  Pointer m) {
          return this.r;
       }
 
-      
       public Pointer pointerState4() {
          return this.m;
       }

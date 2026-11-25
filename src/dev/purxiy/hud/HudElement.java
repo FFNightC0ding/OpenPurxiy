@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import it.unimi.dsi.fastutil.longs.LongArrayFIFOQueue;

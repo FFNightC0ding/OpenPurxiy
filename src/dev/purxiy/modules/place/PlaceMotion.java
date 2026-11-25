@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.place;
 
 public final class PlaceMotion {
@@ -12,7 +11,7 @@ public final class PlaceMotion {
    private PlaceMotion() {
    }
 
-   public static PlaceMotion.TypeW placed(PlaceMotion.Style var0, float var1, float var2, PlaceMotion.TypeW var3) {
+   public static PlaceMotion.PlacePose placed(PlaceMotion.Style var0, float var1, float var2, PlaceMotion.PlacePose var3) {
       if (var1 >= 1.0F) {
          return var3.rest();
       } else {
@@ -47,7 +46,7 @@ public final class PlaceMotion {
       }
    }
 
-   public static PlaceMotion.TypeW broken(float var0, PlaceMotion.TypeW var1) {
+   public static PlaceMotion.PlacePose broken(float var0, PlaceMotion.PlacePose var1) {
       float var2 = Math.clamp(var0, 0.0F, 1.0F);
       float var3;
       if (var2 < 0.22F) {
@@ -111,17 +110,16 @@ public final class PlaceMotion {
       public boolean fromFace() {
          return this == C || this == y;
       }
+   }
 
-}
-
-   public static final class TypeW {
+   public static final class PlacePose {
       public float Z = 1.0F;
       public float t = 1.0F;
       public float h;
       public float u;
       public float W;
 
-      public PlaceMotion.TypeW set(float var1, float var2, float var3, float var4, float var5) {
+      public PlaceMotion.PlacePose set(float var1, float var2, float var3, float var4, float var5) {
          this.Z = Math.max(var1, 0.002F);
          this.t = Math.max(var2, 0.002F);
          this.h = var3;
@@ -130,7 +128,7 @@ public final class PlaceMotion {
          return this;
       }
 
-      public PlaceMotion.TypeW rest() {
+      public PlaceMotion.PlacePose rest() {
          return this.set(1.0F, 1.0F, 0.0F, 0.0F, 0.0F);
       }
    }

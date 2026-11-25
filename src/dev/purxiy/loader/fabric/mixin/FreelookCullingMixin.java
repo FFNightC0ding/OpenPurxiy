@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry13;
+import dev.purxiy.loader.fabric.client.FirstPersonProvider;
 import net.minecraft.class_761;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,6 +17,6 @@ public abstract class FreelookCullingMixin {
       index = 2
    )
    private boolean purxiy$freelookCulling(boolean var1) {
-      return var1 || ClientRegistry13.passesWalls();
+      return var1 || FirstPersonProvider.passesWalls();
    }
 }

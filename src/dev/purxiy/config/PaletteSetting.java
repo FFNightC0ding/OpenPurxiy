@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.config;
 
 import com.google.gson.JsonArray;
@@ -17,29 +16,29 @@ import java.util.Map.Entry;
 import java.util.function.Supplier;
 import net.minecraft.class_1799;
 
-public final class PaletteSetting extends Setting<PaletteSetting.TypeM> {
+public final class PaletteSetting extends Setting<PaletteSetting.PaletteContent> {
    private final String singular;
    private final String plural;
    private final String icon;
-   private Supplier<List<PaletteSetting.TypeR>> catalog = List::of;
-   
-   private List<PaletteSetting.TypeR> choices;
+   private Supplier<List<PaletteSetting.PaletteEntry>> catalog = List::of;
+
+   private List<PaletteSetting.PaletteEntry> choices;
    private int generation;
 
    public PaletteSetting(String var1, String var2,  String var3, String var4, String var5, String var6, Collection<String> var7) {
-      super(var1, var2, var3, new PaletteSetting.TypeM(List.copyOf(var7), Map.of()));
+      super(var1, var2, var3, new PaletteSetting.PaletteContent(List.copyOf(var7), Map.of()));
       this.singular = var4;
       this.plural = var5;
       this.icon = var6;
    }
 
-   public PaletteSetting catalog(Supplier<List<PaletteSetting.TypeR>> var1) {
+   public PaletteSetting catalog(Supplier<List<PaletteSetting.PaletteEntry>> var1) {
       this.catalog = var1;
       this.choices = null;
       return this;
    }
 
-   public List<PaletteSetting.TypeR> choices() {
+   public List<PaletteSetting.PaletteEntry> choices() {
       if (this.choices == null) {
          this.choices = List.copyOf(this.catalog.get());
       }
@@ -47,9 +46,9 @@ public final class PaletteSetting extends Setting<PaletteSetting.TypeM> {
       return this.choices;
    }
 
-   
-   public PaletteSetting.TypeR choice(String var1) {
-      for (PaletteSetting.TypeR var3 : this.choices()) {
+
+   public PaletteSetting.PaletteEntry choice(String var1) {
+      for (PaletteSetting.PaletteEntry var3 : this.choices()) {
          if (var3.id().equals(var1)) {
             return var3;
          }
@@ -74,8 +73,8 @@ public final class PaletteSetting extends Setting<PaletteSetting.TypeM> {
       return this.generation;
    }
 
-   public void set(PaletteSetting.TypeM var1) {
-      PaletteSetting.TypeM var2 = this.value;
+   public void set(PaletteSetting.PaletteContent var1) {
+      PaletteSetting.PaletteContent var2 = this.value;
       super.set(var1);
       if (!this.value.equals(var2)) {
          this.generation++;
@@ -104,7 +103,7 @@ public final class PaletteSetting extends Setting<PaletteSetting.TypeM> {
             var3.remove(var1);
          }
 
-         this.set(new PaletteSetting.TypeM(List.copyOf(var3), this.value.colors()));
+         this.set(new PaletteSetting.PaletteContent(List.copyOf(var3), this.value.colors()));
       }
    }
 
@@ -120,7 +119,7 @@ public final class PaletteSetting extends Setting<PaletteSetting.TypeM> {
          var3.removeAll(var1);
       }
 
-      this.set(new PaletteSetting.TypeM(List.copyOf(var3), this.value.colors()));
+      this.set(new PaletteSetting.PaletteContent(List.copyOf(var3), this.value.colors()));
    }
 
    public int customColor(String var1) {
@@ -141,7 +140,7 @@ public final class PaletteSetting extends Setting<PaletteSetting.TypeM> {
          var3.put(var1, var2 | 0xFF000000);
       }
 
-      this.set(new PaletteSetting.TypeM(this.value.ids(), var3));
+      this.set(new PaletteSetting.PaletteContent(this.value.ids(), var3));
    }
 
    @Override
@@ -188,12 +187,12 @@ public final class PaletteSetting extends Setting<PaletteSetting.TypeM> {
             }
          }
 
-         this.set(new PaletteSetting.TypeM(var3, var12));
+         this.set(new PaletteSetting.PaletteContent(var3, var12));
       }
    }
 
-   public record TypeM(List<String> ids, Map<String, Integer> colors) {
-      public TypeM(List<String> ids, Map<String, Integer> colors) {
+   public record PaletteContent(List<String> ids, Map<String, Integer> colors) {
+      public PaletteContent(List<String> ids, Map<String, Integer> colors) {
          ids = List.copyOf(new TreeSet(ids));
          colors = Collections.unmodifiableMap(new TreeMap(colors));
          this.ids = ids;
@@ -205,6 +204,6 @@ public final class PaletteSetting extends Setting<PaletteSetting.TypeM> {
       }
    }
 
-   public record TypeR(String id, String name, Supplier<class_1799> icon, String group, int color,  String note, boolean literal) {
+   public record PaletteEntry(String id, String name, Supplier<class_1799> icon, String group, int color,  String note, boolean literal) {
    }
 }

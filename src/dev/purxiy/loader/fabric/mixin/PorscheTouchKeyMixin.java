@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_304;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +14,6 @@ public abstract class PorscheTouchKeyMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$touchPress(boolean var1, CallbackInfo var2) {
-      ClientRenderer5.keyState((class_304)(Object)(Object)this, var1);
+      CameraStateReader.keyState((class_304)(Object)(Object)this, var1);
    }
 }

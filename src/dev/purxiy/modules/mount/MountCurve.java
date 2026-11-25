@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 public final class MountCurve {
@@ -72,27 +71,17 @@ public final class MountCurve {
    }
 
    private static float u(long var0, float[] var2, float[] var3) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       float var4 = 0.0F;
 
       for (int var5 = 0; var5 < (int)a; var5++) {
          long var6 = 137096268281977L;
-         if (137096268281977L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var6 < 0L ? -1 : 1;
-         }
-
+         int var8 = var6 < 0L ? -1 : 1;
          var4 = Math.max(var4, Math.abs(var2[var5] - var3[var5]));
       }
 
       long var9 = 137096268281978L;
-      if (137096268281978L == 0L) {
-         boolean var11 = false;
-      } else {
-         int var12 = var9 < 0L ? -1 : 1;
-      }
-
+      int var7 = var9 < 0L ? -1 : 1;
       return var4;
    }
 

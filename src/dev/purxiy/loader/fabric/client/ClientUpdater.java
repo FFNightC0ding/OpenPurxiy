@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.client;
 
 import java.util.function.Consumer;
@@ -14,8 +13,8 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 public final class ClientUpdater {
-   private static final ClientSupport3.TypeX<ClientUpdater.Listener> listeners = ClientSupport3.TypeX.create();
-   public static final class_10515<ClientUpdater.TypeV> RENDERER = new ClientUpdater.TypeD();
+   private static final SkyPipelineRouter.PipelineList<ClientUpdater.Listener> listeners = SkyPipelineRouter.PipelineList.create();
+   public static final class_10515<ClientUpdater.ModulePayload> RENDERER = new ClientUpdater.ModulePayloadDecoder();
 
    private ClientUpdater() {
    }
@@ -45,15 +44,15 @@ public final class ClientUpdater {
    public interface Listener {
       boolean update(class_10444 var1, class_1799 var2, class_811 var3,  class_11566 var4);
 
-      void submit( ClientUpdater.TypeV var1, class_811 var2, class_4587 var3, class_11659 var4, int var5, int var6, boolean var7, int var8);
+      void submit( ClientUpdater.ModulePayload var1, class_811 var2, class_4587 var3, class_11659 var4, int var5, int var6, boolean var7, int var8);
    }
 
-   private static final class TypeD implements class_10515<ClientUpdater.TypeV> {
-      public void method_65694(ClientUpdater.TypeV var1, class_811 var2, class_4587 var3, class_11659 var4, int var5, int var6, boolean var7, int var8) {
+   private static final class ModulePayloadDecoder implements class_10515<ClientUpdater.ModulePayload> {
+      public void method_65694(ClientUpdater.ModulePayload var1, class_811 var2, class_4587 var3, class_11659 var4, int var5, int var6, boolean var7, int var8) {
          this.submit(var1, var2, var3, var4, var5, var6, var7, var8);
       }
 
-      public void submit( ClientUpdater.TypeV var1, class_811 var2, class_4587 var3, class_11659 var4, int var5, int var6, boolean var7, int var8) {
+      public void submit( ClientUpdater.ModulePayload var1, class_811 var2, class_4587 var3, class_11659 var4, int var5, int var6, boolean var7, int var8) {
          ClientUpdater.listeners.invoke(var8x -> {
             var8x.submit(var1, var2, var3, var4, var5, var6, var7, var8);
             return null;
@@ -64,17 +63,17 @@ public final class ClientUpdater {
       public void method_72175(Consumer<Vector3fc> var1) {
       }
 
-      
-      public ClientUpdater.TypeV method_65695(class_1799 var1) {
+
+      public ClientUpdater.ModulePayload method_65695(class_1799 var1) {
          return null;
       }
 
-      
-      public ClientUpdater.TypeV extractArgument(class_1799 var1) {
+
+      public ClientUpdater.ModulePayload extractArgument(class_1799 var1) {
          return null;
       }
    }
 
-   public record TypeV(int model, String finish, String camo, int great) {
+   public record ModulePayload(int model, String finish, String camo, int great) {
    }
 }

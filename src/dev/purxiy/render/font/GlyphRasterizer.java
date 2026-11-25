@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.font;
 
 import java.nio.ByteBuffer;
@@ -18,8 +17,8 @@ final class GlyphRasterizer {
    private GlyphRasterizer() {
    }
 
-   
-   static GlyphRasterizer.TypeW rasterize(STBTTFontinfo var0, int var1) {
+
+   static GlyphRasterizer.GlyphBitmap rasterize(STBTTFontinfo var0, int var1) {
       float var2 = STBTruetype.stbtt_ScaleForMappingEmToPixels(var0, 256.0F);
       MemoryStack var3 = MemoryStack.stackPush();
 
@@ -115,7 +114,7 @@ final class GlyphRasterizer {
             }
          }
 
-         return new GlyphRasterizer.TypeW(var12, var13, var47, var39, var40);
+         return new GlyphRasterizer.GlyphBitmap(var12, var13, var47, var39, var40);
       } else {
          return null;
       }
@@ -170,6 +169,6 @@ final class GlyphRasterizer {
       }
    }
 
-   record TypeW(int width, int height, byte[] data, int originX, int originY) {
+   record GlyphBitmap(int width, int height, byte[] data, int originX, int originY) {
    }
 }

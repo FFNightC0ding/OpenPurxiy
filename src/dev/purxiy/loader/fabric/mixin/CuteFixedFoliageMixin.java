@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientUpdater2;
+import dev.purxiy.loader.fabric.client.TickRouter;
 import net.minecraft.class_1920;
 import net.minecraft.class_2246;
 import net.minecraft.class_2338;
@@ -21,7 +20,7 @@ public abstract class CuteFixedFoliageMixin {
    )
    private void purxiy$leaves(class_2680 var1, class_1920 var2, class_2338 var3, int var4, CallbackInfoReturnable<Integer> var5) {
       if (var1.method_27852(class_2246.field_10539) || var1.method_27852(class_2246.field_9988)) {
-         var5.setReturnValue(ClientUpdater2.nature(var5.getReturnValueI(), "leaves"));
+         var5.setReturnValue(TickRouter.nature(var5.getReturnValueI(), "leaves"));
       }
    }
 }

@@ -1,11 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import dev.purxiy.loader.fabric.client.ClientRegistry17;
-import dev.purxiy.loader.fabric.client.ClientRegistry19;
+import dev.purxiy.loader.fabric.client.SwingStateProvider;
+import dev.purxiy.loader.fabric.client.HandSweepPipeline;
 import net.minecraft.class_11279;
 import net.minecraft.class_757;
 import net.minecraft.class_9779;
@@ -23,7 +22,7 @@ public abstract class HandFrameMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$handFrame(class_9779 var1, CallbackInfo var2) {
-      ClientRegistry17.frame();
+      SwingStateProvider.frame();
    }
 
    @WrapOperation(
@@ -34,7 +33,7 @@ public abstract class HandFrameMixin {
       )}
    )
    private GpuBufferSlice purxiy$handProjection(class_11279 var1, int var2, int var3, float var4, Operation<GpuBufferSlice> var5) {
-      ClientRegistry19.hudProjection(var2, var3, var4);
+      HandSweepPipeline.hudProjection(var2, var3, var4);
       return (GpuBufferSlice)var5.call(new Object[]{var1, var2, var3, var4});
    }
 }

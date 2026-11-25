@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.haze;
 
 import java.util.List;
@@ -8,7 +7,7 @@ public final class HazeCatalog {
       "Rose", 16753612, 13808895, 16761768, 0.55F, 16771312, 16757390, 2757936, "Soft pink, lilac far away and peach drifting through it"
    );
    public static final HazeCatalog d = new HazeCatalog(
-      "Lilac", 14066423, 12760575, 16758494, 0.55F, 16116991, 16758482, 1774901, "Purxiy's own lilac, with a blush of pink"
+      "Lilac", 14066423, 12760575, 16758494, 0.55F, 16116991, 16758482, 1774901, "SourceByDevFFnightmare DeObfDeCompByGuideX's own lilac, with a blush of pink"
    );
    public static final HazeCatalog t = new HazeCatalog(
       "Peach", 16760474, 16766662, 16752824, 0.5F, 16773854, 16753766, 2824212, "Warm apricot and cream, like a summer evening"
@@ -28,7 +27,6 @@ public final class HazeCatalog {
    public static final String S = "Custom";
    private static final String s = "Your own colour; the rest of the haze is drawn from it";
    static final List<HazeCatalog> U = List.of(x, d, t, a, k, j, Y);
-   
    private static volatile HazeCatalog i;
    private static volatile int g;
    public final String p;
@@ -41,10 +39,6 @@ public final class HazeCatalog {
    public final int n;
    public final String T;
    public static int G = 0;
-
-
-
-
 
    private HazeCatalog(String var1, int var2, int var3, int var4, float var5, int var6, int var7, int var8, String var9) {
       this.p = var1;
@@ -154,18 +148,13 @@ public final class HazeCatalog {
 
    private static boolean w(float var0, float var1, long var2, float var4) {
       float[] var5 = k(var0, var1, var4);
-      HazeRenderer2.ensureSourceClassInitialized();
+      HazeRenderPass.ensureSourceClassInitialized();
 
       for (float var9 : var5) {
          float var10;
          int var11 = (var10 = var9 - -1.0E-4F) == 0.0F ? 0 : (var10 < 0.0F ? -1 : 1);
          long var12 = 75958207743832L;
-         if (75958207743832L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var15 = var12 < 0L ? -1 : 1;
-         }
-
+         int var14 = var12 < 0L ? -1 : 1;
          if (var11 < 0 || var9 > 1.0001F) {
             return false;
          }
@@ -175,30 +164,20 @@ public final class HazeCatalog {
    }
 
    private static float P(int var0, long var1) {
-      HazeRenderer2.ensureSourceClassInitialized();
+      HazeRenderPass.ensureSourceClassInitialized();
       float var3 = var0 / 255.0F;
       long var4 = 47623086262413L;
-      if (47623086262413L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       return var3 <= 0.04045F ? var3 / 12.92F : (float)Math.pow((var3 + 0.055F) / 1.055F, 2.4F);
    }
 
    private static int G(float var0, long var1) {
-      HazeRenderer2.ensureSourceClassInitialized();
+      HazeRenderPass.ensureSourceClassInitialized();
       float var3 = Math.clamp(var0, 0.0F, 1.0F);
       long var4 = 83748169201660L;
-      if (83748169201660L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var4 < 0L ? -1 : 1;
-      }
-
-      float var7 = var3 <= 0.0031308F ? var3 * 12.92F : 1.055F * (float)Math.pow(var3, 0.41666666F) - 0.055F;
-      return Math.round(Math.clamp(var7, 0.0F, 1.0F) * 255.0F);
+      int var7 = var4 < 0L ? -1 : 1;
+      float var7x = var3 <= 0.0031308F ? var3 * 12.92F : 1.055F * (float)Math.pow(var3, 0.41666666F) - 0.055F;
+      return Math.round(Math.clamp(var7x, 0.0F, 1.0F) * 255.0F);
    }
 
    private static float[] o(int var0, long var1) {
@@ -235,5 +214,4 @@ public final class HazeCatalog {
       float[] var7 = k(var0, var1, var4);
       return G(var7[0], var5) << 16 | G(var7[1], var5) << 8 | G(var7[2], var5);
    }
-
 }

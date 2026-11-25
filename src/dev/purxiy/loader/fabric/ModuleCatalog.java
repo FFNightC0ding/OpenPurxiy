@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonElement;
@@ -16,7 +15,7 @@ import java.util.Map;
 import net.fabricmc.loader.api.FabricLoader;
 
 final class ModuleCatalog {
-   private static final Map<String, ModuleCatalog.TypeC> saved = new HashMap<>();
+   private static final Map<String, ModuleCatalog.ModuleSave> saved = new HashMap<>();
 
    private ModuleCatalog() {
    }
@@ -47,18 +46,18 @@ final class ModuleCatalog {
    }
 
    static void enabled(JsonObject var0, boolean var1) throws IOException {
-      write(var0, new ModuleCatalog.TypeC(var1, read(var0).key));
+      write(var0, new ModuleCatalog.ModuleSave(var1, read(var0).key));
    }
 
    static void key(JsonObject var0, int var1) throws IOException {
       if (var1 != -1 && (var1 < 32 || var1 > 348)) {
          throw new IllegalArgumentException("Invalid keyboard binding");
       } else {
-         write(var0, new ModuleCatalog.TypeC(read(var0).enabled, var1));
+         write(var0, new ModuleCatalog.ModuleSave(read(var0).enabled, var1));
       }
    }
 
-   private static ModuleCatalog.TypeC read(JsonObject var0) {
+   private static ModuleCatalog.ModuleSave read(JsonObject var0) {
       String var1 = id(var0);
       return saved.computeIfAbsent(var1, var2 -> {
          Path var3 = file(var0);
@@ -81,7 +80,7 @@ final class ModuleCatalog {
             }
          }
 
-         return new ModuleCatalog.TypeC(booleanValue(var4.get("enabled")), keyValue(var4.get("key")));
+         return new ModuleCatalog.ModuleSave(booleanValue(var4.get("enabled")), keyValue(var4.get("key")));
       });
    }
 
@@ -125,7 +124,7 @@ final class ModuleCatalog {
       }
    }
 
-   private static void write(JsonObject var0, ModuleCatalog.TypeC var1) throws IOException {
+   private static void write(JsonObject var0, ModuleCatalog.ModuleSave var1) throws IOException {
       JsonObject var2 = new JsonObject();
       var2.addProperty("format", 1);
       if (var1.enabled != null) {
@@ -162,6 +161,6 @@ final class ModuleCatalog {
       return FabricLoader.getInstance().getConfigDir().resolve("purxiy/loader/state").resolve(id(var0) + ".json");
    }
 
-   private record TypeC(Boolean enabled, Integer key) {
+   private record ModuleSave(Boolean enabled, Integer key) {
    }
 }

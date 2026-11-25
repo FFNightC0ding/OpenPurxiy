@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.cyberspace;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class CyberspaceLoader {
    public static final String j = "Accent";
    public static final Map<String, String> n = Map.of("Lilac", "Accent");
    static final CyberspaceLoader i = new CyberspaceLoader("Accent", 13481727, 11306751, 15442687);
-   static final CyberspaceLoader z = new CyberspaceLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final CyberspaceLoader z = new CyberspaceLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final CyberspaceLoader C = new CyberspaceLoader("Dream", 16758499, 12890367, 10404095);
    public static final String g = "Custom";
    static final List<CyberspaceLoader> x = List.of(i, z, C);
@@ -21,10 +20,6 @@ public final class CyberspaceLoader {
    public final int l;
    public final int M;
    public final int Q;
-
-
-
-
 
    private CyberspaceLoader(String var1, int var2, int var3, int var4) {
       this.y = var1;
@@ -85,5 +80,4 @@ public final class CyberspaceLoader {
    private static int X(float var0, long var1, float var3, float var4) {
       return ClientSupport.hsvToRgb(var0 - (float)Math.floor(var0), var3, var4) & 16777215;
    }
-
 }

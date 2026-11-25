@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;
@@ -87,7 +86,7 @@ public final class Divider {
       var4.roundRectCorners(this.x + var8, this.y + 3.0F, var9, var10, var10 / 2.0F, 721420287, 721420287, 16777215, 16777215);
 
       for (int var11 = 0; var11 < this.optionX.length; var11++) {
-         boolean var12 = var1.hover(this.hover[var11], this.optionX[var11], this.y, this.optionW[var11], 30.0F, DrawContext.TypeE.HAND);
+         boolean var12 = var1.hover(this.hover[var11], this.optionX[var11], this.y, this.optionW[var11], 30.0F, DrawContext.Cursor.HAND);
          float var13 = this.hover[var11].target(var12 && var11 != var15 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          int var14 = var11 == var15 ? Icons.TEXT : BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var13);
          var4.text(

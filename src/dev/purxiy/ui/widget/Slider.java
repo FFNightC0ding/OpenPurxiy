@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;
@@ -33,12 +32,12 @@ public final class Slider {
    private final Animator scroll = Animator.snappy(0.0F);
    private final Animator iconHover = Animator.smooth(0.0F);
    private final Object iconKey = new Object();
-   
+
    private Runnable onSubmit;
-   
+
    private Supplier<? extends Collection<String>> suggestions;
    private boolean focused;
-   
+
    private String lead;
    private boolean dragging;
    private int caret;
@@ -67,7 +66,7 @@ public final class Slider {
             return var1.maxLength();
          }
 
-         
+
          @Override
          public String placeholder() {
             return var1.placeholder();
@@ -148,7 +147,7 @@ public final class Slider {
       String var7 = this.model.get();
       this.caret = Math.min(this.caret, var7.length());
       this.anchor = Math.min(this.anchor, var7.length());
-      boolean var8 = var5 && var1.hover(this, var2, this.y, var4, 32.0F, DrawContext.TypeE.TEXT);
+      boolean var8 = var5 && var1.hover(this, var2, this.y, var4, 32.0F, DrawContext.Cursor.TEXT);
       float var9 = this.hover.target(var8 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       float var10 = this.focus.target(this.focused ? 1.0F : 0.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
       if (var10 > 0.01F) {
@@ -227,7 +226,7 @@ public final class Slider {
 
       float var28 = var2 + var4 - 11.0F - 6.0F;
       boolean var30 = this.focused && !var7.isEmpty();
-      boolean var31 = var30 && var5 && var1.hover(this.iconKey, var28 - 11.0F, this.y, 22.0F, 32.0F, DrawContext.TypeE.HAND);
+      boolean var31 = var30 && var5 && var1.hover(this.iconKey, var28 - 11.0F, this.y, 22.0F, 32.0F, DrawContext.Cursor.HAND);
       float var20 = this.iconHover.target(var31 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       String var21 = var30 ? "x" : (this.model.masked() && !var7.isEmpty() ? "eye-off" : "pen-line");
       int var22 = var30 ? BlendMode.lerp(Icons.TEXT_3, Icons.TEXT, var20) : BlendMode.withAlpha(Icons.TEXT_3, 0.55F + 0.45F * var9);
@@ -267,7 +266,7 @@ public final class Slider {
       }
    }
 
-   
+
    private String completion(String var1) {
       if (this.suggestions != null && !var1.isBlank()) {
          String var2 = var1.toLowerCase(Locale.ROOT);
@@ -525,7 +524,7 @@ public final class Slider {
 
       int maxLength();
 
-      
+
       default String placeholder() {
          return null;
       }

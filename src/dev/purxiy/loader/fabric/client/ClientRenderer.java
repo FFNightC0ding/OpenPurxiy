@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.client;
 
 public final class ClientRenderer {
-   private static final ClientSupport3.TypeX<ClientRenderer.Listener> draws = ClientSupport3.TypeX.create();
+   private static final SkyPipelineRouter.PipelineList<ClientRenderer.Listener> draws = SkyPipelineRouter.PipelineList.create();
 
    private ClientRenderer() {
    }

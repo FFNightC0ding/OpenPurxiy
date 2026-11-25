@@ -1,22 +1,23 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import dev.purxiy.config.BooleanSetting;
 import dev.purxiy.config.IntegerSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.CosmeticCatalog;
 import dev.purxiy.loader.fabric.CosmeticRegistry;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import dev.purxiy.loader.fabric.client.ClientBuilder;
 import dev.purxiy.loader.fabric.client.ClientCodec;
 import dev.purxiy.loader.fabric.client.ClientLoader;
-import dev.purxiy.loader.fabric.client.ClientRegistry24;
-import dev.purxiy.loader.fabric.client.ClientRenderer9;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.ResourceProvider;
+import dev.purxiy.loader.fabric.client.EquipmentRenderPass;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import dev.purxiy.loader.fabric.client.ClientTransform;
+import dev.purxiy.loader.fabric.client.ClientBuilder.SkinMeshProvider;
+import dev.purxiy.loader.fabric.client.ClientBuilder.SkinMeshSpec;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -34,18 +35,14 @@ public final class Skins3DModule extends ModuleDescriptor {
    public final BooleanSetting M = this.bool("size", "Own size", "Each skin its own height and build, only for you", true);
    public final BooleanSetting C = this.bool("hide_armor", "Hide armor", "Your armor is not drawn over your skin in third person", false);
    public final NumberSetting b = this.section("3D layer")
-      .number("depth", "Depth", "How far the outer layer stands out", 1.0, 0.5, 1.5, 0.05, NumberSetting.Listener.MULTIPLIER);
+      .number("depth", "Depth", "How far the outer layer stands out", 1.0, 0.5, 1.5, 0.05, Listener.MULTIPLIER);
    public final BooleanSetting v = this.bool("others", "Other players", "Everyone's skin in 3D, not only yours", true);
    public final BooleanSetting g = this.bool("first_person", "First person", "Your sleeves in 3D on your hands", true);
    public final BooleanSetting E = this.section("UwU Girl")
       .bool("uwu_voice", "UwU voice", "Occasionally says uwu, more often at three hunger icons or less", true);
-   public final NumberSetting x = this.number(
-      "uwu_volume", "Voice volume", "Also follows the game's Players volume", 0.55, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT
-   );
+   public final NumberSetting x = this.number("uwu_volume", "Voice volume", "Also follows the game's Players volume", 0.55, 0.0, 1.0, 0.05, Listener.PERCENT);
    public final IntegerSetting j = this.section("Spider-Man")
       .keybind("mask_key", "Mask key", "Take off and throw the mask; press again nearby to pick it up and wear it");
-
-
 
    public Skins3DModule() {
       super("skins_3d", "3D Skins", "Real 3D skins, and a wardrobe of new ones", "shirt");
@@ -58,20 +55,18 @@ public final class Skins3DModule extends ModuleDescriptor {
    }
 
    public SkinPreset preset() {
-      return SkinPreset.byLabel(this.B.get());
+      return SkinPreset.byLabel((String)this.B.get());
    }
 
-   @Override
    protected void onDisable() {
       Skins3DUpdater.cancelAction();
-      Skins3DUpdater3.stop(class_310.method_1551());
-      Skins3DTransform3.release();
+      Skins3DTimer.stop(class_310.method_1551());
+      Skins3DRig.release();
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       var1.own(
-         ClientRegistry24.install(
+         ResourceProvider.install(
             var1,
             List.of(
                "assets/purxiy/models/skins3d/mario.vxm",
@@ -104,120 +99,102 @@ public final class Skins3DModule extends ModuleDescriptor {
          )
       );
       var1.own(ClientServices.acquire(this.id()));
-      Skins3DTransform3.install(this, var1);
-      var1.own(Skins3DTransform3::uninstall);
-      var1.own(ClientTransform.install(new ClientTransform.Listener() {
-         @Override
+      Skins3DRig.install(this, var1);
+      var1.own(Skins3DRig::uninstall);
+      var1.own(ClientTransform.install(new dev.purxiy.loader.fabric.client.ClientTransform.Listener() {
          public void pose(class_591 var1, class_10055 var2) {
-            Skins3DTransform3.pose(var1, var2);
+            Skins3DRig.pose(var1, var2);
          }
 
-         @Override
          public void hand(class_591 var1, class_2960 var2, class_630 var3) {
-            Skins3DTransform3.hand(var1, var2, var3);
+            Skins3DRig.hand(var1, var2, var3);
          }
 
-         @Override
          public void handPose(class_630 var1) {
-            Skins3DTransform3.handPose(var1);
+            Skins3DRig.handPose(var1);
          }
 
-         @Override
          public void hideArmor(Object var1, class_10055 var2) {
-            Skins3DTransform3.hideArmor(var1, var2);
+            Skins3DRig.hideArmor(var1, var2);
          }
 
-         @Override
          public class_8685 wear(class_742 var1, class_8685 var2) {
-            return Skins3DTransform3.wear(var1, var2);
+            return Skins3DRig.wear(var1, var2);
          }
 
-         @Override
          public void size(Object var1, class_10055 var2) {
-            Skins3DTransform3.size(var1, var2);
+            Skins3DRig.size(var1, var2);
          }
 
-         @Override
          public void shape(class_591 var1, class_10055 var2) {
-            Skins3DTransform3.shape(var1, var2);
+            Skins3DRig.shape(var1, var2);
          }
 
-         @Override
          public void frame() {
-            Skins3DTransform3.frame();
+            Skins3DRig.frame();
          }
 
-         @Override
          public void reloaded() {
-            Skins3DTransform3.reloaded();
+            Skins3DRig.reloaded();
          }
       }));
-      Skins3DTransform3.equipment(ClientRenderer9.equipment());
-      var1.own(ClientBuilder.model(new ClientBuilder.Listener2() {
+      Skins3DRig.equipment(EquipmentRenderPass.equipment());
+      var1.own(ClientBuilder.model(new SkinMeshProvider() {
          private static final String stringState40 = "Invalid avatar part";
 
-         @Override
-         public ClientBuilder.TypeE body(class_8685 var1) {
-            Skins3DBuilder.TypeR var2 = Skins3DTransform3.layers(var1);
-            return var2 == null ? null : new ClientBuilder.TypeE(var1, var2.C, var2.n, var2.y, Skins3DTransform3.layer(var2.R[0]));
+         public SkinMeshSpec body(class_8685 var1) {
+            Skins3DBuilder.SkinQuad var2 = Skins3DRig.layers(var1);
+            return var2 == null ? null : new SkinMeshSpec(var1, var2.C, var2.n, var2.y, Skins3DRig.layer(var2.R[0]));
          }
 
-         @Override
-         public int triangles(ByteBuffer var1, ClientBuilder.TypeE var2, int var3, Matrix4f var4) {
+         public int triangles(ByteBuffer var1, SkinMeshSpec var2, int var3, Matrix4f var4) {
             if (var3 >= 0 && var3 < 6) {
-               Skins3DBuilder.TypeR var5 = Skins3DTransform3.layers(var2.skin());
-               return var5 == null ? 0 : Skins3DTransform3.triangles(var1, var5.R[var3], var4);
+               Skins3DBuilder.SkinQuad var5 = Skins3DRig.layers(var2.skin());
+               return var5 == null ? 0 : Skins3DRig.triangles(var1, var5.R[var3], var4);
             } else {
-               throw new IllegalArgumentException(stringState40);
+               throw new IllegalArgumentException("Invalid avatar part");
             }
          }
 
-         @Override
          public void build(Matrix4f var1, int var2) {
-            Skins3DTransform3.build(var1, var2);
+            Skins3DRig.build(var1, var2);
          }
 
-         @Override
          public float height() {
-            return Skins3DTransform3.yourHeight();
+            return Skins3DRig.yourHeight();
          }
 
-         @Override
          public float width() {
-            return Skins3DTransform3.bodyWidth();
+            return Skins3DRig.bodyWidth();
          }
 
-         @Override
          public float armSpread() {
-            return Skins3DTransform3.armSpread();
+            return Skins3DRig.armSpread();
          }
-
-}));
-      var1.own(ClientRenderer9.paint(Skins3DTransform3::paintPart));
-      var1.own(ClientRenderer9.extract(Skins3DTransform::extract));
-      var1.own(ClientRenderer9.world(Skins3DRenderer3::render));
-      var1.own(ClientBuilder.sculpted(new ClientBuilder.Listener() {
-         @Override
+      }));
+      var1.own(EquipmentRenderPass.paint(Skins3DRig::paintPart));
+      var1.own(EquipmentRenderPass.extract(Skins3DTransform::extract));
+      var1.own(EquipmentRenderPass.world(Skins3DMeshPipeline::render));
+      var1.own(ClientBuilder.sculpted(new dev.purxiy.loader.fabric.client.ClientBuilder.Listener() {
          public float[] bounds(class_630 var1) {
-            return Skins3DTransform3.bounds(var1);
+            return Skins3DRig.bounds(var1);
          }
 
-         @Override
          public int accent() {
             SkinPreset var1x = Skins3DModule.this.preset();
             return var1x == SkinPreset.n ? 0 : var1x.y;
          }
       }));
-      var1.own(ClientSupport3.BODY_HEIGHT.subscribe(0, Skins3DTransform3::drawnHeight));
+      var1.own(SkyPipelineRouter.BODY_HEIGHT.subscribe(0, Skins3DRig::drawnHeight));
       var1.own(CosmeticRegistry.register(this.id(), this.getClass().getClassLoader(), () -> new Skins3DScreen(this)));
-      var1.own(Skins3DRenderer2::release);
+      var1.own(Skins3DEditorScreen::release);
       var1.own(ModuleWidget.onTick(var0 -> {
          Skins3DUpdater.tick(var0);
-         Skins3DUpdater3.tick(var0);
+         Skins3DTimer.tick(var0);
       }));
       var1.own(ModuleWidget.onDisconnect(var0 -> {
          Skins3DUpdater.leave();
-         Skins3DUpdater3.stop(var0);
+         Skins3DTimer.stop(var0);
          Skins3DTransform.clear();
       }));
       var1.own(ModuleWidget.onKey((var0, var1x, var2) -> {
@@ -228,9 +205,7 @@ public final class Skins3DModule extends ModuleDescriptor {
       }));
    }
 
-   @Override
-   protected CosmeticCatalog.Listener createPreview() {
-      return new Skins3DRenderer4(this);
+   protected dev.purxiy.loader.fabric.CosmeticCatalog.Listener createPreview() {
+      return new Skins3DEditorPage(this);
    }
-
 }

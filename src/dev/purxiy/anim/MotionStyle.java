@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.anim;
 
 import dev.purxiy.loader.fabric.ClientServices;

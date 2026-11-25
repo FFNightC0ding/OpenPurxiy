@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui;
 
 import dev.purxiy.render.Canvas;
@@ -11,9 +10,9 @@ public final class DrawContext {
    public float mouseY;
    public boolean mouseDown;
    private boolean masked;
-   
+
    private Object hoverTarget;
-   private DrawContext.TypeE cursor = DrawContext.TypeE.ARROW;
+   private DrawContext.Cursor cursor = DrawContext.Cursor.ARROW;
 
    public void begin(Canvas var1, float var2, float var3, float var4, float var5, boolean var6) {
       this.canvas = var1;
@@ -24,7 +23,7 @@ public final class DrawContext {
       this.mouseDown = var6;
       this.masked = false;
       this.hoverTarget = null;
-      this.cursor = DrawContext.TypeE.ARROW;
+      this.cursor = DrawContext.Cursor.ARROW;
    }
 
    public void mask(boolean var1) {
@@ -45,7 +44,7 @@ public final class DrawContext {
       return !this.masked && var4 * var4 + var5 * var5 <= var3 * var3;
    }
 
-   public boolean hover(Object var1, float var2, float var3, float var4, float var5, DrawContext.TypeE var6) {
+   public boolean hover(Object var1, float var2, float var3, float var4, float var5, DrawContext.Cursor var6) {
       if (this.inside(var2, var3, var4, var5)) {
          this.claim(var1, var6);
          return true;
@@ -54,28 +53,28 @@ public final class DrawContext {
       }
    }
 
-   public void claim(Object var1, DrawContext.TypeE var2) {
+   public void claim(Object var1, DrawContext.Cursor var2) {
       this.hoverTarget = var1;
       this.cursor = var2;
    }
 
-   
+
    public Object hoverTarget() {
       return this.hoverTarget;
    }
 
-   public DrawContext.TypeE cursor() {
+   public DrawContext.Cursor cursor() {
       return this.cursor;
    }
 
-   public static enum TypeE {
+   public static enum Cursor {
       ARROW,
       HAND,
       TEXT,
       MOVE;
 
-      private static DrawContext.TypeE[] $values() {
-         return new DrawContext.TypeE[]{ARROW, HAND, TEXT, MOVE};
+      private static DrawContext.Cursor[] $values() {
+         return new DrawContext.Cursor[]{ARROW, HAND, TEXT, MOVE};
       }
    }
 }

@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry22;
+import dev.purxiy.loader.fabric.client.ItemRenderPipeline;
 import net.minecraft.class_757;
 import net.minecraft.class_9779;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,6 +23,6 @@ public abstract class GlassHandFrameMixin {
       )}
    )
    private void purxiy$glassHand(class_9779 var1, CallbackInfo var2) {
-      ClientRegistry22.renderHand();
+      ItemRenderPipeline.renderHand();
    }
 }

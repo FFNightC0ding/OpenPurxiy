@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 import dev.purxiy.loader.fabric.ClientServices;
@@ -14,13 +13,13 @@ import net.minecraft.class_638;
 import net.minecraft.class_1113.class_1114;
 
 public final class MountUpdater {
-   private static final List<MountUpdater.TypeV> y = new ArrayList<>();
-   private static MountUpdater.TypeV M;
-   private static MountUpdater.TypeV O;
-   private static MountUpdater.TypeV l;
+   private static final List<MountUpdater.MountEntity> y = new ArrayList<>();
+   private static MountUpdater.MountEntity M;
+   private static MountUpdater.MountEntity O;
+   private static MountUpdater.MountEntity l;
    private static class_638 r;
    private static String L = "";
-   private static MountFactory.Data7 z;
+   private static MountFactory.MountSpec z;
    private static float b;
    private static float s;
    private static float w;
@@ -32,10 +31,7 @@ public final class MountUpdater {
    private static int R = 0;
    private static boolean G;
    private static boolean j;
-
    private static final String[] c = new String[10];
-
-
 
    private MountUpdater() {
    }
@@ -48,7 +44,7 @@ public final class MountUpdater {
       return z.engine() + "_" + var0;
    }
 
-   public static void start(MountFactory.Data7 var0) {
+   public static void start(MountFactory.MountSpec var0) {
       long var1 = 20365310275460L;
       long var3 = var1 ^ 49791204147480L;
       long var5 = var1 ^ 7030923777236L;
@@ -65,7 +61,7 @@ public final class MountUpdater {
    }
 
    public static void tick(
-      class_310 var0, boolean var1, MountFactory.Data7 var2, float var3, float var4, float var5, int var6, float var7, float var8, float var9
+      class_310 var0, boolean var1, MountFactory.MountSpec var2, float var3, float var4, float var5, int var6, float var7, float var8, float var9
    ) {
       long var10 = 136325482300832L;
       long var12 = (var10 ^ 124011465606588L) >>> 32;
@@ -93,41 +89,20 @@ public final class MountUpdater {
 
          b = b + (c(var3) - b) * 0.27F;
          s = s + (c(var4) - s) * 0.34F;
-         float var21 = MountRenderer4.K.i.floatValue();
+         float var21 = MountCameraReader.K.i.floatValue();
          float var22 = var2.hasEngine() ? n((var5 - 0.38F) / 0.62F) : c(var5 * 1.35F);
          y.removeIf(var1x -> {
-            MountFactory.Data7.ensureSourceClassInitialized();
+            MountFactory.MountSpec.ensureSourceClassInitialized();
             long var2x = 39716900874611L;
-            if (39716900874611L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var15x = var2x < 0L ? -1 : 1;
-            }
-
-            int var5x = (var1x.method_4793() ? 1 : 0);
+            int var5x = var2x < 0L ? -1 : 1;
+            var5x = var1x.method_4793() ? 1 : 0;
             long var6x = 39716900874610L;
-            if (39716900874610L == 0L) {
-               boolean var16 = false;
-            } else {
-               int var17x = var6x < 0L ? -1 : 1;
-            }
-
-            if ((var5x == 0)) {
-               long var9x = 39716900874610L;
-               if (39716900874610L == 0L) {
-                  boolean var18 = false;
-               } else {
-                  int var19x = var9x < 0L ? -1 : 1;
-               }
-
+            int var9x = var6x < 0L ? -1 : 1;
+            if (var5x == 0) {
+               long var9xx = 39716900874610L;
+               int var11 = var9xx < 0L ? -1 : 1;
                var5x = Y - var1x.J;
-               long var11 = 39716900874611L;
-               if (39716900874611L == 0L) {
-                  boolean var20 = false;
-               } else {
-                  int var21x = var11 < 0L ? -1 : 1;
-               }
-
+               long var11x = 39716900874611L;
                if (var5x <= 10 || var0.method_1483().method_4877(var1x)) {
                   return false;
                }
@@ -187,7 +162,7 @@ public final class MountUpdater {
       }
    }
 
-   public static void stunt(MountFactory.Data7 var0) {
+   public static void stunt(MountFactory.MountSpec var0) {
    }
 
    public static void horn() {
@@ -195,7 +170,7 @@ public final class MountUpdater {
       long var2 = var0 ^ 119612714335747L;
       long var4 = var0 ^ 62858909355520L;
       if (z == null) {
-         z = MountUpdater4.spec();
+         z = MountInteraction.spec();
       }
 
       if (G) {
@@ -219,7 +194,7 @@ public final class MountUpdater {
          l.finish(var0);
       }
 
-      for (MountUpdater.TypeV var2 : y) {
+      for (MountUpdater.MountEntity var2 : y) {
          var2.finish(var0);
       }
 
@@ -241,54 +216,24 @@ public final class MountUpdater {
    }
 
    private static boolean Y(long var0, class_310 var2) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       long var3 = 22955134516048L;
-      if (22955134516048L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var16 = var3 < 0L ? -1 : 1;
-      }
-
-      if (MountRenderer4.K.enabled() && MountRenderer4.K.d.enabled() && MountRenderer4.K.i.get() > 0.0) {
-         long var6 = 22955134516048L;
-         if (22955134516048L == 0L) {
-            boolean var17 = false;
-         } else {
-            int var18 = var6 < 0L ? -1 : 1;
-         }
-
+      int var6 = var3 < 0L ? -1 : 1;
+      if (MountCameraReader.K.enabled() && MountCameraReader.K.d.enabled() && (Double)MountCameraReader.K.i.get() > 0.0) {
+         long var6x = 22955134516048L;
+         int var8 = var6x < 0L ? -1 : 1;
          if (var2.field_1724 != null) {
-            long var8 = 22955134516048L;
-            if (22955134516048L == 0L) {
-               boolean var19 = false;
-            } else {
-               int var20 = var8 < 0L ? -1 : 1;
-            }
-
+            long var8x = 22955134516048L;
+            int var10 = var8x < 0L ? -1 : 1;
             if (var2.field_1687 != null) {
-               long var10 = 22955134516048L;
-               if (22955134516048L == 0L) {
-                  boolean var21 = false;
-               } else {
-                  int var22 = var10 < 0L ? -1 : 1;
-               }
-
+               long var10x = 22955134516048L;
+               int var12 = var10x < 0L ? -1 : 1;
                if (var2.field_1724.method_5805()) {
-                  long var12 = 22955134516048L;
-                  if (22955134516048L == 0L) {
-                     boolean var23 = false;
-                  } else {
-                     int var24 = var12 < 0L ? -1 : 1;
-                  }
-
+                  long var12x = 22955134516048L;
+                  int var14 = var12x < 0L ? -1 : 1;
                   if (!var2.method_1493()) {
-                     long var14 = 22955134516048L;
-                     if (22955134516048L == 0L) {
-                        boolean var25 = false;
-                     } else {
-                        int var26 = var14 < 0L ? -1 : 1;
-                     }
-
+                     long var14x = 22955134516048L;
+                     int var15 = var14x < 0L ? -1 : 1;
                      if (var2.field_1755 == null
                         && var2.method_18506() == null
                         && var2.method_1569()
@@ -304,25 +249,15 @@ public final class MountUpdater {
       return false;
    }
 
-   private static MountUpdater.TypeV t(long var0, class_310 var2, int var3, MountUpdater.TypeV var4, class_3414 var5) {
-      MountFactory.Data7.ensureSourceClassInitialized();
+   private static MountUpdater.MountEntity t(long var0, class_310 var2, int var3, MountUpdater.MountEntity var4, class_3414 var5) {
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       if (var4 != null) {
          boolean var6 = var4.method_4793();
          long var7 = 2868L;
-         if (2868L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var13 = var7 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
          if (!var6) {
-            long var10 = 2868L;
-            if (2868L == 0L) {
-               boolean var14 = false;
-            } else {
-               int var15 = var10 < 0L ? -1 : 1;
-            }
-
+            long var10x = 2868L;
+            int var11 = var10x < 0L ? -1 : 1;
             if (Y - var4.J < 25 || var2.method_1483().method_4877(var4)) {
                return var4;
             }
@@ -333,17 +268,17 @@ public final class MountUpdater {
          var4.finish(var2);
       }
 
-      MountUpdater.TypeV var12 = new MountUpdater.TypeV(var5, true, 0.0F, 1.0F);
+      MountUpdater.MountEntity var12 = new MountUpdater.MountEntity(var5, true, 0.0F, 1.0F);
       var2.method_1483().method_4873(var12);
       return var12;
    }
 
    private static void I(class_3414 var0, long var1, float var3, float var4) {
       long var5 = 22955134516048L;
-      MountFactory.Data7.ensureSourceClassInitialized();
+      MountFactory.MountSpec.ensureSourceClassInitialized();
       class_310 var7 = class_310.method_1551();
       if (Y(var5, var7) && G && r == var7.field_1687) {
-         MountUpdater.TypeV var8 = new MountUpdater.TypeV(var0, false, var4 * MountRenderer4.K.i.floatValue(), var3);
+         MountUpdater.MountEntity var8 = new MountUpdater.MountEntity(var0, false, var4 * MountCameraReader.K.i.floatValue(), var3);
          y.add(var8);
          var7.method_1483().method_4873(var8);
       }
@@ -358,7 +293,7 @@ public final class MountUpdater {
       return var0 * var0 * (3.0F - 2.0F * var0);
    }
 
-private static final class TypeV extends class_1101 {
+   private static final class MountEntity extends class_1101 {
       private final class_638 b;
       private final boolean S;
       private final int J;
@@ -369,7 +304,7 @@ private static final class TypeV extends class_1101 {
       private int g;
       private int O;
 
-      TypeV(class_3414 var1, boolean var2, float var3, float var4) {
+      MountEntity(class_3414 var1, boolean var2, float var3, float var4) {
          super(var1, class_3419.field_15248, class_5819.method_43047());
          long var5 = 99976693496366L;
          long var7 = var5 ^ 117854382573885L;
@@ -378,7 +313,7 @@ private static final class TypeV extends class_1101 {
          this.S = var2;
          this.J = MountUpdater.Y;
          this.R = MountUpdater.N;
-         float var9 = MountRenderer4.K.i.floatValue();
+         float var9 = MountCameraReader.K.i.floatValue();
          this.M = var9 > 0.0F ? var3 / var9 : 0.0F;
          this.field_5446 = var2;
          this.field_5451 = 0;
@@ -394,12 +329,10 @@ private static final class TypeV extends class_1101 {
          this.t = Math.clamp(var2, 0.5F, 2.0F);
       }
 
-      @Override
       public boolean method_4785() {
          return this.S;
       }
 
-      @Override
       public boolean method_26273() {
          long var1 = 76906676635837L;
          long var3 = var1 ^ 89140226372589L;
@@ -407,7 +340,6 @@ private static final class TypeV extends class_1101 {
          return !this.method_4793() && MountUpdater.G && this.R == MountUpdater.N && this.b == var5.field_1687 && MountUpdater.Y(var3, var5);
       }
 
-      @Override
       public void method_16896() {
          long var1 = 102822791351502L;
          long var3 = var1 ^ 119133603823581L;
@@ -415,7 +347,7 @@ private static final class TypeV extends class_1101 {
          this.g++;
          if (this.method_26273() && (this.S || this.g <= this.O)) {
             if (!this.S) {
-               this.F = this.M * MountRenderer4.K.i.floatValue();
+               this.F = this.M * MountCameraReader.K.i.floatValue();
             }
 
             this.field_5442 = this.field_5442 + (this.F - this.field_5442) * 0.28F;
@@ -428,8 +360,8 @@ private static final class TypeV extends class_1101 {
 
       private void g(long var1, class_310 var3) {
          if (var3.field_1724 != null) {
-            class_243 var4 = MountUpdater4.renderPosition(1.0F);
-            double var5 = Math.toRadians(MountUpdater4.yaw(1.0F));
+            class_243 var4 = MountInteraction.renderPosition(1.0F);
+            double var5 = Math.toRadians(MountInteraction.yaw(1.0F));
             double var7 = 0.9;
             this.field_5439 = var4.field_1352 + Math.sin(var5) * var7;
             this.field_5450 = var4.field_1351 + 0.55;

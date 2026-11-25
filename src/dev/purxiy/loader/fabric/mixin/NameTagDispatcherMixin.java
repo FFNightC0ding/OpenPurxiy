@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry14;
-import dev.purxiy.loader.fabric.client.ClientRegistry9;
+import dev.purxiy.loader.fabric.client.NameDecorationProvider;
+import dev.purxiy.loader.fabric.client.NametagCapturePipeline;
 import net.minecraft.class_10017;
 import net.minecraft.class_1297;
 import net.minecraft.class_898;
@@ -18,7 +17,7 @@ public abstract class NameTagDispatcherMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$nameTag(class_1297 var1, float var2, CallbackInfoReturnable<class_10017> var3) {
-      ClientRegistry14.decorate(var1, (class_10017)var3.getReturnValue());
-      ClientRegistry9.extract(var1, (class_10017)var3.getReturnValue());
+      NameDecorationProvider.decorate(var1, (class_10017)var3.getReturnValue());
+      NametagCapturePipeline.extract(var1, (class_10017)var3.getReturnValue());
    }
 }

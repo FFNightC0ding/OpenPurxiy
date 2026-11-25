@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hitsplash;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
@@ -58,11 +57,10 @@ public final class HitSplashRenderer {
    private static final float S = 1.2F;
    private static final double y = 48.0;
    private static final double z = 4.0;
-   static final List<HitSplashRenderer.TypeW> u = new ArrayList<>();
-   static final List<HitSplashRenderer.TypeA> T = new ArrayList<>();
-   private static final Int2ObjectMap<HitSplashRenderer.TypeX> l = new Int2ObjectOpenHashMap();
+   static final List<HitSplashRenderer.SplashPoint> u = new ArrayList<>();
+   static final List<HitSplashRenderer.SplashSprites> T = new ArrayList<>();
+   private static final Int2ObjectMap<HitSplashRenderer.SplashHit> l = new Int2ObjectOpenHashMap();
    private static final Int2DoubleMap s = new Int2DoubleOpenHashMap();
-   
    private static class_638 W;
    static double L;
    private static long F = 0L;
@@ -73,7 +71,6 @@ public final class HitSplashRenderer {
    static double d;
    static double N;
    static double v;
-   
    static GpuBufferSlice J;
    private static boolean o;
    private static boolean w;
@@ -84,7 +81,6 @@ public final class HitSplashRenderer {
    private static int A = 0;
    private static int q = 0;
    public static int x = 0;
-
    private static final String[] i = new String[4];
    private static final long[] G = new long[]{
       6941244044879431820L,
@@ -95,7 +91,6 @@ public final class HitSplashRenderer {
       -1515034989791502231L,
       -2102817760537827533L
    };
-
 
    private HitSplashRenderer() {
    }
@@ -116,11 +111,11 @@ public final class HitSplashRenderer {
             && !var0.method_74025()
             && !var0.method_5765()
             && !var0.method_5624();
-         l.put(var1.method_5628(), new HitSplashRenderer.TypeX(L, var8.method_1020(var1.method_73189()), var7, var9, var10));
+         l.put(var1.method_5628(), new HitSplashRenderer.SplashHit(L, var8.method_1020(var1.method_73189()), var7, var9, var10));
       }
    }
 
-   public static void onDamage( class_1297 var0, class_6880<class_8110> var1, int var2, int var3, Optional<class_243> var4) {
+   public static void onDamage(class_1297 var0, class_6880<class_8110> var1, int var2, int var3, Optional<class_243> var4) {
       long var5 = 11739345172159L;
       long var7 = var5 ^ 19131759504970L;
       class_310 var9 = class_310.method_1551();
@@ -134,7 +129,7 @@ public final class HitSplashRenderer {
          && var0 != var10
          && !(var0 instanceof class_1531)
          && !var0.method_5756(var10)) {
-         HitSplashRenderer.TypeX var14 = (HitSplashRenderer.TypeX)l.get(var0.method_5628());
+         HitSplashRenderer.SplashHit var14 = (HitSplashRenderer.SplashHit)l.get(var0.method_5628());
          boolean var15 = var14 != null && L - var14.Z < 0.8F;
          class_1297 var16 = var2 >= 0 ? var11.method_8469(var2) : null;
          class_1297 var17 = var3 >= 0 ? var11.method_8469(var3) : null;
@@ -152,7 +147,7 @@ public final class HitSplashRenderer {
                   var24 = var17.method_73189().method_1020(var25.method_1021(3.0));
                   var23 = Q(var20, var24, var7, var17.method_73189().method_1019(var25.method_1021(2.0)));
                } else if (var4.isPresent()) {
-                  var24 = (class_243)var4.get();
+                  var24 = var4.get();
                   var23 = Q(var20, var24, var7, var20.method_1005());
                } else if (var16 != null) {
                   var24 = var16.method_33571();
@@ -188,7 +183,7 @@ public final class HitSplashRenderer {
       }
    }
 
-   public static void onEntityEvent( class_1297 var0, byte var1) {
+   public static void onEntityEvent(class_1297 var0, byte var1) {
       long var2 = 44957226823556L;
       long var4 = var2 ^ 76079031247570L;
       if (var1 == 3 && var0 instanceof class_1309 var6 && k.enabled()) {
@@ -196,7 +191,7 @@ public final class HitSplashRenderer {
          class_638 var9 = class_310.method_1551().field_1687;
          if (var9 != null && !(L - var7 > 1.2F)) {
             s.remove(var0.method_5628());
-            HitSplashRenderer.TypeX var10 = (HitSplashRenderer.TypeX)l.get(var0.method_5628());
+            HitSplashRenderer.SplashHit var10 = (HitSplashRenderer.SplashHit)l.get(var0.method_5628());
             class_243 var11 = var6.method_5829().method_1005();
             double var12 = 1.0;
             double var14 = 0.0;
@@ -216,7 +211,7 @@ public final class HitSplashRenderer {
    }
 
    private static class_243 Q(class_238 var0, class_243 var1, long var2, class_243 var4) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       double var5 = var0.field_1325 - var0.field_1322;
       double var7 = var0.field_1322 + var5 * 0.42;
       double var9 = var0.field_1322 + var5 * 0.82;
@@ -236,17 +231,12 @@ public final class HitSplashRenderer {
       double var14 = var1.field_1350 - var23.field_1350;
       double var16 = Math.sqrt(var12 * var12 + var14 * var14);
       long var18 = 30559544088821L;
-      if (30559544088821L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var25 = var18 < 0L ? -1 : 1;
-      }
-
+      int var21 = var18 < 0L ? -1 : 1;
       if (var16 < 0.001) {
          return var23;
       } else {
-         double var21 = (var0.field_1320 - var0.field_1323) * 0.5;
-         return var23.method_1031(var12 / var16 * var21, 0.0, var14 / var16 * var21);
+         double var21x = (var0.field_1320 - var0.field_1323) * 0.5;
+         return var23.method_1031(var12 / var16 * var21x, 0.0, var14 / var16 * var21x);
       }
    }
 
@@ -264,7 +254,7 @@ public final class HitSplashRenderer {
       if (!Double.isNaN(var23)) {
          float var25 = (float)Math.atan2(-var5, -var3) + (float)var15.nextGaussian() * 0.6F;
          addSplat(
-            new HitSplashRenderer.TypeW(
+            new HitSplashRenderer.SplashPoint(
                var19, var23, var21, 0.5F * var16 * (0.72F + 0.28F * Math.min(var17, 1.2F)), var25, var15.nextInt(4), var15.nextBoolean(), true, var17
             )
          );
@@ -272,7 +262,7 @@ public final class HitSplashRenderer {
 
       c(
          var11,
-         new HitSplashRenderer.TypeA(var2.field_1352, var2.field_1351, var2.field_1350, 0.0, 0.0, 0.0, 0.08F * var16 * (0.7F + 0.3F * var17), var17, true)
+         new HitSplashRenderer.SplashSprites(var2.field_1352, var2.field_1351, var2.field_1350, 0.0, 0.0, 0.0, 0.08F * var16 * (0.7F + 0.3F * var17), var17, true)
       );
       int var43 = Math.round((6.0F + 4.0F * var15.nextFloat()) * Math.min(var17, 1.3F));
       float var26 = (float)Math.sqrt(var16);
@@ -300,7 +290,7 @@ public final class HitSplashRenderer {
          float var42 = (0.028F + 0.027F * var15.nextFloat()) * var16;
          c(
             var11,
-            new HitSplashRenderer.TypeA(
+            new HitSplashRenderer.SplashSprites(
                var2.field_1352 + var15.nextGaussian() * 0.04,
                var2.field_1351 + var15.nextGaussian() * 0.04,
                var2.field_1350 + var15.nextGaussian() * 0.04,
@@ -318,20 +308,20 @@ public final class HitSplashRenderer {
    private static void j(class_638 var0, class_1309 var1, long var2, class_243 var4, double var5, double var7) {
       long var9 = 97541769499963L;
       long var11 = 42944180690235L;
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       ThreadLocalRandom var13 = ThreadLocalRandom.current();
       float var14 = k.N.floatValue();
       class_243 var15 = var1.method_73189();
       double var16 = y(var0, var11, var15.field_1352, var15.field_1351 + 0.3, var15.field_1350);
       if (!Double.isNaN(var16)) {
          addSplat(
-            new HitSplashRenderer.TypeW(
+            new HitSplashRenderer.SplashPoint(
                var15.field_1352, var16, var15.field_1350, 0.5F * var14 * 1.3F, (float)Math.atan2(var7, var5), var13.nextInt(4), var13.nextBoolean(), true, 1.4F
             )
          );
       }
 
-      c(var9, new HitSplashRenderer.TypeA(var4.field_1352, var4.field_1351, var4.field_1350, 0.0, 0.0, 0.0, 0.2F * var14, 1.4F, true));
+      c(var9, new HitSplashRenderer.SplashSprites(var4.field_1352, var4.field_1351, var4.field_1350, 0.0, 0.0, 0.0, 0.2F * var14, 1.4F, true));
       byte var18 = 12;
 
       for (int var19 = 0; var19 < var18; var19++) {
@@ -339,7 +329,7 @@ public final class HitSplashRenderer {
          float var22 = (1.8F + 1.4F * var13.nextFloat()) * (float)Math.sqrt(var14);
          c(
             var9,
-            new HitSplashRenderer.TypeA(
+            new HitSplashRenderer.SplashSprites(
                var4.field_1352,
                var4.field_1351,
                var4.field_1350,
@@ -355,7 +345,7 @@ public final class HitSplashRenderer {
    }
 
    private static double y(class_638 var0, long var1, double var3, double var5, double var7) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       class_243 var9 = new class_243(var3, var5, var7);
       class_3965 var10 = var0.method_17742(
          new class_3959(var9, var9.method_1031(0.0, -4.0, 0.0), class_3960.field_17558, class_242.field_1347, class_3726.method_16194())
@@ -367,15 +357,10 @@ public final class HitSplashRenderer {
          : Double.NaN;
    }
 
-   private static void c(long var0, HitSplashRenderer.TypeA var2) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+   private static void c(long var0, HitSplashRenderer.SplashSprites var2) {
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       long var3 = 97541769499963L;
-      if (97541769499963L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var6 = var3 < 0L ? -1 : 1;
-      }
-
+      int var5 = var3 < 0L ? -1 : 1;
       if (T.size() >= 96) {
          T.removeFirst();
       }
@@ -384,11 +369,11 @@ public final class HitSplashRenderer {
       T.add(var2);
    }
 
-   static void addSplat(HitSplashRenderer.TypeW var0) {
+   static void addSplat(HitSplashRenderer.SplashPoint var0) {
       var0.i = L;
       float var1 = (var0.f ? 0.55F : 0.08F) * Math.min(var0.Q, 1.3F);
 
-      for (HitSplashRenderer.TypeW var3 : u) {
+      for (HitSplashRenderer.SplashPoint var3 : u) {
          double var4 = var3.M - var0.M;
          double var6 = var3.o - var0.o;
          double var8 = var4 * var4 + var6 * var6;
@@ -446,13 +431,13 @@ public final class HitSplashRenderer {
          e(var2);
          if (!u.isEmpty() || !T.isEmpty()) {
             try {
-               HitSplashRenderer3.draw(var7);
+               HitSplashPipeline.draw(var7);
             } catch (Throwable var15) {
                metric("draw_failures");
                String var14 = var15.toString();
                if (!var14.equals(p)) {
                   p = var14;
-                  ClientServices.LOGGER.error("Purxiy hit splash failed", var15);
+                  ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX hit splash failed", var15);
                }
             }
          }
@@ -467,36 +452,20 @@ public final class HitSplashRenderer {
 
    private static void h(long var0, class_638 var2, float var3) {
       long var4 = 109742258750740L;
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       if (!T.isEmpty() && !(var3 <= 0.0F)) {
          int var6 = Math.max(1, (int)Math.ceil(var3 / 0.025F));
          float var7 = var3 / var6;
          int var8 = 0;
 
          while (var8 < var6) {
-            for (HitSplashRenderer.TypeA var10 : T) {
+            for (HitSplashRenderer.SplashSprites var10 : T) {
                long var11 = 49647062431702L;
-               if (49647062431702L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var20 = var11 < 0L ? -1 : 1;
-               }
-
-               long var14 = 49647062431702L;
-               if (49647062431702L == 0L) {
-                  boolean var21 = false;
-               } else {
-                  int var22 = var14 < 0L ? -1 : 1;
-               }
-
+               int var14 = var11 < 0L ? -1 : 1;
+               long var14x = 49647062431702L;
+               int var17 = var14x < 0L ? -1 : 1;
                if (!var10.N) {
-                  long var17 = 49647062431702L;
-                  if (49647062431702L == 0L) {
-                     boolean var23 = false;
-                  } else {
-                     int var24 = var17 < 0L ? -1 : 1;
-                  }
-
+                  long var17x = 49647062431702L;
                   if (!var10.b) {
                      Y(var2, var4, var10, var7);
                   }
@@ -505,19 +474,15 @@ public final class HitSplashRenderer {
 
             var8++;
             long var19 = 49647062431703L;
-            if (49647062431703L == 0L) {
-               boolean var25 = false;
-            } else {
-               int var26 = var19 < 0L ? -1 : 1;
-            }
+            int var19x = var19 < 0L ? -1 : 1;
          }
       }
    }
 
-   private static void Y(class_638 var0, long var1, HitSplashRenderer.TypeA var3, float var4) {
+   private static void Y(class_638 var0, long var1, HitSplashRenderer.SplashSprites var3, float var4) {
       var3.r -= 22.0F * var4;
       double var5 = Math.exp(-0.9F * var4);
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       var3.P *= var5;
       var3.r *= var5;
       var3.f *= var5;
@@ -531,49 +496,29 @@ public final class HitSplashRenderer {
       } else {
          class_243 var10 = var9.method_17784();
          long var11 = 109742258750740L;
-         if (109742258750740L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var39 = var11 < 0L ? -1 : 1;
-         }
-
+         int var14 = var11 < 0L ? -1 : 1;
          if (!var0.method_8316(var9.method_17777()).method_15769()) {
             var3.b = true;
          } else {
-            class_2350 var14 = var9.method_17780();
+            class_2350 var14x = var9.method_17780();
             long var15 = 109742258750740L;
-            if (109742258750740L == 0L) {
-               boolean var40 = false;
-            } else {
-               int var41 = var15 < 0L ? -1 : 1;
-            }
-
-            int var17 = HitSplashRenderer.TypeP.S[var14.ordinal()];
+            int var17 = var15 < 0L ? -1 : 1;
+            var17 = HitSplashRenderer.SplashBatchState.S[var14x.ordinal()];
             long var18 = 109742258750740L;
-            if (109742258750740L == 0L) {
-               boolean var42 = false;
-            } else {
-               int var43 = var18 < 0L ? -1 : 1;
-            }
-
+            int var20 = var18 < 0L ? -1 : 1;
             switch (var17) {
                case 1:
                   var3.b = true;
-                  long var20 = 109742258750739L;
-                  if (109742258750739L == 0L) {
-                     boolean var50 = false;
-                  } else {
-                     int var51 = var20 < 0L ? -1 : 1;
-                  }
-
-                  double var22 = Math.sqrt(var3.P * var3.P + var3.f * var3.f);
+                  long var20x = 109742258750739L;
+                  int var22 = var20x < 0L ? -1 : 1;
+                  double var22x = Math.sqrt(var3.P * var3.P + var3.f * var3.f);
                   ThreadLocalRandom var24 = ThreadLocalRandom.current();
                   addSplat(
-                     new HitSplashRenderer.TypeW(
+                     new HitSplashRenderer.SplashPoint(
                         var10.field_1352,
                         var10.field_1351,
                         var10.field_1350,
-                        var3.n * (2.7F + 0.45F * (float)var22),
+                        var3.n * (2.7F + 0.45F * (float)var22x),
                         (float)Math.atan2(var3.f, var3.P),
                         4 + var24.nextInt(4),
                         var24.nextBoolean(),
@@ -584,12 +529,7 @@ public final class HitSplashRenderer {
                   break;
                case 2:
                   long var25 = 109742258750739L;
-                  if (109742258750739L == 0L) {
-                     boolean var48 = false;
-                  } else {
-                     int var49 = var25 < 0L ? -1 : 1;
-                  }
-
+                  int var41 = var25 < 0L ? -1 : 1;
                   var3.i = var10.field_1352;
                   var3.D = var10.field_1351 - 0.01;
                   var3.l = var10.field_1350;
@@ -597,27 +537,17 @@ public final class HitSplashRenderer {
                   break;
                default:
                   double var27 = var10.field_1352;
-                  double var29 = var14.method_10148() * 0.01;
+                  double var29 = var14x.method_10148() * 0.01;
                   long var31 = 109742258750740L;
-                  if (109742258750740L == 0L) {
-                     boolean var44 = false;
-                  } else {
-                     int var45 = var31 < 0L ? -1 : 1;
-                  }
-
+                  int var34 = var31 < 0L ? -1 : 1;
                   var3.i = var27 + var29;
                   var3.D = var10.field_1351;
-                  var3.l = var10.field_1350 + var14.method_10165() * 0.01;
-                  if (var14.method_10166() == class_2351.field_11048) {
-                     double var34 = -var3.P;
+                  var3.l = var10.field_1350 + var14x.method_10165() * 0.01;
+                  if (var14x.method_10166() == class_2351.field_11048) {
+                     double var34x = -var3.P;
                      long var36 = 109742258750739L;
-                     if (109742258750739L == 0L) {
-                        boolean var46 = false;
-                     } else {
-                        int var47 = var36 < 0L ? -1 : 1;
-                     }
-
-                     var3.P = var34 * 0.15;
+                     int var36x = var36 < 0L ? -1 : 1;
+                     var3.P = var34x * 0.15;
                      var3.f *= 0.5;
                   } else {
                      var3.f = -var3.f * 0.15;
@@ -630,40 +560,30 @@ public final class HitSplashRenderer {
 
    private static void e(long var0) {
       T.removeIf(var0x -> {
-         HitSplashRenderer2.ensureSourceClassInitialized();
+         HitSplashStudioScreen.ensureSourceClassInitialized();
          boolean var1 = false;
          return var0x.b || L - var0x.h > (var0x.N ? 0.16F : 2.5F) || var0x.D < -512.0;
       });
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       float var2 = k.J.floatValue();
       u.removeIf(var1 -> {
-         HitSplashRenderer2.ensureSourceClassInitialized();
+         HitSplashStudioScreen.ensureSourceClassInitialized();
          return var1.life(L, var2) >= 1.0F;
       });
       int var3 = 0;
 
-      for (HitSplashRenderer.TypeW var5 : u) {
+      for (HitSplashRenderer.SplashPoint var5 : u) {
          if (var5.T < 0.0) {
             var3++;
          }
       }
 
       for (int var11 = 0; var11 < u.size() && var3 > 104; var11++) {
-         HitSplashRenderer.TypeW var13 = u.get(var11);
+         HitSplashRenderer.SplashPoint var13 = u.get(var11);
          long var6 = 62058982832533L;
-         if (62058982832533L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var14 = var6 < 0L ? -1 : 1;
-         }
-
-         long var9 = 62058982832534L;
-         if (62058982832534L == 0L) {
-            boolean var15 = false;
-         } else {
-            int var16 = var9 < 0L ? -1 : 1;
-         }
-
+         int var9 = var6 < 0L ? -1 : 1;
+         long var9x = 62058982832534L;
+         int var10 = var9x < 0L ? -1 : 1;
          if (var13.T < 0.0) {
             var13.T = L;
             var3--;
@@ -671,11 +591,7 @@ public final class HitSplashRenderer {
       }
 
       long var12 = 62058982832534L;
-      if (62058982832534L == 0L) {
-         boolean var17 = false;
-      } else {
-         int var18 = var12 < 0L ? -1 : 1;
-      }
+      int var14 = var12 < 0L ? -1 : 1;
    }
 
    public static void previewHit(class_1309 var0, class_243 var1, boolean var2) {
@@ -714,7 +630,7 @@ public final class HitSplashRenderer {
    private static void H(long var0, class_310 var2, int var3, class_638 var4, boolean var5) {
       long var6 = 85701429597298L;
       long var8 = var6 ^ 94810757237895L;
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       class_746 var10 = var2.field_1724;
       if (var10 != null) {
          class_1309 var11 = null;
@@ -724,33 +640,23 @@ public final class HitSplashRenderer {
             double var30 = 64.0;
 
             for (class_1297 var17 : var4.method_18112()) {
-               int var18 = (var17 instanceof class_1309 ? 1 : 0);
+               int var18 = var17 instanceof class_1309 ? 1 : 0;
                long var19 = 19952L;
-               if (19952L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var39 = var19 < 0L ? -1 : 1;
-               }
-
-               if ((var18 != 0)) {
-                  class_1309 var22 = (class_1309)var17;
+               int var22 = var19 < 0L ? -1 : 1;
+               if (var18 != 0) {
+                  class_1309 var22x = (class_1309)var17;
                   long var23 = 19953L;
-                  if (19953L == 0L) {
-                     boolean var40 = false;
-                  } else {
-                     int var41 = var23 < 0L ? -1 : 1;
-                  }
-
+                  int var21x = var23 < 0L ? -1 : 1;
                   if (var17 != var10) {
-                     var18 = (var17 instanceof class_1531 ? 1 : 0);
-                     int var21 = -347827086;
-                     if ((var18 == 0)) {
+                     boolean var33x = var17 instanceof class_1531;
+                     var21x = -347827086;
+                     if (!var33x) {
                         double var26;
-                        var18 = (var26 = var17.method_5858(var10) - var30) == 0.0 ? 0 : (var26 < 0.0 ? -1 : 1);
-                        var21 = -347827086;
-                        if (var18 < 0) {
+                        int var33 = (var26 = var17.method_5858(var10) - var30) == 0.0 ? 0 : (var26 < 0.0 ? -1 : 1);
+                        var21x = -347827086;
+                        if (var33 < 0) {
                            var30 = var17.method_5858(var10);
-                           var11 = var22;
+                           var11 = var22x;
                         }
                      }
                   }
@@ -759,12 +665,7 @@ public final class HitSplashRenderer {
          }
 
          long var28 = 19953L;
-         if (19953L == 0L) {
-            boolean var42 = false;
-         } else {
-            int var43 = var28 < 0L ? -1 : 1;
-         }
-
+         int var30 = var28 < 0L ? -1 : 1;
          if (var11 != null) {
             class_243 var15 = var10.method_33571();
             class_243 var31 = Q(var11.method_5829(), var15, var8, var11.method_5829().method_1005());
@@ -775,7 +676,7 @@ public final class HitSplashRenderer {
             double var25 = var35 / var37;
             splash(var4, var11, var31, var38, var25, 1.0F, 1.0F);
             s.put(var11.method_5628(), L);
-            l.put(var11.method_5628(), new HitSplashRenderer.TypeX(L, var31.method_1020(var11.method_73189()), var15, 1.0F, false));
+            l.put(var11.method_5628(), new HitSplashRenderer.SplashHit(L, var31.method_1020(var11.method_73189()), var15, 1.0F, false));
          }
       }
    }
@@ -805,7 +706,7 @@ public final class HitSplashRenderer {
       F = 0L;
    }
 
-static final class TypeA {
+   static final class SplashSprites {
       static final float d = 0.16F;
       double i;
       double D;
@@ -819,7 +720,7 @@ static final class TypeA {
       double h;
       boolean b;
 
-      TypeA(double var1, double var3, double var5, double var7, double var9, double var11, float var13, float var14, boolean var15) {
+      SplashSprites(double var1, double var3, double var5, double var7, double var9, double var11, float var13, float var14, boolean var15) {
          this.i = var1;
          this.D = var3;
          this.l = var5;
@@ -832,7 +733,7 @@ static final class TypeA {
       }
    }
 
-   static class TypeP {
+   static class SplashBatchState {
       static final int[] S = new int[class_2350.values().length];
 
       static {
@@ -848,7 +749,7 @@ static final class TypeA {
       }
    }
 
-   static final class TypeW {
+   static final class SplashPoint {
       final double M;
       final double z;
       final double o;
@@ -863,7 +764,7 @@ static final class TypeA {
       double e;
       double T = -1.0;
 
-      TypeW(double var1, double var3, double var5, float var7, float var8, int var9, boolean var10, boolean var11, float var12) {
+      SplashPoint(double var1, double var3, double var5, float var7, float var8, int var9, boolean var10, boolean var11, float var12) {
          this.M = var1;
          this.z = var3;
          this.o = var5;
@@ -896,7 +797,7 @@ static final class TypeA {
       }
    }
 
-   private record TypeX(double Z, class_243 A, class_243 B, float D, boolean N) {
+   private record SplashHit(double Z, class_243 A, class_243 B, float D, boolean N) {
       public double at() {
          return this.Z;
       }

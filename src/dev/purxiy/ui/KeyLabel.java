@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui;
 
 import dev.purxiy.render.BlendMode;

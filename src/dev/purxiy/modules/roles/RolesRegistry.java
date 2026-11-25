@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.roles;
 
 import com.mojang.authlib.GameProfile;
@@ -31,25 +30,17 @@ public final class RolesRegistry {
    static final String O = "★";
    private static final int U = 512;
    private static class_2561 N = class_2561.method_43473();
-   
    private static Object m;
-   
    private static Object o;
-   
    private static Object u;
-   
    private static Object f;
-   private static final Map<RolesRegistry.TypeD, class_2561> G = new HashMap<>();
+   private static final Map<RolesRegistry.RolePlayer, class_2561> G = new HashMap<>();
    private static final Pattern D = Pattern.compile("[.*!~+\\-]?[A-Za-z0-9_]{2,16}|[.*!~+\\-][A-Za-z0-9_][A-Za-z0-9_ ]{0,14}[A-Za-z0-9_]");
    static RolesModule J;
    private static ModuleContext M;
    private static int p = 0;
    private static int d = 0;
    public static boolean l;
-
-
-
-
 
    private RolesRegistry() {
    }
@@ -94,16 +85,11 @@ public final class RolesRegistry {
          var5.method_10852(w(var3));
       }
 
-      String var7 = var0.E.get().strip();
+      String var7 = ((String)var0.E.get()).strip();
       long var8 = 65838392172244L;
-      if (65838392172244L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var11 = var8 < 0L ? -1 : 1;
-      }
-
-      if (!RolesSupport4.plain(var7).isBlank()) {
-         var5.method_10852(RolesSupport4.legacy(var7, class_2583.field_24360));
+      int var10 = var8 < 0L ? -1 : 1;
+      if (!RolesCache.plain(var7).isBlank()) {
+         var5.method_10852(RolesCache.legacy(var7, class_2583.field_24360));
          var5.method_10852(w(var3));
       }
 
@@ -123,14 +109,14 @@ public final class RolesRegistry {
       if (var2.method_10855().isEmpty()) {
          return var0;
       } else {
-         RolesRegistry.TypeD var3 = new RolesRegistry.TypeD(var0, var1);
+         RolesRegistry.RolePlayer var3 = new RolesRegistry.RolePlayer(var0, var1);
          Object var4 = G.get(var3);
          if (var4 == null) {
             if (G.size() >= 512) {
                G.clear();
             }
 
-            class_5250 var5 = RolesSupport4.fromName(var0, var1);
+            class_5250 var5 = RolesCache.fromName(var0, var1);
             var4 = class_2561.method_43473().method_10852(var2).method_10852((class_2561)(var5 != null ? var5 : var0));
             G.put(var3, (class_2561)var4);
          }
@@ -185,12 +171,7 @@ public final class RolesRegistry {
       if (!var1) {
          boolean var6 = S().everyone();
          long var7 = 125337611789636L;
-         if (125337611789636L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var7 < 0L ? -1 : 1;
-         }
-
+         int var9 = var7 < 0L ? -1 : 1;
          if (!var6 || !z(var0, var4)) {
             return false;
          }
@@ -199,7 +180,7 @@ public final class RolesRegistry {
       return true;
    }
 
-   private static boolean U( char var0, long var1, UUID var3) {
+   private static boolean U(char var0, long var1, UUID var3) {
       if (var3 == null) {
          return false;
       } else {
@@ -213,20 +194,10 @@ public final class RolesRegistry {
 
    private static boolean z(GameProfile var0, long var1) {
       long var3 = 58709529445802L;
-      if (58709529445802L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var3 < 0L ? -1 : 1;
-      }
-
+      int var6 = var3 < 0L ? -1 : 1;
       if (var0 != null) {
-         long var6 = 58709529445803L;
-         if (58709529445803L == 0L) {
-            boolean var9 = false;
-         } else {
-            int var10 = var6 < 0L ? -1 : 1;
-         }
-
+         long var6x = 58709529445803L;
+         int var7 = var6x < 0L ? -1 : 1;
          if (var0.id() != null && var0.id().version() != 2 && var0.name() != null && D.matcher(var0.name()).matches()) {
             return true;
          }
@@ -243,8 +214,8 @@ public final class RolesRegistry {
       }
    }
 
-   static RolesRegistry.TypeU nick() {
-      return new RolesRegistry.TypeU();
+   static RolesRegistry.RoleCache nick() {
+      return new RolesRegistry.RoleCache();
    }
 
    public static void install(RolesModule var0, ModuleContext var1) {
@@ -270,10 +241,10 @@ public final class RolesRegistry {
       M = null;
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
 
-private record TypeD(class_2561 V, String B) {
+   private record RolePlayer(class_2561 V, String B) {
       public class_2561 name() {
          return this.V;
       }
@@ -291,16 +262,14 @@ private record TypeD(class_2561 V, String B) {
       }
    }
 
-   static final class TypeU {
+   static final class RoleCache {
       final BooleanSetting p;
       final TextSetting S;
 
-
-
-      TypeU() {
+      RoleCache() {
          Map var1 = CosmeticRegistry.readSettings("nick_hider");
-         this.p = new BooleanSetting("hide_own", "Hide own", null, Boolean.parseBoolean((String)(var1.getOrDefault("hide_own", "true"))));
-         this.S = new TextSetting("nickname", "Nickname", null, (String)(var1.getOrDefault("nickname", "Purxiy")), 64);
+         this.p = new BooleanSetting("hide_own", "Hide own", null, Boolean.parseBoolean((String)var1.getOrDefault("hide_own", "true")));
+         this.S = new TextSetting("nickname", "Nickname", null, (String)var1.getOrDefault("nickname", "SourceByDevFFnightmare DeObfDeCompByGuideX"), 64);
       }
 
       boolean enabled() {
@@ -314,11 +283,10 @@ private record TypeD(class_2561 V, String B) {
 
       void persist() {
          try {
-            CosmeticRegistry.mergeSettings("nick_hider", Map.of("hide_own", Boolean.toString(this.p.enabled()), "nickname", this.S.get()), true);
+            CosmeticRegistry.mergeSettings("nick_hider", Map.of("hide_own", Boolean.toString(this.p.enabled()), "nickname", (String)this.S.get()), true);
          } catch (IOException var2) {
             ClientServices.LOGGER.warn("Could not save nickname settings");
          }
       }
-
-}
+   }
 }

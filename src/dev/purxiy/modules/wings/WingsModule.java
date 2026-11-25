@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.wings;
 
 import dev.purxiy.anim.Easing;
@@ -6,15 +5,15 @@ import dev.purxiy.config.BooleanSetting;
 import dev.purxiy.config.ColorSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.ClientTheme;
-import dev.purxiy.loader.fabric.CosmeticCatalog;
 import dev.purxiy.loader.fabric.CosmeticRegistry;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import dev.purxiy.loader.fabric.client.ClientCodec;
-import dev.purxiy.loader.fabric.client.ClientRegistry11;
-import dev.purxiy.loader.fabric.client.ClientRenderer6;
+import dev.purxiy.loader.fabric.client.ElytraStateProvider;
+import dev.purxiy.loader.fabric.client.StudioEntityRenderLayer;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import dev.purxiy.ui.clickgui.Studio;
 import java.util.List;
@@ -37,22 +36,20 @@ public final class WingsModule extends ModuleDescriptor {
    public final BooleanSetting v;
    public final BooleanSetting m;
 
-
-
    public WingsModule() {
       super("wings", "Wings", "A pair of softly animated wings", "feather");
       this.n = this.mode("design", "Wings", "Which wings you wear", WingDesign.r.x, WingDesign.labels());
       this.p = this.section("Look").color("tint", "Colour", "The colour in your wings", -4222985, false).followsAccent();
-      this.l = this.number("size", "Size", "How large they are", 0.9, 0.5, 1.3, 0.05, NumberSetting.Listener.PERCENT);
-      this.k = this.number("glow", "Glow", "How brightly they shine in the dark", 0.7, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT);
-      this.f = this.section("Movement").mode("rest", "At rest", "How they rest while you stand", "Folded", "Folded", "Unfolded");
+      this.l = this.number("size", "Size", "How large they are", 0.9, 0.5, 1.3, 0.05, Listener.PERCENT);
+      this.k = this.number("glow", "Glow", "How brightly they shine in the dark", 0.7, 0.0, 1.0, 0.05, Listener.PERCENT);
+      this.f = this.section("Movement").mode("rest", "At rest", "How they rest while you stand", "Folded", new String[]{"Folded", "Unfolded"});
       this.v = this.bool("jump", "Beat as you jump", "Two strong beats lift you off the ground", true);
       this.m = this.bool("elytra", "In place of your elytra", "Gliding, your wings carry you instead", true);
       this.p.visibleWhen(() -> this.selected().h);
    }
 
    public WingDesign selected() {
-      return WingDesign.byLabel(this.n.get());
+      return WingDesign.byLabel((String)this.n.get());
    }
 
    public boolean restsOpen() {
@@ -64,20 +61,17 @@ public final class WingsModule extends ModuleDescriptor {
    }
 
    public float size() {
-      return this.l.get().floatValue();
+      return ((Double)this.l.get()).floatValue();
    }
 
    private void F() {
       WingsCache.prepare();
    }
 
-   
-   @Override
    public Studio studio() {
-      return WingsRenderer2.of(this);
+      return WingsStudioScreen.of(this);
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       var1.own(
          ClientCodec.install(
@@ -85,36 +79,30 @@ public final class WingsModule extends ModuleDescriptor {
          )
       );
       var1.own(ClientServices.acquire(this.id()));
-      WingsUpdater2.install(this, var1);
-      var1.own(WingsUpdater2::uninstall);
-      var1.own(WingsRenderer7::close);
-      var1.own(ClientTheme.install(new ClientTheme.Listener() {
-         @Override
+      WingsState.install(this, var1);
+      var1.own(WingsState::uninstall);
+      var1.own(WingsRenderPass::close);
+      var1.own(ClientTheme.install(new dev.purxiy.loader.fabric.ClientTheme.Listener() {
          public boolean active() {
             return WingsSupport.active();
          }
 
-         @Override
          public float fov(float var1) {
             return WingsSupport.fov(var1);
          }
 
-         @Override
          public boolean hides(class_1297 var1) {
             return WingsSupport.hides(var1);
          }
 
-         @Override
          public void reset() {
-            WingsRenderer2.closeOwned();
+            WingsStudioScreen.closeOwned();
          }
 
-         @Override
          public boolean place(class_4184 var1, class_1937 var2, class_1297 var3, float var4, double[] var5, float[] var6) {
             return WingsSupport.place(var1, var2, var3, var4, var5, var6);
          }
 
-         @Override
          public void pose(class_11890 var1, class_10055 var2) {
             if (WingsSupport.active() && var1 == class_310.method_1551().field_1724) {
                float var3 = Easing.SMOOTHSTEP.apply(Math.clamp((WingsSupport.progress() - 0.15F) / 0.6F, 0.0F, 1.0F));
@@ -123,31 +111,27 @@ public final class WingsModule extends ModuleDescriptor {
             }
          }
       }));
-      var1.own(ModuleWidget.claim("preview-wings", () -> WingsRenderer2.showing(this)));
-      var1.own(ModuleWidget.onTick(WingsRenderer2::tick));
-      var1.own(WingsRenderer2::closeOwned);
+      var1.own(ModuleWidget.claim("preview-wings", () -> WingsStudioScreen.showing(this)));
+      var1.own(ModuleWidget.onTick(WingsStudioScreen::tick));
+      var1.own(WingsStudioScreen::closeOwned);
       var1.own(CosmeticRegistry.register(this.id(), this.getClass().getClassLoader(), () -> {
          ClientTheme.resetAll();
          return new WingsRenderer(this);
       }));
       this.F();
-      var1.own(ClientRegistry11.install(new ClientRegistry11.Listener() {
-         @Override
+      var1.own(ElytraStateProvider.install(new dev.purxiy.loader.fabric.client.ElytraStateProvider.Listener() {
          public boolean wears(class_10055 var1) {
-            return WingsUpdater2.wears(var1);
+            return WingsState.wears(var1);
          }
 
-         @Override
          public boolean hidesElytra(class_10055 var1) {
-            return WingsUpdater2.hidesElytra(var1);
+            return WingsState.hidesElytra(var1);
          }
       }));
-      var1.own(ClientRenderer6.install(10, WingsRenderer5::draw));
+      var1.own(StudioEntityRenderLayer.install(10, WingsOutlinePass::draw));
    }
 
-   @Override
-   protected CosmeticCatalog.Listener createPreview() {
-      return new WingsRenderer6(this);
+   protected dev.purxiy.loader.fabric.CosmeticCatalog.Listener createPreview() {
+      return new WingsEditorPage(this);
    }
-
 }

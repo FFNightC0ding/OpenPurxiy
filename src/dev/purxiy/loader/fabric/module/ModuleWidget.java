@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.module;
 
 import dev.purxiy.loader.api.HudLayer;
@@ -28,34 +27,34 @@ import net.minecraft.class_746;
 public final class ModuleWidget {
    private static int dispatchDepth = 0;
    private static long sequence = 0L;
-   private static final List<ModuleWidget.TypeP<?>> channels = new ArrayList<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener> keys = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener3> keyInterceptors = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener10> buttonInterceptors = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener4> buttons = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener7> damage = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener5> extraction = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Consumer<class_310>> ticks = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Consumer<class_310>> clientTickStart = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Consumer<class_310>> inputPhase = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Predicate<class_746>> sustain = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener2> scroll = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<DoubleUnaryOperator> fov = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<DoubleUnaryOperator> mouse = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<BooleanSupplier> hand = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Consumer<class_310>> attacks = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Consumer<class_310>> disconnect = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<IntUnaryOperator> repeat = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<UnaryOperator<class_10185>> input = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener9> sprint = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Consumer<class_746>> playerTick = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener8> clicks = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Predicate<class_310>> attackClicks = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Consumer<class_310>> startAttacks = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener11> actualAttacks = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.Listener6> sounds = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<Runnable> afterWorld = new ModuleWidget.TypeP<>();
-   private static final ModuleWidget.TypeP<ModuleWidget.TypeG> claims = new ModuleWidget.TypeP<>();
+   private static final List<ModuleWidget.TaskQueue<?>> channels = new ArrayList<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.Listener> keys = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.KeyHandler> keyInterceptors = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.MouseButtonHandler> buttonInterceptors = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.MousePressHandler> buttons = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.DamageHandler> damage = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.HudExtractHandler> extraction = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Consumer<class_310>> ticks = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Consumer<class_310>> clientTickStart = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Consumer<class_310>> inputPhase = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Predicate<class_746>> sustain = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.ScrollHandler> scroll = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<DoubleUnaryOperator> fov = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<DoubleUnaryOperator> mouse = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<BooleanSupplier> hand = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Consumer<class_310>> attacks = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Consumer<class_310>> disconnect = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<IntUnaryOperator> repeat = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<UnaryOperator<class_10185>> input = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.SprintHandler> sprint = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Consumer<class_746>> playerTick = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.InteractHandler> clicks = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Predicate<class_310>> attackClicks = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Consumer<class_310>> startAttacks = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.AttackHandler> actualAttacks = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.SoundHandler> sounds = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<Runnable> afterWorld = new ModuleWidget.TaskQueue<>();
+   private static final ModuleWidget.TaskQueue<ModuleWidget.NamedTask> claims = new ModuleWidget.TaskQueue<>();
 
    private ModuleWidget() {
    }
@@ -75,23 +74,23 @@ public final class ModuleWidget {
       return keys.add(0, var0);
    }
 
-   public static AutoCloseable interceptKey(int var0, ModuleWidget.Listener3 var1) {
+   public static AutoCloseable interceptKey(int var0, ModuleWidget.KeyHandler var1) {
       return keyInterceptors.add(var0, var1);
    }
 
-   public static AutoCloseable interceptMouse(int var0, ModuleWidget.Listener10 var1) {
+   public static AutoCloseable interceptMouse(int var0, ModuleWidget.MouseButtonHandler var1) {
       return buttonInterceptors.add(var0, var1);
    }
 
-   public static AutoCloseable onMouseButton(ModuleWidget.Listener4 var0) {
+   public static AutoCloseable onMouseButton(ModuleWidget.MousePressHandler var0) {
       return buttons.add(0, var0);
    }
 
-   public static AutoCloseable onDamage(ModuleWidget.Listener7 var0) {
+   public static AutoCloseable onDamage(ModuleWidget.DamageHandler var0) {
       return damage.add(0, var0);
    }
 
-   public static AutoCloseable onHudExtraction(ModuleWidget.Listener5 var0) {
+   public static AutoCloseable onHudExtraction(ModuleWidget.HudExtractHandler var0) {
       return extraction.add(0, var0);
    }
 
@@ -111,7 +110,7 @@ public final class ModuleWidget {
       return sustain.add(0, var0);
    }
 
-   public static AutoCloseable onScroll(int var0, ModuleWidget.Listener2 var1) {
+   public static AutoCloseable onScroll(int var0, ModuleWidget.ScrollHandler var1) {
       return scroll.add(var0, var1);
    }
 
@@ -143,7 +142,7 @@ public final class ModuleWidget {
       return input.add(var0, var1);
    }
 
-   public static AutoCloseable onSprint(ModuleWidget.Listener9 var0) {
+   public static AutoCloseable onSprint(ModuleWidget.SprintHandler var0) {
       return sprint.add(0, var0);
    }
 
@@ -151,7 +150,7 @@ public final class ModuleWidget {
       return playerTick.add(0, var0);
    }
 
-   public static AutoCloseable onContainerClick(ModuleWidget.Listener8 var0) {
+   public static AutoCloseable onContainerClick(ModuleWidget.InteractHandler var0) {
       return clicks.add(0, var0);
    }
 
@@ -163,11 +162,11 @@ public final class ModuleWidget {
       return startAttacks.add(0, var0);
    }
 
-   public static AutoCloseable onActualAttack(ModuleWidget.Listener11 var0) {
+   public static AutoCloseable onActualAttack(ModuleWidget.AttackHandler var0) {
       return actualAttacks.add(0, var0);
    }
 
-   public static AutoCloseable onSound(ModuleWidget.Listener6 var0) {
+   public static AutoCloseable onSound(ModuleWidget.SoundHandler var0) {
       return sounds.add(0, var0);
    }
 
@@ -177,7 +176,7 @@ public final class ModuleWidget {
 
    public static AutoCloseable claim(String var0, BooleanSupplier var1) {
       if (var0 != null && var0.matches("[a-z][a-z0-9_-]{0,63}")) {
-         return claims.add(0, new ModuleWidget.TypeG(var0, Objects.requireNonNull(var1)));
+         return claims.add(0, new ModuleWidget.NamedTask(var0, Objects.requireNonNull(var1)));
       } else {
          throw new IllegalArgumentException("Invalid input claim");
       }
@@ -186,8 +185,8 @@ public final class ModuleWidget {
    public static boolean claimed(String var0) {
       owner();
 
-      for (ModuleWidget.TypeF var2 : claims.listeners) {
-         if (((ModuleWidget.TypeG)var2.callback()).name().equals(var0) && ((ModuleWidget.TypeG)var2.callback()).active().getAsBoolean()) {
+      for (ModuleWidget.TaskSlot var2 : claims.listeners) {
+         if (((ModuleWidget.NamedTask)var2.callback()).name().equals(var0) && ((ModuleWidget.NamedTask)var2.callback()).active().getAsBoolean()) {
             return true;
          }
       }
@@ -220,7 +219,7 @@ public final class ModuleWidget {
 
    public static void key(int var0, int var1, int var2) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var4 : keys.listeners) {
+         for (ModuleWidget.TaskSlot var4 : keys.listeners) {
             ((ModuleWidget.Listener)var4.callback()).key(var0, var1, var2);
          }
 
@@ -230,8 +229,8 @@ public final class ModuleWidget {
 
    public static boolean interceptKey(int var0, int var1, int var2) {
       return dispatch(() -> {
-         for (ModuleWidget.TypeF var4 : keyInterceptors.listeners) {
-            if (((ModuleWidget.Listener3)var4.callback()).key(var0, var1, var2)) {
+         for (ModuleWidget.TaskSlot var4 : keyInterceptors.listeners) {
+            if (((ModuleWidget.KeyHandler)var4.callback()).key(var0, var1, var2)) {
                return true;
             }
          }
@@ -242,8 +241,8 @@ public final class ModuleWidget {
 
    public static boolean interceptMouse(int var0, int var1) {
       return dispatch(() -> {
-         for (ModuleWidget.TypeF var3 : buttonInterceptors.listeners) {
-            if (((ModuleWidget.Listener10)var3.callback()).button(var0, var1)) {
+         for (ModuleWidget.TaskSlot var3 : buttonInterceptors.listeners) {
+            if (((ModuleWidget.MouseButtonHandler)var3.callback()).button(var0, var1)) {
                return true;
             }
          }
@@ -254,8 +253,8 @@ public final class ModuleWidget {
 
    public static void mouseButton(int var0, int var1) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var3 : buttons.listeners) {
-            ((ModuleWidget.Listener4)var3.callback()).button(var0, var1);
+         for (ModuleWidget.TaskSlot var3 : buttons.listeners) {
+            ((ModuleWidget.MousePressHandler)var3.callback()).button(var0, var1);
          }
 
          return null;
@@ -264,8 +263,8 @@ public final class ModuleWidget {
 
    public static void damage(class_1297 var0, int var1) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var3 : damage.listeners) {
-            ((ModuleWidget.Listener7)var3.callback()).damage(var0, var1);
+         for (ModuleWidget.TaskSlot var3 : damage.listeners) {
+            ((ModuleWidget.DamageHandler)var3.callback()).damage(var0, var1);
          }
 
          return null;
@@ -276,8 +275,8 @@ public final class ModuleWidget {
       return dispatch(() -> {
          boolean var1 = false;
 
-         for (ModuleWidget.TypeF var3 : extraction.listeners) {
-            var1 |= ((ModuleWidget.Listener5)var3.callback()).extracted(var0);
+         for (ModuleWidget.TaskSlot var3 : extraction.listeners) {
+            var1 |= ((ModuleWidget.HudExtractHandler)var3.callback()).extracted(var0);
          }
 
          return var1;
@@ -286,7 +285,7 @@ public final class ModuleWidget {
 
    public static void tick(class_310 var0) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : ticks.listeners) {
+         for (ModuleWidget.TaskSlot var2 : ticks.listeners) {
             ((Consumer)var2.callback()).accept(var0);
          }
 
@@ -296,7 +295,7 @@ public final class ModuleWidget {
 
    public static void clientTickStart(class_310 var0) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : clientTickStart.listeners) {
+         for (ModuleWidget.TaskSlot var2 : clientTickStart.listeners) {
             ((Consumer)var2.callback()).accept(var0);
          }
 
@@ -306,7 +305,7 @@ public final class ModuleWidget {
 
    public static void inputPhase(class_310 var0) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : inputPhase.listeners) {
+         for (ModuleWidget.TaskSlot var2 : inputPhase.listeners) {
             ((Consumer)var2.callback()).accept(var0);
          }
 
@@ -316,7 +315,7 @@ public final class ModuleWidget {
 
    public static boolean sustainUse(class_746 var0) {
       return dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : sustain.listeners) {
+         for (ModuleWidget.TaskSlot var2 : sustain.listeners) {
             if (((Predicate)var2.callback()).test(var0)) {
                return true;
             }
@@ -328,8 +327,8 @@ public final class ModuleWidget {
 
    public static boolean scroll(double var0, double var2) {
       return Double.isFinite(var0) && Double.isFinite(var2) ? dispatch(() -> {
-         for (ModuleWidget.TypeF var5 : scroll.listeners) {
-            if (((ModuleWidget.Listener2)var5.callback()).scroll(var0, var2)) {
+         for (ModuleWidget.TaskSlot var5 : scroll.listeners) {
+            if (((ModuleWidget.ScrollHandler)var5.callback()).scroll(var0, var2)) {
                return true;
             }
          }
@@ -342,7 +341,7 @@ public final class ModuleWidget {
       return dispatch(() -> {
          double var2 = var0;
 
-         for (ModuleWidget.TypeF var5 : fov.listeners) {
+         for (ModuleWidget.TaskSlot var5 : fov.listeners) {
             var2 = ((DoubleUnaryOperator)var5.callback()).applyAsDouble(var2);
          }
 
@@ -358,7 +357,7 @@ public final class ModuleWidget {
       return dispatch(() -> {
          double var2 = var0;
 
-         for (ModuleWidget.TypeF var5 : mouse.listeners) {
+         for (ModuleWidget.TaskSlot var5 : mouse.listeners) {
             var2 = ((DoubleUnaryOperator)var5.callback()).applyAsDouble(var2);
          }
 
@@ -375,7 +374,7 @@ public final class ModuleWidget {
          if (var0) {
             return true;
          } else {
-            for (ModuleWidget.TypeF var2 : hand.listeners) {
+            for (ModuleWidget.TaskSlot var2 : hand.listeners) {
                if (((BooleanSupplier)var2.callback()).getAsBoolean()) {
                   return true;
                }
@@ -388,7 +387,7 @@ public final class ModuleWidget {
 
    public static void beforeAttack(class_310 var0) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : attacks.listeners) {
+         for (ModuleWidget.TaskSlot var2 : attacks.listeners) {
             ((Consumer)var2.callback()).accept(var0);
          }
 
@@ -398,7 +397,7 @@ public final class ModuleWidget {
 
    public static void disconnected(class_310 var0) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : disconnect.listeners) {
+         for (ModuleWidget.TaskSlot var2 : disconnect.listeners) {
             ((Consumer)var2.callback()).accept(var0);
          }
 
@@ -412,7 +411,7 @@ public final class ModuleWidget {
       return dispatch(() -> {
          int var1 = var0;
 
-         for (ModuleWidget.TypeF var3 : repeat.listeners) {
+         for (ModuleWidget.TaskSlot var3 : repeat.listeners) {
             int var4 = ((IntUnaryOperator)var3.callback()).applyAsInt(var1);
             if (var4 < 1 || var4 > var1) {
                throw new IllegalStateException("Invalid use interval");
@@ -429,7 +428,7 @@ public final class ModuleWidget {
       return dispatch(() -> {
          class_10185 var1 = var0;
 
-         for (ModuleWidget.TypeF var3 : input.listeners) {
+         for (ModuleWidget.TaskSlot var3 : input.listeners) {
             var1 = (class_10185)Objects.requireNonNull(((UnaryOperator)var3.callback()).apply(var1));
          }
 
@@ -441,8 +440,8 @@ public final class ModuleWidget {
       return !class_310.method_1551().method_18854() ? var1 : dispatch(() -> {
          boolean var2 = var1;
 
-         for (ModuleWidget.TypeF var4 : sprint.listeners) {
-            var2 = ((ModuleWidget.Listener9)var4.callback()).sprint(var0, var2);
+         for (ModuleWidget.TaskSlot var4 : sprint.listeners) {
+            var2 = ((ModuleWidget.SprintHandler)var4.callback()).sprint(var0, var2);
          }
 
          return var2;
@@ -451,7 +450,7 @@ public final class ModuleWidget {
 
    public static void playerTick(class_746 var0) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : playerTick.listeners) {
+         for (ModuleWidget.TaskSlot var2 : playerTick.listeners) {
             ((Consumer)var2.callback()).accept(var0);
          }
 
@@ -461,8 +460,8 @@ public final class ModuleWidget {
 
    public static boolean click(class_636 var0, int var1, int var2, int var3, class_1713 var4, class_1657 var5) {
       return dispatch(() -> {
-         for (ModuleWidget.TypeF var7 : clicks.listeners) {
-            if (((ModuleWidget.Listener8)var7.callback()).click(var0, var1, var2, var3, var4, var5)) {
+         for (ModuleWidget.TaskSlot var7 : clicks.listeners) {
+            if (((ModuleWidget.InteractHandler)var7.callback()).click(var0, var1, var2, var3, var4, var5)) {
                return true;
             }
          }
@@ -473,7 +472,7 @@ public final class ModuleWidget {
 
    public static boolean allowAttackClick(class_310 var0) {
       return dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : attackClicks.listeners) {
+         for (ModuleWidget.TaskSlot var2 : attackClicks.listeners) {
             if (!((Predicate)var2.callback()).test(var0)) {
                return false;
             }
@@ -485,7 +484,7 @@ public final class ModuleWidget {
 
    public static void startAttack(class_310 var0) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var2 : startAttacks.listeners) {
+         for (ModuleWidget.TaskSlot var2 : startAttacks.listeners) {
             ((Consumer)var2.callback()).accept(var0);
          }
 
@@ -495,8 +494,8 @@ public final class ModuleWidget {
 
    public static void actualAttack(class_1657 var0, class_1297 var1) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var3 : actualAttacks.listeners) {
-            ((ModuleWidget.Listener11)var3.callback()).attack(var0, var1);
+         for (ModuleWidget.TaskSlot var3 : actualAttacks.listeners) {
+            ((ModuleWidget.AttackHandler)var3.callback()).attack(var0, var1);
          }
 
          return null;
@@ -505,8 +504,8 @@ public final class ModuleWidget {
 
    public static void sound(class_6880<class_3414> var0, double var1, double var3, double var5) {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var8 : sounds.listeners) {
-            ((ModuleWidget.Listener6)var8.callback()).sound(var0, var1, var3, var5);
+         for (ModuleWidget.TaskSlot var8 : sounds.listeners) {
+            ((ModuleWidget.SoundHandler)var8.callback()).sound(var0, var1, var3, var5);
          }
 
          return null;
@@ -515,7 +514,7 @@ public final class ModuleWidget {
 
    public static void afterWorld() {
       dispatch(() -> {
-         for (ModuleWidget.TypeF var1 : afterWorld.listeners) {
+         for (ModuleWidget.TaskSlot var1 : afterWorld.listeners) {
             ((Runnable)var1.callback()).run();
          }
 
@@ -529,65 +528,65 @@ public final class ModuleWidget {
    }
 
    @FunctionalInterface
-   public interface Listener10 {
+   public interface MouseButtonHandler {
       boolean button(int var1, int var2);
    }
 
    @FunctionalInterface
-   public interface Listener11 {
+   public interface AttackHandler {
       void attack(class_1657 var1, class_1297 var2);
    }
 
    @FunctionalInterface
-   public interface Listener2 {
+   public interface ScrollHandler {
       boolean scroll(double var1, double var3);
    }
 
    @FunctionalInterface
-   public interface Listener3 {
+   public interface KeyHandler {
       boolean key(int var1, int var2, int var3);
    }
 
    @FunctionalInterface
-   public interface Listener4 {
+   public interface MousePressHandler {
       void button(int var1, int var2);
    }
 
    @FunctionalInterface
-   public interface Listener5 {
+   public interface HudExtractHandler {
       boolean extracted(HudLayer var1);
    }
 
    @FunctionalInterface
-   public interface Listener6 {
+   public interface SoundHandler {
       void sound(class_6880<class_3414> var1, double var2, double var4, double var6);
    }
 
    @FunctionalInterface
-   public interface Listener7 {
+   public interface DamageHandler {
       void damage(class_1297 var1, int var2);
    }
 
    @FunctionalInterface
-   public interface Listener8 {
+   public interface InteractHandler {
       boolean click(class_636 var1, int var2, int var3, int var4, class_1713 var5, class_1657 var6);
    }
 
    @FunctionalInterface
-   public interface Listener9 {
+   public interface SprintHandler {
       boolean sprint(class_1309 var1, boolean var2);
    }
 
-   private record TypeF<T>(int priority, long sequence, T callback) {
+   private record TaskSlot<T>(int priority, long sequence, T callback) {
    }
 
-   private record TypeG(String name, BooleanSupplier active) {
+   private record NamedTask(String name, BooleanSupplier active) {
    }
 
-   private static final class TypeP<T> {
-      private List<ModuleWidget.TypeF<T>> listeners = List.of();
+   private static final class TaskQueue<T> {
+      private List<ModuleWidget.TaskSlot<T>> listeners = List.of();
 
-      TypeP() {
+      TaskQueue() {
          ModuleWidget.channels.add(this);
       }
 
@@ -598,10 +597,10 @@ public final class ModuleWidget {
          } else if (this.listeners.size() >= 128) {
             throw new IllegalStateException("Game hook limit");
          } else {
-            ModuleWidget.TypeF var3 = new ModuleWidget.TypeF<>(var1, ++ModuleWidget.sequence, Objects.requireNonNull(var2));
+            ModuleWidget.TaskSlot var3 = new ModuleWidget.TaskSlot<>(var1, ++ModuleWidget.sequence, Objects.requireNonNull(var2));
             ArrayList var4 = new ArrayList<>(this.listeners);
             var4.add(var3);
-            var4.sort(Comparator.<ModuleWidget.TypeF>comparingInt(var0 -> var0.priority()).thenComparingLong(var0 -> var0.sequence()));
+            var4.sort(Comparator.<ModuleWidget.TaskSlot>comparingInt(var0 -> var0.priority()).thenComparingLong(var0 -> var0.sequence()));
             this.listeners = List.copyOf(var4);
             long var5 = var3.sequence();
             return () -> {

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonObject;
@@ -96,7 +95,7 @@ final class ModuleDefinitionScreen extends class_437 {
                boolean var14 = var8.get("kind").getAsString().equals("TextSetting");
                boolean var15 = var14 && var8.has("masked") && var8.get("masked").getAsBoolean();
                Object var16 = var15
-                  ? new ModuleDefinitionScreen.TypeL(
+                  ? new ModuleDefinitionScreen.InfoButton(
                      this.field_22793, var4, var6, var3, class_2561.method_43470(var9), this.draft.get(var10), var2x -> this.draft.put(var10, var2x)
                   )
                   : new class_342(this.field_22793, var4, var6, var3, 20, class_2561.method_43470(var9));
@@ -208,11 +207,11 @@ final class ModuleDefinitionScreen extends class_437 {
       }
    }
 
-   private static final class TypeL extends class_342 {
+   private static final class InfoButton extends class_342 {
       private String raw;
       private boolean rewriting;
 
-      TypeL(class_327 var1, int var2, int var3, int var4, class_2561 var5, String var6, Consumer<String> var7) {
+      InfoButton(class_327 var1, int var2, int var3, int var4, class_2561 var5, String var6, Consumer<String> var7) {
          super(var1, var2, var3, var4, 20, var5);
          this.raw = var6;
          this.method_1880(Math.max(1024, var6.length()));

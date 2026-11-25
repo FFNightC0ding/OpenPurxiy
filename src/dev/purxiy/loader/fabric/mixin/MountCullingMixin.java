@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_1297;
 import net.minecraft.class_238;
 import net.minecraft.class_897;
@@ -18,6 +17,6 @@ public abstract class MountCullingMixin {
       cancellable = true
    )
    private void purxiy$mountBounds(class_1297 var1, CallbackInfoReturnable<class_238> var2) {
-      var2.setReturnValue(ClientRenderer5.bounds(var1, (class_238)var2.getReturnValue()));
+      var2.setReturnValue(CameraStateReader.bounds(var1, (class_238)var2.getReturnValue()));
    }
 }

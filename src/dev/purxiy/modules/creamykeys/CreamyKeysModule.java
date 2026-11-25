@@ -1,15 +1,13 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.creamykeys;
 
 import dev.purxiy.config.BooleanSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
-import dev.purxiy.loader.fabric.CosmeticCatalog;
 import dev.purxiy.loader.fabric.CosmeticRegistry;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,11 +31,11 @@ public final class CreamyKeysModule extends ModuleDescriptor {
    public final NumberSetting F;
    public final NumberSetting n;
    public final NumberSetting t;
-   private final Map<Integer, CreamyKeysModule.TypeB> T;
-   private final Map<Integer, CreamyKeysModule.TypeB> P;
+   private final Map<Integer, CreamyKeysModule.SoundTrigger> T;
+   private final Map<Integer, CreamyKeysModule.SoundTrigger> P;
    private final Map<Integer, Integer> N;
    private final Map<Integer, Integer> k;
-   private final List<CreamyKeysModule.TypeR> b;
+   private final List<CreamyKeysModule.ScheduledSound> b;
    private final Map<Integer, Long> e;
    private final Map<Integer, Long> v;
    private final long[] A;
@@ -55,9 +53,7 @@ public final class CreamyKeysModule extends ModuleDescriptor {
    private static long h;
 
    public CreamyKeysModule() {
-      super(
-         "creamy_keys", "Creamy Keys", "Your keyboard, with a sound of its own", "keyboard"
-      );
+      super("creamy_keys", "Creamy Keys", "Your keyboard, with a sound of its own", "keyboard");
       long var1 = 58183763680668L;
       this.T = new HashMap<>();
       this.P = new HashMap<>();
@@ -77,45 +73,16 @@ public final class CreamyKeysModule extends ModuleDescriptor {
       );
       this.section("Keyboard");
       this.o = this.bool("keyboard", "Keyboard sounds", "Hear each press and release", true);
-      this.Z = this.number("keyboard_volume", "Keyboard volume", null, 0.7, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT);
-      this.m = this.number(
-         "release_volume",
-         "Release volume",
-         "Relative to the key press",
-         0.85,
-         0.0,
-         1.0,
-         0.05,
-         NumberSetting.Listener.PERCENT
-      );
+      this.Z = this.number("keyboard_volume", "Keyboard volume", null, 0.7, 0.0, 1.0, 0.05, Listener.PERCENT);
+      this.m = this.number("release_volume", "Release volume", "Relative to the key press", 0.85, 0.0, 1.0, 0.05, Listener.PERCENT);
       this.section("Mouse");
       this.i = this.bool("mouse", "Mouse clicks", "Distinct left, right and middle clicks", true);
-      this.X = this.number(
-         "mouse_volume", "Click volume", null, 0.65, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT
-      );
+      this.X = this.number("mouse_volume", "Click volume", null, 0.65, 0.0, 1.0, 0.05, Listener.PERCENT);
       this.S = this.bool("scroll", "Scroll wheel", "A soft notch in either direction", true);
-      this.F = this.number("scroll_volume", "Scroll volume", null, 0.5, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT);
+      this.F = this.number("scroll_volume", "Scroll volume", null, 0.5, 0.0, 1.0, 0.05, Listener.PERCENT);
       this.section("Tuning");
-      this.n = this.number(
-         "pitch",
-         "Pitch",
-         "Deep to bright",
-         1.0,
-         0.88,
-         1.12,
-         0.01,
-         NumberSetting.Listener.PERCENT
-      );
-      this.t = this.number(
-         "variation",
-         "Natural variation",
-         "Alternate recorded takes with subtle touch variation",
-         0.02,
-         0.0,
-         0.08,
-         0.01,
-         NumberSetting.Listener.PERCENT
-      );
+      this.n = this.number("pitch", "Pitch", "Deep to bright", 1.0, 0.88, 1.12, 0.01, Listener.PERCENT);
+      this.t = this.number("variation", "Natural variation", "Alternate recorded takes with subtle touch variation", 0.02, 0.0, 0.08, 0.01, Listener.PERCENT);
       this.Z.visibleWhen(this.o::enabled);
       this.m.visibleWhen(this.o::enabled);
       this.X.visibleWhen(this.i::enabled);
@@ -123,7 +90,7 @@ public final class CreamyKeysModule extends ModuleDescriptor {
    }
 
    public CreamyKeySounds.Style style() {
-      return CreamyKeySounds.Style.fromLabel(this.C.get());
+      return CreamyKeySounds.Style.fromLabel((String)this.C.get());
    }
 
    public void onKeyboardInput(int var1, int var2, int var3) {
@@ -148,7 +115,7 @@ public final class CreamyKeysModule extends ModuleDescriptor {
       if (!class_310.method_1551().method_1569()) {
          this.T.clear();
       } else if (var3 == 0) {
-         CreamyKeysModule.TypeB var24 = this.T.remove(var21);
+         CreamyKeysModule.SoundTrigger var24 = this.T.remove(var21);
          if (var24 != null) {
             this.W(var24.release(), var24.pitch(), var24.gain() * this.Z.floatValue() * this.m.floatValue(), var10, 0);
          }
@@ -159,7 +126,7 @@ public final class CreamyKeysModule extends ModuleDescriptor {
          int var25 = this.A(var21, var6);
          float var26 = this.Z(var19, o(var21, var12), true);
          float var27 = this.M((short)var16, (short)var17, var18);
-         this.T.put(var21, new CreamyKeysModule.TypeB(var28.release(var25), var26, var27));
+         this.T.put(var21, new CreamyKeysModule.SoundTrigger(var28.release(var25), var26, var27));
          this.W(var28.press(var25), var26, var27 * this.Z.floatValue(), var10, 0);
       }
    }
@@ -184,7 +151,7 @@ public final class CreamyKeysModule extends ModuleDescriptor {
       if (!this.enabled() || !this.i.enabled() || !class_310.method_1551().method_1569()) {
          this.P.clear();
       } else if (var2 == 0) {
-         CreamyKeysModule.TypeB var16 = this.P.remove(var1);
+         CreamyKeysModule.SoundTrigger var16 = this.P.remove(var1);
          if (var16 != null) {
             this.W(var16.release(), var16.pitch(), var16.gain() * this.X.floatValue(), var7, 0);
          }
@@ -192,7 +159,7 @@ public final class CreamyKeysModule extends ModuleDescriptor {
          int var19 = this.j(var1, var5);
          float var17 = this.Z(var14, 1.0F, true);
          float var18 = this.M((short)var11, (short)var12, var13);
-         this.P.put(var1, new CreamyKeysModule.TypeB(CreamyKeySounds.mouseRelease(var1, var19), var17, var18));
+         this.P.put(var1, new CreamyKeysModule.SoundTrigger(CreamyKeySounds.mouseRelease(var1, var19), var17, var18));
          this.W(CreamyKeySounds.mousePress(var1, var19), var17, var18 * this.X.floatValue(), var7, 0);
       }
    }
@@ -267,12 +234,7 @@ public final class CreamyKeysModule extends ModuleDescriptor {
    private boolean T(long var1) {
       boolean var3 = this.enabled();
       long var4 = 13023943172328L;
-      if (13023943172328L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       return var3 && this.o.enabled() || System.nanoTime() < this.Y;
    }
 
@@ -334,7 +296,6 @@ public final class CreamyKeysModule extends ModuleDescriptor {
       }
    }
 
-   @Override
    protected void onDisable() {
       this.b.clear();
       this.e.clear();
@@ -353,21 +314,12 @@ public final class CreamyKeysModule extends ModuleDescriptor {
       float var7;
       int var8 = (var7 = var3 - 0.001F) == 0.0F ? 0 : (var7 < 0.0F ? -1 : 1);
       long var9 = 115706381140368L;
-      if (115706381140368L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var14 = var9 < 0L ? -1 : 1;
-      }
-
+      int var12 = var9 < 0L ? -1 : 1;
       if (var8 > 0) {
          if (var6 > 0) {
-            this.b.add(new CreamyKeysModule.TypeR(var1, var2, var3, System.nanoTime() + var6 * h));
-            long var12 = 115706381140369L;
-            if (115706381140369L == 0L) {
-               boolean var15 = false;
-            } else {
-               int var16 = var12 < 0L ? -1 : 1;
-            }
+            this.b.add(new CreamyKeysModule.ScheduledSound(var1, var2, var3, System.nanoTime() + var6 * h));
+            long var12x = 115706381140369L;
+            int var13 = var12x < 0L ? -1 : 1;
          } else {
             this.U.metric("plays", ++this.l);
             this.U.metric("gain", Math.min(var3, 1.0F));
@@ -385,104 +337,43 @@ public final class CreamyKeysModule extends ModuleDescriptor {
 
    private static int r(int var0, long var1) {
       long var3 = 122392617999381L;
-      if (122392617999381L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var31 = var3 < 0L ? -1 : 1;
-      }
-
+      int var6 = var3 < 0L ? -1 : 1;
       if (var0 == a(25364, 7457293024873821622L)) {
          return a(21500, 8527917392200992089L);
       } else {
-         long var6 = 122392617999381L;
-         if (122392617999381L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var6 < 0L ? -1 : 1;
-         }
-
-         long var8 = 122392617999380L;
-         if (122392617999380L == 0L) {
-            boolean var34 = false;
-         } else {
-            int var35 = var8 < 0L ? -1 : 1;
-         }
-
+         long var6x = 122392617999381L;
+         int var8 = var6x < 0L ? -1 : 1;
+         long var8x = 122392617999380L;
+         int var10 = var8x < 0L ? -1 : 1;
          if (var0 != a(22478, 5408918318266941795L)) {
-            long var10 = 122392617999381L;
-            if (122392617999381L == 0L) {
-               boolean var36 = false;
-            } else {
-               int var37 = var10 < 0L ? -1 : 1;
-            }
-
+            long var10x = 122392617999381L;
+            int var12 = var10x < 0L ? -1 : 1;
             if (var0 != a(16164, 1594032777046026639L)) {
-               long var12 = 122392617999381L;
-               if (122392617999381L == 0L) {
-                  boolean var38 = false;
-               } else {
-                  int var39 = var12 < 0L ? -1 : 1;
-               }
-
-               long var14 = 122392617999381L;
-               if (122392617999381L == 0L) {
-                  boolean var40 = false;
-               } else {
-                  int var41 = var14 < 0L ? -1 : 1;
-               }
-
+               long var12x = 122392617999381L;
+               int var14 = var12x < 0L ? -1 : 1;
+               long var14x = 122392617999381L;
+               int var29 = var14x < 0L ? -1 : 1;
                if (var0 >= a(8772, 1997905350738212069L)) {
                   long var16 = 122392617999380L;
-                  if (122392617999380L == 0L) {
-                     boolean var42 = false;
-                  } else {
-                     int var43 = var16 < 0L ? -1 : 1;
-                  }
-
+                  int var30 = var16 < 0L ? -1 : 1;
                   long var18 = 122392617999380L;
-                  if (122392617999380L == 0L) {
-                     boolean var44 = false;
-                  } else {
-                     int var45 = var18 < 0L ? -1 : 1;
-                  }
-
+                  int var20 = var18 < 0L ? -1 : 1;
                   if (var0 <= a(24490, 6085786521077549316L)) {
                      return (var0 - a(15225, 5304672709535133142L)) % a(24720, 6902115543731779128L);
                   }
                }
 
-               long var29 = 122392617999381L;
-               if (122392617999381L == 0L) {
-                  boolean var46 = false;
-               } else {
-                  int var47 = var29 < 0L ? -1 : 1;
-               }
-
+               long var29x = 122392617999381L;
+               int var36 = var29x < 0L ? -1 : 1;
                long var30 = 2020255621197564546L;
                long var20 = 122392617999380L;
-               if (122392617999380L == 0L) {
-                  boolean var48 = false;
-               } else {
-                  int var49 = var20 < 0L ? -1 : 1;
-               }
-
+               int var23 = var20 < 0L ? -1 : 1;
                if (var0 >= a(23598, var30)) {
-                  long var23 = 122392617999381L;
-                  if (122392617999381L == 0L) {
-                     boolean var50 = false;
-                  } else {
-                     int var51 = var23 < 0L ? -1 : 1;
-                  }
-
-                  long var25 = 569114845625507964L;
+                  long var23x = 122392617999381L;
+                  long var25x = 569114845625507964L;
                   long var27 = 122392617999381L;
-                  if (122392617999381L == 0L) {
-                     boolean var52 = false;
-                  } else {
-                     int var53 = var27 < 0L ? -1 : 1;
-                  }
-
-                  if (var0 <= a(14038, var25)) {
+                  int var27x = var27 < 0L ? -1 : 1;
+                  if (var0 <= a(14038, var25x)) {
                      return (a(3598, 8350937989332097198L) + var0 - a(18213, 3583523417891475846L)) % a(24720, 6902115543731779128L);
                   }
                }
@@ -504,17 +395,12 @@ public final class CreamyKeysModule extends ModuleDescriptor {
       int var6 = r(var1, var4);
       if (!(this.t.floatValue() <= 0.001F)) {
          long var7 = 65768689220336L;
-         if (65768689220336L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var12 = var7 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
          if (var6 < a(24720, 6902115543731779128L)) {
-            Integer var10 = this.N.get(var1);
-            int var11 = var10 == null
+            Integer var10x = this.N.get(var1);
+            int var11 = var10x == null
                ? var6
-               : (var10 + (ThreadLocalRandom.current().nextBoolean() ? 4 : a(24974, 3704226193355028273L))) % a(24720, 6902115543731779128L);
+               : (var10x + (ThreadLocalRandom.current().nextBoolean() ? 4 : a(24974, 3704226193355028273L))) % a(24720, 6902115543731779128L);
             this.N.put(var1, var11);
             return var11;
          }
@@ -526,15 +412,10 @@ public final class CreamyKeysModule extends ModuleDescriptor {
    private int j(int var1, long var2) {
       if (!(this.t.floatValue() <= 0.001F)) {
          long var4 = 126772861414867L;
-         if (126772861414867L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var4 < 0L ? -1 : 1;
-         }
-
+         int var7 = var4 < 0L ? -1 : 1;
          if (var1 != 2) {
-            Integer var7 = this.k.get(var1);
-            int var8 = var7 == null ? 0 : (var7 + ThreadLocalRandom.current().nextInt(1, 3)) % 3;
+            Integer var7x = this.k.get(var1);
+            int var8 = var7x == null ? 0 : (var7x + ThreadLocalRandom.current().nextInt(1, 3)) % 3;
             this.k.put(var1, var8);
             return var8;
          }
@@ -548,7 +429,6 @@ public final class CreamyKeysModule extends ModuleDescriptor {
       return var4 <= 0.0F ? 1.0F : 1.0F + ThreadLocalRandom.current().nextFloat(-var4, var4);
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       this.U = var1;
       var1.own(ModuleWidget.onKey(this::onKeyboardInput));
@@ -566,12 +446,11 @@ public final class CreamyKeysModule extends ModuleDescriptor {
       var1.own(CosmeticRegistry.register(this.id(), this.getClass().getClassLoader(), () -> new CreamyKeysScreen(this)));
    }
 
-   @Override
-   protected CosmeticCatalog.Listener createPreview() {
-      return new CreamyKeysRenderer2(this);
+   protected dev.purxiy.loader.fabric.CosmeticCatalog.Listener createPreview() {
+      return new CreamyKeysEditorPage(this);
    }
 
-private static int a(int var0, long var1) {
+   private static int a(int var0, long var1) {
       int var3 = var0 ^ (int)(var1 & 32767L) ^ 22191;
       if (f[var3] == null) {
          f[var3] = (int)(d[var3] ^ var1);
@@ -583,7 +462,7 @@ private static int a(int var0, long var1) {
    public static void ensureSourceClassInitialized() {
    }
 
-private record TypeB(class_3414 m, float h, float c) {
+   private record SoundTrigger(class_3414 m, float h, float c) {
       public class_3414 release() {
          return this.m;
       }
@@ -609,7 +488,7 @@ private record TypeB(class_3414 m, float h, float c) {
       }
    }
 
-   private record TypeR(class_3414 g, float n, float D, long k) {
+   private record ScheduledSound(class_3414 g, float n, float D, long k) {
       public class_3414 sound() {
          return this.g;
       }

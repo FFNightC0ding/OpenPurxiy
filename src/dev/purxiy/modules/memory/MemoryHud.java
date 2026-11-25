@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.memory;
 
 import dev.purxiy.config.BooleanSetting;
@@ -13,8 +12,6 @@ public final class MemoryHud extends HudElementGroup {
    public static boolean y;
    public static int T = 0;
 
-
-
    public MemoryHud() {
       super("memory", "Memory", "How much memory the game is using", "memory-stick", 0.0, 0.0);
    }
@@ -24,17 +21,14 @@ public final class MemoryHud extends HudElementGroup {
       return (float)(var0.totalMemory() - var0.freeMemory()) / (float)var0.maxMemory();
    }
 
-   @Override
    protected String value(HudBounds var1) {
       return Math.round(v() * 100.0F) + "%";
    }
 
-   @Override
    protected String sample() {
       return this.value(null);
    }
 
-   @Override
    protected String label(HudBounds var1) {
       if (!this.L.enabled()) {
          return null;
@@ -46,12 +40,10 @@ public final class MemoryHud extends HudElementGroup {
       }
    }
 
-   @Override
    protected float extraWidth(HudBounds var1) {
       return 26.0F;
    }
 
-   @Override
    protected void renderExtra(Canvas var1, HudBounds var2, float var3, float var4) {
       float var5 = 26.0F;
       float var6 = 3.5F;
@@ -60,5 +52,4 @@ public final class MemoryHud extends HudElementGroup {
       float var8 = Math.min(1.0F, v());
       var1.roundRectGradient(var3, var7, Math.max(var6, var5 * var8), var6, var6 / 2.0F, 0.0F, Icons.INDIGO, var8 > 0.85F ? Icons.PINK : Icons.MAGENTA);
    }
-
 }

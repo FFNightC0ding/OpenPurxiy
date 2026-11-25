@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.outline;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -14,7 +13,7 @@ import dev.purxiy.anim.Easing;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.client.ClientCache;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import dev.purxiy.loader.fabric.mixin.OutlineMiningAccess;
 import dev.purxiy.render.pipeline.SkyPipelines;
 import java.nio.ByteBuffer;
@@ -40,7 +39,6 @@ import net.minecraft.class_239.class_240;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector4f;
-
 import org.lwjgl.system.MemoryUtil;
 
 public final class BlockOutlineRenderer {
@@ -66,13 +64,9 @@ public final class BlockOutlineRenderer {
    private static final Matrix4f s = new Matrix4f();
    private static final Matrix4f aO = new Matrix4f();
    private static long B = 0L;
-   
    private static class_638 l;
-   
    private static BlockOutlineFactory Z;
-   
    private static BlockOutlineFactory k;
-   
    private static class_2338 m;
    private static boolean u;
    private static float j = 1.0F;
@@ -86,16 +80,11 @@ public final class BlockOutlineRenderer {
    private static final double[] G = new double[3];
    private static final int[] a = new int[3];
    private static float aI;
-   private static final List<BlockOutlineRenderer.TypeS> n = new ArrayList<>();
-   
+   private static final List<BlockOutlineRenderer.OutlineBatch> n = new ArrayList<>();
    private static class_2338 Q;
-   
    private static BlockOutlineFactory aH;
-   
    private static class_2338 X;
-   
    private static class_2680 i;
-   
    private static class_2680 x;
    private static final float[] aS = new float[3072];
    private static final float[] T = new float[96];
@@ -124,10 +113,6 @@ public final class BlockOutlineRenderer {
    private static int W = 0;
    private static int b = 0;
    public static boolean c;
-
-
-
-
    private static final long fb = 13472L;
 
    private BlockOutlineRenderer() {
@@ -137,7 +122,7 @@ public final class BlockOutlineRenderer {
       aR.set(var0);
    }
 
-   public static void extract( class_12074 var0) {
+   public static void extract(class_12074 var0) {
       long var1 = 139613867124526L;
       long var3 = var1 ^ 31265528762321L;
       long var5 = var1 ^ 9886632464666L;
@@ -165,7 +150,7 @@ public final class BlockOutlineRenderer {
       if (var0 != null && var20 != null) {
          class_2338 var22 = var0.comp_4932();
          Y(C, var22, var20);
-         ClientSupport3.blockBounds(var22, C);
+         SkyPipelineRouter.blockBounds(var22, C);
          boolean var23 = !var22.equals(m);
          if (Z == null) {
             F(var5);
@@ -179,7 +164,7 @@ public final class BlockOutlineRenderer {
                }
             } else {
                if (var24) {
-                  V(var7, BlockOutlineRenderer.TypeS.fade(Z, aX, w.value() * Y.value()));
+                  V(var7, BlockOutlineRenderer.OutlineBatch.fade(Z, aX, w.value() * Y.value()));
                   w.snap(0.0F);
                   Y.snap(0.92F).target(1.0F);
                }
@@ -266,7 +251,7 @@ public final class BlockOutlineRenderer {
             String var8 = var9.toString();
             if (!var8.equals(o)) {
                o = var8;
-               ClientServices.LOGGER.error("Purxiy block outline failed, showing vanilla's", var9);
+               ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX block outline failed, showing vanilla's", var9);
             }
 
             return false;
@@ -294,7 +279,7 @@ public final class BlockOutlineRenderer {
       if (var1 && aH != null && var0.equals(Q)) {
          double[] var6 = new double[6];
          Y(var6, var0, aH);
-         V(var4, BlockOutlineRenderer.TypeS.ripple(aH, var6));
+         V(var4, BlockOutlineRenderer.OutlineBatch.ripple(aH, var6));
       }
 
       Q = null;
@@ -385,15 +370,10 @@ public final class BlockOutlineRenderer {
       return Math.sqrt(var2 * var2 + var4 * var4 + var6 * var6);
    }
 
-   private static void V(long var0, BlockOutlineRenderer.TypeS var2) {
+   private static void V(long var0, BlockOutlineRenderer.OutlineBatch var2) {
       BlockOutlineModule.ensureSourceClassInitialized();
       long var3 = 24774040866303L;
-      if (24774040866303L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var6 = var3 < 0L ? -1 : 1;
-      }
-
+      int var5 = var3 < 0L ? -1 : 1;
       if (n.size() >= 5) {
          n.removeFirst();
       }
@@ -405,12 +385,7 @@ public final class BlockOutlineRenderer {
       BlockOutlineModule.ensureSourceClassInitialized();
       if (!(aI < 0.0F)) {
          long var2 = 56745629202101L;
-         if (56745629202101L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var5 = var2 < 0L ? -1 : 1;
-         }
-
+         int var4 = var2 < 0L ? -1 : 1;
          if (!(aI > 1.3F)) {
             return -0.35F + 1.7F * Easing.SINE_IN_OUT.apply(aI / 1.3F);
          }
@@ -445,7 +420,7 @@ public final class BlockOutlineRenderer {
          a3 = Float.NEGATIVE_INFINITY;
          g = Float.NEGATIVE_INFINITY;
          float var18 = w.value();
-         boolean var19 = var2.g.get() > 0.0 || var2.V.get() > 0.0 || r > 0.001F;
+         boolean var19 = (Double)var2.g.get() > 0.0 || (Double)var2.V.get() > 0.0 || r > 0.001F;
          if (Z != null && var18 > 0.004F) {
             float var20 = k == null ? 1.0F : Easing.SMOOTHSTEP.apply(Math.min(1.0F, j * 2.0F));
             float var21 = Easing.SMOOTHSTEP.apply(Math.min(1.0F, 2.0F - j * 2.0F));
@@ -455,12 +430,7 @@ public final class BlockOutlineRenderer {
             float var27 = H;
             float var29 = 0.0F;
             long var31 = 85506628210075L;
-            if (85506628210075L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var84 = var31 < 0L ? -1 : 1;
-            }
-
+            int var29x = var31 < 0L ? -1 : 1;
             h(Z, aX, var22, var6, var7, var23, var29, var24, (short)var8, var27, var3, var19);
             if (k != null) {
                var23 = var18 * var21;
@@ -473,25 +443,15 @@ public final class BlockOutlineRenderer {
          }
 
          for (int var65 = n.size() - 1; var65 >= 0; var65--) {
-            BlockOutlineRenderer.TypeS var67 = n.get(var65);
+            BlockOutlineRenderer.OutlineBatch var67 = n.get(var65);
             float var68 = var67.r / var67.T;
             long var71 = 85506628210074L;
-            if (85506628210074L == 0L) {
-               boolean var85 = false;
-            } else {
-               int var86 = var71 < 0L ? -1 : 1;
-            }
-
+            int var741 = var71 < 0L ? -1 : 1;
             h(var67.Q, var67.D, var67.scale(var68), var6, var7, var67.alpha(var68), var67.heat(var68), 0.0F, (short)var8, 0.0F, var3, false);
          }
 
          long var66 = 85506628210075L;
-         if (85506628210075L == 0L) {
-            boolean var87 = false;
-         } else {
-            int var88 = var66 < 0L ? -1 : 1;
-         }
-
+         int var671 = var66 < 0L ? -1 : 1;
          if (a4 != 0) {
             float var72 = Math.max(0.75F, J / 1080.0F);
             float var73 = var2.B.floatValue() * 0.5F * var72;
@@ -503,7 +463,7 @@ public final class BlockOutlineRenderer {
             float var30 = Math.min((float)J, a3 + var26);
             if (!(var76 >= var79) && !(var77 >= var30)) {
                if (V == null) {
-                  V = RenderSystem.getDevice().createBuffer(ClientServices.label(() -> "Purxiy block outline"), 136, 13472L);
+                  V = RenderSystem.getDevice().createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX block outline"), 136, 13472L);
                   U = MemoryUtil.memAlloc(13472);
                }
 
@@ -516,13 +476,8 @@ public final class BlockOutlineRenderer {
                float var34 = p;
                float var35 = J;
                long var36 = 85506628210075L;
-               if (85506628210075L == 0L) {
-                  boolean var89 = false;
-               } else {
-                  int var90 = var36 < 0L ? -1 : 1;
-               }
-
-               Std140Builder var39 = var33.putVec4(var34, var35, var72, 0.0F)
+               int var39 = var36 < 0L ? -1 : 1;
+               Std140Builder var39x = var33.putVec4(var34, var35, var72, 0.0F)
                   .putVec4(k(var11, var80, 16), k(var11, var80, 8), k(var11, var80, 0), k(var11, var80, 24))
                   .putVec4(k(var11, var32, 16), k(var11, var32, 8), k(var11, var32, 0), k(var11, var32, 24))
                   .putVec4(var73, var74, var2.h.floatValue(), var2.corners() ? 0.25F : 0.0F)
@@ -534,98 +489,76 @@ public final class BlockOutlineRenderer {
 
                for (int var40 = 0; var40 < 24; var40++) {
                   long var41 = 85506628210075L;
-                  if (85506628210075L == 0L) {
-                     boolean var91 = false;
-                  } else {
-                     int var92 = var41 < 0L ? -1 : 1;
-                  }
-
-                  var39.putVec4(T[var40 * 4], T[var40 * 4 + 1], T[var40 * 4 + 2], T[var40 * 4 + 3]);
+                  int var41x = var41 < 0L ? -1 : 1;
+                  var39x.putVec4(T[var40 * 4], T[var40 * 4 + 1], T[var40 * 4 + 2], T[var40 * 4 + 3]);
                }
 
                long var81 = 85506628210074L;
-               if (85506628210074L == 0L) {
-                  boolean var93 = false;
-               } else {
-                  int var94 = var81 < 0L ? -1 : 1;
-               }
+               int var82 = var81 < 0L ? -1 : 1;
 
                for (int var42 = 0; var42 < 32; var42++) {
                   long var43 = 85506628210074L;
-                  if (85506628210074L == 0L) {
-                     boolean var95 = false;
-                  } else {
-                     int var96 = var43 < 0L ? -1 : 1;
-                  }
-
-                  var39.putVec4(P[var42 * 4], P[var42 * 4 + 1], P[var42 * 4 + 2], P[var42 * 4 + 3]);
+                  int var43x = var43 < 0L ? -1 : 1;
+                  var39x.putVec4(P[var42 * 4], P[var42 * 4 + 1], P[var42 * 4 + 2], P[var42 * 4 + 3]);
                }
 
-               long var82 = 85506628210075L;
-               if (85506628210075L == 0L) {
-                  boolean var97 = false;
-               } else {
-                  int var98 = var82 < 0L ? -1 : 1;
-               }
+               long var82x = 85506628210075L;
+               int var83 = var82x < 0L ? -1 : 1;
 
                for (int var44 = 0; var44 < a4 * 4; var44++) {
-                  var39.putVec4(aS[var44 * 4], aS[var44 * 4 + 1], aS[var44 * 4 + 2], aS[var44 * 4 + 3]);
+                  var39x.putVec4(aS[var44 * 4], aS[var44 * 4 + 1], aS[var44 * 4 + 2], aS[var44 * 4 + 3]);
                }
 
-               long var83 = 85506628210075L;
-               if (85506628210075L == 0L) {
-                  boolean var99 = false;
-               } else {
-                  int var100 = var83 < 0L ? -1 : 1;
-               }
-
-               CommandEncoder var46 = RenderSystem.getDevice().createCommandEncoder();
+               long var83x = 85506628210075L;
+               int var46 = var83x < 0L ? -1 : 1;
+               CommandEncoder var46x = RenderSystem.getDevice().createCommandEncoder();
                long var47 = 85506628210075L;
-               if (85506628210075L == 0L) {
-                  boolean var101 = false;
-               } else {
-                  int var102 = var47 < 0L ? -1 : 1;
-               }
-
-               var46.writeToBuffer(V.slice(), var39.get());
-               GpuQuery var49 = R ? j(var46, var13) : null;
+               int var47x = var47 < 0L ? -1 : 1;
+               var46x.writeToBuffer(V.slice(), var39x.get());
+               GpuQuery var49x = R ? j(var46x, var13) : null;
                boolean var50 = false;
 
                try {
                   var50 = true;
                   long var51 = 85506628210074L;
-                  if (85506628210074L == 0L) {
-                     boolean var103 = false;
-                  } else {
-                     int var104 = var51 < 0L ? -1 : 1;
-                  }
+                  int var51x = var51 < 0L ? -1 : 1;
+                  RenderPass var53x = var46x.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX block outline", var16, OptionalInt.empty());
 
-                  try (RenderPass var53 = var46.createRenderPass(() -> "Purxiy block outline", var16, OptionalInt.empty())) {
-                     var53.setPipeline(SkyPipelines.OUTLINE);
-                     RenderSystem.bindDefaultUniforms(var53);
+                  try {
+                     var53x.setPipeline(SkyPipelines.OUTLINE);
+                     RenderSystem.bindDefaultUniforms(var53x);
                      long var54 = 85506628210075L;
-                     if (85506628210075L == 0L) {
-                        boolean var105 = false;
-                     } else {
-                        int var106 = var54 < 0L ? -1 : 1;
+                     int var69 = var54 < 0L ? -1 : 1;
+                     var53x.setUniform("PurxiyOutline", V);
+                     var53x.bindTexture("DepthSampler", var17, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                     var69 = -1875696507;
+                     var53x.draw(0, 6);
+                     metric("drawn");
+                  } catch (Throwable var60) {
+                     if (var53x != null) {
+                        try {
+                           var53x.close();
+                        } catch (Throwable var59) {
+                           var60.addSuppressed(var59);
+                        }
                      }
 
-                     var53.setUniform("PurxiyOutline", V);
-                     var53.bindTexture("DepthSampler", var17, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                     int var69 = -1875696507;
-                     var53.draw(0, 6);
-                     metric("drawn");
+                     throw var60;
+                  }
+
+                  if (var53x != null) {
+                     var53x.close();
                   }
                } finally {
-                  if (var50 && var49 != null) {
-                     var46.timerQueryEnd(var49);
-                     y = var49;
+                  if (var50 && var49x != null) {
+                     var46x.timerQueryEnd(var49x);
+                     y = var49x;
                   }
                }
 
-               if (var49 != null) {
-                  var46.timerQueryEnd(var49);
-                  y = var49;
+               if (var49x != null) {
+                  var46x.timerQueryEnd(var49x);
+                  y = var49x;
                }
             }
          }
@@ -643,12 +576,7 @@ public final class BlockOutlineRenderer {
       if (y != null) {
          OptionalLong var3 = y.getValue();
          long var4 = 111096190029487L;
-         if (111096190029487L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var4 < 0L ? -1 : 1;
-         }
-
+         int var7 = var4 < 0L ? -1 : 1;
          if (var3.isEmpty()) {
             return null;
          }
@@ -656,18 +584,13 @@ public final class BlockOutlineRenderer {
          y.close();
          y = null;
          K = K + var3.getAsLong() / 1000000.0;
-         int var7 = L + 1;
+         var7 = L + 1;
          long var8 = 111096190029487L;
-         if (111096190029487L == 0L) {
-            boolean var11 = false;
-         } else {
-            int var12 = var8 < 0L ? -1 : 1;
-         }
-
+         int var9 = var8 < 0L ? -1 : 1;
          L = var7;
          if (var7 == 240) {
             ClientServices.LOGGER
-               .info("Purxiy block outline: {} ms GPU per frame ({} edges, {}x{})", new Object[]{String.format(Locale.ROOT, "%.3f", K / L), a4, p, J});
+               .info("SourceByDevFFnightmare DeObfDeCompByGuideX block outline: {} ms GPU per frame ({} edges, {}x{})", new Object[]{String.format(Locale.ROOT, "%.3f", K / L), a4, p, J});
             K = 0.0;
             L = 0;
          }
@@ -777,12 +700,7 @@ public final class BlockOutlineRenderer {
       if (!(var9 < 1.0E-4F) || !(var10 < 1.0E-4F)) {
          if (var9 < 1.0E-4F) {
             long var11 = 91654019215657L;
-            if (91654019215657L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var22 = var11 < 0L ? -1 : 1;
-            }
-
+            int var13 = var11 < 0L ? -1 : 1;
             float var14 = (1.0E-4F - var9) / (var10 - var9);
             var0 += (var3 - var0) * var14;
             var1 += (var4 - var1) * var14;
@@ -896,7 +814,7 @@ public final class BlockOutlineRenderer {
       }
    }
 
-private static final class TypeS {
+   private static final class OutlineBatch {
       final BlockOutlineFactory Q;
       final double[] D;
       final float T;
@@ -904,7 +822,7 @@ private static final class TypeS {
       final boolean F;
       float r;
 
-      private TypeS(BlockOutlineFactory var1, double[] var2, float var3, float var4, boolean var5) {
+      private OutlineBatch(BlockOutlineFactory var1, double[] var2, float var3, float var4, boolean var5) {
          this.Q = var1;
          this.D = var2;
          this.T = var3;
@@ -912,12 +830,12 @@ private static final class TypeS {
          this.F = var5;
       }
 
-      static BlockOutlineRenderer.TypeS fade(BlockOutlineFactory var0, double[] var1, float var2) {
-         return new BlockOutlineRenderer.TypeS(var0, (double[])var1.clone(), 0.2F, var2, false);
+      static BlockOutlineRenderer.OutlineBatch fade(BlockOutlineFactory var0, double[] var1, float var2) {
+         return new BlockOutlineRenderer.OutlineBatch(var0, (double[])var1.clone(), 0.2F, var2, false);
       }
 
-      static BlockOutlineRenderer.TypeS ripple(BlockOutlineFactory var0, double[] var1) {
-         return new BlockOutlineRenderer.TypeS(var0, var1, 0.55F, 1.0F, true);
+      static BlockOutlineRenderer.OutlineBatch ripple(BlockOutlineFactory var0, double[] var1) {
+         return new BlockOutlineRenderer.OutlineBatch(var0, var1, 0.55F, 1.0F, true);
       }
 
       float alpha(float var1) {

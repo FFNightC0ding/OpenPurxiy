@@ -1,11 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry21;
-import dev.purxiy.loader.fabric.client.ClientRegistry3;
-import dev.purxiy.loader.fabric.client.ClientRenderer4;
+import dev.purxiy.loader.fabric.client.GuiRenderContext;
+import dev.purxiy.loader.fabric.client.BackgroundStateProvider;
+import dev.purxiy.loader.fabric.client.MenuRenderPass;
 import net.minecraft.class_11909;
 import net.minecraft.class_2561;
 import net.minecraft.class_327;
@@ -28,7 +27,7 @@ public abstract class HomeTitleMixin extends class_437 {
    @Shadow
    private boolean field_18222;
    @Shadow
-   
+
    private class_8519 field_2586;
 
    protected HomeTitleMixin(class_2561 var1) {
@@ -40,7 +39,7 @@ public abstract class HomeTitleMixin extends class_437 {
       at = {@At("HEAD")}
    )
    private void purxiy$noFade(CallbackInfo var1) {
-      if (ClientRegistry21.skins(this)) {
+      if (GuiRenderContext.skins(this)) {
          this.field_18222 = false;
       }
    }
@@ -53,7 +52,7 @@ public abstract class HomeTitleMixin extends class_437 {
       )}
    )
    private void purxiy$logo(class_8020 var1, class_332 var2, int var3, float var4, Operation<Void> var5) {
-      if (!ClientRegistry21.active()) {
+      if (!GuiRenderContext.active()) {
          var5.call(new Object[]{var1, var2, var3, var4});
       }
    }
@@ -66,7 +65,7 @@ public abstract class HomeTitleMixin extends class_437 {
       )}
    )
    private void purxiy$splash(class_8519 var1, class_332 var2, int var3, class_327 var4, float var5, Operation<Void> var6) {
-      if (!ClientRegistry21.active()) {
+      if (!GuiRenderContext.active()) {
          var6.call(new Object[]{var1, var2, var3, var4, var5});
       }
    }
@@ -79,7 +78,7 @@ public abstract class HomeTitleMixin extends class_437 {
       )}
    )
    private void purxiy$version(class_332 var1, class_327 var2, String var3, int var4, int var5, int var6, Operation<Void> var7) {
-      if (!ClientRegistry21.active()) {
+      if (!GuiRenderContext.active()) {
          var7.call(new Object[]{var1, var2, var3, var4, var5, var6});
       }
    }
@@ -89,9 +88,9 @@ public abstract class HomeTitleMixin extends class_437 {
       at = {@At("TAIL")}
    )
    private void purxiy$chrome(class_332 var1, int var2, int var3, float var4, CallbackInfo var5) {
-      if (ClientRegistry21.active()) {
+      if (GuiRenderContext.active()) {
          class_8519 var6 = this.field_2586;
-         ClientRenderer4.render((class_442)(Object)(Object)this, var6 == null ? null : ((HomeSplashAccessor)var6).purxiy$text());
+         MenuRenderPass.render((class_442)(Object)(Object)this, var6 == null ? null : ((HomeSplashAccessor)var6).purxiy$text());
       }
    }
 
@@ -102,7 +101,7 @@ public abstract class HomeTitleMixin extends class_437 {
       ordinal = 0
    )
    private int purxiy$maskX(int var1) {
-      return ClientRegistry21.skins(this) ? ClientRenderer4.maskPointer(var1) : var1;
+      return GuiRenderContext.skins(this) ? MenuRenderPass.maskPointer(var1) : var1;
    }
 
    @ModifyVariable(
@@ -112,7 +111,7 @@ public abstract class HomeTitleMixin extends class_437 {
       ordinal = 1
    )
    private int purxiy$maskY(int var1) {
-      return ClientRegistry21.skins(this) ? ClientRenderer4.maskPointer(var1) : var1;
+      return GuiRenderContext.skins(this) ? MenuRenderPass.maskPointer(var1) : var1;
    }
 
    @Inject(
@@ -121,7 +120,7 @@ public abstract class HomeTitleMixin extends class_437 {
       cancellable = true
    )
    private void purxiy$plant(class_11909 var1, boolean var2, CallbackInfoReturnable<Boolean> var3) {
-      if (!var3.getReturnValueZ() && var1.method_74245() == 0 && ClientRegistry21.skins(this) && ClientRegistry3.plant(var1.comp_4798(), var1.comp_4799())) {
+      if (!var3.getReturnValueZ() && var1.method_74245() == 0 && GuiRenderContext.skins(this) && BackgroundStateProvider.plant(var1.comp_4798(), var1.comp_4799())) {
          var3.setReturnValue(true);
       }
    }
@@ -132,7 +131,7 @@ public abstract class HomeTitleMixin extends class_437 {
       cancellable = true
    )
    private void purxiy$click(class_11909 var1, boolean var2, CallbackInfoReturnable<Boolean> var3) {
-      if (ClientRegistry21.skins(this) && ClientRenderer4.mouseClicked(var1.comp_4798(), var1.comp_4799(), var1.method_74245())) {
+      if (GuiRenderContext.skins(this) && MenuRenderPass.mouseClicked(var1.comp_4798(), var1.comp_4799(), var1.method_74245())) {
          var3.setReturnValue(true);
       }
    }

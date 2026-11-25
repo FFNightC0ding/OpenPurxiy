@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.duck;
 
 public interface ScreenHook {

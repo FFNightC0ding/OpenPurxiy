@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.fps;
 
 import dev.purxiy.config.BooleanSetting;
@@ -17,34 +16,27 @@ public final class FpsHud extends HudElementGroup {
    public static boolean V;
    public static int U = 0;
 
-
-
    public FpsHud() {
       super("fps", "FPS", "Frames per second, with a live frame graph", "activity", 0.0, 0.0);
       this.enabledByDefault();
    }
 
-   @Override
    protected String value(HudBounds var1) {
       return Integer.toString(HudElement.fps());
    }
 
-   @Override
    protected String sample() {
       return Integer.toString(Math.max(1, HudElement.fps()));
    }
 
-   @Override
    protected String label(HudBounds var1) {
       return "FPS";
    }
 
-   @Override
    protected float extraWidth(HudBounds var1) {
       return this.f.enabled() ? 32.8F : 0.0F;
    }
 
-   @Override
    protected void renderExtra(Canvas var1, HudBounds var2, float var3, float var4) {
       float var5 = 0.0F;
       float var6 = 0.0F;
@@ -67,5 +59,4 @@ public final class FpsHud extends HudElementGroup {
          var1.roundRect(var3 + var11 * 2.1F, var10 + var9 - var13, 1.3F, var13, 0.65F, BlendMode.withAlpha(var15, 0.45F + 0.55F * (var11 + 1) / 16.0F));
       }
    }
-
 }

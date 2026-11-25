@@ -1,10 +1,9 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import net.minecraft.class_591;
 
 import dev.purxiy.duck.ModuleOwner;
-import dev.purxiy.loader.fabric.client.ClientRenderer9;
+import dev.purxiy.loader.fabric.client.EquipmentRenderPass;
 import dev.purxiy.loader.fabric.client.ClientTransform;
 import net.minecraft.class_10055;
 import net.minecraft.class_1007;
@@ -30,7 +29,7 @@ public abstract class Skins3DRendererMixin {
    private void purxiy$body(class_5618 var1, boolean var2, CallbackInfo var3) {
       class_583 var4 = ((class_591)(Object)((class_1007)(Object)(Object)this).method_4038());
       ((ModuleOwner)var4).purxiy$body(var2);
-      ClientRenderer9.equipment(var1.method_64071());
+      EquipmentRenderPass.equipment(var1.method_64071());
    }
 
    @Inject(
@@ -40,7 +39,7 @@ public abstract class Skins3DRendererMixin {
    private void purxiy$height(class_11890 var1, class_10055 var2, float var3, CallbackInfo var4) {
       ClientTransform.size(var1, var2);
       ClientTransform.hideArmor(var1, var2);
-      ClientRenderer9.extract(var1, var2);
+      EquipmentRenderPass.extract(var1, var2);
    }
 
    @Inject(

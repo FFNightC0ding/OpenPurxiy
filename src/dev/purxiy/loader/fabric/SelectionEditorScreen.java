@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import com.google.gson.JsonArray;
@@ -25,7 +24,7 @@ final class SelectionEditorScreen extends class_437 {
    private final JsonObject setting;
    private final Map<String, String> draft;
    private final String kind;
-   private final List<SelectionEditorScreen.TypeP> rows = new ArrayList<>();
+   private final List<SelectionEditorScreen.SelectionPanel> rows = new ArrayList<>();
    private final Set<String> selected = new TreeSet<>();
    private final Map<String, String> colors = new TreeMap<>();
    private final Map<String, String> choices = new TreeMap<>();
@@ -56,9 +55,9 @@ final class SelectionEditorScreen extends class_437 {
          for (JsonElement var10 : var4.getAsJsonArray()) {
             if (this.kind.equals("NameListSetting")) {
                JsonObject var11 = var10.getAsJsonObject();
-               this.rows.add(new SelectionEditorScreen.TypeP(var11.get("from").getAsString(), var11.get("to").getAsString()));
+               this.rows.add(new SelectionEditorScreen.SelectionPanel(var11.get("from").getAsString(), var11.get("to").getAsString()));
             } else {
-               this.rows.add(new SelectionEditorScreen.TypeP(var10.getAsString(), ""));
+               this.rows.add(new SelectionEditorScreen.SelectionPanel(var10.getAsString(), ""));
             }
          }
       }
@@ -115,7 +114,7 @@ final class SelectionEditorScreen extends class_437 {
             });
             this.method_37063(var12);
          } else {
-            SelectionEditorScreen.TypeP var16 = this.rows.get(var14);
+            SelectionEditorScreen.SelectionPanel var16 = this.rows.get(var14);
             boolean var17 = this.kind.equals("NameListSetting");
             int var18 = var17 ? (var1 - 40) / 2 : var1 - 32;
             class_342 var19 = new class_342(this.field_22793, var2, var3, var18, 20, class_2561.method_43470(var17 ? "Huidige naam" : "Speler"));
@@ -144,7 +143,7 @@ final class SelectionEditorScreen extends class_437 {
 
       if (!var5) {
          this.method_37063(ModuleClick.builder(class_2561.method_43470("Naam toevoegen"), var2x -> {
-            this.rows.add(new SelectionEditorScreen.TypeP("", ""));
+            this.rows.add(new SelectionEditorScreen.SelectionPanel("", ""));
             this.page = (this.rows.size() - 1) / var4;
             this.refresh();
          }).method_46434(var2, this.field_22790 - 54, var1, 20).method_46431()).field_22763 = this.rows.size() < 2048;
@@ -198,7 +197,7 @@ final class SelectionEditorScreen extends class_437 {
          } else {
             JsonArray var2 = new JsonArray();
 
-            for (SelectionEditorScreen.TypeP var4 : this.rows) {
+            for (SelectionEditorScreen.SelectionPanel var4 : this.rows) {
                if (this.kind.equals("NameListSetting")) {
                   JsonObject var5 = new JsonObject();
                   var5.addProperty("from", var4.from);
@@ -238,11 +237,11 @@ final class SelectionEditorScreen extends class_437 {
       }
    }
 
-   private static final class TypeP {
+   private static final class SelectionPanel {
       String from;
       String to;
 
-      TypeP(String var1, String var2) {
+      SelectionPanel(String var1, String var2) {
          this.from = var1;
          this.to = var2;
       }

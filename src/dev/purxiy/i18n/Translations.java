@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.i18n;
 
 import com.google.gson.JsonElement;
@@ -38,7 +37,7 @@ public final class Translations {
    private static final Locale RU = Locale.forLanguageTag("ru");
    private static final Map<String, String> EXACT = new HashMap<>();
    private static final Map<String, String[]> FORMS = new HashMap<>();
-   private static final List<Translations.TypeP> RULES = new ArrayList<>();
+   private static final List<Translations.Placeholder> RULES = new ArrayList<>();
    private static final Map<String, String> BUILT = new LinkedHashMap<String, String>(256, 0.75F, true) {
       @Override
       protected boolean removeEldestEntry(Entry<String, String> var1) {
@@ -46,17 +45,17 @@ public final class Translations {
       }
    };
    private static Supplier<String> setting = () -> "Auto";
-   
+
    private static String lastSetting;
-   
+
    private static String lastGame;
    private static boolean noGame;
-   private static volatile Translations.TypeM current = Translations.TypeM.ENGLISH;
+   private static volatile Translations.Language current = Translations.Language.ENGLISH;
    private static int revision = 0;
    private static int paused = 0;
    private static boolean loaded;
    private static boolean preloaded;
-   
+
    private static final Path MISSING = path("purxiy.i18n.missing");
    private static final Set<String> missing = ConcurrentHashMap.newKeySet();
    private static int missingWritten = 0;
@@ -65,7 +64,7 @@ public final class Translations {
    private Translations() {
    }
 
-   
+
    private static Path path(String var0) {
       String var1 = System.getProperty(var0);
       return var1 != null && !var1.isBlank() ? Path.of(var1) : null;
@@ -75,13 +74,13 @@ public final class Translations {
       setting = var0;
    }
 
-   public static Translations.TypeM current() {
+   public static Translations.Language current() {
       update();
       return current;
    }
 
    public static boolean russian() {
-      return current() == Translations.TypeM.RUSSIAN;
+      return current() == Translations.Language.RUSSIAN;
    }
 
    public static Locale locale() {
@@ -110,7 +109,7 @@ public final class Translations {
    public static CharSequence display(CharSequence var0) {
       if (paused <= 0 && var0 instanceof String var1 && !var1.isEmpty()) {
          update();
-         if (current == Translations.TypeM.ENGLISH) {
+         if (current == Translations.Language.ENGLISH) {
             return var0;
          } else {
             String var2 = EXACT.get(var1);
@@ -126,7 +125,7 @@ public final class Translations {
    }
 
    public static String tr(String var0) {
-      if (var0 != null && !var0.isEmpty() && current() != Translations.TypeM.ENGLISH) {
+      if (var0 != null && !var0.isEmpty() && current() != Translations.Language.ENGLISH) {
          String var1 = EXACT.get(var0);
          return var1 != null ? var1 : built(var0);
       } else {
@@ -135,7 +134,7 @@ public final class Translations {
    }
 
    public static String plural(double var0, String var2, String var3) {
-      if (current() == Translations.TypeM.RUSSIAN) {
+      if (current() == Translations.Language.RUSSIAN) {
          String[] var4 = FORMS.get(var2 + "|" + var3);
          if (var4 != null) {
             return russianForm(var0, var4);
@@ -152,7 +151,7 @@ public final class Translations {
       } else {
          String var2 = var0;
          if (hasLatin(var0)) {
-            for (Translations.TypeP var4 : RULES) {
+            for (Translations.Placeholder var4 : RULES) {
                Matcher var5 = var4.pattern.matcher(var0);
                if (var5.matches()) {
                   var2 = var4.apply(var5);
@@ -230,21 +229,21 @@ public final class Translations {
                }
          }
 
-         Translations.TypeM var2;
+         Translations.Language var2;
          label61: {
             switch (var4) {
                case 0:
-                  var2 = Translations.TypeM.ENGLISH;
+                  var2 = Translations.Language.ENGLISH;
                   break label61;
                case 1:
-                  var2 = Translations.TypeM.RUSSIAN;
+                  var2 = Translations.Language.RUSSIAN;
                   break label61;
             }
 
-            var2 = var1 != null && var1.startsWith("ru") ? Translations.TypeM.RUSSIAN : Translations.TypeM.ENGLISH;
+            var2 = var1 != null && var1.startsWith("ru") ? Translations.Language.RUSSIAN : Translations.Language.ENGLISH;
          }
 
-         if (var2 == Translations.TypeM.RUSSIAN) {
+         if (var2 == Translations.Language.RUSSIAN) {
             load();
             preload();
          }
@@ -259,7 +258,7 @@ public final class Translations {
       }
    }
 
-   
+
    private static String gameLanguage() {
       if (noGame) {
          return null;
@@ -299,7 +298,7 @@ public final class Translations {
                         String var5 = ((JsonElement)var3.getValue()).getAsString();
                         if (!var4.startsWith("//")) {
                            if (var4.contains("{")) {
-                              RULES.add(Translations.TypeP.of(var4, var5));
+                              RULES.add(Translations.Placeholder.of(var4, var5));
                            } else if (var4.contains("|")) {
                               FORMS.put(var4, var5.split("\\|"));
                            } else {
@@ -310,21 +309,21 @@ public final class Translations {
 
                      RULES.sort((var0x, var1x) -> Integer.compare(var1x.literal, var0x.literal));
                      ClientServices.LOGGER
-                        .info("Purxiy: loaded {} translations, {} patterns and {} word forms", new Object[]{EXACT.size(), RULES.size(), FORMS.size()});
+                        .info("SourceByDevFFnightmare DeObfDeCompByGuideX: loaded {} translations, {} patterns and {} word forms", new Object[]{EXACT.size(), RULES.size(), FORMS.size()});
                      break label85;
                   }
 
-                  ClientServices.LOGGER.warn("Purxiy: no dictionary at {}", "assets/purxiy/i18n/ru_ru.json");
+                  ClientServices.LOGGER.warn("SourceByDevFFnightmare DeObfDeCompByGuideX: no dictionary at {}", "assets/purxiy/i18n/ru_ru.json");
                }
 
                return;
             }
          } catch (Exception var8) {
-            ClientServices.LOGGER.error("Purxiy: could not read {}", "assets/purxiy/i18n/ru_ru.json", var8);
+            ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX: could not read {}", "assets/purxiy/i18n/ru_ru.json", var8);
          }
 
          if (MISSING != null) {
-            Thread var9 = new Thread(Translations::writeMissingLoop, "Purxiy i18n missing");
+            Thread var9 = new Thread(Translations::writeMissingLoop, "SourceByDevFFnightmare DeObfDeCompByGuideX i18n missing");
             var9.setDaemon(true);
             var9.start();
          }
@@ -344,7 +343,7 @@ public final class Translations {
          } catch (InterruptedException var1) {
             return;
          } catch (Exception var2) {
-            ClientServices.LOGGER.warn("Purxiy: could not write missing translations", var2);
+            ClientServices.LOGGER.warn("SourceByDevFFnightmare DeObfDeCompByGuideX: could not write missing translations", var2);
          }
       }
    }
@@ -352,20 +351,20 @@ public final class Translations {
    private static void dumpOnce() throws IOException {
    }
 
-   public static enum TypeM {
+   public static enum Language {
       ENGLISH,
       RUSSIAN;
 
-      private static Translations.TypeM[] $values() {
-         return new Translations.TypeM[]{ENGLISH, RUSSIAN};
+      private static Translations.Language[] $values() {
+         return new Translations.Language[]{ENGLISH, RUSSIAN};
       }
    }
 
-   private record TypeP(Pattern pattern, String[] names, String template, int literal) {
+   private record Placeholder(Pattern pattern, String[] names, String template, int literal) {
       private static final Pattern PLACEHOLDER = Pattern.compile("\\{([nsr][0-9]?)}");
       private static final Pattern OUT = Pattern.compile("\\{([nsr][0-9]?)(?::([^}]*))?}");
 
-      static Translations.TypeP of(String var0, String var1) {
+      static Translations.Placeholder of(String var0, String var1) {
          StringBuilder var2 = new StringBuilder("^");
          ArrayList var3 = new ArrayList();
          Matcher var4 = PLACEHOLDER.matcher(var0);
@@ -382,7 +381,7 @@ public final class Translations {
 
          var2.append(Pattern.quote(var0.substring(var5))).append('$');
          var6 += var0.length() - var5;
-         return new Translations.TypeP(Pattern.compile(var2.toString()), (String[])(var3.toArray(String[]::new)), var1, var6);
+         return new Translations.Placeholder(Pattern.compile(var2.toString()), (String[])(var3.toArray(String[]::new)), var1, var6);
       }
 
       String apply(Matcher var1) {

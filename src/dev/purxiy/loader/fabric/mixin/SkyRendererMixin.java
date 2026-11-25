@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientSupport3;
-import dev.purxiy.loader.fabric.client.ClientUpdater2;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
+import dev.purxiy.loader.fabric.client.TickRouter;
 import net.minecraft.class_12076;
 import net.minecraft.class_4184;
 import net.minecraft.class_638;
@@ -19,7 +18,7 @@ public abstract class SkyRendererMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$extract(class_638 var1, float var2, class_4184 var3, class_12076 var4, CallbackInfo var5) {
-      ClientSupport3.extract(var1, var4);
-      var4.field_63097 = ClientUpdater2.nature(var4.field_63097, "sky");
+      SkyPipelineRouter.extract(var1, var4);
+      var4.field_63097 = TickRouter.nature(var4.field_63097, "sky");
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import dev.purxiy.loader.fabric.CosmeticRegistry;
@@ -14,7 +13,7 @@ import net.minecraft.class_437;
 
 final class Skins3DScreen extends class_437 {
    private final Skins3DModule w;
-   private final Skins3DRenderer2 u;
+   private final Skins3DEditorScreen u;
    private final DrawContext d = new DrawContext();
    private float P;
    private float K;
@@ -22,15 +21,12 @@ final class Skins3DScreen extends class_437 {
    private boolean A;
    private String a = "";
 
-
-
    Skins3DScreen(Skins3DModule var1) {
       super(class_2561.method_43470("3D Skins Wardrobe"));
       this.w = var1;
-      this.u = new Skins3DRenderer2(var1);
+      this.u = new Skins3DEditorScreen(var1);
    }
 
-   @Override
    protected void method_25426() {
       this.method_37063(ModuleClick.builder(class_2561.method_43470("Settings"), var1 -> {
          long var2 = 53445059612335L;
@@ -46,7 +42,6 @@ final class Skins3DScreen extends class_437 {
       );
    }
 
-   @Override
    public void method_25394(class_332 var1, int var2, int var3, float var4) {
       RenderPipelines var5 = RenderPipelines.get();
       Canvas var6 = var5.menuCanvas();
@@ -79,7 +74,6 @@ final class Skins3DScreen extends class_437 {
       return (RenderPipelines.get().fromGui(var1) - this.K) / this.z;
    }
 
-   @Override
    public boolean method_25402(class_11909 var1, boolean var2) {
       if (super.method_25402(var1, var2)) {
          return true;
@@ -89,7 +83,6 @@ final class Skins3DScreen extends class_437 {
       }
    }
 
-   @Override
    public boolean method_25403(class_11909 var1, double var2, double var4) {
       if (!this.A) {
          return super.method_25403(var1, var2, var4);
@@ -99,7 +92,6 @@ final class Skins3DScreen extends class_437 {
       }
    }
 
-   @Override
    public boolean method_25406(class_11909 var1) {
       if (!this.A) {
          return super.method_25406(var1);
@@ -114,13 +106,12 @@ final class Skins3DScreen extends class_437 {
       try {
          CosmeticRegistry.storeSettings(this.w.id(), this.w.values());
          return true;
-      } catch (IllegalArgumentException | IOException var4) {
+      } catch (IOException | IllegalArgumentException var4) {
          this.a = "Could not save skin selection.";
          return false;
       }
    }
 
-   @Override
    public void method_25419() {
       long var1 = 36719781888287L;
       long var3 = var1 ^ 19786247786416L;
@@ -129,15 +120,12 @@ final class Skins3DScreen extends class_437 {
       }
    }
 
-   @Override
    public boolean method_25421() {
       return false;
    }
 
-   @Override
    public void method_25432() {
       this.u.mouseUp();
       this.A = false;
    }
-
 }

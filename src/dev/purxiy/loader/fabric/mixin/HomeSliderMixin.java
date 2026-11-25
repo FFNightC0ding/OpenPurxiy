@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry21;
+import dev.purxiy.loader.fabric.client.GuiRenderContext;
 import net.minecraft.class_12225;
 import net.minecraft.class_2561;
 import net.minecraft.class_357;
@@ -20,7 +19,7 @@ public abstract class HomeSliderMixin {
       )}
    )
    private void purxiy$label(class_357 var1, class_12225 var2, class_2561 var3, int var4, Operation<Void> var5) {
-      if (!ClientRegistry21.active() || !ClientRegistry21.sliderLabel(var1, var3)) {
+      if (!GuiRenderContext.active() || !GuiRenderContext.sliderLabel(var1, var3)) {
          var5.call(new Object[]{var1, var2, var3, var4});
       }
    }

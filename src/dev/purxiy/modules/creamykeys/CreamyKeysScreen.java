@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.creamykeys;
 
 import dev.purxiy.config.Setting;
@@ -18,8 +17,6 @@ public final class CreamyKeysScreen extends class_437 {
    private final CreamyKeysModule W;
    private final List<class_4185> R = new ArrayList<>();
    private String X = "";
-
-
    private static final long c = 2697589901154582593L;
 
    public CreamyKeysScreen(CreamyKeysModule var1) {
@@ -27,7 +24,6 @@ public final class CreamyKeysScreen extends class_437 {
       this.W = var1;
    }
 
-   @Override
    protected void method_25426() {
       this.R.clear();
       int var1 = 0;
@@ -72,23 +68,13 @@ public final class CreamyKeysScreen extends class_437 {
 
       for (Setting var5 : this.W.settings()) {
          long var6 = 48412964661021L;
-         if (48412964661021L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var11 = var6 < 0L ? -1 : 1;
-         }
-
+         int var8 = var6 < 0L ? -1 : 1;
          var3.put(var5.id(), var5.save().getAsString());
       }
 
       try {
          long var10 = 48412964661021L;
-         if (48412964661021L == 0L) {
-            boolean var12 = false;
-         } else {
-            int var13 = var10 < 0L ? -1 : 1;
-         }
-
+         int var11 = var10 < 0L ? -1 : 1;
          CosmeticRegistry.storeSettings(this.W.id(), var3);
          this.X = "";
       } catch (IOException var9) {
@@ -100,29 +86,24 @@ public final class CreamyKeysScreen extends class_437 {
       return this.R.stream().anyMatch(class_339::method_49606);
    }
 
-   @Override
    public void method_25393() {
       this.W.audition();
    }
 
-   @Override
    public void method_25394(class_332 var1, int var2, int var3, float var4) {
       super.method_25394(var1, var2, var3, var4);
       var1.method_27534(this.field_22793, this.field_22785, this.field_22789 / 2, 22, -1714177);
-      var1.method_25300(this.field_22793, "Press any key to listen. Style: " + this.W.C.get(), this.field_22789 / 2, 190, -4609332);
+      var1.method_25300(this.field_22793, "Press any key to listen. Style: " + (String)this.W.C.get(), this.field_22789 / 2, 190, -4609332);
       if (!this.X.isEmpty()) {
          var1.method_25300(this.field_22793, this.X, this.field_22789 / 2, this.field_22790 - 72, -28528);
       }
    }
 
-   @Override
    public boolean method_25421() {
       return false;
    }
 
-   @Override
    public void method_25419() {
       this.field_22787.method_1507(CosmeticRegistry.menu());
    }
-
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.Animator;
@@ -11,7 +10,7 @@ import dev.purxiy.modules.Category;
 import dev.purxiy.modules.Module;
 import dev.purxiy.modules.SettingSection;
 import dev.purxiy.persist.FCodec;
-import dev.purxiy.profile.ProfileRenderer11;
+import dev.purxiy.profile.ProfilePanel;
 import dev.purxiy.render.BlendMode;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.render.RenderPipelines;
@@ -24,7 +23,7 @@ import dev.purxiy.sound.SoundRequest;
 import dev.purxiy.ui.DrawContext;
 import dev.purxiy.ui.Icons;
 import dev.purxiy.ui.KeyLabel;
-import dev.purxiy.ui.config.ConfigLibraryRenderer14;
+import dev.purxiy.ui.config.ConfigLibraryPanel;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
@@ -38,20 +37,20 @@ import net.minecraft.class_332;
 import net.minecraft.class_437;
 
 public final class MenuScreen extends class_437 {
-   
+
    private static TextureLoader mark;
-   
+
    private static TextureLoader wordmark;
-   
+
    private final class_437 parent;
    private final DrawContext frame = new DrawContext();
    private final StudioTab backdrop = new StudioTab();
    private final StudioPanel orbit;
    private final LayoutEditor grid = new LayoutEditor();
    private final ModuleSearch search = new ModuleSearch();
-   private final ProfileRenderer11 profile = new ProfileRenderer11();
-   private final ConfigLibraryRenderer14 configs = new ConfigLibraryRenderer14();
-   
+   private final ProfilePanel profile = new ProfilePanel();
+   private final ConfigLibraryPanel configs = new ConfigLibraryPanel();
+
    private ModuleList panel;
    private final Animator menu = new Animator(0.0F, 150.0F, 24.0F);
    private final Animator view = new Animator(0.0F, 140.0F, 23.5F);
@@ -61,13 +60,13 @@ public final class MenuScreen extends class_437 {
    private boolean closing;
    private boolean pointerDown;
    private float wheel;
-   
+
    private Object lastHover;
    private float appliedScale = -1.0F;
    private final Animator scale = Animator.smooth(1.0F);
-   
+
    private Module pendingPanel;
-   
+
    private Category pendingOpen;
    private float searchX;
    private float searchY;
@@ -81,7 +80,7 @@ public final class MenuScreen extends class_437 {
    private int lastButton;
 
    public MenuScreen( class_437 var1) {
-      super(class_2561.method_43470("Purxiy"));
+      super(class_2561.method_43470("SourceByDevFFnightmare DeObfDeCompByGuideX"));
       this.parent = var1;
       if (mark == null) {
          mark = TextureLoader.load("textures/brand/mark.png");
@@ -269,7 +268,7 @@ public final class MenuScreen extends class_437 {
       float var7 = Math.max(32.0F, Math.min(72.0F, var4 * 0.045F));
       this.searchX = var4 - var7 - this.searchW;
       this.searchY = 40.0F - this.searchH / 2.0F;
-      boolean var8 = var1.hover(this.searchButtonKey, this.searchX, this.searchY, this.searchW, this.searchH, DrawContext.TypeE.HAND);
+      boolean var8 = var1.hover(this.searchButtonKey, this.searchX, this.searchY, this.searchW, this.searchH, DrawContext.Cursor.HAND);
       float var9 = this.searchButtonHover.target(var8 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       var2.pushAlpha(var3);
       var2.roundRect(this.searchX, this.searchY, this.searchW, this.searchH, this.searchH / 2.0F, BlendMode.lerp(285212671, 486539263, var9));
@@ -389,7 +388,7 @@ public final class MenuScreen extends class_437 {
       }
    }
 
-   private void handle(ModuleSearch.TypeG var1) {
+   private void handle(ModuleSearch.SearchAction var1) {
       if (var1.openSettings() != null) {
          this.openModule(var1.openSettings());
       }
@@ -469,7 +468,7 @@ public final class MenuScreen extends class_437 {
          this.search.show(this.now());
          return true;
       } else {
-         StudioPanel.TypeU var4 = this.orbit.mouseDown(var1, var2);
+         StudioPanel.PanelMode var4 = this.orbit.mouseDown(var1, var2);
          if (this.inCategory()) {
             switch (var4) {
                case TAB:
@@ -485,20 +484,20 @@ public final class MenuScreen extends class_437 {
                   }
 
                   if (this.category == Category.PROFILE) {
-                     ProfileRenderer11.TypeK var5 = this.profile.mouseDown(var1, var2, var3, this.now());
-                     if (var5 == ProfileRenderer11.TypeK.SETTINGS) {
+                     ProfilePanel.PanelResult var5 = this.profile.mouseDown(var1, var2, var3, this.now());
+                     if (var5 == ProfilePanel.PanelResult.SETTINGS) {
                         this.openProfileSettings();
                      }
 
-                     if (var5 != ProfileRenderer11.TypeK.NONE) {
+                     if (var5 != ProfilePanel.PanelResult.NONE) {
                         return true;
                      }
                   }
 
-                  LayoutEditor.TypeD var7 = this.grid.mouseDown(var1, var2, var3);
-                  if (var7 == LayoutEditor.TypeD.OPEN_PANEL && this.grid.target() != null) {
+                  LayoutEditor.EditorMode var7 = this.grid.mouseDown(var1, var2, var3);
+                  if (var7 == LayoutEditor.EditorMode.OPEN_PANEL && this.grid.target() != null) {
                      this.openPanel(this.grid.target());
-                  } else if (var7 == LayoutEditor.TypeD.EDIT_HUD) {
+                  } else if (var7 == LayoutEditor.EditorMode.EDIT_HUD) {
                      SoundRequest.play(SoundEvent.EXPAND);
                      this.field_22787.method_1507(new HudEditorScreen(this));
                   }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.nick;
 
 import java.util.Arrays;
@@ -11,15 +10,12 @@ public final class NickHiderCodec {
    final String L;
    final String S;
    final int[] y;
-   
    final NickHiderData[] x;
    final boolean a;
    final boolean R;
    public static boolean M;
 
-
-
-   private NickHiderCodec(String var1, int[] var2,  NickHiderData[] var3, long var4) {
+   private NickHiderCodec(String var1, int[] var2, NickHiderData[] var3, long var4) {
       this.L = var1;
       this.y = var2;
       this.x = var3;
@@ -29,24 +25,14 @@ public final class NickHiderCodec {
 
       for (int var11 : var2) {
          long var12 = 28344919240206L;
-         if (28344919240206L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var16 = var12 < 0L ? -1 : 1;
-         }
-
+         int var14 = var12 < 0L ? -1 : 1;
          var6 |= Character.isUpperCase(var11);
          var7 |= Character.isLowerCase(var11);
       }
 
       this.a = var6;
       long var15 = 28344919240205L;
-      if (28344919240205L == 0L) {
-         boolean var17 = false;
-      } else {
-         int var18 = var15 < 0L ? -1 : 1;
-      }
-
+      int var16 = var15 < 0L ? -1 : 1;
       this.R = var7;
    }
 
@@ -123,39 +109,19 @@ public final class NickHiderCodec {
       for (int var5 = var1; var5 < var1 + 6; var5++) {
          int var6 = var0.charAt(var5);
          long var7 = 60044801205719L;
-         if (60044801205719L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var17 = var7 < 0L ? -1 : 1;
-         }
-
-         long var10 = 60044801205718L;
-         if (60044801205718L == 0L) {
-            boolean var18 = false;
-         } else {
-            int var19 = var10 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
+         long var10x = 60044801205718L;
+         int var12 = var10x < 0L ? -1 : 1;
          var6 = Character.digit((char)var6, 16);
-         long var12 = 60044801205718L;
-         if (60044801205718L == 0L) {
-            boolean var20 = false;
-         } else {
-            int var21 = var12 < 0L ? -1 : 1;
-         }
-
+         long var12x = 60044801205718L;
+         int var13 = var12x < 0L ? -1 : 1;
          if (var6 < 0) {
             return false;
          }
       }
 
       long var16 = 60044801205718L;
-      if (60044801205718L == 0L) {
-         boolean var22 = false;
-      } else {
-         int var23 = var16 < 0L ? -1 : 1;
-      }
-
+      int var16x = var16 < 0L ? -1 : 1;
       return true;
    }
 
@@ -171,7 +137,6 @@ public final class NickHiderCodec {
       return this.y.length;
    }
 
-   
    NickHiderData paint(int var1) {
       return this.x == null ? null : this.x[var1];
    }
@@ -181,6 +146,6 @@ public final class NickHiderCodec {
       return var2 == null ? -1 : var2.rgb();
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
 }

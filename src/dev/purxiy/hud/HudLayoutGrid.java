@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.anim.Animator;
@@ -57,7 +56,7 @@ final class HudLayoutGrid {
    private static final Easing SHAPE = Easing.bezier(0.22F, 0.0F, 0.0F, 1.0F);
    private static final Easing RISE = Easing.bezier(0.2F, 0.0F, 0.0F, 1.0F);
    private static final Easing FLY = Easing.bezier(0.42F, 0.0F, 0.12F, 1.0F);
-   private final List<HudLayoutGrid.TypeI> tiles = new ArrayList<>();
+   private final List<HudLayoutGrid.GridPass> tiles = new ArrayList<>();
    private final HudBounds mini = new HudBounds();
    private final HudBounds sample = new HudBounds();
    private final float[] measured = new float[2];
@@ -106,7 +105,7 @@ final class HudLayoutGrid {
    }
 
    boolean hand() {
-      return this.open && this.frame.cursor() == DrawContext.TypeE.HAND;
+      return this.open && this.frame.cursor() == DrawContext.Cursor.HAND;
    }
 
    boolean contains(float var1, float var2) {
@@ -126,7 +125,7 @@ final class HudLayoutGrid {
             this.tiles.clear();
 
             for (Module var4 : SettingSection.of(Category.HUD)) {
-               this.tiles.add(new HudLayoutGrid.TypeI(var4, picture(var4)));
+               this.tiles.add(new HudLayoutGrid.GridPass(var4, picture(var4)));
             }
          }
 
@@ -158,7 +157,7 @@ final class HudLayoutGrid {
       this.holdOut = var2;
    }
 
-   
+
    private static HudModule picture(Module var0) {
       List var1 = HudRegistry.parts(var0.id());
       return var1.isEmpty() ? null : (HudModule)var1.getLast();
@@ -248,7 +247,7 @@ final class HudLayoutGrid {
          float var49 = Easing.CUBIC_IN_OUT.apply(clamp01(var26 / 0.72F));
 
          for (int var50 = 0; var50 < var8; var50++) {
-            HudLayoutGrid.TypeI var51 = this.tiles.get(var50);
+            HudLayoutGrid.GridPass var51 = this.tiles.get(var50);
             int var52 = var50 % var9;
             int var53 = var50 / var9;
             float var54 = var40 + 11.0F + var52 * 98.0F;
@@ -267,7 +266,7 @@ final class HudLayoutGrid {
 
          var1.pushClip(var40, var42, var11, Math.max(0.0F, var43 - var42), var37 < var11 - 0.5F ? var39 : 0.0F);
 
-         for (HudLayoutGrid.TypeI var62 : this.tiles) {
+         for (HudLayoutGrid.GridPass var62 : this.tiles) {
             this.card(var1, var62, var27, var5, var44);
          }
 
@@ -275,11 +274,11 @@ final class HudLayoutGrid {
          this.prepareContexts(var2);
          float var61 = this.handOff();
 
-         for (HudLayoutGrid.TypeI var66 : this.tiles) {
+         for (HudLayoutGrid.GridPass var66 : this.tiles) {
             this.picture(var1, var66, var27, var61, false);
          }
 
-         for (HudLayoutGrid.TypeI var67 : this.tiles) {
+         for (HudLayoutGrid.GridPass var67 : this.tiles) {
             this.caption(var1, var67, var27, var5, var44);
          }
 
@@ -287,7 +286,7 @@ final class HudLayoutGrid {
          this.edges(var1, var40, var11, var42, Math.max(0.0F, var43 - var42), var20, Math.min(var47, var48) * var27);
          var1.popClip();
 
-         for (HudLayoutGrid.TypeI var68 : this.tiles) {
+         for (HudLayoutGrid.GridPass var68 : this.tiles) {
             this.picture(var1, var68, var27, var61, true);
          }
       }
@@ -312,7 +311,7 @@ final class HudLayoutGrid {
          var1.text(Fonts.SEMIBOLD, "HUD elements", var12, var8 - 5.5F, 10.0F, Icons.TEXT, FontStyle.LEFT, FontWeight.MIDDLE);
          int var13 = 0;
 
-         for (HudLayoutGrid.TypeI var15 : this.tiles) {
+         for (HudLayoutGrid.GridPass var15 : this.tiles) {
             var13 += var15.module.enabled() ? 1 : 0;
          }
 
@@ -322,7 +321,7 @@ final class HudLayoutGrid {
          boolean var16 = false;
          if (var9) {
             set(this.closeButton, var19 - var18, var8 - var18, var18 * 2.0F, var18 * 2.0F);
-            var16 = this.frame.hover(this.closeButton, var19 - var18, var8 - var18, var18 * 2.0F, var18 * 2.0F, DrawContext.TypeE.HAND);
+            var16 = this.frame.hover(this.closeButton, var19 - var18, var8 - var18, var18 * 2.0F, var18 * 2.0F, DrawContext.Cursor.HAND);
          }
 
          float var17 = this.closeHover.target(var16 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var5));
@@ -349,7 +348,7 @@ final class HudLayoutGrid {
          boolean var14 = false;
          if (var6 > 0.6F) {
             set(this.glassToggle, var12 - var13 - 9.0F, var8 - 8.0F, var13 + 9.0F + var10, 16.0F);
-            var14 = this.frame.hover(this.glassToggle, this.glassToggle[0], this.glassToggle[1], this.glassToggle[2], 16.0F, DrawContext.TypeE.HAND);
+            var14 = this.frame.hover(this.glassToggle, this.glassToggle[0], this.glassToggle[1], this.glassToggle[2], 16.0F, DrawContext.Cursor.HAND);
          }
 
          var1.text(Fonts.MEDIUM, var9, var12 - 7.0F, var8, 7.5F, var14 ? Icons.TEXT : Icons.TEXT_2, FontStyle.RIGHT, FontWeight.MIDDLE);
@@ -374,7 +373,7 @@ final class HudLayoutGrid {
       }
    }
 
-   private void card(Canvas var1, HudLayoutGrid.TypeI var2, float var3, float var4, boolean var5) {
+   private void card(Canvas var1, HudLayoutGrid.GridPass var2, float var3, float var4, boolean var5) {
       float[] var6 = var2.rect;
       boolean var7 = var5 && var2.shown > 0.5F && var2.in > 0.6F && this.frame.inside(var6[0], var6[1], var6[2], var6[3]);
       float var8 = var2.hover.target(var7 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var4));
@@ -405,22 +404,22 @@ final class HudLayoutGrid {
       }
    }
 
-   private void enter(Canvas var1, HudLayoutGrid.TypeI var2) {
+   private void enter(Canvas var1, HudLayoutGrid.GridPass var2) {
       float[] var3 = var2.rect;
       var1.push();
       var1.translate(0.0F, this.lift(var2));
       var1.scaleAround(grow(var2), var3[0] + var3[2] / 2.0F, var3[1] + var3[3] / 2.0F);
    }
 
-   private float lift(HudLayoutGrid.TypeI var1) {
+   private float lift(HudLayoutGrid.GridPass var1) {
       return (this.down ? -1 : 1) * (1.0F - var1.in) * 10.0F - var1.hover.value() * 1.5F;
    }
 
-   private static float grow(HudLayoutGrid.TypeI var0) {
+   private static float grow(HudLayoutGrid.GridPass var0) {
       return 0.94F + 0.06F * var0.in;
    }
 
-   private void picture(Canvas var1, HudLayoutGrid.TypeI var2, float var3, float var4, boolean var5) {
+   private void picture(Canvas var1, HudLayoutGrid.GridPass var2, float var3, float var4, boolean var5) {
       HudModule var6 = var2.element;
       float[] var7 = var2.rect;
       float var8 = var2.on.value();
@@ -529,7 +528,7 @@ final class HudLayoutGrid {
       var0.roundRectGradient(var5 + 30.0F, var6 + 21.0F, 16.0F, 1.5F, 0.75F, 0.0F, Icons.INDIGO, Icons.MAGENTA);
    }
 
-   private void caption(Canvas var1, HudLayoutGrid.TypeI var2, float var3, float var4, boolean var5) {
+   private void caption(Canvas var1, HudLayoutGrid.GridPass var2, float var3, float var4, boolean var5) {
       float[] var6 = var2.rect;
       var2.gear[2] = 0.0F;
       float var7 = var2.in * var3 * var2.shown;
@@ -581,7 +580,7 @@ final class HudLayoutGrid {
          }
 
          if (var18 && this.frame.inside(var6[0], var6[1], var6[2], var6[3])) {
-            this.frame.claim(var2, DrawContext.TypeE.HAND);
+            this.frame.claim(var2, DrawContext.Cursor.HAND);
          }
 
          var1.pop();
@@ -628,7 +627,7 @@ final class HudLayoutGrid {
             SoundRequest.play(SettingSection.HUD.glass.enabled() ? SoundEvent.TOGGLE_ON : SoundEvent.TOGGLE_OFF);
             return true;
          } else {
-            HudLayoutGrid.TypeI var4 = this.tileAt(var1, var2);
+            HudLayoutGrid.GridPass var4 = this.tileAt(var1, var2);
             if (var4 == null) {
                return true;
             } else {
@@ -664,12 +663,12 @@ final class HudLayoutGrid {
       this.scrollTarget = clamp(this.scrollTarget - (float)var1 * 76.0F * 0.6F, 0.0F, this.scrollLimit);
    }
 
-   
-   private HudLayoutGrid.TypeI tileAt(float var1, float var2) {
+
+   private HudLayoutGrid.GridPass tileAt(float var1, float var2) {
       if (!inside(this.view, var1, var2)) {
          return null;
       } else {
-         for (HudLayoutGrid.TypeI var4 : this.tiles) {
+         for (HudLayoutGrid.GridPass var4 : this.tiles) {
             if (var4.shown > 0.5F && inside(var4.rect, var1, var2)) {
                return var4;
             }
@@ -679,9 +678,9 @@ final class HudLayoutGrid {
       }
    }
 
-   
+
    String hint(float var1, float var2) {
-      HudLayoutGrid.TypeI var3 = this.tileAt(var1, var2);
+      HudLayoutGrid.GridPass var3 = this.tileAt(var1, var2);
       if (var3 != null) {
          return var3.module.enabled() ? "Click to switch it off  ·  Right-click for its settings" : "Click to switch it on  ·  Right-click for its settings";
       } else {
@@ -712,9 +711,9 @@ final class HudLayoutGrid {
       return var2 < var1 ? (var1 + var2) / 2.0F : Math.max(var1, Math.min(var2, var0));
    }
 
-   private static final class TypeI {
+   private static final class GridPass {
       final Module module;
-      
+
       final HudModule element;
       final Spacer toggle;
       final Animator hover = Animator.smooth(0.0F);
@@ -728,7 +727,7 @@ final class HudLayoutGrid {
       float shown = 1.0F;
       float rest = 1.0F;
 
-      TypeI(Module var1,  HudModule var2) {
+      GridPass(Module var1,  HudModule var2) {
          this.module = var1;
          this.element = var2;
          this.toggle = new Spacer(var1.enabled());

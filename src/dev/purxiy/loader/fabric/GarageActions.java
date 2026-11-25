@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;

@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientSupport2;
+import dev.purxiy.loader.fabric.client.ChatCommandRouter;
 import net.minecraft.class_634;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +15,7 @@ public abstract class LocalCommandMixin {
       cancellable = true
    )
    private void purxiy$localCommand(String var1, CallbackInfo var2) {
-      if (ClientSupport2.intercept(var1)) {
+      if (ChatCommandRouter.intercept(var1)) {
          var2.cancel();
       }
    }

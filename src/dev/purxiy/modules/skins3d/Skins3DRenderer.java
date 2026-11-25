@@ -1,9 +1,9 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -15,7 +15,7 @@ import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexFormat.class_5596;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.client.ClientCache;
-import dev.purxiy.loader.fabric.client.ClientRegistry23;
+import dev.purxiy.loader.fabric.client.ArmorRenderProvider;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.ui.Theme;
 import java.nio.ByteBuffer;
@@ -32,7 +32,6 @@ import net.minecraft.class_2960;
 import net.minecraft.class_310;
 import net.minecraft.class_6367;
 import org.joml.Matrix4f;
-
 import org.lwjgl.system.MemoryUtil;
 
 final class Skins3DRenderer {
@@ -40,7 +39,7 @@ final class Skins3DRenderer {
    private static final int i = 7;
    private static final int u = 6;
    private static final int v = 640;
-   private static final RenderPipeline k = RenderPipeline.builder()
+   private static final RenderPipeline k = RenderPipeline.builder(new Snippet[0])
       .withLocation(ClientServices.id("pipeline/skins3d_stage"))
       .withVertexShader(ClientServices.id("core/skins3d_stage"))
       .withFragmentShader(ClientServices.id("core/skins3d_stage"))
@@ -53,45 +52,30 @@ final class Skins3DRenderer {
       .withVertexFormat(class_290.field_1577, class_5596.field_27382)
       .build();
    private static final int K = class_290.field_1577.getVertexSize();
-   private static final Map<String, Skins3DRenderer.TypeL> g = new LinkedHashMap<String, Skins3DRenderer.TypeL>(16, 0.75F, true) {
+   private static final Map<String, Skins3DRenderer.SkinBatch> g = new LinkedHashMap<String, Skins3DRenderer.SkinBatch>(16, 0.75F, true) {
       @Override
-      protected boolean removeEldestEntry(Entry<String, Skins3DRenderer.TypeL> var1) {
+      protected boolean removeEldestEntry(Entry<String, Skins3DRenderer.SkinBatch> var1) {
          if (this.size() > 12) {
-            ((Skins3DRenderer.TypeL)var1.getValue()).close();
+            var1.getValue().close();
             return true;
          } else {
             return false;
          }
       }
    };
-   
-   private static Skins3DRenderer.TypeL a;
+   private static Skins3DRenderer.SkinBatch a;
    private static final Matrix4f O = new Matrix4f();
    private static final Matrix4f e = new Matrix4f();
    private static final Matrix4f n = new Matrix4f();
    private static final Matrix4f T = new Matrix4f();
    private static final Matrix4f[] Q = new Matrix4f[7];
-
-   // Allocated but never filled: every transform slot is written through these matrices at draw time.
-   static {
-      for (int var0 = 0; var0 < Q.length; var0++) {
-         Q[var0] = new Matrix4f();
-      }
-   }
    private final String H;
-   
    private class_6367 S;
-   
    private GpuBuffer Y;
-   
    private ByteBuffer l;
-   
    private String d;
-   private static final float[] p = new float[24];
-
-
-
-   private static final Integer[] h = new Integer[18];
+   private static final float[] p;
+   private static final Integer[] h;
    private static final long j = 640L;
 
    Skins3DRenderer(String var1) {
@@ -102,10 +86,10 @@ final class Skins3DRenderer {
       Canvas var1,
       class_2960 var2,
       boolean var3,
-       class_2960 var4,
+      class_2960 var4,
       boolean var5,
-      Skins3DRenderer.TypeQ var6,
-      Skins3DRenderer.TypeM var7,
+      Skins3DRenderer.SkinFrame var6,
+      Skins3DRenderer.SkinRenderState var7,
       float var8,
       float var9,
       float var10,
@@ -127,7 +111,7 @@ final class Skins3DRenderer {
       int var28 = (int)(var21 << 32 >>> 32);
       if (!(var11 <= 1.0F) && !(var12 <= 1.0F) && !(var13 <= 0.0F) && !(var1.alpha() <= 0.004F)) {
          GpuTextureView var29 = view(var2);
-         Skins3DBuilder.TypeR var30 = var29 == null ? null : Skins3DFactory.get(var2, var3);
+         Skins3DBuilder.SkinQuad var30 = var29 == null ? null : Skins3DFactory.get(var2, var3);
          if (var30 == null) {
             return false;
          } else {
@@ -138,7 +122,7 @@ final class Skins3DRenderer {
                if (!var32.precompilePipeline(k).isValid()) {
                   return false;
                } else {
-                  Skins3DRenderer.TypeL var33 = r(var23, var2, var3, (short)var24, var25, var30);
+                  Skins3DRenderer.SkinBatch var33 = r(var23, var2, var3, (short)var24, var25, var30);
                   float var34 = (float)Math.hypot(var1.transform().m00(), var1.transform().m01());
                   float var35 = (float)Math.hypot(var1.transform().m10(), var1.transform().m11());
                   float var36 = Math.min(4096, var32.getMaxTextureSize());
@@ -163,10 +147,11 @@ final class Skins3DRenderer {
                   var40.writeToBuffer(this.Y.slice(), var41.get());
                   class_5590 var44 = RenderSystem.getSequentialBuffer(class_5596.field_27382);
                   class_12137 var45 = RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST);
+                  RenderPass var46 = var40.createRenderPass(
+                     () -> "SourceByDevFFnightmare DeObfDeCompByGuideX 3D skin " + this.H, this.S.method_71639(), OptionalInt.of(0), this.S.method_71640(), OptionalDouble.of(1.0)
+                  );
 
-                  try (RenderPass var46 = var40.createRenderPass(
-                        () -> "Purxiy 3D skin " + this.H, this.S.method_71639(), OptionalInt.of(0), this.S.method_71640(), OptionalDouble.of(1.0)
-                     )) {
+                  try {
                      var46.setPipeline(k);
                      var46.setUniform("SkinStage", this.Y);
                      var46.bindTexture("Sampler0", var29, var45);
@@ -175,17 +160,31 @@ final class Skins3DRenderer {
                      int var48 = (int)var15;
                      var46.setIndexBuffer(var44.method_68274(var33.e * 6), var44.method_31924());
                      var46.drawIndexed(0, 0, var33.e * 6, 1);
-                     Skins3DTransform3.metric("drawn");
+                     Skins3DRig.metric("drawn");
                      if (var31 != null) {
-                        Skins3DRenderer.TypeL var49 = r((short)var26, (char)var27, var28);
-                        var46.bindTexture("Sampler0", var31, var5 ? ClientRegistry23.sampler() : var45);
+                        Skins3DRenderer.SkinBatch var49 = r((short)var26, (char)var27, var28);
+                        var46.bindTexture("Sampler0", var31, var5 ? ArmorRenderProvider.sampler() : var45);
                         var47 = -920491109;
                         var46.setVertexBuffer(0, var49.v);
                         var48 = (int)var15;
                         var46.setIndexBuffer(var44.method_68274(var49.e * 6), var44.method_31924());
                         var46.drawIndexed(0, 0, var49.e * 6, 1);
-                        Skins3DTransform3.metric("drawn");
+                        Skins3DRig.metric("drawn");
                      }
+                  } catch (Throwable var51) {
+                     if (var46 != null) {
+                        try {
+                           var46.close();
+                        } catch (Throwable var50) {
+                           var51.addSuppressed(var50);
+                        }
+                     }
+
+                     throw var51;
+                  }
+
+                  if (var46 != null) {
+                     var46.close();
                   }
 
                   var1.image(
@@ -206,12 +205,12 @@ final class Skins3DRenderer {
                   this.d = null;
                   return true;
                }
-            } catch (RuntimeException var52) {
-               if (!var52.toString().equals(this.d)) {
-                  ClientServices.LOGGER.error("Purxiy 3D skin preview could not render", var52);
+            } catch (RuntimeException var521) {
+               if (!var521.toString().equals(this.d)) {
+                  ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX 3D skin preview could not render", var521);
                }
 
-               this.d = var52.toString();
+               this.d = var521.toString();
                return false;
             }
          }
@@ -223,19 +222,14 @@ final class Skins3DRenderer {
    private void M(long var1, GpuDevice var3, int var4, int var5) {
       SkinPreset.ensureSourceClassInitialized();
       if (this.S == null) {
-         this.S = new class_6367("Purxiy 3D skin " + this.H, var4, var5, true);
+         this.S = new class_6367("SourceByDevFFnightmare DeObfDeCompByGuideX 3D skin " + this.H, var4, var5, true);
       } else {
-         label34: {
+         label28: {
             if (this.S.field_1482 == var4) {
                long var6 = 88302832269303L;
-               if (88302832269303L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var10 = var6 < 0L ? -1 : 1;
-               }
-
+               int var8 = var6 < 0L ? -1 : 1;
                if (this.S.field_1481 == var5) {
-                  break label34;
+                  break label28;
                }
             }
 
@@ -244,19 +238,14 @@ final class Skins3DRenderer {
       }
 
       long var9 = 88302832269303L;
-      if (88302832269303L == 0L) {
-         boolean var11 = false;
-      } else {
-         int var12 = var9 < 0L ? -1 : 1;
-      }
-
+      int var10 = var9 < 0L ? -1 : 1;
       if (this.Y == null) {
-         this.Y = var3.createBuffer(ClientServices.label(() -> "Purxiy 3D skin " + this.H + " pose"), 136, 640L);
+         this.Y = var3.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX 3D skin " + this.H + " pose"), 136, 640L);
          this.l = MemoryUtil.memAlloc(640);
       }
    }
 
-   private static void A(Skins3DRenderer.TypeQ var0, long var1, boolean var3, Skins3DBuilder.TypeR var4) {
+   private static void A(Skins3DRenderer.SkinFrame var0, long var1, boolean var3, Skins3DBuilder.SkinQuad var4) {
       long var5 = 83432673278023L;
       boolean var7 = var4.C;
       SkinPreset.ensureSourceClassInitialized();
@@ -271,12 +260,7 @@ final class Skins3DRenderer {
       G(0, var14[0], var14[1], var14[2], var4.n ? 0.0F : var0.v, var4.n ? 0.0F : var0.V, 0.0F);
       Matrix4f var15 = Q[0];
       long var16 = 11366875115576L;
-      if (11366875115576L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var23 = var16 < 0L ? -1 : 1;
-      }
-
+      int var19 = var16 < 0L ? -1 : 1;
       var15.scale(var0.Y, var0.C, var0.J);
       G(1, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
       Q[1].scale(var0.q, 1.0F, var0.E);
@@ -286,21 +270,16 @@ final class Skins3DRenderer {
       Q[4].scale(var0.w, 1.0F, var0.j);
       G(5, 1.9F * var0.q, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F);
       var15 = Q[5];
-      long var19 = 11366875115576L;
-      if (11366875115576L == 0L) {
-         boolean var24 = false;
-      } else {
-         int var25 = var19 < 0L ? -1 : 1;
-      }
-
+      long var19x = 11366875115576L;
+      int var21 = var19x < 0L ? -1 : 1;
       var15.scale(var0.w, 1.0F, var0.j);
       if (var7) {
-         float[][] var21 = var4.y;
-         G(2, var21[2][0], var21[2][1], var21[2][2], p(var10, -0.25F, var11), 0.0F, p(var9, var12, var11));
-         G(3, var21[3][0], var21[3][1], var21[3][2], -var10, 0.0F, -var9);
-         G(4, var21[4][0], var21[4][1], var21[4][2], 0.0F, 0.0F, 0.0F);
+         float[][] var21x = var4.y;
+         G(2, var21x[2][0], var21x[2][1], var21x[2][2], p(var10, -0.25F, var11), 0.0F, p(var9, var12, var11));
+         G(3, var21x[3][0], var21x[3][1], var21x[3][2], -var10, 0.0F, -var9);
+         G(4, var21x[4][0], var21x[4][1], var21x[4][2], 0.0F, 0.0F, 0.0F);
          Q[4].scale(var0.w, 1.0F, var0.j);
-         G(5, var21[5][0], var21[5][1], var21[5][2], 0.0F, 0.0F, 0.0F);
+         G(5, var21x[5][0], var21x[5][1], var21x[5][2], 0.0F, 0.0F, 0.0F);
          Q[5].scale(var0.w, 1.0F, var0.j);
       }
 
@@ -311,7 +290,7 @@ final class Skins3DRenderer {
       Q[var0].set(T).translate(var1, var2, var3).rotateZYX(var6, var5, var4);
    }
 
-   private static void P(float var0, float var1, float var2, float var3, Skins3DRenderer.TypeM var4) {
+   private static void P(float var0, float var1, float var2, float var3, Skins3DRenderer.SkinRenderState var4) {
       float var5 = (float)Math.toRadians(var4.i);
       float var6 = var1 / var2;
       float var7 = var6 / (2.0F * (float)Math.tan(var5 / 2.0F));
@@ -322,12 +301,12 @@ final class Skins3DRenderer {
       O.mul(e, n);
    }
 
-   private static Skins3DRenderer.TypeL r(int var0, class_2960 var1, boolean var2, short var3, int var4, Skins3DBuilder.TypeR var5) {
+   private static Skins3DRenderer.SkinBatch r(int var0, class_2960 var1, boolean var2, short var3, int var4, Skins3DBuilder.SkinQuad var5) {
       long var6 = 43591878977787L;
       long var8 = var6 ^ 39718592336016L;
       SkinPreset.ensureSourceClassInitialized();
       String var10 = var1 + (var2 ? "#slim" : "#wide") + "@" + System.identityHashCode(var5);
-      Skins3DRenderer.TypeL var11 = g.get(var10);
+      Skins3DRenderer.SkinBatch var11 = g.get(var10);
       if (var11 == null) {
          var11 = V(var5, var8, var2, var10);
          g.put(var10, var11);
@@ -336,113 +315,70 @@ final class Skins3DRenderer {
       return var11;
    }
 
-   private static Skins3DRenderer.TypeL V(Skins3DBuilder.TypeR var0, long var1, boolean var3, String var4) {
+   private static Skins3DRenderer.SkinBatch V(Skins3DBuilder.SkinQuad var0, long var1, boolean var3, String var4) {
       long var5 = 51804383182804L;
       long var7 = 52140500845484L;
       SkinPreset.ensureSourceClassInitialized();
       int var9 = (var0.C ? 0 : 36) + var0.quads();
       ByteBuffer var10 = MemoryUtil.memAlloc(var9 * 4 * K);
 
-      Skins3DRenderer.TypeL var51;
+      Skins3DRenderer.SkinBatch var51;
       try {
          for (int var11 = 0; var11 < 6; var11++) {
             long var12 = 4098252372074L;
-            if (4098252372074L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var55 = var12 < 0L ? -1 : 1;
-            }
-
+            int var15 = var12 < 0L ? -1 : 1;
             if (var0.C) {
                break;
             }
 
-            int[] var15 = Skins3DBuilder.box(var11, var3);
+            int[] var15x = Skins3DBuilder.box(var11, var3);
             int[] var16 = Skins3DBuilder.p[var11];
-            W(var10, var11, var15[0], var15[1], var15[2], var15[3], var15[4], var15[5], var16[0], var7, var16[1], 64.0F, 64.0F);
+            W(var10, var11, var15x[0], var15x[1], var15x[2], var15x[3], var15x[4], var15x[5], var16[0], var7, var16[1], 64.0F, 64.0F);
          }
 
          long var46 = 4098252372075L;
-         if (4098252372075L == 0L) {
-            boolean var56 = false;
-         } else {
-            int var57 = var46 < 0L ? -1 : 1;
-         }
+         int var47 = var46 < 0L ? -1 : 1;
 
-         for (Skins3DBuilder.TypeO var17 : var0.R) {
+         for (Skins3DBuilder.SkinVertex var17 : var0.R) {
             long var18 = 4098252372074L;
-            if (4098252372074L == 0L) {
-               boolean var58 = false;
-            } else {
-               int var59 = var18 < 0L ? -1 : 1;
-            }
+            int var52 = var18 < 0L ? -1 : 1;
 
             for (int var21 = 0; var21 < var17.p; var21++) {
                int[] var22 = Skins3DBuilder.C[var17.normal(var21)];
                long var23 = 4098252372074L;
-               if (4098252372074L == 0L) {
-                  boolean var60 = false;
-               } else {
-                  int var61 = var23 < 0L ? -1 : 1;
-               }
-
-               float var25 = var17.texelU(var21);
+               int var25 = var23 < 0L ? -1 : 1;
+               float var25x = var17.texelU(var21);
                float var26 = var17.texelV(var21);
 
                for (int var27 = 0; var27 < 4; var27++) {
                   long var28 = 4098252372074L;
-                  if (4098252372074L == 0L) {
-                     boolean var62 = false;
-                  } else {
-                     int var63 = var28 < 0L ? -1 : 1;
-                  }
-
-                  int var30 = var17.uvCorner(var21, var27);
+                  int var30 = var28 < 0L ? -1 : 1;
+                  var30 = var17.uvCorner(var21, var27);
                   int var31 = 0;
 
                   for (int var32 = 2; var32 >= 0; var32--) {
                      float var33 = var17.coordinate(var21, var27, var32, 1.0F);
                      long var34 = 4098252372074L;
-                     if (4098252372074L == 0L) {
-                        boolean var64 = false;
-                     } else {
-                        int var65 = var34 < 0L ? -1 : 1;
-                     }
-
-                     float var36 = var17.coordinate(var21, var27, var32, 0.0F);
+                     int var36 = var34 < 0L ? -1 : 1;
+                     float var36x = var17.coordinate(var21, var27, var32, 0.0F);
                      long var37 = 4098252372075L;
-                     if (4098252372075L == 0L) {
-                        boolean var66 = false;
-                     } else {
-                        int var67 = var37 < 0L ? -1 : 1;
-                     }
-
-                     int var13 = var31 * 3;
+                     int var13 = var37 < 0L ? -1 : 1;
+                     var13 = var31 * 3;
                      float var40;
-                     int var20 = (var40 = var33 - var36) == 0.0F ? 0 : (var40 < 0.0F ? -1 : 1);
+                     int var20x = (var40 = var33 - var36x) == 0.0F ? 0 : (var40 < 0.0F ? -1 : 1);
                      long var41 = 4098252372075L;
-                     if (4098252372075L == 0L) {
-                        boolean var68 = false;
-                     } else {
-                        int var69 = var41 < 0L ? -1 : 1;
-                     }
-
-                     var31 = var13 + (var20 < 0 ? 0 : (var33 > var36 ? 2 : 1));
+                     int var43 = var41 < 0L ? -1 : 1;
+                     var31 = var13 + (var20x < 0 ? 0 : (var33 > var36x ? 2 : 1));
                   }
 
                   long var54 = 4098252372075L;
-                  if (4098252372075L == 0L) {
-                     boolean var70 = false;
-                  } else {
-                     int var71 = var54 < 0L ? -1 : 1;
-                  }
-
+                  int var62 = var54 < 0L ? -1 : 1;
                   J(
                      var10,
                      var17.coordinate(var21, var27, 0, 0.0F),
                      var17.coordinate(var21, var27, 1, 0.0F),
                      var17.coordinate(var21, var27, 2, 0.0F),
-                     (var25 + ((var30 & 1) != 0 ? 0.98F : 0.02F)) / 64.0F,
+                     (var25x + ((var30 & 1) != 0 ? 0.98F : 0.02F)) / 64.0F,
                      (var26 + ((var30 & 2) != 0 ? 0.98F : 0.02F)) / 64.0F,
                      Math.round(Skins3DBuilder.H[var17.shade(var21, var27)] * 255.0F),
                      var17.d | 8,
@@ -455,31 +391,18 @@ final class Skins3DRenderer {
                }
 
                long var53 = 4098252372074L;
-               if (4098252372074L == 0L) {
-                  boolean var72 = false;
-               } else {
-                  int var73 = var53 < 0L ? -1 : 1;
-               }
+               int var281 = var53 < 0L ? -1 : 1;
             }
 
-            long var52 = 4098252372075L;
-            if (4098252372075L == 0L) {
-               boolean var74 = false;
-            } else {
-               int var75 = var52 < 0L ? -1 : 1;
-            }
+            long var52x = 4098252372075L;
+            int var57 = var52x < 0L ? -1 : 1;
          }
 
-         long var47 = 4098252372075L;
-         if (4098252372075L == 0L) {
-            boolean var76 = false;
-         } else {
-            int var77 = var47 < 0L ? -1 : 1;
-         }
-
+         long var47x = 4098252372075L;
+         int var531 = var47x < 0L ? -1 : 1;
          var10.flip();
-         GpuBuffer var50 = RenderSystem.getDevice().createBuffer(ClientServices.label(() -> "Purxiy 3D skin " + var4), 32, var10);
-         var51 = new Skins3DRenderer.TypeL(var50, var9);
+         GpuBuffer var50 = RenderSystem.getDevice().createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX 3D skin " + var4), 32, var10);
+         var51 = new Skins3DRenderer.SkinBatch(var50, var9);
       } finally {
          MemoryUtil.memFree(var10);
       }
@@ -487,7 +410,7 @@ final class Skins3DRenderer {
       return var51;
    }
 
-   private static Skins3DRenderer.TypeL r(short var0, char var1, int var2) {
+   private static Skins3DRenderer.SkinBatch r(short var0, char var1, int var2) {
       long var3 = 64184320478312L;
       long var5 = var3 ^ 23141209821124L;
       SkinPreset.ensureSourceClassInitialized();
@@ -497,7 +420,7 @@ final class Skins3DRenderer {
          try {
             W(var7, 6, -5.0F, 0.0F, -1.0F, 10.0F, 16.0F, 1.0F, 0, var5, 0, 64.0F, 32.0F);
             var7.flip();
-            a = new Skins3DRenderer.TypeL(RenderSystem.getDevice().createBuffer(ClientServices.label(() -> "Purxiy 3D skin cape"), 32, var7), 6);
+            a = new Skins3DRenderer.SkinBatch(RenderSystem.getDevice().createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX 3D skin cape"), 32, var7), 6);
          } finally {
             MemoryUtil.memFree(var7);
          }
@@ -602,15 +525,14 @@ final class Skins3DRenderer {
       var0[var1 * 3 + 2] = var4;
    }
 
-   
-   static GpuTextureView view( class_2960 var0) {
+   static GpuTextureView view(class_2960 var0) {
       if (var0 == null) {
          return null;
       } else {
          try {
             class_1044 var1 = class_310.method_1551().method_1531().method_4619(var0);
             return var1.method_71659();
-         } catch (IllegalStateException var2) {
+         } catch (IllegalStateException var21) {
             return null;
          }
       }
@@ -644,7 +566,7 @@ final class Skins3DRenderer {
    }
 
    static void releaseMeshes() {
-      for (Skins3DRenderer.TypeL var1 : g.values()) {
+      for (Skins3DRenderer.SkinBatch var1 : g.values()) {
          var1.close();
       }
 
@@ -657,11 +579,20 @@ final class Skins3DRenderer {
       ClientCache.release(k);
    }
 
-private static final class TypeL {
+   static {
+      for (int var0 = 0; var0 < Q.length; var0++) {
+         Q[var0] = new Matrix4f();
+      }
+
+      p = new float[24];
+      h = new Integer[18];
+   }
+
+   private static final class SkinBatch {
       final GpuBuffer v;
       final int e;
 
-      TypeL(GpuBuffer var1, int var2) {
+      SkinBatch(GpuBuffer var1, int var2) {
          this.v = var1;
          this.e = var2;
       }
@@ -671,7 +602,7 @@ private static final class TypeL {
       }
    }
 
-   static final class TypeM {
+   static final class SkinRenderState {
       int m = Theme.tint(-4222985);
       float S = 0.5F;
       float N;
@@ -679,7 +610,7 @@ private static final class TypeL {
       float J = 7.0F;
    }
 
-   static final class TypeQ {
+   static final class SkinFrame {
       float T;
       float V;
       float v;

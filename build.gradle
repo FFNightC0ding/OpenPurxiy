@@ -1,35 +1,54 @@
-import java.security.MessageDigest
-import java.util.zip.Deflater
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
-
 plugins {
+    id 'fabric-loom' version '1.19.4'
     id 'java'
 }
 
-group = 'dev.purxiy'
-version = '0.1.0'
+
+version = project.mod_version
+group = project.maven_group
+
 base {
-    archivesName = 'purxiy-buildable'
+    archivesName = project.archives_base_name
 }
 
 repositories {
-    // Fully offline build: every dependency ships in ./libs
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+    mavenCentral()
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation fileTree(dir: 'libs/fabric-api', include: ['*.jar'])
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+
+    // Sources use Minecraft's intermediary names (class_1234 / method_5678),
+    // so intermediary mappings let them compile without a remap pass.
+    mappings "net.fabricmc:intermediary:${project.minecraft_version}:v2"
+
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // @WrapOperation / @ModifyExpressionValue used throughout the mixin package.
+    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")))
 }
 
 java {
+    // Loom 1.19.4 needs Java 25 to run. The mod targets 21, and --release
+    // keeps any 25 API from leaking into the output.
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.release = 21
     options.encoding = 'UTF-8'
+    // Raw casts and synthetic bridges all over this tree. Warnings are noise,
+    // errors are not.
     options.compilerArgs << '-nowarn'
 }
 
@@ -40,24 +59,40 @@ sourceSets {
     }
 }
 
+loom {
+    mods {
+        "purxiy_loader" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
 processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    inputs.property "version", project.version
+    filesMatching('fabric.mod.json') {
+        expand "version": project.version
+    }
 }
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(
-            'Implementation-Title': 'Purxiy Buildable Source',
+            'Implementation-Title'  : 'SourceByDevFFnightmare DeObfDeCompByGuideX',
             'Implementation-Version': project.version,
-            'Sourced-By': 'DevFFNightmare'
+            'Sources-By'            : 'DevFFNightmare',
+            'Deobfuscated-By'       : 'GuideX'
         )
     }
 }
 
+// The 65 jars under resources/purxiy-offline load as separate classloaders, so a
+// renamed class has to be pushed back into them or the first module toggle throws
+// NoClassDefFoundError. jar depends on this task.
 tasks.register('rebuildOfflineModules') {
-    group = 'purxiy'
-    description = 'Rebuilds the bundled offline module jars and index from the deobfuscated sources.'
+    group = 'guidex'
+    description = 'Rebuilds the bundled offline module jars and index from this source tree.'
     dependsOn tasks.named('classes')
 
     doLast {
@@ -81,10 +116,9 @@ tasks.register('rebuildOfflineModules') {
 
             File jarFile = new File(offlineDir, "${id}.jar")
             jarFile.parentFile.mkdirs()
-            // Keep every non-class resource the module shipped with (shaders, sounds,
-            // textures, garage/knife data, sound-event JSON, ...). Module code reads
-            // these through ModuleContext.resource, so dropping them makes attach()
-            // throw and the toggle immediately switches itself back off.
+
+            // Module code reads its shaders, sounds and data through
+            // ModuleContext.resource, so keep every non-class entry.
             Map<String, byte[]> resources = new TreeMap<>()
             if (jarFile.isFile()) {
                 new java.util.zip.ZipFile(jarFile).withCloseable { source ->
@@ -101,22 +135,22 @@ tasks.register('rebuildOfflineModules') {
 
             List<File> classFiles = []
             classDir.eachFileRecurse { File file ->
-                if (file.isFile()) {
+                if (file.isFile() && file.name.endsWith('.class')) {
                     classFiles << file
                 }
             }
             classFiles.sort { it.path }
 
-            MessageDigest digest = MessageDigest.getInstance('SHA-256')
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance('SHA-256')
             int entries = 0
 
             jarFile.withOutputStream { raw ->
                 def digestStream = new java.security.DigestOutputStream(raw, digest)
-                def zip = new ZipOutputStream(digestStream)
+                def zip = new java.util.zip.ZipOutputStream(digestStream)
                 try {
-                    zip.level = Deflater.BEST_COMPRESSION
+                    zip.level = java.util.zip.Deflater.BEST_COMPRESSION
                     resources.each { String name, byte[] bytes ->
-                        ZipEntry entry = new ZipEntry(name)
+                        java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry(name)
                         entry.time = 1763164800000L
                         zip.putNextEntry(entry)
                         zip.write(bytes)
@@ -125,7 +159,7 @@ tasks.register('rebuildOfflineModules') {
                     }
                     classFiles.each { File file ->
                         String relative = classesRoot.toPath().relativize(file.toPath()).toString().replace('\\', '/')
-                        ZipEntry entry = new ZipEntry(relative)
+                        java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry(relative)
                         entry.time = 1763164800000L
                         zip.putNextEntry(entry)
                         file.withInputStream { input -> zip << input }
@@ -148,10 +182,10 @@ tasks.register('rebuildOfflineModules') {
         }
 
         indexFile.setText(groovy.json.JsonOutput.toJson(rebuilt) + '\n', 'UTF-8')
-        logger.lifecycle("Rebuilt ${rebuilt.size()} bundled module jars from compiled sources")
+        logger.lifecycle("Rebuilt ${rebuilt.size()} bundled module jars from source")
 
-        // processResources may already have run before this task, which would leave stale module jars in the
-        // packaged mod jar (that shipped an unfixed sky module more than once). Always refresh the build copy.
+        // processResources may have run already, leaving stale jars in the
+        // packaged output. Refresh them.
         File packaged = layout.buildDirectory.dir('resources/main').get().asFile
         File packagedOffline = new File(packaged, 'purxiy-offline')
         packagedOffline.mkdirs()
@@ -171,8 +205,20 @@ tasks.named('jar') {
     dependsOn tasks.named('rebuildOfflineModules')
 }
 
+// Compile classpath dump, read by tools/javac-check.ps1 for quick javac runs.
+tasks.register('printClasspath') {
+    group = 'guidex'
+    description = 'Dumps the main compile classpath to build/compile-classpath.txt'
+    doLast {
+        File out = layout.buildDirectory.file('compile-classpath.txt').get().asFile
+        out.parentFile.mkdirs()
+        out.setText(sourceSets.main.compileClasspath.asPath, 'UTF-8')
+        logger.lifecycle("classpath entries: ${sourceSets.main.compileClasspath.size()}")
+    }
+}
+
 tasks.register('validateModuleEntrypoints', JavaExec) {
-    group = 'purxiy'
+    group = 'guidex'
     description = 'Loads every bundled module entrypoint through the runtime classloader.'
     dependsOn tasks.named('classes')
     classpath = files('resources') + sourceSets.main.runtimeClasspath

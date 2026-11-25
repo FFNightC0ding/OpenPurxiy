@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.hud;
 
 import dev.purxiy.anim.Animator;
@@ -47,16 +46,16 @@ final class HudGroupEditor {
    private static final float RADIUS = 12.0F;
    private static final float GAP = 10.0F;
    private static final int[] SWATCHES = new int[]{-592897, -28744, -9444427, -10827521, -11654};
-   
+
    private HudModule element;
-   
+
    private Module module;
-   
+
    private HudModule anchorUnit;
    private final float[] anchor = new float[4];
    private int side;
    private boolean closing;
-   private final List<HudGroupEditor.TypeW> rows = new ArrayList<>();
+   private final List<HudGroupEditor.ControlRow> rows = new ArrayList<>();
    private final Animator appear = Animator.smooth(0.0F);
    private final Animator scroll = new Animator(0.0F, 260.0F, 32.0F);
    private float scrollTarget;
@@ -71,8 +70,8 @@ final class HudGroupEditor {
    private final Animator[] footerHover = new Animator[]{Animator.smooth(0.0F), Animator.smooth(0.0F)};
    private final float[][] footer = new float[2][4];
    private final float[] toggle = new float[4];
-   
-   private HudGroupEditor.TypeW pressed;
+
+   private HudGroupEditor.ControlRow pressed;
    private boolean pointerDown;
 
    boolean visible() {
@@ -83,7 +82,7 @@ final class HudGroupEditor {
       return this.module != null && !this.closing;
    }
 
-   
+
    HudModule element() {
       return this.element;
    }
@@ -93,7 +92,7 @@ final class HudGroupEditor {
    }
 
    boolean hand() {
-      return this.visible() && this.frame.cursor() == DrawContext.TypeE.HAND;
+      return this.visible() && this.frame.cursor() == DrawContext.Cursor.HAND;
    }
 
    boolean contains(float var1, float var2) {
@@ -165,17 +164,17 @@ final class HudGroupEditor {
          }
       }
 
-      HudGroupEditor.TypeX var20 = null;
+      HudGroupEditor.SpacerRow var20 = null;
 
       for (Setting var6 : var1.settings()) {
          if (!var3.contains(var6)) {
             String var7 = var1.sectionBefore(var6);
             if (var7 != null) {
-               var20 = new HudGroupEditor.TypeX(var7);
+               var20 = new HudGroupEditor.SpacerRow(var7);
                this.rows.add(var20);
             }
 
-            HudGroupEditor.TypeW var8 = this.row(var6);
+            HudGroupEditor.ControlRow var8 = this.row(var6);
             if (var8 != null) {
                this.rows.add(var8);
                if (var20 != null) {
@@ -190,28 +189,28 @@ final class HudGroupEditor {
       } else {
          HudGroupModule var22 = var2.group;
          Object var23 = var22 != null ? var22 : var2;
-         HudGroupEditor.TypeX var24 = new HudGroupEditor.TypeX(var22 != null ? "Merged group" : "Layout");
+         HudGroupEditor.SpacerRow var24 = new HudGroupEditor.SpacerRow(var22 != null ? "Merged group" : "Layout");
          this.rows.add(var24);
-         HudGroupEditor.TypeW[] var25 = new HudGroupEditor.TypeW[]{
-            new HudGroupEditor.TypeL(((HudModule)var23).size, () -> true, ((HudModule)var23).size.name()), null, null
+         HudGroupEditor.ControlRow[] var25 = new HudGroupEditor.ControlRow[]{
+            new HudGroupEditor.NumberControl(((HudModule)var23).size, () -> true, ((HudModule)var23).size.name()), null, null
          };
          String var9 = ((HudModule)var23).background.name();
          BooleanSetting var10 = ((HudModule)var23).background;
          BooleanSupplier var11 = var10::enabled;
          BooleanSetting var12 = ((HudModule)var23).background;
-         var25[1] = new HudGroupEditor.TypeT(var9, var11, var12::set, () -> true);
+         var25[1] = new HudGroupEditor.ToggleControl(var9, var11, var12::set, () -> true);
          NumberSetting var13 = ((HudModule)var23).opacity;
          BooleanSetting var14 = ((HudModule)var23).background;
-         var25[2] = new HudGroupEditor.TypeL(var13, var14::enabled, "Opacity");
+         var25[2] = new HudGroupEditor.NumberControl(var13, var14::enabled, "Opacity");
 
-         for (HudGroupEditor.TypeW var19 : var25) {
+         for (HudGroupEditor.ControlRow var19 : var25) {
             this.rows.add(var19);
             var24.members.add(var19);
          }
 
          if (var22 != null) {
-            HudGroupEditor.TypeZ var26 = new HudGroupEditor.TypeZ(var22.axis, () -> true, "Direction");
-            HudGroupEditor.TypeD var27 = new HudGroupEditor.TypeD("Remove from group", "unlink", () -> {
+            HudGroupEditor.ModeControl var26 = new HudGroupEditor.ModeControl(var22.axis, () -> true, "Direction");
+            HudGroupEditor.ButtonControl var27 = new HudGroupEditor.ButtonControl("Remove from group", "unlink", () -> {
                HudLayoutEngine.detach(var2);
                this.close();
             });
@@ -226,24 +225,24 @@ final class HudGroupEditor {
    }
 
    private void snapRows() {
-      for (HudGroupEditor.TypeW var2 : this.rows) {
+      for (HudGroupEditor.ControlRow var2 : this.rows) {
          var2.presence.snap(var2.visible() ? 1.0F : 0.0F);
       }
    }
 
-   
-   private HudGroupEditor.TypeW row(Setting<?> var1) {
+
+   private HudGroupEditor.ControlRow row(Setting<?> var1) {
       if (var1 instanceof BooleanSetting var2) {
          String var6 = var2.name();
          BooleanSupplier var7 = var2::enabled;
          Consumer var8 = v -> var2.set((Boolean)v);
-         return new HudGroupEditor.TypeT(var6, var7, var8, var2::visible);
+         return new HudGroupEditor.ToggleControl(var6, var7, var8, var2::visible);
       } else if (var1 instanceof NumberSetting var3) {
-         return new HudGroupEditor.TypeL(var3, var3::visible, var3.name());
+         return new HudGroupEditor.NumberControl(var3, var3::visible, var3.name());
       } else if (var1 instanceof ModeSetting var4) {
-         return new HudGroupEditor.TypeZ(var4, var4::visible, var4.name());
+         return new HudGroupEditor.ModeControl(var4, var4::visible, var4.name());
       } else {
-         return (HudGroupEditor.TypeW)(var1 instanceof ColorSetting var5 ? new HudGroupEditor.TypeC(var5) : new HudGroupEditor.TypeB(var1));
+         return (HudGroupEditor.ControlRow)(var1 instanceof ColorSetting var5 ? new HudGroupEditor.ColorControl(var5) : new HudGroupEditor.SettingControl(var1));
       }
    }
 
@@ -259,7 +258,7 @@ final class HudGroupEditor {
             this.frame.mask(this.closing);
             float var10 = 0.0F;
 
-            for (HudGroupEditor.TypeW var12 : this.rows) {
+            for (HudGroupEditor.ControlRow var12 : this.rows) {
                var12.presence.target(var12.visible() ? 1.0F : 0.0F).update(MotionStyle.PANEL.dt(var5));
                var10 += var12.height() * var12.amount();
             }
@@ -287,7 +286,7 @@ final class HudGroupEditor {
             var1.pushClip(this.x, var18, 206.0F, this.viewH);
             float var19 = var18 + 2.0F - var13;
 
-            for (HudGroupEditor.TypeW var21 : this.rows) {
+            for (HudGroupEditor.ControlRow var21 : this.rows) {
                float var22 = var21.amount();
                if (var22 <= 0.01F) {
                   var21.y = Float.NaN;
@@ -388,7 +387,7 @@ final class HudGroupEditor {
          this.toggle[1] = var16 - 4.0F;
          this.toggle[2] = var13 + 8.0F;
          this.toggle[3] = var14 + 8.0F;
-         boolean var17 = this.frame.hover(this.toggle, var15 - 4.0F, var16 - 4.0F, var13 + 8.0F, var14 + 8.0F, DrawContext.TypeE.HAND);
+         boolean var17 = this.frame.hover(this.toggle, var15 - 4.0F, var16 - 4.0F, var13 + 8.0F, var14 + 8.0F, DrawContext.Cursor.HAND);
          this.enabledHover.target(var17 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var4));
          this.enabled.render(this.frame, var15, var16, var13, var14, CosmeticRegistry.enabled(var3.id()), var17, false);
       } else {
@@ -439,7 +438,7 @@ final class HudGroupEditor {
          var14[1] = var5 - var4 / 2.0F;
          var14[2] = var12;
          var14[3] = var4;
-         boolean var15 = this.frame.hover(var14, var13, var14[1], var12, var4, DrawContext.TypeE.HAND);
+         boolean var15 = this.frame.hover(var14, var13, var14[1], var12, var4, DrawContext.Cursor.HAND);
          float var16 = this.footerHover[var11].target(var15 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var3));
          if (var11 == 1) {
             var1.roundRectGradient(
@@ -488,7 +487,7 @@ final class HudGroupEditor {
          } else {
             float var6 = this.y + 42.0F;
             if (!(var2 < var6) && !(var2 > var6 + this.viewH)) {
-               for (HudGroupEditor.TypeW var8 : this.rows) {
+               for (HudGroupEditor.ControlRow var8 : this.rows) {
                   if (!Float.isNaN(var8.y) && var8.amount() > 0.5F && var2 >= var8.y && var2 < var8.y + var8.height() && var8.mouseDown(var1, var2)) {
                      this.pressed = var8;
                      return true;
@@ -538,10 +537,10 @@ final class HudGroupEditor {
       return var2 < var1 ? (var1 + var2) / 2.0F : Math.max(var1, Math.min(var2, var0));
    }
 
-   private final class TypeB extends HudGroupEditor.TypeW {
+   private final class SettingControl extends HudGroupEditor.ControlRow {
       private final Setting<?> setting;
 
-      TypeB(Setting<?> nullx) {
+      SettingControl(Setting<?> nullx) {
          this.setting = nullx;
       }
 
@@ -554,7 +553,7 @@ final class HudGroupEditor {
       void render(Canvas var1, float var2, float var3, float var4, DrawContext var5, float var6) {
          float var7 = this.highlight(var1, var5, var2, var3, var4, var6);
          if (var5.inside(var2 - 5.0F, var3 + 1.0F, var4 + 10.0F, 20.0F)) {
-            var5.claim(this, DrawContext.TypeE.HAND);
+            var5.claim(this, DrawContext.Cursor.HAND);
          }
 
          float var8 = var3 + 11.0F;
@@ -579,13 +578,13 @@ final class HudGroupEditor {
       }
    }
 
-   private static final class TypeC extends HudGroupEditor.TypeW {
+   private static final class ColorControl extends HudGroupEditor.ControlRow {
       private static final float SPACING = 12.5F;
       private final ColorSetting setting;
       private float left;
       private int count;
 
-      TypeC(ColorSetting var1) {
+      ColorControl(ColorSetting var1) {
          this.setting = var1;
       }
 
@@ -632,7 +631,7 @@ final class HudGroupEditor {
             boolean var16 = var12 ? this.setting.following() : !this.setting.following() && (var14 | 0xFF000000) == (this.setting.argb() | 0xFF000000);
             boolean var17 = var5.inside(var15 - 6.25F, var3, 12.5F, 22.0F);
             if (var17) {
-               var5.claim(this, DrawContext.TypeE.HAND);
+               var5.claim(this, DrawContext.Cursor.HAND);
             }
 
             float var18 = 3.8F + (var17 ? 0.6F : 0.0F);
@@ -669,12 +668,12 @@ final class HudGroupEditor {
       }
    }
 
-   private static final class TypeD extends HudGroupEditor.TypeW {
+   private static final class ButtonControl extends HudGroupEditor.ControlRow {
       private final String label;
       private final String icon;
       private final Runnable action;
 
-      TypeD(String var1, String var2, Runnable var3) {
+      ButtonControl(String var1, String var2, Runnable var3) {
          this.label = var1;
          this.icon = var2;
          this.action = var3;
@@ -686,7 +685,7 @@ final class HudGroupEditor {
          float var8 = var3 + 11.0F - var7 / 2.0F;
          boolean var9 = var5.inside(var2, var8, var4, var7);
          if (var9) {
-            var5.claim(this, DrawContext.TypeE.HAND);
+            var5.claim(this, DrawContext.Cursor.HAND);
          }
 
          float var10 = this.hover.target(var9 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var6));
@@ -707,7 +706,7 @@ final class HudGroupEditor {
       }
    }
 
-   private static final class TypeL extends HudGroupEditor.TypeW {
+   private static final class NumberControl extends HudGroupEditor.ControlRow {
       private static final float TRACK = 74.0F;
       private final NumberSetting setting;
       private final BooleanSupplier shown;
@@ -717,7 +716,7 @@ final class HudGroupEditor {
       private boolean dragging;
       private float trackX;
 
-      TypeL(NumberSetting var1, BooleanSupplier var2, String var3) {
+      NumberControl(NumberSetting var1, BooleanSupplier var2, String var3) {
          this.setting = var1;
          this.shown = var2;
          this.name = var3;
@@ -756,7 +755,7 @@ final class HudGroupEditor {
             FontWeight.BASELINE
          );
          if (var5.inside(this.trackX - 6.0F, var3, 86.0F, 22.0F)) {
-            var5.claim(this, DrawContext.TypeE.HAND);
+            var5.claim(this, DrawContext.Cursor.HAND);
          }
 
          float var13 = 3.0F;
@@ -805,7 +804,7 @@ final class HudGroupEditor {
       }
    }
 
-   private final class TypeT extends HudGroupEditor.TypeW {
+   private final class ToggleControl extends HudGroupEditor.ControlRow {
       private final String name;
       private final BooleanSupplier value;
       private final Consumer<Boolean> setter;
@@ -814,7 +813,7 @@ final class HudGroupEditor {
       private float x;
       private float w;
 
-      TypeT(String nullx, BooleanSupplier nullxx, Consumer<Boolean> nullxxx, BooleanSupplier nullxxxx) {
+      ToggleControl(String nullx, BooleanSupplier nullxx, Consumer<Boolean> nullxxx, BooleanSupplier nullxxxx) {
          this.name = nullx;
          this.value = nullxx;
          this.setter = nullxxx;
@@ -833,7 +832,7 @@ final class HudGroupEditor {
          this.w = var4;
          float var7 = this.highlight(var1, var5, var2, var3, var4, var6);
          if (var5.inside(var2 - 5.0F, var3 + 1.0F, var4 + 10.0F, 20.0F)) {
-            var5.claim(this, DrawContext.TypeE.HAND);
+            var5.claim(this, DrawContext.Cursor.HAND);
          }
 
          float var8 = var3 + 11.0F;
@@ -854,7 +853,7 @@ final class HudGroupEditor {
       }
    }
 
-   private abstract static class TypeW {
+   private abstract static class ControlRow {
       final Animator presence = Animator.smooth(1.0F);
       final Animator hover = Animator.smooth(0.0F);
       float y = Float.NaN;
@@ -898,11 +897,11 @@ final class HudGroupEditor {
       }
    }
 
-   private static final class TypeX extends HudGroupEditor.TypeW {
+   private static final class SpacerRow extends HudGroupEditor.ControlRow {
       final String title;
-      final List<HudGroupEditor.TypeW> members = new ArrayList<>();
+      final List<HudGroupEditor.ControlRow> members = new ArrayList<>();
 
-      TypeX(String var1) {
+      SpacerRow(String var1) {
          this.title = var1;
       }
 
@@ -913,7 +912,7 @@ final class HudGroupEditor {
 
       @Override
       boolean visible() {
-         for (HudGroupEditor.TypeW var2 : this.members) {
+         for (HudGroupEditor.ControlRow var2 : this.members) {
             if (var2.visible()) {
                return true;
             }
@@ -929,7 +928,7 @@ final class HudGroupEditor {
       }
    }
 
-   private static final class TypeZ extends HudGroupEditor.TypeW {
+   private static final class ModeControl extends HudGroupEditor.ControlRow {
       private static final float H = 15.0F;
       private final ModeSetting setting;
       private final BooleanSupplier shown;
@@ -943,7 +942,7 @@ final class HudGroupEditor {
       private float right;
       private float boxW;
 
-      TypeZ(ModeSetting var1, BooleanSupplier var2, String var3) {
+      ModeControl(ModeSetting var1, BooleanSupplier var2, String var3) {
          this.setting = var1;
          this.shown = var2;
          this.name = var3;
@@ -1010,7 +1009,7 @@ final class HudGroupEditor {
             for (int var16 = 0; var16 < var10.size(); var16++) {
                boolean var17 = var5.inside(this.optionX[var16], var9, this.optionW[var16], 15.0F);
                if (var17) {
-                  var5.claim(this.optionX, DrawContext.TypeE.HAND);
+                  var5.claim(this.optionX, DrawContext.Cursor.HAND);
                }
 
                int var18 = var16 == var11 ? Icons.TEXT : (var17 ? BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, 0.7F) : Icons.TEXT_2);
@@ -1039,7 +1038,7 @@ final class HudGroupEditor {
             var1.roundRect(this.left, var9, var22, 15.0F, 7.5F, 352321535);
             boolean var25 = var5.inside(this.left, var9, var22, 15.0F);
             if (var25) {
-               var5.claim(this.optionX, DrawContext.TypeE.HAND);
+               var5.claim(this.optionX, DrawContext.Cursor.HAND);
             }
 
             boolean var26 = var25 && var5.mouseX < this.left + 14.0F;

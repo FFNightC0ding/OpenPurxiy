@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.profile;
 
 public enum ProfileKind {
@@ -26,17 +25,17 @@ public enum ProfileKind {
 
    public String format(double var1) {
       return switch (this) {
-         case PLAYTIME -> ProfileSupport2.duration(var1);
-         case DISTANCE -> ProfileSupport2.distance(var1);
-         case BLOCKS, COMBAT -> ProfileSupport2.count(Math.round(var1));
+         case PLAYTIME -> ProfileFormatters.duration(var1);
+         case DISTANCE -> ProfileFormatters.distance(var1);
+         case BLOCKS, COMBAT -> ProfileFormatters.count(Math.round(var1));
       };
    }
 
    public String axis(double var1) {
       return switch (this) {
-         case PLAYTIME -> ProfileSupport2.durationShort(var1);
-         case DISTANCE -> ProfileSupport2.distanceShort(var1);
-         case BLOCKS, COMBAT -> ProfileSupport2.countShort(Math.round(var1));
+         case PLAYTIME -> ProfileFormatters.durationShort(var1);
+         case DISTANCE -> ProfileFormatters.distanceShort(var1);
+         case BLOCKS, COMBAT -> ProfileFormatters.countShort(Math.round(var1));
       };
    }
 

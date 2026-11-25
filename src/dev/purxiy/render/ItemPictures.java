@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render;
 
 import com.mojang.blaze3d.systems.CommandEncoder;
@@ -33,20 +32,20 @@ public final class ItemPictures {
    private static final int PER_ROW = 16;
    private static final int CELLS = 256;
    private static final int PER_FRAME = 16;
-   private static final Map<String, ItemPictures.TypeK> SLOTS = new HashMap<>();
+   private static final Map<String, ItemPictures.ItemSprite> SLOTS = new HashMap<>();
    private static final String[] OWNERS = new String[256];
    private static final class_10444 STATE = new class_10444();
-   
+
    private static GpuTexture color;
-   
+
    private static GpuTexture depth;
-   
+
    private static GpuTextureView colorView;
-   
+
    private static GpuTextureView depthView;
-   
+
    private static class_11278 projection;
-   
+
    private static Object models;
    private static long frame = -1L;
    private static int rendered = 0;
@@ -58,7 +57,7 @@ public final class ItemPictures {
 
    public static boolean draw(Canvas var0, class_1799 var1, float var2, float var3, float var4) {
       if (!var1.method_7960() && !failed) {
-         ItemPictures.TypeK var5 = slot(var1);
+         ItemPictures.ItemSprite var5 = slot(var1);
          if (var5 == null) {
             return false;
          } else {
@@ -90,8 +89,8 @@ public final class ItemPictures {
       return class_7923.field_41178.method_10221(var0.method_7909()).toString();
    }
 
-   
-   private static ItemPictures.TypeK slot(class_1799 var0) {
+
+   private static ItemPictures.ItemSprite slot(class_1799 var0) {
       long var1 = RenderPipelines.get().frame();
       if (var1 != frame) {
          frame = var1;
@@ -100,7 +99,7 @@ public final class ItemPictures {
       }
 
       String var3 = key(var0);
-      ItemPictures.TypeK var4 = SLOTS.get(var3);
+      ItemPictures.ItemSprite var4 = SLOTS.get(var3);
       if (var4 != null) {
          var4.used = var1;
          return var4;
@@ -115,7 +114,7 @@ public final class ItemPictures {
             } else {
                render(var0, var5);
                rendered++;
-               var4 = new ItemPictures.TypeK(var5);
+               var4 = new ItemPictures.ItemSprite(var5);
                var4.used = var1;
                SLOTS.put(var3, var4);
                OWNERS[var5] = var3;
@@ -123,7 +122,7 @@ public final class ItemPictures {
             }
          } catch (Throwable var6) {
             failed = true;
-            ClientServices.LOGGER.error("Purxiy could not render item pictures for its menu", var6);
+            ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX could not render item pictures for its menu", var6);
             return null;
          }
       }
@@ -137,7 +136,7 @@ public final class ItemPictures {
          long var3 = var0;
 
          for (int var5 = 0; var5 < 256; var5++) {
-            ItemPictures.TypeK var6 = OWNERS[var5] == null ? null : SLOTS.get(OWNERS[var5]);
+            ItemPictures.ItemSprite var6 = OWNERS[var5] == null ? null : SLOTS.get(OWNERS[var5]);
             long var7 = var6 == null ? Long.MIN_VALUE : var6.used;
             if (var7 < var3) {
                var3 = var7;
@@ -168,12 +167,12 @@ public final class ItemPictures {
       if (color == null) {
          GpuDevice var0 = RenderSystem.getDevice();
          byte var1 = 13;
-         color = var0.createTexture(() -> "Purxiy item pictures", var1, TextureFormat.RGBA8, 1024, 1024, 1, 1);
-         depth = var0.createTexture(() -> "Purxiy item pictures depth", 9, TextureFormat.DEPTH32, 1024, 1024, 1, 1);
+         color = var0.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX item pictures", var1, TextureFormat.RGBA8, 1024, 1024, 1, 1);
+         depth = var0.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX item pictures depth", 9, TextureFormat.DEPTH32, 1024, 1024, 1, 1);
          colorView = var0.createTextureView(color);
          depthView = var0.createTextureView(depth);
          var0.createCommandEncoder().clearColorAndDepthTextures(color, 0, depth, 1.0);
-         projection = new class_11278("Purxiy item pictures", -1000.0F, 1000.0F, true);
+         projection = new class_11278("SourceByDevFFnightmare DeObfDeCompByGuideX item pictures", -1000.0F, 1000.0F, true);
       }
    }
 
@@ -213,11 +212,11 @@ public final class ItemPictures {
       }
    }
 
-   private static final class TypeK {
+   private static final class ItemSprite {
       final int cell;
       long used;
 
-      TypeK(int var1) {
+      ItemSprite(int var1) {
          this.cell = var1;
       }
    }

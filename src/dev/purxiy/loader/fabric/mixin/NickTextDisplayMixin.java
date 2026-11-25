@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import net.minecraft.class_8113.class_8123;
 import net.minecraft.class_8113.class_8123.class_8125;
 import net.minecraft.class_8113.class_8123.class_8127;
@@ -16,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin({class_8123.class})
 public abstract class NickTextDisplayMixin {
    @Shadow
-   
+
    private class_8125 field_42442;
    @Unique
    private int purxiy$nickGeneration;
@@ -26,7 +25,7 @@ public abstract class NickTextDisplayMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$refresh(class_8127 var1, CallbackInfoReturnable<class_8125> var2) {
-      int var3 = ClientRegistry5.generation();
+      int var3 = TabListProvider.generation();
       if (var3 != this.purxiy$nickGeneration) {
          this.purxiy$nickGeneration = var3;
          this.field_42442 = null;

@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRegistry22;
+import dev.purxiy.loader.fabric.client.ItemRenderPipeline;
 import net.minecraft.class_11659;
 import net.minecraft.class_1268;
 import net.minecraft.class_1799;
@@ -28,7 +27,7 @@ public abstract class GlassHandMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$glassHands(float var1, class_4587 var2, class_11659 var3, class_746 var4, int var5, CallbackInfo var6) {
-      ClientRegistry22.beginHands(var5);
+      ItemRenderPipeline.beginHands(var5);
    }
 
    @WrapOperation(
@@ -52,6 +51,6 @@ public abstract class GlassHandMixin {
       int var11,
       Operation<Void> var12
    ) {
-      var12.call(new Object[]{var1, var2, var3, var4, var5, var6, var7, var8, var9, ClientRegistry22.handCollector(var10), var11});
+      var12.call(new Object[]{var1, var2, var3, var4, var5, var6, var7, var8, var9, ItemRenderPipeline.handCollector(var10), var11});
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.glass;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -28,7 +27,6 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import net.minecraft.class_12137;
 import net.minecraft.class_310;
-
 import org.lwjgl.system.MemoryUtil;
 
 final class GlassRenderer {
@@ -46,7 +44,6 @@ final class GlassRenderer {
    static final GlassRenderer x = new GlassRenderer("world");
    static final GlassRenderer f = new GlassRenderer("hand");
    private static boolean w;
-   
    private static GpuQuery S;
    private static double z;
    private static double W;
@@ -54,40 +51,25 @@ final class GlassRenderer {
    private static int i = 0;
    private final String M;
    private final BlurPipeline y = new BlurPipeline();
-   
    private GpuTexture B;
-   
    private GpuTexture u;
-   
    private GpuTexture F;
-   
    private GpuTexture I;
-   
    private GpuTextureView m;
-   
    private GpuTextureView V;
-   
    private GpuTextureView U;
-   
    private GpuTextureView R;
    private int g;
    private int G;
-   
    private GpuTexture O;
-   
    private GpuTextureView n;
    private final GpuBuffer[] v = new GpuBuffer[2];
    private final GpuBuffer[] j = new GpuBuffer[2];
-   
    private GpuBuffer k;
-   
    private GpuBuffer c;
    private int o;
-   
    private ByteBuffer H;
-   
    private ByteBuffer N;
-
    private static final String[] b = new String[45];
    private static final long[] d = new long[]{
       8013137651538628038L,
@@ -143,16 +125,16 @@ final class GlassRenderer {
 
    static boolean ready() {
       GpuDevice var0 = RenderSystem.getDevice();
-      return var0.precompilePipeline(GlassSupport3.y).isValid()
-         && var0.precompilePipeline(GlassSupport3.A).isValid()
-         && var0.precompilePipeline(GlassSupport3.d).isValid()
-         && var0.precompilePipeline(GlassSupport3.a).isValid()
-         && var0.precompilePipeline(GlassSupport3.L).isValid()
-         && var0.precompilePipeline(GlassSupport3.F).isValid()
-         && var0.precompilePipeline(GlassSupport3.M).isValid()
-         && var0.precompilePipeline(GlassSupport3.j).isValid()
-         && var0.precompilePipeline(GlassSupport3.B).isValid()
-         && var0.precompilePipeline(GlassSupport3.w).isValid();
+      return var0.precompilePipeline(GlassPipelines.y).isValid()
+         && var0.precompilePipeline(GlassPipelines.A).isValid()
+         && var0.precompilePipeline(GlassPipelines.d).isValid()
+         && var0.precompilePipeline(GlassPipelines.a).isValid()
+         && var0.precompilePipeline(GlassPipelines.L).isValid()
+         && var0.precompilePipeline(GlassPipelines.F).isValid()
+         && var0.precompilePipeline(GlassPipelines.M).isValid()
+         && var0.precompilePipeline(GlassPipelines.j).isValid()
+         && var0.precompilePipeline(GlassPipelines.B).isValid()
+         && var0.precompilePipeline(GlassPipelines.w).isValid();
    }
 
    GpuTextureView keepDepth(GpuTexture var1, int var2, int var3) {
@@ -163,7 +145,7 @@ final class GlassRenderer {
             this.O.close();
          }
 
-         this.O = var4.createTexture(() -> "Purxiy glass " + this.M + " opaque depth", 5, TextureFormat.DEPTH32, var2, var3, 1, 1);
+         this.O = var4.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " opaque depth", 5, TextureFormat.DEPTH32, var2, var3, 1, 1);
          this.n = var4.createTextureView(this.O);
       }
 
@@ -171,16 +153,7 @@ final class GlassRenderer {
       return this.n;
    }
 
-   void draw(
-      GlassSupport var1,
-      GpuTexture var2,
-      GpuTextureView var3,
-      int var4,
-      int var5,
-      GlassSupport4 var6,
-       GpuTextureView var7,
-       GpuBufferSlice var8
-   ) {
+   void draw(GlassSupport var1, GpuTexture var2, GpuTextureView var3, int var4, int var5, GlassCameraState var6, GpuTextureView var7, GpuBufferSlice var8) {
       long var9 = 102557690267443L;
       long var11 = var9 ^ 114550279712334L;
       long var13 = var9 ^ 108089264342372L;
@@ -197,12 +170,12 @@ final class GlassRenderer {
          this.L(var27, var17, var4, var5);
          this.o ^= 1;
          this.c = this.j[this.o];
-         List var29 = var1.runs();
+         List<GlassSupport.Data>var29 = var1.runs();
          int var30 = this.F(var27, var28, var1, var21);
          if (var30 != 0 && !var29.isEmpty()) {
             int var31 = 0;
 
-            for (GlassSupport.Data var33 : (Iterable<GlassSupport.Data>)(Object)(var29)) {
+            for (GlassSupport.Data var33 : var29) {
                var31 = Math.max(var31, var33.count() / 4);
             }
 
@@ -215,9 +188,10 @@ final class GlassRenderer {
                class_5590 var35 = RenderSystem.getSequentialBuffer(class_5596.field_27382);
                GpuBuffer var36 = var35.method_68274(var31 * 6);
                GpuTextureView var37 = class_310.method_1551().field_1773.method_22974().method_71650();
+               RenderPass var38 = var28.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " (far side)", var3, OptionalInt.empty());
 
-               try (RenderPass var38 = var28.createRenderPass(() -> "Purxiy glass " + this.M + " (far side)", var3, OptionalInt.empty())) {
-                  var38.setPipeline(var23 ? GlassSupport3.y : GlassSupport3.A);
+               try {
+                  var38.setPipeline(var23 ? GlassPipelines.y : GlassPipelines.A);
                   var38.setUniform("PurxiyGlass", this.c);
                   if (var23) {
                      var38.setUniform("Fog", var8);
@@ -228,13 +202,28 @@ final class GlassRenderer {
                   var38.setVertexBuffer(0, this.k);
                   var38.setIndexBuffer(var36, var35.method_31924());
                   X(var38, var15, var29);
+               } catch (Throwable var52) {
+                  if (var38 != null) {
+                     try {
+                        var38.close();
+                     } catch (Throwable var50) {
+                        var52.addSuppressed(var50);
+                     }
+                  }
+
+                  throw var52;
+               }
+
+               if (var38 != null) {
+                  var38.close();
                }
 
                var28.copyTextureToTexture(var2, this.B, 0, 0, 0, 0, 0, var4, var5);
                float var56 = var6.l;
                GpuTextureView var39 = var56 > 0.01F ? this.y.run(this.m, var56 < 0.3F ? 2 : (var56 < 0.65F ? 3 : 4), 1.0F + var56 * 1.5F) : this.m;
+               RenderPass var40 = var28.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M, var3, OptionalInt.empty(), this.V, OptionalDouble.of(1.0));
 
-               try (RenderPass var40 = var28.createRenderPass(() -> "Purxiy glass " + this.M, var3, OptionalInt.empty(), this.V, OptionalDouble.of(1.0))) {
+               try {
                   var40.setUniform("PurxiyGlass", this.c);
                   if (var23) {
                      var40.setUniform("Fog", var8);
@@ -248,9 +237,23 @@ final class GlassRenderer {
                   var40.setIndexBuffer(var36, var35.method_31924());
 
                   for (int var41 = 0; var41 < 2; var41++) {
-                     var40.setPipeline(var41 == 0 ? (var23 ? GlassSupport3.d : GlassSupport3.L) : (var23 ? GlassSupport3.a : GlassSupport3.F));
+                     var40.setPipeline(var41 == 0 ? (var23 ? GlassPipelines.d : GlassPipelines.L) : (var23 ? GlassPipelines.a : GlassPipelines.F));
                      X(var40, var15, var29);
                   }
+               } catch (Throwable var51) {
+                  if (var40 != null) {
+                     try {
+                        var40.close();
+                     } catch (Throwable var49) {
+                        var51.addSuppressed(var49);
+                     }
+                  }
+
+                  throw var51;
+               }
+
+               if (var40 != null) {
+                  var40.close();
                }
 
                if (var6.Z > 0.01F) {
@@ -271,11 +274,11 @@ final class GlassRenderer {
       }
    }
 
-   private static void X(RenderPass var0, long var1, List var3) {
-      GlassRenderer4.ensureSourceClassInitialized();
+   private static void X(RenderPass var0, long var1, List<GlassSupport.Data> var3) {
+      GlassStudioScreen.ensureSourceClassInitialized();
       int var4 = 0;
 
-      for (GlassSupport.Data var6 : (Iterable<GlassSupport.Data>)(Object)(var3)) {
+      for (GlassSupport.Data var6 : var3) {
          var0.bindTexture("Sampler0", var6.texture().comp_5226(), var6.texture().comp_5227());
          var0.drawIndexed(var4, 0, var6.count() / 4 * 6, 1);
          GlassRegistry.metric("drawn");
@@ -284,69 +287,113 @@ final class GlassRenderer {
    }
 
    private void D(long var1, CommandEncoder var3, GpuTextureView var4, class_12137 var5, class_12137 var6) {
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
+      RenderPass var7 = var3.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " halo source", this.U, OptionalInt.of(0));
 
-      try (RenderPass var7 = var3.createRenderPass(() -> "Purxiy glass " + this.M + " halo source", this.U, OptionalInt.of(0))) {
-         var7.setPipeline(GlassSupport3.M);
+      try {
+         var7.setPipeline(GlassPipelines.M);
          var7.setUniform("PurxiyGlass", this.c);
          long var8 = 63932739479908L;
-         if (63932739479908L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var29 = var8 < 0L ? -1 : 1;
-         }
-
-         int var11 = -2143693940;
+         int var11 = var8 < 0L ? -1 : 1;
+         var11 = -2143693940;
          int var10 = -2143688347;
          var7.bindTexture("GlassDepthSampler", this.V, var5);
          var7.draw(0, 3);
          var11 = -2143688347;
          GlassRegistry.metric("drawn");
+      } catch (Throwable var211) {
+         if (var7 != null) {
+            try {
+               var7.close();
+            } catch (Throwable var17) {
+               var211.addSuppressed(var17);
+            }
+         }
+
+         throw var211;
+      }
+
+      if (var7 != null) {
+         var7.close();
       }
 
       long var21 = 63932739479909L;
-      if (63932739479909L == 0L) {
-         boolean var30 = false;
-      } else {
-         int var31 = var21 < 0L ? -1 : 1;
-      }
+      int var25 = var21 < 0L ? -1 : 1;
+      RenderPass var23 = var3.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " halo across", this.R, OptionalInt.empty());
 
-      try (RenderPass var23 = var3.createRenderPass(() -> "Purxiy glass " + this.M + " halo across", this.R, OptionalInt.empty())) {
-         var23.setPipeline(GlassSupport3.j);
+      try {
+         var23.setPipeline(GlassPipelines.j);
          var23.bindTexture("HaloSampler", this.U, var6);
-         int var9 = 2143695126;
+         int var9x = 2143695126;
          var23.draw(0, 3);
          GlassRegistry.metric("drawn");
+      } catch (Throwable var20) {
+         if (var23 != null) {
+            try {
+               var23.close();
+            } catch (Throwable var16) {
+               var20.addSuppressed(var16);
+            }
+         }
+
+         throw var20;
       }
 
-      try (RenderPass var24 = var3.createRenderPass(() -> "Purxiy glass " + this.M + " halo down", this.U, OptionalInt.empty())) {
-         var24.setPipeline(GlassSupport3.B);
+      if (var23 != null) {
+         var23.close();
+      }
+
+      RenderPass var24 = var3.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " halo down", this.U, OptionalInt.empty());
+
+      try {
+         var24.setPipeline(GlassPipelines.B);
          var24.bindTexture("HaloSampler", this.R, var6);
          int var22 = 2143695126;
          var24.draw(0, 3);
          GlassRegistry.metric("drawn");
          long var27 = 63932739479909L;
-         if (63932739479909L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var27 < 0L ? -1 : 1;
+         int var13 = var27 < 0L ? -1 : 1;
+      } catch (Throwable var19) {
+         if (var24 != null) {
+            try {
+               var24.close();
+            } catch (Throwable var15) {
+               var19.addSuppressed(var15);
+            }
          }
+
+         throw var19;
       }
 
-      try (RenderPass var25 = var3.createRenderPass(() -> "Purxiy glass " + this.M + " halo", var4, OptionalInt.empty())) {
-         var25.setPipeline(GlassSupport3.w);
+      if (var24 != null) {
+         var24.close();
+      }
+
+      RenderPass var25x = var3.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " halo", var4, OptionalInt.empty());
+
+      try {
+         var25x.setPipeline(GlassPipelines.w);
          long var28 = 63932739479908L;
-         if (63932739479908L == 0L) {
-            boolean var34 = false;
-         } else {
-            int var35 = var28 < 0L ? -1 : 1;
+         int var12 = var28 < 0L ? -1 : 1;
+         var25x.setUniform("PurxiyGlass", this.c);
+         var25x.bindTexture("GlassDepthSampler", this.V, var5);
+         var25x.bindTexture("HaloSampler", this.U, var6);
+         var25x.draw(0, 3);
+         GlassRegistry.metric("drawn");
+      } catch (Throwable var18) {
+         if (var25x != null) {
+            try {
+               var25x.close();
+            } catch (Throwable var14) {
+               var18.addSuppressed(var14);
+            }
          }
 
-         var25.setUniform("PurxiyGlass", this.c);
-         var25.bindTexture("GlassDepthSampler", this.V, var5);
-         var25.bindTexture("HaloSampler", this.U, var6);
-         var25.draw(0, 3);
-         GlassRegistry.metric("drawn");
+         throw var18;
+      }
+
+      if (var25x != null) {
+         var25x.close();
       }
    }
 
@@ -355,74 +402,45 @@ final class GlassRenderer {
       short var8 = 15302;
       short var9 = 23910;
       int var10 = (int)(var6 << 48 >>> 48);
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       int var11 = var3.vertices();
       if (var11 == 0) {
          return 0;
       } else {
-         long var12 = (long)var11 * Q;
-         long var14 = 103951776585073L;
-         if (103951776585073L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var38 = var14 < 0L ? -1 : 1;
-         }
-
-         label117: {
+         long var12;
+         label93: {
+            var12 = (long)var11 * Q;
+            long var14 = 103951776585073L;
+            int var17 = var14 < 0L ? -1 : 1;
             if (this.H != null) {
-               int var17 = this.H.capacity();
+               var17 = this.H.capacity();
                long var18 = 103951776585074L;
-               if (103951776585074L == 0L) {
-                  boolean var39 = false;
-               } else {
-                  int var40 = var18 < 0L ? -1 : 1;
-               }
-
+               int var32 = var18 < 0L ? -1 : 1;
                if (var17 >= var12) {
-                  break label117;
+                  break label93;
                }
             }
 
-            int var31;
-            for (var31 = 65536; var31 < var12; var31 <<= 1) {
+            for (var17 = 65536; var17 < var12; var17 <<= 1) {
                long var33 = 103951776585073L;
-               if (103951776585073L == 0L) {
-                  boolean var41 = false;
-               } else {
-                  int var42 = var33 < 0L ? -1 : 1;
-               }
+               int var371 = var33 < 0L ? -1 : 1;
             }
 
             long var34 = 103951776585073L;
-            if (103951776585073L == 0L) {
-               boolean var43 = false;
-            } else {
-               int var44 = var34 < 0L ? -1 : 1;
-            }
-
+            int var38 = var34 < 0L ? -1 : 1;
             long var21 = 103951776585074L;
-            if (103951776585074L == 0L) {
-               boolean var45 = false;
-            } else {
-               int var46 = var21 < 0L ? -1 : 1;
-            }
-
-            this.H = this.H == null ? MemoryUtil.memAlloc(var31) : MemoryUtil.memRealloc(this.H, var31);
+            int var21x = var21 < 0L ? -1 : 1;
+            this.H = this.H == null ? MemoryUtil.memAlloc(var17) : MemoryUtil.memRealloc(this.H, var17);
          }
 
          GpuBuffer var29;
-         label119: {
+         label95: {
             var29 = this.v[this.o];
             if (var29 != null) {
                long var15 = 103951776585073L;
-               if (103951776585073L == 0L) {
-                  boolean var47 = false;
-               } else {
-                  int var48 = var15 < 0L ? -1 : 1;
-               }
-
+               int var40 = var15 < 0L ? -1 : 1;
                if (var29.size() >= var12) {
-                  break label119;
+                  break label95;
                }
             }
 
@@ -430,7 +448,7 @@ final class GlassRenderer {
                var29.close();
             }
 
-            var29 = var1.createBuffer(ClientServices.label(() -> "Purxiy glass " + this.M + " vertices"), 40, this.H.capacity());
+            var29 = var1.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " vertices"), 40, this.H.capacity());
             this.v[this.o] = var29;
          }
 
@@ -455,18 +473,13 @@ final class GlassRenderer {
             MemoryUtil.memPutByte(var37 + 25L, G(var8, var30[var23 + 6], (char)var9, (char)var10));
             MemoryUtil.memPutByte(var37 + 26L, G(var8, var30[var23 + 7], (char)var9, (char)var10));
             long var25 = 103951776585074L;
-            if (103951776585074L == 0L) {
-               boolean var49 = false;
-            } else {
-               int var50 = var25 < 0L ? -1 : 1;
-            }
-
+            int var28 = var25 < 0L ? -1 : 1;
             MemoryUtil.memPutByte(var37 + 27L, (byte)0);
             MemoryUtil.memPutFloat(var37 + 28L, var30[var23 + 8]);
             MemoryUtil.memPutFloat(var37 + 32L, var30[var23 + 9]);
             MemoryUtil.memPutFloat(var37 + 36L, var30[var23 + 10]);
             MemoryUtil.memPutFloat(var37 + 40L, var30[var23 + 11]);
-            int var28 = var32[var20];
+            var28 = var32[var20];
             MemoryUtil.memPutByte(var37 + 44L, (byte)(var28 & 0xFF));
             MemoryUtil.memPutByte(var37 + 45L, (byte)(var28 >> 8 & 0xFF));
             MemoryUtil.memPutByte(var37 + 46L, (byte)0);
@@ -474,12 +487,7 @@ final class GlassRenderer {
          }
 
          long var36 = 103951776585073L;
-         if (103951776585073L == 0L) {
-            boolean var51 = false;
-         } else {
-            int var52 = var36 < 0L ? -1 : 1;
-         }
-
+         int var24 = var36 < 0L ? -1 : 1;
          var2.writeToBuffer(this.k.slice(0L, var12), this.H.clear().limit((int)var12));
          return var11;
       }
@@ -489,21 +497,16 @@ final class GlassRenderer {
       return (byte)((int)(Math.clamp(var1, -1.0F, 1.0F) * 127.0F) & 0xFF);
    }
 
-   private void z(CommandEncoder var1, GlassSupport4 var2, int var3, long var4, int var6) {
-      GlassRenderer4.ensureSourceClassInitialized();
+   private void z(CommandEncoder var1, GlassCameraState var2, int var3, long var4, int var6) {
+      GlassStudioScreen.ensureSourceClassInitialized();
       float[] var7 = var2.f;
       float var8 = Math.max(0.05F, Math.max(var7[0], Math.max(var7[1], var7[2])));
       float var9 = var2.l;
       Std140Builder var10 = Std140Builder.intoBuffer(this.N.clear()).putMat4f(var2.E).putMat4f(var2.k).putMat4f(var2.X);
       float var11 = var3;
       long var12 = 69307560493655L;
-      if (69307560493655L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var31 = var12 < 0L ? -1 : 1;
-      }
-
-      Std140Builder var15 = var10.putVec4(var11, var6, var2.b, Math.max(0.75F, var6 / 1080.0F))
+      int var15 = var12 < 0L ? -1 : 1;
+      Std140Builder var15x = var10.putVec4(var11, var6, var2.b, Math.max(0.75F, var6 / 1080.0F))
          .putVec4(var7[0], var7[1], var7[2], 0.85F)
          .putVec4(var7[0] / var8, var7[1] / var8, var7[2] / var8, var2.Z)
          .putVec4(var9, var2.m, 0.06F + 0.22F * var9, var2.V)
@@ -519,49 +522,24 @@ final class GlassRenderer {
 
       for (int var17 = 0; var17 < 128; var17++) {
          long var18 = 69307560493654L;
-         if (69307560493654L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var18 < 0L ? -1 : 1;
-         }
-
-         int var21 = var17 * 4;
+         int var21 = var18 < 0L ? -1 : 1;
+         var21 = var17 * 4;
          long var22 = 69307560493654L;
-         if (69307560493654L == 0L) {
-            boolean var34 = false;
-         } else {
-            int var35 = var22 < 0L ? -1 : 1;
-         }
-
-         int var24 = var2.T * 2;
+         int var24 = var22 < 0L ? -1 : 1;
+         var24 = var2.T * 2;
          long var25 = 69307560493654L;
-         if (69307560493654L == 0L) {
-            boolean var36 = false;
-         } else {
-            int var37 = var25 < 0L ? -1 : 1;
-         }
-
+         int var25x = var25 < 0L ? -1 : 1;
          if (var17 < var24 && var21 + 3 < var16.length) {
-            var15.putVec4(var16[var21], var16[var21 + 1], var16[var21 + 2], var16[var21 + 3]);
-            long var27 = 69307560493655L;
-            if (69307560493655L == 0L) {
-               boolean var38 = false;
-            } else {
-               int var39 = var27 < 0L ? -1 : 1;
-            }
+            var15x.putVec4(var16[var21], var16[var21 + 1], var16[var21 + 2], var16[var21 + 3]);
+            long var27x = 69307560493655L;
          } else {
-            var15.putVec4(0.0F, 0.0F, 0.0F, 0.0F);
+            var15x.putVec4(0.0F, 0.0F, 0.0F, 0.0F);
          }
       }
 
       long var30 = 69307560493654L;
-      if (69307560493654L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var30 < 0L ? -1 : 1;
-      }
-
-      var1.writeToBuffer(this.c.slice(), var15.get());
+      int var181 = var30 < 0L ? -1 : 1;
+      var1.writeToBuffer(this.c.slice(), var15x.get());
    }
 
    private void L(GpuDevice var1, long var2, int var4, int var5) {
@@ -570,52 +548,27 @@ final class GlassRenderer {
       short var10 = 186;
       var6 = 10813830269854L;
       var6 = 1099533600889L;
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       if (this.N == null) {
          for (int var11 = 0; var11 < 2; var11++) {
             long var12 = 110052726171357L;
-            if (110052726171357L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var24 = var12 < 0L ? -1 : 1;
-            }
-
-            this.j[var11] = var1.createBuffer(ClientServices.label(() -> "Purxiy glass " + this.M + " uniforms"), 136, 2432L);
+            int var141 = var12 < 0L ? -1 : 1;
+            this.j[var11] = var1.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " uniforms"), 136, 2432L);
          }
 
          long var20 = 110052726171357L;
-         if (110052726171357L == 0L) {
-            boolean var25 = false;
-         } else {
-            int var26 = var20 < 0L ? -1 : 1;
-         }
-
+         int var14 = var20 < 0L ? -1 : 1;
          this.N = MemoryUtil.memAlloc(2432);
       }
 
       if (this.B != null) {
          long var21 = 110052726171358L;
-         if (110052726171358L == 0L) {
-            boolean var27 = false;
-         } else {
-            int var28 = var21 < 0L ? -1 : 1;
-         }
-
+         int var24 = var21 < 0L ? -1 : 1;
          long var14 = 110052726171358L;
-         if (110052726171358L == 0L) {
-            boolean var29 = false;
-         } else {
-            int var30 = var14 < 0L ? -1 : 1;
-         }
-
+         int var16 = var14 < 0L ? -1 : 1;
          if (this.g == var4) {
-            long var16 = 110052726171358L;
-            if (110052726171358L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var16 < 0L ? -1 : 1;
-            }
-
+            long var16x = 110052726171358L;
+            int var17 = var16x < 0L ? -1 : 1;
             if (this.G == var5) {
                return;
             }
@@ -623,29 +576,24 @@ final class GlassRenderer {
       }
 
       this.T(var8, (byte)var10);
-      this.B = var1.createTexture(() -> "Purxiy glass " + this.M + " scene", 5, TextureFormat.RGBA8, var4, var5, 1, 1);
+      this.B = var1.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " scene", 5, TextureFormat.RGBA8, var4, var5, 1, 1);
       this.m = var1.createTextureView(this.B);
-      this.u = var1.createTexture(() -> "Purxiy glass " + this.M + " depth", 12, TextureFormat.DEPTH32, var4, var5, 1, 1);
+      this.u = var1.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " depth", 12, TextureFormat.DEPTH32, var4, var5, 1, 1);
       this.V = var1.createTextureView(this.u);
       int var22 = Math.max(1, var4 / 4);
       int var23 = Math.max(1, var5 / 4);
-      this.F = var1.createTexture(() -> "Purxiy glass " + this.M + " halo", 12, TextureFormat.RGBA8, var22, var23, 1, 1);
+      this.F = var1.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " halo", 12, TextureFormat.RGBA8, var22, var23, 1, 1);
       this.U = var1.createTextureView(this.F);
-      this.I = var1.createTexture(() -> "Purxiy glass " + this.M + " halo blur", 12, TextureFormat.RGBA8, var22, var23, 1, 1);
+      this.I = var1.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX glass " + this.M + " halo blur", 12, TextureFormat.RGBA8, var22, var23, 1, 1);
       this.R = var1.createTextureView(this.I);
       this.g = var4;
       this.G = var5;
    }
 
    private void T(long var1, byte var3) {
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       long var4 = 477628514457L;
-      if (477628514457L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       if (this.m != null) {
          this.m.close();
          this.B.close();
@@ -668,18 +616,12 @@ final class GlassRenderer {
       A = 0;
    }
 
-   
    private static GpuQuery L(CommandEncoder var0, long var1) {
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       if (S != null) {
          OptionalLong var3 = S.getValue();
          long var4 = 58721900800381L;
-         if (58721900800381L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var4 < 0L ? -1 : 1;
-         }
-
+         int var7 = var4 < 0L ? -1 : 1;
          if (var3.isEmpty()) {
             return null;
          }
@@ -687,17 +629,12 @@ final class GlassRenderer {
          S.close();
          S = null;
          z = z + var3.getAsLong() / 1000000.0;
-         long var7 = 58721900800381L;
-         if (58721900800381L == 0L) {
-            boolean var10 = false;
-         } else {
-            int var11 = var7 < 0L ? -1 : 1;
-         }
-
+         long var7x = 58721900800381L;
+         int var8 = var7x < 0L ? -1 : 1;
          if (++A == 120) {
             ClientServices.LOGGER
                .info(
-                  "Purxiy glass: {} ms CPU (every layer), {} ms GPU (a layer) per frame ({} vertices on average)",
+                  "SourceByDevFFnightmare DeObfDeCompByGuideX glass: {} ms CPU (every layer), {} ms GPU (a layer) per frame ({} vertices on average)",
                   new Object[]{String.format(Locale.ROOT, "%.3f", W / A), String.format(Locale.ROOT, "%.3f", z / A), i / A}
                );
             W = 0.0;
@@ -872,7 +809,7 @@ final class GlassRenderer {
          if (this.N != null) {
             MemoryUtil.memFree(this.N);
          }
-      } catch (Exception var531) {
+      } catch (Exception var5311) {
          var1++;
       } finally {
          this.N = null;
@@ -901,7 +838,7 @@ final class GlassRenderer {
       }
    }
 
-private static long b(int var0, long var1) {
+   private static long b(int var0, long var1) {
       int var3 = (var0 ^ (int)var1 ^ 2659) & 32767;
       if (p[var3] == null) {
          p[var3] = h[var3] ^ var1;
@@ -909,5 +846,4 @@ private static long b(int var0, long var1) {
 
       return p[var3];
    }
-
 }

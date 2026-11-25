@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import net.minecraft.class_5225;
 import net.minecraft.class_5348;
 import net.minecraft.class_5481;
@@ -27,8 +26,8 @@ public abstract class NickStringSplitterMixin {
       cancellable = true
    )
    private void purxiy$widthOfString( String var1, CallbackInfoReturnable<Float> var2) {
-      if (var1 != null && ClientRegistry5.active()) {
-         var2.setReturnValue(ClientRegistry5.width(var1, this.field_24216));
+      if (var1 != null && TabListProvider.active()) {
+         var2.setReturnValue(TabListProvider.width(var1, this.field_24216));
       }
    }
 
@@ -38,8 +37,8 @@ public abstract class NickStringSplitterMixin {
       cancellable = true
    )
    private void purxiy$widthOfText(class_5348 var1, CallbackInfoReturnable<Float> var2) {
-      if (!(var1 instanceof ClientRegistry5.Listener) && ClientRegistry5.active()) {
-         var2.setReturnValue(ClientRegistry5.width(var1, this.field_24216));
+      if (!(var1 instanceof TabListProvider.Listener) && TabListProvider.active()) {
+         var2.setReturnValue(TabListProvider.width(var1, this.field_24216));
       }
    }
 
@@ -49,7 +48,7 @@ public abstract class NickStringSplitterMixin {
       argsOnly = true
    )
    private class_5481 purxiy$widthOfSequence(class_5481 var1) {
-      return ClientRegistry5.sequence(var1);
+      return TabListProvider.sequence(var1);
    }
 
    @ModifyVariable(
@@ -58,7 +57,7 @@ public abstract class NickStringSplitterMixin {
       argsOnly = true
    )
    private class_5348 purxiy$cut(class_5348 var1) {
-      return ClientRegistry5.text(var1);
+      return TabListProvider.text(var1);
    }
 
    @ModifyVariable(
@@ -67,6 +66,6 @@ public abstract class NickStringSplitterMixin {
       argsOnly = true
    )
    private class_5348 purxiy$wrap(class_5348 var1) {
-      return ClientRegistry5.text(var1);
+      return TabListProvider.text(var1);
    }
 }

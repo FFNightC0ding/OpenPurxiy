@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.mount;
 
 import dev.purxiy.config.BooleanSetting;
@@ -6,15 +5,15 @@ import dev.purxiy.config.ColorSetting;
 import dev.purxiy.config.IntegerSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.CosmeticCatalog;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import dev.purxiy.loader.fabric.client.ClientCodec;
 import dev.purxiy.loader.fabric.client.ClientLoader;
-import dev.purxiy.loader.fabric.client.ClientRegistry24;
-import dev.purxiy.loader.fabric.client.ClientRegistry26;
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.ResourceProvider;
+import dev.purxiy.loader.fabric.client.CabinStateProvider;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import dev.purxiy.loader.fabric.module.ModuleWidget;
 import java.util.List;
 import java.util.Map;
@@ -56,15 +55,13 @@ public final class MountModule extends ModuleDescriptor {
    public final NumberSetting E;
    public final IntegerSetting z;
 
-
-
    public MountModule() {
-      super("mounts", "Purxiy Garage", "Real cars and bikes that follow your own movement", "car-front");
+      super("mounts", "SourceByDevFFnightmare DeObfDeCompByGuideX Garage", "Real cars and bikes that follow your own movement", "car-front");
       this.setKey(82);
-      this.z = this.add(new IntegerSetting("board_key", "Board / leave key", "The key shown beside your ride", 86));
+      this.z = (IntegerSetting)this.add(new IntegerSetting("board_key", "Board / leave key", "The key shown beside your ride", 86));
       this.section("Your collection");
       List var1 = MountFactory.names();
-      this.u = this.add(
+      this.u = (ModeSetting)this.add(
          new ModeSetting("style", "Ride", "Nine rides, each with its own sound and way of moving", (String)var1.get(0), var1)
             .renamed(Map.of("Roadster", "Porsche 911", "Star Horse", "Porsche 911", "Sky Manta", "Porsche 911"))
       );
@@ -84,33 +81,27 @@ public final class MountModule extends ModuleDescriptor {
       );
       this.section("Engine");
       this.x = this.bool("smooth_throttle", "Progressive throttle", "Rides pull away gently and build up to your normal walking and sprinting speed", true);
-      this.E = this.number(
-         "acceleration", "Take-off time", "Time holding W to reach full throttle after ignition", 2.0, 0.6, 4.0, 0.1, NumberSetting.Listener.unit(" s")
-      );
+      this.E = this.number("acceleration", "Take-off time", "Time holding W to reach full throttle after ignition", 2.0, 0.6, 4.0, 0.1, Listener.unit(" s"));
       this.E.visibleWhen(this.x::enabled);
       this.y = this.mode("gearbox", "Gearbox", "Automatic shifts or manual gears using the Controls-menu bindings", "Auto", new String[]{"Auto", "Manual"});
       this.section("Riding");
       this.q = this.bool(
          "auto_camera", "First person on entry", "Get in and look out from the driver's seat; your previous view returns when you get out", true
       );
-      this.X = this.number(
-         "camera_distance", "Camera distance", "A wider view of your ride; respects walls", 6.0, 4.0, 8.0, 0.25, NumberSetting.Listener.unit(" m")
-      );
+      this.X = this.number("camera_distance", "Camera distance", "A wider view of your ride; respects walls", 6.0, 4.0, 8.0, 0.25, Listener.unit(" m"));
       this.L = this.bool("screen_focus", "Screen focus", "Look at the in-car screen and a wide field of view narrows so it reads easily", true);
       this.c = this.bool("hud", "Boarding prompt", "Your board key beside the parked ride, in the style of the HUD", true);
       this.d = this.bool("sounds", "Ride sounds", "Ignition, engine, gear changes and horn, different for every ride", true);
-      this.i = this.number("volume", "Ride volume", "Follows Minecraft's master volume", 0.4, 0.0, 1.0, 0.05, NumberSetting.Listener.PERCENT);
+      this.i = this.number("volume", "Ride volume", "Follows Minecraft's master volume", 0.4, 0.0, 1.0, 0.05, Listener.PERCENT);
       this.i.visibleWhen(this.d::enabled);
    }
 
-   @Override
    public boolean keybindToggles() {
       return false;
    }
 
-   @Override
    protected void onDisable() {
-      MountUpdater4.clear();
+      MountInteraction.clear();
    }
 
    public void selectStyle(String var1) {
@@ -121,16 +112,16 @@ public final class MountModule extends ModuleDescriptor {
    }
 
    public boolean onKey(int var1, int var2) {
-      if (var1 != -1 && var2 == 1 && MountUpdater4.controlsAvailable(class_310.method_1551())) {
-         if (!this.z.matches(var1) || var1 == this.key() && !MountUpdater4.mounted() && !MountUpdater4.canEnter()) {
+      if (var1 != -1 && var2 == 1 && MountInteraction.controlsAvailable(class_310.method_1551())) {
+         if (!this.z.matches(var1) || var1 == this.key() && !MountInteraction.mounted() && !MountInteraction.canEnter()) {
             if (var1 == this.key()) {
-               MountUpdater4.keyAction();
+               MountInteraction.keyAction();
                return true;
             } else {
                return false;
             }
          } else {
-            MountUpdater4.boardAction();
+            MountInteraction.boardAction();
             return true;
          }
       } else {
@@ -138,7 +129,6 @@ public final class MountModule extends ModuleDescriptor {
       }
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       var1.own(ClientServices.acquire(this.id()));
       var1.own(
@@ -156,7 +146,7 @@ public final class MountModule extends ModuleDescriptor {
          )
       );
       var1.own(
-         ClientRegistry24.install(
+         ResourceProvider.install(
             var1,
             List.of(
                "assets/purxiy/garage/c911.pgv",
@@ -245,210 +235,179 @@ public final class MountModule extends ModuleDescriptor {
          )
       );
       var1.own(ClientLoader.install(var1, "assets/purxiy/sound-events-mount.json"));
-      MountRenderer4.K = this;
-      MountRenderer4.g = var1;
+      MountCameraReader.K = this;
+      MountCameraReader.g = var1;
       var1.metric("drawn", 0.0);
       var1.metric("world_drawn", 0.0);
       var1.metric("draw_failures", 0.0);
       var1.own(() -> {
          try {
-            MountUpdater4.clear();
-            MountRenderer10.closeOwned();
+            MountInteraction.clear();
+            MountInputRenderer.closeOwned();
          } finally {
             try {
-               MountSupport4.close();
-               MountRenderer5.close();
-               MountFactory2.get().closeOwned();
+               MountWorker.close();
+               MountCameraState.close();
+               MountTransport.get().closeOwned();
             } finally {
-               MountRenderer12.releasePipelines();
-               MountRenderer5.releasePipelines();
-               MountRenderer6.releasePipelines();
-               MountRenderer7.releasePipelines();
-               MountRenderer4.K = null;
-               MountRenderer4.g = null;
+               MountShadowPipeline.releasePipelines();
+               MountCameraState.releasePipelines();
+               MountDrawBatch.releasePipelines();
+               MountDrawBuffers.releasePipelines();
+               MountCameraReader.K = null;
+               MountCameraReader.g = null;
             }
          }
       });
-      var1.own(ClientRenderer5.install(new ClientRenderer5.Listener() {
-         @Override
+      var1.own(CameraStateReader.install(new dev.purxiy.loader.fabric.client.CameraStateReader.Listener() {
          public void cameraPosition(class_1297 var1, boolean var2, float var3, double[] var4) {
-            MountRenderer4.cameraPosition(var1, var2, var3, var4);
+            MountCameraReader.cameraPosition(var1, var2, var3, var4);
          }
 
-         @Override
          public void cameraRotation(class_1297 var1, float var2, float[] var3) {
-            MountRenderer4.cameraRotation(var1, var2, var3);
+            MountCameraReader.cameraRotation(var1, var2, var3);
          }
 
-         @Override
          public float cameraDistance(class_1297 var1, boolean var2, float var3, float var4) {
-            return MountRenderer4.cameraDistance(var1, var2, var3, var4);
+            return MountCameraReader.cameraDistance(var1, var2, var3, var4);
          }
 
-         @Override
          public void avatarState(class_11890 var1, class_10055 var2, float var3) {
-            MountRenderer4.avatarState(var1, var2, var3);
+            MountCameraReader.avatarState(var1, var2, var3);
          }
 
-         @Override
          public class_243 avatarOffset(class_10055 var1, class_243 var2) {
-            return MountRenderer4.avatarOffset(var1, var2);
+            return MountCameraReader.avatarOffset(var1, var2);
          }
 
-         @Override
          public void avatarAttitude(class_10055 var1, class_4587 var2) {
-            MountRenderer4.avatarAttitude(var1, var2);
+            MountCameraReader.avatarAttitude(var1, var2);
          }
 
-         @Override
          public void humanoid(class_572<?> var1, class_10034 var2) {
-            MountRenderer4.humanoid(var1, var2);
+            MountCameraReader.humanoid(var1, var2);
          }
 
-         @Override
          public class_238 bounds(class_1297 var1, class_238 var2) {
-            return MountRenderer4.bounds(var1, var2);
+            return MountCameraReader.bounds(var1, var2);
          }
 
-         @Override
          public class_241 drivingInput(class_241 var1) {
-            return MountRenderer4.drivingInput(var1);
+            return MountCameraReader.drivingInput(var1);
          }
 
-         @Override
          public class_241 moveInput(class_310 var1, class_241 var2, class_10185 var3) {
-            return MountRenderer4.moveInput(var1, var2, var3);
+            return MountCameraReader.moveInput(var1, var2, var3);
          }
 
-         @Override
          public class_10185 keyInput(class_310 var1, class_10185 var2) {
-            return MountRenderer4.keyInput(var1, var2);
+            return MountCameraReader.keyInput(var1, var2);
          }
 
-         @Override
          public void worldStart(class_4184 var1, Matrix4f var2, Matrix4f var3) {
-            MountRenderer4.worldStart(var1, var2, var3);
+            MountCameraReader.worldStart(var1, var2, var3);
          }
 
-         @Override
          public void worldEnd() {
-            MountRenderer4.worldEnd();
+            MountCameraReader.worldEnd();
          }
 
-         @Override
          public boolean cockpit() {
-            return MountRenderer4.cockpit();
+            return MountCameraReader.cockpit();
          }
 
-         @Override
          public boolean capturing() {
-            return MountRenderer4.capturing();
+            return MountCameraReader.capturing();
          }
 
-         @Override
          public boolean applies(class_1297 var1) {
-            return MountRenderer4.applies(var1);
+            return MountCameraReader.applies(var1);
          }
 
-         @Override
          public class_243 view(class_1297 var1) {
-            return MountRenderer4.view(var1);
+            return MountCameraReader.view(var1);
          }
 
-         @Override
          public class_243 eye(class_1297 var1, class_243 var2) {
-            return MountRenderer4.eye(var1, var2);
+            return MountCameraReader.eye(var1, var2);
          }
 
-         @Override
          public class_239 pick(class_1297 var1, float var2, Supplier<class_239> var3) {
-            return MountRenderer4.pick(var1, var2, var3);
+            return MountCameraReader.pick(var1, var2, var3);
          }
 
-         @Override
          public boolean inClosedCabin(class_10055 var1) {
-            return MountRenderer4.inClosedCabin(var1);
+            return MountCameraReader.inClosedCabin(var1);
          }
 
-         @Override
          public void render(WorldRenderContext var1) {
-            MountRenderer4.render(var1);
+            MountCameraReader.render(var1);
          }
 
-         @Override
          public void renderSheets() {
-            MountRenderer4.renderSheets();
+            MountCameraReader.renderSheets();
          }
 
-         @Override
          public float fov(float var1) {
-            return MountRenderer4.fov(var1);
+            return MountCameraReader.fov(var1);
          }
 
-         @Override
          public double mouseScale() {
-            return MountRenderer4.mouseScale();
+            return MountCameraReader.mouseScale();
          }
 
-         @Override
          public boolean touchAttack() {
-            return MountRenderer4.touchAttack();
+            return MountCameraReader.touchAttack();
          }
 
-         @Override
          public boolean touchUse() {
-            return MountRenderer4.touchUse();
+            return MountCameraReader.touchUse();
          }
 
-         @Override
          public boolean blockAttackHold() {
-            return MountRenderer4.blockAttackHold();
+            return MountCameraReader.blockAttackHold();
          }
 
-         @Override
          public void keyState(class_304 var1, boolean var2) {
-            MountRenderer4.keyState(var1, var2);
+            MountCameraReader.keyState(var1, var2);
          }
 
-         @Override
          public boolean skipSecondaryFrame() {
-            return MountRenderer4.skipSecondaryFrame();
+            return MountCameraReader.skipSecondaryFrame();
          }
 
-         @Override
          public void mainFrame(Args var1) {
-            MountRenderer4.mainFrame(var1);
+            MountCameraReader.mainFrame(var1);
          }
       }));
-      var1.own(ClientRegistry26.install(new ClientRegistry26.Listener() {
-         @Override
+      var1.own(CabinStateProvider.install(new dev.purxiy.loader.fabric.client.CabinStateProvider.Listener() {
          public boolean inClosedCabin(class_10055 var1) {
-            return MountRenderer5.inClosedCabin(var1);
+            return MountCameraState.inClosedCabin(var1);
          }
       }));
       var1.own(ModuleWidget.onTick(var0 -> {
-         MountUpdater3.tick();
-         MountUpdater4.tick(var0);
-         MountRenderer10.tick(var0);
+         MountActions.tick();
+         MountInteraction.tick(var0);
+         MountInputRenderer.tick(var0);
       }));
       var1.own(ModuleWidget.interceptKey(80, (var1x, var2, var3) -> this.onKey(var1x, var3)));
-      var1.own(ModuleWidget.onFov(30, var0 -> MountSupport3.fov((float)var0)));
-      var1.own(ModuleWidget.onMouseScale(30, var0 -> var0 * MountSupport3.mouseScale()));
-      var1.own(ModuleWidget.claim("mount", MountUpdater4::mounted));
-      var1.own(ModuleWidget.claim("secondary-world-view", MountRenderer13::capturing));
+      var1.own(ModuleWidget.onFov(30, var0 -> MountViewState.fov((float)var0)));
+      var1.own(ModuleWidget.onMouseScale(30, var0 -> var0 * MountViewState.mouseScale()));
+      var1.own(ModuleWidget.claim("mount", MountInteraction::mounted));
+      var1.own(ModuleWidget.claim("secondary-world-view", MountGarageScreen::capturing));
       var1.own(ModuleWidget.onDisconnect(var0 -> {
-         MountUpdater4.clear();
+         MountInteraction.clear();
          MountUpdater.stop();
       }));
-      var1.onFrame(var1x -> {
-         MountUpdater4.frame((float)var1x);
-         MountSupport3.frame();
-         var1.metric("mounted", MountUpdater4.mounted() ? 1.0 : 0.0);
-         var1.metric("visible", MountUpdater4.visible() ? 1.0 : 0.0);
+      var1.onFrame(var1xx -> {
+         MountInteraction.frame((float)var1xx);
+         MountViewState.frame();
+         var1.metric("mounted", MountInteraction.mounted() ? 1.0 : 0.0);
+         var1.metric("visible", MountInteraction.visible() ? 1.0 : 0.0);
       });
       var1.onHud(var0 -> {
          if (ClientServices.drawing()) {
-            MountRenderer8.render();
+            MountRenderPass.render();
          }
       });
    }
@@ -456,9 +415,7 @@ public final class MountModule extends ModuleDescriptor {
    public static void releasePipelines() {
    }
 
-   @Override
-   protected CosmeticCatalog.Listener createPreview() {
-      return new MountRenderer11(this);
+   protected dev.purxiy.loader.fabric.CosmeticCatalog.Listener createPreview() {
+      return new MountEditorPage(this);
    }
-
 }

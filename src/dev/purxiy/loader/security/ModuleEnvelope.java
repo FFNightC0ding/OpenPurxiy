@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.security;
 
 public final class ModuleEnvelope {

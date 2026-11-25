@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.config;
 
 import com.google.gson.JsonArray;
@@ -21,7 +20,7 @@ public final class ChoiceListSetting extends Setting<List<String>> {
    }
 
    public List<String> names() {
-      ArrayList var1 = new ArrayList(this.value.size());
+      ArrayList<String>var1 = new ArrayList(this.value.size());
 
       for (String var3 : this.value) {
          String var4 = var3.strip();

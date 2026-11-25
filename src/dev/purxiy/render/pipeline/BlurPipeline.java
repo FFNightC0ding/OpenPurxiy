@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.pipeline;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -74,7 +73,7 @@ public final class BlurPipeline implements AutoCloseable {
    }
 
    private void pass(CommandEncoder var1, RenderPipeline var2, GpuTextureView var3, GpuTextureView var4, class_12137 var5, int var6) {
-      try (RenderPass var7 = var1.createRenderPass(() -> "Purxiy backdrop blur", var4, OptionalInt.empty())) {
+      try (RenderPass var7 = var1.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX backdrop blur", var4, OptionalInt.empty())) {
          var7.setPipeline(var2);
          var7.setUniform("BlurInfo", this.uniforms.slice((long)var6 * this.uniformStride, 16L));
          var7.bindTexture("InSampler", var3, var5);
@@ -88,7 +87,7 @@ public final class BlurPipeline implements AutoCloseable {
          int var4 = Math.max(16, var3.getUniformOffsetAlignment());
          this.uniformStride = (16 + var4 - 1) / var4 * var4;
          byte var5 = 10;
-         this.uniforms = var3.createBuffer(() -> "Purxiy blur params", 136, (long)this.uniformStride * var5);
+         this.uniforms = var3.createBuffer(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX blur params", 136, (long)this.uniformStride * var5);
          this.staging = MemoryUtil.memAlloc(this.uniformStride * var5);
       }
 
@@ -101,7 +100,7 @@ public final class BlurPipeline implements AutoCloseable {
             int var9 = Math.max(1, var1 >> var8 + 1);
             int var6 = Math.max(1, var2 >> var8 + 1);
             int var7 = var8;
-            this.textures[var8] = var3.createTexture(() -> "Purxiy blur level " + var7, 14, TextureFormat.RGBA8, var9, var6, 1, 1);
+            this.textures[var8] = var3.createTexture(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX blur level " + var7, 14, TextureFormat.RGBA8, var9, var6, 1, 1);
             this.views[var8] = var3.createTextureView(this.textures[var8]);
          }
       }

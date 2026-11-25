@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hand;
 
 import net.minecraft.class_4587;
@@ -14,7 +13,7 @@ public enum SwingStyle {
    private static final float u = (float) Math.PI;
    public static int O = 0;
 
-   public void item(float var1, float var2, SwingStyle.TypeJ var3) {
+   public void item(float var1, float var2, SwingStyle.ArmPose var3) {
       long var4 = 126804489084358L;
       long var6 = var4 ^ 83518567757881L;
       float var8 = Z(var6, var1);
@@ -78,7 +77,7 @@ public enum SwingStyle {
       var3.scale(var2);
    }
 
-   public void arm(float var1, float var2, SwingStyle.TypeJ var3) {
+   public void arm(float var1, float var2, SwingStyle.ArmPose var3) {
       long var4 = 78900578389894L;
       long var6 = var4 ^ 140068260260473L;
       float var8 = Z(var6, var1);
@@ -174,7 +173,7 @@ public enum SwingStyle {
    public static void ensureSourceClassInitialized() {
    }
 
-public static final class TypeJ {
+   public static final class ArmPose {
       public float J;
       public float H;
       public float I;
@@ -183,7 +182,7 @@ public static final class TypeJ {
       public float V;
       public float y;
 
-      public SwingStyle.TypeJ set(SwingStyle.TypeJ var1) {
+      public SwingStyle.ArmPose set(SwingStyle.ArmPose var1) {
          this.J = var1.J;
          this.H = var1.H;
          this.I = var1.I;
@@ -194,13 +193,13 @@ public static final class TypeJ {
          return this;
       }
 
-      public SwingStyle.TypeJ rest(float var1) {
+      public SwingStyle.ArmPose rest(float var1) {
          this.J = this.H = this.I = this.j = this.V = this.y = 0.0F;
          this.m = var1;
          return this;
       }
 
-      public SwingStyle.TypeJ lerp(SwingStyle.TypeJ var1, float var2) {
+      public SwingStyle.ArmPose lerp(SwingStyle.ArmPose var1, float var2) {
          this.J = this.J + (var1.J - this.J) * var2;
          this.H = this.H + (var1.H - this.H) * var2;
          this.I = this.I + (var1.I - this.I) * var2;
@@ -211,7 +210,7 @@ public static final class TypeJ {
          return this;
       }
 
-      SwingStyle.TypeJ scale(float var1) {
+      SwingStyle.ArmPose scale(float var1) {
          this.J *= var1;
          this.H *= var1;
          this.I *= var1;

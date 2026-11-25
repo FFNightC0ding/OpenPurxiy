@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +22,7 @@ public abstract class PorscheNaturalBlurMixin {
       remap = false
    )
    private static void purxiy$skipMirrorBlur(CallbackInfo var0) {
-      if (ClientRenderer5.skipSecondaryFrame()) {
+      if (CameraStateReader.skipSecondaryFrame()) {
          var0.cancel();
       }
    }
@@ -37,6 +36,6 @@ public abstract class PorscheNaturalBlurMixin {
       remap = false
    )
    private static void purxiy$realFrameHistory(Args var0) {
-      ClientRenderer5.mainFrame(var0);
+      CameraStateReader.mainFrame(var0);
    }
 }

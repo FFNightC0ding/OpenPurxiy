@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -11,7 +10,7 @@ final class ClipRect {
    final VertexBuffer quads = new VertexBuffer();
    final Canvas canvas = new Canvas(this.quads);
    final Matrix4f projection = new Matrix4f();
-   final RenderPipelines.TypeM stats = new RenderPipelines.TypeM();
+   final RenderPipelines.FogRange stats = new RenderPipelines.FogRange();
    float userScale = 1.0F;
    float pixelScale = 1.0F;
    boolean open;

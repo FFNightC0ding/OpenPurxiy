@@ -1,9 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
-import java.nio.charset.StandardCharsets;
-
-public record SpotifyData(String u, long Z, String w, String K, String S, long T, long e, long X, SpotifyData.TypeG s, int J, SpotifyData.TypeD t, int D) {
+public record SpotifyData(String u, long Z, String w, String K, String S, long T, long e, long X, SpotifyData.RepeatMode s, int J, SpotifyData.PlaybackState t, int D) {
    public static final int V = 1;
    public static int H = 2;
    public static int O = 4;
@@ -14,7 +11,7 @@ public record SpotifyData(String u, long Z, String w, String K, String S, long T
    public static int r = 128;
 
    public boolean playing() {
-      return this.s == SpotifyData.TypeG.t;
+      return this.s == SpotifyData.RepeatMode.t;
    }
 
    public boolean can(int var1) {
@@ -66,7 +63,7 @@ public record SpotifyData(String u, long Z, String w, String K, String S, long T
       return this.X;
    }
 
-   public SpotifyData.TypeG status() {
+   public SpotifyData.RepeatMode status() {
       return this.s;
    }
 
@@ -74,7 +71,7 @@ public record SpotifyData(String u, long Z, String w, String K, String S, long T
       return this.J;
    }
 
-   public SpotifyData.TypeD repeat() {
+   public SpotifyData.PlaybackState repeat() {
       return this.t;
    }
 
@@ -114,7 +111,7 @@ public record SpotifyData(String u, long Z, String w, String K, String S, long T
       return this.X;
    }
 
-   public SpotifyData.TypeG mediaPlaybackSnapshot_PlaybackStatusState2() {
+   public SpotifyData.RepeatMode mediaPlaybackSnapshot_PlaybackStatusState2() {
       return this.s;
    }
 
@@ -122,7 +119,7 @@ public record SpotifyData(String u, long Z, String w, String K, String S, long T
       return this.J;
    }
 
-   public SpotifyData.TypeD mediaPlaybackSnapshot_PlaybackRepeatModeState3() {
+   public SpotifyData.PlaybackState mediaPlaybackSnapshot_PlaybackRepeatModeState3() {
       return this.t;
    }
 
@@ -130,13 +127,13 @@ public record SpotifyData(String u, long Z, String w, String K, String S, long T
       return this.D;
    }
 
-public static enum TypeD {
+   public static enum PlaybackState {
       n,
       r,
       H,
       D;
 
-      static SpotifyData.TypeD of(int var0) {
+      static SpotifyData.PlaybackState of(int var0) {
          return switch (var0) {
             case 0 -> n;
             case 1 -> r;
@@ -152,10 +149,9 @@ public static enum TypeD {
             default -> 0;
          };
       }
+   }
 
-}
-
-   public static enum TypeG {
+   public static enum RepeatMode {
       V,
       Y,
       L,
@@ -165,10 +161,9 @@ public static enum TypeD {
 
       private static final long a = 3948966049189199878L;
 
-      static SpotifyData.TypeG of(int var0) {
-         SpotifyData.TypeG[] var1 = values();
+      static SpotifyData.RepeatMode of(int var0) {
+         SpotifyData.RepeatMode[] var1 = values();
          return var0 >= 0 && var0 < var1.length ? var1[var0] : V;
       }
-
-}
+   }
 }

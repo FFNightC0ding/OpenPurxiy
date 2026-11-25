@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.targethud;
 
 import dev.purxiy.anim.Animator;
@@ -15,6 +14,7 @@ import dev.purxiy.render.font.Fonts;
 import dev.purxiy.ui.DrawContext;
 import dev.purxiy.ui.Icons;
 import dev.purxiy.ui.Theme;
+import dev.purxiy.ui.DrawContext.Cursor;
 import java.util.List;
 import net.minecraft.class_1068;
 import net.minecraft.class_2561;
@@ -36,7 +36,7 @@ public final class TargetRenderer {
    private final TargetHud J = new TargetHud();
    private final HudBounds P = new HudBounds();
    private final Object[] T = new Object[]{new Object(), new Object()};
-   private final TargetRenderer2.TypeC E = new TargetRenderer2.TypeC();
+   private final TargetOverlay.TargetPlateOverlay E = new TargetOverlay.TargetPlateOverlay();
    private final Animator X = new Animator(1.0F, 200.0F, 28.0F);
    private int S = -1;
    private float e = 1.0F;
@@ -47,8 +47,6 @@ public final class TargetRenderer {
    private float o;
    private float R;
    private boolean M;
-
-
    private static final long[] d = new long[]{
       -228689898824946139L,
       -8951358468975438705L,
@@ -104,14 +102,14 @@ public final class TargetRenderer {
          float var25 = var2 + var24 * (var22 + 8.0F);
          float var26 = var3 + 51.0F;
          boolean var27 = this.y.a.is(l[var24]);
-         boolean var28 = var5 && var1.hover(this.T[var24], var25, var26, var22, 156.0F, DrawContext.TypeE.HAND);
+         boolean var28 = var5 && var1.hover(this.T[var24], var25, var26, var22, 156.0F, Cursor.HAND);
          var21.roundRect(var25, var26, var22, 156.0F, 10.0F, var27 ? Theme.tint(-13623231) : (var28 ? Theme.tint(-14542287) : Theme.tint(-15725540)));
          this.n(var21, var25 + 3.0F, var26 + 3.0F, var22 - 6.0F, var19, 129.0F);
       }
 
       var21.captureBackdrop();
       class_2960 var39 = class_1068.method_62620().comp_1626().comp_3627();
-      TargetSupport5 var40 = TargetSupport5.current();
+      TargetNameTagSettings var40 = TargetNameTagSettings.current();
 
       for (int var41 = 0; var41 < 2; var41++) {
          float var42 = var2 + var41 * (var22 + 8.0F);
@@ -129,7 +127,7 @@ public final class TargetRenderer {
          var21.push();
          var21.translate(var34, var36 - 6.0F);
          var21.scale(0.95F);
-         TargetRenderer2.draw(var21, this.E, var40.look(), var40.Z.floatValue());
+         TargetOverlay.draw(var21, this.E, var40.look(), var40.Z.floatValue());
          var21.pop();
          u((char)var12, var21, var13, var34, var14, var36 + 26.0F);
          if (var41 == 0) {
@@ -181,70 +179,47 @@ public final class TargetRenderer {
 
       for (int var6 = 0; var6 < var4.size(); var6++) {
          long var7 = 23079519711758L;
-         if (23079519711758L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var29 = var7 < 0L ? -1 : 1;
-         }
-
+         int var12 = var7 < 0L ? -1 : 1;
          ((Setting)var5.get(var6)).load(((Setting)var4.get(var6)).save());
       }
 
-      long var8 = 23079519711757L;
-      if (23079519711757L == 0L) {
-         boolean var30 = false;
-      } else {
-         int var31 = var8 < 0L ? -1 : 1;
-      }
-
-      this.J.a.set("Screen");
-      HudBounds var11 = this.P;
-      RenderPipelines var12 = RenderPipelines.get();
-      var11.mc = class_310.method_1551();
-      var11.player = null;
-      var11.level = null;
-      var11.time = var12.time();
-      var11.dt = var3.dt;
-      var11.partialTick = 1.0F;
-      var11.editing = true;
-      var11.width = var3.canvas.width();
-      var11.height = var3.canvas.height();
-      TargetSupport5 var22 = TargetSupport5.current();
-      boolean var13 = var22.T.is("Minecraft");
-      int var14 = (var22.a.enabled() ? 2 : 0) + (var13 ? 1 : 0);
-      TargetRenderer2.TypeC var23 = this.E;
-      long var15 = 23079519711757L;
-      if (23079519711757L == 0L) {
-         boolean var32 = false;
-      } else {
-         int var33 = var15 < 0L ? -1 : 1;
-      }
-
-      label135: {
+      TargetNameTagSettings var22;
+      TargetOverlay.TargetPlateOverlay var23;
+      label108: {
+         long var8 = 23079519711757L;
+         int var8x = var8 < 0L ? -1 : 1;
+         this.J.a.set("Screen");
+         HudBounds var11x = this.P;
+         RenderPipelines var12 = RenderPipelines.get();
+         var11x.mc = class_310.method_1551();
+         var11x.player = null;
+         var11x.level = null;
+         var11x.time = var12.time();
+         var11x.dt = var3.dt;
+         var11x.partialTick = 1.0F;
+         var11x.editing = true;
+         var11x.width = var3.canvas.width();
+         var11x.height = var3.canvas.height();
+         var22 = TargetNameTagSettings.current();
+         boolean var13 = var22.T.is("Minecraft");
+         int var14 = (var22.a.enabled() ? 2 : 0) + (var13 ? 1 : 0);
+         var23 = this.E;
+         long var15 = 23079519711757L;
+         int var24 = var15 < 0L ? -1 : 1;
          if (var14 == this.S) {
             long var17 = 23079519711757L;
-            if (23079519711757L == 0L) {
-               boolean var34 = false;
-            } else {
-               int var35 = var17 < 0L ? -1 : 1;
-            }
-
+            int var25 = var17 < 0L ? -1 : 1;
             if (var23.h != null) {
                long var20 = 23079519711757L;
-               if (23079519711757L == 0L) {
-                  boolean var36 = false;
-               } else {
-                  int var37 = var20 < 0L ? -1 : 1;
-               }
-
+               int var20x = var20 < 0L ? -1 : 1;
                if (!var23.h.stale()) {
-                  break label135;
+                  break label108;
                }
             }
          }
 
          this.S = var14;
-         var23.h = TargetRenderer3.of(class_2561.method_43470("Stardust"), 9.0F, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, var22.a.enabled(), var13);
+         var23.h = TargetPlate.of(class_2561.method_43470("Stardust"), 9.0F, Fonts.SEMIBOLD, Fonts.BOLD, Icons.TEXT, var22.a.enabled(), var13);
       }
 
       var23.m = null;
@@ -255,12 +230,7 @@ public final class TargetRenderer {
       float var9 = this.J.healthShown();
       if (this.F >= 0.0F) {
          long var10 = 23079519711758L;
-         if (23079519711758L == 0L) {
-            boolean var38 = false;
-         } else {
-            int var39 = var10 < 0L ? -1 : 1;
-         }
-
+         int var35 = var10 < 0L ? -1 : 1;
          if (var9 < this.F - 0.01F) {
             this.e = Math.max(this.e, Math.max(this.X.value(), this.F));
             this.B = this.D + 0.4F;
@@ -276,40 +246,25 @@ public final class TargetRenderer {
       this.F = var9;
       float var25 = this.X.target(var9).update(var24);
       long var26 = 23079519711757L;
-      if (23079519711757L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var26 < 0L ? -1 : 1;
-      }
-
-      long var27 = 23079519711757L;
-      if (23079519711757L == 0L) {
-         boolean var42 = false;
-      } else {
-         int var43 = var27 < 0L ? -1 : 1;
-      }
-
+      int var27 = var26 < 0L ? -1 : 1;
+      long var27x = 23079519711757L;
+      int var23x = var27x < 0L ? -1 : 1;
       if (this.D > this.B) {
          this.e = Math.max(var25, this.e - var24 * 1.4F);
       }
 
       var23.d = Math.max(0.0F, var23.d - var24 / 0.5F);
-      boolean var16 = var22.f.is("Off");
+      boolean var16x = var22.f.is("Off");
       long var28 = 23079519711758L;
-      if (23079519711758L == 0L) {
-         boolean var44 = false;
-      } else {
-         int var45 = var28 < 0L ? -1 : 1;
-      }
-
-      var23.R = var16 ? 0 : (var22.f.is("Bar") ? 1 : 2);
+      int var26x = var28 < 0L ? -1 : 1;
+      var23.R = var16x ? 0 : (var22.f.is("Bar") ? 1 : 2);
       var23.G = var25;
       var23.t = this.e;
       var23.z = this.J.absorptionShown();
       var23.D = (var9 + var23.z) * 20.0F;
       var23.Z = var23.z > 0.0F;
       var23.e = var9 <= 0.3F;
-      TargetRenderer2.measure(var23);
+      TargetOverlay.measure(var23);
    }
 
    private void n(Canvas var1, float var2, float var3, float var4, long var5, float var7) {
@@ -325,23 +280,13 @@ public final class TargetRenderer {
          float var11 = var3 + 129.0F * (0.1F + 0.065F * (var9 * 7 % 4));
          float var12 = 0.35F + 0.3F * (float)Math.sin(var8 * 1.7F + var9 * 1.9F);
          long var13 = 52085539102921L;
-         if (52085539102921L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var17 = var13 < 0L ? -1 : 1;
-         }
-
+         int var15 = var13 < 0L ? -1 : 1;
          var1.circle(var10, var11, 0.7F, BlendMode.withAlpha(-1, var12 * 0.55F));
       }
 
       var1.roundRect(var2 - 20.0F, var3 + 129.0F - 32.0F, var4 * 0.62F, 42.0F, 21.0F, Theme.tint(-11847048));
       long var16 = 52085539102922L;
-      if (52085539102922L == 0L) {
-         boolean var18 = false;
-      } else {
-         int var19 = var16 < 0L ? -1 : 1;
-      }
-
+      int var17 = var16 < 0L ? -1 : 1;
       var1.roundRect(var2 + var4 * 0.45F, var3 + 129.0F - 27.0F, var4 * 0.75F, 42.0F, 22.0F, Theme.tint(-12635800));
       var1.rect(var2 + var4 * 0.62F, var3 + 129.0F - 26.0F, var4 * 0.3F, 12.0F, Theme.tint(-13752760));
       var1.rect(var2 + var4 * 0.62F, var3 + 129.0F - 26.0F, var4 * 0.3F, 1.0F, 587202559);
@@ -371,12 +316,7 @@ public final class TargetRenderer {
          float var11 = var8 + var10 * (var5 + var6);
          var0.roundRect(var11, var9, var5, var5, 2.0F, var10 == 0 ? 872415231 : 352321535);
          long var12 = 75463029285912L;
-         if (75463029285912L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var15 = var12 < 0L ? -1 : 1;
-         }
-
+         int var14 = var12 < 0L ? -1 : 1;
          if (var10 == 0) {
             var0.roundRectOutline(var11 - 0.5F, var9 - 0.5F, var5 + 1.0F, var5 + 1.0F, 2.5F, 1.0F, Theme.tint(-858344193));
          }
@@ -401,5 +341,4 @@ public final class TargetRenderer {
       var0.roundRect(var13 - var8, var14 - var9, var8, var9, var9 / 2.0F, var10);
       var0.roundRect(var13 - var9, var14 - var8, var9, var8, var9 / 2.0F, var10);
    }
-
 }

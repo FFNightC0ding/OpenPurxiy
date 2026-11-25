@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.shockwave;
 
 import it.unimi.dsi.fastutil.longs.Long2FloatOpenHashMap;
@@ -58,70 +57,40 @@ final class ShockwaveUpdater {
       for (int var8 = var4 + 2; var8 >= var4 - 3; var8--) {
          class_2680 var9 = var1.method_8320(this.f.method_10103(var2, var8, var3));
          long var10 = 116748567025549L;
-         if (116748567025549L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var27 = var10 < 0L ? -1 : 1;
-         }
-
-         boolean var13 = var9.method_26215();
+         int var13 = var10 < 0L ? -1 : 1;
+         boolean var13x = var9.method_26215();
          long var14 = 116748567025548L;
-         if (116748567025548L == 0L) {
-            boolean var28 = false;
-         } else {
-            int var29 = var14 < 0L ? -1 : 1;
-         }
-
-         if (var13) {
+         class_265 var26;
+         if (var13x) {
             long var17 = 116748567025549L;
-            if (116748567025549L == 0L) {
-               boolean var30 = false;
-            } else {
-               int var31 = var17 < 0L ? -1 : 1;
-            }
-
+            int var17x = var17 < 0L ? -1 : 1;
             var7 = true;
          } else {
             if (!var9.method_26227().method_15769()) {
                return Float.NaN;
             }
 
-            class_265 var26 = var9.method_26218(var1, this.f);
-            var13 = var26.method_1110();
-            long var18 = 116748567025549L;
-            if (116748567025549L == 0L) {
-               boolean var32 = false;
-            } else {
-               int var33 = var18 < 0L ? -1 : 1;
-            }
-
-            label109: {
-               if (!var13) {
-                  var13 = var9.method_26225();
+            label73: {
+               var26 = var9.method_26218(var1, this.f);
+               var13x = var26.method_1110();
+               long var18 = 116748567025549L;
+               int var18x = var18 < 0L ? -1 : 1;
+               if (!var13x) {
+                  var13x = var9.method_26225();
                   long var20 = 116748567025548L;
-                  if (116748567025548L == 0L) {
-                     boolean var34 = false;
-                  } else {
-                     int var35 = var20 < 0L ? -1 : 1;
-                  }
-
-                  if (var13 && class_2248.method_9501(var26.method_20538(class_2350.field_11036), class_2350.field_11036)) {
-                     var13 = true;
-                     break label109;
+                  int var20x = var20 < 0L ? -1 : 1;
+                  if (var13x && class_2248.method_9501(var26.method_20538(class_2350.field_11036), class_2350.field_11036)) {
+                     var13x = true;
+                     break label73;
                   }
                }
 
-               var13 = false;
+               var13x = false;
             }
 
             long var19 = 116748567025549L;
-            if (116748567025549L == 0L) {
-               boolean var36 = false;
-            } else {
-               int var37 = var19 < 0L ? -1 : 1;
-            }
-
-            if (var13) {
+            int var31 = var19 < 0L ? -1 : 1;
+            if (var13x) {
                return var7 ? (float)(var8 + var26.method_1105(class_2351.field_11052)) : Float.NaN;
             }
 
@@ -131,11 +100,7 @@ final class ShockwaveUpdater {
 
             var7 = true;
             long var21 = 116748567025549L;
-            if (116748567025549L == 0L) {
-               boolean var38 = false;
-            } else {
-               int var39 = var21 < 0L ? -1 : 1;
-            }
+            int var22 = var21 < 0L ? -1 : 1;
          }
       }
 

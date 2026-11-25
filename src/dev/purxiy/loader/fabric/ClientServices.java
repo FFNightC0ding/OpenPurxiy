@@ -1,10 +1,9 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import dev.purxiy.hud.HudElement;
 import dev.purxiy.hud.HudSlot;
 import dev.purxiy.i18n.Translations;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import dev.purxiy.render.RenderPipelines;
 import dev.purxiy.render.font.Fonts;
 import java.net.http.HttpClient;
@@ -29,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 public final class ClientServices {
    public static final String MOD_ID = "purxiy";
-   public static final Logger LOGGER = LoggerFactory.getLogger("PurxiyGraphics");
+   public static final Logger LOGGER = LoggerFactory.getLogger("DeObfDeCompByGuideX/Graphics");
    private static int accent = -4944641;
    private static int logo = -4944641;
    private static final Set<String> users = new HashSet<>();
@@ -40,10 +39,10 @@ public final class ClientServices {
    private static final float[] motionChannels = new float[]{1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F};
    private static long motionGeneration = 0L;
    private static boolean motionLeased;
-   private static final ClientServices.TypeH DEFAULT_INTERFACE = new ClientServices.TypeH(-4944641, -4944641, "Auto", 1.0F, true, 0.45F, true, false);
-   private static final ClientServices.TypeI DEFAULT_HUD = new ClientServices.TypeI(1.0F, true, true, true, true);
-   private static ClientServices.TypeH interfaceLook = DEFAULT_INTERFACE;
-   private static ClientServices.TypeI hudLook = DEFAULT_HUD;
+   private static final ClientServices.ThemeSettings DEFAULT_INTERFACE = new ClientServices.ThemeSettings(-4944641, -4944641, "Auto", 1.0F, true, 0.45F, true, false);
+   private static final ClientServices.LayoutSettings DEFAULT_HUD = new ClientServices.LayoutSettings(1.0F, true, true, true, true);
+   private static ClientServices.ThemeSettings interfaceLook = DEFAULT_INTERFACE;
+   private static ClientServices.LayoutSettings hudLook = DEFAULT_HUD;
 
    private ClientServices() {
    }
@@ -91,11 +90,11 @@ public final class ClientServices {
       logo = var1 | 0xFF000000;
    }
 
-   public static ClientServices.TypeH interfaceLook() {
+   public static ClientServices.ThemeSettings interfaceLook() {
       return interfaceLook;
    }
 
-   public static ClientServices.TypeI hudLook() {
+   public static ClientServices.LayoutSettings hudLook() {
       return hudLook;
    }
 
@@ -104,7 +103,7 @@ public final class ClientServices {
       if (interfaceLook != DEFAULT_INTERFACE) {
          throw new IllegalStateException("Interface settings already owned");
       } else if (Float.isFinite(var3) && !(var3 < 0.8F) && !(var3 > 1.25F) && Float.isFinite(var5) && !(var5 < 0.2F) && !(var5 > 0.85F)) {
-         ClientServices.TypeH var8 = new ClientServices.TypeH(var0, var1, var2, var3, var4, var5, var6, var7);
+         ClientServices.ThemeSettings var8 = new ClientServices.ThemeSettings(var0, var1, var2, var3, var4, var5, var6, var7);
          interfaceLook = var8;
          colors(var0, var1);
          Translations.bind(() -> interfaceLook.language());
@@ -125,7 +124,7 @@ public final class ClientServices {
       if (hudLook != DEFAULT_HUD) {
          throw new IllegalStateException("HUD settings already owned");
       } else if (Float.isFinite(var0) && !(var0 < 0.75F) && !(var0 > 1.5F)) {
-         ClientServices.TypeI var5 = new ClientServices.TypeI(var0, var1, var2, var3, var4);
+         ClientServices.LayoutSettings var5 = new ClientServices.LayoutSettings(var0, var1, var2, var3, var4);
          hudLook = var5;
          return () -> {
             checkThread();
@@ -238,7 +237,7 @@ public final class ClientServices {
          }
       } finally {
          frameOpen = false;
-         ClientSupport3.frameEnded();
+         SkyPipelineRouter.frameEnded();
       }
    }
 
@@ -276,9 +275,9 @@ public final class ClientServices {
       }
    }
 
-   public record TypeH(int accent, int logo, String language, float scale, boolean blur, float dim, boolean stars, boolean pause) {
+   public record ThemeSettings(int accent, int logo, String language, float scale, boolean blur, float dim, boolean stars, boolean pause) {
    }
 
-   public record TypeI(float scale, boolean glass, boolean noOverlap, boolean chatEditor, boolean snap) {
+   public record LayoutSettings(float scale, boolean glass, boolean noOverlap, boolean chatEditor, boolean snap) {
    }
 }

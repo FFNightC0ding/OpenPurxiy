@@ -1,11 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.social;
 
 import com.mojang.authlib.GameProfile;
 import dev.purxiy.hud.HudLayout;
 import dev.purxiy.loader.fabric.AccountGate;
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.client.ClientRegistry5;
+import dev.purxiy.loader.fabric.client.TabListProvider;
 import dev.purxiy.modules.SettingSection;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -42,10 +41,10 @@ public final class Friends {
    private static final long SAVE_SOON = 2000L;
    private static final long SAVE_SEEN = 60000L;
    private static final long RETRY = 60000L;
-   private static FriendList.TypeO me = new FriendList.TypeO();
-   private static Map<PlayerMetadata, Friends.TypeI> presence = Map.of();
+   private static FriendList.FriendIdentity me = new FriendList.FriendIdentity();
+   private static Map<PlayerMetadata, Friends.FriendEntry> presence = Map.of();
    private static final Map<String, Long> failedAt = new HashMap<>();
-   private static final Map<String, Friends.TypeI> devPresence = new HashMap<>();
+   private static final Map<String, Friends.FriendEntry> devPresence = new HashMap<>();
    private static int asking = 0;
    private static boolean dirty;
    private static boolean seenDirty;
@@ -57,7 +56,7 @@ public final class Friends {
    }
 
    public static void init() {
-      FriendList.TypeI var0 = FriendList.load(file());
+      FriendList.FriendRoster var0 = FriendList.load(file());
 
       for (int var1 = var0.friends().size() - 1; var1 >= 0; var1--) {
          BOOK.add(var0.friends().get(var1));
@@ -113,21 +112,21 @@ public final class Friends {
       return BOOK.matches(var0, var1);
    }
 
-   
+
    public static PlayerMetadata find( UUID var0,  String var1) {
       return BOOK.find(var0, var1);
    }
 
-   public static Friends.TypeI presence(PlayerMetadata var0) {
-      Friends.TypeI var1 = devPresence.isEmpty() ? null : devPresence.get(PlayerMetadata.key(var0.name));
-      return var1 != null ? var1 : presence.getOrDefault(var0, Friends.TypeI.AWAY);
+   public static Friends.FriendEntry presence(PlayerMetadata var0) {
+      Friends.FriendEntry var1 = devPresence.isEmpty() ? null : devPresence.get(PlayerMetadata.key(var0.name));
+      return var1 != null ? var1 : presence.getOrDefault(var0, Friends.FriendEntry.AWAY);
    }
 
    public static int here() {
       int var0 = 0;
 
       for (PlayerMetadata var2 : BOOK.all()) {
-         if (presence(var2).state() != Friends.TypeF.OFFLINE) {
+         if (presence(var2).state() != Friends.FriendState.OFFLINE) {
             var0++;
          }
       }
@@ -135,7 +134,7 @@ public final class Friends {
       return var0;
    }
 
-   public static FriendList.TypeO me() {
+   public static FriendList.FriendIdentity me() {
       return me;
    }
 
@@ -180,37 +179,37 @@ public final class Friends {
       return NamePolicy.minecraft(var0.name());
    }
 
-   public static Friends.TypeK addPlayer(String var0) {
+   public static Friends.FriendAddResult addPlayer(String var0) {
       String var1 = NamePolicy.clean(var0, false);
       String var2 = NamePolicy.minecraftProblem(var1);
       if (var2 != null) {
-         return new Friends.TypeK((PlayerMetadata)null, var2, false);
+         return new Friends.FriendAddResult((PlayerMetadata)null, var2, false);
       } else if (self(var1)) {
-         return new Friends.TypeK((PlayerMetadata)null, "That is you", false);
+         return new Friends.FriendAddResult((PlayerMetadata)null, "That is you", false);
       } else {
-         PlayerMetadata var3 = BOOK.named(PlayerMetadata.TypeI.PLAYER, var1);
+         PlayerMetadata var3 = BOOK.named(PlayerMetadata.PlayerKind.PLAYER, var1);
          if (var3 == null) {
             var3 = BOOK.find((UUID)null, var1);
          }
 
          if (var3 != null) {
-            return new Friends.TypeK(var3, (String)null, true);
+            return new Friends.FriendAddResult(var3, (String)null, true);
          } else {
-            PlayerMetadata var4 = new PlayerMetadata(FriendList.newId(), PlayerMetadata.TypeI.PLAYER, var1, System.currentTimeMillis());
+            PlayerMetadata var4 = new PlayerMetadata(FriendList.newId(), PlayerMetadata.PlayerKind.PLAYER, var1, System.currentTimeMillis());
             BOOK.add(var4);
             changed();
             ask(var4);
-            return new Friends.TypeK(var4, (String)null, false);
+            return new Friends.FriendAddResult(var4, (String)null, false);
          }
       }
    }
 
-   public static Friends.TypeK addPlayer(GameProfile var0) {
+   public static Friends.FriendAddResult addPlayer(GameProfile var0) {
       PlayerMetadata var1 = BOOK.find(var0.id(), var0.name());
       if (var1 != null) {
-         return new Friends.TypeK(var1, (String)null, true);
+         return new Friends.FriendAddResult(var1, (String)null, true);
       } else {
-         PlayerMetadata var2 = new PlayerMetadata(FriendList.newId(), PlayerMetadata.TypeI.PLAYER, var0.name(), System.currentTimeMillis());
+         PlayerMetadata var2 = new PlayerMetadata(FriendList.newId(), PlayerMetadata.PlayerKind.PLAYER, var0.name(), System.currentTimeMillis());
          BOOK.add(var2);
          if (var0.id().version() == 4) {
             BOOK.found(var2, var0.name(), var0.id());
@@ -221,22 +220,22 @@ public final class Friends {
          var2.seen = System.currentTimeMillis();
          var2.place = place(class_310.method_1551());
          changed();
-         return new Friends.TypeK(var2, (String)null, false);
+         return new Friends.FriendAddResult(var2, (String)null, false);
       }
    }
 
-   public static Friends.TypeK addPurxiy(String var0, List<PlayerMetadata.TypeS> var1) {
-      PlayerMetadata var2 = BOOK.named(PlayerMetadata.TypeI.PURXIY, var0);
+   public static Friends.FriendAddResult addPurxiy(String var0, List<PlayerMetadata.AccountRef> var1) {
+      PlayerMetadata var2 = BOOK.named(PlayerMetadata.PlayerKind.PURXIY, var0);
       if (var2 != null) {
          BOOK.accounts(var2, var1);
          changed();
-         return new Friends.TypeK(var2, (String)null, true);
+         return new Friends.FriendAddResult(var2, (String)null, true);
       } else {
-         PlayerMetadata var3 = new PlayerMetadata(FriendList.newId(), PlayerMetadata.TypeI.PURXIY, var0, System.currentTimeMillis());
+         PlayerMetadata var3 = new PlayerMetadata(FriendList.newId(), PlayerMetadata.PlayerKind.PURXIY, var0, System.currentTimeMillis());
          BOOK.add(var3);
          BOOK.accounts(var3, var1);
          changed();
-         return new Friends.TypeK(var3, (String)null, false);
+         return new Friends.FriendAddResult(var3, (String)null, false);
       }
    }
 
@@ -260,7 +259,7 @@ public final class Friends {
       return class_310.method_1551().method_1548().method_1676().equalsIgnoreCase(var0);
    }
 
-   static void accounts(PlayerMetadata var0, List<PlayerMetadata.TypeS> var1) {
+   static void accounts(PlayerMetadata var0, List<PlayerMetadata.AccountRef> var1) {
       BOOK.accounts(var0, var1);
       changed();
    }
@@ -324,10 +323,10 @@ public final class Friends {
             PlayerMetadata var6 = BOOK.find(var2.id(), var2.name());
             if (var6 != null) {
                remove(var6);
-               HudLayout.push("Friends", "Removed " + ClientRegistry5.plain(var6.label()), "user-minus", false);
+               HudLayout.push("Friends", "Removed " + TabListProvider.plain(var6.label()), "user-minus", false);
             } else {
                addPlayer(var2);
-               HudLayout.push("Friends", "Added " + ClientRegistry5.plain(var2.name()), "user-plus", true);
+               HudLayout.push("Friends", "Added " + TabListProvider.plain(var2.name()), "user-plus", true);
             }
 
             return true;
@@ -354,9 +353,9 @@ public final class Friends {
    private static void lookups(long var0) {
       if (asking < 2) {
          for (PlayerMetadata var3 : BOOK.all()) {
-            if (var3.kind == PlayerMetadata.TypeI.PLAYER && var3.lookup != PlayerMetadata.TypeE.FOUND && var3.lookup != PlayerMetadata.TypeE.UNKNOWN) {
+            if (var3.kind == PlayerMetadata.PlayerKind.PLAYER && var3.lookup != PlayerMetadata.LookupState.FOUND && var3.lookup != PlayerMetadata.LookupState.UNKNOWN) {
                Long var4 = failedAt.get(var3.id);
-               if ((var4 == null || var0 - var4 >= 60000L) && (var4 != null || var3.lookup != PlayerMetadata.TypeE.FAILED)) {
+               if ((var4 == null || var0 - var4 >= 60000L) && (var4 != null || var3.lookup != PlayerMetadata.LookupState.FAILED)) {
                   ask(var3);
                   if (asking >= 2) {
                      return;
@@ -374,21 +373,21 @@ public final class Friends {
       FriendRequest.ask(var1).whenComplete((var2, var3) -> class_310.method_1551().execute(() -> {
          asking--;
          if (BOOK.byId(var0.id) != null && var0.name.equals(var1)) {
-            if (var3 == null && var2 != null && var2.lookup() != PlayerMetadata.TypeE.FAILED) {
+            if (var3 == null && var2 != null && var2.lookup() != PlayerMetadata.LookupState.FAILED) {
                failedAt.remove(var0.id);
-               if (var2.lookup() == PlayerMetadata.TypeE.FOUND && var2.uuid() != null && var2.name() != null) {
+               if (var2.lookup() == PlayerMetadata.LookupState.FOUND && var2.uuid() != null && var2.name() != null) {
                   BOOK.found(var0, var2.name(), var2.uuid());
                   PlayerMetadata var4 = BOOK.merge(var0);
                   if (var4 != null) {
                      ClientServices.LOGGER.info("Friends: {} and {} are the same account, kept one", var1, var4.name);
                   }
                } else {
-                  var0.lookup = PlayerMetadata.TypeE.UNKNOWN;
+                  var0.lookup = PlayerMetadata.LookupState.UNKNOWN;
                }
 
                changed();
             } else {
-               var0.lookup = PlayerMetadata.TypeE.FAILED;
+               var0.lookup = PlayerMetadata.LookupState.FAILED;
                failedAt.put(var0.id, System.currentTimeMillis());
             }
          } else {
@@ -397,7 +396,7 @@ public final class Friends {
       }));
    }
 
-   private static Map<PlayerMetadata, Friends.TypeI> presence(class_310 var0, long var1) {
+   private static Map<PlayerMetadata, Friends.FriendEntry> presence(class_310 var0, long var1) {
       class_634 var3 = var0.method_1562();
       if (!BOOK.isEmpty() && var0.field_1687 != null && var0.field_1724 != null && var3 != null) {
          IdentityHashMap var4 = new IdentityHashMap();
@@ -410,7 +409,7 @@ public final class Friends {
                PlayerMetadata var10 = BOOK.find(var9.id(), var9.name());
                if (var10 != null) {
                   learn(var10, var9);
-                  var4.put(var10, new Friends.TypeI(Friends.TypeF.ONLINE, 0.0F, var8));
+                  var4.put(var10, new Friends.FriendEntry(Friends.FriendState.ONLINE, 0.0F, var8));
                   seen(var10, var1, var5);
                }
             }
@@ -421,10 +420,10 @@ public final class Friends {
                GameProfile var14 = var13.method_7334();
                PlayerMetadata var15 = BOOK.find(var14.id(), var14.name());
                if (var15 != null) {
-                  Friends.TypeI var11 = (Friends.TypeI)var4.get(var15);
+                  Friends.FriendEntry var11 = (Friends.FriendEntry)var4.get(var15);
                   var4.put(
                      var15,
-                     new Friends.TypeI(Friends.TypeF.NEARBY, var0.field_1724.method_5739(var13), var11 != null ? var11.info() : var3.method_2871(var14.id()))
+                     new Friends.FriendEntry(Friends.FriendState.NEARBY, var0.field_1724.method_5739(var13), var11 != null ? var11.info() : var3.method_2871(var14.id()))
                   );
                   seen(var15, var1, var5);
                }
@@ -439,7 +438,7 @@ public final class Friends {
 
    private static void learn(PlayerMetadata var0, GameProfile var1) {
       if (var1.id().version() == 4) {
-         if (var0.kind == PlayerMetadata.TypeI.PLAYER && var0.uuid == null && var0.name.equalsIgnoreCase(var1.name())) {
+         if (var0.kind == PlayerMetadata.PlayerKind.PLAYER && var0.uuid == null && var0.name.equalsIgnoreCase(var1.name())) {
             BOOK.found(var0, var1.name(), var1.id());
             failedAt.remove(var0.id);
             changed();
@@ -471,7 +470,7 @@ public final class Friends {
       }
    }
 
-   
+
    private static GameProfile profile(class_11891 var0) {
       class_9296 var1 = var0.method_58694(class_9334.field_49617);
       if (var1 == null) {
@@ -490,9 +489,9 @@ public final class Friends {
             ClientServices.LOGGER.info("Friends: add {} -> {}", var1[1], addPlayer(var1[1]));
             break;
          case "remove":
-            PlayerMetadata var4 = BOOK.named(PlayerMetadata.TypeI.PLAYER, var1[1]);
+            PlayerMetadata var4 = BOOK.named(PlayerMetadata.PlayerKind.PLAYER, var1[1]);
             if (var4 == null) {
-               var4 = BOOK.named(PlayerMetadata.TypeI.PURXIY, NamePolicy.clean(var1[1], true));
+               var4 = BOOK.named(PlayerMetadata.PlayerKind.PURXIY, NamePolicy.clean(var1[1], true));
             }
 
             if (var4 != null) {
@@ -515,7 +514,7 @@ public final class Friends {
             ClientServices.LOGGER.info("Friends: {} in all, me {}", BOOK.size(), me.username);
             break;
          case "seen":
-            PlayerMetadata var5 = BOOK.named(PlayerMetadata.TypeI.PLAYER, var1[1]);
+            PlayerMetadata var5 = BOOK.named(PlayerMetadata.PlayerKind.PLAYER, var1[1]);
             if (var5 != null) {
                var5.seen = System.currentTimeMillis() - (long)(Double.parseDouble(var1[2]) * 60000.0);
                var5.place = var1.length > 3 ? var1[3] : null;
@@ -526,8 +525,8 @@ public final class Friends {
             if (var1[1].equals("clear")) {
                devPresence.clear();
             } else {
-               Friends.TypeF var9 = Friends.TypeF.valueOf(var1[2].toUpperCase(Locale.ROOT));
-               devPresence.put(PlayerMetadata.key(var1[1]), new Friends.TypeI(var9, var1.length > 3 ? Float.parseFloat(var1[3]) : 0.0F, (class_640)null));
+               Friends.FriendState var9 = Friends.FriendState.valueOf(var1[2].toUpperCase(Locale.ROOT));
+               devPresence.put(PlayerMetadata.key(var1[1]), new Friends.FriendEntry(var9, var1.length > 3 ? Float.parseFloat(var1[3]) : 0.0F, (class_640)null));
             }
             break;
          case "save":
@@ -547,20 +546,20 @@ public final class Friends {
       }
    }
 
-   public static enum TypeF {
+   public static enum FriendState {
       NEARBY,
       ONLINE,
       OFFLINE;
 
-      private static Friends.TypeF[] $values() {
-         return new Friends.TypeF[]{NEARBY, ONLINE, OFFLINE};
+      private static Friends.FriendState[] $values() {
+         return new Friends.FriendState[]{NEARBY, ONLINE, OFFLINE};
       }
    }
 
-   public record TypeI(Friends.TypeF state, float distance,  class_640 info) {
-      static final Friends.TypeI AWAY = new Friends.TypeI(Friends.TypeF.OFFLINE, 0.0F, (class_640)null);
+   public record FriendEntry(Friends.FriendState state, float distance,  class_640 info) {
+      static final Friends.FriendEntry AWAY = new Friends.FriendEntry(Friends.FriendState.OFFLINE, 0.0F, (class_640)null);
    }
 
-   public record TypeK( PlayerMetadata friend,  String problem, boolean existed) {
+   public record FriendAddResult( PlayerMetadata friend,  String problem, boolean existed) {
    }
 }

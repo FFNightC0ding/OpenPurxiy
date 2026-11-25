@@ -1,9 +1,9 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.zoom;
 
 import dev.purxiy.config.BooleanSetting;
 import dev.purxiy.config.ModeSetting;
 import dev.purxiy.config.NumberSetting;
+import dev.purxiy.config.NumberSetting.Listener;
 import dev.purxiy.loader.api.ModuleContext;
 import dev.purxiy.loader.fabric.ClientServices;
 import dev.purxiy.loader.fabric.ModuleDescriptor;
@@ -31,24 +31,22 @@ public final class ZoomModule extends ModuleDescriptor {
    private int r = -1;
    private String u = "";
 
-
-
    public ZoomModule() {
       super("zoom", "Zoom", "A smooth lens, one key away", "zoom-in");
       this.setKey(67);
       this.enabledByDefault();
       this.section("Controls");
       this.x = this.mode("activation", "Activation", "Hold the key or click to toggle", "Hold", new String[]{"Hold", "Toggle"});
-      this.G = this.number("factor", "Zoom amount", "Starting magnification", 4.0, 1.25, 32.0, 0.05, NumberSetting.Listener.MULTIPLIER);
+      this.G = this.number("factor", "Zoom amount", "Starting magnification", 4.0, 1.25, 32.0, 0.05, Listener.MULTIPLIER);
       this.section("Animation");
       this.e = this.bool("smooth", "Smooth zoom", "Ease gently into and out of focus", true);
-      this.X = this.number("duration", "Zoom in", "Time to settle into focus", 240.0, 80.0, 800.0, 10.0, NumberSetting.Listener.unit(" ms"));
+      this.X = this.number("duration", "Zoom in", "Time to settle into focus", 240.0, 80.0, 800.0, 10.0, Listener.unit(" ms"));
       this.X.visibleWhen(this.e::enabled);
-      this.z = this.number("release_duration", "Zoom out", "Time to return to your normal view", 180.0, 80.0, 800.0, 10.0, NumberSetting.Listener.unit(" ms"));
+      this.z = this.number("release_duration", "Zoom out", "Time to return to your normal view", 180.0, 80.0, 800.0, 10.0, Listener.unit(" ms"));
       this.z.visibleWhen(this.e::enabled);
       this.section("Scroll wheel");
       this.w = this.bool("scroll", "Scroll to adjust", "Fine-tune zoom without changing slots", true);
-      this.t = this.number("scroll_speed", "Scroll step", "Magnification change per wheel notch", 0.15, 0.02, 0.5, 0.01, NumberSetting.Listener.PERCENT);
+      this.t = this.number("scroll_speed", "Scroll step", "Magnification change per wheel notch", 0.15, 0.02, 0.5, 0.01, Listener.PERCENT);
       this.t.visibleWhen(this.w::enabled);
       this.R = this.bool("invert_scroll", "Reverse scroll", "Scroll down to move closer", false);
       this.R.visibleWhen(this.w::enabled);
@@ -56,18 +54,16 @@ public final class ZoomModule extends ModuleDescriptor {
       this.p.visibleWhen(this.w::enabled);
       this.section("Camera & display");
       this.o = this.bool("auto_sensitivity", "Adaptive sensitivity", "Keep aiming precise at every distance", true);
-      this.E = this.number("sensitivity", "Aim speed", "Fine-tune mouse speed while zoomed", 1.0, 0.1, 2.0, 0.05, NumberSetting.Listener.PERCENT);
+      this.E = this.number("sensitivity", "Aim speed", "Fine-tune mouse speed while zoomed", 1.0, 0.1, 2.0, 0.05, Listener.PERCENT);
       this.E.visibleWhen(this.o::enabled);
       this.V = this.bool("hide_hand", "Hide hand", "Keep held items out of the view", true);
       this.l = this.bool("indicator", "Zoom indicator", "A small magnification readout", true);
    }
 
-   @Override
    public boolean keybindToggles() {
       return false;
    }
 
-   @Override
    protected void onDisable() {
       this.v.reset();
    }
@@ -80,20 +76,10 @@ public final class ZoomModule extends ModuleDescriptor {
             var5 = '龜';
             if (var3.field_1724 != null) {
                long var6 = 1833046364L;
-               if (1833046364L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var11 = var6 < 0L ? -1 : 1;
-               }
-
+               int var8 = var6 < 0L ? -1 : 1;
                if (var3.field_1724.method_5805() && var3.field_1755 == null) {
-                  long var8 = 1833046365L;
-                  if (1833046365L == 0L) {
-                     boolean var12 = false;
-                  } else {
-                     int var13 = var8 < 0L ? -1 : 1;
-                  }
-
+                  long var8x = 1833046365L;
+                  int var10 = var8x < 0L ? -1 : 1;
                   if (var3.method_18506() == null && var3.method_1569() && var3.field_1729.method_1613()) {
                      return true;
                   }
@@ -108,41 +94,31 @@ public final class ZoomModule extends ModuleDescriptor {
    private boolean c(long var1, class_310 var3) {
       long var4;
       char var6;
-      label44: {
+      label38: {
          var4 = 1833046365L;
          var6 = '龜';
          ZoomRenderer.ensureSourceClassInitialized();
          if (var3.field_1687 == this.m && this.key() == this.r) {
             long var7 = 43136833385865L;
-            if (43136833385865L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var12 = var7 < 0L ? -1 : 1;
-            }
-
-            if (this.x.get().equals(this.u)) {
-               break label44;
+            int var9 = var7 < 0L ? -1 : 1;
+            if (((String)this.x.get()).equals(this.u)) {
+               break label38;
             }
          }
 
          this.v.reset();
          this.m = var3.field_1687;
          this.r = this.key();
-         this.u = this.x.get();
+         this.u = (String)this.x.get();
       }
 
-      boolean var11 = this.t(var4, var3, (char)var6);
+      boolean var11 = this.t(var4, var3, var6);
       if (!var11) {
          this.v.cancel();
       }
 
       long var8 = 43136833385865L;
-      if (43136833385865L == 0L) {
-         boolean var13 = false;
-      } else {
-         int var14 = var8 < 0L ? -1 : 1;
-      }
-
+      int var10 = var8 < 0L ? -1 : 1;
       if (var3.field_1687 == null || var3.field_1724 == null || !var3.method_1569()) {
          this.v.reset();
       }
@@ -158,7 +134,7 @@ public final class ZoomModule extends ModuleDescriptor {
          if (var2 == 0) {
             this.v.release(this.x.is("Toggle"));
          } else if (var2 == 1 && var7) {
-            this.v.press(this.x.is("Toggle"), this.G.get());
+            this.v.press(this.x.is("Toggle"), (Double)this.G.get());
          }
       }
    }
@@ -169,7 +145,7 @@ public final class ZoomModule extends ModuleDescriptor {
       if (this.c(var7, class_310.method_1551()) && this.v.active() && this.w.enabled()) {
          double var9 = var3 == 0.0 ? -var1 : var3;
          if (Double.isFinite(var9) && var9 != 0.0) {
-            this.v.scroll(this.R.enabled() ? -var9 : var9, this.t.get());
+            this.v.scroll(this.R.enabled() ? -var9 : var9, (Double)this.t.get());
             if (this.p.enabled()) {
                this.G.set(this.v.targetFactor());
             }
@@ -191,7 +167,7 @@ public final class ZoomModule extends ModuleDescriptor {
       long var6 = System.nanoTime();
       double var8 = this.s == 0L ? 0.0 : Math.max(0.0, (var6 - this.s) / 1.0E9);
       this.s = var6;
-      double var10 = !this.e.enabled() ? 0.0 : (this.v.active() ? this.X.get() : this.z.get() / 1000.0);
+      double var10 = !this.e.enabled() ? 0.0 : (this.v.active() ? (Double)this.X.get() : (Double)this.z.get() / 1000.0);
       this.v.advance(var8, var10);
    }
 
@@ -212,10 +188,9 @@ public final class ZoomModule extends ModuleDescriptor {
    }
 
    public double mouseScale() {
-      return this.o.enabled() && !(this.magnification() <= 1.0) ? (1.0 + (this.E.get() - 1.0) * this.presence()) / this.magnification() : 1.0;
+      return this.o.enabled() && !(this.magnification() <= 1.0) ? (1.0 + ((Double)this.E.get() - 1.0) * this.presence()) / this.magnification() : 1.0;
    }
 
-   @Override
    protected void attach(ModuleContext var1) throws Exception {
       var1.own(ModuleWidget.onKey((var1x, var2, var3) -> this.onKey(var1x, var3)));
       var1.own(ModuleWidget.onScroll(100, this::onScroll));
@@ -233,12 +208,7 @@ public final class ZoomModule extends ModuleDescriptor {
          this.frame();
          int var4 = 44345;
          long var5 = 104239058067833L;
-         if (104239058067833L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var5 < 0L ? -1 : 1;
-         }
-
+         int var7 = var5 < 0L ? -1 : 1;
          var4 = 201793913;
          var1.metric("magnification", this.magnification());
          var1.metric("active", this.active() ? 1.0 : 0.0);
@@ -249,5 +219,4 @@ public final class ZoomModule extends ModuleDescriptor {
          }
       });
    }
-
 }

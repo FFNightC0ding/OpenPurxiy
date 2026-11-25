@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.place;
 
 import dev.purxiy.loader.fabric.client.ClientSupport;
@@ -10,7 +9,7 @@ public final class PlaceAnimationLoader {
    public static final String d = "Accent";
    public static final Map<String, String> k = Map.of("Lilac", "Accent");
    static final PlaceAnimationLoader j = new PlaceAnimationLoader("Accent", 13481727, 11306751, 15442687);
-   static final PlaceAnimationLoader x = new PlaceAnimationLoader("Purxiy", 9854207, 12607999, 16740054);
+   static final PlaceAnimationLoader x = new PlaceAnimationLoader("SourceByDevFFnightmare DeObfDeCompByGuideX", 9854207, 12607999, 16740054);
    static final PlaceAnimationLoader Y = new PlaceAnimationLoader("Dream", 16758499, 12890367, 10404095);
    public static final String Z = "Custom";
    static final List<PlaceAnimationLoader> g = List.of(j, x, Y);
@@ -21,10 +20,6 @@ public final class PlaceAnimationLoader {
    public final int V;
    public final int L;
    public final int E;
-
-
-
-
 
    private PlaceAnimationLoader(String var1, int var2, int var3, int var4) {
       this.K = var1;
@@ -88,5 +83,4 @@ public final class PlaceAnimationLoader {
    private static int G(int var0, float var1, float var2, float var3, int var4) {
       return ClientSupport.hsvToRgb(var1 - (float)Math.floor(var1), var2, var3) & 16777215;
    }
-
 }

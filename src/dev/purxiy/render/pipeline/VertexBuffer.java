@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render.pipeline;
 
 import com.mojang.blaze3d.textures.GpuTextureView;
@@ -27,7 +26,7 @@ public final class VertexBuffer implements AutoCloseable {
    public VertexBuffer() {
       this.address = MemoryUtil.nmemAlloc((long)this.capacity * SkyVertexFormat.QUAD_SIZE);
       if (this.address == 0L) {
-         throw new OutOfMemoryError("Purxiy: could not allocate the quad buffer");
+         throw new OutOfMemoryError("SourceByDevFFnightmare DeObfDeCompByGuideX: could not allocate the quad buffer");
       }
    }
 
@@ -111,7 +110,7 @@ public final class VertexBuffer implements AutoCloseable {
       int var1 = this.capacity * 2;
       long var2 = MemoryUtil.nmemRealloc(this.address, (long)var1 * SkyVertexFormat.QUAD_SIZE);
       if (var2 == 0L) {
-         throw new OutOfMemoryError("Purxiy: could not grow the quad buffer to " + var1 + " quads");
+         throw new OutOfMemoryError("SourceByDevFFnightmare DeObfDeCompByGuideX: could not grow the quad buffer to " + var1 + " quads");
       } else {
          this.address = var2;
          this.capacity = var1;
@@ -183,12 +182,12 @@ public final class VertexBuffer implements AutoCloseable {
       return this.batches;
    }
 
-   
+
    public GpuTextureView batchView(int var1) {
       return this.views[var1];
    }
 
-   
+
    public class_12137 batchSampler(int var1) {
       return this.samplers[var1];
    }

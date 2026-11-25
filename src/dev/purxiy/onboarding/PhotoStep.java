@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.anim.Animator;
@@ -105,14 +104,14 @@ final class PhotoStep extends OnboardingStep {
       float var19 = var3 + 26.0F + 120.0F + 20.0F + (1.0F - var18) * 8.0F;
       float var20 = var10
          + this.folder
-            .render(var1, var10, var19, 40.0F, "Open photo folder", "folder-open", (String)null, StepNavigation.TypeS.ACCENT, true, var5 && var18 > 0.8F)
+            .render(var1, var10, var19, 40.0F, "Open photo folder", "folder-open", (String)null, StepNavigation.AccentStyle.ACCENT, true, var5 && var18 > 0.8F)
          + 8.0F;
       if (var8) {
-         this.remove.render(var1, var20, var19, 40.0F, "", "trash-2", (String)null, StepNavigation.TypeS.GLASS, true, var5 && var18 > 0.8F);
+         this.remove.render(var1, var20, var19, 40.0F, "", "trash-2", (String)null, StepNavigation.AccentStyle.GLASS, true, var5 && var18 > 0.8F);
          tooltip(var6, "Remove photo", var20 + 20.0F, var19 - 30.0F, this.remove.hover());
          var20 += 46.0F;
          if (ImageFiles.framedByHand()) {
-            this.reset.render(var1, var20, var19, 40.0F, "", "rotate-ccw", (String)null, StepNavigation.TypeS.GLASS, true, var5 && var18 > 0.8F);
+            this.reset.render(var1, var20, var19, 40.0F, "", "rotate-ccw", (String)null, StepNavigation.AccentStyle.GLASS, true, var5 && var18 > 0.8F);
             tooltip(var6, "Reset framing", var20 + 20.0F, var19 - 30.0F, this.reset.hover());
          }
       }
@@ -140,7 +139,7 @@ final class PhotoStep extends OnboardingStep {
       float var9 = this.pcy;
       boolean var10 = var4 && var1.insideCircle(var8, var9, var7);
       if (var10 || this.dragging) {
-         var1.claim(this.photoKey, var3 ? DrawContext.TypeE.MOVE : DrawContext.TypeE.HAND);
+         var1.claim(this.photoKey, var3 ? DrawContext.Cursor.MOVE : DrawContext.Cursor.HAND);
       }
 
       float var11 = this.hover.target(!var10 && !this.dragging ? 0.0F : 1.0F).update(MotionStyle.HOVER.dt(var1.dt));

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.config;
 
 import dev.purxiy.anim.Animator;
@@ -17,15 +16,15 @@ import dev.purxiy.ui.Theme;
 import dev.purxiy.ui.widget.Slider;
 import java.util.function.BiConsumer;
 
-final class ConfigLibraryWidget extends ConfigLibraryRenderer4 {
+final class ConfigLibraryWidget extends ConfigLibraryPage {
    private static final float TILE = 96.0F;
    private static final String[] ICONS = new String[]{"sparkles", "copy"};
    private static final String[] TITLES = new String[]{"Blank", "Current setup"};
-   private static final String[] LINES = new String[]{"Purxiy as new, nothing set up", "Everything you have on now"};
+   private static final String[] LINES = new String[]{"SourceByDevFFnightmare DeObfDeCompByGuideX as new, nothing set up", "Everything you have on now"};
    private final Slider name;
    private final BiConsumer<String, Boolean> create;
-   private final ConfigLibraryRenderer8.TypeC cancel = new ConfigLibraryRenderer8.TypeC();
-   private final ConfigLibraryRenderer8.TypeC make = new ConfigLibraryRenderer8.TypeC();
+   private final ConfigLibraryDash.DashBar cancel = new ConfigLibraryDash.DashBar();
+   private final ConfigLibraryDash.DashBar make = new ConfigLibraryDash.DashBar();
    private final Object[] tileKeys = new Object[]{new Object(), new Object()};
    private final Animator[] tileHover = new Animator[]{Animator.smooth(0.0F), Animator.smooth(0.0F)};
    private final Animator chosen;
@@ -76,7 +75,7 @@ final class ConfigLibraryWidget extends ConfigLibraryRenderer4 {
       return "New config";
    }
 
-   
+
    @Override
    String subtitle() {
       return "A config keeps your whole setup: modules, settings, HUD and keys.";
@@ -91,7 +90,7 @@ final class ConfigLibraryWidget extends ConfigLibraryRenderer4 {
    void body(DrawContext var1, Canvas var2, float var3, float var4, float var5, boolean var6) {
       this.name.render(var1, var3, var4 + 16.0F, var5, var6);
       float var7 = var4 + 32.0F + 26.0F;
-      ConfigLibraryRenderer8.label(var2, "START FROM", var3, var7, Icons.TEXT_3, FontStyle.LEFT);
+      ConfigLibraryDash.label(var2, "START FROM", var3, var7, Icons.TEXT_3, FontStyle.LEFT);
       this.tileY = var7 + 14.0F;
       this.tileW = (var5 - 12.0F) / 2.0F;
       float var8 = this.chosen.target(this.start).update(MotionStyle.TOGGLE.dt(var1.dt));
@@ -116,7 +115,7 @@ final class ConfigLibraryWidget extends ConfigLibraryRenderer4 {
    }
 
    private void tile(DrawContext var1, Canvas var2, int var3, float var4, float var5, float var6, float var7, boolean var8) {
-      boolean var9 = var8 && var1.hover(this.tileKeys[var3], var4, var5, var6, 96.0F, DrawContext.TypeE.HAND);
+      boolean var9 = var8 && var1.hover(this.tileKeys[var3], var4, var5, var6, 96.0F, DrawContext.Cursor.HAND);
       float var10 = this.tileHover[var3].target(var9 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       float var11 = 16.0F;
       if (var7 > 0.01F) {
@@ -129,7 +128,7 @@ final class ConfigLibraryWidget extends ConfigLibraryRenderer4 {
       var2.roundRectOutline(
          var4, var5, var6, 96.0F, var11, 1.0F, BlendMode.lerp(BlendMode.lerp(385875967, 721420287, var10), BlendMode.withAlpha(Icons.MAGENTA, 0.6F), var7)
       );
-      ConfigLibraryRenderer4.iconTile(var2, var4 + 14.0F, var5 + 14.0F + 16.0F, 32.0F, ICONS[var3], Icons.MAGENTA, var7);
+      ConfigLibraryPage.iconTile(var2, var4 + 14.0F, var5 + 14.0F + 16.0F, 32.0F, ICONS[var3], Icons.MAGENTA, var7);
       float var12 = var4 + var6 - 14.0F - 8.0F;
       float var13 = var5 + 14.0F + 8.0F;
       var2.roundRectOutline(
@@ -163,10 +162,10 @@ final class ConfigLibraryWidget extends ConfigLibraryRenderer4 {
 
    @Override
    void footer(DrawContext var1, Canvas var2, float var3, float var4, float var5, boolean var6) {
-      float var7 = ConfigLibraryRenderer8.TypeC.width(var2, "plus", "Create config", 34.0F);
-      this.make.render(var1, var4 - var7, var5, 34.0F, "plus", "Create config", ConfigLibraryRenderer8.TypeI.PRIMARY, var6);
-      float var8 = ConfigLibraryRenderer8.TypeC.width(var2, (String)null, "Cancel", 34.0F);
-      this.cancel.render(var1, var4 - var7 - 8.0F - var8, var5, 34.0F, (String)null, "Cancel", ConfigLibraryRenderer8.TypeI.TEXT, var6);
+      float var7 = ConfigLibraryDash.DashBar.width(var2, "plus", "Create config", 34.0F);
+      this.make.render(var1, var4 - var7, var5, 34.0F, "plus", "Create config", ConfigLibraryDash.DashTone.PRIMARY, var6);
+      float var8 = ConfigLibraryDash.DashBar.width(var2, (String)null, "Cancel", 34.0F);
+      this.cancel.render(var1, var4 - var7 - 8.0F - var8, var5, 34.0F, (String)null, "Cancel", ConfigLibraryDash.DashTone.TEXT, var6);
    }
 
    @Override

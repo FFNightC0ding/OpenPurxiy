@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.profile;
 
 public enum ProfileKind {
@@ -15,7 +14,7 @@ public enum ProfileKind {
       this.z = nullxxx;
    }
 
-   public double of(ProfileLoader3 var1) {
+   public double of(ProfileStats var1) {
       return switch (this) {
          case P -> var1.A;
          case V -> var1.distance();
@@ -73,5 +72,4 @@ public enum ProfileKind {
          case C -> 5.0;
       };
    }
-
 }

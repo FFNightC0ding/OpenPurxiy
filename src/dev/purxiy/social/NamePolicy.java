@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.social;
 
 import java.util.regex.Pattern;
@@ -27,7 +26,7 @@ public final class NamePolicy {
       return USERNAME.matcher(var0).matches();
    }
 
-   
+
    public static String minecraftProblem(String var0) {
       if (var0.isEmpty()) {
          return "Type a Minecraft name first";
@@ -38,7 +37,7 @@ public final class NamePolicy {
       }
    }
 
-   
+
    public static String usernameProblem(String var0) {
       if (var0.isEmpty()) {
          return "Type a username first";

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.config;
 
 import com.google.gson.JsonElement;

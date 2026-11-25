@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry15;
+import dev.purxiy.loader.fabric.client.SkinTextureProvider;
 import net.minecraft.class_10017;
 import net.minecraft.class_10042;
 import net.minecraft.class_11659;
@@ -20,7 +19,7 @@ public abstract class CuteEyesLayerMixin {
       cancellable = true
    )
    private void purxiy$cuteEyes(class_4587 var1, class_11659 var2, int var3, class_10017 var4, float var5, float var6, CallbackInfo var7) {
-      if (var4 instanceof class_10042 var8 && ClientRegistry15.applies(var8)) {
+      if (var4 instanceof class_10042 var8 && SkinTextureProvider.applies(var8)) {
          var7.cancel();
       }
    }

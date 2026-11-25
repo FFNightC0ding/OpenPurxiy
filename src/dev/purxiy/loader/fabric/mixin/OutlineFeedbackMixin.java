@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_1268;
 import net.minecraft.class_1269;
 import net.minecraft.class_2338;
@@ -20,7 +19,7 @@ public abstract class OutlineFeedbackMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$beforeBreak(class_2338 var1, CallbackInfoReturnable<Boolean> var2) {
-      ClientSupport3.beforeBreak(var1);
+      SkyPipelineRouter.beforeBreak(var1);
    }
 
    @Inject(
@@ -28,7 +27,7 @@ public abstract class OutlineFeedbackMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$afterBreak(class_2338 var1, CallbackInfoReturnable<Boolean> var2) {
-      ClientSupport3.afterBreak(var1, var2.getReturnValueZ());
+      SkyPipelineRouter.afterBreak(var1, var2.getReturnValueZ());
    }
 
    @Inject(
@@ -36,7 +35,7 @@ public abstract class OutlineFeedbackMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$beforeUse(class_746 var1, class_1268 var2, class_3965 var3, CallbackInfoReturnable<class_1269> var4) {
-      ClientSupport3.beforeUse(var3);
+      SkyPipelineRouter.beforeUse(var3);
    }
 
    @Inject(
@@ -44,6 +43,6 @@ public abstract class OutlineFeedbackMixin {
       at = {@At("RETURN")}
    )
    private void purxiy$afterUse(class_746 var1, class_1268 var2, class_3965 var3, CallbackInfoReturnable<class_1269> var4) {
-      ClientSupport3.afterUse(var3, (class_1269)var4.getReturnValue());
+      SkyPipelineRouter.afterUse(var3, (class_1269)var4.getReturnValue());
    }
 }

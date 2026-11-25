@@ -1,1 +1,45 @@
-{"schemaVersion":1,"id":"purxiy_loader","version":"0.1.0-offline.local","name":"Purxiy Offline","environment":"client","license":"All-Rights-Reserved","entrypoints":{"client":["dev.purxiy.loader.fabric.FabricBootstrap"]},"mixins":["purxiy-loader.mixins.json"],"breaks":{"purxiy":"*"},"depends":{"minecraft":"~1.21.11","fabricloader":">=0.18.4","fabric-api":"*","java":">=21"},"jars":[{"file":"META-INF/jars/fabric-api-0.141.6+1.21.11.jar"}]}
+{
+  "schemaVersion": 1,
+  "id": "purxiy_loader",
+  "version": "${version}",
+  "name": "SourceByDevFFnightmare DeObfDeCompByGuideX",
+  "description": "Visual client for Minecraft 1.21.11. Source build.",
+  "authors": [
+    "DevFFNightmare",
+    "GuideX"
+  ],
+  "contributors": [
+    "Random"
+  ],
+  "credits": "Original sources by DevFFNightmare. Decompilation and deobfuscation by GuideX. Original crack by Random. Discord: https://discord.gg/Pdt8jZa5v",
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.purxiy.loader.fabric.FabricBootstrap"
+    ]
+  },
+  "mixins": [
+    "purxiy-loader.mixins.json"
+  ],
+  "breaks": {
+    "purxiy": "*"
+  },
+  "depends": {
+    "minecraft": "~1.21.11",
+    "fabricloader": ">=0.18.4",
+    "fabric-api": "*",
+    "java": ">=21"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {}
+    },
+    "credits": {
+      "sources": "DevFFNightmare",
+      "deobfuscation": "GuideX",
+      "initial_crack": "Random"
+    }
+  }
+}

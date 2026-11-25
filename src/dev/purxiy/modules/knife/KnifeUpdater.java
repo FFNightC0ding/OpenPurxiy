@@ -1,7 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.knife;
 
 import dev.purxiy.loader.fabric.client.ClientUpdater;
+import dev.purxiy.loader.fabric.client.ClientUpdater.ModulePayload;
 import java.util.Arrays;
 import net.minecraft.class_10444;
 import net.minecraft.class_10515;
@@ -22,7 +22,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 public final class KnifeUpdater {
-   private static final class_10515<ClientUpdater.TypeV> t = ClientUpdater.RENDERER;
+   private static final class_10515<ModulePayload> t = ClientUpdater.RENDERER;
    private static final class_804 l = Y(0.0F, -90.0F, 55.0F, 0.0F, 4.0F, 0.5F, 0.85F);
    private static final class_804 w = Y(0.0F, 90.0F, -55.0F, 0.0F, 4.0F, 0.5F, 0.85F);
    static float I = 0.225F;
@@ -32,24 +32,24 @@ public final class KnifeUpdater {
    static float Q = 1.0F;
    private static int P = 0;
    private static final float[][] p = new float[KnifeModels.u.length][];
-   private static final float[][] f = new float[KnifeFactory2.B.length][];
-
-
-
+   private static final float[][] f = new float[KnifeBlades.B.length][];
    private static final Integer[] d = new Integer[2];
 
    private KnifeUpdater() {
    }
 
-   public static boolean update(class_10444 var0, class_1799 var1, class_811 var2,  class_11566 var3) {
+   public static boolean update(class_10444 var0, class_1799 var1, class_811 var2, class_11566 var3) {
       long var4 = 30876147592387L;
       long var6 = var4 ^ 80957584482371L;
       if (!shown(var1, var2, var3)) {
          return false;
       } else {
-         KnifeModule var8 = KnifeUpdater2.Z;
-         ClientUpdater.TypeV var9 = new ClientUpdater.TypeV(
-            KnifeModels.index(var8.U.get()), var8.F.get(), var8.camoSetting().get(), var8.enabled() ? KnifeFactory2.index(var8.z.get()) : -1
+         KnifeModule var8 = KnifeSwingState.Z;
+         ModulePayload var9 = new ModulePayload(
+            KnifeModels.index((String)var8.U.get()),
+            (String)var8.F.get(),
+            (String)var8.camoSetting().get(),
+            var8.enabled() ? KnifeBlades.index((String)var8.z.get()) : -1
          );
          var0.method_70946(t);
          var0.method_70946(var9);
@@ -72,8 +72,8 @@ public final class KnifeUpdater {
       }
    }
 
-   public static boolean shown(class_1799 var0, class_811 var1,  class_11566 var2) {
-      KnifeModule var3 = KnifeUpdater2.Z;
+   public static boolean shown(class_1799 var0, class_811 var1, class_11566 var2) {
+      KnifeModule var3 = KnifeSwingState.Z;
       if (!var3.enabled() || var0.method_7960() || !var0.method_31573(class_3489.field_42611)) {
          return false;
       } else if (var1 == class_811.field_4317) {
@@ -91,7 +91,7 @@ public final class KnifeUpdater {
       }
    }
 
-   static void place(class_4587 var0, ClientUpdater.TypeV var1, class_811 var2) {
+   static void place(class_4587 var0, ModulePayload var1, class_811 var2) {
       long var3 = 74619825457191L;
       long var5 = var3 ^ 36566012133274L;
       long var7 = var3 ^ 7479180491490L;
@@ -108,23 +108,18 @@ public final class KnifeUpdater {
          var0.method_46416(I, I, 0.5F);
          var0.method_22907(class_7833.field_40718.rotationDegrees(E));
          var0.method_22905(V, V, V);
-         Vector3f var10 = KnifeGeometry2.grip(var1.model());
+         Vector3f var10 = KnifePlacement.grip(var1.model());
          var0.method_46416(-var10.x, -var10.y, -var10.z);
       }
    }
 
    private static void g(class_4587 var0, long var1, int var3, class_811 var4) {
       long var5 = 51291183049105L;
-      KnifeUpdater2.ensureSourceClassInitialized();
+      KnifeSwingState.ensureSourceClassInitialized();
       if (var4 == class_811.field_4317) {
          float[] var7 = L(var5, var3);
          long var8 = 108424169355197L;
-         if (108424169355197L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var11 = var8 < 0L ? -1 : 1;
-         }
-
+         int var10 = var8 < 0L ? -1 : 1;
          var0.method_46416(0.5F, 0.5F, 0.5F);
          var0.method_22905(var7[0], var7[0], var7[0]);
          var0.method_22907(class_7833.field_40718.rotationDegrees(-45.0F));
@@ -134,47 +129,32 @@ public final class KnifeUpdater {
          var0.method_46416(I, I, 0.5F);
          var0.method_22907(class_7833.field_40718.rotationDegrees(E));
          var0.method_22905(1.15F, 1.15F, 1.15F);
-         var0.method_46416(0.0F, KnifeFactory2.g[var3][0], 0.0F);
+         var0.method_46416(0.0F, KnifeBlades.g[var3][0], 0.0F);
       }
    }
 
    private static float[] L(long var0, int var2) {
-      KnifeUpdater2.ensureSourceClassInitialized();
+      KnifeSwingState.ensureSourceClassInitialized();
       long var3 = 51291183049104L;
-      if (51291183049104L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var18 = var3 < 0L ? -1 : 1;
-      }
-
+      int var6 = var3 < 0L ? -1 : 1;
       if (f[var2] == null) {
-         KnifeBuilder var6 = KnifeFactory2.get(var2, "Signature").blade();
+         KnifeBuilder var6x = KnifeBlades.get(var2, "Signature").blade();
          Matrix4f var7 = new Matrix4f().rotateZ((float)Math.toRadians(-45.0)).rotateY((float)Math.toRadians(s));
          Vector3f var8 = new Vector3f(Float.MAX_VALUE);
          Vector3f var9 = new Vector3f(-Float.MAX_VALUE);
          Vector3f var10 = new Vector3f();
 
-         for (int var11 = 0; var11 < var6.vertexCount(); var11++) {
-            var7.transformPosition(var10.set(var6.x(var11), var6.y(var11), var6.z(var11)));
+         for (int var11 = 0; var11 < var6x.vertexCount(); var11++) {
+            var7.transformPosition(var10.set(var6x.x(var11), var6x.y(var11), var6x.z(var11)));
             long var12 = 51291183049105L;
-            if (51291183049105L == 0L) {
-               boolean var19 = false;
-            } else {
-               int var20 = var12 < 0L ? -1 : 1;
-            }
-
+            int var15 = var12 < 0L ? -1 : 1;
             var8.min(var10);
             var9.max(var10);
          }
 
          Vector3f var16 = new Vector3f(var8).add(var9);
          long var17 = 51291183049105L;
-         if (51291183049105L == 0L) {
-            boolean var21 = false;
-         } else {
-            int var22 = var17 < 0L ? -1 : 1;
-         }
-
+         int var17x = var17 < 0L ? -1 : 1;
          Vector3f var15 = var16.mul(0.5F);
          new Matrix4f(var7).invert().transformPosition(var15);
          f[var2] = new float[]{Q / Math.max(var9.x - var8.x, var9.y - var8.y), var15.x, var15.y, var15.z};
@@ -184,42 +164,27 @@ public final class KnifeUpdater {
    }
 
    private static float[] G(long var0, int var2) {
-      KnifeUpdater2.ensureSourceClassInitialized();
+      KnifeSwingState.ensureSourceClassInitialized();
       long var3 = 75937871164101L;
-      if (75937871164101L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var18 = var3 < 0L ? -1 : 1;
-      }
-
+      int var6 = var3 < 0L ? -1 : 1;
       if (p[var2] == null) {
-         KnifeBuilder var6 = KnifeModels.get(var2, "Signature").posed(var2, KnifeRenderer7.M);
+         KnifeBuilder var6x = KnifeModels.get(var2, "Signature").posed(var2, KnifeGestureRenderer.M);
          Matrix4f var7 = new Matrix4f().rotateZ((float)Math.toRadians(-45.0)).rotateY((float)Math.toRadians(s));
          Vector3f var8 = new Vector3f(Float.MAX_VALUE);
          Vector3f var9 = new Vector3f(-Float.MAX_VALUE);
          Vector3f var10 = new Vector3f();
 
-         for (int var11 = 0; var11 < var6.vertexCount(); var11++) {
-            var7.transformPosition(var10.set(var6.x(var11), var6.y(var11), var6.z(var11)));
+         for (int var11 = 0; var11 < var6x.vertexCount(); var11++) {
+            var7.transformPosition(var10.set(var6x.x(var11), var6x.y(var11), var6x.z(var11)));
             long var12 = 75937871164101L;
-            if (75937871164101L == 0L) {
-               boolean var19 = false;
-            } else {
-               int var20 = var12 < 0L ? -1 : 1;
-            }
-
+            int var15 = var12 < 0L ? -1 : 1;
             var8.min(var10);
             var9.max(var10);
          }
 
          Vector3f var16 = new Vector3f(var8).add(var9);
          long var17 = 75937871164101L;
-         if (75937871164101L == 0L) {
-            boolean var21 = false;
-         } else {
-            int var22 = var17 < 0L ? -1 : 1;
-         }
-
+         int var17x = var17 < 0L ? -1 : 1;
          Vector3f var15 = var16.mul(0.5F);
          new Matrix4f(var7).invert().transformPosition(var15);
          p[var2] = new float[]{Q / Math.max(var9.x - var8.x, var9.y - var8.y), var15.x, var15.y, var15.z};
@@ -228,10 +193,10 @@ public final class KnifeUpdater {
       return p[var2];
    }
 
-   private static Vector3fc[] p(long var0, ClientUpdater.TypeV var2, class_811 var3) {
+   private static Vector3fc[] p(long var0, ModulePayload var2, class_811 var3) {
       long var4 = 32310142064719L;
-      KnifeUpdater2.ensureSourceClassInitialized();
-      KnifeBuilder var6 = var2.great() >= 0 ? I(var4, var2).blade() : I(var4, var2).posed(var2.model(), KnifeRenderer7.M);
+      KnifeSwingState.ensureSourceClassInitialized();
+      KnifeBuilder var6 = var2.great() >= 0 ? I(var4, var2).blade() : I(var4, var2).posed(var2.model(), KnifeGestureRenderer.M);
       class_4587 var7 = new class_4587();
       place(var7, var2, var3);
       Matrix4f var8 = var7.method_23760().method_23761();
@@ -246,33 +211,18 @@ public final class KnifeUpdater {
       }
 
       long var20 = 94238056352896L;
-      if (94238056352896L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var22 = var20 < 0L ? -1 : 1;
-      }
-
-      Vector3fc[] var15 = new Vector3fc[8];
+      int var15 = var20 < 0L ? -1 : 1;
+      Vector3fc[] var15x = new Vector3fc[8];
 
       for (int var16 = 0; var16 < 8; var16++) {
          long var17 = 94238056352896L;
-         if (94238056352896L == 0L) {
-            boolean var23 = false;
-         } else {
-            int var24 = var17 < 0L ? -1 : 1;
-         }
-
-         var15[var16] = new Vector3f((var16 & 1) == 0 ? var9.x : var10.x, (var16 & 2) == 0 ? var9.y : var10.y, (var16 & 4) == 0 ? var9.z : var10.z);
+         int var18 = var17 < 0L ? -1 : 1;
+         var15x[var16] = new Vector3f((var16 & 1) == 0 ? var9.x : var10.x, (var16 & 2) == 0 ? var9.y : var10.y, (var16 & 4) == 0 ? var9.z : var10.z);
       }
 
       long var21 = 94238056352896L;
-      if (94238056352896L == 0L) {
-         boolean var25 = false;
-      } else {
-         int var26 = var21 < 0L ? -1 : 1;
-      }
-
-      return var15;
+      int var171 = var21 < 0L ? -1 : 1;
+      return var15x;
    }
 
    public static void tune(float var0, float var1, float var2, float var3, float var4) {
@@ -290,20 +240,15 @@ public final class KnifeUpdater {
       return new class_804(new Vector3f(var0, var1, var2), new Vector3f(var3 / 16.0F, 0.25F, 0.03125F), new Vector3f(0.85F, 0.85F, 0.85F));
    }
 
-   private static KnifeModels.Model I(long var0, ClientUpdater.TypeV var2) {
-      KnifeUpdater2.ensureSourceClassInitialized();
+   private static KnifeModels.Model I(long var0, ModulePayload var2) {
+      KnifeSwingState.ensureSourceClassInitialized();
       int var3 = var2.great();
       long var4 = 32310142064718L;
-      if (32310142064718L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
-      return var3 >= 0 ? KnifeFactory2.get(var2.great(), var2.finish()) : KnifeModels.get(var2.model(), var2.finish(), var2.camo());
+      int var6 = var4 < 0L ? -1 : 1;
+      return var3 >= 0 ? KnifeBlades.get(var2.great(), var2.finish()) : KnifeModels.get(var2.model(), var2.finish(), var2.camo());
    }
 
-   static void submit( ClientUpdater.TypeV var0, class_811 var1, class_4587 var2, class_11659 var3, int var4, int var5, boolean var6, int var7) {
+   static void submit(ModulePayload var0, class_811 var1, class_4587 var2, class_11659 var3, int var4, int var5, boolean var6, int var7) {
       long var8 = 43363905492726L;
       long var10 = var8 ^ 63852081614521L;
       if (var0 != null) {
@@ -311,7 +256,7 @@ public final class KnifeUpdater {
 
          try {
             place(var2, var0, var1);
-            KnifeRenderer5.submit(
+            KnifeMaterialMesh.submit(
                I(var10, var0),
                KnifeCache.atlas(var0.great() >= 0 ? null : KnifeCamos.find(var0.model(), var0.camo())),
                0.0F,
@@ -328,5 +273,4 @@ public final class KnifeUpdater {
          }
       }
    }
-
 }

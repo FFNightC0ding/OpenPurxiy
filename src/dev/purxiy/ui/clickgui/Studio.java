@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.ui.DrawContext;
@@ -18,8 +17,8 @@ public interface Studio {
       return true;
    }
 
-   default Studio.TypeQ dock() {
-      return Studio.TypeQ.TOP_LEFT;
+   default Studio.PanelSide dock() {
+      return Studio.PanelSide.TOP_LEFT;
    }
 
    default boolean keepsWorldRunning() {
@@ -42,7 +41,7 @@ public interface Studio {
 
    boolean consumeCloseRequest();
 
-   public static enum TypeQ {
+   public static enum PanelSide {
       TOP_LEFT,
       TOP_RIGHT,
       RIGHT;
@@ -51,8 +50,8 @@ public interface Studio {
          return this != TOP_LEFT;
       }
 
-      private static Studio.TypeQ[] $values() {
-         return new Studio.TypeQ[]{TOP_LEFT, TOP_RIGHT, RIGHT};
+      private static Studio.PanelSide[] $values() {
+         return new Studio.PanelSide[]{TOP_LEFT, TOP_RIGHT, RIGHT};
       }
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.spotify;
 
 import java.nio.charset.StandardCharsets;
@@ -36,7 +35,7 @@ final class SpotifySupport {
       }
    }
 
-   void written(SpotifySupport.TypeU var1, float var2) {
+   void written(SpotifySupport.SpotifyMisc var1, float var2) {
       if (this.E < 8 && var1.valid() && !(var2 <= 0.0F)) {
          int var3 = this.E++ * 5;
          this.u[var3] = var1.b;
@@ -69,7 +68,7 @@ final class SpotifySupport {
       return this.L;
    }
 
-   float score(SpotifySupport.TypeU var1, float var2, float var3, float var4, float var5, float var6, float var7) {
+   float score(SpotifySupport.SpotifyMisc var1, float var2, float var3, float var4, float var5, float var6, float var7) {
       long var8 = 131700076933268L;
       long var10 = var8 ^ 64955115810981L;
       float var12 = Math.max(1.0E-4F, var1.area());
@@ -100,7 +99,7 @@ final class SpotifySupport {
       return var24 + var7;
    }
 
-   float covered(SpotifySupport.TypeU var1) {
+   float covered(SpotifySupport.SpotifyMisc var1) {
       float var2 = Math.max(1.0E-4F, var1.area());
       float var3 = 0.0F;
 
@@ -117,12 +116,12 @@ final class SpotifySupport {
       return var3;
    }
 
-   static float inside(SpotifySupport.TypeU var0) {
+   static float inside(SpotifySupport.SpotifyMisc var0) {
       float var1 = var0.area();
       return var1 <= 0.0F ? 0.0F : var0.overlap(-0.9F, -0.94F, 0.9F, 0.82F) / var1;
    }
 
-   static float shown(SpotifySupport.TypeU var0) {
+   static float shown(SpotifySupport.SpotifyMisc var0) {
       float var1 = var0.area();
       return var1 <= 0.0F ? 0.0F : var0.overlap(-1.0F, -1.0F, 1.0F, 1.0F) / var1;
    }
@@ -171,13 +170,13 @@ final class SpotifySupport {
       S = (int)var2[0];
    }
 
-   static final class TypeU {
+   static final class SpotifyMisc {
       float b;
       float E;
       float T;
       float G;
 
-      SpotifySupport.TypeU set(float var1, float var2, float var3, float var4) {
+      SpotifySupport.SpotifyMisc set(float var1, float var2, float var3, float var4) {
          this.b = var1;
          this.E = var2;
          this.T = var3;
@@ -185,15 +184,15 @@ final class SpotifySupport {
          return this;
       }
 
-      SpotifySupport.TypeU set(SpotifySupport.TypeU var1) {
+      SpotifySupport.SpotifyMisc set(SpotifySupport.SpotifyMisc var1) {
          return this.set(var1.b, var1.E, var1.T, var1.G);
       }
 
-      SpotifySupport.TypeU empty() {
+      SpotifySupport.SpotifyMisc empty() {
          return this.set(Float.MAX_VALUE, Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
       }
 
-      SpotifySupport.TypeU add(float var1, float var2) {
+      SpotifySupport.SpotifyMisc add(float var1, float var2) {
          this.b = Math.min(this.b, var1);
          this.E = Math.min(this.E, var2);
          this.T = Math.max(this.T, var1);

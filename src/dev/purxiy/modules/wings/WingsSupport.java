@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.wings;
 
 import dev.purxiy.anim.Easing;
 import dev.purxiy.anim.MotionStyle;
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import java.util.Locale;
 import net.minecraft.class_1268;
 import net.minecraft.class_1297;
@@ -42,7 +41,6 @@ public final class WingsSupport {
    private static final Easing A = a(0.45F, 0.0F, 0.25F, 1.0F);
    private static boolean u;
    private static boolean k;
-   
    private static class_5498 q;
    private static float r;
    private static float p;
@@ -194,7 +192,7 @@ public final class WingsSupport {
 
    private static void H(long var0) {
       long var2 = 41748073003246L;
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       long var4 = System.nanoTime();
       float var6 = Q == 0L ? 0.0F : Math.min(0.1F, (float)(var4 - Q) / 1.0E9F);
       Q = var4;
@@ -202,95 +200,49 @@ public final class WingsSupport {
       float var7;
       int var8 = (var7 = W - 0.0F) == 0.0F ? 0 : (var7 < 0.0F ? -1 : 1);
       long var9 = 24746426754356L;
-      if (24746426754356L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var31 = var9 < 0L ? -1 : 1;
-      }
-
+      int var29 = var9 < 0L ? -1 : 1;
       if (var8 >= 0) {
          long var12 = 24746426754356L;
-         if (24746426754356L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var12 < 0L ? -1 : 1;
-         }
-
+         int var14 = var12 < 0L ? -1 : 1;
          r = W;
       } else {
          long var28 = 24746426754357L;
-         if (24746426754357L == 0L) {
-            boolean var34 = false;
-         } else {
-            int var35 = var28 < 0L ? -1 : 1;
-         }
-
+         int var301 = var28 < 0L ? -1 : 1;
          O = Math.min(w, O + var6);
          float var14 = w <= 0.0F ? 1.0F : O / w;
          r = p + (z - p) * (z > p ? h : A).apply(var14);
       }
 
-      float var29 = 1.0F - (float)Math.exp(-var6 * 9.0);
+      float var29x = 1.0F - (float)Math.exp(-var6 * 9.0);
       long var13 = 24746426754356L;
-      if (24746426754356L == 0L) {
-         boolean var36 = false;
-      } else {
-         int var37 = var13 < 0L ? -1 : 1;
-      }
-
-      B = B + (Gs - B) * var29;
-      float var15 = E + (K - E) * var29;
+      int var15 = var13 < 0L ? -1 : 1;
+      B = B + (Gs - B) * var29x;
+      float var15x = E + (K - E) * var29x;
       long var16 = 24746426754356L;
-      if (24746426754356L == 0L) {
-         boolean var38 = false;
-      } else {
-         int var39 = var16 < 0L ? -1 : 1;
-      }
-
-      E = var15;
+      int var18 = var16 < 0L ? -1 : 1;
+      E = var15x;
       L = L + (j - L) * (1.0F - (float)Math.exp(-var6 * 7.0));
-      float var18 = Gx ? 1.0F - (float)Math.exp(-var6 * 6.0) : 1.0F;
+      float var18x = Gx ? 1.0F - (float)Math.exp(-var6 * 6.0) : 1.0F;
       long var19 = 24746426754357L;
-      if (24746426754357L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var19 < 0L ? -1 : 1;
-      }
-
-      g = g + (P - g) * var18;
-      o = o + (d - o) * var18;
+      int var22 = var19 < 0L ? -1 : 1;
+      g = g + (P - g) * var18x;
+      o = o + (d - o) * var18x;
       Gx = true;
-      long var22 = 24746426754356L;
-      if (24746426754356L == 0L) {
-         boolean var42 = false;
-      } else {
-         int var43 = var22 < 0L ? -1 : 1;
-      }
-
+      long var22x = 24746426754356L;
       if (a >= 0.0F) {
          a += var6;
          float var24;
          var8 = (var24 = a - GV) == 0.0F ? 0 : (var24 < 0.0F ? -1 : 1);
          long var25 = 24746426754356L;
-         if (24746426754356L == 0L) {
-            boolean var44 = false;
-         } else {
-            int var45 = var25 < 0L ? -1 : 1;
-         }
-
+         int var25x = var25 < 0L ? -1 : 1;
          if (var8 >= 0) {
             a = -1.0F;
          }
       }
 
       if (!u) {
-         long var30 = 24746426754357L;
-         if (24746426754357L == 0L) {
-            boolean var46 = false;
-         } else {
-            int var47 = var30 < 0L ? -1 : 1;
-         }
-
+         long var30x = 24746426754357L;
+         int var24 = var30x < 0L ? -1 : 1;
          if (r <= 5.0E-4F && O >= w && W < 0.0F) {
             X(var2);
          }
@@ -298,7 +250,7 @@ public final class WingsSupport {
    }
 
    private static void X(long var0) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       class_310 var2 = class_310.method_1551();
       if (q != null && var2.field_1690.method_31044() == class_5498.field_26665) {
          var2.field_1690.method_31043(q);
@@ -414,7 +366,7 @@ public final class WingsSupport {
             class_746 var18 = var17.field_1724;
             float var19 = r;
             class_243 var20 = var18.method_30950(var3);
-            float var21 = var18.method_17682() * ClientSupport3.bodyHeight(var18);
+            float var21 = var18.method_17682() * SkyPipelineRouter.bodyHeight(var18);
             class_243 var22 = var20.method_1031(0.0, var21 * 0.53, 0.0);
             float var23 = Easing.SMOOTHSTEP.apply(k(var10, (short)var12, (var19 - 0.72F) / 0.28F));
             float var24 = a >= 0.0F ? 360.0F * Easing.SINE_IN_OUT.apply(a / GV) : 0.0F;
@@ -519,18 +471,13 @@ public final class WingsSupport {
    }
 
    private static boolean f(class_1937 var0, class_1297 var1, class_243 var2, class_243 var3, long var4, class_243 var6, class_243 var7) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       class_243 var8 = var2;
 
-      for (int var9 = 1; var9 <= (int)bb; var9++) {
+      for (int var9 = 1; var9 <= 12; var9++) {
          class_243 var10 = w(var2, var3, var6, var7, 1.0F - (float)Math.pow(1.0F - var9 / 12.0F, 2.2));
          long var11 = 74867878309211L;
-         if (74867878309211L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var14 = var11 < 0L ? -1 : 1;
-         }
-
+         int var13 = var11 < 0L ? -1 : 1;
          if (var0.method_17742(new class_3959(var8, var10, class_3960.field_23142, class_242.field_1348, var1)).method_17783() != class_240.field_1333) {
             return true;
          }
@@ -544,14 +491,14 @@ public final class WingsSupport {
    private static float x(long var0, float var2) {
       long var3 = 270957013L;
       short var5 = 13953;
-      return Easing.SMOOTHSTEP.apply(k(var3, (short)var5, var2 * 1.15F));
+      return Easing.SMOOTHSTEP.apply(k(var3, var5, var2 * 1.15F));
    }
 
    private static void Q(class_1937 var0, long var1, class_746 var3) {
       long var4 = 18159572368032L;
       class_310 var6 = class_310.method_1551();
-      float var7 = var3.method_17682() * ClientSupport3.bodyHeight(var3);
-      WingsUpdater2.ensureSourceClassInitialized();
+      float var7 = var3.method_17682() * SkyPipelineRouter.bodyHeight(var3);
+      WingsState.ensureSourceClassInitialized();
       class_243 var8 = var3.method_73189().method_1031(0.0, var7 * 0.53, 0.0);
       float var9 = (float)(var7 * 1.12F / 0.47F / (2.0 * Math.tan(Math.toRadians(23.0))));
       double var10 = Math.tan(Math.toRadians(23.0));
@@ -562,74 +509,36 @@ public final class WingsSupport {
          for (int var16 = 0; var16 < t.length; var16++) {
             class_243 var17 = g(var8, var3.method_36454() + t[var16], l[var15], var9 * 1.1F, var12, var10);
             long var18 = 135433168157006L;
-            if (135433168157006L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var53 = var18 < 0L ? -1 : 1;
-            }
-
+            int var50 = var18 < 0L ? -1 : 1;
             var14[var15][var16] = w(var0, var3, var8, var17, var4);
          }
 
          long var41 = 135433168157006L;
-         if (135433168157006L == 0L) {
-            boolean var54 = false;
-         } else {
-            int var55 = var41 < 0L ? -1 : 1;
-         }
+         int var461 = var41 < 0L ? -1 : 1;
       }
 
       for (float var47 : new float[]{0.92F, 0.5F}) {
          for (int var19 = 0; var19 < l.length; var19++) {
             long var20 = 135433168157006L;
-            if (135433168157006L == 0L) {
-               boolean var56 = false;
-            } else {
-               int var57 = var20 < 0L ? -1 : 1;
-            }
+            int var51 = var20 < 0L ? -1 : 1;
 
             for (int var23 = 0; var23 < t.length; var23++) {
                long var24 = 135433168157007L;
-               if (135433168157007L == 0L) {
-                  boolean var58 = false;
-               } else {
-                  int var59 = var24 < 0L ? -1 : 1;
-               }
-
-               long var26 = 135433168157007L;
-               if (135433168157007L == 0L) {
-                  boolean var60 = false;
-               } else {
-                  int var61 = var26 < 0L ? -1 : 1;
-               }
-
-               float var29;
-               int var30 = (var29 = Math.abs(t[var23]) - 90.0F) == 0.0F ? 0 : (var29 < 0.0F ? -1 : 1);
+               int var26 = var24 < 0L ? -1 : 1;
+               long var26x = 135433168157007L;
+               int var29 = var26x < 0L ? -1 : 1;
+               float var29x;
+               int var30 = (var29x = Math.abs(t[var23]) - 90.0F) == 0.0F ? 0 : (var29x < 0.0F ? -1 : 1);
                long var31 = 135433168157006L;
-               if (135433168157006L == 0L) {
-                  boolean var62 = false;
-               } else {
-                  int var63 = var31 < 0L ? -1 : 1;
-               }
-
+               int var31x = var31 < 0L ? -1 : 1;
                if (var30 <= 0) {
-                  float[] var33 = var14[var19];
+                  float[] var33x = var14[var19];
                   long var34 = 135433168157007L;
-                  if (135433168157007L == 0L) {
-                     boolean var64 = false;
-                  } else {
-                     int var65 = var34 < 0L ? -1 : 1;
-                  }
-
-                  float var36;
-                  var30 = (var36 = var33[var23] - var47) == 0.0F ? 0 : (var36 < 0.0F ? -1 : 1);
+                  int var34x = var34 < 0L ? -1 : 1;
+                  float var36x;
+                  var30 = (var36x = var33x[var23] - var47) == 0.0F ? 0 : (var36x < 0.0F ? -1 : 1);
                   long var37 = 135433168157006L;
-                  if (135433168157006L == 0L) {
-                     boolean var66 = false;
-                  } else {
-                     int var67 = var37 < 0L ? -1 : 1;
-                  }
-
+                  int var37x = var37 < 0L ? -1 : 1;
                   if (var30 >= 0) {
                      M = t[var23];
                      s = l[var19];
@@ -638,20 +547,12 @@ public final class WingsSupport {
                }
             }
 
-            long var51 = 135433168157007L;
-            if (135433168157007L == 0L) {
-               boolean var68 = false;
-            } else {
-               int var69 = var51 < 0L ? -1 : 1;
-            }
+            long var51x = 135433168157007L;
+            int var241 = var51x < 0L ? -1 : 1;
          }
 
          long var49 = 135433168157006L;
-         if (135433168157006L == 0L) {
-            boolean var70 = false;
-         } else {
-            int var71 = var49 < 0L ? -1 : 1;
-         }
+         int var22 = var49 < 0L ? -1 : 1;
       }
 
       int var40 = 0;
@@ -659,20 +560,11 @@ public final class WingsSupport {
 
       for (int var45 = 0; var45 < l.length; var45++) {
          long var48 = 135433168157007L;
-         if (135433168157007L == 0L) {
-            boolean var72 = false;
-         } else {
-            int var73 = var48 < 0L ? -1 : 1;
-         }
+         int var52 = var48 < 0L ? -1 : 1;
 
          for (int var21 = 0; var21 < t.length; var21++) {
             long var22 = 135433168157007L;
-            if (135433168157007L == 0L) {
-               boolean var74 = false;
-            } else {
-               int var75 = var22 < 0L ? -1 : 1;
-            }
-
+            int var59 = var22 < 0L ? -1 : 1;
             if (var14[var45][var21] > var14[var40][var43] + 0.05F) {
                var40 = var45;
                var43 = var21;
@@ -680,20 +572,11 @@ public final class WingsSupport {
          }
 
          long var50 = 135433168157007L;
-         if (135433168157007L == 0L) {
-            boolean var76 = false;
-         } else {
-            int var77 = var50 < 0L ? -1 : 1;
-         }
+         int var58 = var50 < 0L ? -1 : 1;
       }
 
       long var46 = 135433168157006L;
-      if (135433168157006L == 0L) {
-         boolean var78 = false;
-      } else {
-         int var79 = var46 < 0L ? -1 : 1;
-      }
-
+      int var501 = var46 < 0L ? -1 : 1;
       M = t[var43];
       s = l[var40];
    }
@@ -707,7 +590,7 @@ public final class WingsSupport {
 
    private static float w(class_1937 var0, class_1297 var1, class_243 var2, class_243 var3, long var4) {
       class_243 var6 = var3.method_1020(var2);
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       double var7 = var6.method_1033();
       if (var7 < 1.0E-4) {
          return 1.0F;
@@ -715,42 +598,24 @@ public final class WingsSupport {
          double var9 = var7;
 
          for (int var11 = 0; var11 < 5; var11++) {
-            long var18 = 18159572368031L;
-            if (18159572368031L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var30 = var18 < 0L ? -1 : 1;
-            }
-
-            double var12 = var11 == 1 ? 0.1 : (var11 == 2 ? -0.1 : 0.0);
-            long var21 = 18159572368032L;
-            if (18159572368032L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var21 < 0L ? -1 : 1;
-            }
-
-            double var14 = var11 == 3 ? 0.1 : (var11 == 4 ? -0.1 : 0.0);
-            long var23 = 18159572368031L;
-            if (18159572368031L == 0L) {
-               boolean var33 = false;
-            } else {
-               int var34 = var23 < 0L ? -1 : 1;
-            }
-
+            double var12;
+            double var14;
             double var16;
-            label94: {
+            label76: {
+               long var18 = 18159572368031L;
+               int var12x = var18 < 0L ? -1 : 1;
+               var12 = var11 == 1 ? 0.1 : (var11 == 2 ? -0.1 : 0.0);
+               long var21 = 18159572368032L;
+               int var14x = var21 < 0L ? -1 : 1;
+               var14 = var11 == 3 ? 0.1 : (var11 == 4 ? -0.1 : 0.0);
+               long var23 = 18159572368031L;
+               int var16x = var23 < 0L ? -1 : 1;
                if (var11 != 1) {
                   long var25 = 18159572368031L;
-                  if (18159572368031L == 0L) {
-                     boolean var35 = false;
-                  } else {
-                     int var36 = var25 < 0L ? -1 : 1;
-                  }
-
+                  int var22 = var25 < 0L ? -1 : 1;
                   if (var11 != 2) {
                      var16 = var11 == 3 ? -0.1 : 0.0;
-                     break label94;
+                     break label76;
                   }
                }
 
@@ -760,25 +625,15 @@ public final class WingsSupport {
             class_243 var20 = var2.method_1031(var12, var14, var16);
             class_243 var28 = var3.method_1031(var12, var14, var16);
             class_3965 var22 = var0.method_17742(new class_3959(var20, var28, class_3960.field_23142, class_242.field_1348, var1));
-            var23 = 18159572368031L;
-            if (18159572368031L == 0L) {
-               boolean var37 = false;
-            } else {
-               int var38 = var23 < 0L ? -1 : 1;
-            }
-
+            long var31 = 18159572368031L;
+            int var271 = var31 < 0L ? -1 : 1;
             if (var22.method_17783() != class_240.field_1333) {
                var9 = Math.min(var9, var22.method_17784().method_1022(var20) - 0.2);
             }
          }
 
          long var27 = 18159572368031L;
-         if (18159572368031L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var27 < 0L ? -1 : 1;
-         }
-
+         int var13 = var27 < 0L ? -1 : 1;
          return (float)Math.clamp(var9 / var7, Math.min(1.0, 0.7 / var7), 1.0);
       }
    }
@@ -805,12 +660,31 @@ public final class WingsSupport {
    }
 
    private static float k(long var0, short var2, float var3) {
-      WingsUpdater2.ensureSourceClassInitialized();
+      WingsState.ensureSourceClassInitialized();
       return var3 < 0.0F ? 0.0F : Math.min(var3, 1.0F);
    }
 
    static String describe() {
-      return String.format(Locale.ROOT, ab, m, k, u, r, M, B, E, L, n, C[0], C[1], C[2], Z, N, g, o, v);
+      return String.format(
+         Locale.ROOT,
+         "faced %.1f, engaged %s, wanted %s, path %.3f, side %.0f, orbit %.1f/%.1f, zoom %.2f, room %.2f, at %.2f %.2f %.2f yaw %.1f pitch %.1f, frame %.2f/%.2f, game fov %.1f",
+         m,
+         k,
+         u,
+         r,
+         M,
+         B,
+         E,
+         L,
+         n,
+         C[0],
+         C[1],
+         C[2],
+         Z,
+         N,
+         g,
+         o,
+         v
+      );
    }
-
 }

@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry9;
+import dev.purxiy.loader.fabric.client.NametagCapturePipeline;
 import net.minecraft.class_1309;
 import net.minecraft.class_922;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +16,7 @@ public abstract class NameTagOwnMixin {
       cancellable = true
    )
    private void purxiy$ownTag(class_1309 var1, double var2, CallbackInfoReturnable<Boolean> var4) {
-      if (!var4.getReturnValueZ() && ClientRegistry9.showOwn(var1)) {
+      if (!var4.getReturnValueZ() && NametagCapturePipeline.showOwn(var1)) {
          var4.setReturnValue(true);
       }
    }

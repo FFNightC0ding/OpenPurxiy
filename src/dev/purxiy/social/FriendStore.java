@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.social;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public final class FriendStore {
       return this.generation;
    }
 
-   
+
    public PlayerMetadata find( UUID var1,  String var2) {
       if (var1 != null) {
          PlayerMetadata var3 = this.byId.get(var1);
@@ -56,8 +55,8 @@ public final class FriendStore {
       return this.find(var1, var2) != null;
    }
 
-   
-   public PlayerMetadata named(PlayerMetadata.TypeI var1, String var2) {
+
+   public PlayerMetadata named(PlayerMetadata.PlayerKind var1, String var2) {
       for (PlayerMetadata var4 : this.friends) {
          if (var4.kind == var1 && var4.name.equalsIgnoreCase(var2)) {
             return var4;
@@ -67,7 +66,7 @@ public final class FriendStore {
       return null;
    }
 
-   
+
    public PlayerMetadata byId(String var1) {
       for (PlayerMetadata var3 : this.friends) {
          if (var3.id.equals(var1)) {
@@ -110,13 +109,13 @@ public final class FriendStore {
 
       for (int var3 = this.friends.size() - 1; var3 >= 0; var3--) {
          PlayerMetadata var4 = this.friends.get(var3);
-         if (var4.kind == PlayerMetadata.TypeI.PLAYER) {
+         if (var4.kind == PlayerMetadata.PlayerKind.PLAYER) {
             var2.put(PlayerMetadata.key(var4.name), var4);
             if (var4.uuid != null) {
                var1.put(var4.uuid, var4);
             }
          } else {
-            for (PlayerMetadata.TypeS var6 : var4.accounts) {
+            for (PlayerMetadata.AccountRef var6 : var4.accounts) {
                var2.put(PlayerMetadata.key(var6.name()), var4);
                var1.put(var6.uuid(), var4);
             }
@@ -131,12 +130,12 @@ public final class FriendStore {
    public void found(PlayerMetadata var1, String var2, UUID var3) {
       var1.name = var2;
       var1.uuid = var3;
-      var1.lookup = PlayerMetadata.TypeE.FOUND;
+      var1.lookup = PlayerMetadata.LookupState.FOUND;
       this.changed();
    }
 
    public boolean renamed(PlayerMetadata var1, UUID var2, String var3) {
-      if (var1.kind == PlayerMetadata.TypeI.PLAYER) {
+      if (var1.kind == PlayerMetadata.PlayerKind.PLAYER) {
          if (var2.equals(var1.uuid) && !var1.name.equals(var3)) {
             var1.name = var3;
             this.changed();
@@ -146,9 +145,9 @@ public final class FriendStore {
          }
       } else {
          for (int var4 = 0; var4 < var1.accounts.size(); var4++) {
-            PlayerMetadata.TypeS var5 = var1.accounts.get(var4);
+            PlayerMetadata.AccountRef var5 = var1.accounts.get(var4);
             if (var5.uuid().equals(var2) && !var5.name().equals(var3)) {
-               var1.accounts.set(var4, new PlayerMetadata.TypeS(var2, var3));
+               var1.accounts.set(var4, new PlayerMetadata.AccountRef(var2, var3));
                this.changed();
                return true;
             }
@@ -158,22 +157,22 @@ public final class FriendStore {
       }
    }
 
-   public void accounts(PlayerMetadata var1, List<PlayerMetadata.TypeS> var2) {
+   public void accounts(PlayerMetadata var1, List<PlayerMetadata.AccountRef> var2) {
       var1.accounts.clear();
       var1.accounts.addAll(var2);
       var1.gone = false;
       this.changed();
    }
 
-   
+
    public PlayerMetadata merge(PlayerMetadata var1) {
-      if (var1.kind == PlayerMetadata.TypeI.PLAYER && var1.uuid != null) {
+      if (var1.kind == PlayerMetadata.PlayerKind.PLAYER && var1.uuid != null) {
          for (PlayerMetadata var3 : this.friends) {
-            if (var3 != var1 && var3.kind == PlayerMetadata.TypeI.PLAYER && var1.uuid.equals(var3.uuid)) {
+            if (var3 != var1 && var3.kind == PlayerMetadata.PlayerKind.PLAYER && var1.uuid.equals(var3.uuid)) {
                PlayerMetadata var4 = var3.added <= var1.added ? var3 : var1;
                PlayerMetadata var5 = var4 == var3 ? var1 : var3;
                var4.name = var1.name;
-               var4.lookup = PlayerMetadata.TypeE.FOUND;
+               var4.lookup = PlayerMetadata.LookupState.FOUND;
                var4.seen = Math.max(var4.seen, var5.seen);
                if (var4.place == null) {
                   var4.place = var5.place;

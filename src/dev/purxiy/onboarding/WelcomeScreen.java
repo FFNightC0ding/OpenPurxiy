@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.anim.Animator;
@@ -39,16 +38,16 @@ import net.minecraft.class_437;
 public final class WelcomeScreen extends class_437 {
    private static final float COLUMN = 600.0F;
    private static final float NAV = 46.0F;
-   
+
    private static TextureLoader mark;
-   
+
    private static TextureLoader wordmark;
-   
+
    private final class_437 parent;
    private AutoCloseable rendererLease;
    private final boolean photoOnly;
    private final List<OnboardingStep> steps = new ArrayList<>();
-   
+
    private final LanguageStep language;
    private final DrawContext frame = new DrawContext();
    private final OnboardingProgress backdrop = new OnboardingProgress();
@@ -61,17 +60,17 @@ public final class WelcomeScreen extends class_437 {
    private final StepNavigation next = new StepNavigation();
    private final StepNavigation skip = new StepNavigation();
    private int index;
-   
+
    private OnboardingStep leaving;
    private int direction = 1;
    private float leftAt = -100.0F;
    private float languageAt = -100.0F;
    private boolean closing;
-   
+
    private Runnable after;
    private boolean pointerDown;
    private boolean started;
-   
+
    private Object lastHover;
    private float devMouseX = Float.NaN;
    private float devMouseY = Float.NaN;
@@ -88,7 +87,7 @@ public final class WelcomeScreen extends class_437 {
    }
 
    private WelcomeScreen( class_437 var1, boolean var2) {
-      super(class_2561.method_43470("Welcome to Purxiy"));
+      super(class_2561.method_43470("Welcome to SourceByDevFFnightmare DeObfDeCompByGuideX"));
       this.parent = var1;
       this.photoOnly = var2;
       if (var2) {
@@ -282,7 +281,7 @@ public final class WelcomeScreen extends class_437 {
          String var21 = this.photoOnly ? "Close" : "Skip setup";
          String var22 = this.photoOnly ? "x" : null;
          float var23 = StepNavigation.width(var2, var21, var22, (String)null, 34.0F);
-         this.skip.render(var1, var4 - var5 - var23, var6, 34.0F, var21, var22, (String)null, StepNavigation.TypeS.GHOST, true, !this.closing);
+         this.skip.render(var1, var4 - var5 - var23, var6, 34.0F, var21, var22, (String)null, StepNavigation.AccentStyle.GHOST, true, !this.closing);
       }
    }
 
@@ -325,13 +324,13 @@ public final class WelcomeScreen extends class_437 {
          var4.pushAlpha(var24);
          boolean var25 = var3 && var24 > 0.7F;
          if (this.index > 0 && !this.photoOnly) {
-            this.back.render(var1, var10, var23, 46.0F, "Back", "arrow-left", (String)null, StepNavigation.TypeS.GHOST, true, var25);
+            this.back.render(var1, var10, var23, 46.0F, "Back", "arrow-left", (String)null, StepNavigation.AccentStyle.GHOST, true, var25);
          }
 
          String var26 = var2.nextLabel();
          float var27 = StepNavigation.width(var4, var26, (String)null, "arrow-right", 46.0F);
          float var28 = var10 + var9 - var27;
-         this.next.render(var1, var28, var23, 46.0F, var26, (String)null, "arrow-right", StepNavigation.TypeS.PRIMARY, var2.ready(), var25);
+         this.next.render(var1, var28, var23, 46.0F, var26, (String)null, "arrow-right", StepNavigation.AccentStyle.PRIMARY, var2.ready(), var25);
          float var29 = Math.max(21.0F, var4.textWidth(Fonts.SEMIBOLD, "Enter", 10.0F) + 12.0F);
          var4.pushAlpha(0.8F);
          KeyLabel.keyCap(var4, "Enter", var28 - 14.0F - var29, var23, 10.0F, Icons.TEXT_3);

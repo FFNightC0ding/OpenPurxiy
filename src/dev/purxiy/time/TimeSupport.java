@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.time;
 
 public final class TimeSupport {

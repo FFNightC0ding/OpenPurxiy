@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientSupport3;
+import dev.purxiy.loader.fabric.client.SkyPipelineRouter;
 import net.minecraft.class_2663;
 import net.minecraft.class_310;
 import net.minecraft.class_634;
@@ -28,7 +27,7 @@ public abstract class VisualDamagePacketMixin {
    private void purxiy$hitSplashDamage(class_8143 var1, CallbackInfo var2) {
       class_638 var3 = class_310.method_1551().field_1687;
       if (var3 != null) {
-         ClientSupport3.damage(var3.method_8469(var1.comp_1267()), var1.comp_1268(), var1.comp_1269(), var1.comp_1270(), var1.comp_1271());
+         SkyPipelineRouter.damage(var3.method_8469(var1.comp_1267()), var1.comp_1268(), var1.comp_1269(), var1.comp_1270(), var1.comp_1271());
       }
    }
 
@@ -43,7 +42,7 @@ public abstract class VisualDamagePacketMixin {
    private void purxiy$hitSplashEntityEvent(class_2663 var1, CallbackInfo var2) {
       class_638 var3 = class_310.method_1551().field_1687;
       if (var3 != null) {
-         ClientSupport3.entityEvent(var1.method_11469(var3), var1.method_11470());
+         SkyPipelineRouter.entityEvent(var1.method_11469(var3), var1.method_11470());
       }
    }
 }

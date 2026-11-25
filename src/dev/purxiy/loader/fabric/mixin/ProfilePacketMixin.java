@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRegistry20;
+import dev.purxiy.loader.fabric.client.WorldEventDispatcher;
 import net.minecraft.class_2663;
 import net.minecraft.class_310;
 import net.minecraft.class_5892;
@@ -29,7 +28,7 @@ public abstract class ProfilePacketMixin {
    private void purxiy$profileDamage(class_8143 var1, CallbackInfo var2) {
       class_638 var3 = class_310.method_1551().field_1687;
       if (var3 != null) {
-         ClientRegistry20.onDamage(var3.method_8469(var1.comp_1267()), var1.comp_1269());
+         WorldEventDispatcher.onDamage(var3.method_8469(var1.comp_1267()), var1.comp_1269());
       }
    }
 
@@ -44,7 +43,7 @@ public abstract class ProfilePacketMixin {
    private void purxiy$profileEntityEvent(class_2663 var1, CallbackInfo var2) {
       class_638 var3 = class_310.method_1551().field_1687;
       if (var3 != null) {
-         ClientRegistry20.onEntityEvent(var1.method_11469(var3), var1.method_11470());
+         WorldEventDispatcher.onEntityEvent(var1.method_11469(var3), var1.method_11470());
       }
    }
 
@@ -59,7 +58,7 @@ public abstract class ProfilePacketMixin {
    private void purxiy$profileDeath(class_5892 var1, CallbackInfo var2) {
       class_310 var3 = class_310.method_1551();
       if (var3.field_1724 != null && var1.comp_2275() == var3.field_1724.method_5628()) {
-         ClientRegistry20.onDeath();
+         WorldEventDispatcher.onDeath();
       }
    }
 
@@ -68,6 +67,6 @@ public abstract class ProfilePacketMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$profileChat(String var1, CallbackInfo var2) {
-      ClientRegistry20.onChat();
+      WorldEventDispatcher.onChat();
    }
 }

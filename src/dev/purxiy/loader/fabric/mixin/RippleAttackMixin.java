@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer3;
+import dev.purxiy.loader.fabric.client.ParticleRenderPass;
 import net.minecraft.class_1297;
 import net.minecraft.class_1657;
 import net.minecraft.class_636;
@@ -17,6 +16,6 @@ public abstract class RippleAttackMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$rippleAttack(class_1657 var1, class_1297 var2, CallbackInfo var3) {
-      ClientRenderer3.onAttack(var2);
+      ParticleRenderPass.onAttack(var2);
    }
 }

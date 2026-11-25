@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.widget;
 
 import dev.purxiy.anim.Animator;
@@ -81,7 +80,7 @@ public final class ColorPicker {
       Canvas var4 = var1.canvas;
       this.swatchX = var2 - 30.0F;
       this.swatchY = var3 - 15.0F;
-      boolean var5 = var1.hover(this, this.swatchX, this.swatchY, 30.0F, 30.0F, DrawContext.TypeE.HAND);
+      boolean var5 = var1.hover(this, this.swatchX, this.swatchY, 30.0F, 30.0F, DrawContext.Cursor.HAND);
       float var6 = this.hover.target(!var5 && !this.expanded ? 0.0F : 1.0F).update(MotionStyle.HOVER.dt(var1.dt));
       this.checker(var4, this.swatchX, this.swatchY, 30.0F, 30.0F, 9.0F);
       var4.roundRect(this.swatchX, this.swatchY, 30.0F, 30.0F, 9.0F, this.setting.argb());
@@ -131,7 +130,7 @@ public final class ColorPicker {
          for (int var16 = 0; var16 < PRESETS.length; var16++) {
             float var17 = this.presetX + var16 % 4 * 32.0F;
             float var13 = this.fieldY + 8.0F + var16 / 4 * 32.0F;
-            boolean var14 = var1.hover(PRESETS[var16], var17, var13, 22.0F, 22.0F, DrawContext.TypeE.HAND);
+            boolean var14 = var1.hover(PRESETS[var16], var17, var13, 22.0F, 22.0F, DrawContext.Cursor.HAND);
             var6.circle(var17 + 11.0F, var13 + 11.0F, 11.0F + (var14 ? 1.5F : 0.0F), PRESETS[var16]);
             if (!this.setting.following() && (this.setting.argb() | 0xFF000000) == PRESETS[var16]) {
                var6.ring(var17 + 11.0F, var13 + 11.0F, 14.5F, 1.5F, -419430401);
@@ -152,7 +151,7 @@ public final class ColorPicker {
       float var3 = 118.0F;
       float var4 = this.presetX;
       float var5 = this.chipY();
-      boolean var6 = var1.hover(this.chipKey, var4, var5, var3, 24.0F, DrawContext.TypeE.HAND);
+      boolean var6 = var1.hover(this.chipKey, var4, var5, var3, 24.0F, DrawContext.Cursor.HAND);
       float var7 = this.follow.target(this.setting.following() ? 1.0F : 0.0F).update(MotionStyle.TOGGLE.dt(var1.dt));
       float var8 = 12.0F;
       var2.roundRect(var4, var5, var3, 24.0F, var8, BlendMode.lerp(318767103, 520093695, var6 ? 1.0F : 0.0F));

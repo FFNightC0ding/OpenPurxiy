@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRenderer5;
+import dev.purxiy.loader.fabric.client.CameraStateReader;
 import net.minecraft.class_11659;
 import net.minecraft.class_4587;
 import net.minecraft.class_746;
@@ -22,7 +21,7 @@ public abstract class MountViewMixin {
       cancellable = true
    )
    private void purxiy$seatedView(class_4587 var1, float var2, CallbackInfo var3) {
-      if (ClientRenderer5.cockpit()) {
+      if (CameraStateReader.cockpit()) {
          var3.cancel();
       }
    }
@@ -35,7 +34,7 @@ public abstract class MountViewMixin {
       )}
    )
    private void purxiy$seatedHands(class_759 var1, float var2, class_4587 var3, class_11659 var4, class_746 var5, int var6, Operation<Void> var7) {
-      if (!ClientRenderer5.cockpit()) {
+      if (!CameraStateReader.cockpit()) {
          var7.call(new Object[]{var1, var2, var3, var4, var5, var6});
       }
    }

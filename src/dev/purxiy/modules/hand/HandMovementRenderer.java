@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hand;
 
 import com.mojang.blaze3d.vertex.VertexFormat.class_5596;
@@ -35,18 +34,15 @@ final class HandMovementRenderer {
    private boolean[] J = new boolean[1024];
    private int t;
    private final List<HandMovementRenderer.Data> L = new ArrayList<>();
-   
    private class_1268 n;
    private boolean x = true;
-   
    private class_12337 M;
-   
    private class_1268 C;
    private boolean O;
    private int W;
    private final Vector3f A = new Vector3f();
    private final Vector3f d = new Vector3f();
-   private final HandMovementRenderer.TypeV D = new HandMovementRenderer.TypeV();
+   private final HandMovementRenderer.SwingVertexConsumer D = new HandMovementRenderer.SwingVertexConsumer();
    private float[] P = new float[2048];
    private static final String a = "Sampler0";
    private static final long[] c = new long[]{
@@ -60,7 +56,6 @@ final class HandMovementRenderer {
       -1724515533746734323L
    };
 
-
    void reset() {
       this.t = 0;
       this.L.clear();
@@ -70,7 +65,7 @@ final class HandMovementRenderer {
       this.x = true;
    }
 
-   void hand( class_1268 var1) {
+   void hand(class_1268 var1) {
       long var2 = 54943582749441L;
       long var4 = var2 ^ 21360327084138L;
       this.U(var4);
@@ -140,7 +135,7 @@ final class HandMovementRenderer {
       }
    }
 
-   void part(class_630 var1, class_4587 var2, class_1921 var3,  class_1058 var4, int var5) {
+   void part(class_630 var1, class_4587 var2, class_1921 var3, class_1058 var4, int var5) {
       long var6 = 100641982567702L;
       long var8 = var6 ^ 137787743711626L;
       long var10 = var6 ^ 23990449944969L;
@@ -162,21 +157,16 @@ final class HandMovementRenderer {
    private static int a(int var0, long var1, int var3) {
       SwingStyle.ensureSourceClassInitialized();
       long var4 = 76690369041670L;
-      if (76690369041670L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var7 = var4 < 0L ? -1 : 1;
-      }
-
+      int var6 = var4 < 0L ? -1 : 1;
       return var0 == 0 ? var3 & 16777215 | -2147483648 : HandMovementFactory.multiply(0xFF000000 | var0, var3) | 0xFF000000;
    }
 
-   private void s(class_630 var1, class_4587 var2,  class_1058 var3, long var4, int var6) {
+   private void s(class_630 var1, class_4587 var2, class_1058 var3, long var4, int var6) {
       long var7 = var4 ^ 0L;
       long var9 = var4 ^ 11405534594697L;
       SwingStyle.ensureSourceClassInitialized();
       if (var1.field_3665) {
-         ModelPartAccessor var11 = (ModelPartAccessor)(Object)(var1);
+         ModelPartAccessor var11 = (ModelPartAccessor)(Object)var1;
          if (var4 > 0L) {
             var2.method_22903();
             var1.method_22703(var2);
@@ -274,18 +264,13 @@ final class HandMovementRenderer {
    private boolean F(class_1921 var1, long var2) {
       long var4 = 38027003874155L;
       SwingStyle.ensureSourceClassInitialized();
-      class_12337 var6 = ((RenderTypeAccessor)var1).purxiy$setup().method_75926().get("Sampler0");
+      class_12337 var6 = (class_12337)((RenderTypeAccessor)var1).purxiy$setup().method_75926().get("Sampler0");
       if (var6 == null) {
          return false;
       } else {
          if (this.M != null && this.C == this.n && this.O == this.x) {
             long var7 = 86145226632351L;
-            if (86145226632351L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var10 = var7 < 0L ? -1 : 1;
-            }
-
+            int var9 = var7 < 0L ? -1 : 1;
             if (this.M.comp_5226() == var6.comp_5226()) {
                return true;
             }
@@ -304,12 +289,7 @@ final class HandMovementRenderer {
       SwingStyle.ensureSourceClassInitialized();
       if (this.M != null && this.C != null) {
          long var3 = 38027003874154L;
-         if (38027003874154L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var6 = var3 < 0L ? -1 : 1;
-         }
-
+         int var5 = var3 < 0L ? -1 : 1;
          if (this.t > this.W) {
             this.L.add(new HandMovementRenderer.Data(this.C, this.M, this.W, this.t - this.W, this.O));
          }
@@ -387,12 +367,7 @@ final class HandMovementRenderer {
          SwingStyle.ensureSourceClassInitialized();
          int var3x = var1x;
          long var4x = 84836490714119L;
-         if (84836490714119L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var7x = var4x < 0L ? -1 : 1;
-         }
-
+         int var6x = var4x < 0L ? -1 : 1;
          return var0[var3x * 2] != var0[var2x * 2] ? Float.compare(var0[var1x * 2], var0[var2x * 2]) : Float.compare(var0[var1x * 2 + 1], var0[var2x * 2 + 1]);
       });
       int[] var9 = new int[var1 * 2];
@@ -458,7 +433,7 @@ final class HandMovementRenderer {
       return var3;
    }
 
-record Data(class_1268 j, class_12337 w, int K, int E, boolean v) {
+   record Data(class_1268 j, class_12337 w, int K, int E, boolean v) {
       public class_1268 hand() {
          return this.j;
       }
@@ -500,7 +475,7 @@ record Data(class_1268 j, class_12337 w, int K, int E, boolean v) {
       }
    }
 
-   private final class TypeV implements class_4588 {
+   private final class SwingVertexConsumer implements class_4588 {
       private boolean F;
       private float z;
       private float M;
@@ -514,7 +489,6 @@ record Data(class_1268 j, class_12337 w, int K, int E, boolean v) {
       private final Vector3f S = new Vector3f();
       private final Vector3f h = new Vector3f();
 
-      @Override
       public class_4588 method_22912(float var1, float var2, float var3) {
          this.flush();
          this.F = true;
@@ -527,36 +501,30 @@ record Data(class_1268 j, class_12337 w, int K, int E, boolean v) {
          return this;
       }
 
-      @Override
       public class_4588 method_1336(int var1, int var2, int var3, int var4) {
          this.k = var4 << 24 | var1 << 16 | var2 << 8 | var3;
          return this;
       }
 
-      @Override
       public class_4588 method_39415(int var1) {
          this.k = var1;
          return this;
       }
 
-      @Override
       public class_4588 method_22913(float var1, float var2) {
          this.s = var1;
          this.t = var2;
          return this;
       }
 
-      @Override
       public class_4588 method_60796(int var1, int var2) {
          return this;
       }
 
-      @Override
       public class_4588 method_22921(int var1, int var2) {
          return this;
       }
 
-      @Override
       public class_4588 method_22914(float var1, float var2, float var3) {
          this.c = var1;
          this.x = var2;
@@ -564,7 +532,6 @@ record Data(class_1268 j, class_12337 w, int K, int E, boolean v) {
          return this;
       }
 
-      @Override
       public class_4588 method_75298(float var1) {
          return this;
       }

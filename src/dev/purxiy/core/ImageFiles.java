@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.core;
 
 import dev.purxiy.i18n.Translations;
@@ -46,21 +45,21 @@ public final class ImageFiles {
    private static final long MAX_BYTES = 62914560L;
    private static final float MAX_ZOOM = 4.0F;
    private static final ExecutorService IO = Executors.newSingleThreadExecutor(var0 -> {
-      Thread var1 = new Thread(var0, "Purxiy Photo");
+      Thread var1 = new Thread(var0, "SourceByDevFFnightmare DeObfDeCompByGuideX Photo");
       var1.setDaemon(true);
       var1.setPriority(4);
       return var1;
    });
-   
+
    private static TextureLoader texture;
    private static int width = 1;
    private static int height = 1;
    private static float changedAt = -100.0F;
    private static long lastScan = 0L;
-   private static final AtomicReference<ImageFiles.TypeY> READY = new AtomicReference<>();
+   private static final AtomicReference<ImageFiles.ImageLoad> READY = new AtomicReference<>();
    private static volatile boolean scanning;
    private static volatile boolean reading;
-   
+
    private static volatile String problem;
    private static final Set<String> FAILED = ConcurrentHashMap.newKeySet();
    private static String handed = "";
@@ -79,7 +78,7 @@ public final class ImageFiles {
    }
 
    public static void update() {
-      ImageFiles.TypeY var0 = READY.getAndSet(null);
+      ImageFiles.ImageLoad var0 = READY.getAndSet(null);
       if (var0 != null) {
          apply(var0);
       }
@@ -102,7 +101,7 @@ public final class ImageFiles {
       return reading;
    }
 
-   
+
    public static String problem() {
       return problem;
    }
@@ -125,7 +124,7 @@ public final class ImageFiles {
       });
    }
 
-   private static void apply(ImageFiles.TypeY var0) {
+   private static void apply(ImageFiles.ImageLoad var0) {
       if (texture != null) {
          texture.close();
          texture = null;
@@ -145,18 +144,18 @@ public final class ImageFiles {
    }
 
    private static void scan() {
-      List var0 = list(folder());
+      List<ImageFiles.ImageRecord>var0 = list(folder());
       String var1 = IdentityPaths.photo;
-      ImageFiles.TypeM var2 = null;
-      ImageFiles.TypeM var3 = null;
+      ImageFiles.ImageRecord var2 = null;
+      ImageFiles.ImageRecord var3 = null;
 
-      for (ImageFiles.TypeM var5 : ((Iterable<ImageFiles.TypeM>)(Object)var0)) {
+      for (ImageFiles.ImageRecord var5 : ((Iterable<ImageFiles.ImageRecord>)(Object)var0)) {
          if (var5.key().equals(var1)) {
             var2 = var5;
          }
       }
 
-      for (ImageFiles.TypeM var10 : ((Iterable<ImageFiles.TypeM>)(Object)var0)) {
+      for (ImageFiles.ImageRecord var10 : ((Iterable<ImageFiles.ImageRecord>)(Object)var0)) {
          if (var10 != var2 && !FAILED.contains(var10.key()) && (var3 == null || var10.added() > var3.added())) {
             var3 = var10;
          }
@@ -167,9 +166,9 @@ public final class ImageFiles {
          if (var8 != null) {
             IdentityPaths.photo = var3.key();
             handed = var3.key();
-            hand(new ImageFiles.TypeY(var3.key(), var8, true));
+            hand(new ImageFiles.ImageLoad(var3.key(), var8, true));
 
-            for (ImageFiles.TypeM var6 : ((Iterable<ImageFiles.TypeM>)(Object)var0)) {
+            for (ImageFiles.ImageRecord var6 : ((Iterable<ImageFiles.ImageRecord>)(Object)var0)) {
                if (var6 != var3 && READABLE.contains(var6.extension())) {
                   moveToPrevious(var6.path());
                }
@@ -184,28 +183,28 @@ public final class ImageFiles {
          IdentityPaths.photo = "";
          if (!handed.isEmpty() || !scannedOnce) {
             handed = "";
-            hand(new ImageFiles.TypeY("", (class_1011)null, false));
+            hand(new ImageFiles.ImageLoad("", (class_1011)null, false));
          }
       } else if (!var2.key().equals(handed)) {
          class_1011 var9 = read(var2);
          if (var9 != null) {
             handed = var2.key();
-            hand(new ImageFiles.TypeY(var2.key(), var9, false));
+            hand(new ImageFiles.ImageLoad(var2.key(), var9, false));
          }
       }
 
       scannedOnce = true;
    }
 
-   private static void hand(ImageFiles.TypeY var0) {
-      ImageFiles.TypeY var1 = READY.getAndSet(var0);
+   private static void hand(ImageFiles.ImageLoad var0) {
+      ImageFiles.ImageLoad var1 = READY.getAndSet(var0);
       if (var1 != null && var1.image() != null) {
          var1.image().close();
       }
    }
 
-   
-   private static class_1011 read(ImageFiles.TypeM var0) {
+
+   private static class_1011 read(ImageFiles.ImageRecord var0) {
       if (!READABLE.contains(var0.extension())) {
          FAILED.add(var0.key());
          problem = "This kind of picture is not supported. Use a PNG or a JPG.";
@@ -222,7 +221,7 @@ public final class ImageFiles {
                return (class_1011)var1;
             }
 
-            VersionGate.TypeV var2 = VersionGate.decode(Files.readAllBytes(var0.path()), 640);
+            VersionGate.PixelImage var2 = VersionGate.decode(Files.readAllBytes(var0.path()), 640);
             class_1011 var12 = new class_1011(var2.width(), var2.height(), false);
             int[] var13 = var2.argb();
 
@@ -248,7 +247,7 @@ public final class ImageFiles {
       }
    }
 
-   private static List<ImageFiles.TypeM> list(Path var0) {
+   private static List<ImageFiles.ImageRecord> list(Path var0) {
       ArrayList var1 = new ArrayList();
       if (!Files.isDirectory(var0)) {
          return var1;
@@ -260,7 +259,7 @@ public final class ImageFiles {
                   try {
                      BasicFileAttributes var6 = Files.readAttributes(var4, BasicFileAttributes.class);
                      if (var6.isRegularFile() && var6.size() != 0L) {
-                        ImageFiles.TypeM var7 = new ImageFiles.TypeM(
+                        ImageFiles.ImageRecord var7 = new ImageFiles.ImageRecord(
                            var4,
                            var5,
                            var5 + "|" + var6.size() + "|" + var6.lastModifiedTime().toMillis(),
@@ -357,7 +356,7 @@ public final class ImageFiles {
 
    public static void remove() {
       String var0 = IdentityPaths.photo;
-      ImageFiles.TypeY var1 = READY.getAndSet(null);
+      ImageFiles.ImageLoad var1 = READY.getAndSet(null);
       if (var1 != null && var1.image() != null) {
          var1.image().close();
       }
@@ -370,7 +369,7 @@ public final class ImageFiles {
       changedAt = RenderPipelines.get().time();
       problem = null;
       IO.execute(() -> {
-         for (ImageFiles.TypeM var2 : list(folder())) {
+         for (ImageFiles.ImageRecord var2 : list(folder())) {
             if (var2.key().equals(var0)) {
                moveToPrevious(var2.path());
             }
@@ -441,7 +440,7 @@ public final class ImageFiles {
             return "";
          } else {
             try {
-               for (ImageFiles.TypeM var5 : list(folder())) {
+               for (ImageFiles.ImageRecord var5 : list(folder())) {
                   if (var5.key().equals(var0)) {
                      return croppedJpeg(var5, var1, var2, var3);
                   }
@@ -455,7 +454,7 @@ public final class ImageFiles {
       }, IO);
    }
 
-   private static String croppedJpeg(ImageFiles.TypeM var0, float var1, float var2, float var3) throws IOException {
+   private static String croppedJpeg(ImageFiles.ImageRecord var0, float var1, float var2, float var3) throws IOException {
       byte[] var5;
       try (InputStream var4 = Files.newInputStream(var0.path())) {
          var5 = var4.readNBytes(62914561);
@@ -464,7 +463,7 @@ public final class ImageFiles {
       if (var5.length > 62914560L) {
          return null;
       } else {
-         VersionGate.TypeV var6 = VersionGate.decode(var5, 640);
+         VersionGate.PixelImage var6 = VersionGate.decode(var5, 640);
          int var7 = var6.width();
          int var8 = var6.height();
          int var9 = Math.max(1, Math.round(Math.min(var7, var8) / Math.max(1.0F, var3)));
@@ -546,13 +545,13 @@ public final class ImageFiles {
       return var2 < var1 ? (var1 + var2) / 2.0F : (var0 < var1 ? var1 : Math.min(var0, var2));
    }
 
-   private record TypeM(Path path, String name, String key, long added) {
+   private record ImageRecord(Path path, String name, String key, long added) {
       String extension() {
          int var1 = this.name.lastIndexOf(46);
          return var1 < 0 ? "" : this.name.substring(var1 + 1).toLowerCase(Locale.ROOT);
       }
    }
 
-   private record TypeY(String key,  class_1011 image, boolean fresh) {
+   private record ImageLoad(String key,  class_1011 image, boolean fresh) {
    }
 }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.sky;
 
 import java.util.Arrays;
@@ -19,8 +18,6 @@ public enum SkyKind {
    final SkyCodec.Data j;
    public static boolean n;
 
-
-
    private SkyKind(String nullxx, int nullxxx, int nullxxxx, SkyCodec.Data nullxxxxx) {
       this.K = nullxx;
       this.Z = nullxxx;
@@ -32,7 +29,6 @@ public enum SkyKind {
       return Arrays.stream(values()).map(var0 -> var0.K).toArray(String[]::new);
    }
 
-public static void ensureSourceClassInitialized() {
+   public static void ensureSourceClassInitialized() {
    }
-
 }

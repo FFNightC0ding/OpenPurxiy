@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.ui.clickgui;
 
 import dev.purxiy.anim.Animator;
@@ -34,11 +33,11 @@ final class StudioPreview {
    private static final float EMPTY = 136.0F;
    private static final float TRASH = 30.0F;
    private static final float ARROW = 30.0F;
-   
+
    private final KeybindSetting setting;
-   
+
    private final ChoiceListSetting players;
-   private final List<StudioPreview.TypeS> lines = new ArrayList<>();
+   private final List<StudioPreview.PreviewState> lines = new ArrayList<>();
    private final Animator open = new Animator(0.0F, 300.0F, 30.0F);
    private final Animator scroll = Animator.smooth(0.0F);
    private final Animator closeHover = Animator.smooth(0.0F);
@@ -64,8 +63,8 @@ final class StudioPreview {
       this.setting = var1;
       this.players = null;
 
-      for (KeybindSetting.TypeC var3 : var1.get()) {
-         StudioPreview.TypeS var4 = new StudioPreview.TypeS(var3.from(), var3.to());
+      for (KeybindSetting.KeyCombo var3 : var1.get()) {
+         StudioPreview.PreviewState var4 = new StudioPreview.PreviewState(var3.from(), var3.to());
          var4.presence.snap(1.0F);
          this.lines.add(var4);
       }
@@ -78,7 +77,7 @@ final class StudioPreview {
       this.players = var1;
 
       for (String var3 : var1.names()) {
-         StudioPreview.TypeS var4 = new StudioPreview.TypeS(var3, "");
+         StudioPreview.PreviewState var4 = new StudioPreview.PreviewState(var3, "");
          var4.presence.snap(1.0F);
          this.lines.add(var4);
       }
@@ -115,7 +114,7 @@ final class StudioPreview {
             return StudioPreview.this.single() ? 16 : 64;
          }
 
-         
+
          @Override
          public String placeholder() {
             return var3;
@@ -132,7 +131,7 @@ final class StudioPreview {
       if (this.players != null) {
          ArrayList var1 = new ArrayList(this.lines.size());
 
-         for (StudioPreview.TypeS var3 : this.lines) {
+         for (StudioPreview.PreviewState var3 : this.lines) {
             var1.add(var3.from);
          }
 
@@ -140,8 +139,8 @@ final class StudioPreview {
       } else if (this.setting != null) {
          ArrayList var4 = new ArrayList(this.lines.size());
 
-         for (StudioPreview.TypeS var6 : this.lines) {
-            var4.add(new KeybindSetting.TypeC(var6.from, var6.to));
+         for (StudioPreview.PreviewState var6 : this.lines) {
+            var4.add(new KeybindSetting.KeyCombo(var6.from, var6.to));
          }
 
          this.setting.set(var4);
@@ -149,11 +148,11 @@ final class StudioPreview {
    }
 
    private void add() {
-      for (StudioPreview.TypeS var2 : this.lines) {
+      for (StudioPreview.PreviewState var2 : this.lines) {
          var2.blur();
       }
 
-      StudioPreview.TypeS var3 = new StudioPreview.TypeS("", "");
+      StudioPreview.PreviewState var3 = new StudioPreview.PreviewState("", "");
       this.lines.add(var3);
       var3.fromField.focus();
       this.scrollToEnd = true;
@@ -173,11 +172,11 @@ final class StudioPreview {
          this.closing = true;
          this.open.target(0.0F);
 
-         for (StudioPreview.TypeS var2 : this.lines) {
+         for (StudioPreview.PreviewState var2 : this.lines) {
             var2.blur();
          }
 
-         this.lines.removeIf(StudioPreview.TypeS::blank);
+         this.lines.removeIf(StudioPreview.PreviewState::blank);
          this.save();
          SoundRequest.play(SoundEvent.COLLAPSE);
       }
@@ -191,7 +190,7 @@ final class StudioPreview {
       float var6 = var2.height();
       float var7 = 0.0F;
 
-      for (StudioPreview.TypeS var9 : this.lines) {
+      for (StudioPreview.PreviewState var9 : this.lines) {
          var7 += 50.0F * var9.presence.target(1.0F).update(MotionStyle.PANEL.dt(var1.dt));
       }
 
@@ -249,7 +248,7 @@ final class StudioPreview {
 
       float var21 = this.listTop - var20;
 
-      for (StudioPreview.TypeS var23 : this.lines) {
+      for (StudioPreview.PreviewState var23 : this.lines) {
          float var24 = 50.0F * var23.presence.value();
          var23.y = var21;
          if (var21 + var24 > this.listTop - 4.0F && var21 < this.listBottom + 4.0F) {
@@ -303,8 +302,8 @@ final class StudioPreview {
       );
    }
 
-   private void trash(DrawContext var1, Canvas var2, StudioPreview.TypeS var3, float var4, float var5, boolean var6) {
-      boolean var7 = var6 && var1.hover(var3.trashKey, var4 - 15.0F, var5 - 15.0F, 30.0F, 30.0F, DrawContext.TypeE.HAND);
+   private void trash(DrawContext var1, Canvas var2, StudioPreview.PreviewState var3, float var4, float var5, boolean var6) {
+      boolean var7 = var6 && var1.hover(var3.trashKey, var4 - 15.0F, var5 - 15.0F, 30.0F, 30.0F, DrawContext.Cursor.HAND);
       float var8 = var3.trashHover.target(var7 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       if (var8 > 0.01F) {
          var2.circle(var4, var5, 15.0F, BlendMode.withAlpha(Icons.PINK, 0.14F * var8));
@@ -317,7 +316,7 @@ final class StudioPreview {
       float var4 = 30.0F;
       float var5 = this.px + this.pw - 20.0F - var4;
       float var6 = this.py + 20.0F;
-      boolean var7 = var3 && var1.hover(this.closeKey, var5, var6, var4, var4, DrawContext.TypeE.HAND);
+      boolean var7 = var3 && var1.hover(this.closeKey, var5, var6, var4, var4, DrawContext.Cursor.HAND);
       float var8 = this.closeHover.target(var7 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       var2.circle(var5 + var4 / 2.0F, var6 + var4 / 2.0F, var4 / 2.0F, BlendMode.withAlpha(-1, 0.05F + 0.08F * var8));
       var2.icon("x", var5 + var4 / 2.0F, var6 + var4 / 2.0F, 15.0F, BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var8));
@@ -332,7 +331,7 @@ final class StudioPreview {
       this.addW = var2.textWidth(Fonts.SEMIBOLD, var6, 12.5F) + 48.0F;
       this.addX = this.px + 28.0F;
       this.addY = var5 - this.addH / 2.0F;
-      boolean var7 = var3 && var1.hover(this.addKey, this.addX, this.addY, this.addW, this.addH, DrawContext.TypeE.HAND);
+      boolean var7 = var3 && var1.hover(this.addKey, this.addX, this.addY, this.addW, this.addH, DrawContext.Cursor.HAND);
       float var8 = this.addHover.target(var7 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
       var2.glow(this.addX, this.addY, this.addW, this.addH, this.addH / 2.0F, 18.0F, BlendMode.withAlpha(Icons.MAGENTA, 0.18F + 0.22F * var8));
       var2.roundRectGradient(this.addX, this.addY, this.addW, this.addH, this.addH / 2.0F, 135.0F, Icons.INDIGO, Icons.MAGENTA);
@@ -347,7 +346,7 @@ final class StudioPreview {
 
    void mouseDown(float var1, float var2, int var3) {
       if (!this.closing) {
-         for (StudioPreview.TypeS var5 : this.lines) {
+         for (StudioPreview.PreviewState var5 : this.lines) {
             if (!var5.fromField.contains(var1, var2)) {
                var5.fromField.blur();
             }
@@ -367,7 +366,7 @@ final class StudioPreview {
                this.add();
                SoundRequest.play(SoundEvent.CLICK);
             } else if (!(var2 < this.listTop) && !(var2 > this.listBottom)) {
-               for (StudioPreview.TypeS var8 : this.lines) {
+               for (StudioPreview.PreviewState var8 : this.lines) {
                   if (var8.fromField.mouseDown(var1, var2) || var8.toField != null && var8.toField.mouseDown(var1, var2)) {
                      return;
                   }
@@ -389,7 +388,7 @@ final class StudioPreview {
    }
 
    void mouseDrag(float var1, float var2) {
-      for (StudioPreview.TypeS var4 : this.lines) {
+      for (StudioPreview.PreviewState var4 : this.lines) {
          var4.fromField.mouseDrag(var1, var2);
          if (var4.toField != null) {
             var4.toField.mouseDrag(var1, var2);
@@ -398,7 +397,7 @@ final class StudioPreview {
    }
 
    void mouseUp() {
-      for (StudioPreview.TypeS var2 : this.lines) {
+      for (StudioPreview.PreviewState var2 : this.lines) {
          var2.fromField.mouseUp();
          if (var2.toField != null) {
             var2.toField.mouseUp();
@@ -411,7 +410,7 @@ final class StudioPreview {
    }
 
    void keyPressed(int var1) {
-      for (StudioPreview.TypeS var3 : this.lines) {
+      for (StudioPreview.PreviewState var3 : this.lines) {
          if (var3.fromField.focused()) {
             var3.fromField.keyPressed(var1);
             return;
@@ -435,25 +434,25 @@ final class StudioPreview {
    }
 
    void charTyped(int var1) {
-      for (StudioPreview.TypeS var3 : this.lines) {
+      for (StudioPreview.PreviewState var3 : this.lines) {
          if (var3.fromField.charTyped(var1) || var3.toField != null && var3.toField.charTyped(var1)) {
             return;
          }
       }
    }
 
-   private final class TypeS {
+   private final class PreviewState {
       String from;
       String to;
       final Slider fromField;
-      
+
       final Slider toField;
       final Animator presence = Animator.smooth(0.0F);
       final Animator trashHover = Animator.smooth(0.0F);
       final Object trashKey = new Object();
       float y;
 
-      TypeS(String nullx, String nullxx) {
+      PreviewState(String nullx, String nullxx) {
          this.from = nullx;
          this.to = nullxx;
          ChoiceListSetting var4 = StudioPreview.this.players;

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.render;
 
 import com.mojang.blaze3d.textures.GpuTextureView;
@@ -59,7 +58,7 @@ public final class Canvas {
       this.blurStrength = 1.0F;
    }
 
-   
+
    String unbalanced() {
       return this.alphaDepth == 0 && this.clipDepth == 0 ? null : "alpha depth " + this.alphaDepth + ", clip depth " + this.clipDepth;
    }

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.profile;
 
 import dev.purxiy.anim.Animator;
@@ -25,9 +24,9 @@ final class ProfileRenderer {
    private static final float OLD = 0.0F;
    private final Animator hoverAlpha = Animator.smooth(0.0F);
    private final Object mapKey = new Object();
-   private final List<ProfileRenderer.TypeT> pieces = new ArrayList<>();
-   
-   private ProfileCodec2 cached;
+   private final List<ProfileRenderer.ProfileBatch> pieces = new ArrayList<>();
+
+   private ProfileTrackCodec cached;
    private int cachedPoints = -1;
    private float cachedW;
    private float cachedH;
@@ -36,7 +35,7 @@ final class ProfileRenderer {
    private double centerX;
    private double centerZ;
    private float scale = 1.0F;
-   
+
    private String dimension;
    private float hoverX;
    private float hoverY;
@@ -45,21 +44,21 @@ final class ProfileRenderer {
    private static final String[] MODE_NAMES = new String[]{"On foot", "Sprinting", "Elytra", "Riding", "Swimming", "Flying"};
    private static final int[] MODE_COLORS = new int[]{-4611329, -6587393, -1733377, -34104, -8599041, -9610241};
 
-   void render(DrawContext var1, ProfileSupport6 var2, float var3, float var4, float var5, float var6, float var7, float var8, boolean var9) {
+   void render(DrawContext var1, ProfileSummary var2, float var3, float var4, float var5, float var6, float var7, float var8, boolean var9) {
       Canvas var10 = var1.canvas;
-      ProfileCodec2 var11 = ProfileSupport.journey();
+      ProfileTrackCodec var11 = ProfileSupport.journey();
       boolean var12 = ProfileSupport.journeyLive();
-      ProfileRenderer9.card(var10, var3, var4, var5, var6, 0.0F);
+      ProfileMetrics.card(var10, var3, var4, var5, var6, 0.0F);
       String var13;
       if (var11 == null) {
          var13 = "Your route, seen from above";
       } else {
          LocalDateTime var14 = LocalDateTime.ofInstant(Instant.ofEpochMilli(var11.start), ZoneId.systemDefault());
-         String var15 = var12 ? "This session" : "Last session, " + ProfileSupport2.date(var14.toLocalDate());
+         String var15 = var12 ? "This session" : "Last session, " + ProfileFormatters.date(var14.toLocalDate());
          var13 = var15 + (var11.place.isEmpty() ? "" : "  ·  " + var11.place);
       }
 
-      ProfileRenderer9.title(var10, "Journey", var13, var3, var4);
+      ProfileMetrics.title(var10, "Journey", var13, var3, var4);
       float var22 = var3 + 16.0F;
       float var23 = var4 + 58.0F;
       float var16 = var5 - 32.0F;
@@ -79,7 +78,7 @@ final class ProfileRenderer {
          var10.push();
          var10.translate(var22, var23);
 
-         for (ProfileRenderer.TypeT var20 : this.pieces) {
+         for (ProfileRenderer.ProfileBatch var20 : this.pieces) {
             int var21 = Math.max(2, Math.round(var20.n * var18));
             if (var20.n >= 2) {
                var21 = Math.min(var21, var20.n);
@@ -100,11 +99,11 @@ final class ProfileRenderer {
          this.footer(var10, var2, var11, var3, var4 + var6 - 30.0F, var5, var12);
       } else {
          this.empty(var10, var22, var23, var16, var17, var7);
-         this.footer(var10, var2, (ProfileCodec2)null, var3, var4 + var6 - 30.0F, var5, var12);
+         this.footer(var10, var2, (ProfileTrackCodec)null, var3, var4 + var6 - 30.0F, var5, var12);
       }
    }
 
-   private void layout(ProfileCodec2 var1, float var2, float var3, float var4) {
+   private void layout(ProfileTrackCodec var1, float var2, float var3, float var4) {
       boolean var5 = var1 == this.cached && var2 == this.cachedW && var3 == this.cachedH;
       if (!var5 || var1.points() != this.cachedPoints && (!(var4 - this.laidOutAt < 0.5F) || !(var4 >= this.laidOutAt))) {
          this.laidOutAt = var4;
@@ -120,7 +119,7 @@ final class ProfileRenderer {
          double var12 = -Double.MAX_VALUE;
          int var14 = 0;
 
-         for (ProfileCodec2.TypeY var16 : var1.segments) {
+         for (ProfileTrackCodec.TrackSeriesBuilder var16 : var1.segments) {
             if (var16.dimension.equals(this.dimension)) {
                for (int var17 = 0; var17 < var16.size(); var17++) {
                   var6 = Math.min(var6, (double)var16.xs.getFloat(var17));
@@ -142,7 +141,7 @@ final class ProfileRenderer {
             this.centerZ = (var10 + var12) / 2.0;
             int var20 = Math.max(1, var1.duration());
 
-            for (ProfileCodec2.TypeY var22 : var1.segments) {
+            for (ProfileTrackCodec.TrackSeriesBuilder var22 : var1.segments) {
                if (var22.dimension.equals(this.dimension) && var22.size() >= 2) {
                   int var23 = var22.size();
                   float[] var24 = new float[var23];
@@ -156,7 +155,7 @@ final class ProfileRenderer {
                   }
 
                   int var30 = ProfileCurve.simplify(var24, var25, var26, var23, 0.45F);
-                  this.pieces.add(new ProfileRenderer.TypeT(var24, var25, var26, var30));
+                  this.pieces.add(new ProfileRenderer.ProfileBatch(var24, var25, var26, var30));
                }
             }
          }
@@ -203,9 +202,9 @@ final class ProfileRenderer {
       return (float)(var1 - Math.floor(var1));
    }
 
-   private void marks(Canvas var1, ProfileCodec2 var2, float var3, float var4, float var5) {
+   private void marks(Canvas var1, ProfileTrackCodec var2, float var3, float var4, float var5) {
       if (!(var5 < 0.95F)) {
-         for (ProfileCodec2.TypeB var7 : var2.marks) {
+         for (ProfileTrackCodec.TrackSample var7 : var2.marks) {
             if (var7.dimension().equals(this.dimension)) {
                float var8 = var3 + this.mapX(var7.x(), this.cachedW);
                float var9 = var4 + this.mapY(var7.z(), this.cachedH);
@@ -220,11 +219,11 @@ final class ProfileRenderer {
       }
    }
 
-   private void ends(Canvas var1, ProfileCodec2 var2, float var3, float var4, boolean var5, float var6, float var7) {
-      ProfileCodec2.TypeY var8 = null;
-      ProfileCodec2.TypeY var9 = null;
+   private void ends(Canvas var1, ProfileTrackCodec var2, float var3, float var4, boolean var5, float var6, float var7) {
+      ProfileTrackCodec.TrackSeriesBuilder var8 = null;
+      ProfileTrackCodec.TrackSeriesBuilder var9 = null;
 
-      for (ProfileCodec2.TypeY var11 : var2.segments) {
+      for (ProfileTrackCodec.TrackSeriesBuilder var11 : var2.segments) {
          if (var11.dimension.equals(this.dimension) && var11.size() > 0) {
             if (var8 == null) {
                var8 = var11;
@@ -317,13 +316,13 @@ final class ProfileRenderer {
       var1.text(Fonts.MEDIUM, var2, var4 - 10.0F, var5, 10.5F, Icons.TEXT_2, FontStyle.RIGHT, FontWeight.MIDDLE);
    }
 
-   private void footer(Canvas var1, ProfileSupport6 var2,  ProfileCodec2 var3, float var4, float var5, float var6, boolean var7) {
+   private void footer(Canvas var1, ProfileSummary var2,  ProfileTrackCodec var3, float var4, float var5, float var6, boolean var7) {
       ProfileLoader var8 = null;
       if (var3 != null) {
          if (var7 && var2.live != null) {
             var8 = var2.live.totals;
          } else {
-            for (ProfileLoader2.TypeW var10 : var2.data.sessions) {
+            for (ProfileDay.DayCache var10 : var2.data.sessions) {
                if (var10.start == var3.start) {
                   var8 = var10.totals;
                }
@@ -333,11 +332,11 @@ final class ProfileRenderer {
 
       float var15 = var4 + 20.0F;
       double var18 = var3 == null ? 0.0 : var3.length();
-      var15 = this.stat(var1, "route", ProfileSupport2.distance(var8 != null ? var8.distance() : var18), var15, var5);
-      var15 = this.stat(var1, "clock", ProfileSupport2.duration(var8 != null ? var8.play : (var3 == null ? 0.0 : var3.duration())), var15, var5);
+      var15 = this.stat(var1, "route", ProfileFormatters.distance(var8 != null ? var8.distance() : var18), var15, var5);
+      var15 = this.stat(var1, "clock", ProfileFormatters.duration(var8 != null ? var8.play : (var3 == null ? 0.0 : var3.duration())), var15, var5);
       int var12 = 0;
       if (var3 != null) {
-         for (ProfileCodec2.TypeB var14 : var3.marks) {
+         for (ProfileTrackCodec.TrackSample var14 : var3.marks) {
             if ("death".equals(var14.type())) {
                var12++;
             }
@@ -387,13 +386,13 @@ final class ProfileRenderer {
       var1.popClip();
    }
 
-   private void hover(DrawContext var1, Canvas var2, ProfileCodec2 var3, float var4, float var5, float var6, float var7, boolean var8) {
-      boolean var9 = var8 && var1.hover(this.mapKey, var4, var5, var6, var7, DrawContext.TypeE.ARROW);
+   private void hover(DrawContext var1, Canvas var2, ProfileTrackCodec var3, float var4, float var5, float var6, float var7, boolean var8) {
+      boolean var9 = var8 && var1.hover(this.mapKey, var4, var5, var6, var7, DrawContext.Cursor.ARROW);
       if (var9) {
          float var10 = 196.0F;
          this.hoverFound = false;
 
-         for (ProfileCodec2.TypeY var12 : var3.segments) {
+         for (ProfileTrackCodec.TrackSeriesBuilder var12 : var3.segments) {
             if (var12.dimension.equals(this.dimension)) {
                for (int var13 = 0; var13 < var12.size(); var13++) {
                   float var14 = var4 + this.mapX(var12.xs.getFloat(var13), var6);
@@ -419,8 +418,8 @@ final class ProfileRenderer {
          var2.popAlpha();
          LocalDateTime var18 = LocalDateTime.ofInstant(Instant.ofEpochMilli(var3.start + (long)this.hoverTime * 1000L), ZoneId.systemDefault());
          String var19 = String.format(Locale.ROOT, "%02d:%02d", var18.getHour(), var18.getMinute());
-         ProfileRenderer9.tooltip(
-            var2, this.hoverX, this.hoverY - 4.0F, "You were here at " + var19, ProfileSupport2.duration(this.hoverTime) + " into the session", var17
+         ProfileMetrics.tooltip(
+            var2, this.hoverX, this.hoverY - 4.0F, "You were here at " + var19, ProfileFormatters.duration(this.hoverTime) + " into the session", var17
          );
       }
    }
@@ -466,13 +465,13 @@ final class ProfileRenderer {
       };
    }
 
-   private static final class TypeT {
+   private static final class ProfileBatch {
       final float[] x;
       final float[] y;
       final float[] t;
       final int n;
 
-      TypeT(float[] var1, float[] var2, float[] var3, int var4) {
+      ProfileBatch(float[] var1, float[] var2, float[] var3, int var4) {
          this.x = var1;
          this.y = var2;
          this.t = var3;

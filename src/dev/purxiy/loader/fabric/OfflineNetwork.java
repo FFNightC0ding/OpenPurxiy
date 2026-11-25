@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric;
 
 import java.io.IOException;
@@ -18,11 +17,11 @@ public final class OfflineNetwork {
          PrintStream var2 = System.out;
          String var3 = var0.method();
          var2.println(
-            "[Purxiy Offline Network] Blocked " + var3 + " to " + var1.getScheme() + "://" + var1.getHost() + (var1.getPort() < 0 ? "" : ":" + var1.getPort())
+            "[SourceByDevFFnightmare DeObfDeCompByGuideX/Offline Network] Blocked " + var3 + " to " + var1.getScheme() + "://" + var1.getHost() + (var1.getPort() < 0 ? "" : ":" + var1.getPort())
          );
       }
 
-      return new IOException("Network disabled in Purxiy Offline");
+      return new IOException("Network disabled in SourceByDevFFnightmare DeObfDeCompByGuideX/Offline");
    }
 
    public static <T> HttpResponse<T> send(HttpClient var0, HttpRequest var1, BodyHandler<T> var2) throws IOException {

@@ -1,13 +1,11 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.ripple;
-
-import net.minecraft.class_1309;
 
 import dev.purxiy.loader.fabric.ModuleDescriptor;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.class_1109;
+import net.minecraft.class_1309;
 import net.minecraft.class_243;
 import net.minecraft.class_310;
 import net.minecraft.class_3414;
@@ -18,17 +16,14 @@ import net.minecraft.class_746;
 
 final class RippleFactory {
    private static final class_5819 r = class_5819.method_43047();
-   private final Supplier<List<RippleFactory.Data2>> g;
+   private final Supplier<List<RippleFactory.CosmeticEntry>> g;
    private final Supplier<Float> T;
    final List<RippleFactory.Data> b;
-   
    private final Consumer<class_746> m;
    private final Supplier<String> W;
 
-
-
    private RippleFactory(
-      Supplier<List<RippleFactory.Data2>> var1, Supplier<Float> var2, List<RippleFactory.Data> var3,  Consumer<class_746> var4, Supplier<String> var5
+      Supplier<List<RippleFactory.CosmeticEntry>> var1, Supplier<Float> var2, List<RippleFactory.Data> var3, Consumer<class_746> var4, Supplier<String> var5
    ) {
       this.g = var1;
       this.T = var2;
@@ -37,7 +32,7 @@ final class RippleFactory {
       this.W = var5;
    }
 
-   List<RippleFactory.Data2> timeline() {
+   List<RippleFactory.CosmeticEntry> timeline() {
       return this.g.get();
    }
 
@@ -45,7 +40,6 @@ final class RippleFactory {
       return this.T.get();
    }
 
-   
    String note() {
       return this.W.get();
    }
@@ -101,23 +95,23 @@ final class RippleFactory {
 
    private static RippleFactory g(long var0) {
       Consumer var2 = var0x -> {
-         hit((class_746)(var0x), false);
-         RippleRenderer2.previewHit((class_1309)(Object)var0x, from((class_746)(var0x)), false);
+         hit((class_746)var0x, false);
+         RippleRenderPass.previewHit((class_1309)var0x, from((class_746)var0x), false);
       };
       Consumer var3 = var0x -> {
-         hit((class_746)(var0x), true);
-         RippleRenderer2.previewHit((class_1309)(Object)var0x, from((class_746)(var0x)), true);
+         hit((class_746)var0x, true);
+         RippleRenderPass.previewHit((class_1309)var0x, from((class_746)var0x), true);
       };
       Consumer var4 = var0x -> {
-         hit((class_746)(var0x), true);
-         RippleRenderer2.previewHit((class_1309)(Object)var0x, from((class_746)(var0x)), false);
-         RippleRenderer2.previewKill((class_1309)(var0x));
+         hit((class_746)var0x, true);
+         RippleRenderPass.previewHit((class_1309)var0x, from((class_746)var0x), false);
+         RippleRenderPass.previewKill((class_1309)var0x);
       };
       List var5 = List.of(
-         new RippleFactory.Data2(0.0F, "Hit", var2),
-         new RippleFactory.Data2(0.85F, "Hit", var2),
-         new RippleFactory.Data2(1.7F, "Critical", var3),
-         new RippleFactory.Data2(2.75F, "Kill", var4)
+         new RippleFactory.CosmeticEntry(0.0F, "Hit", var2),
+         new RippleFactory.CosmeticEntry(0.85F, "Hit", var2),
+         new RippleFactory.CosmeticEntry(1.7F, "Critical", var3),
+         new RippleFactory.CosmeticEntry(2.75F, "Kill", var4)
       );
       List var6 = List.of(
          new RippleFactory.Data("Hit", "swords", var2), new RippleFactory.Data("Critical", "sparkle", var3), new RippleFactory.Data("Kill", "skull", var4)
@@ -156,7 +150,7 @@ final class RippleFactory {
       return g(var3);
    }
 
-record Data(String p, String N, Consumer<class_746> t) {
+   record Data(String p, String N, Consumer<class_746> t) {
       public String label() {
          return this.p;
       }
@@ -182,7 +176,7 @@ record Data(String p, String N, Consumer<class_746> t) {
       }
    }
 
-   record Data2(float l, String r, Consumer<class_746> s) {
+   record CosmeticEntry(float l, String r, Consumer<class_746> s) {
       public float at() {
          return this.l;
       }

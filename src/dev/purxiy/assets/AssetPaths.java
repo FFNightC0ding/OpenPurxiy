@@ -1,8 +1,7 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.assets;
 
 import dev.purxiy.loader.fabric.ClientServices;
-import dev.purxiy.loader.fabric.client.ClientRegistry24;
+import dev.purxiy.loader.fabric.client.ResourceProvider;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -18,7 +17,7 @@ public final class AssetPaths {
       if (var0.startsWith("assets/purxiy/") && !var0.contains("..") && !var0.contains("\\")) {
          String var1 = var0.substring("assets/purxiy/".length());
          if (var1.matches("[a-z0-9_./-]+")) {
-            Optional var2 = ClientRegistry24.resource(ClientServices.id(var1));
+            Optional var2 = ResourceProvider.resource(ClientServices.id(var1));
             if (var2.isPresent()) {
                return ((class_3298)var2.get()).method_14482();
             }

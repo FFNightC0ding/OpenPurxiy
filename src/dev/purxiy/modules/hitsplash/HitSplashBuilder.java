@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.hitsplash;
 
 import java.util.ArrayList;
@@ -47,10 +46,10 @@ final class HitSplashBuilder {
 
       for (int var11 = 0; var11 < 8; var11++) {
          boolean var12 = var11 < 4;
-         HitSplashBuilder.TypeJ var13 = var12
-            ? I(var2, new HitSplashBuilder.TypeC(11 + var11))
-            : l(var8, new HitSplashBuilder.TypeC(101 + var11 - 4), H[var11 - 4]);
-         v(var13, new HitSplashBuilder.TypeC(977 + var11), var10, var4, var11 % 4 * 256, var11 / 4 * 256);
+         HitSplashBuilder.SplashQuad var13 = var12
+            ? I(var2, new HitSplashBuilder.SplashBatch(11 + var11))
+            : l(var8, new HitSplashBuilder.SplashBatch(101 + var11 - 4), H[var11 - 4]);
+         v(var13, new HitSplashBuilder.SplashBatch(977 + var11), var10, var4, var11 % 4 * 256, var11 / 4 * 256);
       }
 
       byte[][] var14 = new byte[5][];
@@ -67,13 +66,13 @@ final class HitSplashBuilder {
       long var4 = 6056300715261L;
       long var6 = var4 ^ 63142191471207L;
       long var8 = var4 ^ 21943474391534L;
-      HitSplashBuilder.TypeJ var10 = var0 ? I(var6, new HitSplashBuilder.TypeC(11 + var1)) : l(var8, new HitSplashBuilder.TypeC(101 + var1), H[var1]);
+      HitSplashBuilder.SplashQuad var10 = var0 ? I(var6, new HitSplashBuilder.SplashBatch(11 + var1)) : l(var8, new HitSplashBuilder.SplashBatch(101 + var1), H[var1]);
       return var10.distance(var2, var3);
    }
 
-   private static void v(HitSplashBuilder.TypeJ var0, HitSplashBuilder.TypeC var1, byte[] var2, long var3, int var5, int var6) {
+   private static void v(HitSplashBuilder.SplashQuad var0, HitSplashBuilder.SplashBatch var1, byte[] var2, long var3, int var5, int var6) {
       long var7 = 65667792495006L;
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       float[] var9 = b(var1, var7, 6);
 
       for (int var10 = 0; var10 < 256; var10++) {
@@ -84,12 +83,7 @@ final class HitSplashBuilder {
             float var14 = var0.distance(var13, var11) * 54.0F;
             int var15 = ((var6 + var10) * 1024 + var5 + var12) * 4;
             long var16 = 83300026549713L;
-            if (83300026549713L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var20 = var16 < 0L ? -1 : 1;
-            }
-
+            int var18 = var16 < 0L ? -1 : 1;
             var2[var15] = i(var14, 12.0F);
             var2[var15 + 1] = i(var14, 64.0F);
             var2[var15 + 2] = (byte)Math.round(var9[var10 * 256 + var12] * 255.0F);
@@ -97,11 +91,7 @@ final class HitSplashBuilder {
          }
 
          long var19 = 83300026549713L;
-         if (83300026549713L == 0L) {
-            boolean var21 = false;
-         } else {
-            int var22 = var19 < 0L ? -1 : 1;
-         }
+         int var20 = var19 < 0L ? -1 : 1;
       }
    }
 
@@ -111,7 +101,7 @@ final class HitSplashBuilder {
    }
 
    private static byte[] s(byte[] var0, long var1, int var3, int var4) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       int var5 = var3 / 2;
       int var6 = var4 / 2;
       byte[] var7 = new byte[var5 * var6 * 4];
@@ -119,70 +109,43 @@ final class HitSplashBuilder {
       for (int var8 = 0; var8 < var6; var8++) {
          for (int var9 = 0; var9 < var5; var9++) {
             long var10 = 10430851201396L;
-            if (10430851201396L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var23 = var10 < 0L ? -1 : 1;
-            }
+            int var22 = var10 < 0L ? -1 : 1;
 
             for (int var13 = 0; var13 < 4; var13++) {
                byte var14 = var0[(2 * var8 * var3 + 2 * var9) * 4 + var13];
                long var15 = 10430851201396L;
-               if (10430851201396L == 0L) {
-                  boolean var24 = false;
-               } else {
-                  int var25 = var15 < 0L ? -1 : 1;
-               }
-
-               int var17 = var14 & 255;
+               int var17 = var15 < 0L ? -1 : 1;
+               var17 = var14 & 255;
                int var18 = var0[(2 * var8 * var3 + 2 * var9 + 1) * 4 + var13] & 255;
                int var19 = var0[((2 * var8 + 1) * var3 + 2 * var9) * 4 + var13] & 255;
                int var20 = var0[((2 * var8 + 1) * var3 + 2 * var9 + 1) * 4 + var13] & 255;
                var7[(var8 * var5 + var9) * 4 + var13] = (byte)((var17 + var18 + var19 + var20 + 2) / 4);
             }
 
-            long var22 = 10430851201397L;
-            if (10430851201397L == 0L) {
-               boolean var26 = false;
-            } else {
-               int var27 = var22 < 0L ? -1 : 1;
-            }
+            long var22x = 10430851201397L;
+            int var23 = var22x < 0L ? -1 : 1;
          }
 
          long var21 = 10430851201396L;
-         if (10430851201396L == 0L) {
-            boolean var28 = false;
-         } else {
-            int var29 = var21 < 0L ? -1 : 1;
-         }
+         int var11 = var21 < 0L ? -1 : 1;
       }
 
       return var7;
    }
 
-   private static float[] b(HitSplashBuilder.TypeC var0, long var1, int var3) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+   private static float[] b(HitSplashBuilder.SplashBatch var0, long var1, int var3) {
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       float[] var4 = new float[36];
 
       for (int var5 = 0; var5 < var4.length; var5++) {
          long var6 = 65667792495005L;
-         if (65667792495005L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var27 = var6 < 0L ? -1 : 1;
-         }
-
+         int var9 = var6 < 0L ? -1 : 1;
          var4[var5] = var0.next();
       }
 
       short var24 = 10984;
       long var25 = 65667792495006L;
-      if (65667792495006L == 0L) {
-         boolean var28 = false;
-      } else {
-         int var29 = var25 < 0L ? -1 : 1;
-      }
-
+      int var25x = var25 < 0L ? -1 : 1;
       float[] var9 = new float[65536];
 
       for (int var10 = 0; var10 < 256; var10++) {
@@ -192,15 +155,10 @@ final class HitSplashBuilder {
 
          for (int var14 = 0; var14 < 256; var14++) {
             long var15 = 65667792495005L;
-            if (65667792495005L == 0L) {
-               boolean var30 = false;
-            } else {
-               int var31 = var15 < 0L ? -1 : 1;
-            }
-
-            float var17 = var14 * 6 / 256.0F;
-            int var18 = (int)var17;
-            float var19 = j(var17 - var18);
+            int var17 = var15 < 0L ? -1 : 1;
+            float var17x = var14 * 6 / 256.0F;
+            int var18 = (int)var17x;
+            float var19 = j(var17x - var18);
             float var20 = var4[var12 % 6 * 6 + var18 % 6];
             float var21 = var4[var12 % 6 * 6 + (var18 + 1) % 6];
             float var22 = var4[(var12 + 1) % 6 * 6 + var18 % 6];
@@ -209,11 +167,7 @@ final class HitSplashBuilder {
          }
 
          long var26 = 65667792495005L;
-         if (65667792495005L == 0L) {
-            boolean var32 = false;
-         } else {
-            int var33 = var26 < 0L ? -1 : 1;
-         }
+         int var151 = var26 < 0L ? -1 : 1;
       }
 
       return var9;
@@ -223,42 +177,32 @@ final class HitSplashBuilder {
       return var0 * var0 * (3.0F - 2.0F * var0);
    }
 
-   private static float F(HitSplashBuilder.TypeC var0, float var1, float var2, char var3, char var4, int var5) {
-      HitSplashRenderer2.ensureSourceClassInitialized();
+   private static float F(HitSplashBuilder.SplashBatch var0, float var1, float var2, char var3, char var4, int var5) {
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       float var6 = var0.next();
       return var6 < var1 ? Math.clamp(var0.gauss() * var2, -2.4F, 2.4F) : var0.range((float) -Math.PI, (float) Math.PI);
    }
 
-   private static HitSplashBuilder.TypeJ I(long var0, HitSplashBuilder.TypeC var2) {
+   private static HitSplashBuilder.SplashQuad I(long var0, HitSplashBuilder.SplashBatch var2) {
       long var3 = 26100836513534L;
       byte var5 = 0;
       short var6 = 6077;
       int var7 = (int)(var3 << 32 >>> 32);
-      HitSplashRenderer2.ensureSourceClassInitialized();
-      HitSplashBuilder.TypeJ var8 = new HitSplashBuilder.TypeJ();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
+      HitSplashBuilder.SplashQuad var8 = new HitSplashBuilder.SplashQuad();
       int var9 = (int)var2.range(6.0F, 9.0F);
 
       for (int var10 = 0; var10 < var9; var10++) {
          long var11 = 66999212541594L;
-         if (66999212541594L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var50 = var11 < 0L ? -1 : 1;
-         }
-
+         int var36 = var11 < 0L ? -1 : 1;
          float var14 = var2.range((float) -Math.PI, (float) Math.PI);
          float var15 = var2.range(0.0F, 0.32F);
          var8.circle(var15 * A(var14) + 0.05F, var15 * g(var14), var2.range(0.26F, 0.42F), var10 == 0 ? -1.0F : 0.3F);
       }
 
       long var34 = 66999212541593L;
-      if (66999212541593L == 0L) {
-         boolean var51 = false;
-      } else {
-         int var52 = var34 < 0L ? -1 : 1;
-      }
-
-      int var13 = (int)var2.range(10.0F, 16.0F);
+      int var13 = var34 < 0L ? -1 : 1;
+      var13 = (int)var2.range(10.0F, 16.0F);
 
       for (int var35 = 0; var35 < var13; var35++) {
          float var37 = var2.range((float) -Math.PI, (float) Math.PI);
@@ -267,13 +211,8 @@ final class HitSplashBuilder {
       }
 
       long var36 = 66999212541593L;
-      if (66999212541593L == 0L) {
-         boolean var53 = false;
-      } else {
-         int var54 = var36 < 0L ? -1 : 1;
-      }
-
-      int var17 = (int)var2.range(9.0F, 14.0F);
+      int var17 = var36 < 0L ? -1 : 1;
+      var17 = (int)var2.range(9.0F, 14.0F);
 
       for (int var18 = 0; var18 < var17; var18++) {
          float var19 = F(var2, 0.7F, 0.8F, (char)var5, (char)var6, var7);
@@ -281,12 +220,7 @@ final class HitSplashBuilder {
          float var21 = g(var19);
          float var22 = 1.0F + 0.22F * var20;
          long var23 = 66999212541593L;
-         if (66999212541593L == 0L) {
-            boolean var55 = false;
-         } else {
-            int var56 = var23 < 0L ? -1 : 1;
-         }
-
+         int var23x = var23 < 0L ? -1 : 1;
          float var26 = var2.next();
          if (var26 < 0.4F) {
             float var27 = var2.range(0.95F, 1.4F) * var22;
@@ -297,20 +231,11 @@ final class HitSplashBuilder {
             float var31 = var27 + var30 * 0.5F;
             var8.circle(var31 * var20, var31 * var21, var30, var28 ? 0.0F : 0.05F);
             long var32 = 66999212541593L;
-            if (66999212541593L == 0L) {
-               boolean var57 = false;
-            } else {
-               int var58 = var32 < 0L ? -1 : 1;
-            }
+            int var31x = var32 < 0L ? -1 : 1;
          } else if (var26 < 0.75F) {
             float var43 = var2.range(0.58F, 0.82F) * var22;
             long var46 = 66999212541593L;
-            if (66999212541593L == 0L) {
-               boolean var59 = false;
-            } else {
-               int var60 = var46 < 0L ? -1 : 1;
-            }
-
+            int var54 = var46 < 0L ? -1 : 1;
             var8.capsule(0.3F * var20, 0.3F * var21, var43 * var20, var43 * var21, var2.range(0.13F, 0.18F), var2.range(0.07F, 0.1F), 0.18F);
          } else {
             float var44 = var2.range(0.8F, 1.15F) * var22;
@@ -320,13 +245,8 @@ final class HitSplashBuilder {
 
       float var38 = var2.range(14.0F, 24.0F);
       long var39 = 66999212541594L;
-      if (66999212541594L == 0L) {
-         boolean var61 = false;
-      } else {
-         int var62 = var39 < 0L ? -1 : 1;
-      }
-
-      int var40 = (int)var38;
+      int var40 = var39 < 0L ? -1 : 1;
+      var40 = (int)var38;
 
       for (int var41 = 0; var41 < var40; var41++) {
          float var24 = F(var2, 0.65F, 0.75F, (char)var5, (char)var6, var7);
@@ -337,12 +257,7 @@ final class HitSplashBuilder {
          if (var2.next() < 0.4F) {
             float var48 = var2.range(0.05F, 0.14F);
             long var49 = 66999212541594L;
-            if (66999212541594L == 0L) {
-               boolean var63 = false;
-            } else {
-               int var64 = var49 < 0L ? -1 : 1;
-            }
-
+            int var56 = var49 < 0L ? -1 : 1;
             var8.capsule((var25 - var48) * var45, (var25 - var48) * var47, var25 * var45, var25 * var47, var42 * 0.45F, var42, 0.0F);
          } else {
             var8.circle(var25 * var45, var25 * var47, var42, 0.0F);
@@ -352,16 +267,16 @@ final class HitSplashBuilder {
       return var8;
    }
 
-   private static HitSplashBuilder.TypeJ l(long var0, HitSplashBuilder.TypeC var2, float var3) {
+   private static HitSplashBuilder.SplashQuad l(long var0, HitSplashBuilder.SplashBatch var2, float var3) {
       long var4 = 26100836513534L;
       byte var6 = 0;
       short var7 = 6077;
       int var8 = (int)(var4 << 32 >>> 32);
-      HitSplashBuilder.TypeJ var9 = new HitSplashBuilder.TypeJ();
+      HitSplashBuilder.SplashQuad var9 = new HitSplashBuilder.SplashQuad();
       float var10 = 0.06F + 0.3F * var3;
       float var11 = var2.range(0.29F, 0.33F);
       float var12 = var11 * (0.86F - 0.14F * var3);
-      HitSplashRenderer2.ensureSourceClassInitialized();
+      HitSplashStudioScreen.ensureSourceClassInitialized();
       var9.capsule(-var10, 0.0F, var10, var2.range(-0.03F, 0.03F), var11, var12, -1.0F);
       float var13 = var10 + var11 * 0.95F;
       float var14 = var11 * 0.95F;
@@ -370,53 +285,28 @@ final class HitSplashBuilder {
       for (int var16 = 0; var16 < var15; var16++) {
          float var17 = var2.range((float) -Math.PI, (float) Math.PI);
          long var18 = 24700547241235L;
-         if (24700547241235L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var58 = var18 < 0L ? -1 : 1;
-         }
-
+         int var43 = var18 < 0L ? -1 : 1;
          float var21 = A(var13, var14, var17) * 0.92F;
          var9.circle(var21 * A(var17), var21 * g(var17), var2.range(0.04F, 0.075F), 0.06F);
       }
 
       long var40 = 24700547241235L;
-      if (24700547241235L == 0L) {
-         boolean var59 = false;
-      } else {
-         int var60 = var40 < 0L ? -1 : 1;
-      }
-
-      int var19 = (int)var2.range(5.0F, 9.0F);
+      int var19 = var40 < 0L ? -1 : 1;
+      var19 = (int)var2.range(5.0F, 9.0F);
 
       for (int var20 = 0; var20 < var19; var20++) {
          long var42 = 24700547241234L;
-         if (24700547241234L == 0L) {
-            boolean var61 = false;
-         } else {
-            int var62 = var42 < 0L ? -1 : 1;
-         }
-
+         int var44 = var42 < 0L ? -1 : 1;
          float var24 = var3 > 0.4F ? F(var2, 0.75F, 0.95F, (char)var6, (char)var7, var8) : var2.range((float) -Math.PI, (float) Math.PI);
          float var25 = A(var24);
          float var26 = g(var24);
          float var27 = A(var13, var14, var24);
          float var28 = var27 + var2.range(0.05F, 0.18F) * (1.0F + 0.8F * var3 * Math.max(var25, 0.0F));
          long var29 = 24700547241235L;
-         if (24700547241235L == 0L) {
-            boolean var63 = false;
-         } else {
-            int var64 = var29 < 0L ? -1 : 1;
-         }
-
+         int var29x = var29 < 0L ? -1 : 1;
          var9.capsule(var27 * 0.75F * var25, var27 * 0.75F * var26, var28 * var25, var28 * var26, var2.range(0.055F, 0.08F), var2.range(0.014F, 0.022F), 0.1F);
          long var32 = 24700547241234L;
-         if (24700547241234L == 0L) {
-            boolean var65 = false;
-         } else {
-            int var66 = var32 < 0L ? -1 : 1;
-         }
-
+         int var56 = var32 < 0L ? -1 : 1;
          if (var2.next() < 0.35F) {
             float var35 = var2.range(0.02F, 0.034F);
             float var36 = var28 + var35 * 0.5F;
@@ -426,41 +316,21 @@ final class HitSplashBuilder {
 
       float var41 = var2.range(3.0F, 7.0F);
       long var43 = 24700547241234L;
-      if (24700547241234L == 0L) {
-         boolean var67 = false;
-      } else {
-         int var68 = var43 < 0L ? -1 : 1;
-      }
-
-      int var44 = (int)var41;
+      int var44 = var43 < 0L ? -1 : 1;
+      var44 = (int)var41;
 
       for (int var45 = 0; var45 < var44; var45++) {
          long var47 = 24700547241234L;
-         if (24700547241234L == 0L) {
-            boolean var69 = false;
-         } else {
-            int var70 = var47 < 0L ? -1 : 1;
-         }
-
+         int var51 = var47 < 0L ? -1 : 1;
          float var49 = var3 > 0.4F ? F(var2, 0.7F, 0.9F, (char)var6, (char)var7, var8) : var2.range((float) -Math.PI, (float) Math.PI);
          float var30 = A(var13, var14, var49) + var2.range(0.1F, 0.32F);
          var9.circle(var30 * A(var49), var30 * g(var49), var2.range(0.016F, 0.034F), 0.0F);
       }
 
       long var46 = 24700547241234L;
-      if (24700547241234L == 0L) {
-         boolean var71 = false;
-      } else {
-         int var72 = var46 < 0L ? -1 : 1;
-      }
-
+      int var491 = var46 < 0L ? -1 : 1;
       long var48 = 24700547241234L;
-      if (24700547241234L == 0L) {
-         boolean var73 = false;
-      } else {
-         int var74 = var48 < 0L ? -1 : 1;
-      }
-
+      int var50 = var48 < 0L ? -1 : 1;
       if (var3 > 0.3F) {
          float var31 = var13 + var2.range(0.1F, 0.18F);
          float var51 = var2.range(-0.04F, 0.04F);
@@ -470,25 +340,20 @@ final class HitSplashBuilder {
 
          for (int var57 = 0; var57 < var56; var57++) {
             long var37 = 24700547241234L;
-            if (24700547241234L == 0L) {
-               boolean var75 = false;
-            } else {
-               int var76 = var37 < 0L ? -1 : 1;
-            }
-
+            int var39 = var37 < 0L ? -1 : 1;
             if (var57 == 0 && var2.next() < 0.5F) {
                var9.capsule(var13 - 0.05F, 0.0F, var31, var51, 0.035F, var33 * 0.6F, 0.04F);
             }
 
             var9.circle(var31, var51, var33, 0.0F);
-            float var39 = var2.range(0.18F, 0.3F);
-            var31 += var39;
-            var51 += var39 * var34 + var2.range(-0.03F, 0.03F);
+            float var39x = var2.range(0.18F, 0.3F);
+            var31 += var39x;
+            var51 += var39x * var34 + var2.range(-0.03F, 0.03F);
             var33 *= var2.range(0.6F, 0.78F);
          }
       }
 
-      int var50 = (int)var2.range(3.0F, 8.0F);
+      var50 = (int)var2.range(3.0F, 8.0F);
 
       for (int var52 = 0; var52 < var50; var52++) {
          float var54 = var3 > 0.4F ? var2.range(-1.5F, 1.5F) : var2.range((float) -Math.PI, (float) Math.PI);
@@ -497,12 +362,7 @@ final class HitSplashBuilder {
       }
 
       long var53 = 24700547241234L;
-      if (24700547241234L == 0L) {
-         boolean var77 = false;
-      } else {
-         int var78 = var53 < 0L ? -1 : 1;
-      }
-
+      int var63 = var53 < 0L ? -1 : 1;
       return var9;
    }
 
@@ -549,14 +409,14 @@ final class HitSplashBuilder {
       }
    }
 
-static final class TypeC {
+   static final class SplashBatch {
       private long a;
       private static final long[] b = new long[]{-8143262748555922732L, -5337042276857166612L, -5588622281435443083L};
       private static final Integer[] c = new Integer[3];
       private static final long[] d = new long[]{-3016848585277012197L, -8562259080230022144L};
       private static final Long[] e = new Long[2];
 
-      TypeC(long var1) {
+      SplashBatch(long var1) {
          long var3 = 39657276047853L;
          long var5 = var3 ^ 56525477069072L;
          int var7 = (int)((var3 ^ 56525477069072L) >>> 32);
@@ -591,7 +451,7 @@ static final class TypeC {
          return var3 ^ var3 >>> 31;
       }
 
-private static long b(int var0, long var1) {
+      private static long b(int var0, long var1) {
          int var3 = (var0 ^ (int)var1 ^ 18041) & 32767;
          if (e[var3] == null) {
             e[var3] = d[var3] ^ var1;
@@ -601,7 +461,7 @@ private static long b(int var0, long var1) {
       }
    }
 
-   private static final class TypeJ {
+   private static final class SplashQuad {
       private final List<float[]> y = new ArrayList<>();
 
       void circle(float var1, float var2, float var3, float var4) {

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.onboarding;
 
 import dev.purxiy.anim.Easing;
@@ -6,7 +5,7 @@ import dev.purxiy.anim.MotionStyle;
 import dev.purxiy.core.ImageFiles;
 import dev.purxiy.i18n.Translations;
 import dev.purxiy.modules.SettingSection;
-import dev.purxiy.profile.ProfileRenderer11;
+import dev.purxiy.profile.ProfilePanel;
 import dev.purxiy.render.BlendMode;
 import dev.purxiy.render.Canvas;
 import dev.purxiy.render.font.FontMetrics;
@@ -24,7 +23,7 @@ final class CompleteStep extends OnboardingStep {
    private static final float CARD_H = 168.0F;
    private static final int SPARKS = 30;
    private static final float TILT = -0.12F;
-   
+
    private static TextureLoader mark;
    private final StepNavigation play = new StepNavigation();
    private final StepNavigation open = new StepNavigation();
@@ -91,7 +90,7 @@ final class CompleteStep extends OnboardingStep {
       float var20 = var18 + 168.0F + 42.0F + (1.0F - var19) * 8.0F;
       String var21 = KeyLabel.keyName(EssentialsStep.menuKey());
       String var22 = Translations.shown("Press");
-      String var23 = Translations.shown("to open Purxiy any time");
+      String var23 = Translations.shown("to open SourceByDevFFnightmare DeObfDeCompByGuideX any time");
       Translations.pause();
       float var24 = var23.startsWith(",") ? 2.0F : 10.0F;
       float var25 = var6.textWidth(Fonts.MEDIUM, var22, 13.0F);
@@ -111,14 +110,14 @@ final class CompleteStep extends OnboardingStep {
       float var32 = 46.0F;
       boolean var33 = var5 && var30 > 0.7F;
       if (this.fromMenu) {
-         float var34 = StepNavigation.width(var6, "Back to Purxiy", (String)null, "arrow-right", var32);
-         this.open.render(var1, var10 - var34 / 2.0F, var31, var32, "Back to Purxiy", (String)null, "arrow-right", StepNavigation.TypeS.PRIMARY, true, var33);
+         float var34 = StepNavigation.width(var6, "Back to SourceByDevFFnightmare DeObfDeCompByGuideX", (String)null, "arrow-right", var32);
+         this.open.render(var1, var10 - var34 / 2.0F, var31, var32, "Back to SourceByDevFFnightmare DeObfDeCompByGuideX", (String)null, "arrow-right", StepNavigation.AccentStyle.PRIMARY, true, var33);
       } else {
          float var37 = StepNavigation.width(var6, "Start playing", "play", (String)null, var32);
-         float var35 = StepNavigation.width(var6, "Open Purxiy", (String)null, "arrow-right", var32);
+         float var35 = StepNavigation.width(var6, "Open SourceByDevFFnightmare DeObfDeCompByGuideX", (String)null, "arrow-right", var32);
          float var36 = var10 - (var37 + 12.0F + var35) / 2.0F;
-         this.play.render(var1, var36, var31, var32, "Start playing", "play", (String)null, StepNavigation.TypeS.GLASS, true, var33);
-         this.open.render(var1, var36 + var37 + 12.0F, var31, var32, "Open Purxiy", (String)null, "arrow-right", StepNavigation.TypeS.PRIMARY, true, var33);
+         this.play.render(var1, var36, var31, var32, "Start playing", "play", (String)null, StepNavigation.AccentStyle.GLASS, true, var33);
+         this.open.render(var1, var36 + var37 + 12.0F, var31, var32, "Open SourceByDevFFnightmare DeObfDeCompByGuideX", (String)null, "arrow-right", StepNavigation.AccentStyle.PRIMARY, true, var33);
       }
 
       var6.popAlpha();
@@ -130,7 +129,7 @@ final class CompleteStep extends OnboardingStep {
       float var6 = 15.0F;
       float var7 = var6 * mark.aspect();
       var1.logo(mark, var3 + 24.0F, var4 + 26.0F - var6 / 2.0F, var7, var6, BlendMode.withAlpha(-1, 0.85F));
-      var1.text(Fonts.SEMIBOLD, "PURXIY ID", var3 + 24.0F + var7 + 8.0F, var4 + 26.0F, 9.5F, Icons.TEXT_3, FontStyle.LEFT, FontWeight.MIDDLE, 0.12F);
+      var1.text(Fonts.SEMIBOLD, "SOURCEBYDEVFFNIGHTMARE DEOBFDECOMPBYGUIDEX ID", var3 + 24.0F + var7 + 8.0F, var4 + 26.0F, 9.5F, Icons.TEXT_3, FontStyle.LEFT, FontWeight.MIDDLE, 0.12F);
       float var8 = 92.0F;
       float var9 = var3 + 30.0F + var8 / 2.0F;
       float var10 = var4 + 84.0F + 12.0F;
@@ -162,7 +161,7 @@ final class CompleteStep extends OnboardingStep {
       Translations.resume();
       var1.text(
          Fonts.MEDIUM,
-         FontMetrics.ellipsize(Fonts.MEDIUM, ProfileRenderer11.orbitLine(), 12.0F, var15, 0.0F),
+         FontMetrics.ellipsize(Fonts.MEDIUM, ProfilePanel.orbitLine(), 12.0F, var15, 0.0F),
          var14,
          var10 + 16.0F,
          12.0F,

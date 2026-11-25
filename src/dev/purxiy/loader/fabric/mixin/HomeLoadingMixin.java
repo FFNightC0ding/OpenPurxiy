@@ -1,7 +1,6 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
-import dev.purxiy.loader.fabric.client.ClientRenderer2;
+import dev.purxiy.loader.fabric.client.ScreenOverridePass;
 import net.minecraft.class_156;
 import net.minecraft.class_310;
 import net.minecraft.class_332;
@@ -40,13 +39,13 @@ public abstract class HomeLoadingMixin {
       cancellable = true
    )
    private void purxiy$render(class_332 var1, int var2, int var3, float var4, CallbackInfo var5) {
-      if (ClientRenderer2.takesOver()) {
+      if (ScreenOverridePass.takesOver()) {
          if (this.field_18219 && this.field_18220 == -1L) {
             this.field_18220 = class_156.method_658();
          }
 
          this.field_17770 = class_3532.method_15363(this.field_17770 * 0.95F + this.field_17767.method_18229() * 0.050000012F, 0.0F, 1.0F);
-         if (ClientRenderer2.render((class_425)(Object)(Object)this, var1, var2, var3, var4, this.field_18219, this.field_17771, this.field_17770)) {
+         if (ScreenOverridePass.render((class_425)(Object)(Object)this, var1, var2, var3, var4, this.field_18219, this.field_17771, this.field_17770)) {
             this.field_18217.method_18502((class_4071)null);
          }
 

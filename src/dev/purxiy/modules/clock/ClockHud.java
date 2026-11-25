@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.clock;
 
 import dev.purxiy.config.BooleanSetting;
@@ -23,13 +22,10 @@ public final class ClockHud extends HudElementGroup {
    public static int T = 0;
    public static int e = 0;
 
-
-
    public ClockHud() {
       super("clock", "Clock", "Real-world time", "clock", 0.0, 0.0);
    }
 
-   @Override
    protected String value(HudBounds var1) {
       LocalDateTime var2 = LocalDateTime.now();
       boolean var3 = this.f.is("12h");
@@ -37,12 +33,10 @@ public final class ClockHud extends HudElementGroup {
       return var2.format(var4);
    }
 
-   @Override
    protected String sample() {
       return this.value(null);
    }
 
-   @Override
    protected String label(HudBounds var1) {
       LocalDateTime var2 = LocalDateTime.now();
       String var3 = this.f.is("12h") ? (var2.getHour() < 12 ? "AM" : "PM") : null;
@@ -53,5 +47,4 @@ public final class ClockHud extends HudElementGroup {
          return var3;
       }
    }
-
 }

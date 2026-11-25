@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.glass;
 
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
@@ -11,6 +10,7 @@ import dev.purxiy.loader.fabric.module.ModuleWidget;
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
+import net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState;
 import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
 import net.minecraft.class_10017;
 import net.minecraft.class_11659;
@@ -36,7 +36,7 @@ import org.joml.Vector4f;
 public final class GlassRegistry {
    static final int o = 64;
    private static final int B = 192;
-   private static final RenderStateDataKey<GlassRegistry.TypeU> A = RenderStateDataKey.create(ClientServices.label(() -> {
+   private static final RenderStateDataKey<GlassRegistry.GlassFrameState> A = RenderStateDataKey.create(ClientServices.label(() -> {
       int var0x = -857169936;
       int var1x = 857147069;
       int var2 = 857154476;
@@ -47,8 +47,8 @@ public final class GlassRegistry {
    private static final Set<class_630> m = Collections.newSetFromMap(new WeakHashMap<>());
    private static final float k = 0.32F;
    private static final float d = 0.07F;
-   private static final GlassSupport4 S = new GlassSupport4();
-   private static final GlassSupport4 W = new GlassSupport4();
+   private static final GlassCameraState S = new GlassCameraState();
+   private static final GlassCameraState W = new GlassCameraState();
    private static final float[] O = new float[512];
    private static final float[] I = new float[8];
    private static final float[] u = new float[6];
@@ -58,7 +58,6 @@ public final class GlassRegistry {
    private static boolean l;
    private static boolean Y;
    private static int G = 0;
-   
    private static class_638 x;
    private static long f = 0L;
    private static float y;
@@ -67,9 +66,7 @@ public final class GlassRegistry {
    private static double M;
    private static double L;
    private static double j;
-   
    private static GpuBufferSlice a;
-   
    private static GpuTextureView D;
    private static final float[] X = new float[]{1.0F, 1.0F, 1.0F};
    private static final float[] F = new float[3];
@@ -84,7 +81,6 @@ public final class GlassRegistry {
    private static boolean Z = true;
    static float w = -1.0F;
    private static boolean U;
-   
    private static String E;
    private static final Set<class_10017> s = Collections.newSetFromMap(new WeakHashMap<>());
    static GlassModule V;
@@ -92,10 +88,7 @@ public final class GlassRegistry {
    private static int g = 0;
    private static int Q = 0;
    public static int p = 0;
-
    private static final String[] n = new String[9];
-
-
 
    private GlassRegistry() {
    }
@@ -140,7 +133,7 @@ public final class GlassRegistry {
                var18.transformDirection(K.set(0.0F, 1.0F, 0.0F)).normalize();
                var18.transformDirection(H.set(0.0F, 0.0F, 1.0F)).normalize();
                K(var16, var8, var9, (char)var10);
-               GlassSupport4 var19 = S;
+               GlassCameraState var19 = S;
                var19.y = false;
                var19.E.identity();
                var19.k.set(var2).mul(var1);
@@ -153,17 +146,17 @@ public final class GlassRegistry {
                var19.r = O;
                Q(var15, var0, var11, var19);
                var19.look(X, q, T, i);
-            } catch (Throwable var20) {
+            } catch (Throwable var201) {
                metric("draw_failures");
                l = false;
-               fail(var20);
+               fail(var201);
             }
          }
       }
    }
 
    private static void K(GlassModule var0, int var1, int var2, char var3) {
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       int var4 = var0.o.argb();
       F[0] = (var4 >> 16 & 0xFF) / 255.0F;
       F[1] = (var4 >> 8 & 0xFF) / 255.0F;
@@ -180,72 +173,47 @@ public final class GlassRegistry {
       r = true;
    }
 
-   private static void Q(class_310 var0, class_4184 var1, long var2, GlassSupport4 var4) {
+   private static void Q(class_310 var0, class_4184 var1, long var2, GlassCameraState var4) {
       long var5 = 75813862906285L;
       float[] var7 = var4.e;
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       float[] var8 = var4.I;
       float[] var9 = var4.w;
       Vector3f var10 = var4.B;
       float var11 = var1.method_55437();
       class_638 var12 = var0.field_1687;
-      int var13 = var1.method_75756().method_75689(class_12206.field_63746, var11);
-      int var14 = var1.method_75756().method_75689(class_12206.field_63742, var11);
+      int var13 = (Integer)var1.method_75756().method_75689(class_12206.field_63746, var11);
+      int var14 = (Integer)var1.method_75756().method_75689(class_12206.field_63742, var11);
       e(var5, var14, var7);
       long var15 = 77433613775523L;
-      if (77433613775523L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var34 = var15 < 0L ? -1 : 1;
-      }
-
-      boolean var18 = var12 != null && var12.method_8597().comp_642();
+      int var18 = var15 < 0L ? -1 : 1;
+      boolean var18x = var12 != null && var12.method_8597().comp_642();
       long var19 = 77433613775524L;
-      if (77433613775524L == 0L) {
-         boolean var35 = false;
-      } else {
-         int var36 = var19 < 0L ? -1 : 1;
-      }
-
-      float var21;
+      int var21 = var19 < 0L ? -1 : 1;
       float var22;
-      if (var18) {
+      float var21x;
+      if (var18x) {
          e(var5, var13, var8);
-         float var23 = var1.method_75756().method_75689(class_12206.field_64340, var11) * (float) (Math.PI / 180.0);
-         var22 = class_3532.method_15363(var1.method_75756().method_75689(class_12206.field_64346, var11), 0.0F, 1.0F);
+         float var23 = (Float)var1.method_75756().method_75689(class_12206.field_64340, var11) * (float) (Math.PI / 180.0);
+         var22 = class_3532.method_15363((Float)var1.method_75756().method_75689(class_12206.field_64346, var11), 0.0F, 1.0F);
          long var24 = 77433613775523L;
-         if (77433613775523L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var24 < 0L ? -1 : 1;
-         }
-
-         float var27 = class_3532.method_15362(var23);
-         Vector3f var28 = var10.set(-class_3532.method_15374(var23), var27, 0.0F);
+         int var27 = var24 < 0L ? -1 : 1;
+         float var27x = class_3532.method_15362(var23);
+         Vector3f var28 = var10.set(-class_3532.method_15374(var23), var27x, 0.0F);
          long var29 = 77433613775523L;
-         if (77433613775523L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var29 < 0L ? -1 : 1;
-         }
-
+         int var29x = var29 < 0L ? -1 : 1;
          var28.normalize();
-         if (var27 > -0.08F) {
-            float var31 = 1.0F - class_3532.method_15363(var27 / 0.35F, 0.0F, 1.0F);
-            var21 = class_3532.method_15363((var27 + 0.08F) / 0.2F, 0.0F, 1.0F) * (1.0F - var12.method_8430(var11) * 0.85F);
+         if (var27x > -0.08F) {
+            float var31x = 1.0F - class_3532.method_15363(var27x / 0.35F, 0.0F, 1.0F);
+            var21x = class_3532.method_15363((var27x + 0.08F) / 0.2F, 0.0F, 1.0F) * (1.0F - var12.method_8430(var11) * 0.85F);
             long var32 = 77433613775523L;
-            if (77433613775523L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var32 < 0L ? -1 : 1;
-            }
-
+            int var32x = var32 < 0L ? -1 : 1;
             var9[0] = 1.0F;
-            var9[1] = 0.94F - 0.22F * var31;
-            var9[2] = 0.86F - 0.4F * var31;
+            var9[1] = 0.94F - 0.22F * var31x;
+            var9[2] = 0.86F - 0.4F * var31x;
          } else {
             var10.negate();
-            var21 = 0.35F * class_3532.method_15363((-var27 - 0.08F) / 0.2F, 0.0F, 1.0F) * (1.0F - var12.method_8430(var11));
+            var21x = 0.35F * class_3532.method_15363((-var27x - 0.08F) / 0.2F, 0.0F, 1.0F) * (1.0F - var12.method_8430(var11));
             var9[0] = 0.72F;
             var9[1] = 0.8F;
             var9[2] = 1.0F;
@@ -253,10 +221,10 @@ public final class GlassRegistry {
       } else {
          System.arraycopy(var7, 0, var8, 0, 3);
          var22 = 0.0F;
-         var21 = 0.0F;
+         var21x = 0.0F;
       }
 
-      var4.U = var21;
+      var4.U = var21x;
       var4.Q = var22;
       var4.b = time();
       var4.Y = w;
@@ -286,7 +254,7 @@ public final class GlassRegistry {
       long var2 = 12162641394683L;
       long var4 = var2 ^ 43181122815226L;
       long var6 = var2 ^ 21714330055784L;
-      if (l && !var1.field_53333 && t < 192 && !ModuleWidget.claimed("mirror-capture") && !RenderHooks.dissolving(var1) && !GlassSupport6.drawing()) {
+      if (l && !var1.field_53333 && t < 192 && !ModuleWidget.claimed("mirror-capture") && !RenderHooks.dissolving(var1) && !GlassShadowProbe.drawing()) {
          try {
             GlassModule var8 = V;
             class_310 var9 = class_310.method_1551();
@@ -329,30 +297,25 @@ public final class GlassRegistry {
             }
 
             s.add(var1);
-            ((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var1).setData(A, new GlassRegistry.TypeU(z, var12, var11, var10));
-         } catch (Throwable var15) {
+            ((FabricRenderState)var1).setData(A, new GlassRegistry.GlassFrameState(z, var12, var11, var10));
+         } catch (Throwable var151) {
             metric("draw_failures");
-            fail(var15);
+            fail(var151);
          }
       }
    }
 
    private static boolean V(long var0, class_1297 var2) {
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       long var3 = 48697255132928L;
-      if (48697255132928L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var8 = var3 < 0L ? -1 : 1;
-      }
-
+      int var6 = var3 < 0L ? -1 : 1;
       return var2 instanceof class_1309 var7
          ? !var7.method_6047().method_7960() || !var7.method_6079().method_7960()
-         : var2 instanceof class_1533 var6 && !var6.method_6940().method_7960();
+         : var2 instanceof class_1533 var6x && !var6x.method_6940().method_7960();
    }
 
    private static float E(class_1297 var0, long var1) {
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       if (var0 instanceof class_1309 var3 && var3.field_6235 > 0) {
          float var4 = class_310.method_1551().method_61966().method_60637(false);
          float var5 = (var3.field_6235 - var4) / Math.max(1, var3.field_6254);
@@ -363,9 +326,9 @@ public final class GlassRegistry {
    }
 
    public static class_11659 collector(class_10017 var0, class_11659 var1) {
-      GlassRegistry.TypeU var2 = (GlassRegistry.TypeU)((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var0).getData(A);
-      return (class_11659)(var2 != null && var2.t == z && l && !ModuleWidget.claimed("mirror-capture") && !GlassSupport6.drawing()
-         ? new Glassclass_11659(var1, var1, R, var2.g, var2.G, var2.l, V.r.enabled(), m)
+      GlassRegistry.GlassFrameState var2 = (GlassRegistry.GlassFrameState)((FabricRenderState)var0).getData(A);
+      return (class_11659)(var2 != null && var2.t == z && l && !ModuleWidget.claimed("mirror-capture") && !GlassShadowProbe.drawing()
+         ? new GlassMesh(var1, var1, R, var2.g, var2.G, var2.l, V.r.enabled(), m)
          : var1);
    }
 
@@ -409,7 +372,7 @@ public final class GlassRegistry {
          return var0;
       } else {
          GlassModule var1 = V;
-         return new Glassclass_11659(var0, var0, C, 0, var1.B.enabled(), var1.H.enabled(), var1.r.enabled(), m);
+         return new GlassMesh(var0, var0, C, 0, var1.B.enabled(), var1.H.enabled(), var1.r.enabled(), m);
       }
    }
 
@@ -420,10 +383,10 @@ public final class GlassRegistry {
             if (var0.method_30278() != null) {
                D = GlassRenderer.x.keepDepth(var0.method_30278(), var0.field_1482, var0.field_1481);
             }
-         } catch (Throwable var1) {
+         } catch (Throwable var11) {
             metric("draw_failures");
             D = null;
-            fail(var1);
+            fail(var11);
          }
       }
    }
@@ -440,9 +403,9 @@ public final class GlassRegistry {
 
             S.T = h;
             GlassRenderer.x.draw(R, var1.method_30277(), var1.method_71639(), var1.field_1482, var1.field_1481, S, D != null ? D : var1.method_71640(), a);
-         } catch (Throwable var2) {
+         } catch (Throwable var21) {
             metric("draw_failures");
-            fail(var2);
+            fail(var21);
          }
       }
    }
@@ -459,7 +422,7 @@ public final class GlassRegistry {
                return;
             }
 
-            GlassSupport4 var6 = W;
+            GlassCameraState var6 = W;
             var6.y = true;
             var6.k.set(v);
             var6.k.invert(var6.X);
@@ -481,16 +444,16 @@ public final class GlassRegistry {
             var6.r = I;
             var6.T = 1;
             GlassRenderer.f.draw(C, var5.method_30277(), var5.method_71639(), var5.field_1482, var5.field_1481, var6, null, null);
-         } catch (Throwable var7) {
+         } catch (Throwable var71) {
             metric("draw_failures");
-            fail(var7);
+            fail(var71);
          }
       }
    }
 
    private static void Q(long var0, Matrix4f var2) {
       float[] var3 = C.data();
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
       Vector4f var4 = new Vector4f();
       u[0] = u[1] = u[2] = Float.POSITIVE_INFINITY;
       u[3] = u[4] = u[5] = Float.NEGATIVE_INFINITY;
@@ -500,12 +463,7 @@ public final class GlassRegistry {
          var2.transform(var4.set(var3[var6], var3[var6 + 1], var3[var6 + 2], 1.0F));
          u[0] = Math.min(u[0], var4.x);
          long var7 = 139786159940004L;
-         if (139786159940004L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var16 = var7 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
          u[1] = Math.min(u[1], var4.y);
          u[2] = Math.min(u[2], var4.z);
          u[3] = Math.max(u[3], var4.x);
@@ -517,12 +475,7 @@ public final class GlassRegistry {
       float var13 = u[1];
       float var14 = u[4];
       long var15 = 139786159940005L;
-      if (139786159940005L == 0L) {
-         boolean var17 = false;
-      } else {
-         int var18 = var15 < 0L ? -1 : 1;
-      }
-
+      int var15x = var15 < 0L ? -1 : 1;
       I[1] = (var13 + var14) * 0.5F;
       I[2] = (u[2] + u[5]) * 0.5F;
       float var10 = u[3] - u[0];
@@ -531,7 +484,7 @@ public final class GlassRegistry {
       I[3] = Math.max(0.1F, 0.5F * (float)Math.sqrt(var10 * var10 + var11 * var11 + var12 * var12));
    }
 
-   static void look(GlassSupport4 var0) {
+   static void look(GlassCameraState var0) {
       long var1 = 29092979584102L;
       long var3 = var1 ^ 67911283502835L;
       int var5 = (int)((var1 ^ 67911283502835L) >>> 32);
@@ -557,7 +510,7 @@ public final class GlassRegistry {
       String var1 = var0.toString();
       if (!var1.equals(E)) {
          E = var1;
-         ClientServices.LOGGER.error("Purxiy glass failed", var0);
+         ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX glass failed", var0);
       }
    }
 
@@ -570,26 +523,16 @@ public final class GlassRegistry {
    }
 
    private static void D(long var0) {
-      GlassRenderer4.ensureSourceClassInitialized();
+      GlassStudioScreen.ensureSourceClassInitialized();
 
       for (class_10017 var3 : s) {
          long var4 = 82846958005150L;
-         if (82846958005150L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var8 = var4 < 0L ? -1 : 1;
-         }
-
-         ((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var3).setData(A, null);
+         int var6 = var4 < 0L ? -1 : 1;
+         ((FabricRenderState)var3).setData(A, null);
       }
 
       long var7 = 82846958005150L;
-      if (82846958005150L == 0L) {
-         boolean var9 = false;
-      } else {
-         int var10 = var7 < 0L ? -1 : 1;
-      }
-
+      int var8 = var7 < 0L ? -1 : 1;
       s.clear();
    }
 
@@ -643,7 +586,7 @@ public final class GlassRegistry {
       }
    }
 
-private record TypeU(long t, int g, boolean G, boolean l) {
+   private record GlassFrameState(long t, int g, boolean G, boolean l) {
       public long frame() {
          return this.t;
       }

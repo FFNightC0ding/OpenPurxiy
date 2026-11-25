@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.sky;
 
 import dev.purxiy.anim.Animator;
@@ -12,6 +11,7 @@ import dev.purxiy.render.font.Fonts;
 import dev.purxiy.ui.DrawContext;
 import dev.purxiy.ui.Icons;
 import dev.purxiy.ui.Theme;
+import dev.purxiy.ui.DrawContext.Cursor;
 
 public final class SkyRenderer {
    private static final int U = 3;
@@ -21,7 +21,16 @@ public final class SkyRenderer {
    private static final int[] D = new int[]{-3431681, -1906705, -3756065, -4089105, -4856599, -5520687, -1379336, -18584};
    private static final int j = 3;
    public static final float k = 335.0F;
-   private static final String[] s = new String[]{"A luminous nebula with a quiet field of stars.", "Silver caustics flowing across a charcoal sky.", "Soft violet clouds, drifting through the dark.", "Violet light curtains and glimmering crystal dust.", "Pearlescent folds of lavender and pale cyan.", "Heavy rain clouds over a misty silver horizon.", "Soft winter clouds in a luminous, snowy white sky.", "Crimson clouds and golden fire, like a living fairy tale."};
+   private static final String[] s = new String[]{
+      "A luminous nebula with a quiet field of stars.",
+      "Silver caustics flowing across a charcoal sky.",
+      "Soft violet clouds, drifting through the dark.",
+      "Violet light curtains and glimmering crystal dust.",
+      "Pearlescent folds of lavender and pale cyan.",
+      "Heavy rain clouds over a misty silver horizon.",
+      "Soft winter clouds in a luminous, snowy white sky.",
+      "Crimson clouds and golden fire, like a living fairy tale."
+   };
    private final SkyModule H;
    private final Animator[] m = new Animator[D.length];
    private final SkyCodec[] Z = new SkyCodec[D.length];
@@ -31,9 +40,6 @@ public final class SkyRenderer {
    private float G;
    private boolean I;
    private boolean J;
-
-
-
    private static final Integer[] e = new Integer[79];
 
    public SkyRenderer(SkyModule var1) {
@@ -75,7 +81,7 @@ public final class SkyRenderer {
          float var11 = this.d(var10);
          float var12 = this.e(var10);
          int var13 = this.Z[var10].carry(D[var10]);
-         boolean var14 = this.I && var1.hover(this.m[var10], var11, var12, var8, 82.0F, DrawContext.TypeE.HAND);
+         boolean var14 = this.I && var1.hover(this.m[var10], var11, var12, var8, 82.0F, Cursor.HAND);
          float var15 = this.m[var10].target(var14 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          boolean var16 = var10 == var9;
          var17.roundRect(var11, var12, var8, 82.0F, 11.0F, BlendMode.lerp(Theme.tint(-15725031), var13, (var16 ? 0.1F : 0.025F) + var15 * 0.04F));
@@ -90,7 +96,7 @@ public final class SkyRenderer {
 
          var17.text(
             Fonts.SEMIBOLD,
-            this.H.S.modes().get(var10),
+            (CharSequence)this.H.S.modes().get(var10),
             var11 + var8 / 2.0F,
             var12 + 66.0F,
             11.5F,
@@ -150,33 +156,19 @@ public final class SkyRenderer {
 
       for (int var9 = 0; var9 < 5; var9++) {
          long var10 = 93763254941247L;
-         if (93763254941247L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var26 = var10 < 0L ? -1 : 1;
-         }
-
+         int var24 = var10 < 0L ? -1 : 1;
          float var13 = var9 / 4.0F;
          float var14 = var3 + var5 * var13;
          float var15 = var4 + var6 * (0.72F - 0.46F * var13 + 0.08F * z(var7 + var9));
          float var16 = var6 * 0.2F;
          float var17 = var6 * 0.58F;
          long var18 = 93763254941247L;
-         if (93763254941247L == 0L) {
-            boolean var27 = false;
-         } else {
-            int var28 = var18 < 0L ? -1 : 1;
-         }
-
+         int var19 = var18 < 0L ? -1 : 1;
          var2.softCircle(var14, var15, var16, var17, var9 % 2 == 0 ? var8.carry(-2057489009) : var8.carry(2017805717));
       }
 
       long var21 = 93763254941248L;
-      if (93763254941248L == 0L) {
-         boolean var29 = false;
-      } else {
-         int var30 = var21 < 0L ? -1 : 1;
-      }
+      int var23 = var21 < 0L ? -1 : 1;
 
       for (int var22 = 0; var22 < 21; var22++) {
          float var24 = var3 + var5 * ((var22 * 37 + 17) % 101) / 101.0F;
@@ -184,12 +176,8 @@ public final class SkyRenderer {
          var2.circle(var24, var25, var22 % 7 == 0 ? 0.8F : 0.45F, BlendMode.withAlpha(var8.carry(-1187073), 0.36F + 0.24F * z(var7 * 2.0F + var22)));
       }
 
-      long var23 = 93763254941248L;
-      if (93763254941248L == 0L) {
-         boolean var31 = false;
-      } else {
-         int var32 = var23 < 0L ? -1 : 1;
-      }
+      long var23x = 93763254941248L;
+      int var26 = var23x < 0L ? -1 : 1;
    }
 
    private static void G(Canvas var0, long var1, float var3, float var4, float var5, float var6, float var7, SkyCodec var8) {
@@ -202,22 +190,12 @@ public final class SkyRenderer {
 
          for (int var12 = 0; var12 <= 18; var12++) {
             long var13 = 123929116973726L;
-            if (123929116973726L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var22 = var13 < 0L ? -1 : 1;
-            }
-
-            float var16 = var12 / 18.0F;
-            float var17 = var3 + var5 * var16;
-            float var18 = var4 + var6 * (0.12F + var9 * 0.18F + 0.18F * z(var16 * 7.0F + var9 * 1.8F + var7) + 0.05F * z(var16 * 15.0F - var9 + var7 * 0.7F));
+            int var16 = var13 < 0L ? -1 : 1;
+            float var16x = var12 / 18.0F;
+            float var17 = var3 + var5 * var16x;
+            float var18 = var4 + var6 * (0.12F + var9 * 0.18F + 0.18F * z(var16x * 7.0F + var9 * 1.8F + var7) + 0.05F * z(var16x * 15.0F - var9 + var7 * 0.7F));
             long var19 = 123929116973726L;
-            if (123929116973726L == 0L) {
-               boolean var23 = false;
-            } else {
-               int var24 = var19 < 0L ? -1 : 1;
-            }
-
+            int var20 = var19 < 0L ? -1 : 1;
             if (var12 > 0) {
                var0.line(var10, var11, var17, var18, 5.0F, var8.carry(198763247));
                var0.line(var10, var11, var17, var18, 1.8F, var8.carry(601416431));
@@ -229,11 +207,7 @@ public final class SkyRenderer {
          }
 
          long var21 = 123929116973727L;
-         if (123929116973727L == 0L) {
-            boolean var25 = false;
-         } else {
-            int var26 = var21 < 0L ? -1 : 1;
-         }
+         int var14 = var21 < 0L ? -1 : 1;
       }
    }
 
@@ -243,53 +217,30 @@ public final class SkyRenderer {
 
       for (int var9 = 0; var9 < 2; var9++) {
          long var10 = 8649215298332L;
-         if (8649215298332L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var23 = var10 < 0L ? -1 : 1;
-         }
+         int var22 = var10 < 0L ? -1 : 1;
 
          for (int var13 = 0; var13 < 6; var13++) {
             long var14 = 8649215298331L;
-            if (8649215298331L == 0L) {
-               boolean var24 = false;
-            } else {
-               int var25 = var14 < 0L ? -1 : 1;
-            }
-
-            float var16 = var13 / 5.0F;
-            float var17 = var3 + var5 * var16;
+            int var16 = var14 < 0L ? -1 : 1;
+            float var16x = var13 / 5.0F;
+            float var17 = var3 + var5 * var16x;
             long var18 = 8649215298332L;
-            if (8649215298332L == 0L) {
-               boolean var26 = false;
-            } else {
-               int var27 = var18 < 0L ? -1 : 1;
-            }
-
+            int var19 = var18 < 0L ? -1 : 1;
             var0.softCircle(
                var17,
-               var4 + var6 * (0.12F + var9 * 0.78F + 0.16F * z(var16 * 5.0F + var7 + var9 * 3)),
+               var4 + var6 * (0.12F + var9 * 0.78F + 0.16F * z(var16x * 5.0F + var7 + var9 * 3)),
                var6 * 0.22F,
                var6 * 0.58F,
                var9 == 0 ? var8.carry(-2056957827) : var8.carry(-2140449914)
             );
          }
 
-         long var22 = 8649215298332L;
-         if (8649215298332L == 0L) {
-            boolean var28 = false;
-         } else {
-            int var29 = var22 < 0L ? -1 : 1;
-         }
+         long var22x = 8649215298332L;
+         int var141 = var22x < 0L ? -1 : 1;
       }
 
       long var21 = 8649215298332L;
-      if (8649215298332L == 0L) {
-         boolean var30 = false;
-      } else {
-         int var31 = var21 < 0L ? -1 : 1;
-      }
-
+      int var11 = var21 < 0L ? -1 : 1;
       var0.softCircle(var3 + var5 * 0.55F, var4 + var6 * 0.4F, var6 * 0.5F, var6 * 0.75F, var8.carry(-1441459940));
    }
 
@@ -300,11 +251,7 @@ public final class SkyRenderer {
 
       while (var9 < 3) {
          long var10 = 23424315230012L;
-         if (23424315230012L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var30 = var10 < 0L ? -1 : 1;
-         }
+         int var24 = var10 < 0L ? -1 : 1;
 
          for (int var13 = 0; var13 <= 36; var13++) {
             float var14 = var13 / 36.0F;
@@ -313,12 +260,7 @@ public final class SkyRenderer {
             float var17 = var4 * (0.16F + 0.13F * (0.5F + 0.5F * z(var14 * 27.0F + var9 * 4 - var5 * 2.0F)));
             int var18 = BlendMode.lerp(var8.carry(-6786822), var8.carry(-942121), 0.5F + 0.5F * z(var14 * 6.0F - var5 + var9));
             long var19 = 23424315230011L;
-            if (23424315230011L == 0L) {
-               boolean var31 = false;
-            } else {
-               int var32 = var19 < 0L ? -1 : 1;
-            }
-
+            int var20 = var19 < 0L ? -1 : 1;
             var0.line(var15, var16 - var17, var15, var16, var3 * 0.035F, BlendMode.withAlpha(var18, 0.045F));
             var0.line(var15, var16 - var17 * 0.65F, var15, var16, var3 * 0.013F, BlendMode.withAlpha(var18, 0.13F));
             var0.softCircle(var15, var16, 0.4F, 2.2F, BlendMode.withAlpha(var18, 0.27F));
@@ -326,53 +268,29 @@ public final class SkyRenderer {
 
          var9++;
          long var23 = 23424315230011L;
-         if (23424315230011L == 0L) {
-            boolean var33 = false;
-         } else {
-            int var34 = var23 < 0L ? -1 : 1;
-         }
+         int var27 = var23 < 0L ? -1 : 1;
       }
 
       long var22 = 23424315230012L;
-      if (23424315230012L == 0L) {
-         boolean var35 = false;
-      } else {
-         int var36 = var22 < 0L ? -1 : 1;
-      }
-
-      int var24 = 0;
+      int var24 = var22 < 0L ? -1 : 1;
+      var24 = 0;
 
       while (true) {
          long var25 = 23424315230012L;
-         if (23424315230012L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var25 < 0L ? -1 : 1;
-         }
-
+         int var281 = var25 < 0L ? -1 : 1;
          if (var24 >= 17) {
             long var27 = 23424315230012L;
-            if (23424315230012L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var27 < 0L ? -1 : 1;
-            }
-
+            int var33 = var27 < 0L ? -1 : 1;
             return;
          }
 
          float var26 = (var24 * 37 + 11) % 101 / 101.0F;
-         float var28 = (var24 * 61 + 3) % 97 / 97.0F;
+         float var28x = (var24 * 61 + 3) % 97 / 97.0F;
          long var29 = 23424315230011L;
-         if (23424315230011L == 0L) {
-            boolean var39 = false;
-         } else {
-            int var40 = var29 < 0L ? -1 : 1;
-         }
-
+         int var191 = var29 < 0L ? -1 : 1;
          var0.circle(
             var1 + var3 * var26,
-            var2 + var4 * var28,
+            var2 + var4 * var28x,
             var24 % 5 == 0 ? 0.65F : 0.4F,
             BlendMode.withAlpha(var8.carry(-1845505), 0.42F + 0.2F * z(var5 * 2.0F + var24 * 1.7F))
          );
@@ -416,43 +334,23 @@ public final class SkyRenderer {
 
       while (var9 < 3) {
          long var10 = 70602908615322L;
-         if (70602908615322L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var36 = var10 < 0L ? -1 : 1;
-         }
+         int var30 = var10 < 0L ? -1 : 1;
 
          for (int var13 = 0; var13 < 6; var13++) {
             float var14 = var13 / 5.0F;
             long var15 = 70602908615321L;
-            if (70602908615321L == 0L) {
-               boolean var37 = false;
-            } else {
-               int var38 = var15 < 0L ? -1 : 1;
-            }
-
+            int var33 = var15 < 0L ? -1 : 1;
             float var18 = var2 + var4 * (0.05F + var9 * 0.19F + 0.08F * z(var14 * 7.0F + var9 * 2 + var5 * 0.5F));
             float var19 = var1 + var3 * var14;
             float var20 = var4 * 0.19F;
             float var21 = var4 * 0.4F;
             long var22 = 70602908615322L;
-            if (70602908615322L == 0L) {
-               boolean var39 = false;
-            } else {
-               int var40 = var22 < 0L ? -1 : 1;
-            }
-
-            int var25;
+            int var25 = var22 < 0L ? -1 : 1;
             if (var9 == 0) {
                var25 = var6.carry(-753129166);
             } else {
                long var26 = 70602908615322L;
-               if (70602908615322L == 0L) {
-                  boolean var41 = false;
-               } else {
-                  int var42 = var26 < 0L ? -1 : 1;
-               }
-
+               int var25x = var26 < 0L ? -1 : 1;
                var25 = var9 == 1 ? var6.carry(-1388754347) : var6.carry(-2024446095);
             }
 
@@ -461,44 +359,25 @@ public final class SkyRenderer {
 
          var9++;
          long var29 = 70602908615321L;
-         if (70602908615321L == 0L) {
-            boolean var43 = false;
-         } else {
-            int var44 = var29 < 0L ? -1 : 1;
-         }
+         int var32 = var29 < 0L ? -1 : 1;
       }
 
       long var28 = 70602908615321L;
-      if (70602908615321L == 0L) {
-         boolean var45 = false;
-      } else {
-         int var46 = var28 < 0L ? -1 : 1;
-      }
-
-      int var30 = 0;
+      int var30 = var28 < 0L ? -1 : 1;
+      var30 = 0;
 
       while (true) {
          long var31 = 70602908615322L;
-         if (70602908615322L == 0L) {
-            boolean var47 = false;
-         } else {
-            int var48 = var31 < 0L ? -1 : 1;
-         }
-
+         int var17 = var31 < 0L ? -1 : 1;
          if (var30 >= 16) {
             long var32 = 70602908615321L;
-            if (70602908615321L == 0L) {
-               boolean var49 = false;
-            } else {
-               int var50 = var32 < 0L ? -1 : 1;
-            }
-
+            int var38 = var32 < 0L ? -1 : 1;
             return;
          }
 
-         float var17 = (var30 * 37 + 13) % 101 / 101.0F;
+         float var17x = (var30 * 37 + 13) % 101 / 101.0F;
          float var33 = ((var30 * 59 + 7) % 97 / 97.0F + var5 * 0.3F) % 1.0F;
-         float var34 = var1 + var3 * var17;
+         float var34 = var1 + var3 * var17x;
          float var35 = var2 + var4 * (0.3F + var33 * 0.7F);
          var0.line(var34, var35, var34 - 1.4F, var35 + 5.0F, 0.55F, var6.carry(1724702180));
          var30++;
@@ -513,11 +392,7 @@ public final class SkyRenderer {
 
       while (var9 < 3) {
          long var10 = 116468109619270L;
-         if (116468109619270L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var33 = var10 < 0L ? -1 : 1;
-         }
+         int var27 = var10 < 0L ? -1 : 1;
 
          for (int var13 = 0; var13 < 5; var13++) {
             float var14 = var13 / 4.0F;
@@ -526,23 +401,12 @@ public final class SkyRenderer {
             float var17 = var4 * 0.22F;
             float var18 = var4 * 0.45F;
             long var19 = 116468109619269L;
-            if (116468109619269L == 0L) {
-               boolean var34 = false;
-            } else {
-               int var35 = var19 < 0L ? -1 : 1;
-            }
-
-            int var22;
+            int var22 = var19 < 0L ? -1 : 1;
             if (var9 == 0) {
                var22 = var8.carry(-1832332323);
             } else {
                long var23 = 116468109619269L;
-               if (116468109619269L == 0L) {
-                  boolean var36 = false;
-               } else {
-                  int var37 = var23 < 0L ? -1 : 1;
-               }
-
+               int var23x = var23 < 0L ? -1 : 1;
                var22 = var9 == 1 ? var8.carry(-1243025935) : var8.carry(-1056964609);
             }
 
@@ -551,52 +415,28 @@ public final class SkyRenderer {
 
          var9++;
          long var26 = 116468109619270L;
-         if (116468109619270L == 0L) {
-            boolean var38 = false;
-         } else {
-            int var39 = var26 < 0L ? -1 : 1;
-         }
+         int var30 = var26 < 0L ? -1 : 1;
       }
 
       long var25 = 116468109619270L;
-      if (116468109619270L == 0L) {
-         boolean var40 = false;
-      } else {
-         int var41 = var25 < 0L ? -1 : 1;
-      }
-
-      int var27 = 0;
+      int var27 = var25 < 0L ? -1 : 1;
+      var27 = 0;
 
       while (true) {
          long var28 = 116468109619270L;
-         if (116468109619270L == 0L) {
-            boolean var42 = false;
-         } else {
-            int var43 = var28 < 0L ? -1 : 1;
-         }
-
+         int var311 = var28 < 0L ? -1 : 1;
          if (var27 >= 15) {
             long var30 = 116468109619269L;
-            if (116468109619269L == 0L) {
-               boolean var46 = false;
-            } else {
-               int var47 = var30 < 0L ? -1 : 1;
-            }
-
+            int var36 = var30 < 0L ? -1 : 1;
             return;
          }
 
          float var29 = (var27 * 43 + 19) % 101 / 101.0F + 0.012F * z(var5 + var27);
-         float var31 = ((var27 * 67 + 5) % 97 / 97.0F + var5 * 0.13F) % 1.0F;
+         float var31x = ((var27 * 67 + 5) % 97 / 97.0F + var5 * 0.13F) % 1.0F;
          float var32 = var3 * var29;
          long var20 = 116468109619270L;
-         if (116468109619270L == 0L) {
-            boolean var44 = false;
-         } else {
-            int var45 = var20 < 0L ? -1 : 1;
-         }
-
-         var0.circle(var1 + var32, var2 + var4 * var31, var27 % 4 == 0 ? 1.1F : 0.6F, var8.carry(-570425345));
+         int var39 = var20 < 0L ? -1 : 1;
+         var0.circle(var1 + var32, var2 + var4 * var31x, var27 % 4 == 0 ? 1.1F : 0.6F, var8.carry(-570425345));
          var27++;
       }
    }
@@ -609,33 +449,19 @@ public final class SkyRenderer {
       for (int var9 = 0; var9 < 6; var9++) {
          float var10 = var9;
          long var11 = 39610584018606L;
-         if (39610584018606L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var36 = var11 < 0L ? -1 : 1;
-         }
-
+         int var30 = var11 < 0L ? -1 : 1;
          float var14 = var10 / 5.0F;
          float var15 = var1 + var3 * var14;
          float var16 = var2 + var4 * (0.1F + 0.1F * z(var9 * 2 + var5 * 0.5F));
          float var17 = var4 * 0.18F;
          float var18 = var4 * 0.38F;
          long var19 = 39610584018607L;
-         if (39610584018607L == 0L) {
-            boolean var37 = false;
-         } else {
-            int var38 = var19 < 0L ? -1 : 1;
-         }
-
+         int var23 = var19 < 0L ? -1 : 1;
          var0.softCircle(var15, var16, var17, var18, var9 % 2 == 0 ? var8.carry(-1402331088) : var8.carry(-1372187356));
       }
 
       long var26 = 39610584018606L;
-      if (39610584018606L == 0L) {
-         boolean var39 = false;
-      } else {
-         int var40 = var26 < 0L ? -1 : 1;
-      }
+      int var24 = var26 < 0L ? -1 : 1;
 
       for (int var13 = 0; var13 < 7; var13++) {
          float var28 = var1;
@@ -643,27 +469,17 @@ public final class SkyRenderer {
 
          for (int var31 = 0; var31 <= 10; var31++) {
             long var34 = 39610584018606L;
-            if (39610584018606L == 0L) {
-               boolean var41 = false;
-            } else {
-               int var42 = var34 < 0L ? -1 : 1;
-            }
-
+            int var37 = var34 < 0L ? -1 : 1;
             float var20 = var31 / 10.0F;
             float var21 = var1 + var3 * (0.03F + var13 * 0.16F + 0.06F * z(var20 * 5.0F + var13 * 1.7F + var5));
             float var22 = var2 + var4 * (1.15F - var20 * (0.6F + 0.22F * z(var13 * 2 + 0.5F)));
             long var23 = 39610584018607L;
-            if (39610584018607L == 0L) {
-               boolean var43 = false;
-            } else {
-               int var44 = var23 < 0L ? -1 : 1;
-            }
-
+            int var22x = var23 < 0L ? -1 : 1;
             if (var31 > 0) {
-               float var25 = 1.0F - var20 * 0.78F;
-               var0.line(var28, var29, var21, var22, var3 * 0.11F * var25, var8.carry(1174366504));
-               var0.line(var28, var29, var21, var22, var3 * 0.045F * var25, var8.carry(-1996512706));
-               var0.line(var28, var29, var21, var22, var3 * 0.012F * var25, var8.carry(-1124080992));
+               float var25x = 1.0F - var20 * 0.78F;
+               var0.line(var28, var29, var21, var22, var3 * 0.11F * var25x, var8.carry(1174366504));
+               var0.line(var28, var29, var21, var22, var3 * 0.045F * var25x, var8.carry(-1996512706));
+               var0.line(var28, var29, var21, var22, var3 * 0.012F * var25x, var8.carry(-1124080992));
             }
 
             var28 = var21;
@@ -671,19 +487,11 @@ public final class SkyRenderer {
          }
 
          long var32 = 39610584018607L;
-         if (39610584018607L == 0L) {
-            boolean var45 = false;
-         } else {
-            int var46 = var32 < 0L ? -1 : 1;
-         }
+         int var36 = var32 < 0L ? -1 : 1;
       }
 
       long var27 = 39610584018607L;
-      if (39610584018607L == 0L) {
-         boolean var47 = false;
-      } else {
-         int var48 = var27 < 0L ? -1 : 1;
-      }
+      int var29 = var27 < 0L ? -1 : 1;
 
       for (int var30 = 0; var30 < 10; var30++) {
          float var33 = (var30 * 41 + 23) % 101 / 101.0F;
@@ -736,5 +544,4 @@ public final class SkyRenderer {
    private static float z(float var0) {
       return (float)Math.sin(var0);
    }
-
 }

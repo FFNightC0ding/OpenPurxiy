@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.home;
 
 import java.util.ArrayList;
@@ -18,16 +17,14 @@ final class HomeSupport {
    static final byte U = 7;
    final long D;
    final String O;
-   final List<HomeSupport.TypeV> m;
-   final Map<Long, HomeSupport.TypeP> M;
-   final List<HomeSupport.TypeP> f;
+   final List<HomeSupport.HomeGeometry> m;
+   final Map<Long, HomeSupport.HomeBuffers> M;
+   final List<HomeSupport.HomeBuffers> f;
    float j;
-
    private static final String[] b = new String[4];
-
    private static final Integer[] d = new Integer[18];
 
-   HomeSupport(HomeSupport5 var1, long var2, String var4) {
+   HomeSupport(HomeWorldState var1, long var2, String var4) {
       long var5 = 9138222714574L;
       long var7 = var5 ^ 93686933026404L;
       long var9 = var5 ^ 96739867403171L;
@@ -41,7 +38,7 @@ final class HomeSupport {
       this.D = var2;
       this.O = var4;
       SplittableRandom var16 = new SplittableRandom(var2);
-      HomeSupport4 var17 = new HomeSupport4(var2 ^ 25214903917L);
+      HomeNoise var17 = new HomeNoise(var2 ^ 25214903917L);
       float var18 = var16.nextFloat();
 
       for (int[] var20 : var1.O) {
@@ -50,12 +47,12 @@ final class HomeSupport {
          float var23 = (float)Math.sqrt(var21 * var21 + var22 * var22);
          float var24 = var17.fbm(var21 * 0.045F, var22 * 0.045F, 2) * 0.5F + 0.5F;
          if (!(var23 < 17.0F)) {
-            float var25 = var23 < 24.0F ? 0.16F : 0.06F + 0.6F * HomeSupport5.smooth(0.38F, 0.68F, var24);
+            float var25 = var23 < 24.0F ? 0.16F : 0.06F + 0.6F * HomeWorldState.smooth(0.38F, 0.68F, var24);
             if (!(var16.nextFloat() > var25)) {
                int var26 = var1.heightAt(var21, var22);
-               HomeSupport.TypeX var27 = this.b(var1, var16, var21, var22, var26, var18, var14);
+               HomeSupport.HomeFace var27 = this.b(var1, var16, var21, var22, var26, var18, var14);
                float var28 = 0.12F + var23 * 0.017F + var16.nextFloat() * 0.38F;
-               HomeSupport.TypeV var29 = new HomeSupport.TypeV(var21, var26 + 1, var22, var27, var28);
+               HomeSupport.HomeGeometry var29 = new HomeSupport.HomeGeometry(var21, var26 + 1, var22, var27, var28);
                this.q(var1, var7, var29, new SplittableRandom(var16.nextLong()));
                if (!var29.p.isEmpty()) {
                   this.m.add(var29);
@@ -64,23 +61,22 @@ final class HomeSupport {
          }
       }
 
-      for (HomeSupport.TypeV var33 : this.m) {
+      for (HomeSupport.HomeGeometry var33 : this.m) {
          this.U((char)var11, var12, (short)var13, var1, var33, new SplittableRandom(var2 ^ var33.C * 341873128712L + var33.w * 132897987541L));
       }
 
-      for (HomeSupport.TypeV var34 : this.m) {
-         for (HomeSupport.TypeP var37 : var34.p) {
+      for (HomeSupport.HomeGeometry var34 : this.m) {
+         for (HomeSupport.HomeBuffers var37 : var34.p) {
             this.j = Math.max(this.j, var37.d);
          }
       }
 
-      for (HomeSupport.TypeP var35 : this.f) {
+      for (HomeSupport.HomeBuffers var35 : this.f) {
          this.j = Math.max(this.j, var35.d);
       }
    }
 
-   
-   HomeSupport.TypeV plant(HomeSupport5 var1, int var2, int var3, float var4) {
+   HomeSupport.HomeGeometry plant(HomeWorldState var1, int var2, int var3, float var4) {
       long var5 = 39539652671248L;
       long var7 = var5 ^ 139142212849594L;
       long var9 = var5 ^ 136638530968189L;
@@ -88,8 +84,8 @@ final class HomeSupport {
       int var12 = (int)((var5 ^ 136638530968189L) << 16 >>> 32);
       int var13 = (int)(var9 << 48 >>> 48);
       long var14 = var5 ^ 107700445922665L;
-      if (HomeSupport5.inside(var2, var3) && var1.g[HomeSupport5.index(var2, var3)] == 0) {
-         for (HomeSupport.TypeV var17 : this.m) {
+      if (HomeWorldState.inside(var2, var3) && var1.g[HomeWorldState.index(var2, var3)] == 0) {
+         for (HomeSupport.HomeGeometry var17 : this.m) {
             int var18 = var17.C - var2;
             int var19 = var17.w - var3;
             if (var18 * var18 + var19 * var19 < 9) {
@@ -99,7 +95,7 @@ final class HomeSupport {
 
          SplittableRandom var21 = new SplittableRandom(this.D ^ var2 * -7046029254386353131L + var3 * -4417276706812531889L + this.m.size());
          int var22 = var1.heightAt(var2, var3);
-         HomeSupport.TypeV var23 = new HomeSupport.TypeV(var2, var22 + 1, var3, this.b(var1, var21, var2, var3, var22, 0.37F, var14), var4);
+         HomeSupport.HomeGeometry var23 = new HomeSupport.HomeGeometry(var2, var22 + 1, var3, this.b(var1, var21, var2, var3, var22, 0.37F, var14), var4);
          this.q(var1, var7, var23, new SplittableRandom(var21.nextLong()));
          if (var23.p.isEmpty()) {
             return null;
@@ -107,7 +103,7 @@ final class HomeSupport {
             this.m.add(var23);
             this.U((char)var11, var12, (short)var13, var1, var23, new SplittableRandom(var21.nextLong()));
 
-            for (HomeSupport.TypeP var20 : var23.p) {
+            for (HomeSupport.HomeBuffers var20 : var23.p) {
                this.j = Math.max(this.j, var20.d);
             }
 
@@ -118,8 +114,8 @@ final class HomeSupport {
       }
    }
 
-   private HomeSupport.TypeX b(HomeSupport5 var1, SplittableRandom var2, int var3, int var4, int var5, float var6, long var7) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private HomeSupport.HomeFace b(HomeWorldState var1, SplittableRandom var2, int var3, int var4, int var5, float var6, long var7) {
+      HomeGuiBridge.ensureSourceClassInitialized();
       float var9 = var2.nextFloat();
       String var10 = this.O;
       byte var11 = -1;
@@ -127,12 +123,7 @@ final class HomeSupport {
          case -1811801630:
             boolean var12 = var10.equals("Spruce");
             long var13 = 72593472352888L;
-            if (72593472352888L == 0L) {
-               boolean var29 = false;
-            } else {
-               int var30 = var13 < 0L ? -1 : 1;
-            }
-
+            int var231 = var13 < 0L ? -1 : 1;
             if (var12) {
                var11 = 3;
             }
@@ -140,90 +131,59 @@ final class HomeSupport {
          case 79033:
             if (var10.equals("Oak")) {
                long var22 = 72593472352888L;
-               if (72593472352888L == 0L) {
-                  boolean var27 = false;
-               } else {
-                  int var28 = var22 < 0L ? -1 : 1;
-               }
-
+               int var27 = var22 < 0L ? -1 : 1;
                var11 = 0;
             }
             break;
          case 64193168:
             if (var10.equals("Birch")) {
                long var21 = 72593472352889L;
-               if (72593472352889L == 0L) {
-                  boolean var25 = false;
-               } else {
-                  int var26 = var21 < 0L ? -1 : 1;
-               }
-
+               int var26 = var21 < 0L ? -1 : 1;
                var11 = 1;
             }
             break;
          case 2017321401:
             if (var10.equals("Cherry")) {
                long var16 = 72593472352888L;
-               if (72593472352888L == 0L) {
-                  boolean var10000 = false;
-               } else {
-                  int var24 = var16 < 0L ? -1 : 1;
-               }
-
+               int var18 = var16 < 0L ? -1 : 1;
                var11 = 2;
             }
       }
 
       long var20 = 72593472352888L;
-      if (72593472352888L == 0L) {
-         boolean var31 = false;
-      } else {
-         int var32 = var20 < 0L ? -1 : 1;
-      }
-
+      int var15 = var20 < 0L ? -1 : 1;
       switch (var11) {
          case 0:
-            return var9 < 0.16F ? HomeSupport.TypeX.w : HomeSupport.TypeX.E;
+            return var9 < 0.16F ? HomeSupport.HomeFace.w : HomeSupport.HomeFace.E;
          case 1:
-            return var9 < 0.1F ? HomeSupport.TypeX.E : (var9 < 0.3F ? HomeSupport.TypeX.p : HomeSupport.TypeX.t);
+            return var9 < 0.1F ? HomeSupport.HomeFace.E : (var9 < 0.3F ? HomeSupport.HomeFace.p : HomeSupport.HomeFace.t);
          case 2:
-            return HomeSupport.TypeX.j;
+            return HomeSupport.HomeFace.j;
          case 3:
-            return var9 < 0.08F ? HomeSupport.TypeX.t : HomeSupport.TypeX.I;
+            return var9 < 0.08F ? HomeSupport.HomeFace.t : HomeSupport.HomeFace.I;
          default:
-            long var15 = 72593472352889L;
-            if (72593472352889L == 0L) {
-               boolean var33 = false;
-            } else {
-               int var34 = var15 < 0L ? -1 : 1;
-            }
-
+            long var15x = 72593472352889L;
+            int var23 = var15x < 0L ? -1 : 1;
             if (var5 >= 73) {
                long var17 = 72593472352889L;
-               if (72593472352889L == 0L) {
-                  boolean var35 = false;
-               } else {
-                  int var36 = var17 < 0L ? -1 : 1;
-               }
-
+               int var181 = var17 < 0L ? -1 : 1;
                if (var9 < 0.8F) {
-                  return HomeSupport.TypeX.I;
+                  return HomeSupport.HomeFace.I;
                }
             }
 
-            float var23 = (float)(Math.atan2(var4, var3) / (Math.PI * 2)) + 0.5F + var6 + var1.F.noise(var3 * 0.04F, var4 * 0.04F + 200.0F) * 0.08F;
             int var18 = Math.floorMod((int)Math.floor(var23 * 4.0F), 4);
 
             return switch (var18) {
-               case 0 -> var9 < 0.18F ? HomeSupport.TypeX.w : HomeSupport.TypeX.E;
-               case 1 -> var9 < 0.25F ? HomeSupport.TypeX.p : HomeSupport.TypeX.t;
-               case 2 -> var9 < 0.85F ? HomeSupport.TypeX.j : HomeSupport.TypeX.t;
-               default -> var9 < 0.45F ? HomeSupport.TypeX.E : (var9 < 0.6F ? HomeSupport.TypeX.w : HomeSupport.TypeX.t);
+               case 0 -> var9 < 0.18F ? HomeSupport.HomeFace.w : HomeSupport.HomeFace.E;
+               case 1 -> var9 < 0.25F ? HomeSupport.HomeFace.p : HomeSupport.HomeFace.t;
+               case 2 -> var9 < 0.85F ? HomeSupport.HomeFace.j : HomeSupport.HomeFace.t;
+               default -> var9 < 0.45F ? HomeSupport.HomeFace.E : (var9 < 0.6F ? HomeSupport.HomeFace.w : HomeSupport.HomeFace.t);
             };
       }
    }
 
-   private void q(HomeSupport5 var1, long var2, HomeSupport.TypeV var4, SplittableRandom var5) {
+   private void q(HomeWorldState var1, long var2, HomeSupport.HomeGeometry var4, SplittableRandom var5) {
       long var6 = 9137857707046L;
       byte var8 = 0;
       short var9 = 2127;
@@ -234,66 +194,43 @@ final class HomeSupport {
       int var14 = 8106682;
       int var15 = (int)(var6 << 56 >>> 56);
       long var16 = 69076484354393L;
-      HomeSupport2.ensureSourceClassInitialized();
-      HomeSupport.TypeR var18 = new HomeSupport.TypeR();
+      HomeGuiBridge.ensureSourceClassInitialized();
+      HomeSupport.HomeRendererState var18 = new HomeSupport.HomeRendererState();
       int var19 = var4.x.ordinal();
       long var20 = 102781131700393L;
-      if (102781131700393L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var88 = var20 < 0L ? -1 : 1;
-      }
-
+      int var62 = var20 < 0L ? -1 : 1;
       switch (var19) {
          case 0:
             Q(var13, var14, var18, var5, 4 + var5.nextInt(3), (byte)var15);
             long var23 = 102781131700393L;
-            if (102781131700393L == 0L) {
-               boolean var95 = false;
-            } else {
-               int var96 = var23 < 0L ? -1 : 1;
-            }
+            int var60 = var23 < 0L ? -1 : 1;
             break;
          case 1:
             r(var18, var5, var11);
             long var26 = 102781131700394L;
-            if (102781131700394L == 0L) {
-               boolean var93 = false;
-            } else {
-               int var94 = var26 < 0L ? -1 : 1;
-            }
+            int var63 = var26 < 0L ? -1 : 1;
             break;
          case 2:
             int var28 = 5 + var5.nextInt(3);
             long var29 = 102781131700393L;
-            if (102781131700393L == 0L) {
-               boolean var91 = false;
-            } else {
-               int var92 = var29 < 0L ? -1 : 1;
-            }
-
+            int var691 = var29 < 0L ? -1 : 1;
             Q(var13, var14, var18, var5, var28, (byte)var15);
             break;
          case 3:
             long var32 = 102781131700394L;
-            if (102781131700394L == 0L) {
-               boolean var89 = false;
-            } else {
-               int var90 = var32 < 0L ? -1 : 1;
-            }
-
+            int var71 = var32 < 0L ? -1 : 1;
             Q(var13, var14, var18, var5, 8 + var5.nextInt(3), (byte)var15);
             break;
          case 4:
             M(var18, var5, var16);
             break;
          case 5:
-            E((char)var8, (short)var9, var18, var10, var5);
+            E((char)var8, var9, var18, var10, var5);
       }
 
-      HomeSupport.TypeP var62 = new HomeSupport.TypeP(var4.C, var4.d, var4.w, (byte)4, var4);
-      var62.d = var4.H;
-      var4.p.add(var62);
+      HomeSupport.HomeBuffers var62x = new HomeSupport.HomeBuffers(var4.C, var4.d, var4.w, (byte)4, var4);
+      var62x.d = var4.H;
+      var4.p.add(var62x);
       float var24 = var4.H + 0.42F;
       float var25 = var24;
 
@@ -302,76 +239,38 @@ final class HomeSupport {
          int var67 = var4.d + var27[1];
          int var30 = var4.w + var27[2];
          long var31 = 102781131700394L;
-         if (102781131700394L == 0L) {
-            boolean var97 = false;
-         } else {
-            int var98 = var31 < 0L ? -1 : 1;
-         }
-
+         int var72 = var31 < 0L ? -1 : 1;
          if (var67 <= var1.heightAt(var65, var30)) {
             long var34 = 102781131700394L;
-            if (102781131700394L == 0L) {
-               boolean var99 = false;
-            } else {
-               int var100 = var34 < 0L ? -1 : 1;
-            }
-
+            int var34x = var34 < 0L ? -1 : 1;
             var19 = var27[0];
             long var36 = 102781131700393L;
-            if (102781131700393L == 0L) {
-               boolean var101 = false;
-            } else {
-               int var102 = var36 < 0L ? -1 : 1;
-            }
-
+            int var36x = var36 < 0L ? -1 : 1;
             if (var19 != 0) {
                continue;
             }
 
             var19 = var27[2];
             long var39 = 102781131700394L;
-            if (102781131700394L == 0L) {
-               boolean var103 = false;
-            } else {
-               int var104 = var39 < 0L ? -1 : 1;
-            }
-
+            int var84 = var39 < 0L ? -1 : 1;
             if (var19 != 0) {
                long var41 = 102781131700394L;
-               if (102781131700394L == 0L) {
-                  boolean var111 = false;
-               } else {
-                  int var112 = var41 < 0L ? -1 : 1;
-               }
+               int var100 = var41 < 0L ? -1 : 1;
                continue;
             }
          }
 
          long var73 = pack(var65, var67, var30);
-         HomeSupport.TypeP var75 = this.M.get(var73);
+         HomeSupport.HomeBuffers var75 = this.M.get(var73);
          if (var75 != null) {
             long var37 = 102781131700394L;
-            if (102781131700394L == 0L) {
-               boolean var105 = false;
-            } else {
-               int var106 = var37 < 0L ? -1 : 1;
-            }
-
+            int var37x = var37 < 0L ? -1 : 1;
             boolean var81 = var75.log();
             long var40 = 102781131700393L;
-            if (102781131700393L == 0L) {
-               boolean var107 = false;
-            } else {
-               int var108 = var40 < 0L ? -1 : 1;
-            }
-
+            int var40x = var40 < 0L ? -1 : 1;
             if (var81) {
-               long var43 = 102781131700394L;
-               if (102781131700394L == 0L) {
-                  boolean var109 = false;
-               } else {
-                  int var110 = var43 < 0L ? -1 : 1;
-               }
+               long var43x = 102781131700394L;
+               int var421 = var43x < 0L ? -1 : 1;
                continue;
             }
          }
@@ -380,7 +279,7 @@ final class HomeSupport {
             var75.j.p.remove(var75);
          }
 
-         HomeSupport.TypeP var77 = new HomeSupport.TypeP(var65, var67, var30, (byte)var27[3], var4);
+         HomeSupport.HomeBuffers var77 = new HomeSupport.HomeBuffers(var65, var67, var30, (byte)var27[3], var4);
          var77.d = var24 + var27[4] * 0.068F;
          var25 = Math.max(var25, var77.d);
          var4.p.add(var77);
@@ -388,13 +287,8 @@ final class HomeSupport {
       }
 
       long var64 = 102781131700394L;
-      if (102781131700394L == 0L) {
-         boolean var113 = false;
-      } else {
-         int var114 = var64 < 0L ? -1 : 1;
-      }
-
-      float var66 = var25;
+      int var661 = var64 < 0L ? -1 : 1;
+      float var66x = var25;
       float var68 = 0.0F;
       float var69 = 0.0F;
       float var70 = 0.0F;
@@ -402,60 +296,36 @@ final class HomeSupport {
 
       for (int[] var74 : var18.K) {
          long var35 = 102781131700393L;
-         if (102781131700393L == 0L) {
-            boolean var115 = false;
-         } else {
-            int var116 = var35 < 0L ? -1 : 1;
-         }
-
-         int var38 = var4.C + var74[0];
+         int var38 = var35 < 0L ? -1 : 1;
+         var38 = var4.C + var74[0];
          int var82 = var4.d + var74[1];
          int var84 = var4.w + var74[2];
          long var85 = 102781131700394L;
-         if (102781131700394L == 0L) {
-            boolean var117 = false;
-         } else {
-            int var118 = var85 < 0L ? -1 : 1;
-         }
-
+         int var44 = var85 < 0L ? -1 : 1;
          if (var82 > var1.heightAt(var38, var84)) {
-            long var44 = pack(var38, var82, var84);
-            boolean var46 = this.M.containsKey(var44);
+            long var44x = pack(var38, var82, var84);
+            boolean var46 = this.M.containsKey(var44x);
             long var47 = 102781131700394L;
-            if (102781131700394L == 0L) {
-               boolean var119 = false;
-            } else {
-               int var120 = var47 < 0L ? -1 : 1;
-            }
-
+            int var46x = var47 < 0L ? -1 : 1;
             if (!var46) {
-               float var50 = Float.MAX_VALUE;
+               float var50x = Float.MAX_VALUE;
 
                for (int[] var52 : var18.D) {
                   float var53 = var74[0] - var52[0];
                   float var54 = var74[1] - var52[1];
                   float var55 = var74[2] - var52[2];
-                  var50 = Math.min(var50, var53 * var53 + var54 * var54 * 1.6F + var55 * var55);
+                  var50x = Math.min(var50x, var53 * var53 + var54 * var54 * 1.6F + var55 * var55);
                   long var56 = 102781131700393L;
-                  if (102781131700393L == 0L) {
-                     boolean var121 = false;
-                  } else {
-                     int var122 = var56 < 0L ? -1 : 1;
-                  }
+                  int var54x = var56 < 0L ? -1 : 1;
                }
 
-               HomeSupport.TypeP var86 = new HomeSupport.TypeP(var38, var82, var84, (byte)3, var4);
-               var86.d = var25 + 0.02F + (float)Math.sqrt(var50) * 0.058F + var5.nextFloat() * 0.07F;
-               var66 = Math.max(var66, var86.d);
+               HomeSupport.HomeBuffers var86 = new HomeSupport.HomeBuffers(var38, var82, var84, (byte)3, var4);
+               var86.d = var25 + 0.02F + (float)Math.sqrt(var50x) * 0.058F + var5.nextFloat() * 0.07F;
+               var66x = Math.max(var66x, var86.d);
                var4.p.add(var86);
                long var87 = 102781131700394L;
-               if (102781131700394L == 0L) {
-                  boolean var123 = false;
-               } else {
-                  int var124 = var87 < 0L ? -1 : 1;
-               }
-
-               this.M.put(var44, var86);
+               int var106 = var87 < 0L ? -1 : 1;
+               this.M.put(var44x, var86);
                var68 += var38;
                var69 += var82;
                var70 += var84;
@@ -464,53 +334,33 @@ final class HomeSupport {
          }
       }
 
-      long var72 = 102781131700394L;
-      if (102781131700394L == 0L) {
-         boolean var125 = false;
-      } else {
-         int var126 = var72 < 0L ? -1 : 1;
-      }
-
-      var4.T = var66;
+      long var72x = 102781131700394L;
+      int var81 = var72x < 0L ? -1 : 1;
+      var4.T = var66x;
       if (var71 > 0) {
          var4.q = var68 / var71 + 0.5F;
          var4.W = var69 / var71 + 0.5F;
          var4.G = var70 / var71 + 0.5F;
-         float var76 = 0.0F;
+         float var76x = 0.0F;
 
-         for (HomeSupport.TypeP var80 : var4.p) {
+         for (HomeSupport.HomeBuffers var80x : var4.p) {
             long var83 = 102781131700393L;
-            if (102781131700393L == 0L) {
-               boolean var127 = false;
-            } else {
-               int var128 = var83 < 0L ? -1 : 1;
-            }
-
+            int var97 = var83 < 0L ? -1 : 1;
             long var42 = 102781131700394L;
-            if (102781131700394L == 0L) {
-               boolean var129 = false;
-            } else {
-               int var130 = var42 < 0L ? -1 : 1;
-            }
-
-            if (var80.R == 3) {
-               var76 = Math.max(var76, Math.abs(var80.v + 0.5F - var4.q) + Math.abs(var80.X + 0.5F - var4.G));
+            int var102 = var42 < 0L ? -1 : 1;
+            if (var80x.R == 3) {
+               var76x = Math.max(var76x, Math.abs(var80x.v + 0.5F - var4.q) + Math.abs(var80x.X + 0.5F - var4.G));
             }
          }
 
          long var79 = 102781131700394L;
-         if (102781131700394L == 0L) {
-            boolean var131 = false;
-         } else {
-            int var132 = var79 < 0L ? -1 : 1;
-         }
-
-         var4.h = Math.max(1.5F, var76 * 0.7F);
+         int var93 = var79 < 0L ? -1 : 1;
+         var4.h = Math.max(1.5F, var76x * 0.7F);
       }
    }
 
-   private void U(char var1, int var2, short var3, HomeSupport5 var4, HomeSupport.TypeV var5, SplittableRandom var6) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private void U(char var1, int var2, short var3, HomeWorldState var4, HomeSupport.HomeGeometry var5, SplittableRandom var6) {
+      HomeGuiBridge.ensureSourceClassInitialized();
       byte var7;
       float var8;
       float var9;
@@ -546,8 +396,8 @@ final class HomeSupport {
                int var18 = var5.w + var11;
                var15 = 1605609962;
                short var19 = 0;
-               if (HomeSupport5.inside(var17, var18)) {
-                  int var20 = HomeSupport5.index(var17, var18);
+               if (HomeWorldState.inside(var17, var18)) {
+                  int var20 = HomeWorldState.index(var17, var18);
                   var15 = 1605609962;
                   int var21 = var4.m[var20];
                   var19 = 28013;
@@ -555,7 +405,7 @@ final class HomeSupport {
                      byte var22 = var4.W[var20];
                      var19 = 28013;
                      if (var22 == 0 && Math.abs(var21 + 1 - var5.d) <= 2 && !this.M.containsKey(pack(var17, var21 + 1, var18))) {
-                        HomeSupport.TypeP var23 = new HomeSupport.TypeP(var17, var21 + 1, var18, var7, var5);
+                        HomeSupport.HomeBuffers var23 = new HomeSupport.HomeBuffers(var17, var21 + 1, var18, var7, var5);
                         var23.d = var5.T * 0.82F + var6.nextFloat() * 0.45F + (float)Math.sqrt(var12 * var12 + var11 * var11) * 0.05F;
                         this.f.add(var23);
                         this.M.put(pack(var17, var21 + 1, var18), var23);
@@ -567,8 +417,8 @@ final class HomeSupport {
       }
    }
 
-   private static void Q(int var0, int var1, HomeSupport.TypeR var2, SplittableRandom var3, int var4, byte var5) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private static void Q(int var0, int var1, HomeSupport.HomeRendererState var2, SplittableRandom var3, int var4, byte var5) {
+      HomeGuiBridge.ensureSourceClassInitialized();
 
       for (int var6 = 0; var6 < var4; var6++) {
          var2.log(0, var6, 0, (byte)0, var6);
@@ -577,7 +427,7 @@ final class HomeSupport {
       var2.crown(0, var4 - 1, 0);
       int var7 = var4 - 3;
 
-      label75:
+      label76:
       while (var7 <= var4) {
          int var8 = var7 - var4;
          int var9 = 8106682;
@@ -586,35 +436,35 @@ final class HomeSupport {
 
          while (var11 <= var10) {
             if (var0 < 0) {
-               continue label75;
+               continue label76;
             }
 
             int var12 = -var10;
 
             while (var12 <= var10) {
-               label60: {
-                  label87: {
+               label61: {
+                  label88: {
                      var9 = 8106682;
                      int var13 = Math.abs(var11);
                      int var14 = var13 == var10 && Math.abs(var12) == var10 ? 1 : 0;
                      int var15 = var14;
                      if (var0 > 0) {
                         if (var14 == 0) {
-                           break label87;
+                           break label88;
                         }
 
                         var15 = var8;
                      }
 
                      if (var15 == 0) {
-                        break label60;
+                        break label61;
                      }
 
                      if (var3.nextFloat() < 0.5F) {
                         if (var0 < 0) {
                            continue;
                         }
-                        break label60;
+                        break label61;
                      }
                   }
 
@@ -634,31 +484,21 @@ final class HomeSupport {
       }
    }
 
-   private static void r(HomeSupport.TypeR var0, SplittableRandom var1, long var2) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private static void r(HomeSupport.HomeRendererState var0, SplittableRandom var1, long var2) {
+      HomeGuiBridge.ensureSourceClassInitialized();
       int var4 = 7 + var1.nextInt(4);
 
       for (int var5 = 0; var5 < var4; var5++) {
          long var6 = 99590931173153L;
-         if (99590931173153L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var19 = var6 < 0L ? -1 : 1;
-         }
-
+         int var9 = var6 < 0L ? -1 : 1;
          var0.log(0, var5, 0, (byte)0, var5);
       }
 
       var0.blob(var1, 0, var4, 0, 2.7F, 1.9F);
       long var18 = 99590931173154L;
-      if (99590931173154L == 0L) {
-         boolean var20 = false;
-      } else {
-         int var21 = var18 < 0L ? -1 : 1;
-      }
-
+      int var8 = var18 < 0L ? -1 : 1;
       var0.crown(0, var4, 0);
-      int var8 = 2 + var1.nextInt(3);
+      var8 = 2 + var1.nextInt(3);
       float var9 = var1.nextFloat() * (float) (Math.PI * 2);
 
       for (int var10 = 0; var10 < var8; var10++) {
@@ -675,8 +515,8 @@ final class HomeSupport {
       }
    }
 
-   private static void E(char var0, short var1, HomeSupport.TypeR var2, int var3, SplittableRandom var4) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private static void E(char var0, short var1, HomeSupport.HomeRendererState var2, int var3, SplittableRandom var4) {
+      HomeGuiBridge.ensureSourceClassInitialized();
       int var5 = 7 + var4.nextInt(4);
 
       for (int var6 = 0; var6 < var5; var6++) {
@@ -743,30 +583,20 @@ final class HomeSupport {
       var2.leaf(0, var5 + 1, 0);
    }
 
-   private static void M(HomeSupport.TypeR var0, SplittableRandom var1, long var2) {
-      HomeSupport2.ensureSourceClassInitialized();
+   private static void M(HomeSupport.HomeRendererState var0, SplittableRandom var1, long var2) {
+      HomeGuiBridge.ensureSourceClassInitialized();
       int var4 = 2 + var1.nextInt(2);
 
       for (int var5 = 0; var5 < var4; var5++) {
          long var6 = 69076484354392L;
-         if (69076484354392L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var60 = var6 < 0L ? -1 : 1;
-         }
-
+         int var9 = var6 < 0L ? -1 : 1;
          var0.log(0, var5, 0, (byte)0, var5);
       }
 
       float var50 = var1.nextFloat();
       long var51 = 69076484354393L;
-      if (69076484354393L == 0L) {
-         boolean var61 = false;
-      } else {
-         int var62 = var51 < 0L ? -1 : 1;
-      }
-
-      int var9 = var50 < 0.35F ? 3 : 2;
+      int var9 = var51 < 0L ? -1 : 1;
+      var9 = var50 < 0.35F ? 3 : 2;
       float var10 = var1.nextFloat() * (float) (Math.PI * 2);
       int var11 = 0;
 
@@ -784,61 +614,33 @@ final class HomeSupport {
          for (int var19 = 0; var19 < var18.length; var19++) {
             int var20 = var19 - 1;
             long var21 = 69076484354392L;
-            if (69076484354392L == 0L) {
-               boolean var63 = false;
-            } else {
-               int var64 = var21 < 0L ? -1 : 1;
-            }
-
-            float var23 = var18[var19] - var1.nextFloat() * 0.3F;
-            int var24 = (int)Math.ceil(var23);
+            int var23 = var21 < 0L ? -1 : 1;
+            float var23x = var18[var19] - var1.nextFloat() * 0.3F;
+            int var24 = (int)Math.ceil(var23x);
 
             for (int var25 = -var24; var25 <= var24; var25++) {
                int var26 = -var24;
                long var27 = 69076484354393L;
-               if (69076484354393L == 0L) {
-                  boolean var65 = false;
-               } else {
-                  int var66 = var27 < 0L ? -1 : 1;
-               }
+               int var54 = var27 < 0L ? -1 : 1;
 
                for (int var30 = var26; var30 <= var24; var30++) {
                   int var31 = var25 * var25;
                   long var32 = 69076484354393L;
-                  if (69076484354393L == 0L) {
-                     boolean var67 = false;
-                  } else {
-                     int var68 = var32 < 0L ? -1 : 1;
-                  }
-
-                  float var35 = (float)Math.sqrt(var31 + var30 * var30);
+                  int var32x = var32 < 0L ? -1 : 1;
+                  float var35x = (float)Math.sqrt(var31 + var30 * var30);
                   float var36;
-                  int var37 = (var36 = var35 - var23) == 0.0F ? 0 : (var36 < 0.0F ? -1 : 1);
+                  int var37 = (var36 = var35x - var23x) == 0.0F ? 0 : (var36 < 0.0F ? -1 : 1);
                   long var38 = 69076484354392L;
-                  if (69076484354392L == 0L) {
-                     boolean var69 = false;
-                  } else {
-                     int var70 = var38 < 0L ? -1 : 1;
-                  }
-
+                  int var37x = var38 < 0L ? -1 : 1;
                   if (var37 > 0) {
                      long var40 = 69076484354393L;
-                     if (69076484354393L == 0L) {
-                        boolean var71 = false;
-                     } else {
-                        int var72 = var40 < 0L ? -1 : 1;
-                     }
+                     int var58 = var40 < 0L ? -1 : 1;
                   } else {
                      if (var20 < 0) {
                         float var55;
-                        int var41 = (var55 = var35 - (var23 - 1.3F)) == 0.0F ? 0 : (var55 < 0.0F ? -1 : 1);
+                        int var41 = (var55 = var35x - (var23x - 1.3F)) == 0.0F ? 0 : (var55 < 0.0F ? -1 : 1);
                         long var42 = 69076484354392L;
-                        if (69076484354392L == 0L) {
-                           boolean var73 = false;
-                        } else {
-                           int var74 = var42 < 0L ? -1 : 1;
-                        }
-
+                        int var41x = var42 < 0L ? -1 : 1;
                         if (var41 < 0) {
                            continue;
                         }
@@ -846,38 +648,20 @@ final class HomeSupport {
                         float var44;
                         int var45 = (var44 = var1.nextFloat() - 0.55F) == 0.0F ? 0 : (var44 < 0.0F ? -1 : 1);
                         long var46 = 69076484354392L;
-                        if (69076484354392L == 0L) {
-                           boolean var75 = false;
-                        } else {
-                           int var76 = var46 < 0L ? -1 : 1;
-                        }
-
+                        int var45x = var46 < 0L ? -1 : 1;
                         if (var45 < 0) {
-                           long var48 = 69076484354393L;
-                           if (69076484354393L == 0L) {
-                              boolean var77 = false;
-                           } else {
-                              int var78 = var48 < 0L ? -1 : 1;
-                           }
+                           long var48x = 69076484354393L;
+                           int var47 = var48x < 0L ? -1 : 1;
                            continue;
                         }
-                     } else if (var35 > var23 - 0.8F) {
-                        float var56;
-                        int var57 = (var56 = var1.nextFloat() - 0.35F) == 0.0F ? 0 : (var56 < 0.0F ? -1 : 1);
+                     } else if (var35x > var23x - 0.8F) {
+                        float var56x;
+                        int var57 = (var56x = var1.nextFloat() - 0.35F) == 0.0F ? 0 : (var56x < 0.0F ? -1 : 1);
                         long var58 = 69076484354392L;
-                        if (69076484354392L == 0L) {
-                           boolean var79 = false;
-                        } else {
-                           int var80 = var58 < 0L ? -1 : 1;
-                        }
-
+                        int var68 = var58 < 0L ? -1 : 1;
                         if (var57 < 0) {
-                           long var59 = 69076484354392L;
-                           if (69076484354392L == 0L) {
-                              boolean var81 = false;
-                           } else {
-                              int var82 = var59 < 0L ? -1 : 1;
-                           }
+                           long var59x = 69076484354392L;
+                           int var70 = var59x < 0L ? -1 : 1;
                            continue;
                         }
                      }
@@ -886,29 +670,17 @@ final class HomeSupport {
                   }
                }
 
-               long var54 = 69076484354392L;
-               if (69076484354392L == 0L) {
-                  boolean var83 = false;
-               } else {
-                  int var84 = var54 < 0L ? -1 : 1;
-               }
+               long var54x = 69076484354392L;
+               int var591 = var54x < 0L ? -1 : 1;
             }
 
             long var53 = 69076484354393L;
-            if (69076484354393L == 0L) {
-               boolean var85 = false;
-            } else {
-               int var86 = var53 < 0L ? -1 : 1;
-            }
+            int var561 = var53 < 0L ? -1 : 1;
          }
 
          var11++;
          long var52 = 69076484354393L;
-         if (69076484354393L == 0L) {
-            boolean var87 = false;
-         } else {
-            int var88 = var52 < 0L ? -1 : 1;
-         }
+         int var531 = var52 < 0L ? -1 : 1;
       }
    }
 
@@ -916,15 +688,15 @@ final class HomeSupport {
       return (long)(var0 & 67108863) << 38 | (long)(var2 & 67108863) << 12 | var1 & 4095;
    }
 
-static final class TypeP {
+   static final class HomeBuffers {
       final int v;
       final int P;
       final int X;
       final byte R;
-      final HomeSupport.TypeV j;
+      final HomeSupport.HomeGeometry j;
       float d;
 
-      TypeP(int var1, int var2, int var3, byte var4, HomeSupport.TypeV var5) {
+      HomeBuffers(int var1, int var2, int var3, byte var4, HomeSupport.HomeGeometry var5) {
          this.v = var1;
          this.P = var2;
          this.X = var3;
@@ -937,7 +709,7 @@ static final class TypeP {
       }
    }
 
-   private static final class TypeR {
+   private static final class HomeRendererState {
       final List<int[]> O = new ArrayList<>();
       final List<int[]> K = new ArrayList<>();
       final List<int[]> D = new ArrayList<>();
@@ -995,13 +767,13 @@ static final class TypeP {
       }
    }
 
-   static final class TypeV {
+   static final class HomeGeometry {
       final int C;
       final int d;
       final int w;
-      final HomeSupport.TypeX x;
+      final HomeSupport.HomeFace x;
       final float H;
-      final List<HomeSupport.TypeP> p = new ArrayList<>();
+      final List<HomeSupport.HomeBuffers> p = new ArrayList<>();
       final List<int[]> Z = new ArrayList<>();
       float T;
       float q;
@@ -1009,7 +781,7 @@ static final class TypeP {
       float G;
       float h;
 
-      TypeV(int var1, int var2, int var3, HomeSupport.TypeX var4, float var5) {
+      HomeGeometry(int var1, int var2, int var3, HomeSupport.HomeFace var4, float var5) {
          this.C = var1;
          this.d = var2;
          this.w = var3;
@@ -1018,11 +790,11 @@ static final class TypeP {
       }
 
       boolean cherry() {
-         return this.x == HomeSupport.TypeX.j;
+         return this.x == HomeSupport.HomeFace.j;
       }
    }
 
-   static enum TypeX {
+   static enum HomeFace {
       E,
       w,
       t,
@@ -1031,6 +803,5 @@ static final class TypeP {
       I;
 
       private static final long a = -9063154655608963066L;
-
-}
+   }
 }

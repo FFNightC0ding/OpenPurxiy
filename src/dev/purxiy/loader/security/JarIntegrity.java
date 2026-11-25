@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.security;
 
 import java.io.IOException;
@@ -121,11 +120,11 @@ private static long b(int var0, long var1) {
       }
    }
 
-   private class TypeA {
+   private class IntegrityChunk {
       private final long a;
       private final byte[] b;
 
-      private TypeA(long var1, byte[] var3) {
+      private IntegrityChunk(long var1, byte[] var3) {
          this.a = var1;
          this.b = var3;
       }

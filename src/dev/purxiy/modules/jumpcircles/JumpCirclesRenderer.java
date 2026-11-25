@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.jumpcircles;
 
 import dev.purxiy.anim.Animator;
@@ -16,7 +15,9 @@ import dev.purxiy.render.font.Fonts;
 import dev.purxiy.ui.DrawContext;
 import dev.purxiy.ui.Icons;
 import dev.purxiy.ui.Theme;
+import dev.purxiy.ui.DrawContext.Cursor;
 import dev.purxiy.ui.clickgui.Studio;
+import dev.purxiy.ui.clickgui.Studio.PanelSide;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -35,9 +36,8 @@ public final class JumpCirclesRenderer implements Studio {
    private static final float Y = 0.25F;
    private static final float i = 0.55F;
    private static final Map<ModuleDescriptor, JumpCirclesRenderer> q = new IdentityHashMap<>();
-   
    private static JumpCirclesRenderer B;
-   private static final List<JumpCirclesRenderer.TypeN> y = new ArrayList<>();
+   private static final List<JumpCirclesRenderer.JumpAction> y = new ArrayList<>();
    private static double S;
    private static long Q = 0L;
    private final ModuleDescriptor d;
@@ -49,17 +49,17 @@ public final class JumpCirclesRenderer implements Studio {
    private double M;
    private int A;
    private double J;
-   private List<JumpCirclesFactory.Data2> D;
+   private List<JumpCirclesFactory.CosmeticEntry> D;
    private double r;
    private float P;
    private int a;
    private final double[] h;
    private boolean F;
-   private final JumpCirclesRenderer.TypeU k;
-   private final JumpCirclesRenderer.TypeU E;
-   private final JumpCirclesRenderer.TypeU L;
-   private final JumpCirclesRenderer.TypeU w;
-   private final List<JumpCirclesRenderer.TypeU> o;
+   private final JumpCirclesRenderer.JumpState k;
+   private final JumpCirclesRenderer.JumpState E;
+   private final JumpCirclesRenderer.JumpState L;
+   private final JumpCirclesRenderer.JumpState w;
+   private final List<JumpCirclesRenderer.JumpState> o;
    private final float[] e;
    private final float[] R;
    private boolean O;
@@ -77,8 +77,6 @@ public final class JumpCirclesRenderer implements Studio {
    private boolean c;
    private final Object n;
    public static boolean u;
-
-
    private static final long[] m = new long[]{
       2604263047951000742L,
       3711605729906620146L,
@@ -104,7 +102,7 @@ public final class JumpCirclesRenderer implements Studio {
    private JumpCirclesRenderer(ModuleDescriptor var1, long var2, JumpCirclesFactory var4) {
       long var5 = 137986509506137L;
       var5 = 47953094292915L;
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       this.M = -1.0;
       this.J = -1.0;
       this.D = List.of();
@@ -121,27 +119,17 @@ public final class JumpCirclesRenderer implements Studio {
       this.n = new Object();
       this.d = var1;
       this.H = var4;
-      this.k = new JumpCirclesRenderer.TypeU("Play", "play", () -> this.Y(132115444808547L));
-      this.E = new JumpCirclesRenderer.TypeU("Loop", "repeat", () -> {
+      this.k = new JumpCirclesRenderer.JumpState("Play", "play", () -> this.Y(132115444808547L));
+      this.E = new JumpCirclesRenderer.JumpState("Loop", "repeat", () -> {
          long var1x = 132115444808547L;
-         JumpCirclesRenderer2.ensureSourceClassInitialized();
+         JumpCirclesRenderPass.ensureSourceClassInitialized();
          boolean var3 = false;
          this.F = !this.F;
          long var4x = 34839736032211L;
-         if (34839736032211L == 0L) {
-            boolean var10000x = false;
-         } else {
-            int var10 = var4x < 0L ? -1 : 1;
-         }
-
+         int var7 = var4x < 0L ? -1 : 1;
          UiAudioPolicy.play(this.F ? "TOGGLE_ON" : "TOGGLE_OFF");
-         long var7 = 34839736032211L;
-         if (34839736032211L == 0L) {
-            boolean var11 = false;
-         } else {
-            int var12x = var7 < 0L ? -1 : 1;
-         }
-
+         long var7x = 34839736032211L;
+         int var8x = var7x < 0L ? -1 : 1;
          if (this.F && this.r < 0.0) {
             this.Y(var1x);
          }
@@ -149,13 +137,8 @@ public final class JumpCirclesRenderer implements Studio {
 
       for (JumpCirclesFactory.Data var8 : var4.G) {
          long var9 = 99087810314947L;
-         if (99087810314947L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var14 = var9 < 0L ? -1 : 1;
-         }
-
-         this.o.add(new JumpCirclesRenderer.TypeU(var8.label(), var8.icon(), () -> {
+         int var11 = var9 < 0L ? -1 : 1;
+         this.o.add(new JumpCirclesRenderer.JumpState(var8.label(), var8.icon(), () -> {
             long var2x = 137986509506137L;
             long var4x = (var2x ^ 22959916066311L) >>> 32;
             int var6 = (int)((var2x ^ 22959916066311L) << 32 >>> 32);
@@ -164,24 +147,18 @@ public final class JumpCirclesRenderer implements Studio {
       }
 
       long var13 = 99087810314947L;
-      if (99087810314947L == 0L) {
-         boolean var15 = false;
-      } else {
-         int var16 = var13 < 0L ? -1 : 1;
-      }
-
-      this.L = new JumpCirclesRenderer.TypeU("", "rotate-ccw", () -> {
+      int var14 = var13 < 0L ? -1 : 1;
+      this.L = new JumpCirclesRenderer.JumpState("", "rotate-ccw", () -> {
          long var0 = 47953094292915L;
-         JumpCirclesSupport2.resetView();
+         JumpCirclesFrameView.resetView();
          UiAudioPolicy.play("TAB", 1.1F);
       });
-      this.w = new JumpCirclesRenderer.TypeU("Done", "check", () -> {
+      this.w = new JumpCirclesRenderer.JumpState("Done", "check", () -> {
          this.t = true;
          UiAudioPolicy.play("CLICK");
       });
    }
 
-   
    public static JumpCirclesRenderer of(ModuleDescriptor var0) {
       long var1 = 20032002566162L;
       long var3 = var1 ^ 79331231132369L;
@@ -205,30 +182,25 @@ public final class JumpCirclesRenderer implements Studio {
    }
 
    static void later(float var0, Consumer<class_746> var1) {
-      y.add(new JumpCirclesRenderer.TypeN(S + var0, var1));
+      y.add(new JumpCirclesRenderer.JumpAction(S + var0, var1));
    }
 
-   @Override
    public String title() {
       return "Live preview";
    }
 
-   @Override
    public String subtitle() {
       return "Step out of yourself and watch it play on you";
    }
 
-   @Override
    public String icon() {
       return "scan-eye";
    }
 
-   @Override
    public String action() {
       return "Preview";
    }
 
-   @Override
    public boolean available() {
       class_310 var1 = class_310.method_1551();
       return var1.field_1687 != null
@@ -238,17 +210,14 @@ public final class JumpCirclesRenderer implements Studio {
          && (B == null || B == this || !B.v);
    }
 
-   @Override
-   public Studio.TypeQ dock() {
-      return Studio.TypeQ.RIGHT;
+   public PanelSide dock() {
+      return PanelSide.RIGHT;
    }
 
-   @Override
    public boolean keepsWorldRunning() {
       return true;
    }
 
-   @Override
    public void setOpen(boolean var1) {
       long var2 = 3955695549956L;
       long var4 = var2 ^ 123179719647106L;
@@ -267,7 +236,7 @@ public final class JumpCirclesRenderer implements Studio {
                this.v = true;
             }
 
-            JumpCirclesSupport2.open();
+            JumpCirclesFrameView.open();
             this.s = false;
             this.M = -1.0;
             this.A = this.C(var6);
@@ -280,7 +249,7 @@ public final class JumpCirclesRenderer implements Studio {
             this.m();
             y.clear();
             this.F = false;
-            JumpCirclesSupport2.close(CosmeticRegistry.currentOwner() == null);
+            JumpCirclesFrameView.close(CosmeticRegistry.currentOwner() == null);
             if (var8.field_1724 != null) {
                this.H.closed(var8.field_1724);
             }
@@ -288,7 +257,6 @@ public final class JumpCirclesRenderer implements Studio {
       }
    }
 
-   @Override
    public boolean consumeCloseRequest() {
       boolean var1 = this.t;
       this.t = false;
@@ -296,15 +264,10 @@ public final class JumpCirclesRenderer implements Studio {
    }
 
    private void i(long var1, boolean var3) {
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       if (this.C) {
          long var4 = 127066653401477L;
-         if (127066653401477L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var4 < 0L ? -1 : 1;
-         }
-
+         int var7 = var4 < 0L ? -1 : 1;
          if (!var3) {
             return;
          }
@@ -312,12 +275,7 @@ public final class JumpCirclesRenderer implements Studio {
 
       if (var3) {
          long var8 = 127066653401478L;
-         if (127066653401478L == 0L) {
-            boolean var10 = false;
-         } else {
-            int var11 = var8 < 0L ? -1 : 1;
-         }
-
+         int var8x = var8 < 0L ? -1 : 1;
          if (this.C) {
             this.C = false;
             this.m();
@@ -326,7 +284,7 @@ public final class JumpCirclesRenderer implements Studio {
                this.H.closed(var7.field_1724);
             }
 
-            JumpCirclesSupport2.reset();
+            JumpCirclesFrameView.reset();
          }
       }
 
@@ -349,11 +307,11 @@ public final class JumpCirclesRenderer implements Studio {
                var5.setOpen(false);
             }
 
-            if (!var5.C && JumpCirclesSupport2.active() && CosmeticRegistry.currentOwner() == null) {
-               JumpCirclesSupport2.hurry();
+            if (!var5.C && JumpCirclesFrameView.active() && CosmeticRegistry.currentOwner() == null) {
+               JumpCirclesFrameView.hurry();
             }
 
-            if (!var5.C && !JumpCirclesSupport2.active()) {
+            if (!var5.C && !JumpCirclesFrameView.active()) {
                var5.i(var3, false);
             }
          } else {
@@ -363,25 +321,15 @@ public final class JumpCirclesRenderer implements Studio {
    }
 
    private void Y(long var1) {
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       class_310 var3 = class_310.method_1551();
       if (var3.field_1724 != null) {
          long var4 = 132115444808547L;
-         if (132115444808547L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var11 = var4 < 0L ? -1 : 1;
-         }
-
-         String var7 = this.H.note();
+         int var7 = var4 < 0L ? -1 : 1;
+         String var7x = this.H.note();
          long var8 = 132115444808547L;
-         if (132115444808547L == 0L) {
-            boolean var12 = false;
-         } else {
-            int var13 = var8 < 0L ? -1 : 1;
-         }
-
-         if (var7 == null) {
+         int var9 = var8 < 0L ? -1 : 1;
+         if (var7x == null) {
             this.D = this.H.timeline();
             this.P = Math.max(0.5F, this.H.length());
             this.r = S;
@@ -395,7 +343,7 @@ public final class JumpCirclesRenderer implements Studio {
    }
 
    private void W(long var1, JumpCirclesFactory.Data var3, int var4) {
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       class_310 var5 = class_310.method_1551();
       if (var5.field_1724 != null && this.H.note() == null) {
          var3.action().accept(var5.field_1724);
@@ -405,21 +353,16 @@ public final class JumpCirclesRenderer implements Studio {
    }
 
    private int C(long var1) {
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       int var3 = 1;
 
       for (Setting var5 : this.d.settings()) {
          try {
             int var6 = var3 * 31;
             long var7 = 118447898306708L;
-            if (118447898306708L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var11 = var7 < 0L ? -1 : 1;
-            }
-
+            int var9 = var7 < 0L ? -1 : 1;
             var3 = var6 + var5.save().hashCode();
-         } catch (RuntimeException var10) {
+         } catch (RuntimeException var101) {
             var3 *= 31;
          }
       }
@@ -436,7 +379,7 @@ public final class JumpCirclesRenderer implements Studio {
    private void q(long var1) {
       long var3 = 132115444808547L;
       long var5 = 118447898306708L;
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       long var7 = System.nanoTime();
       float var9 = Q == 0L ? 0.0F : Math.min(0.1F, (float)(var7 - Q) / 1.0E9F);
       Q = var7;
@@ -444,36 +387,21 @@ public final class JumpCirclesRenderer implements Studio {
       class_746 var10 = class_310.method_1551().field_1724;
       if (var10 != null) {
          long var11 = 61308390560147L;
-         if (61308390560147L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var34 = var11 < 0L ? -1 : 1;
-         }
-
+         int var27 = var11 < 0L ? -1 : 1;
          if (this.r >= 0.0) {
-            double var14;
-            for (var14 = S - this.r; this.a < this.D.size() && this.D.get(this.a).at() <= var14; this.D.get(this.a++).action().accept(var10)) {
+            float var14;
+            for (var14 = (float)(S - this.r); this.a < this.D.size() && this.D.get(this.a).at() <= var14; this.D.get(this.a++).action().accept(var10)) {
                if (this.a < this.h.length) {
                   this.h[this.a] = S;
                }
             }
 
             long var16 = 61308390560147L;
-            if (61308390560147L == 0L) {
-               boolean var35 = false;
-            } else {
-               int var36 = var16 < 0L ? -1 : 1;
-            }
-
+            int var31 = var16 < 0L ? -1 : 1;
             double var19;
             int var18 = (var19 = var14 - (this.P + (this.F ? 0.9F : 0.0F))) == 0.0 ? 0 : (var19 < 0.0 ? -1 : 1);
             long var21 = 61308390560148L;
-            if (61308390560148L == 0L) {
-               boolean var37 = false;
-            } else {
-               int var38 = var21 < 0L ? -1 : 1;
-            }
-
+            int var24 = var21 < 0L ? -1 : 1;
             if (var18 >= 0) {
                if (this.F && this.C) {
                   this.Y(var3);
@@ -483,38 +411,23 @@ public final class JumpCirclesRenderer implements Studio {
             }
          }
 
-         Iterator var27 = y.iterator();
+         Iterator var27x = y.iterator();
 
-         while (var27.hasNext()) {
-            JumpCirclesRenderer.TypeN var15 = (JumpCirclesRenderer.TypeN)var27.next();
+         while (var27x.hasNext()) {
+            JumpCirclesRenderer.JumpAction var15 = (JumpCirclesRenderer.JumpAction)var27x.next();
             long var29 = 61308390560148L;
-            if (61308390560148L == 0L) {
-               boolean var39 = false;
-            } else {
-               int var40 = var29 < 0L ? -1 : 1;
-            }
-
+            int var32 = var29 < 0L ? -1 : 1;
             if (var15.m <= S) {
-               var27.remove();
+               var27x.remove();
                var15.h.accept(var10);
             }
          }
 
          long var28 = 61308390560147L;
-         if (61308390560147L == 0L) {
-            boolean var41 = false;
-         } else {
-            int var42 = var28 < 0L ? -1 : 1;
-         }
-
-         int var30 = this.C(var5);
+         int var30 = var28 < 0L ? -1 : 1;
+         var30 = this.C(var5);
          long var31 = 61308390560147L;
-         if (61308390560147L == 0L) {
-            boolean var43 = false;
-         } else {
-            int var44 = var31 < 0L ? -1 : 1;
-         }
-
+         int var34 = var31 < 0L ? -1 : 1;
          if (var30 != this.A) {
             this.A = var30;
             this.J = S;
@@ -525,20 +438,10 @@ public final class JumpCirclesRenderer implements Studio {
             boolean var32 = this.r >= 0.0 && S - this.r < this.P;
             if (this.C) {
                long var22 = 61308390560148L;
-               if (61308390560148L == 0L) {
-                  boolean var45 = false;
-               } else {
-                  int var46 = var22 < 0L ? -1 : 1;
-               }
-
+               int var39 = var22 < 0L ? -1 : 1;
                if (this.s) {
                   long var24 = 61308390560148L;
-                  if (61308390560148L == 0L) {
-                     boolean var47 = false;
-                  } else {
-                     int var48 = var24 < 0L ? -1 : 1;
-                  }
-
+                  int var24x = var24 < 0L ? -1 : 1;
                   if (!var32 && this.H.note() == null) {
                      this.Y(var3);
                   }
@@ -547,33 +450,16 @@ public final class JumpCirclesRenderer implements Studio {
          }
 
          long var33 = 61308390560148L;
-         if (61308390560148L == 0L) {
-            boolean var49 = false;
-         } else {
-            int var50 = var33 < 0L ? -1 : 1;
-         }
-
-         if (this.C && JumpCirclesSupport2.settled()) {
+         int var23 = var33 < 0L ? -1 : 1;
+         if (this.C && JumpCirclesFrameView.settled()) {
             if (this.M < 0.0) {
                this.M = S;
             }
 
             if (!this.s) {
-               long var23 = 61308390560147L;
-               if (61308390560147L == 0L) {
-                  boolean var51 = false;
-               } else {
-                  int var52 = var23 < 0L ? -1 : 1;
-               }
-
+               long var23x = 61308390560147L;
                if (S - this.M >= 0.25) {
-                  long var25 = 61308390560147L;
-                  if (61308390560147L == 0L) {
-                     boolean var53 = false;
-                  } else {
-                     int var54 = var25 < 0L ? -1 : 1;
-                  }
-
+                  long var25x = 61308390560147L;
                   this.s = true;
                   if (this.r < 0.0 && this.H.note() == null) {
                      this.Y(var3);
@@ -584,7 +470,6 @@ public final class JumpCirclesRenderer implements Studio {
       }
    }
 
-   @Override
    public void render(DrawContext var1, float var2, float var3) {
       long var4 = 57841039920762L;
       long var6 = var4 ^ 131303321289622L;
@@ -601,11 +486,11 @@ public final class JumpCirclesRenderer implements Studio {
       float var18 = Math.max(var17 + 200.0F, var3 - 16.0F);
       float var19 = (var17 + var18) / 2.0F;
       float var20 = 110.0F;
-      JumpCirclesSupport2.frame(var19 / this.I * 2.0F - 1.0F, 1.0F - (this.f - var20) / this.f);
-      float var21 = Easing.SMOOTHSTEP.apply(N((JumpCirclesSupport2.progress() - 0.62F) / 0.38F, var6));
+      JumpCirclesFrameView.frame(var19 / this.I * 2.0F - 1.0F, 1.0F - (this.f - var20) / this.f);
+      float var21 = Easing.SMOOTHSTEP.apply(N((JumpCirclesFrameView.progress() - 0.62F) / 0.38F, var6));
       float var22 = this.Z.target(this.C ? var21 : 0.0F).update(MotionStyle.MENU.dt(var1.dt)) * var2;
       if (this.U) {
-         var1.claim(this.n, DrawContext.TypeE.MOVE);
+         var1.claim(this.n, Cursor.MOVE);
       }
 
       if (var22 <= 0.01F) {
@@ -628,8 +513,8 @@ public final class JumpCirclesRenderer implements Studio {
       long var18 = 121306043438012L;
       String var20 = "Live preview";
       float var21 = var4.textWidth(Fonts.SEMIBOLD, var20, 9.5F);
-      List var22 = this.U();
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      List<JumpCirclesRenderer.JumpState>var22 = this.U();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       this.O = false;
       float var23 = this.Y(var4, var16, var22);
       boolean var24 = 32.0F + var21 + var23 + 10.0F > var6 - 16.0F;
@@ -652,73 +537,53 @@ public final class JumpCirclesRenderer implements Studio {
       float var29 = var28 + 17.0F;
       float var30 = MotionStyle.reduced() ? 0.7F : 0.55F + 0.45F * (float)Math.sin(var1.time * 3.2F);
       long var31 = 19822170953718L;
-      if (19822170953718L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var75 = var31 < 0L ? -1 : 1;
-      }
-
+      int var31x = var31 < 0L ? -1 : 1;
       var4.glowCircle(var27 + 12.0F + 6.0F, var29, 3.0F, 7.0F, BlendMode.withAlpha(Icons.PINK, 0.45F * var30));
       var4.circle(var27 + 12.0F + 6.0F, var29, 3.0F, BlendMode.lerp(Icons.MAGENTA, Icons.PINK, var30));
       if (!var24) {
          var4.text(Fonts.SEMIBOLD, var20, var27 + 12.0F + 14.0F + 6.0F, var29, 9.5F, Icons.TEXT, FontStyle.LEFT, FontWeight.MIDDLE);
       }
 
-      float var34 = var27 + var25;
+      float var34x = var27 + var25;
       boolean var35 = this.r >= 0.0 && S - this.r < this.P;
       float var36 = this.N.target(var35 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
 
-      for (JumpCirclesRenderer.TypeU var38 : ((Iterable<JumpCirclesRenderer.TypeU>)(Object)var22)) {
+      for (JumpCirclesRenderer.JumpState var38 : var22) {
+         float var611;
+         float var43;
          float var39 = this.i(var18, var38) ? 14.0F : 5.0F;
          long var40 = 19822170953719L;
-         if (19822170953719L == 0L) {
-            boolean var76 = false;
-         } else {
-            int var77 = var40 < 0L ? -1 : 1;
-         }
-
+         int var39x = var40 < 0L ? -1 : 1;
          if (this.i(var18, var38)) {
-            var4.rect(var34 + var39 / 2.0F - 0.5F, var28 + 9.0F, 1.0F, 16.0F, 486539263);
+            var4.rect(var34x + var39 / 2.0F - 0.5F, var28 + 9.0F, 1.0F, 16.0F, 486539263);
          }
 
-         var34 += var39;
-         float var43 = this.X(var4, var38, var10);
-         float var44 = 24.0F;
-         float var45 = var28 + (34.0F - var44) / 2.0F;
-         var38.T[0] = var34;
-         var38.T[1] = var45;
-         var38.T[2] = var43;
-         var38.T[3] = var44;
-         boolean var46 = var38 != this.L || JumpCirclesSupport2.moved();
-         long var47 = 19822170953719L;
-         if (19822170953719L == 0L) {
-            boolean var78 = false;
-         } else {
-            int var79 = var47 < 0L ? -1 : 1;
-         }
-
+         float var44;
+         float var45;
+         boolean var46;
          boolean var9;
-         label264: {
+         label219: {
+            var611 = var34x + var39;
+            var43 = this.X(var4, var38, var10);
+            var44 = 24.0F;
+            var45 = var28 + (34.0F - var44) / 2.0F;
+            var38.T[0] = var611;
+            var38.T[1] = var45;
+            var38.T[2] = var43;
+            var38.T[3] = var44;
+            var46 = var38 != this.L || JumpCirclesFrameView.moved();
+            long var47 = 19822170953719L;
+            var9 = false;
             if (var46) {
                long var50 = 19822170953718L;
-               if (19822170953718L == 0L) {
-                  boolean var80 = false;
-               } else {
-                  int var81 = var50 < 0L ? -1 : 1;
-               }
-
+               int var65 = var50 < 0L ? -1 : 1;
                if (!this.U) {
                   boolean var52 = var1.masked();
                   long var53 = 19822170953719L;
-                  if (19822170953719L == 0L) {
-                     boolean var82 = false;
-                  } else {
-                     int var83 = var53 < 0L ? -1 : 1;
-                  }
-
+                  int var33 = var53 < 0L ? -1 : 1;
                   if (!var52 && e(var38.T, var14, var1.mouseX, var1.mouseY)) {
                      var9 = true;
-                     break label264;
+                     break label219;
                   }
                }
             }
@@ -727,33 +592,23 @@ public final class JumpCirclesRenderer implements Studio {
          }
 
          if (var9) {
-            var1.claim(var38, DrawContext.TypeE.HAND);
+            var1.claim(var38, Cursor.HAND);
          }
 
          float var48 = var38.t.target(var9 ? 1.0F : 0.0F).update(MotionStyle.HOVER.dt(var1.dt));
          float var49 = var38.g.update(MotionStyle.TOGGLE.dt(var1.dt));
          var4.push();
-         var4.scaleAround(1.0F - 0.05F * var49, var34 + var43 / 2.0F, var45 + var44 / 2.0F);
+         var4.scaleAround(1.0F - 0.05F * var49, var611 + var43 / 2.0F, var45 + var44 / 2.0F);
          boolean var65 = var38 == this.E && this.F;
          long var51 = 19822170953719L;
-         if (19822170953719L == 0L) {
-            boolean var84 = false;
-         } else {
-            int var85 = var51 < 0L ? -1 : 1;
-         }
-
+         int var33 = var51 < 0L ? -1 : 1;
          if (var38 == this.k) {
             float var66 = var44 / 2.0F;
             long var54 = 19822170953719L;
-            if (19822170953719L == 0L) {
-               boolean var86 = false;
-            } else {
-               int var87 = var54 < 0L ? -1 : 1;
-            }
-
-            var4.glow(var34, var45, var43, var44, var66, 12.0F, BlendMode.withAlpha(Icons.VIOLET, 0.22F + 0.2F * var48 + 0.15F * var36));
+            int var54x = var54 < 0L ? -1 : 1;
+            var4.glow(var611, var45, var43, var44, var66, 12.0F, BlendMode.withAlpha(Icons.VIOLET, 0.22F + 0.2F * var48 + 0.15F * var36));
             var4.roundRectGradient(
-               var34,
+               var611,
                var45,
                var43,
                var44,
@@ -764,101 +619,65 @@ public final class JumpCirclesRenderer implements Studio {
             );
             if (var36 > 0.01F) {
                long var57 = 19822170953718L;
-               if (19822170953718L == 0L) {
-                  boolean var88 = false;
-               } else {
-                  int var89 = var57 < 0L ? -1 : 1;
-               }
-
+               int var73 = var57 < 0L ? -1 : 1;
                if (this.r >= 0.0) {
                   float var60 = N((float)((S - this.r) / this.P), var12);
                   long var61 = 19822170953719L;
-                  if (19822170953719L == 0L) {
-                     boolean var90 = false;
-                  } else {
-                     int var91 = var61 < 0L ? -1 : 1;
-                  }
-
-                  var4.pushClip(var34, var45, var43, var44, var44 / 2.0F);
-                  var4.rect(var34, var45, var43 * var60, var44, BlendMode.withAlpha(-1, 0.13F * var36));
+                  int var59 = var61 < 0L ? -1 : 1;
+                  var4.pushClip(var611, var45, var43, var44, var44 / 2.0F);
+                  var4.rect(var611, var45, var43 * var60, var44, BlendMode.withAlpha(-1, 0.13F * var36));
                   var4.popClip();
                }
             }
          } else {
             long var67 = 19822170953719L;
-            if (19822170953719L == 0L) {
-               boolean var92 = false;
-            } else {
-               int var93 = var67 < 0L ? -1 : 1;
-            }
-
+            int var55 = var67 < 0L ? -1 : 1;
             if (var65) {
-               float var55 = var44 / 2.0F;
+               float var55x = var44 / 2.0F;
                long var56 = 19822170953719L;
-               if (19822170953719L == 0L) {
-                  boolean var94 = false;
-               } else {
-                  int var95 = var56 < 0L ? -1 : 1;
-               }
-
+               int var83 = var56 < 0L ? -1 : 1;
                var4.roundRectGradient(
-                  var34,
+                  var611,
                   var45,
                   var43,
                   var44,
-                  var55,
+                  var55x,
                   0.0F,
                   BlendMode.withAlpha(Icons.INDIGO, 0.7F + 0.2F * var48),
                   BlendMode.withAlpha(Icons.MAGENTA, 0.7F + 0.2F * var48)
                );
             } else {
-               var4.roundRect(var34, var45, var43, var44, var44 / 2.0F, BlendMode.lerp(352321535, 654311423, var48));
+               var4.roundRect(var611, var45, var43, var44, var44 / 2.0F, BlendMode.lerp(352321535, 654311423, var48));
             }
          }
 
-         int var33;
-         label246: {
-            var4.roundRectOutline(var34, var45, var43, var44, var44 / 2.0F, 1.0F, BlendMode.lerp(452984831, 1124073471, var48));
+         label201: {
+            var4.roundRectOutline(var611, var45, var43, var44, var44 / 2.0F, 1.0F, BlendMode.lerp(452984831, 1124073471, var48));
             if (var38 != this.k) {
                long var68 = 19822170953719L;
-               if (19822170953719L == 0L) {
-                  boolean var96 = false;
-               } else {
-                  int var97 = var68 < 0L ? -1 : 1;
-               }
-
+               int var77 = var68 < 0L ? -1 : 1;
                if (!var65) {
                   var33 = var46 ? BlendMode.lerp(Icons.TEXT_2, Icons.TEXT, var48) : BlendMode.withAlpha(Icons.TEXT_3, 0.6F);
-                  break label246;
+                  break label201;
                }
             }
 
             var33 = Icons.TEXT;
          }
 
+         String var8;
          long var70 = 19822170953718L;
-         if (19822170953718L == 0L) {
-            boolean var98 = false;
-         } else {
-            int var99 = var70 < 0L ? -1 : 1;
-         }
-
+         int var78 = var70 < 0L ? -1 : 1;
          if (!var38.z.isEmpty() && (!this.O || !this.o.contains(var38))) {
-            String var8;
-            label230: {
+            label185: {
                if (var38 == this.k) {
                   float var72;
                   var33 = (var72 = var36 - 0.5F) == 0.0F ? 0 : (var72 < 0.0F ? -1 : 1);
                   long var73 = 19822170953719L;
-                  if (19822170953719L == 0L) {
-                     boolean var102 = false;
-                  } else {
-                     int var103 = var73 < 0L ? -1 : 1;
-                  }
-
+                  int var58 = var73 < 0L ? -1 : 1;
                   if (var33 > 0) {
                      var8 = "rotate-ccw";
-                     break label230;
+                     break label185;
                   }
                }
 
@@ -866,24 +685,20 @@ public final class JumpCirclesRenderer implements Studio {
             }
 
             int var74 = var38 == this.w ? BlendMode.lerp(Icons.PURPLE, Icons.TEXT, var48) : var33;
-            var4.icon(var8, var34 + 11.0F + 5.5F, var45 + var44 / 2.0F, 11.0F, var74);
-            var4.text(Fonts.MEDIUM, var38.z, var34 + 11.0F + 11.0F + 5.0F, var45 + var44 / 2.0F, 9.0F, var33, FontStyle.LEFT, FontWeight.MIDDLE);
+            var4.icon(var8, var611 + 11.0F + 5.5F, var45 + var44 / 2.0F, 11.0F, var74);
+            var4.text(Fonts.MEDIUM, var38.z, var611 + 11.0F + 11.0F + 5.0F, var45 + var44 / 2.0F, 9.0F, var33, FontStyle.LEFT, FontWeight.MIDDLE);
          } else {
-            var4.icon(var38.E, var34 + var43 / 2.0F, var45 + var44 / 2.0F, 12.0F, var33);
+            var4.icon(var38.E, var611 + var43 / 2.0F, var45 + var44 / 2.0F, 12.0F, var33);
             long var71 = 19822170953719L;
-            if (19822170953719L == 0L) {
-               boolean var100 = false;
-            } else {
-               int var101 = var71 < 0L ? -1 : 1;
-            }
+            int var84 = var71 < 0L ? -1 : 1;
          }
 
          var4.pop();
-         var34 += var43;
+         var34x = var611 + var43;
       }
    }
 
-   private List<JumpCirclesRenderer.TypeU> U() {
+   private List<JumpCirclesRenderer.JumpState> U() {
       ArrayList var1 = new ArrayList();
       var1.add(this.k);
       var1.add(this.E);
@@ -893,33 +708,33 @@ public final class JumpCirclesRenderer implements Studio {
       return var1;
    }
 
-   private boolean i(long var1, JumpCirclesRenderer.TypeU var3) {
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+   private boolean i(long var1, JumpCirclesRenderer.JumpState var3) {
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       return var3 == this.k || var3 == this.L || !this.o.isEmpty() && var3 == this.o.getFirst();
    }
 
-   private float Y(Canvas var1, long var2, List var4) {
+   private float Y(Canvas var1, long var2, List<JumpState> var4) {
       long var5 = 39519439660851L;
       long var7 = 121306043438012L;
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       float var9 = 0.0F;
 
-      for (JumpCirclesRenderer.TypeU var11 : ((Iterable<JumpCirclesRenderer.TypeU>)(Object)var4)) {
+      for (JumpCirclesRenderer.JumpState var11 : var4) {
          var9 += this.X(var1, var11, var5) + (this.i(var7, var11) ? 14 : 5);
       }
 
       return var9;
    }
 
-   private float X(Canvas var1, JumpCirclesRenderer.TypeU var2, long var3) {
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
-      return var2.z.isEmpty() || this.O && this.o.contains(var2) ? 28.0F : 27.0F + var1.textWidth(Fonts.MEDIUM, var2.z, 9.0F) + 12.0F;
+   private float X(Canvas var1, JumpCirclesRenderer.JumpState var2, long var3) {
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
+      return !var2.z.isEmpty() && (!this.O || !this.o.contains(var2)) ? 27.0F + var1.textWidth(Fonts.MEDIUM, var2.z, 9.0F) + 12.0F : 28.0F;
    }
 
    private void J(long var1, DrawContext var3, Canvas var4, float var5) {
       long var6 = 74699236281836L;
       long var8 = 108877147471538L;
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       float var10 = this.e[0] + this.e[2] / 2.0F;
       float var11 = this.f - 22.0F - 34.0F - 8.0F - 24.0F + var5;
       String var12 = this.H.note();
@@ -939,78 +754,48 @@ public final class JumpCirclesRenderer implements Studio {
             float var17 = 0.0F;
 
             for (int var18 = 0; var18 < var50; var18++) {
-               var16[var18] = 12.0F + var4.textWidth(Fonts.MEDIUM, ((JumpCirclesFactory.Data2)var49.get(var18)).label(), 8.5F);
+               var16[var18] = 12.0F + var4.textWidth(Fonts.MEDIUM, ((JumpCirclesFactory.CosmeticEntry)var49.get(var18)).label(), 8.5F);
                var17 += var16[var18] + (var18 > 0 ? var51 : 0.0F);
             }
 
             long var52 = 84960685098490L;
-            if (84960685098490L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var53 = var52 < 0L ? -1 : 1;
-            }
-
-            float var21 = var17 + 28.0F;
+            int var21 = var52 < 0L ? -1 : 1;
+            float var21x = var17 + 28.0F;
             long var22 = 84960685098491L;
-            if (84960685098491L == 0L) {
-               boolean var54 = false;
-            } else {
-               int var55 = var22 < 0L ? -1 : 1;
-            }
-
-            float var24 = this.W.value() <= 0.0F ? this.W.snap(var21).value() : this.W.target(var21).update(var3.dt);
-            float var25 = var10 - var24 / 2.0F;
+            int var24 = var22 < 0L ? -1 : 1;
+            float var24x = this.W.value() <= 0.0F ? this.W.snap(var21x).value() : this.W.target(var21x).update(var3.dt);
+            float var25 = var10 - var24x / 2.0F;
             this.R[0] = var25;
             this.R[1] = var11;
-            this.R[2] = var24;
+            this.R[2] = var24x;
             this.R[3] = 24.0F;
-            this.A(var4, var8, var25, var11, var24);
+            this.A(var4, var8, var25, var11, var24x);
             float var26 = var11 + 12.0F;
             long var27 = 84960685098490L;
-            if (84960685098490L == 0L) {
-               boolean var56 = false;
-            } else {
-               int var57 = var27 < 0L ? -1 : 1;
-            }
-
-            double var30 = this.r >= 0.0 ? S - this.r : -1.0;
+            int var30 = var27 < 0L ? -1 : 1;
+            double var30x = this.r >= 0.0 ? S - this.r : -1.0;
             float var32 = var10 - var17 / 2.0F;
 
             for (int var33 = 0; var33 < var50; var33++) {
-               JumpCirclesFactory.Data2 var34 = (JumpCirclesFactory.Data2)var49.get(var33);
-               boolean var35 = var30 >= var34.at();
+               JumpCirclesFactory.CosmeticEntry var34 = (JumpCirclesFactory.CosmeticEntry)var49.get(var33);
+               boolean var35 = var30x >= var34.at();
                long var36 = 84960685098491L;
-               if (84960685098491L == 0L) {
-                  boolean var58 = false;
-               } else {
-                  int var59 = var36 < 0L ? -1 : 1;
-               }
-
-               float var38 = var35 && var33 < this.h.length ? (float)(S - this.h[var33]) : 99.0F;
-               float var39 = var35 ? (float)Math.exp(-var38 / 0.18F) : 0.0F;
+               int var36x = var36 < 0L ? -1 : 1;
+               float var38x = var35 && var33 < this.h.length ? (float)(S - this.h[var33]) : 99.0F;
+               float var39 = var35 ? (float)Math.exp(-var38x / 0.18F) : 0.0F;
                float var40 = var32 + 3.5F;
                if (var33 > 0) {
-                  JumpCirclesFactory.Data2 var41 = (JumpCirclesFactory.Data2)var49.get(var33 - 1);
+                  JumpCirclesFactory.CosmeticEntry var41 = (JumpCirclesFactory.CosmeticEntry)var49.get(var33 - 1);
                   long var42 = 84960685098490L;
-                  if (84960685098490L == 0L) {
-                     boolean var60 = false;
-                  } else {
-                     int var61 = var42 < 0L ? -1 : 1;
-                  }
-
-                  float var44 = var32 - var51 + 3.0F;
+                  int var42x = var42 < 0L ? -1 : 1;
+                  float var44x = var32 - var51 + 3.0F;
                   float var45 = var32 - 3.0F;
-                  var4.rect(var44, var26 - 0.5F, var45 - var44, 1.0F, 587202559);
+                  var4.rect(var44x, var26 - 0.5F, var45 - var44x, 1.0F, 587202559);
                   long var46 = 84960685098491L;
-                  if (84960685098491L == 0L) {
-                     boolean var62 = false;
-                  } else {
-                     int var63 = var46 < 0L ? -1 : 1;
-                  }
-
-                  if (var30 >= var41.at()) {
-                     float var48 = N((float)((var30 - var41.at()) / Math.max(0.05F, var34.at() - var41.at())), var6);
-                     var4.rect(var44, var26 - 0.75F, (var45 - var44) * var48, 1.5F, BlendMode.withAlpha(Icons.MAGENTA, 0.85F));
+                  int var46x = var46 < 0L ? -1 : 1;
+                  if (var30x >= var41.at()) {
+                     float var48x = N((float)((var30x - var41.at()) / Math.max(0.05F, var34.at() - var41.at())), var6);
+                     var4.rect(var44x, var26 - 0.75F, (var45 - var44x) * var48x, 1.5F, BlendMode.withAlpha(Icons.MAGENTA, 0.85F));
                   }
                }
 
@@ -1035,29 +820,19 @@ public final class JumpCirclesRenderer implements Studio {
    private void f(DrawContext var1, Canvas var2, float var3, float var4, long var5) {
       long var7;
       boolean var21;
-      label71: {
+      label44: {
          var7 = 108877147471538L;
-         JumpCirclesRenderer2.ensureSourceClassInitialized();
+         JumpCirclesRenderPass.ensureSourceClassInitialized();
          if (this.C) {
             long var10 = 31747241409675L;
-            if (31747241409675L == 0L) {
-               boolean var10000 = false;
-            } else {
-               int var25 = var10 < 0L ? -1 : 1;
-            }
-
+            int varCmp = var10 < 0L ? -1 : 1;
             if (!this.c) {
-               var21 = JumpCirclesSupport2.settled();
+               var21 = JumpCirclesFrameView.settled();
                long var13 = 31747241409675L;
-               if (31747241409675L == 0L) {
-                  boolean var26 = false;
-               } else {
-                  int var27 = var13 < 0L ? -1 : 1;
-               }
-
+               int var14 = var13 < 0L ? -1 : 1;
                if (var21 && (this.M < 0.0 || S - this.M < 9.0)) {
                   var21 = true;
-                  break label71;
+                  break label44;
                }
             }
          }
@@ -1069,27 +844,21 @@ public final class JumpCirclesRenderer implements Studio {
       float var12;
       int varCmp = Float.compare(var12 = var11 - 0.01F, 0.0F);
       long var24 = 31747241409675L;
-      if (31747241409675L == 0L) {
-         boolean var28 = false;
-      } else {
-         int var29 = var24 < 0L ? -1 : 1;
-      }
-
+      int var16 = var24 < 0L ? -1 : 1;
       if (varCmp > 0) {
-         String var16 = "Drag to look around  ·  Scroll to zoom  ·  Double-click to reset";
-         float var17 = var2.textWidth(Fonts.MEDIUM, var16, 8.5F);
+         String var16x = "Drag to look around  ·  Scroll to zoom  ·  Double-click to reset";
+         float var17 = var2.textWidth(Fonts.MEDIUM, var16x, 8.5F);
          float var18 = var17 + 40.0F;
          float var19 = 22.0F - (1.0F - var11) * 6.0F;
          float var20 = Math.max(16.0F, (16.0F + this.x - 16.0F) / 2.0F - var18 / 2.0F);
          var2.pushAlpha(var11 / Math.max(var4, 0.01F) * var4);
          this.A(var2, var7, var20, var19, var18);
          var2.icon("mouse", var20 + 16.0F, var19 + 12.0F, 11.0F, Icons.PURPLE);
-         var2.text(Fonts.MEDIUM, var16, var20 + 28.0F, var19 + 12.0F, 8.5F, Icons.TEXT_2, FontStyle.LEFT, FontWeight.MIDDLE);
+         var2.text(Fonts.MEDIUM, var16x, var20 + 28.0F, var19 + 12.0F, 8.5F, Icons.TEXT_2, FontStyle.LEFT, FontWeight.MIDDLE);
          var2.popAlpha();
       }
    }
 
-   @Override
    public boolean mouseDown(float var1, float var2, int var3) {
       long var4 = 43325593023976L;
       long var6 = var4 ^ 47943694116679L;
@@ -1097,8 +866,8 @@ public final class JumpCirclesRenderer implements Studio {
          return false;
       } else if (this.e[2] > 0.0F && e(this.e, var6, var1, var2)) {
          if (var3 == 0) {
-            for (JumpCirclesRenderer.TypeU var9 : this.U()) {
-               if (e(var9.T, var6, var1, var2) && (var9 != this.L || JumpCirclesSupport2.moved())) {
+            for (JumpCirclesRenderer.JumpState var9 : this.U()) {
+               if (e(var9.T, var6, var1, var2) && (var9 != this.L || JumpCirclesFrameView.moved())) {
                   var9.g.snap(1.0F).target(0.0F);
                   var9.h.run();
                   return true;
@@ -1113,8 +882,8 @@ public final class JumpCirclesRenderer implements Studio {
          long var8 = System.currentTimeMillis();
          if (var3 == 0 && var8 - this.V < 320L) {
             this.V = 0L;
-            if (JumpCirclesSupport2.moved()) {
-               JumpCirclesSupport2.resetView();
+            if (JumpCirclesFrameView.moved()) {
+               JumpCirclesFrameView.resetView();
                UiAudioPolicy.play("TAB", 1.1F);
             }
 
@@ -1129,7 +898,6 @@ public final class JumpCirclesRenderer implements Studio {
       }
    }
 
-   @Override
    public void mouseDrag(float var1, float var2) {
       if (this.U) {
          float var3 = var1 - this.X;
@@ -1137,22 +905,20 @@ public final class JumpCirclesRenderer implements Studio {
          this.X = var1;
          this.K = var2;
          if (var3 != 0.0F || var4 != 0.0F) {
-            JumpCirclesSupport2.drag(var3, var4);
+            JumpCirclesFrameView.drag(var3, var4);
             this.c = true;
             this.V = 0L;
          }
       }
    }
 
-   @Override
    public void mouseUp(float var1, float var2, int var3) {
       this.U = false;
    }
 
-   @Override
    public boolean scroll(float var1, float var2, double var3) {
       if (this.C && var3 != 0.0) {
-         JumpCirclesSupport2.zoom(var3);
+         JumpCirclesFrameView.zoom(var3);
          this.c = true;
          return true;
       } else {
@@ -1160,7 +926,6 @@ public final class JumpCirclesRenderer implements Studio {
       }
    }
 
-   @Override
    public boolean keyPressed(int var1) {
       long var2 = 38646194498529L;
       long var4 = var2 ^ 100117878788226L;
@@ -1181,7 +946,6 @@ public final class JumpCirclesRenderer implements Studio {
       }
    }
 
-   
    static JumpCirclesRenderer current() {
       return B;
    }
@@ -1196,28 +960,18 @@ public final class JumpCirclesRenderer implements Studio {
          this.r >= 0.0 ? String.format(Locale.ROOT, "%.2f", S - this.r) : "no",
          this.F,
          S,
-         JumpCirclesSupport2.describe()
+         JumpCirclesFrameView.describe()
       );
    }
 
    private static boolean e(float[] var0, long var1, float var3, float var4) {
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       float var5 = var0[2];
       long var6 = 14281912324782L;
-      if (14281912324782L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var11 = var6 < 0L ? -1 : 1;
-      }
-
+      int var9 = var6 < 0L ? -1 : 1;
       if (var5 > 0.0F && var3 >= var0[0]) {
-         long var9 = 14281912324783L;
-         if (14281912324783L == 0L) {
-            boolean var12 = false;
-         } else {
-            int var13 = var9 < 0L ? -1 : 1;
-         }
-
+         long var9x = 14281912324783L;
+         int var10 = var9x < 0L ? -1 : 1;
          if (var3 <= var0[0] + var0[2] && var4 >= var0[1] && var4 <= var0[1] + var0[3]) {
             return true;
          }
@@ -1227,7 +981,7 @@ public final class JumpCirclesRenderer implements Studio {
    }
 
    private static float N(float var0, long var1) {
-      JumpCirclesRenderer2.ensureSourceClassInitialized();
+      JumpCirclesRenderPass.ensureSourceClassInitialized();
       return var0 < 0.0F ? 0.0F : Math.min(var0, 1.0F);
    }
 
@@ -1238,12 +992,12 @@ public final class JumpCirclesRenderer implements Studio {
          B.i(var2, true);
       }
 
-      JumpCirclesSupport2.reset();
+      JumpCirclesFrameView.reset();
       q.clear();
       y.clear();
    }
 
-private record TypeN(double m, Consumer<class_746> h) {
+   private record JumpAction(double m, Consumer<class_746> h) {
       public double at() {
          return this.m;
       }
@@ -1261,7 +1015,7 @@ private record TypeN(double m, Consumer<class_746> h) {
       }
    }
 
-   private static final class TypeU {
+   private static final class JumpState {
       final String z;
       final String E;
       final Runnable h;
@@ -1269,7 +1023,7 @@ private record TypeN(double m, Consumer<class_746> h) {
       final Animator t = Animator.smooth(0.0F);
       final Animator g = Animator.snappy(0.0F);
 
-      TypeU(String var1, String var2, Runnable var3) {
+      JumpState(String var1, String var2, Runnable var3) {
          this.z = var1;
          this.E = var2;
          this.h = var3;

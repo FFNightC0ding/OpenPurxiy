@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.skins3d;
 
 import org.joml.Quaternionf;
@@ -16,7 +15,7 @@ public final class Skins3DCodec {
    private Skins3DCodec() {
    }
 
-   public static Skins3DCurve read(Skins3DSupport3 var0, Skins3DCurve var1) {
+   public static Skins3DCurve read(Skins3DRestPose var0, Skins3DCurve var1) {
       var1.zero();
       var1.v = var0.d[0];
       var1.L = var0.D[0];
@@ -36,7 +35,7 @@ public final class Skins3DCodec {
       return var1;
    }
 
-   public static void write(Skins3DSupport3 var0, Skins3DCurve var1, Skins3DCodec.Data var2, float var3) {
+   public static void write(Skins3DRestPose var0, Skins3DCurve var1, Skins3DCodec.Data var2, float var3) {
       long var4 = 77800606286420L;
       long var6 = var4 ^ 102870885475249L;
       int var8 = (int)((var4 ^ 139642583679153L) >>> 48);
@@ -60,7 +59,7 @@ public final class Skins3DCodec {
       c((char)var8, var9, var0, var1, var2, var11);
    }
 
-   private static void d(Skins3DSupport3 var0, float var1, Skins3DCodec.Data var2) {
+   private static void d(Skins3DRestPose var0, float var1, Skins3DCodec.Data var2) {
       float var3 = (float)(-Math.asin(Math.max(-0.9F, Math.min(0.9F, var1 / var2.hips()))));
       var0.v[1] = var0.v[1] + var3;
       float var4 = var2.hips() * (1.0F - (float)Math.cos(var3));
@@ -70,7 +69,7 @@ public final class Skins3DCodec {
       var0.b[5] = var0.b[5] - var4;
    }
 
-   private static void F(Skins3DSupport3 var0, Skins3DCurve var1, Skins3DCodec.Data var2, long var3) {
+   private static void F(Skins3DRestPose var0, Skins3DCurve var1, Skins3DCodec.Data var2, long var3) {
       long var5 = 91101428119011L;
       byte var7 = 1;
       a.rotationZYX(var0.v[var7], var0.D[var7], var0.d[var7]).transform(A.set(0.0F, var2.hips(), 0.0F)).add(var0.V[var7], var0.b[var7], var0.F[var7]);
@@ -88,12 +87,7 @@ public final class Skins3DCodec {
       if (var2.rigidHead()) {
          var0.d[0] = var0.d[var7];
          long var9 = 30018115101156L;
-         if (30018115101156L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var12 = var9 < 0L ? -1 : 1;
-         }
-
+         int var11 = var9 < 0L ? -1 : 1;
          var0.D[0] = var0.D[var7];
          var0.v[0] = var0.v[var7];
       } else {
@@ -104,7 +98,7 @@ public final class Skins3DCodec {
       L(var5, var0, 3, var8, var1.n, var1.D, var1.X);
    }
 
-   private static void L(long var0, Skins3DSupport3 var2, int var3, boolean var4, float var5, float var6, float var7) {
+   private static void L(long var0, Skins3DRestPose var2, int var3, boolean var4, float var5, float var6, float var7) {
       if (!var4) {
          var2.d[var3] = var5;
          var2.D[var3] = var6;
@@ -117,18 +111,18 @@ public final class Skins3DCodec {
       }
    }
 
-   private static void X(Skins3DSupport3 var0, int var1, Vector3f var2) {
+   private static void X(Skins3DRestPose var0, int var1, Vector3f var2) {
       O.transform(y.set(var0.V[var1] - var2.x, var0.b[var1] - var2.y, var0.F[var1] - var2.z));
       var0.V[var1] = var2.x + y.x;
       var0.b[var1] = var2.y + y.y;
       var0.F[var1] = var2.z + y.z;
    }
 
-   static float sink(Skins3DSupport3 var0, Skins3DCodec.Data var1) {
+   static float sink(Skins3DRestPose var0, Skins3DCodec.Data var1) {
       return var1.ground() - Math.max(lowest(var0, 4, var1), lowest(var0, 5, var1));
    }
 
-   static float lowest(Skins3DSupport3 var0, int var1, Skins3DCodec.Data var2) {
+   static float lowest(Skins3DRestPose var0, int var1, Skins3DCodec.Data var2) {
       float var3 = var0.y[var1];
       float var4 = (float)Math.cos(var3);
       float var5 = (float)Math.sin(var3);
@@ -144,7 +138,7 @@ public final class Skins3DCodec {
       return var6 + var0.b[var1];
    }
 
-   private static void c(char var0, long var1, Skins3DSupport3 var3, Skins3DCurve var4, Skins3DCodec.Data var5, float var6) {
+   private static void c(char var0, long var1, Skins3DRestPose var3, Skins3DCurve var4, Skins3DCodec.Data var5, float var6) {
       SkinPreset.ensureSourceClassInitialized();
       int var7 = (int)c;
       var3.V[var7] = var3.V[var7] + var4.C;
@@ -173,7 +167,7 @@ public final class Skins3DCodec {
          return this.v + this.Q;
       }
 
-      public static Skins3DCodec.Data of(float[][] var0, Skins3DBuilder.TypeO var1, boolean var2) {
+      public static Skins3DCodec.Data of(float[][] var0, Skins3DBuilder.SkinVertex var1, boolean var2) {
          float var3 = Float.isNaN(var1.t) ? var1.r / 2.0F : var1.t;
          float var4 = 0.0F;
          float var5 = 0.0F;

@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.web;
 
 import dev.purxiy.loader.fabric.AccountGate;

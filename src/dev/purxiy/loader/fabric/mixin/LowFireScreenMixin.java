@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientRenderer7;
+import dev.purxiy.loader.fabric.client.FireOverlayPass;
 import net.minecraft.class_1058;
 import net.minecraft.class_11659;
 import net.minecraft.class_4587;
@@ -26,8 +25,8 @@ public abstract class LowFireScreenMixin {
       )}
    )
    private void purxiy$lowFire(class_4587 var1, class_4597 var2, class_1058 var3, Operation<Void> var4) {
-      if (!ClientRenderer7.replacesOverlay()) {
-         float var5 = ClientRenderer7.vanillaDrop();
+      if (!FireOverlayPass.replacesOverlay()) {
+         float var5 = FireOverlayPass.vanillaDrop();
          var1.method_22903();
          var1.method_46416(0.0F, -var5, 0.0F);
          var4.call(new Object[]{var1, var2, var3});
@@ -40,6 +39,6 @@ public abstract class LowFireScreenMixin {
       at = {@At("TAIL")}
    )
    private void purxiy$drawLowFire(boolean var1, float var2, class_11659 var3, CallbackInfo var4) {
-      ClientRenderer7.render(var1);
+      FireOverlayPass.render(var1);
    }
 }

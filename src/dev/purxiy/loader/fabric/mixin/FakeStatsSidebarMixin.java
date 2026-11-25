@@ -1,9 +1,8 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.loader.fabric.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.purxiy.loader.fabric.client.ClientSupport2;
+import dev.purxiy.loader.fabric.client.ChatCommandRouter;
 import net.minecraft.class_2561;
 import net.minecraft.class_266;
 import net.minecraft.class_327;
@@ -23,7 +22,7 @@ public abstract class FakeStatsSidebarMixin {
       at = {@At("HEAD")}
    )
    private void purxiy$beginSidebar(class_332 var1, class_266 var2, CallbackInfo var3) {
-      ClientSupport2.beginSidebar();
+      ChatCommandRouter.beginSidebar();
    }
 
    @WrapOperation(
@@ -38,7 +37,7 @@ public abstract class FakeStatsSidebarMixin {
       Object[] var4 = new Object[]{var1, null};
       Object var5;
       if (var2 instanceof class_2561 var6) {
-         var5 = ClientSupport2.lineForWidth(var6);
+         var5 = ChatCommandRouter.lineForWidth(var6);
       } else {
          var5 = var2;
       }
@@ -57,6 +56,6 @@ public abstract class FakeStatsSidebarMixin {
       index = 1
    )
    private class_2561 purxiy$lineText(class_2561 var1) {
-      return ClientSupport2.lineForDraw(var1);
+      return ChatCommandRouter.lineForDraw(var1);
    }
 }

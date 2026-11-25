@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.radiance;
 
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -30,6 +29,7 @@ import java.util.OptionalLong;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.function.Consumer;
+import net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState;
 import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
 import net.minecraft.class_10017;
 import net.minecraft.class_11659;
@@ -59,7 +59,6 @@ import net.minecraft.class_630.class_628;
 import org.joml.Matrix4f;
 import org.joml.Vector3fc;
 import org.joml.Vector4f;
-
 import org.lwjgl.system.MemoryUtil;
 import org.slf4j.Logger;
 
@@ -82,7 +81,7 @@ public final class RadianceSupport {
    private static final long Z = 2000000000L;
    private static final int _L = 16740252;
    private static final int[] S = new int[]{0, 16767354, 8840959, 16746220};
-   private static final RenderStateDataKey<RadianceSupport.TypeB> _W = RenderStateDataKey.create(ClientServices.label(() -> {
+   private static final RenderStateDataKey<RadianceSupport.RadianceFrame> _W = RenderStateDataKey.create(ClientServices.label(() -> {
       int var0x = 1417452743;
       int var1x = -1417449729;
       int var2 = 1417477760;
@@ -90,9 +89,9 @@ public final class RadianceSupport {
    }));
    private static final RadianceRenderer _O = new RadianceRenderer("world");
    private static final RadianceRenderer _v = new RadianceRenderer("hand");
-   private static final Int2ObjectOpenHashMap<RadianceSupport.TypeK> u = new Int2ObjectOpenHashMap();
-   private static final RadianceSupport.TypeK F = new RadianceSupport.TypeK(0.137F);
-   private static final RadianceSupport.TypeK _D = new RadianceSupport.TypeK(0.571F);
+   private static final Int2ObjectOpenHashMap<RadianceSupport.RadianceGeometry> u = new Int2ObjectOpenHashMap();
+   private static final RadianceSupport.RadianceGeometry F = new RadianceSupport.RadianceGeometry(0.137F);
+   private static final RadianceSupport.RadianceGeometry _D = new RadianceSupport.RadianceGeometry(0.571F);
    private static long o = 0L;
    private static long B = 0L;
    private static float K;
@@ -101,7 +100,6 @@ public final class RadianceSupport {
    private static float C;
    private static boolean G;
    private static boolean I;
-   
    private static class_638 _F;
    private static final Matrix4f Y = new Matrix4f();
    private static final Matrix4f __ = new Matrix4f();
@@ -140,7 +138,6 @@ public final class RadianceSupport {
    private static int h = 0;
    private static final float[] y = new float[64];
    private static int a = 0;
-   
    private static String _d;
    private static boolean z;
    private static GpuQuery _M;
@@ -153,8 +150,6 @@ public final class RadianceSupport {
    private static int i = 0;
    private static int P = 0;
    public static int m = 0;
-
-
    private static final long[] cb = new long[]{
       -7928599769428423244L,
       -2594401658566032657L,
@@ -290,7 +285,7 @@ public final class RadianceSupport {
    private static void b(RadianceModule var0, long var1) {
       long var3 = 41280837592712L;
       RadianceModule.ensureSourceClassInitialized();
-      RadianceLoader2 var5 = RadianceLoader2.resolve(var0.e.get(), var0.p.argb());
+      RadianceNames var5 = RadianceNames.resolve((String)var0.e.get(), var0.p.argb());
       A(A, 0, var5.q, var3);
       A(A, 3, var5.E, var3);
       A(A, 6, var5.T, var3);
@@ -298,43 +293,22 @@ public final class RadianceSupport {
 
       for (int var7 = 0; var7 < Q.length; var7++) {
          long var8 = 54561505796290L;
-         if (54561505796290L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var20 = var8 < 0L ? -1 : 1;
-         }
-
+         int var11 = var8 < 0L ? -1 : 1;
          Q[var7] = Q[var7] + (A[var7] - Q[var7]) * var6;
       }
 
       long var19 = 54561505796290L;
-      if (54561505796290L == 0L) {
-         boolean var21 = false;
-      } else {
-         int var22 = var19 < 0L ? -1 : 1;
-      }
-
-      String var10 = var0.q.get();
-      boolean var11 = var10.equals("Aura");
-      boolean var12 = var10.equals("Outline");
+      int var10 = var19 < 0L ? -1 : 1;
+      String var10x = (String)var0.q.get();
+      boolean var11 = var10x.equals("Aura");
+      boolean var12 = var10x.equals("Outline");
       H = H + ((var11 ? 0.5F : 1.0F) - H) * var6;
       float var13 = var11 ? 0.3F : (var12 ? 0.14F : 1.0F);
       long var14 = 54561505796290L;
-      if (54561505796290L == 0L) {
-         boolean var23 = false;
-      } else {
-         int var24 = var14 < 0L ? -1 : 1;
-      }
-
+      int var17 = var14 < 0L ? -1 : 1;
       _9 = _9 + (var13 - _9) * var6;
       _s = _s + ((var11 ? 1.0F : 0.0F) - _s) * var6;
-      long var17 = 54561505796290L;
-      if (54561505796290L == 0L) {
-         boolean var25 = false;
-      } else {
-         int var26 = var17 < 0L ? -1 : 1;
-      }
-
+      long var17x = 54561505796290L;
       _p = _p + (var0.i.floatValue() - _p) * var6;
       w = w + (var0.m.floatValue() - w) * var6;
       _K = _K + (var0.j.floatValue() - _K) * var6;
@@ -365,10 +339,10 @@ public final class RadianceSupport {
                return;
             }
 
-            RadianceSupport.TypeK var23 = (RadianceSupport.TypeK)u.get(var0.method_5628());
+            RadianceSupport.RadianceGeometry var23 = (RadianceSupport.RadianceGeometry)u.get(var0.method_5628());
             long var24 = System.nanoTime();
             if (var23 == null) {
-               var23 = new RadianceSupport.TypeK(b(var0.method_5628(), var12));
+               var23 = new RadianceSupport.RadianceGeometry(b(var0.method_5628(), var12));
                u.put(var0.method_5628(), var23);
             }
 
@@ -417,10 +391,10 @@ public final class RadianceSupport {
             k(var42);
             p(var42, var6, var23, var36, (float)var20);
             M.add(var1);
-            ((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var1).setData(_W, new RadianceSupport.TypeB(B, var40));
-         } catch (Throwable var37) {
+            ((FabricRenderState)var1).setData(_W, new RadianceSupport.RadianceFrame(B, var40));
+         } catch (Throwable var371) {
             metric("draw_failures");
-            c(var16, var37);
+            c(var16, var371);
          }
       }
    }
@@ -428,57 +402,31 @@ public final class RadianceSupport {
    private static boolean y(class_1297 var0, long var1, RadianceModule var3, class_310 var4) {
       RadianceModule.ensureSourceClassInitialized();
       long var5 = 6181518297051L;
-      if (6181518297051L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var21 = var5 < 0L ? -1 : 1;
-      }
-
-      boolean var8 = var0 instanceof class_1657;
+      int var8 = var5 < 0L ? -1 : 1;
+      boolean var8x = var0 instanceof class_1657;
       long var9 = 6181518297050L;
-      if (6181518297050L == 0L) {
-         boolean var22 = false;
-      } else {
-         int var23 = var9 < 0L ? -1 : 1;
-      }
-
-      if (!var8) {
-         var8 = var0 instanceof class_1542;
-         long var12 = 6181518297050L;
-         if (6181518297050L == 0L) {
-            boolean var24 = false;
-         } else {
-            int var25 = var12 < 0L ? -1 : 1;
-         }
-
-         if (var8) {
+      int var12 = var9 < 0L ? -1 : 1;
+      if (!var8x) {
+         var8x = var0 instanceof class_1542;
+         long var12x = 6181518297050L;
+         if (var8x) {
             return var3.U.enabled();
          } else if (!(var0 instanceof class_1531) && var0 instanceof class_1309) {
-            String var14 = var3.H.get();
+            String var14x = (String)var3.H.get();
             byte var15 = -1;
-            switch (var14.hashCode()) {
+            switch (var14x.hashCode()) {
                case -254928903:
-                  if (var14.equals("Monsters")) {
+                  if (var14x.equals("Monsters")) {
                      long var20 = 6181518297051L;
-                     if (6181518297051L == 0L) {
-                        boolean var28 = false;
-                     } else {
-                        int var29 = var20 < 0L ? -1 : 1;
-                     }
-
+                     int var23 = var20 < 0L ? -1 : 1;
                      var15 = 0;
                   }
                   break;
                case 65921:
-                  var8 = var14.equals("All");
+                  var8x = var14x.equals("All");
                   long var16 = 6181518297051L;
-                  if (6181518297051L == 0L) {
-                     boolean var26 = false;
-                  } else {
-                     int var27 = var16 < 0L ? -1 : 1;
-                  }
-
-                  if (var8) {
+                  int var16x = var16 < 0L ? -1 : 1;
+                  if (var8x) {
                      var15 = 1;
                   }
             }
@@ -499,17 +447,17 @@ public final class RadianceSupport {
       if (ModuleWidget.claimed("mirror-capture")) {
          return var1;
       } else {
-         RadianceSupport.TypeB var2 = (RadianceSupport.TypeB)((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var0).getData(_W);
+         RadianceSupport.RadianceFrame var2 = (RadianceSupport.RadianceFrame)((FabricRenderState)var0).getData(_W);
          if (var2 != null && var2.m == B && G && !RenderHooks.dissolving(var0)) {
             int var3 = 1006632960 | var2.s;
-            return new Radianceclass_11659(var1, var1, () -> var3);
+            return new RadianceMesh(var1, var1, () -> var3);
          } else {
             return var1;
          }
       }
    }
 
-   public static void onDamage( class_1297 var0, int var1, int var2) {
+   public static void onDamage(class_1297 var0, int var1, int var2) {
       if (var0 != null && (var1 >= 0 || var2 >= 0) && n.enabled() && n.R.enabled()) {
          class_310 var3 = class_310.method_1551();
          if (var0 == var3.field_1724) {
@@ -517,26 +465,25 @@ public final class RadianceSupport {
             s(_D);
          }
 
-         RadianceSupport.TypeK var4 = (RadianceSupport.TypeK)u.get(var0.method_5628());
+         RadianceSupport.RadianceGeometry var4 = (RadianceSupport.RadianceGeometry)u.get(var0.method_5628());
          if (var4 != null) {
             s(var4);
          }
       }
    }
 
-   private static void s(RadianceSupport.TypeK var0) {
+   private static void s(RadianceSupport.RadianceGeometry var0) {
       var0.A = 1.0F;
       var0.r = 0.0F;
    }
 
-   
    public static class_4588 maskBuffer(int var0, class_1921 var1) {
       if ((var0 & 0xFF000000) != 1006632960) {
          return null;
       } else {
          int var2 = var0 & 0xFF;
-         class_1921 var3 = var1.method_24295() ? var1 : var1.method_23289().orElse(null);
-         return (class_4588)(G && var3 != null && var2 > 0 && var2 < 128 ? (var2 < 3 ? _v : _O).consumer(var2, var3) : RadianceSupport.TypeN.Q);
+         class_1921 var3 = var1.method_24295() ? var1 : (class_1921)var1.method_23289().orElse(null);
+         return (class_4588)(G && var3 != null && var2 > 0 && var2 < 128 ? (var2 < 3 ? _v : _O).consumer(var2, var3) : RadianceSupport.RadianceVertexConsumer.Q);
       }
    }
 
@@ -559,10 +506,10 @@ public final class RadianceSupport {
             J.ensure(var4.field_1482, var4.field_1481);
             _O.draw(J.W, var5, !_g);
             _g = true;
-         } catch (Throwable var6) {
+         } catch (Throwable var61) {
             metric("draw_failures");
             _O.reset();
-            c(var2, var6);
+            c(var2, var61);
          }
       }
    }
@@ -574,7 +521,7 @@ public final class RadianceSupport {
    public static float handLight(float[] var0) {
       System.arraycopy(Q, 0, var0, 0, Q.length);
       RadianceModule var1 = n;
-      return G && (var1.N.enabled() || var1.o.enabled()) ? C : 0.0F;
+      return !G || !var1.N.enabled() && !var1.o.enabled() ? 0.0F : C;
    }
 
    public static class_11659 handCollector(class_11659 var0) {
@@ -592,12 +539,12 @@ public final class RadianceSupport {
             h(N);
             E = false;
             b[0] = b[1] = null;
-            return new Radianceclass_11659(var0, var0, new RadianceSupport.TypeG(var2, var3));
+            return new RadianceMesh(var0, var0, new RadianceSupport.RadianceMask(var2, var3));
          }
       }
    }
 
-   public static void submittingItem( class_1799 var0) {
+   public static void submittingItem(class_1799 var0) {
       E = var0 != null;
       if (var0 != null && !var0.method_7960()) {
          b[b[0] == null ? 0 : 1] = var0.method_7909();
@@ -659,25 +606,20 @@ public final class RadianceSupport {
             _v.draw(J.W, var19, !_g);
             _g = true;
             _H = true;
-         } catch (Throwable var20) {
+         } catch (Throwable var201) {
             metric("draw_failures");
             _v.reset();
-            c(var4, var20);
+            c(var4, var201);
          }
       }
    }
 
-   private static void W(long var0, int var2, RadianceSupport.TypeK var3, float[] var4) {
+   private static void W(long var0, int var2, RadianceSupport.RadianceGeometry var3, float[] var4) {
       long var5 = 90409014216852L;
       RadianceModule.ensureSourceClassInitialized();
       int var7 = var2 * 16;
       long var8 = 127762569467610L;
-      if (127762569467610L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var11 = var8 < 0L ? -1 : 1;
-      }
-
+      int var10 = var8 < 0L ? -1 : 1;
       System.arraycopy(var4, 0, r, var7, 4);
       k(var7);
       if (r[var7] >= r[var7 + 2] || r[var7 + 1] >= r[var7 + 3]) {
@@ -692,7 +634,7 @@ public final class RadianceSupport {
       long var5 = var1 ^ 0L;
       long var7 = var1 ^ 128227297002543L;
       RadianceModule.ensureSourceClassInitialized();
-      ModelPartAccessor var9 = (ModelPartAccessor)(Object)(var0);
+      ModelPartAccessor var9 = (ModelPartAccessor)(Object)var0;
       if (var0.field_3665) {
          var3.method_22903();
          var0.method_22703(var3);
@@ -774,39 +716,29 @@ public final class RadianceSupport {
       var6[3] = Math.max(var6[3], var10);
    }
 
-   private static void d(RadianceSupport.TypeK var0, float var1, boolean var2, int var3, long var4, float var6) {
+   private static void d(RadianceSupport.RadianceGeometry var0, float var1, boolean var2, int var3, long var4, float var6) {
       RadianceModule.ensureSourceClassInitialized();
       float var7 = 1.0F - (float)Math.exp(-K * 9.0);
       long var8 = 129351250551007L;
-      if (129351250551007L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var14 = var8 < 0L ? -1 : 1;
-      }
-
+      int var11 = var8 < 0L ? -1 : 1;
       var0.j = var0.j + (var1 - var0.j) * var7;
       var0.i = var0.i + ((var2 ? 1.0F : 0.0F) - var0.i) * (1.0F - (float)Math.exp(-K * 8.0));
       var0.S = Math.min(1.0F, var0.S + K / 0.6F);
       var0.A = var0.A * (float)Math.exp(-K * 5.0);
       var0.r = Math.min(1.0F, var0.r + K / 0.7F);
-      float var11 = var0.I <= 0.001F && var6 > 0.0F ? 1.0F : 1.0F - (float)Math.exp(-K * 4.0);
+      float var11x = var0.I <= 0.001F && var6 > 0.0F ? 1.0F : 1.0F - (float)Math.exp(-K * 4.0);
       long var12 = 129351250551007L;
-      if (129351250551007L == 0L) {
-         boolean var15 = false;
-      } else {
-         int var16 = var12 < 0L ? -1 : 1;
-      }
-
+      int var13 = var12 < 0L ? -1 : 1;
       if (var6 > 0.0F) {
-         var0.B = var0.B + ((var3 >> 16 & 0xFF) / 255.0F - var0.B) * var11;
-         var0.x = var0.x + ((var3 >> 8 & 0xFF) / 255.0F - var0.x) * var11;
-         var0.u = var0.u + ((var3 & 0xFF) / 255.0F - var0.u) * var11;
+         var0.B = var0.B + ((var3 >> 16 & 0xFF) / 255.0F - var0.B) * var11x;
+         var0.x = var0.x + ((var3 >> 8 & 0xFF) / 255.0F - var0.x) * var11x;
+         var0.u = var0.u + ((var3 & 0xFF) / 255.0F - var0.u) * var11x;
       }
 
       var0.I = var0.I + (var6 - var0.I) * (1.0F - (float)Math.exp(-K * 4.0));
    }
 
-   private static void p(int var0, long var1, RadianceSupport.TypeK var3, float var4, float var5) {
+   private static void p(int var0, long var1, RadianceSupport.RadianceGeometry var3, float var4, float var5) {
       r[var0 + 4] = var3.B;
       r[var0 + 5] = var3.x;
       r[var0 + 6] = var3.u;
@@ -833,43 +765,28 @@ public final class RadianceSupport {
             T.set(var1 + ((var14 & 1) == 0 ? -var6 : var6), var2 + ((var14 & 2) == 0 ? var7 : var8), var5 + ((var14 & 4) == 0 ? -var6 : var6), 1.0F)
          );
          long var15 = 71002366201159L;
-         if (71002366201159L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var23 = var15 < 0L ? -1 : 1;
-         }
-
+         int var18 = var15 < 0L ? -1 : 1;
          if (T.w <= 0.05F) {
             var11 = 0.0F;
             var10 = 0.0F;
             long var22 = 71002366201159L;
-            if (71002366201159L == 0L) {
-               boolean var24 = false;
-            } else {
-               int var25 = var22 < 0L ? -1 : 1;
-            }
-
+            int var191 = var22 < 0L ? -1 : 1;
             var12 = c;
             var13 = k;
             break;
          }
 
-         float var18 = (T.x / T.w * 0.5F + 0.5F) * c;
+         float var18x = (T.x / T.w * 0.5F + 0.5F) * c;
          float var19 = (T.y / T.w * 0.5F + 0.5F) * k;
-         var10 = Math.min(var10, var18);
+         var10 = Math.min(var10, var18x);
          var11 = Math.min(var11, var19);
-         var12 = Math.max(var12, var18);
+         var12 = Math.max(var12, var18x);
          var13 = Math.max(var13, var19);
       }
 
       r[var9] = var10;
       long var21 = 71002366201160L;
-      if (71002366201160L == 0L) {
-         boolean var26 = false;
-      } else {
-         int var27 = var21 < 0L ? -1 : 1;
-      }
-
+      int var16 = var21 < 0L ? -1 : 1;
       r[var9 + 1] = var11;
       r[var9 + 2] = var12;
       r[var9 + 3] = var13;
@@ -886,19 +803,14 @@ public final class RadianceSupport {
       RadianceModule.ensureSourceClassInitialized();
       class_5636 var4 = var2.field_1773.method_19418().method_19334();
 
-      float var5 = switch (RadianceSupport.TypeQ.B[var4.ordinal()]) {
+      float var5 = switch (RadianceSupport.RadianceState.B[var4.ordinal()]) {
          case 1 -> 30.0F;
          case 2, 3 -> 3.0F;
          default -> Float.MAX_VALUE;
       };
       class_746 var6 = var2.field_1724;
       long var7 = 96602628566034L;
-      if (96602628566034L == 0L) {
-         boolean var10 = false;
-      } else {
-         int var11 = var7 < 0L ? -1 : 1;
-      }
-
+      int var9 = var7 < 0L ? -1 : 1;
       if (var6 != null && (var6.method_6059(class_1294.field_5919) || var6.method_6059(class_1294.field_38092))) {
          var5 = Math.min(var5, 8.0F);
       }
@@ -945,7 +857,7 @@ public final class RadianceSupport {
 
             try {
                int var31 = a * 6;
-               T(var27, "coarse field", J.X, var11, true, SkyPipelines.RADIANCE_SEED, var31, var1 -> ((com.mojang.blaze3d.systems.RenderPass)(Object)var1).bindTexture("MaskSampler", J.W, var29));
+               T(var27, "coarse field", J.X, var11, true, SkyPipelines.RADIANCE_SEED, var31, var1 -> ((RenderPass)var1).bindTexture("MaskSampler", J.W, var29));
                GpuTextureView var32 = J.X;
                GpuTextureView var33 = J.b;
 
@@ -956,8 +868,8 @@ public final class RadianceSupport {
                   boolean var39 = var34 == 0;
                   RenderPipeline var40 = SkyPipelines.RADIANCE_FLOOD;
                   Consumer var41 = var4 -> {
-                     ((com.mojang.blaze3d.systems.RenderPass)(Object)var4).setUniform("RadianceStep", e.slice(var36, 16L));
-                     ((com.mojang.blaze3d.systems.RenderPass)(Object)var4).bindTexture("FloodSampler", var35, var29);
+                     ((RenderPass)var4).setUniform("RadianceStep", e.slice(var36, 16L));
+                     ((RenderPass)var4).bindTexture("FloodSampler", var35, var29);
                   };
                   T(var27, var38, var33, var11, var39, var40, var31, var41);
                   var32 = var33;
@@ -966,12 +878,12 @@ public final class RadianceSupport {
 
                GpuTextureView var50 = var32;
                T(var27, "field", J.z, var11, true, SkyPipelines.RADIANCE_REFINE, var31, var2x -> {
-                  ((com.mojang.blaze3d.systems.RenderPass)(Object)var2x).bindTexture("MaskSampler", J.W, var29);
-                  ((com.mojang.blaze3d.systems.RenderPass)(Object)var2x).bindTexture("FloodSampler", var50, var29);
+                  ((RenderPass)var2x).bindTexture("MaskSampler", J.W, var29);
+                  ((RenderPass)var2x).bindTexture("FloodSampler", var50, var29);
                });
                T(var27, "light", var24, var11, false, SkyPipelines.RADIANCE, var31, var1 -> {
-                  ((com.mojang.blaze3d.systems.RenderPass)(Object)var1).bindTexture("MaskSampler", J.W, var29);
-                  ((com.mojang.blaze3d.systems.RenderPass)(Object)var1).bindTexture("FieldSampler", J.z, var29);
+                  ((RenderPass)var1).bindTexture("MaskSampler", J.W, var29);
+                  ((RenderPass)var1).bindTexture("FieldSampler", J.z, var29);
                });
             } finally {
                if (var30 != null) {
@@ -983,9 +895,9 @@ public final class RadianceSupport {
             if (z) {
                _o = _o + (System.nanoTime() - var20) / 1000000.0;
             }
-         } catch (Throwable var49) {
+         } catch (Throwable var46) {
             metric("draw_failures");
-            c(var13, var49);
+            c(var13, var46);
          }
       }
    }
@@ -993,20 +905,31 @@ public final class RadianceSupport {
    private static void T(CommandEncoder var0, String var1, GpuTextureView var2, long var3, boolean var5, RenderPipeline var6, int var7, Consumer var8) {
       RadianceModule.ensureSourceClassInitialized();
       long var9 = 36686448251287L;
-      if (36686448251287L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var17 = var9 < 0L ? -1 : 1;
+      int var12 = var9 < 0L ? -1 : 1;
+      RenderPass var12x = var0.createRenderPass(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX radiance " + var1, var2, var5 ? OptionalInt.of(0) : OptionalInt.empty());
+
+      try {
+         var12x.setPipeline(var6);
+         var12x.setUniform("PurxiyRadiance", j);
+         var12x.setUniform("PurxiyRadianceSlots", p);
+         int var11x = -1162398758;
+         var8.accept(var12x);
+         var12x.draw(0, var7);
+         metric("drawn");
+      } catch (Throwable var15) {
+         if (var12x != null) {
+            try {
+               var12x.close();
+            } catch (Throwable var14) {
+               var15.addSuppressed(var14);
+            }
+         }
+
+         throw var15;
       }
 
-      try (RenderPass var12 = var0.createRenderPass(() -> "Purxiy radiance " + var1, var2, var5 ? OptionalInt.of(0) : OptionalInt.empty())) {
-         var12.setPipeline(var6);
-         var12.setUniform("PurxiyRadiance", j);
-         var12.setUniform("PurxiyRadianceSlots", p);
-         int var11 = -1162398758;
-         var8.accept(var12);
-         var12.draw(0, var7);
-         metric("drawn");
+      if (var12x != null) {
+         var12x.close();
       }
    }
 
@@ -1020,31 +943,17 @@ public final class RadianceSupport {
          float var6;
          int var7 = (var6 = r[var5 * 16 + 11] - 1.0F) == 0.0F ? 0 : (var6 < 0.0F ? -1 : 1);
          long var8 = 89871827657598L;
-         if (89871827657598L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var14 = var8 < 0L ? -1 : 1;
-         }
-
+         int var11 = var8 < 0L ? -1 : 1;
          if (var7 < 0) {
             var4 = Math.max(var4, 52.0F);
-            long var11 = 89871827657598L;
-            if (89871827657598L == 0L) {
-               boolean var15 = false;
-            } else {
-               int var16 = var11 < 0L ? -1 : 1;
-            }
+            long var11x = 89871827657598L;
+            int var12 = var11x < 0L ? -1 : 1;
             break;
          }
       }
 
       long var13 = 89871827657599L;
-      if (89871827657599L == 0L) {
-         boolean var17 = false;
-      } else {
-         int var18 = var13 < 0L ? -1 : 1;
-      }
-
+      int var14 = var13 < 0L ? -1 : 1;
       if (X > 0.01F) {
          var4 = Math.max(var4, 12.0F);
       }
@@ -1061,51 +970,26 @@ public final class RadianceSupport {
       for (int var6 = 1; var6 < _u; var6++) {
          int var7 = var6 * 16;
          long var8 = 50105775914229L;
-         if (50105775914229L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var59 = var8 < 0L ? -1 : 1;
-         }
-
+         int var10 = var8 < 0L ? -1 : 1;
          boolean var11 = false;
          long var12 = 50105775914228L;
-         if (50105775914228L == 0L) {
-            boolean var60 = false;
-         } else {
-            int var61 = var12 < 0L ? -1 : 1;
-         }
-
+         int var13 = var12 < 0L ? -1 : 1;
          if (!(r[var7 + 2] < r[var7])) {
             float var15;
             int var16 = (var15 = r[var7 + 8] - 0.002F) == 0.0F ? 0 : (var15 < 0.0F ? -1 : 1);
             long var17 = 50105775914229L;
-            if (50105775914229L == 0L) {
-               boolean var62 = false;
-            } else {
-               int var63 = var17 < 0L ? -1 : 1;
-            }
-
+            int var17x = var17 < 0L ? -1 : 1;
             if (var16 > 0) {
                boolean var19 = false;
                if (var6 >= 3 || _H) {
                   float var20 = Math.max(0.0F, r[var7] - var1);
                   float var21 = Math.max(0.0F, r[var7 + 1] - var1);
                   long var22 = 50105775914228L;
-                  if (50105775914228L == 0L) {
-                     boolean var64 = false;
-                  } else {
-                     int var65 = var22 < 0L ? -1 : 1;
-                  }
-
+                  int var22x = var22 < 0L ? -1 : 1;
                   float var24 = Math.min((float)c, r[var7 + 2] + var1);
                   float var25 = Math.min((float)k, r[var7 + 3] + var1);
                   long var26 = 50105775914228L;
-                  if (50105775914228L == 0L) {
-                     boolean var66 = false;
-                  } else {
-                     int var67 = var26 < 0L ? -1 : 1;
-                  }
-
+                  int var26x = var26 < 0L ? -1 : 1;
                   if (!(var20 >= var24)) {
                      float var28;
                      var16 = (var28 = var21 - var25) == 0.0F ? 0 : (var28 < 0.0F ? -1 : 1);
@@ -1130,14 +1014,9 @@ public final class RadianceSupport {
 
          while (var33) {
             long var34 = 50105775914228L;
-            if (50105775914228L == 0L) {
-               boolean var68 = false;
-            } else {
-               int var69 = var34 < 0L ? -1 : 1;
-            }
-
+            int var10 = var34 < 0L ? -1 : 1;
             var33 = false;
-            int var10 = 0;
+            var10 = 0;
 
             while (var10 < var5) {
                boolean var37 = false;
@@ -1151,47 +1030,27 @@ public final class RadianceSupport {
                   float var47;
                   int var49 = (var47 = var13 - var4[var39 * 4 + 2]) == 0.0F ? 0 : (var47 < 0.0F ? -1 : 1);
                   long var50 = 50105775914229L;
-                  if (50105775914229L == 0L) {
-                     boolean var70 = false;
-                  } else {
-                     int var71 = var50 < 0L ? -1 : 1;
-                  }
-
+                  int var61 = var50 < 0L ? -1 : 1;
                   if (var49 <= 0) {
                      var13 = var4[var39 * 4];
                      long var51 = 50105775914229L;
-                     if (50105775914229L == 0L) {
-                        boolean var72 = false;
-                     } else {
-                        int var73 = var51 < 0L ? -1 : 1;
-                     }
-
-                     float var52;
-                     int var53 = (var52 = var13 - var4[var10 * 4 + 2]) == 0.0F ? 0 : (var52 < 0.0F ? -1 : 1);
+                     int var52 = var51 < 0L ? -1 : 1;
+                     float var52x;
+                     int var53 = (var52x = var13 - var4[var10 * 4 + 2]) == 0.0F ? 0 : (var52x < 0.0F ? -1 : 1);
                      int var23 = 0;
                      if (var53 <= 0) {
                         var13 = var4[var10 * 4 + 1];
                         long var56 = 50105775914228L;
-                        if (50105775914228L == 0L) {
-                           boolean var74 = false;
-                        } else {
-                           int var75 = var56 < 0L ? -1 : 1;
-                        }
-
+                        int var71 = var56 < 0L ? -1 : 1;
                         float var57;
                         int var27 = (var57 = var13 - var4[var39 * 4 + 3]) == 0.0F ? 0 : (var57 < 0.0F ? -1 : 1);
-                        var23 = (0 != 0 ? 1 : 0);
+                        int var67 = 0;
                         if (var27 <= 0) {
-                           var23 = var39 * 4;
+                           var67 = var39 * 4;
                            long var58 = 50105775914228L;
-                           if (50105775914228L == 0L) {
-                              boolean var76 = false;
-                           } else {
-                              int var77 = var58 < 0L ? -1 : 1;
-                           }
-
-                           float var30;
-                           int var31 = (var30 = var4[var23 + 1] - var4[var10 * 4 + 3]) == 0.0F ? 0 : (var30 < 0.0F ? -1 : 1);
+                           int var30 = var58 < 0L ? -1 : 1;
+                           float var30x;
+                           int var31 = (var30x = var4[var67 + 1] - var4[var10 * 4 + 3]) == 0.0F ? 0 : (var30x < 0.0F ? -1 : 1);
                            if (var31 <= 0) {
                               var4[var10 * 4] = Math.min(var4[var10 * 4], var4[var39 * 4]);
                               var4[var10 * 4 + 1] = Math.min(var4[var10 * 4 + 1], var4[var39 * 4 + 1]);
@@ -1208,29 +1067,16 @@ public final class RadianceSupport {
 
                var10++;
                long var40 = 50105775914228L;
-               if (50105775914228L == 0L) {
-                  boolean var78 = false;
-               } else {
-                  int var79 = var40 < 0L ? -1 : 1;
-               }
+               int var571 = var40 < 0L ? -1 : 1;
             }
 
             long var38 = 50105775914229L;
-            if (50105775914229L == 0L) {
-               boolean var80 = false;
-            } else {
-               int var81 = var38 < 0L ? -1 : 1;
-            }
+            int var521 = var38 < 0L ? -1 : 1;
          }
 
          boolean var35 = false;
          long var9 = 50105775914229L;
-         if (50105775914229L == 0L) {
-            boolean var82 = false;
-         } else {
-            int var83 = var9 < 0L ? -1 : 1;
-         }
-
+         int var42 = var9 < 0L ? -1 : 1;
          if (var5 > 16) {
             for (int var41 = 1; var41 < var5; var41++) {
                var4[0] = Math.min(var4[0], var4[var41 * 4]);
@@ -1240,13 +1086,8 @@ public final class RadianceSupport {
                var4[3] = Math.max(var4[3], var4[var41 * 4 + 3]);
             }
 
-            long var42 = 50105775914229L;
-            if (50105775914229L == 0L) {
-               boolean var84 = false;
-            } else {
-               int var85 = var42 < 0L ? -1 : 1;
-            }
-
+            long var42x = 50105775914229L;
+            int var531 = var42x < 0L ? -1 : 1;
             var5 = 1;
          }
 
@@ -1258,12 +1099,7 @@ public final class RadianceSupport {
          }
 
          long var44 = 50105775914229L;
-         if (50105775914229L == 0L) {
-            boolean var86 = false;
-         } else {
-            int var87 = var44 < 0L ? -1 : 1;
-         }
-
+         int var54 = var44 < 0L ? -1 : 1;
          a = var5;
          return true;
       }
@@ -1287,32 +1123,18 @@ public final class RadianceSupport {
 
       var2.writeToBuffer(j.slice(), var6.get());
       long var14 = 41395274442399L;
-      if (41395274442399L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var16 = var14 < 0L ? -1 : 1;
-      }
-
-      Std140Builder var10 = Std140Builder.intoBuffer(g.clear());
+      int var10 = var14 < 0L ? -1 : 1;
+      Std140Builder var10x = Std140Builder.intoBuffer(g.clear());
 
       for (byte var11 = 0; var11 < _u * 16; var11 = (byte)(var11 + 4)) {
-         var10.putVec4(r[var11], r[var11 + 1], r[var11 + 2], r[var11 + 3]);
+         var10x.putVec4(r[var11], r[var11 + 1], r[var11 + 2], r[var11 + 3]);
          long var12 = 41395274442398L;
-         if (41395274442398L == 0L) {
-            boolean var17 = false;
-         } else {
-            int var18 = var12 < 0L ? -1 : 1;
-         }
+         int var13 = var12 < 0L ? -1 : 1;
       }
 
       long var15 = 41395274442399L;
-      if (41395274442399L == 0L) {
-         boolean var19 = false;
-      } else {
-         int var20 = var15 < 0L ? -1 : 1;
-      }
-
-      var2.writeToBuffer(p.slice(0L, _u * 16L * 4L), var10.get());
+      int var121 = var15 < 0L ? -1 : 1;
+      var2.writeToBuffer(p.slice(0L, _u * 16L * 4L), var10x.get());
    }
 
    private static float k() {
@@ -1331,26 +1153,11 @@ public final class RadianceSupport {
 
       for (int var6 = var4; var6 >= 1; var6 >>= 1) {
          long var7 = 140377760613345L;
-         if (140377760613345L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var15 = var7 < 0L ? -1 : 1;
-         }
-
-         long var10 = 140377760613344L;
-         if (140377760613344L == 0L) {
-            boolean var16 = false;
-         } else {
-            int var17 = var10 < 0L ? -1 : 1;
-         }
-
-         long var12 = 140377760613345L;
-         if (140377760613345L == 0L) {
-            boolean var18 = false;
-         } else {
-            int var19 = var12 < 0L ? -1 : 1;
-         }
-
+         int var10 = var7 < 0L ? -1 : 1;
+         long var10x = 140377760613344L;
+         int var12 = var10x < 0L ? -1 : 1;
+         long var12x = 140377760613345L;
+         int var13 = var12x < 0L ? -1 : 1;
          if (var5 >= 8) {
             break;
          }
@@ -1360,12 +1167,7 @@ public final class RadianceSupport {
 
       L.limit(var5 * h);
       long var14 = 140377760613344L;
-      if (140377760613344L == 0L) {
-         boolean var20 = false;
-      } else {
-         int var21 = var14 < 0L ? -1 : 1;
-      }
-
+      int var8 = var14 < 0L ? -1 : 1;
       var0.writeToBuffer(e.slice(0L, (long)var5 * h), L);
       return var5;
    }
@@ -1375,20 +1177,10 @@ public final class RadianceSupport {
       GpuDevice var2 = RenderSystem.getDevice();
       if (!IrisCompat.inUse()) {
          long var3 = 96636926292174L;
-         if (96636926292174L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var3 < 0L ? -1 : 1;
-         }
-
+         int var6 = var3 < 0L ? -1 : 1;
          if (C(var2, SkyPipelines.RADIANCE_MASK) && C(var2, SkyPipelines.RADIANCE_SEED)) {
-            long var6 = 96636926292175L;
-            if (96636926292175L == 0L) {
-               boolean var10 = false;
-            } else {
-               int var11 = var6 < 0L ? -1 : 1;
-            }
-
+            long var6x = 96636926292175L;
+            int var7 = var6x < 0L ? -1 : 1;
             if (C(var2, SkyPipelines.RADIANCE_FLOOD) && C(var2, SkyPipelines.RADIANCE_REFINE) && C(var2, SkyPipelines.RADIANCE)) {
                return true;
             }
@@ -1405,12 +1197,12 @@ public final class RadianceSupport {
    private static void r(GpuDevice var0, long var1) {
       RadianceModule.ensureSourceClassInitialized();
       if (j == null) {
-         j = var0.createBuffer(ClientServices.label(() -> "Purxiy radiance uniforms"), 136, 352L);
+         j = var0.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX radiance uniforms"), 136, 352L);
          v = MemoryUtil.memAlloc(352);
-         p = var0.createBuffer(ClientServices.label(() -> "Purxiy radiance slots"), 136, 8192L);
+         p = var0.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX radiance slots"), 136, 8192L);
          g = MemoryUtil.memAlloc(8192);
          h = Math.max(16, var0.getUniformOffsetAlignment());
-         e = var0.createBuffer(ClientServices.label(() -> "Purxiy radiance flood steps"), 136, h * 8L);
+         e = var0.createBuffer(ClientServices.label(() -> "SourceByDevFFnightmare DeObfDeCompByGuideX radiance flood steps"), 136, h * 8L);
          L = MemoryUtil.memCalloc(h * 8);
       }
    }
@@ -1419,22 +1211,12 @@ public final class RadianceSupport {
       RadianceModule.ensureSourceClassInitialized();
       String var3 = var2.toString();
       long var4 = 135244477649660L;
-      if (135244477649660L == 0L) {
-         boolean var10000 = false;
-      } else {
-         int var9 = var4 < 0L ? -1 : 1;
-      }
-
-      long var7 = 135244477649659L;
-      if (135244477649659L == 0L) {
-         boolean var10 = false;
-      } else {
-         int var11 = var7 < 0L ? -1 : 1;
-      }
-
+      int var7 = var4 < 0L ? -1 : 1;
+      long var7x = 135244477649659L;
+      int var8 = var7x < 0L ? -1 : 1;
       if (!var3.equals(_d)) {
          _d = var3;
-         ClientServices.LOGGER.error("Purxiy radiance failed", var2);
+         ClientServices.LOGGER.error("SourceByDevFFnightmare DeObfDeCompByGuideX radiance failed", var2);
       }
    }
 
@@ -1445,18 +1227,12 @@ public final class RadianceSupport {
       _l = 0;
    }
 
-   
    private static GpuQuery a(long var0, CommandEncoder var2) {
       RadianceModule.ensureSourceClassInitialized();
       if (_M != null) {
          OptionalLong var3 = _M.getValue();
          long var4 = 130281291941168L;
-         if (130281291941168L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var12 = var4 < 0L ? -1 : 1;
-         }
-
+         int var7 = var4 < 0L ? -1 : 1;
          if (var3.isEmpty()) {
             return null;
          }
@@ -1465,23 +1241,18 @@ public final class RadianceSupport {
          _M = null;
          _w = _w + var3.getAsLong() / 1000000.0;
          if (++_l == 240) {
-            Logger var7 = ClientServices.LOGGER;
+            Logger var7x = ClientServices.LOGGER;
             Object[] var8 = new Object[]{
                String.format(Locale.ROOT, "%.3f", _o / _l), String.format(Locale.ROOT, "%.3f", _w / _l), null, null, null, null, null
             };
             long var9 = 130281291941168L;
-            if (130281291941168L == 0L) {
-               boolean var13 = false;
-            } else {
-               int var14 = var9 < 0L ? -1 : 1;
-            }
-
+            int var10 = var9 < 0L ? -1 : 1;
             var8[2] = _u - 3 + (_H ? 2 : 0);
             var8[3] = a;
             var8[4] = c;
             var8[5] = k;
             var8[6] = n.q.get();
-            var7.info("Purxiy radiance: {} ms CPU, {} ms GPU per frame ({} slots, {} rects, {}x{}, {})", var8);
+            var7x.info("SourceByDevFFnightmare DeObfDeCompByGuideX radiance: {} ms CPU, {} ms GPU per frame ({} slots, {} rects, {}x{}, {})", var8);
             _w = 0.0;
             _o = 0.0;
             _l = 0;
@@ -1525,22 +1296,12 @@ public final class RadianceSupport {
 
       for (class_10017 var3 : M) {
          long var4 = 50891339804261L;
-         if (50891339804261L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var8 = var4 < 0L ? -1 : 1;
-         }
-
-         ((net.fabricmc.fabric.api.client.rendering.v1.FabricRenderState)var3).setData(_W, null);
+         int var6 = var4 < 0L ? -1 : 1;
+         ((FabricRenderState)var3).setData(_W, null);
       }
 
       long var7 = 50891339804260L;
-      if (50891339804260L == 0L) {
-         boolean var9 = false;
-      } else {
-         int var10 = var7 < 0L ? -1 : 1;
-      }
-
+      int var8 = var7 < 0L ? -1 : 1;
       M.clear();
    }
 
@@ -1690,7 +1451,7 @@ public final class RadianceSupport {
       }
    }
 
-private static int a(int var0, long var1) {
+   private static int a(int var0, long var1) {
       int var3 = 14210 ^ (int)(var1 & 32767L) ^ 14383;
       if (db[var3] == null) {
          db[var3] = (int)(cb[var3] ^ var1);
@@ -1708,7 +1469,7 @@ private static int a(int var0, long var1) {
       return fb[var3];
    }
 
-private record TypeB(long m, int s) {
+   private record RadianceFrame(long m, int s) {
       public long frame() {
          return this.m;
       }
@@ -1726,7 +1487,7 @@ private record TypeB(long m, int s) {
       }
    }
 
-   private record TypeG(boolean b, boolean x) implements Radianceclass_11659.Listener {
+   private record RadianceMask(boolean b, boolean x) implements RadianceMesh.Listener {
       @Override
       public int marker() {
          if (RadianceSupport.E) {
@@ -1798,7 +1559,7 @@ private record TypeB(long m, int s) {
       }
    }
 
-   private static final class TypeK {
+   private static final class RadianceGeometry {
       final float q;
       float j;
       float i;
@@ -1811,7 +1572,7 @@ private record TypeB(long m, int s) {
       float I;
       long s;
 
-      TypeK(float var1) {
+      RadianceGeometry(float var1) {
          this.q = var1;
       }
 
@@ -1823,51 +1584,43 @@ private record TypeB(long m, int s) {
       }
    }
 
-   private static final class TypeN implements class_4588 {
-      static final RadianceSupport.TypeN Q = new RadianceSupport.TypeN();
+   private static final class RadianceVertexConsumer implements class_4588 {
+      static final RadianceSupport.RadianceVertexConsumer Q = new RadianceSupport.RadianceVertexConsumer();
 
-      @Override
       public class_4588 method_22912(float var1, float var2, float var3) {
          return this;
       }
 
-      @Override
       public class_4588 method_1336(int var1, int var2, int var3, int var4) {
          return this;
       }
 
-      @Override
       public class_4588 method_39415(int var1) {
          return this;
       }
 
-      @Override
       public class_4588 method_22913(float var1, float var2) {
          return this;
       }
 
-      @Override
       public class_4588 method_60796(int var1, int var2) {
          return this;
       }
 
-      @Override
       public class_4588 method_22921(int var1, int var2) {
          return this;
       }
 
-      @Override
       public class_4588 method_22914(float var1, float var2, float var3) {
          return this;
       }
 
-      @Override
       public class_4588 method_75298(float var1) {
          return this;
       }
    }
 
-   static class TypeQ {
+   static class RadianceState {
       static final int[] B = new int[class_5636.values().length];
 
       static {

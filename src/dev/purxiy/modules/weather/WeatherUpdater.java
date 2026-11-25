@@ -1,12 +1,10 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.weather;
-
-import net.minecraft.class_1113;
 
 import dev.purxiy.loader.fabric.ClientServices;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.class_1101;
+import net.minecraft.class_1113;
 import net.minecraft.class_310;
 import net.minecraft.class_3414;
 import net.minecraft.class_3419;
@@ -21,19 +19,17 @@ public final class WeatherUpdater {
    private static final class_3414 f = x((short)0, "fire", 27656449962640L);
    private static final class_3414 w = x((short)0, "wind", 27656449962640L);
    private static final class_3414 q = x((short)0, "thunder", 27656449962640L);
-   private static final List<WeatherUpdater.TypeY> O = new ArrayList<>();
-   private static final List<WeatherUpdater.TypeY> Z = new ArrayList<>();
-   private static final List<WeatherUpdater.TypeJ> l = new ArrayList<>();
+   private static final List<WeatherUpdater.WeatherEntity> O = new ArrayList<>();
+   private static final List<WeatherUpdater.WeatherEntity> Z = new ArrayList<>();
+   private static final List<WeatherUpdater.WeatherDrop> l = new ArrayList<>();
    private static class_638 s;
-   private static WeatherUpdater.TypeY x;
-   private static WeatherUpdater.TypeY V;
+   private static WeatherUpdater.WeatherEntity x;
+   private static WeatherUpdater.WeatherEntity V;
    private static String o = "";
    private static long B = 0L;
    private static int Q = 0;
    private static float G = 1.0F;
    private static boolean X;
-
-
    private static final long[] c = new long[]{2603978691604866104L, 4020877952481369652L};
    private static final Long[] d = new Long[2];
 
@@ -65,7 +61,7 @@ public final class WeatherUpdater {
 
          X = true;
          B++;
-         String var16 = WeatherSupport5.K.t.get();
+         String var16 = (String)WeatherParticlePass.K.t.get();
          if (!var16.equals(o)) {
             if (x != null) {
                u(x);
@@ -80,10 +76,10 @@ public final class WeatherUpdater {
             G = G + (X(var7, var0, var8, var9) - G) * 0.3F;
          }
 
-         float var17 = WeatherSupport5.K.Q.floatValue() * G;
-         float var18 = Math.clamp(WeatherSupport5.K.O.floatValue(), 0.1F, 2.0F);
-         float var19 = Math.clamp(WeatherSupport5.K.B.floatValue(), 0.0F, 2.0F);
-         boolean var20 = var16.equals("Rain") && WeatherSupport5.K.j.enabled();
+         float var17 = WeatherParticlePass.K.Q.floatValue() * G;
+         float var18 = Math.clamp(WeatherParticlePass.K.O.floatValue(), 0.1F, 2.0F);
+         float var19 = Math.clamp(WeatherParticlePass.K.B.floatValue(), 0.0F, 2.0F);
+         boolean var20 = var16.equals("Rain") && WeatherParticlePass.K.j.enabled();
 
          class_3414 var21 = switch (var16) {
             case "Snow" -> T;
@@ -102,13 +98,13 @@ public final class WeatherUpdater {
             m(var0, var14);
          } else {
             for (int var24 = l.size() - 1; var24 >= 0; var24--) {
-               WeatherUpdater.TypeJ var25 = l.get(var24);
+               WeatherUpdater.WeatherDrop var25 = l.get(var24);
                if (B >= var25.P) {
                   l.remove(var24);
                   if (Z.size() < 4) {
                      float var26 = (float)(1.0 / (1.0 + var25.y / 180.0));
-                     WeatherUpdater.TypeY var27 = new WeatherUpdater.TypeY(
-                        q, false, WeatherSupport5.K.Q.floatValue() * var26 * (0.4F + 0.6F * G), 0.9F + (float)Math.random() * 0.13F
+                     WeatherUpdater.WeatherEntity var27 = new WeatherUpdater.WeatherEntity(
+                        q, false, WeatherParticlePass.K.Q.floatValue() * var26 * (0.4F + 0.6F * G), 0.9F + (float)Math.random() * 0.13F
                      );
                      Z.add(var27);
                      var0.method_1483().method_4873(var27);
@@ -126,13 +122,13 @@ public final class WeatherUpdater {
       if (X
          && s == var6.field_1687
          && L(var4, var6)
-         && WeatherSupport5.K.j.enabled()
-         && WeatherSupport5.K.t.is("Rain")
+         && WeatherParticlePass.K.j.enabled()
+         && WeatherParticlePass.K.t.is("Rain")
          && Double.isFinite(var0)
          && l.size() < 6) {
          var0 = Math.max(0.0, var0);
          long var7 = Math.clamp((long)Math.ceil(var0 / 343.0 * 20.0), 1, 80);
-         l.add(new WeatherUpdater.TypeJ(B + var7, var0));
+         l.add(new WeatherUpdater.WeatherDrop(B + var7, var0));
       }
    }
 
@@ -149,11 +145,11 @@ public final class WeatherUpdater {
             V.finish(var0);
          }
 
-         for (WeatherUpdater.TypeY var2 : O) {
+         for (WeatherUpdater.WeatherEntity var2 : O) {
             var2.finish(var0);
          }
 
-         for (WeatherUpdater.TypeY var4 : Z) {
+         for (WeatherUpdater.WeatherEntity var4 : Z) {
             var4.finish(var0);
          }
 
@@ -185,30 +181,15 @@ public final class WeatherUpdater {
 
    private static boolean L(long var0, class_310 var2) {
       WeatherModule.ensureSourceClassInitialized();
-      if (WeatherSupport5.K.enabled() && WeatherSupport5.K.x.enabled() && WeatherSupport5.K.Q.get() > 0.0) {
+      if (WeatherParticlePass.K.enabled() && WeatherParticlePass.K.x.enabled() && (Double)WeatherParticlePass.K.Q.get() > 0.0) {
          long var3 = 45075828741133L;
-         if (45075828741133L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var10 = var3 < 0L ? -1 : 1;
-         }
-
+         int var6 = var3 < 0L ? -1 : 1;
          if (var2.field_1687 != null) {
-            long var6 = 45075828741133L;
-            if (45075828741133L == 0L) {
-               boolean var11 = false;
-            } else {
-               int var12 = var6 < 0L ? -1 : 1;
-            }
-
+            long var6x = 45075828741133L;
+            int var8 = var6x < 0L ? -1 : 1;
             if (var2.field_1724 != null) {
-               long var8 = 45075828741133L;
-               if (45075828741133L == 0L) {
-                  boolean var13 = false;
-               } else {
-                  int var14 = var8 < 0L ? -1 : 1;
-               }
-
+               long var8x = 45075828741133L;
+               int var9 = var8x < 0L ? -1 : 1;
                if (var2.field_1724.method_5805() && !var2.method_1493() && var2.field_1690.method_71978(class_3419.field_15252) > 0.0F) {
                   return true;
                }
@@ -236,46 +217,26 @@ public final class WeatherUpdater {
       WeatherModule.ensureSourceClassInitialized();
       l.clear();
 
-      for (WeatherUpdater.TypeY var4 : Z) {
+      for (WeatherUpdater.WeatherEntity var4 : Z) {
          long var5 = 55775598205766L;
-         if (55775598205766L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var5 < 0L ? -1 : 1;
-         }
-
+         int var7 = var5 < 0L ? -1 : 1;
          var4.finish(var0);
       }
 
       long var8 = 55775598205767L;
-      if (55775598205767L == 0L) {
-         boolean var10 = false;
-      } else {
-         int var11 = var8 < 0L ? -1 : 1;
-      }
-
+      int var9 = var8 < 0L ? -1 : 1;
       Z.clear();
    }
 
-   private static WeatherUpdater.TypeY N(class_310 var0, WeatherUpdater.TypeY var1, long var2, class_3414 var4) {
+   private static WeatherUpdater.WeatherEntity N(class_310 var0, WeatherUpdater.WeatherEntity var1, long var2, class_3414 var4) {
       WeatherModule.ensureSourceClassInitialized();
       if (var1 != null) {
          long var5 = 69313663893688L;
-         if (69313663893688L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var13 = var5 < 0L ? -1 : 1;
-         }
-
-         boolean var8 = var1.method_4793();
+         int var8 = var5 < 0L ? -1 : 1;
+         boolean var8x = var1.method_4793();
          long var9 = 69313663893688L;
-         if (69313663893688L == 0L) {
-            boolean var14 = false;
-         } else {
-            int var15 = var9 < 0L ? -1 : 1;
-         }
-
-         if (!var8 && (B - ((WeatherUpdater.TypeY)(Object)var1).G < 40L || var0.method_1483().method_4877((class_1113)(Object)var1))) {
+         int var10 = var9 < 0L ? -1 : 1;
+         if (!var8x && (B - var1.G < 40L || var0.method_1483().method_4877((class_1113)var1))) {
             return var1;
          }
       }
@@ -284,12 +245,12 @@ public final class WeatherUpdater {
          var1.finish(var0);
       }
 
-      WeatherUpdater.TypeY var12 = new WeatherUpdater.TypeY(var4, true, 0.0F, 1.0F);
+      WeatherUpdater.WeatherEntity var12 = new WeatherUpdater.WeatherEntity(var4, true, 0.0F, 1.0F);
       var0.method_1483().method_4873(var12);
       return var12;
    }
 
-   private static void u(WeatherUpdater.TypeY var0) {
+   private static void u(WeatherUpdater.WeatherEntity var0) {
       var0.T = true;
       var0.target(0.0F, 1.0F);
       O.add(var0);
@@ -299,30 +260,20 @@ public final class WeatherUpdater {
       var3.removeIf(var1 -> {
          WeatherModule.ensureSourceClassInitialized();
          long var2x = 117780800231801L;
-         if (117780800231801L == 0L) {
-            boolean var10000 = false;
-         } else {
-            int var9 = var2x < 0L ? -1 : 1;
-         }
-
-         boolean var5 = ((WeatherUpdater.TypeY)(Object)var1).method_4793();
+         int var5 = var2x < 0L ? -1 : 1;
+         boolean var5x = ((WeatherUpdater.WeatherEntity)var1).method_4793();
          long var6 = 117780800231801L;
-         if (117780800231801L == 0L) {
-            boolean var10 = false;
-         } else {
-            int var11 = var6 < 0L ? -1 : 1;
-         }
-
-         if (!var5 && (B - ((WeatherUpdater.TypeY)(Object)var1).G < 40L || var2.method_1483().method_4877((class_1113)(var1)))) {
-            return false;
-         } else {
-            ((WeatherUpdater.TypeY)(Object)var1).finish(var2);
+         int var7 = var6 < 0L ? -1 : 1;
+         if (var5x || B - ((WeatherUpdater.WeatherEntity)var1).G >= 40L && !var2.method_1483().method_4877((class_1113)var1)) {
+            ((WeatherUpdater.WeatherEntity)var1).finish(var2);
             return true;
+         } else {
+            return false;
          }
       });
    }
 
-private static long a(int var0, long var1) {
+   private static long a(int var0, long var1) {
       byte var3 = 1;
       if (d[var3] == null) {
          d[var3] = c[var3] ^ 4020877952481369628L;
@@ -331,7 +282,7 @@ private static long a(int var0, long var1) {
       return d[var3];
    }
 
-private record TypeJ(long P, double y) {
+   private record WeatherDrop(long P, double y) {
       public long due() {
          return this.P;
       }
@@ -349,7 +300,7 @@ private record TypeJ(long P, double y) {
       }
    }
 
-   private static final class TypeY extends class_1101 {
+   private static final class WeatherEntity extends class_1101 {
       private final class_638 l = WeatherUpdater.s;
       private final int h = WeatherUpdater.Q;
       private final long G = WeatherUpdater.B;
@@ -361,10 +312,10 @@ private record TypeJ(long P, double y) {
       private int g;
       private static final String a = "Rain";
 
-      TypeY(class_3414 var1, boolean var2, float var3, float var4) {
+      WeatherEntity(class_3414 var1, boolean var2, float var3, float var4) {
          super(var1, class_3419.field_15252, class_5819.method_43047());
          this.X = this.field_5446 = var2;
-         this.J = var3 / Math.max(0.001F, WeatherSupport5.K.Q.floatValue());
+         this.J = var3 / Math.max(0.001F, WeatherParticlePass.K.Q.floatValue());
          this.field_5451 = 0;
          this.field_18936 = true;
          this.field_5440 = class_1114.field_5478;
@@ -378,12 +329,10 @@ private record TypeJ(long P, double y) {
          this.U = Math.clamp(var2, 0.5F, 2.0F);
       }
 
-      @Override
       public boolean method_4785() {
          return this.X;
       }
 
-      @Override
       public boolean method_26273() {
          long var1 = 58327182784706L;
          long var3 = var1 ^ 32930919361743L;
@@ -393,16 +342,15 @@ private record TypeJ(long P, double y) {
             && this.h == WeatherUpdater.Q
             && this.l == var5.field_1687
             && WeatherUpdater.L(var3, var5)
-            && (this.X || WeatherSupport5.K.j.enabled() && WeatherSupport5.K.t.is(a));
+            && (this.X || WeatherParticlePass.K.j.enabled() && WeatherParticlePass.K.t.is("Rain"));
       }
 
-      @Override
       public void method_16896() {
          class_310 var1 = class_310.method_1551();
          this.g++;
          if (this.method_26273() && (this.X || this.g <= 320)) {
             if (!this.X) {
-               this.D = this.J * WeatherSupport5.K.Q.floatValue();
+               this.D = this.J * WeatherParticlePass.K.Q.floatValue();
             }
 
             this.field_5442 = this.field_5442 + (this.D - this.field_5442) * 0.13F;
@@ -419,6 +367,5 @@ private record TypeJ(long P, double y) {
          this.method_24876();
          var1.method_1483().method_4870(this);
       }
-
-}
+   }
 }

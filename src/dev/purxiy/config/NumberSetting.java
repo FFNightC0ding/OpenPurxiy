@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.config;
 
 import com.google.gson.JsonElement;
@@ -11,9 +10,9 @@ public final class NumberSetting extends Setting<Double> {
    private final double max;
    private final double step;
    private final NumberSetting.Listener format;
-   
-   private NumberSetting.TypeO slots;
-   
+
+   private NumberSetting.TargetSlot slots;
+
    private IntPredicate marked;
 
    public NumberSetting(String var1, String var2,  String var3, double var4, double var6, double var8, double var10, NumberSetting.Listener var12) {
@@ -24,14 +23,14 @@ public final class NumberSetting extends Setting<Double> {
       this.format = var12;
    }
 
-   public NumberSetting slots(NumberSetting.TypeO var1,  IntPredicate var2) {
+   public NumberSetting slots(NumberSetting.TargetSlot var1,  IntPredicate var2) {
       this.slots = var1;
       this.marked = var2;
       return this;
    }
 
-   
-   public NumberSetting.TypeO slots() {
+
+   public NumberSetting.TargetSlot slots() {
       return this.slots;
    }
 
@@ -115,12 +114,12 @@ public final class NumberSetting extends Setting<Double> {
       }
    }
 
-   public static enum TypeO {
+   public static enum TargetSlot {
       HOTBAR,
       INVENTORY;
 
-      private static NumberSetting.TypeO[] $values() {
-         return new NumberSetting.TypeO[]{HOTBAR, INVENTORY};
+      private static NumberSetting.TargetSlot[] $values() {
+         return new NumberSetting.TargetSlot[]{HOTBAR, INVENTORY};
       }
    }
 }

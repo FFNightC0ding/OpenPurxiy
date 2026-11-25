@@ -1,4 +1,3 @@
-// Sourced By DevFFNightmare
 package dev.purxiy.modules.crosshair;
 
 import dev.purxiy.anim.MotionStyle;
@@ -11,6 +10,7 @@ import dev.purxiy.render.font.Fonts;
 import dev.purxiy.ui.DrawContext;
 import dev.purxiy.ui.Icons;
 import dev.purxiy.ui.Theme;
+import dev.purxiy.ui.DrawContext.Cursor;
 
 public final class CustomCrosshairRenderer {
    public static final float W = 282.0F;
@@ -23,7 +23,6 @@ public final class CustomCrosshairRenderer {
    private float A;
    private float n;
    private boolean G;
-
    private static final String[] b = new String[11];
 
    public CustomCrosshairRenderer(CustomCrosshairModule var1) {
@@ -47,15 +46,15 @@ public final class CustomCrosshairRenderer {
       float var7 = (var4 - 40.0F) / 6.0F;
 
       for (int var8 = 0; var8 < 6; var8++) {
-         String var9 = this.N.k.modes().get(var8);
+         String var9 = (String)this.N.k.modes().get(var8);
          float var10 = var2 + var8 * (var7 + 8.0F);
          float var11 = var3 + 51.0F;
          boolean var12 = this.N.k.is(var9);
-         boolean var13 = var5 && var1.hover(this.V[var8], var10, var11, var7, 75.0F, DrawContext.TypeE.HAND);
+         boolean var13 = var5 && var1.hover(this.V[var8], var10, var11, var7, 75.0F, Cursor.HAND);
          var6.roundRect(var10, var11, var7, 75.0F, 10.0F, var12 ? Theme.tint(-13623231) : (var13 ? Theme.tint(-14542287) : Theme.tint(-15725540)));
          var6.roundRectOutline(var10, var11, var7, 75.0F, 10.0F, 1.0F, var12 ? Theme.tint(-4222985) : Theme.tint(633708021));
          var6.pushClip(var10 + 2.0F, var11 + 2.0F, var7 - 4.0F, 48.0F);
-         CustomCrosshairRenderer3.draw(
+         CrosshairOverlay.draw(
             var6, this.N, var9, var10 + var7 / 2.0F, var11 + 27.0F, 0.95F / this.N.b.floatValue(), 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, false
          );
          var6.popClip();
@@ -64,7 +63,7 @@ public final class CustomCrosshairRenderer {
 
       float var16 = var3 + 137.0F;
       float var17 = (var4 - 8.0F) / 2.0F;
-      boolean var18 = var5 && var1.hover(this.V[9], var2, var16, var4, 82.0F, DrawContext.TypeE.HAND);
+      boolean var18 = var5 && var1.hover(this.V[9], var2, var16, var4, 82.0F, Cursor.HAND);
 
       for (int var19 = 0; var19 < 2; var19++) {
          float var21 = var2 + var19 * (var17 + 8.0F);
@@ -79,10 +78,10 @@ public final class CustomCrosshairRenderer {
             var19 == 0 ? Theme.tint(-16251376) : Theme.tint(-4804662)
          );
          var6.pushClip(var21, var16, var17, 82.0F, 10.0F);
-         CustomCrosshairRenderer3.draw(
+         CrosshairOverlay.draw(
             var6,
             this.N,
-            this.N.k.get(),
+            (String)this.N.k.get(),
             var21 + var17 / 2.0F,
             var16 + 43.0F,
             1.7F,
@@ -104,7 +103,7 @@ public final class CustomCrosshairRenderer {
       for (int var22 = 0; var22 < 3; var22++) {
          float var23 = var2 + var22 * (var20 + 8.0F);
          float var14 = var3 + 246.0F;
-         boolean var15 = var5 && var1.hover(this.V[var22 + 6], var23, var14, var20, 27.0F, DrawContext.TypeE.HAND);
+         boolean var15 = var5 && var1.hover(this.V[var22 + 6], var23, var14, var20, 27.0F, Cursor.HAND);
          var6.roundRect(var23, var14, var20, 27.0F, 8.0F, var15 ? Theme.tint(901155562) : Theme.tint(313953002));
          var6.text(
             Fonts.MEDIUM,
@@ -154,5 +153,4 @@ public final class CustomCrosshairRenderer {
          return false;
       }
    }
-
 }
